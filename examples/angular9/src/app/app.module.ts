@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { APP_BASE_HREF } from '@angular/common';
  
  
 
@@ -12,6 +11,6 @@ import { AppComponent } from './app.component';
   declarations: [AppComponent],
   imports: [BrowserModule, AppRoutingModule],
   bootstrap: [AppComponent],
-  providers: [{ provide: APP_BASE_HREF, useValue: '' }]
+  providers: []
 })
 export class AppModule {}
