@@ -106,8 +106,8 @@ var locations = new Map()
 if (location.hash && location.hash.split('#')) {
     var loc = location.hash.split('#')
     loc.forEach((item) => {
-        var l = item.split['=']
-        item && l && locations.set(l[0], l[1])
+        var l = item.split('=')
+        item && l && locations.set(l[0], { pathname: l[1] })
     })
     console.log(locations)
 }
@@ -119,6 +119,13 @@ function locationCenterf() {
             ...loc,
             ...attr
         })
+
+        // TODO 只有在线的应用才在url上显示, 只有pathname和query需要
+        var hash = ''
+        locations.forEach((value, key) => {
+            hash += '#' + key + '=' + value.pathname || ''
+        })
+        location.hash = hash
     }
 
     this.get = function(name) {
@@ -229,7 +236,7 @@ var ProxySandbox = /*#__PURE__*/ function() {
                         /* 
                          */
                         get: function get(HisTarget, property) {
-                            if (property === 'pushState') {
+                            if (property === 'pushState' || property === 'replaceState') {
                                 return function() {
                                     // TODO 解析query参数  search
                                     locationCenter.set(name, { pathname: arguments[2] })
