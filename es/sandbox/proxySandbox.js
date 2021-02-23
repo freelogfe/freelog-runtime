@@ -100,11 +100,36 @@ var activeSandboxCount = 0;
 /**
  * 基于 Proxy 实现的沙箱
  */
-var rawDoc = document
+var rawDocument = document
+var rawHistory = history
+var locations = new Map()
+if (location.hash && location.hash.split('#')) {
+    var loc = location.hash.split('#')
+    loc.forEach((item) => {
+        var l = item.split['=']
+        item && l && locations.set(l[0], l[1])
+    })
+    console.log(locations)
+}
+// TODO pathname  search
+function locationCenterf() {
+    this.set = function(name, attr) {
+        var loc = locations.get(name) || {}
+        locations.set(name, {
+            ...loc,
+            ...attr
+        })
+    }
+
+    this.get = function(name) {
+        locations.get(name)
+    }
+}
+var locationCenter = new locationCenterf()
+var rawLocation = location
 var ProxySandbox = /*#__PURE__*/ function() {
     function ProxySandbox(name) {
         var _this = this;
-        var fakeDoc
         _classCallCheck(this, ProxySandbox);
 
         /** window 值变更记录 */
@@ -126,6 +151,11 @@ var ProxySandbox = /*#__PURE__*/ function() {
             return fakeWindow.hasOwnProperty(key) || rawWindow.hasOwnProperty(key);
         };
         var fakeDoc = {}
+        var fakeHis = {}
+        var fakeLoc = {}
+        var proxyDoc = null
+        var proxyHis = null
+        var proxyLoc = null
         var proxy = new Proxy(fakeWindow, {
             set: function set(target, p, value) {
                 if (_this.sandboxRunning) {
@@ -193,6 +223,44 @@ var ProxySandbox = /*#__PURE__*/ function() {
                     return hasOwnProperty;
                 } // mark the symbol to document while accessing as document.createElement could know is invoked by which sandbox for dynamic append patcher
 
+                if (p === 'history') {
+                    // TODO 如果是单应用模式（提升性能）则不用代理 
+                    proxyHis = proxyHis || new Proxy(fakeHis, {
+                        /* 
+                         */
+                        get: function get(HisTarget, property) {
+                            if (property === 'pushState') {
+                                return function() {
+                                    // TODO 解析query参数  search
+                                    locationCenter.set(name, { pathname: arguments[2] })
+                                    console.log(locations)
+                                };
+
+                            } else {
+                                return rawHistory[property]
+                            }
+                        }
+                    })
+                    return proxyHis
+                }
+                if (p === 'location') {
+                    // TODO 如果是单应用模式（提升性能）则不用代理, 可以设置location.href的使用权限 
+                    // TODO reload相当于重载应用，想办法把主应用的对应操控函数弄过来，发布订阅模式
+
+                    proxyLoc = proxyLoc || new Proxy(fakeLoc, {
+                        /* 
+                            a标签的href需要拦截，// TODO 如果以http开头则不拦截
+                         */
+                        get: function get(docTarget, property) {
+                            if (property === 'pathname') {
+                                return locations.get(name) && locations.get(name)['pathname'] || ''
+                            } else {
+                                return rawLocation[property]
+                            }
+                        }
+                    })
+                    return proxyLoc
+                }
 
                 if (p === 'document' || p === 'eval') {
                     setCurrentRunningSandboxProxy(proxy); // FIXME if you have any other good ideas
@@ -207,7 +275,7 @@ var ProxySandbox = /*#__PURE__*/ function() {
                         case 'document':
                             // @ts-ignore
                             if (true) {
-                                return document
+                                // TODO 如果是单应用模式（提升性能）则不用代理 
                                 fakeDoc = document.getElementById('subapp-viewport') || fakeDoc;
                                 if (!fakeDoc.firstChild) return document
                                 var a = fakeDoc.firstChild.shadowRoot ? fakeDoc.firstChild.shadowRoot.children : fakeDoc.firstChild.children
@@ -217,7 +285,7 @@ var ProxySandbox = /*#__PURE__*/ function() {
                                     if (a.item(i).tagName === 'DIV') doc = a.item(i);
                                 }
                                 if (!doc) return document
-                                let proxy = new Proxy(fakeDoc, {
+                                proxyDoc = proxyDoc || new Proxy(fakeDoc, {
                                     /* 分类 
                                        1.通过caller来确定this的非属性方法
                                          例如 addEventListener
@@ -268,7 +336,7 @@ var ProxySandbox = /*#__PURE__*/ function() {
 
                                     }
                                 })
-                                return proxy
+                                return proxyDoc
                             }
                             return document
 

@@ -15,7 +15,7 @@ export default class HelloModal extends React.Component {
     const { visible } = this.state;
      return (
       <div>
-        <Button onClick={() => {this.setVisible(true); console.log(location , document.getElementsByClassName('react15-main'), document.getElementsByClassName('mainapp-sidemenu'));}}>
+        <Button onClick={() => {this.setVisible(true); history.pushState(null,null, '/react');console.log(location , document.getElementsByClassName('react15-main'), document.getElementsByClassName('mainapp-sidemenu'));}}>
           CLICK ME
         </Button>
         <Modal
