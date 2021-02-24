@@ -107,7 +107,7 @@ if (location.hash && location.hash.split('#')) {
     var loc = location.hash.split('#')
     loc.forEach((item) => {
         var l = item.split('=')
-        item && l && locations.set(l[0], { pathname: l[1] })
+        item && l && locations.set(l[0], { pathname: l[1], href: l[1] })
     })
     console.log(locations)
 }
@@ -253,15 +253,28 @@ var ProxySandbox = /*#__PURE__*/ function() {
                 if (p === 'location') {
                     // TODO 如果是单应用模式（提升性能）则不用代理, 可以设置location.href的使用权限 
                     // TODO reload相当于重载应用，想办法把主应用的对应操控函数弄过来，发布订阅模式
-
-                    proxyLoc = proxyLoc || new Proxy(fakeLoc, {
+                    // TODO replace与reload、toString方法无法访问
+                    proxyLoc = new Proxy(fakeLoc, {
                         /* 
                             a标签的href需要拦截，// TODO 如果以http开头则不拦截
                          */
                         get: function get(docTarget, property) {
-                            if (property === 'pathname') {
-                                return locations.get(name) && locations.get(name)['pathname'] || ''
+                            if (['href', 'pathname', 'hash'].indexOf(property) > -1) {
+                                return locations.get(name) && locations.get(name)[property] || ''
                             } else {
+                                if (['replace'].indexOf(property) > -1) {
+                                    return function() {
+
+                                    }
+                                }
+                                if (property === 'toString') {
+                                    return () => {
+                                        return locations.get(name) && locations.get(name)['pathname'] || ''
+                                    }
+                                }
+                                if (typeof rawLocation[property] === 'function') {
+                                    return rawLocation[property].bind(rawLocation)
+                                }
                                 return rawLocation[property]
                             }
                         }
@@ -292,7 +305,7 @@ var ProxySandbox = /*#__PURE__*/ function() {
                                     if (a.item(i).tagName === 'DIV') doc = a.item(i);
                                 }
                                 if (!doc) return document
-                                proxyDoc = proxyDoc || new Proxy(fakeDoc, {
+                                proxyDoc = new Proxy(fakeDoc, {
                                     /* 分类 
                                        1.通过caller来确定this的非属性方法
                                          例如 addEventListener
