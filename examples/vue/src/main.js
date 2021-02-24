@@ -47,7 +47,7 @@ function storeTest(props) {
             },
         });
 }
-// console.log(location, location.reload())
+console.log(location, document.getElementById('react15'))
 export async function bootstrap() {
     console.log('[vue] vue app bootstraped');
 }

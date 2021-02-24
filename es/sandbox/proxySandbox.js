@@ -115,6 +115,9 @@ if (location.hash && location.hash.split('#')) {
 function locationCenterf() {
     this.set = function(name, attr) {
         var loc = locations.get(name) || {}
+        if (attr.pathname && attr.pathname.indexOf(location.host) > -1) {
+            attr.pathname = attr.pathname.replace(location.protocol, '').replace(location.host, '').replace('//', '')
+        }
         locations.set(name, {
             ...loc,
             ...attr
@@ -296,14 +299,15 @@ var ProxySandbox = /*#__PURE__*/ function() {
                             // @ts-ignore
                             if (true) {
                                 // TODO 如果是单应用模式（提升性能）则不用代理 
-                                fakeDoc = document.getElementById('subapp-viewport') || fakeDoc;
-                                if (!fakeDoc.firstChild) return document
-                                var a = fakeDoc.firstChild.shadowRoot ? fakeDoc.firstChild.shadowRoot.children : fakeDoc.firstChild.children
-                                var doc;
-
-                                for (var i = 0; i < a.length; i++) {
-                                    if (a.item(i).tagName === 'DIV') doc = a.item(i);
-                                }
+                                // TODO 为了保证id唯一性，必须每访问一次都取不同的值作为id
+                                // fakeDoc = document.getElementById('subapp-viewport') || fakeDoc;
+                                // if (!fakeDoc.firstChild) return document
+                                // var a = fakeDoc.firstChild.shadowRoot ? fakeDoc.firstChild.shadowRoot.children : fakeDoc.firstChild.children
+                                // var doc;
+                                // for (var i = 0; i < a.length; i++) {
+                                //     if (a.item(i).tagName === 'DIV') doc = a.item(i);
+                                // }
+                                var doc = document.getElementById(name)
                                 if (!doc) return document
                                 proxyDoc = new Proxy(fakeDoc, {
                                     /* 分类 
@@ -339,7 +343,7 @@ var ProxySandbox = /*#__PURE__*/ function() {
                                                     }
                                                 }
                                             }
-                                            if (p === 'getElementById') return function(id) {
+                                            if (property === 'getElementById') return function(id) {
                                                 let children = doc.getElementsByTagName('*').children
                                                 if (children) {
                                                     for (let i = 0; i < children.length; i++) {
