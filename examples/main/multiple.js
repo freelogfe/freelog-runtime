@@ -31,7 +31,7 @@ let apps = {
 
 function mount(e) {
     console.log(e)
-    var id = e.target.id.replace('mount', '').replace('unmount', '')
+    var id = e.target.id.replace('unmount', '').replace('mount', '')
     apps[id] = loadMicroApp(config[id], { sandbox: { experimentalStyleIsolation: true } }, );
     // app = loadMicroApp({ name: 'react15', entry: '//localhost:7102', container: '#react15' }, { sandbox: { experimentalStyleIsolation: true } }, );
     // app = loadMicroApp({ name: 'vue3', entry: '//localhost:7105', container: '#react15' }, { sandbox: { experimentalStyleIsolation: true } }, );
@@ -42,7 +42,8 @@ function mount(e) {
 }
 
 function unmount(e) {
-    var id = e.target.id.replace('mount', '').replace('unmount', '')
+    var id = e.target.id.replace('unmount', '').replace('mount', '')
+    console.log(id, apps)
     apps[id] && apps[id].unmount();
 }
 
