@@ -1,7 +1,5 @@
-import { loadMicroApp } from '../../es';
-import 'zone.js'; // for angular subapp
+import { loadMicroApp } from './runtime';
 
-let app;
 
 let config = {
     react15: {
