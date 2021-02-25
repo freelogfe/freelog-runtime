@@ -1,7 +1,7 @@
 import { loadMicroApp } from './runtime';
 
 
-let config = {
+const config = {
     react15: {
         container: '#react15',
         name: 'react15',

@@ -256,7 +256,7 @@ var ProxySandbox = /*#__PURE__*/ function() {
                     // TODO 如果是单应用模式（提升性能）则不用代理, 可以设置location.href的使用权限 
                     // TODO reload相当于重载应用，想办法把主应用的对应操控函数弄过来，发布订阅模式
                     // TODO replace与reload、toString方法无法访问
-                    proxyLoc = new Proxy(fakeLoc, {
+                    proxyLoc = proxyLoc || new Proxy(fakeLoc, {
                         /* 
                             a标签的href需要拦截，// TODO 如果以http开头则不拦截
                          */
@@ -283,7 +283,27 @@ var ProxySandbox = /*#__PURE__*/ function() {
                     })
                     return proxyLoc
                 }
+                // TODO test localstorage
+                if(p === 'localStorage'){
+                    return {
+                        clear: function(){
 
+                        },
+                        getItem: function(){
+
+                        },
+                        key: function(){
+
+                        },
+                        removeItem: function(){
+
+                        },
+                        setItem: function(){
+
+                        },
+                        length: 0
+                    }
+                }
                 if (p === 'document' || p === 'eval') {
                     setCurrentRunningSandboxProxy(proxy); // FIXME if you have any other good ideas
                     // remove the mark in next tick, thus we can identify whether it in micro app or not
@@ -318,6 +338,10 @@ var ProxySandbox = /*#__PURE__*/ function() {
                                        4.属性（包括原型）方法：替换this为根节点
                                     */
                                     get: function get(docTarget, property) {
+                                        if(property === 'location'){
+                                            // TODO varify
+                                            return proxy.location
+                                        }
                                         if (property === 'createElement') {
                                             return document.createElement.bind(document)
                                         }
