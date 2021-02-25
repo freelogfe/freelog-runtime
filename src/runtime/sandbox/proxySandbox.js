@@ -328,7 +328,7 @@ var ProxySandbox = /*#__PURE__*/ function() {
                                 // }
                                 var doc = document.getElementById(name)
                                 if (!doc) return document
-                                proxyDoc = new Proxy(fakeDoc, {
+                                proxyDoc = proxyDoc || new Proxy(fakeDoc, {
                                     /* 分类 
                                        1.通过caller来确定this的非属性方法
                                          例如 addEventListener
