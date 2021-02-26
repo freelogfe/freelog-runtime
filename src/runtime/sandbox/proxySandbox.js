@@ -284,21 +284,21 @@ var ProxySandbox = /*#__PURE__*/ function() {
                     return proxyLoc
                 }
                 // TODO test localstorage
-                if(p === 'localStorage'){
+                if (p === 'localStorage') {
                     return {
-                        clear: function(){
+                        clear: function() {
 
                         },
-                        getItem: function(){
+                        getItem: function() {
 
                         },
-                        key: function(){
+                        key: function() {
 
                         },
-                        removeItem: function(){
+                        removeItem: function() {
 
                         },
-                        setItem: function(){
+                        setItem: function() {
 
                         },
                         length: 0
@@ -319,14 +319,15 @@ var ProxySandbox = /*#__PURE__*/ function() {
                             if (true) {
                                 // TODO 如果是单应用模式（提升性能）则不用代理 
                                 // TODO 为了保证id唯一性，必须每访问一次都取不同的值作为id
-                                // fakeDoc = document.getElementById('subapp-viewport') || fakeDoc;
-                                // if (!fakeDoc.firstChild) return document
-                                // var a = fakeDoc.firstChild.shadowRoot ? fakeDoc.firstChild.shadowRoot.children : fakeDoc.firstChild.children
-                                // var doc;
-                                // for (var i = 0; i < a.length; i++) {
-                                //     if (a.item(i).tagName === 'DIV') doc = a.item(i);
-                                // }
+
                                 var doc = document.getElementById(name)
+                                    // for shadow dom
+                                if (doc.firstChild.shadowRoot) {
+                                    var a = doc.firstChild.shadowRoot.children || []
+                                    for (var i = 0; i < a.length; i++) {
+                                        if (a.item(i).tagName === 'DIV') doc = a.item(i);
+                                    }
+                                }
                                 if (!doc) return document
                                 proxyDoc = proxyDoc || new Proxy(fakeDoc, {
                                     /* 分类 
@@ -338,7 +339,7 @@ var ProxySandbox = /*#__PURE__*/ function() {
                                        4.属性（包括原型）方法：替换this为根节点
                                     */
                                     get: function get(docTarget, property) {
-                                        if(property === 'location'){
+                                        if (property === 'location') {
                                             // TODO varify
                                             return proxy.location
                                         }

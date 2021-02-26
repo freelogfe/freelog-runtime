@@ -23,9 +23,10 @@
         "webpack-merge": "^5.7.3"
     },
     "dependencies": {
-        "lodash": "^4.17.21",
         "@babel/runtime": "^7.10.5",
+        "axios": "^0.21.1",
         "import-html-entry": "^1.9.0",
+        "lodash": "^4.17.21",
         "tslib": "^1.10.0"
     }
 }
