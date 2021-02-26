@@ -33,7 +33,10 @@ import { loadMicroApp } from './runtime';
  *      TODO 纯js运行方式： css沙盒，js沙盒运行
  *         
  *     authority事件合约:  
- *       出现事件合约执行界面方式：运行时判定由 
+ *       模式：服务模式
+ *       runtime调用合约服务，执行完后进行回调
+ *       合约服务选用react开发       
+ * 
  */
 const config = {
     react15: {
