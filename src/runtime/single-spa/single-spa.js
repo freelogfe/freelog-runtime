@@ -1,3 +1,6 @@
+
+import devtools from "./devtools/devtools";
+import { isInBrowser } from "./utils/runtime-environment.js";
 export { ensureJQuerySupport }
 from "./jquery-support.js";
 export {
@@ -32,8 +35,6 @@ export {
 }
 from "./applications/app.helpers.js";
 
-import devtools from "./devtools/devtools";
-import { isInBrowser } from "./utils/runtime-environment.js";
 
 if (isInBrowser && window.__SINGLE_SPA_DEVTOOLS__) {
     window.__SINGLE_SPA_DEVTOOLS__.exposedMethods = devtools;

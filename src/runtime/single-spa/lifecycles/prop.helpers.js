@@ -19,7 +19,7 @@ export function getProps(appOrParcel) {
     console.warn(
       formatErrorMessage(
         40,
-        __DEV__ &&
+        window.__DEV__ &&
           `single-spa: ${name}'s customProps function must return an object. Received ${customProps}`
       ),
       name,

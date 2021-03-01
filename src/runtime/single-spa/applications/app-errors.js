@@ -19,7 +19,7 @@ export function addErrorHandler(handler) {
     throw Error(
       formatErrorMessage(
         28,
-        __DEV__ && "a single-spa error handler must be a function"
+        window.__DEV__ && "a single-spa error handler must be a function"
       )
     );
   }
@@ -32,7 +32,7 @@ export function removeErrorHandler(handler) {
     throw Error(
       formatErrorMessage(
         29,
-        __DEV__ && "a single-spa error handler must be a function"
+        window.__DEV__ && "a single-spa error handler must be a function"
       )
     );
   }
@@ -75,7 +75,7 @@ export function transformErr(ogErr, appOrParcel, newStatus) {
     console.warn(
       formatErrorMessage(
         30,
-        __DEV__ &&
+        window.__DEV__ &&
           `While ${appOrParcel.status}, '${toName(
             appOrParcel
           )}' rejected its lifecycle function promise with a non-Error. This will cause stack traces to not be accurate.`,

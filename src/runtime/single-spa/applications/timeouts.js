@@ -38,7 +38,7 @@ export function setBootstrapMaxTime(time, dieOnTimeout, warningMillis) {
     throw Error(
       formatErrorMessage(
         16,
-        __DEV__ &&
+        window.__DEV__ &&
           `bootstrap max time must be a positive integer number of milliseconds`
       )
     );
@@ -56,7 +56,7 @@ export function setMountMaxTime(time, dieOnTimeout, warningMillis) {
     throw Error(
       formatErrorMessage(
         17,
-        __DEV__ &&
+        window.__DEV__ &&
           `mount max time must be a positive integer number of milliseconds`
       )
     );
@@ -74,7 +74,7 @@ export function setUnmountMaxTime(time, dieOnTimeout, warningMillis) {
     throw Error(
       formatErrorMessage(
         18,
-        __DEV__ &&
+        window.__DEV__ &&
           `unmount max time must be a positive integer number of milliseconds`
       )
     );
@@ -92,7 +92,7 @@ export function setUnloadMaxTime(time, dieOnTimeout, warningMillis) {
     throw Error(
       formatErrorMessage(
         19,
-        __DEV__ &&
+        window.__DEV__ &&
           `unload max time must be a positive integer number of milliseconds`
       )
     );
@@ -129,7 +129,7 @@ export function reasonableTime(appOrParcel, lifecycle) {
 
     const errMsg = formatErrorMessage(
       31,
-      __DEV__ &&
+      window.__DEV__ &&
         `Lifecycle function ${lifecycle} for ${type} ${toName(
           appOrParcel
         )} lifecycle did not resolve or reject for ${timeoutConfig.millis} ms.`,

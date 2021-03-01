@@ -43,7 +43,7 @@ export function toLoadPromise(app) {
           throw Error(
             formatErrorMessage(
               33,
-              __DEV__ &&
+              window.__DEV__ &&
                 `single-spa loading function did not return a promise. Check the second argument to registerApplication('${toName(
                   app
                 )}', loadingFunction, activityFunction)`,
@@ -60,7 +60,7 @@ export function toLoadPromise(app) {
 
           if (typeof appOpts !== "object") {
             validationErrCode = 34;
-            if (__DEV__) {
+            if (window.__DEV__) {
               validationErrMessage = `does not export anything`;
             }
           }
@@ -71,21 +71,21 @@ export function toLoadPromise(app) {
             !validLifecycleFn(appOpts.bootstrap)
           ) {
             validationErrCode = 35;
-            if (__DEV__) {
+            if (window.__DEV__) {
               validationErrMessage = `does not export a valid bootstrap function or array of functions`;
             }
           }
 
           if (!validLifecycleFn(appOpts.mount)) {
             validationErrCode = 36;
-            if (__DEV__) {
+            if (window.__DEV__) {
               validationErrMessage = `does not export a bootstrap function or array of functions`;
             }
           }
 
           if (!validLifecycleFn(appOpts.unmount)) {
             validationErrCode = 37;
-            if (__DEV__) {
+            if (window.__DEV__) {
               validationErrMessage = `does not export a bootstrap function or array of functions`;
             }
           }
@@ -100,7 +100,7 @@ export function toLoadPromise(app) {
             console.error(
               formatErrorMessage(
                 validationErrCode,
-                __DEV__ &&
+                window.__DEV__ &&
                   `The loading function for single-spa ${type} '${toName(
                     app
                   )}' resolved with the following, which does not have bootstrap, mount, and unmount functions`,

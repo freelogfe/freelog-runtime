@@ -27,13 +27,13 @@ export function mountRootParcel() {
 
 export function mountParcel(config, customProps) {
   const owningAppOrParcel = this;
-
+  var name = config.name || ''
   // Validate inputs
   if (!config || (typeof config !== "object" && typeof config !== "function")) {
     throw Error(
       formatErrorMessage(
         2,
-        __DEV__ &&
+        window.__DEV__ &&
           "Cannot mount parcel without a config object or config loading function"
       )
     );
@@ -43,7 +43,7 @@ export function mountParcel(config, customProps) {
     throw Error(
       formatErrorMessage(
         3,
-        __DEV__ &&
+        window.__DEV__ &&
           `Parcel name must be a string, if provided. Was given ${typeof config.name}`,
         typeof config.name
       )
@@ -54,7 +54,7 @@ export function mountParcel(config, customProps) {
     throw Error(
       formatErrorMessage(
         4,
-        __DEV__ &&
+        window.__DEV__ &&
           `Parcel ${name} has invalid customProps -- must be an object but was given ${typeof customProps}`,
         name,
         typeof customProps
@@ -66,7 +66,7 @@ export function mountParcel(config, customProps) {
     throw Error(
       formatErrorMessage(
         5,
-        __DEV__ &&
+        window.__DEV__ &&
           `Parcel ${name} cannot be mounted without a domElement provided as a prop`,
         name
       )
@@ -94,7 +94,7 @@ export function mountParcel(config, customProps) {
         throw Error(
           formatErrorMessage(
             6,
-            __DEV__ &&
+            window.__DEV__ &&
               `Cannot unmount parcel '${name}' -- it is in a ${parcel.status} status`,
             name,
             parcel.status
@@ -134,7 +134,7 @@ export function mountParcel(config, customProps) {
     throw Error(
       formatErrorMessage(
         7,
-        __DEV__ &&
+        window.__DEV__ &&
           `When mounting a parcel, the config loading function must return a promise that resolves with the parcel config`
       )
     );
@@ -145,7 +145,7 @@ export function mountParcel(config, customProps) {
       throw Error(
         formatErrorMessage(
           8,
-          __DEV__ &&
+          window.__DEV__ &&
             `When mounting a parcel, the config loading function returned a promise that did not resolve with a parcel config`
         )
       );
@@ -161,7 +161,7 @@ export function mountParcel(config, customProps) {
       throw Error(
         formatErrorMessage(
           9,
-          __DEV__ && `Parcel ${name} provided an invalid bootstrap function`,
+          window.__DEV__ && `Parcel ${name} provided an invalid bootstrap function`,
           name
         )
       );
@@ -171,7 +171,7 @@ export function mountParcel(config, customProps) {
       throw Error(
         formatErrorMessage(
           10,
-          __DEV__ && `Parcel ${name} must have a valid mount function`,
+          window.__DEV__ && `Parcel ${name} must have a valid mount function`,
           name
         )
       );
@@ -181,7 +181,7 @@ export function mountParcel(config, customProps) {
       throw Error(
         formatErrorMessage(
           11,
-          __DEV__ && `Parcel ${name} must have a valid unmount function`,
+          window.__DEV__ && `Parcel ${name} must have a valid unmount function`,
           name
         )
       );
@@ -191,7 +191,7 @@ export function mountParcel(config, customProps) {
       throw Error(
         formatErrorMessage(
           12,
-          __DEV__ && `Parcel ${name} provided an invalid update function`,
+          window.__DEV__ && `Parcel ${name} provided an invalid update function`,
           name
         )
       );
@@ -242,7 +242,7 @@ export function mountParcel(config, customProps) {
             throw Error(
               formatErrorMessage(
                 13,
-                __DEV__ &&
+                window.__DEV__ &&
                   `Cannot mount parcel '${name}' -- it is in a ${parcel.status} status`,
                 name,
                 parcel.status

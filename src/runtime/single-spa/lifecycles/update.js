@@ -16,7 +16,7 @@ export function toUpdatePromise(parcel) {
       throw Error(
         formatErrorMessage(
           32,
-          __DEV__ &&
+          window.__DEV__ &&
             `Cannot update parcel '${toName(
               parcel
             )}' because it is not mounted`,

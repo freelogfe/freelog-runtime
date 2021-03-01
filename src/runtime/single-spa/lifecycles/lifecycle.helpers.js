@@ -31,7 +31,7 @@ export function flattenFnArray(appOrParcel, lifecycle) {
           : Promise.reject(
               formatErrorMessage(
                 15,
-                __DEV__ &&
+                window.__DEV__ &&
                   `Within ${type} ${name}, the lifecycle function ${lifecycle} at array index ${index} did not return a promise`,
                 type,
                 name,
