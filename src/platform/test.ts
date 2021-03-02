@@ -64,6 +64,25 @@ const config = {
 let apps = {
 
 }
+var rawLocation = window['location']
+
+var locations = new Map()
+if (rawLocation.hash && rawLocation.hash.split('#')) {
+  var loc = rawLocation.hash.split('#')
+  loc.forEach((item) => {
+    var l = item.split('=')
+    if(l && l[0]){
+      Object.keys(config).forEach(key=>{
+          // @ts-ignore
+          if(config[key].name === l[0]){
+              // @ts-ignore
+            loadMicroApp(config[key], { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
+          }
+      })
+    }
+  })
+   
+}
 // @ts-ignore 
 function mount(e) {
     console.log(e)

@@ -1,9 +1,7 @@
 // import logo from './logo.svg';
 import './App.css';
-import {run} from './test'
 function App() {
-  run()
-  return (
+   return (
     <div className="App">
       
     </div>
