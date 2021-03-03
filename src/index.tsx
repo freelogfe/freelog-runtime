@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './ui/App';
 import reportWebVitals from './reportWebVitals';
-import {run} from './platform/test'
+import {run} from './platform'
 run()
 ReactDOM.render(
   <React.StrictMode>

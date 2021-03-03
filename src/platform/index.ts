@@ -38,6 +38,15 @@ import { loadMicroApp } from './runtime';
  *       合约服务选用react开发       
  * 
  */
+/**
+ * 开发设计：
+ *     架构：
+ *         1.工具utils：获取容器，生成容器，销毁容器，生成id，
+ *         2.插件对象管理plugins：flatternPlugins childrenPlugins sandBoxs  
+ *         3.路由管理route：   
+ *         4.FreelogApp api提供  
+ *         5.
+ */
 const config = {
     react15: {
         container: '#react15',
