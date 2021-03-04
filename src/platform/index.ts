@@ -44,8 +44,9 @@ import { loadMicroApp } from './runtime';
  *         1.工具utils：获取容器，生成容器，销毁容器，生成id，
  *         2.插件对象管理plugins：flatternPlugins childrenPlugins sandBoxs  
  *         3.路由管理route：   
- *         4.FreelogApp api提供  
- *         5.
+ *         4.数据请求api  
+ *         5.全局方法api：子插件挂载，重定向路由等
+ *         6.ui订阅事件
  */
 const config = {
     react15: {

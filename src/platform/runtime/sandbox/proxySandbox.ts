@@ -346,7 +346,7 @@ export default class ProxySandbox implements SandBox {
         if (p === 'localStorage') {
           return {
             clear: function () {
-
+               
             },
             getItem: function () {
 
