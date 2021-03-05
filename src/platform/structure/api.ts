@@ -14,8 +14,34 @@
  *       考虑问题：插件内部依赖几十个资源，在不同路由里面加载。
  *       解决办法：提供
  * 展品api：
- * url1: https://api.freelog.com/v2/auths/presentables/{presentableId}/{result|info|resourceInfo|fileStream}
- * url2: https://api.freelog.com/v2/auths/presentables/nodes/{nodeId}/{resourceIdOrName}/{result|info|resourceInfo|fileStream}
+ * 1.获取单个展品
+ *   公共参数：response-type: result (标准授权响应结果)
+ *            query参数：
+ *                parentNid：依赖树上的父级节点ID,一般获取展品子依赖需要传递
+ *                subResourceIdOrName：子依赖的资源ID或者名称
+ *            公共http-header：
+ *                freelog-entity-nid： string	当前响应的展品的依赖树链路ID
+ *                freelog-sub-dependencies：	string	当前展品的子依赖,encodeURIComponent编码的json字符串
+ *                freelog-resource-type： string	资源类型
+ *                freelog-resource-property： string	资源meta信息,encodeURIComponent编码过的json字符串
+ *            响应类型：result|info|resourceInfo|fileStream
+ *                result (标准授权响应结果)
+ *                info (展品信息)
+ *                resourceInfo (资源信息) 
+ *                fileStream (文件流)
+ * 
+ *   url1: https://api.freelog.com/v2/auths/presentables/{presentableId}/{result|info|resourceInfo|fileStream}
+ *         presentableId: 展品id
+ *         
+ *   
+ *   url2: https://api.freelog.com/v2/auths/presentables/nodes/{nodeId}/{resourceIdOrName}/{result|info|resourceInfo|fileStream}
+ *         presentableId: 展品id
+ *         resourceIdOrName： 资源ID或者名称,需要encodeURIComponent编码
+
+ * 2.获取多个展品
+ *   url:  https://api.freelog.com/v2/presentables?nodeId={nodeId}
+ *         
+ *        
  *     获取展品信息：
  *         1.直接根据id获取一个或多个 
  *         2.直接分页获取
