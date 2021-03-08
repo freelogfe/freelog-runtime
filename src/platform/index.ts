@@ -115,23 +115,7 @@ function unmount(e) {
     apps[id] && apps[id].unmount();
 }
 
-export function run() {
-    // @ts-ignore 
-    document.querySelector('#mountreact15').addEventListener('click', mount);
-    // @ts-ignore 
-    document.querySelector('#unmountreact15').addEventListener('click', unmount);
-    // @ts-ignore 
-    document.querySelector('#mountangular').addEventListener('click', mount);
-    // @ts-ignore 
-    document.querySelector('#unmountangular').addEventListener('click', unmount);
-    // @ts-ignore 
-    document.querySelector('#mountvue3').addEventListener('click', mount);
-    // @ts-ignore 
-    document.querySelector('#unmountvue3').addEventListener('click', unmount);
-    // @ts-ignore 
-    document.querySelector('#mountpurehtml').addEventListener('click', mount);
-    // @ts-ignore 
-    document.querySelector('#unmountpurehtml').addEventListener('click', unmount);
+export function run() { 
 
     loadMicroApp({ name: 'vue', entry: '//localhost:7101', container: '#vue' }, { sandbox: { experimentalStyleIsolation: true } });
 }

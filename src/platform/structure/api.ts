@@ -49,10 +49,58 @@
 
  * 2.获取多个展品
  *   url:  https://api.freelog.com/v2/presentables?nodeId={nodeId}
- *          
  *        
- *     获取展品信息：
- *         1.直接根据id获取一个或多个 
- *         2.直接分页获取
- *     获取展品内容：
+ *        
+ * 
+ *      skip	可选	int	跳过的数量.默认为0.
+        limit	可选	int	本次请求获取的数据条数.一般不允许超过100
+        resourceType	可选	string	资源类型
+        omitResourceType	可选	string	忽略的资源类型,与resourceType参数互斥
+        onlineStatus	可选	int	上线状态 (0:下线 1:上线 2:全部) 默认1
+        tags	可选	string	用户创建presentable时设置的自定义标签,多个用","分割
+        projection	可选	string	指定返回的字段,多个用逗号分隔
+        keywords	可选	string[1,100]	搜索关键字,目前支持模糊搜索节点资源名称和资源名称
+        isLoadVersionProperty	可选	int	是否响应展品版本属性
+        isLoadPolicyInfo	可选	int	是否加载策略信息
+ *          
  */
+import frequest from '../../services/handler'
+import type { Presentable } from '../../services/api/modules/presentable'
+import presentable from '../../services/api/modules/presentable'
+import presentable from '../../../.history/src/services/api/modules/presentable_20210308175142';
+let isTest = false
+if (location.href.replace('http://', '').replace('https://', '').indexOf('t.') === 0) {
+    isTest = true
+}
+export async function getPresentables(nodeId: string | number, query: any): Promise<any> {
+    if (!nodeId) {
+        return 'nodeId is required'
+    }
+    if (query && Object.prototype.toString.call(query) !== '[Object Object]') {
+        return 'query parameter must be object'
+    }
+    if (isTest) return frequest(presentable.getTestPagingData, [nodeId], { ...query })
+    return frequest(presentable.getPagingData, '', { nodeId, ...query })
+}
+
+export async function getByPresentableId(presentableId: string | number, type: string): Promise<any> {
+    if (!presentableId) {
+        return 'presentableId is required'
+    }
+    if (type && Object.prototype.toString.call(type) !== '[Object Object]') {
+        return 'query parameter must be object'
+    }
+    if (isTest) return frequest(presentable.getTestByPresentableId, [presentableId, type], '')
+    return frequest(presentable.getByPresentableId, [presentableId, type], '')
+}
+
+export async function getByPresentableId(presentableId: string | number, type: string): Promise<any> {
+    if (!presentableId) {
+        return 'presentableId is required'
+    }
+    if (type && Object.prototype.toString.call(type) !== '[Object Object]') {
+        return 'query parameter must be object'
+    }
+    if (isTest) return frequest(presentable.getTestByPresentableId, [presentableId, type], '')
+    return frequest(presentable.getByPresentableId, [presentableId, type], '')
+}

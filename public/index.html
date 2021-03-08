@@ -18,6 +18,15 @@
           justify-content: space-around;
           align-items: center;
       }
+      #root{
+        z-index: 1;
+      }
+      #freelog-plugin-containert{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+      }
   </style>
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -37,21 +46,8 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <button id="unmountreact15">unmount react15</button>
-      <button id="mountreact15">mount react15</button>
-      <button id="unmountangular">unmount angular</button>
-      <button id="mountangular">mount angular</button>
-      <button id="unmountvue3">unmount vue3</button>
-      <button id="mountvue3">mount vue3</button>
-      <button id="unmountpurehtml">unmount purehtml</button>
-      <button id="mountpurehtml">mount purehtml</button>
-
-      <div id="react15">react loading...</div>
-      <div id="angular">angular loading...</div>
-      <div id="vue3">vue3 loading...</div>
-      <div id="vue">vue loading...</div>
-      <div id="purehtml">purehtml loading...</div>
+    <div id="root" ></div>
+    <div id="freelog-plugin-container"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

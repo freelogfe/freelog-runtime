@@ -5,7 +5,7 @@
  * @param diff  if only reserve difference set
  * delete the data's keys while they are (not) exist in origin
  */
-export function compareObjects(origin, data, diff = false) {
+export function compareObjects(origin:any, data:any, diff = false) {
     let otype = Object.prototype.toString.call(origin)
     let dtype = Object.prototype.toString.call(data)
     if (dtype === otype && otype === '[object Array]') {
@@ -32,7 +32,7 @@ export function compareObjects(origin, data, diff = false) {
                     compareObjects(origin[okey], data[dkey], diff)
                 } else if (otype === dtype && dtype === '[object Array]' && Object.prototype.toString.call(origin[dkey][0]) === '[object Object]') {
                     // if they are array the same time and origin[dkey][0] is object, 
-                    data[dkey].forEach((item) => {
+                    data[dkey].forEach((item:any) => {
                         Object.prototype.toString.call(item) === '[object Array]' && compareObjects(origin[okey][0], item, diff)
                     })
                 }
