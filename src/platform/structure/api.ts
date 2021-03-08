@@ -67,23 +67,20 @@
 import frequest from '../../services/handler'
 import type { Presentable } from '../../services/api/modules/presentable'
 import presentable from '../../services/api/modules/presentable'
-import presentable from '../../../.history/src/services/api/modules/presentable_20210308175142';
 let isTest = false
 if (location.href.replace('http://', '').replace('https://', '').indexOf('t.') === 0) {
     isTest = true
 }
-export async function getPresentables(nodeId: string | number, query: any): Promise<any> {
-    if (!nodeId) {
-        return 'nodeId is required'
-    }
+const nodeId = window.nodeId
+export async function getPresentables(query: any): Promise<any> {
     if (query && Object.prototype.toString.call(query) !== '[Object Object]') {
         return 'query parameter must be object'
     }
     if (isTest) return frequest(presentable.getTestPagingData, [nodeId], { ...query })
     return frequest(presentable.getPagingData, '', { nodeId, ...query })
 }
-
-export async function getByPresentableId(presentableId: string | number, type: string): Promise<any> {
+// TODO return a promise
+function getByPresentableId(presentableId: string | number, type: string): Promise<any> | string {
     if (!presentableId) {
         return 'presentableId is required'
     }
@@ -93,14 +90,40 @@ export async function getByPresentableId(presentableId: string | number, type: s
     if (isTest) return frequest(presentable.getTestByPresentableId, [presentableId, type], '')
     return frequest(presentable.getByPresentableId, [presentableId, type], '')
 }
-
-export async function getByPresentableId(presentableId: string | number, type: string): Promise<any> {
+export async function getResultById(presentableId: string | number){
+    return getByPresentableId(presentableId, 'result')
+}
+export async function getInfoById(presentableId: string | number){
+    return getByPresentableId(presentableId, 'info')
+}
+export async function getResourceInfoById(presentableId: string | number){
+    if(isTest) return 'not supported!'
+    return getByPresentableId(presentableId, 'resourceInfo')
+}
+export async function getFileStreamInfoById(presentableId: string | number){
+    return getByPresentableId(presentableId, 'fileStream')
+}
+// TODO return a promise
+function getByResourceIdOrName(presentableId: string | number, type: string): Promise<any> | string {
     if (!presentableId) {
         return 'presentableId is required'
     }
     if (type && Object.prototype.toString.call(type) !== '[Object Object]') {
         return 'query parameter must be object'
     }
-    if (isTest) return frequest(presentable.getTestByPresentableId, [presentableId, type], '')
-    return frequest(presentable.getByPresentableId, [presentableId, type], '')
+    if (isTest) return frequest(presentable.getTestByResourceIdOrName, [presentableId, type], '')
+    return frequest(presentable.getByResourceIdOrName, [nodeId, presentableId, type], '')
+}
+export async function getResultByName(presentableId: string | number){
+    return getByResourceIdOrName(presentableId, 'result')
+}
+export async function getInfoByName(presentableId: string | number){
+    return getByResourceIdOrName(presentableId, 'info')
+}
+export async function getResourceInfoByName(presentableId: string | number){
+    if(isTest) return 'not supported!'
+    return getByResourceIdOrName(presentableId, 'resourceInfo')
+}
+export async function getFileStreamInfoByName(presentableId: string | number){
+    return getByResourceIdOrName(presentableId, 'fileStream')
 }

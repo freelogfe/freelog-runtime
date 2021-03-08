@@ -59,7 +59,7 @@ const presentable: Presentable = {
         url: `auths/testResources/${placeHolder}/${placeHolder}`,
         method: 'GET'
     },
-    // testResourceId  resourceIdOrName   result|info|fileStream
+    // nodeId  entityIdOrName   result|info|fileStream
     getTestByResourceIdOrName: {
         url: `auths/testResources/nodes/${placeHolder}/${placeHolder}/${placeHolder}`,
         method: 'GET'
