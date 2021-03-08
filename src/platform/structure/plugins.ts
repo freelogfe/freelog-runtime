@@ -1,0 +1,1 @@
+// 插件对象管理plugins：flatternPlugins childrenPlugins sandBoxs  
