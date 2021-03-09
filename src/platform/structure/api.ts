@@ -81,50 +81,78 @@ export async function getPresentables(query: any): Promise<any> {
     return frequest(presentable.getPagingData, '', { nodeId, ...query })
 }
 // TODO return a promise
-function getByPresentableId(presentableId: string | number, type: string): Promise<any> | string {
+function getByPresentableId(presentableId: string | number, type: string, parentNid: string,subResourceIdOrName: string): Promise<any> | string {
     if (!presentableId) {
         return 'presentableId is required'
     }
     if (type && Object.prototype.toString.call(type) !== '[Object Object]') {
         return 'query parameter must be object'
     }
-    if (isTest) return frequest(presentable.getTestByPresentableId, [presentableId, type], '')
-    return frequest(presentable.getByPresentableId, [presentableId, type], '')
+    if (isTest) return frequest(presentable.getTestByPresentableId, [presentableId, type], {parentNid, subEntityIdOrName:subResourceIdOrName})
+    return frequest(presentable.getByPresentableId, [presentableId, type], {parentNid, subResourceIdOrName})
 }
 export async function getResultById(presentableId: string | number){
-    return getByPresentableId(presentableId, 'result')
+    return getByPresentableId(presentableId, 'result', '','')
 }
 export async function getInfoById(presentableId: string | number){
-    return getByPresentableId(presentableId, 'info')
+    return getByPresentableId(presentableId, 'info', '','')
 }
 export async function getResourceInfoById(presentableId: string | number){
     if(isTest) return 'not supported!'
-    return getByPresentableId(presentableId, 'resourceInfo')
+    return getByPresentableId(presentableId, 'resourceInfo', '','')
 }
 export async function getFileStreamInfoById(presentableId: string | number){
-    return getByPresentableId(presentableId, 'fileStream')
+    return getByPresentableId(presentableId, 'fileStream', '','')
+}
+// sub
+export async function getSubResultById(presentableId: string | number,parentNid: string,subResourceIdOrName: string){
+    return getByPresentableId(presentableId, 'result', parentNid,subResourceIdOrName)
+}
+export async function getSubInfoById(presentableId: string | number,parentNid: string,subResourceIdOrName: string){
+    return getByPresentableId(presentableId, 'info', parentNid,subResourceIdOrName)
+}
+export async function getSubResourceInfoById(presentableId: string | number,parentNid: string,subResourceIdOrName: string){
+    if(isTest) return 'not supported!'
+    return getByPresentableId(presentableId, 'resourceInfo', parentNid,subResourceIdOrName)
+}
+export async function getSubFileStreamInfoById(presentableId: string | number,parentNid: string,subResourceIdOrName: string){
+    return getByPresentableId(presentableId, 'fileStream', parentNid,subResourceIdOrName)
 }
 // TODO return a promise
-function getByResourceIdOrName(presentableId: string | number, type: string): Promise<any> | string {
+function getByResourceIdOrName(presentableId: string | number, type: string, parentNid: string,subResourceIdOrName: string): Promise<any> | string {
     if (!presentableId) {
         return 'presentableId is required'
     }
     if (type && Object.prototype.toString.call(type) !== '[Object Object]') {
         return 'query parameter must be object'
     }
-    if (isTest) return frequest(presentable.getTestByResourceIdOrName, [presentableId, type], '')
-    return frequest(presentable.getByResourceIdOrName, [nodeId, presentableId, type], '')
+    if (isTest) return frequest(presentable.getTestByResourceIdOrName, [presentableId, type],  {parentNid, subEntityIdOrName:subResourceIdOrName})
+    return frequest(presentable.getByResourceIdOrName, [nodeId, presentableId, type],  {parentNid, subResourceIdOrName})
 }
 export async function getResultByName(presentableId: string | number){
-    return getByResourceIdOrName(presentableId, 'result')
+    return getByResourceIdOrName(presentableId, 'result', '', '')
 }
 export async function getInfoByName(presentableId: string | number){
-    return getByResourceIdOrName(presentableId, 'info')
+    return getByResourceIdOrName(presentableId, 'info', '', '')
 }
 export async function getResourceInfoByName(presentableId: string | number){
     if(isTest) return 'not supported!'
-    return getByResourceIdOrName(presentableId, 'resourceInfo')
+    return getByResourceIdOrName(presentableId, 'resourceInfo', '', '')
 }
 export async function getFileStreamInfoByName(presentableId: string | number){
-    return getByResourceIdOrName(presentableId, 'fileStream')
+    return getByResourceIdOrName(presentableId, 'fileStream', '', '')
+}
+// sub
+export async function getSubResultByName(presentableId: string | number, parentNid: string,subResourceIdOrName: string){
+    return getByResourceIdOrName(presentableId, 'result', parentNid,subResourceIdOrName)
+}
+export async function getSubInfoByName(presentableId: string | number, parentNid: string,subResourceIdOrName: string){
+    return getByResourceIdOrName(presentableId, 'info', parentNid,subResourceIdOrName)
+}
+export async function getSubResourceInfoByName(presentableId: string | number, parentNid: string,subResourceIdOrName: string){
+    if(isTest) return 'not supported!'
+    return getByResourceIdOrName(presentableId, 'resourceInfo', parentNid,subResourceIdOrName)
+}
+export async function getSubFileStreamInfoByName(presentableId: string | number, parentNid: string,subResourceIdOrName: string){
+    return getByResourceIdOrName(presentableId, 'fileStream', parentNid,subResourceIdOrName)
 }

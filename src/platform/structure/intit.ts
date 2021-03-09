@@ -1,7 +1,7 @@
 import frequest from '../../services/handler'
 import node from '../../services/api/modules/node'
 import presentable from '../../services/api/modules/presentable'
-
+import {getFileStreamInfoById, getSubFileStreamInfoById }from './api'
 export function initNode() {
     /**
      * 1.resolveUrl
@@ -17,6 +17,12 @@ export function initNode() {
        window.freelogApp.nodeInfo = nodeInfo
        // @ts-ignore
        const theme = await requestTheme(nodeInfo.nodeId, nodeInfo.nodeThemeId)
+       // @ts-ignore
+       theme.subDeps.forEach(sub => {
+         getSubFileStreamInfoById(nodeInfo.nodeThemeId, theme.entityNid, sub).then(res=>{
+           res.
+         })
+       });
     })
 }
 
@@ -29,9 +35,9 @@ async function  requestNodeInfo(nodeDomain: string) {
     return info.data
 }
 async function requestTheme(nodeThemeId: string){
-    let info = await frequest(presentable.getByPresentableId, [nodeThemeId, 'fileStream'], '')
-    const [subDep, entityNid] = findValueByKeyIgnoreUpperLower(info.headers,['freelog-sub-dependencies', 'freelog-entity-nid']) 
-    return {subDep, entityNid, data: info.data.toString()}
+    let info = await getFileStreamInfoById(nodeThemeId)
+    const [subDeps, entityNid] = findValueByKeyIgnoreUpperLower(info.headers,['freelog-sub-dependencies', 'freelog-entity-nid']) 
+    return {subDeps: subDeps? decodeURIComponent(subDeps) : [], entityNid, data: info.data.toString()}
 }
 function findValueByKeyIgnoreUpperLower(object: any, keys: string []): string [] {
     const map = new Map()
