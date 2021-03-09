@@ -24,10 +24,6 @@ export function deleteContainer(father: string | HTMLElement, child: string | HT
 }
 
 export function createId(): any  {
-  let id = new Date().toUTCString()
-  if(document.querySelector('#' + id)){
-    return id
-  }else{
-    createId()
-  }
+  let id = 'freelog' + new Date().toUTCString()
+  return document.querySelector('#' + id) ? createId() : id
 }

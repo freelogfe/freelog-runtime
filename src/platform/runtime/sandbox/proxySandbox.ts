@@ -7,7 +7,7 @@ import type { SandBox } from '../interfaces';
 import { SandBoxType } from '../interfaces';
 import { nextTick } from '../utils';
 import { getTargetValue, setCurrentRunningSandboxProxy } from './common';
-
+import {createHistoryProxy, createLocationProxy, createDocumentProxy, freelogLocalStorage, saveSandBox } from '../../structure/proxy'
 /**
  * fastest(at most time) unique array method
  * @see https://jsperf.com/array-filter-unique/30
@@ -124,42 +124,7 @@ let activeSandboxCount = 0;
 /**
  * 基于 Proxy 实现的沙箱
  */
-var rawDocument = document
-var rawHistory = window['history']
-var rawLocation = window['location']
-var locations = new Map()
-if (rawLocation.hash && rawLocation.hash.split('#')) {
-  var loc = rawLocation.hash.split('#')
-  loc.forEach((item) => {
-    var l = item.split('=')
-    item && l && locations.set(l[0], { pathname: l[1], href: l[1] })
-  })
-  console.log(locations)
-}
-// TODO pathname  search 需要不可变
-const locationCenter = {
-  set: function (name: string, attr: any) {
-    var loc = locations.get(name) || {}
-    if (attr.pathname && attr.pathname.indexOf(rawLocation.host) > -1) {
-      attr.pathname = attr.pathname.replace(rawLocation.protocol, '').replace(rawLocation.host, '').replace('//', '')
-    }
-    locations.set(name, {
-      ...loc,
-      ...attr
-    })
-
-    // TODO 只有在线的应用才在url上显示, 只有pathname和query需要
-    var hash = ''
-    locations.forEach((value, key) => {
-      hash += '#' + key + '=' + value.pathname || ''
-    })
-    rawLocation.hash = hash
-  },
-
-  get: function (name: string) {
-    locations.get(name)
-  }
-}
+ 
 export default class ProxySandbox implements SandBox {
   /** window 值变更记录 */
   private updatedValueSet = new Set<PropertyKey>();
@@ -209,12 +174,11 @@ export default class ProxySandbox implements SandBox {
 
     const descriptorTargetMap = new Map<PropertyKey, SymbolTarget>();
     const hasOwnProperty = (key: PropertyKey) => fakeWindow.hasOwnProperty(key) || rawWindow.hasOwnProperty(key);
-    var fakeDoc = {}
-    var fakeHis = {}
-    var fakeLoc = {}
+ 
     var proxyDoc: any
     var proxyHis: any
     var proxyLoc: any
+    var _this  = this
     const proxy = new Proxy(fakeWindow, {
       set: (target: FakeWindow, p: PropertyKey, value: any): boolean => {
         if (this.sandboxRunning) {
@@ -289,79 +253,19 @@ export default class ProxySandbox implements SandBox {
         // mark the symbol to document while accessing as document.createElement could know is invoked by which sandbox for dynamic append patcher
         if (p === 'history') {
           // TODO 如果是单应用模式（提升性能）则不用代理 
-          proxyHis = proxyHis || new Proxy(fakeHis, {
-            /* 
-             */
-            get: function get(HisTarget: any, property: string) {
-              if (property === 'pushState' || property === 'replaceState') {
-                return function () {
-                  // TODO 解析query参数  search
-                  locationCenter.set(name, { pathname: arguments[2] })
-                  console.log(locations)
-                };
-
-              } else {
-                // @ts-ignore
-                return rawHistory[property]
-              }
-            }
-          })
+          proxyHis = proxyHis  || createHistoryProxy(name, _this)
           return proxyHis
         }
         if (p === 'location') {
           // TODO 如果是单应用模式（提升性能）则不用代理, 可以设置location.href的使用权限 
           // TODO reload相当于重载应用，想办法把主应用的对应操控函数弄过来，发布订阅模式
           // TODO replace与reload、toString方法无法访问
-          proxyLoc = proxyLoc || new Proxy(fakeLoc, {
-            /* 
-                a标签的href需要拦截，// TODO 如果以http开头则不拦截
-             */
-            get: function get(docTarget: any, property: string) {
-              if (['href', 'pathname', 'hash'].indexOf(property) > -1) {
-                return locations.get(name) && locations.get(name)[property] || ''
-              } else {
-                if (['replace'].indexOf(property) > -1) {
-                  return function () {
-
-                  }
-                }
-                if (property === 'toString') {
-                  return () => {
-                    return locations.get(name) && locations.get(name)['pathname'] || ''
-                  }
-                }
-                 // @ts-ignore
-                if (typeof rawLocation[property] === 'function') {
-                   // @ts-ignore
-                  return rawLocation[property].bind(rawLocation)
-                }
-                 // @ts-ignore
-                return rawLocation[property]
-              }
-            }
-          })
+          proxyLoc = proxyLoc || createLocationProxy(name, _this)
           return proxyLoc
         }
         // TODO test localstorage
         if (p === 'localStorage') {
-          return {
-            clear: function () {
-               
-            },
-            getItem: function () {
-
-            },
-            key: function () {
-
-            },
-            removeItem: function () {
-
-            },
-            setItem: function () {
-
-            },
-            length: 0
-          }
+          return freelogLocalStorage
         }
         if (p === 'document' || p === 'eval') {
           setCurrentRunningSandboxProxy(proxy); // FIXME if you have any other good ideas
@@ -374,87 +278,8 @@ export default class ProxySandbox implements SandBox {
 
           switch (p) {
             case 'document':
-              // @ts-ignore
-              if (true) {
-                // TODO 为了保证id唯一性，必须每访问一次都取不同的值作为id
-
-                var doc = document.getElementById(name)
-                // for shadow dom
-                 // @ts-ignore
-                if (doc.firstChild.shadowRoot) {
-                   // @ts-ignore
-                  var a = doc.firstChild.shadowRoot.children || []
-                  for (var i = 0; i < a.length; i++) {
-                    if (a.item(i).tagName === 'DIV') doc = a.item(i);
-                  }
-                }
-                if (!doc) return document
-                proxyDoc = proxyDoc || new Proxy(fakeDoc, {
-                  /* 分类 
-                     1.通过caller来确定this的非属性方法
-                       例如 addEventListener
-                     2.zonejs需要用的全局取值的方法（出问题再解决问题）
-                       例如 'querySelector', 'getElementsByTagName'
-                     3.根节点下没有的方法
-                     4.属性（包括原型）方法：替换this为根节点
-                  */
-                  get: function get(docTarget: any, property: string) {
-                    if (property === 'location') {
-                      // TODO varify
-                      return proxy.location
-                    }
-                    if (property === 'createElement') {
-                      return document.createElement.bind(document)
-                    }
-                    // @ts-ignore
-
-                    document.addEventListener = doc.addEventListener.bind(doc)
-                    // @ts-ignore
-                    doc.body = doc;
-                     // @ts-ignore
-                    doc.body.appendChild = doc.appendChild.bind(doc)
-                    // if (property === 'addEventListener') debugger
-                     // @ts-ignore
-                    if (doc[property] && ['querySelector', 'getElementsByTagName'].indexOf(property) === -1) {
-                      if (property === 'nodeType') return document.nodeType
-                       // @ts-ignore
-                      if (typeof doc[property] === 'function') return doc[property].bind(doc)
-                       // @ts-ignore
-                      return doc[property]
-                    } else {
-                      if (['querySelector', 'getElementsByTagName'].indexOf(property) !== -1) {
-                        return function () {
-                          if (['head', 'html'].indexOf(arguments[0]) !== -1) {
-                             // @ts-ignore
-                            return document[property](...arguments)
-                          } else {
-                             // @ts-ignore
-                            return doc[property](...arguments)
-                          }
-                        }
-                      }
-                      if (property === 'getElementById') return function (id: string) {
-                         // @ts-ignore
-                        let children = doc.getElementsByTagName('*').children
-                        if (children) {
-                          for (let i = 0; i < children.length; i++) {
-                            if (children[i].getAttribute('id') === id) {
-                              return children[i]
-                            }
-                          }
-                        }
-                        return null
-                      }
-                       // @ts-ignore
-                      if (typeof document[property] === 'function') return document[property].bind(document)
-                       // @ts-ignore
-                      return document[property]
-                    }
-
-                  }
-                })
-                return proxyDoc
-              }
+              proxyDoc = proxyDoc || createDocumentProxy(name, _this, proxy)
+              return proxyDoc
             case 'eval':
               // eslint-disable-next-line no-eval
               return eval;
@@ -536,9 +361,10 @@ export default class ProxySandbox implements SandBox {
         return true;
       },
     });
-
+     
     this.proxy = proxy;
     activeSandboxCount++;
+    saveSandBox(name, this)
   }
 }
 
