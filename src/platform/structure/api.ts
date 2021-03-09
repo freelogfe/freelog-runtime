@@ -71,7 +71,8 @@ let isTest = false
 if (location.href.replace('http://', '').replace('https://', '').indexOf('t.') === 0) {
     isTest = true
 }
-const nodeId = window.nodeId
+// @ts-ignore
+const nodeId = window.freelogApp.nodeInfo.nodeId
 export async function getPresentables(query: any): Promise<any> {
     if (query && Object.prototype.toString.call(query) !== '[Object Object]') {
         return 'query parameter must be object'

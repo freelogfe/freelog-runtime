@@ -181,6 +181,7 @@ export default class ProxySandbox implements SandBox {
     var _this  = this
     const proxy = new Proxy(fakeWindow, {
       set: (target: FakeWindow, p: PropertyKey, value: any): boolean => {
+        if(p === 'freelogApp') return false
         if (this.sandboxRunning) {
           // We must kept its description while the property existed in rawWindow before
           if (!target.hasOwnProperty(p) && rawWindow.hasOwnProperty(p)) {
