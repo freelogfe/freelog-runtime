@@ -3,6 +3,7 @@ let baseURL = 'http://qi.freelog.com/v2/'
 if (location.href.indexOf('testfreelog') > -1) {
     baseURL = 'http://qi.testfreelog.com/v2/'
 }
+export const baseUrl = baseURL
 export const baseConfig = {
         baseURL,
         withCredentials: true,
