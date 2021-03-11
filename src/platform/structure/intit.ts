@@ -3,7 +3,7 @@ import node from '../../services/api/modules/node'
 import presentable from '../../services/api/modules/presentable'
 import { createScript, createCssLink, createContainer, createId, resolveUrl } from './utils'
 import { loadMicroApp } from '../runtime';
-import { addPlugin } from './plugins'
+import { addWidget } from './widget'
 import { getFileStreamInfoById, getSubFileStreamInfoById } from './api'
 export function initNode() {
   /**
@@ -63,7 +63,7 @@ export function initNode() {
           // TODO 所有插件加载用promise all
           // @ts-ignore
           const app = loadMicroApp(config, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
-          addPlugin(id, app);
+          addWidget(id, app);
           // TODO 所有插件加载完成后 加载交给运行时子依赖的插件
           break;
           case 'js': {

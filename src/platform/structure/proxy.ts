@@ -8,13 +8,13 @@
  *      1.5 抽象路由的插件 
  *      1.6 懒加载或点击按钮加载插件的问题：
  *          1.6.1 懒加载：提供属性空闲后加载，或指定延迟时间（不精准）
- *          1.6.1 点击再加载：提供属性标明不加载，点击按钮，提供api（mountPlugin(pluginId)） 
+ *          1.6.1 点击再加载：提供属性标明不加载，点击按钮，提供api（mountWidget(pluginId)） 
  *    2.插件控制插件进入不同路由：
  *      2.1 给插件对象提供api，（例如push(home/about?age=18)）劫持重定向的路由进行unmount后再mount
  *    3.
- * 总结：window.FreelogApp.mountPlugin
+ * 总结：window.FreelogApp.mountWidget
  */
-import {addSandBox} from './plugins'
+import {addSandBox} from './widget'
 const rawDocument = document
 const rawHistory = window['history']
 const rawLocation = window['location']
@@ -218,6 +218,21 @@ export const createDocumentProxy = function (name: string, sandbox: any, proxy: 
         // @ts-ignore
         return rawDocument[property]
       }
+    }
+  })
+}
+export const createWidgetProxy = function (name: string, sandbox: any) {
+  const proxyWidget = {}
+  return new Proxy(proxyWidget, {
+    /* 
+     */
+    get: function get(childWidget: any, property: string) {
+      if (property === 'mount') {
+        
+      }
+      if(property === 'unmount') {
+        
+      } 
     }
   })
 }

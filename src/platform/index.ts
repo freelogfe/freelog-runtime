@@ -1,8 +1,8 @@
 import { loadMicroApp } from './runtime';
 /**
  * 1.数据结构
- *   flatternPlugins Map<key：plugin id,value: object: 所有插件配置与状态与加载后控制对象> 插件集合 平行 关系 所有插件配置与状态与 
- *   childrenPlugins Map<key：father-plugin id,value: Array:[child-plugin id]> 插件对应的子插件集合
+ *   flatternWidgets Map<key：plugin id,value: object: 所有插件配置与状态与加载后控制对象> 插件集合 平行 关系 所有插件配置与状态与 
+ *   childrenWidgets Map<key：father-plugin id,value: Array:[child-plugin id]> 插件对应的子插件集合
  *   sandBoxs Map<key: plugin id, value: sandbox>  所有插件对应沙盒对象 
  * 2.设计模式
  *   自顶向下： 加载与卸载权限控制： 注册后通过沙盒提供控制对象给运行时或上层插件沙盒变量进行管控
@@ -42,7 +42,7 @@ import { loadMicroApp } from './runtime';
  * 开发设计：
  *     架构：
  *         1.工具utils：获取容器，生成容器，销毁容器，生成id，
- *         2.插件对象管理plugins：flatternPlugins childrenPlugins sandBoxs  
+ *         2.插件对象管理plugins：flatternWidgets childrenWidgets sandBoxs  
  *         3.location,history,localstorage代理：拆解路由   
  *         4.数据请求api  
  *         5.全局方法api：子插件挂载，重定向路由等

@@ -7,7 +7,7 @@
  *     3.2存在没有授权的且为非必须授权
  *        此种情况暂不考虑
  * 4.已授权：
- *   4.1 准备插件对象 flatternPlugins childrenPlugins sandBoxs 
+ *   4.1 准备插件对象 flatternWidgets childrenWidgets sandBoxs 
  *   4.2 加载主题内的非点击按钮加载的插件
  *   4.3 父插件加载完成后加载插件内的插件（获取插件标签失败后转为提供api给插件自己加载）  
  *   4.3 准备api提供给插件懒加载或插件内的插件加载（前置方法检查容器是否存在，不存在则终止）

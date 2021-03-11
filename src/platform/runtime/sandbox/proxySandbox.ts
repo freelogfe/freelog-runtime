@@ -7,7 +7,7 @@ import type { SandBox } from '../interfaces';
 import { SandBoxType } from '../interfaces';
 import { nextTick } from '../utils';
 import { getTargetValue, setCurrentRunningSandboxProxy } from './common';
-import {createHistoryProxy, createLocationProxy, createDocumentProxy, freelogLocalStorage, saveSandBox } from '../../structure/proxy'
+import {createHistoryProxy, createLocationProxy, createDocumentProxy, createWidgetProxy, freelogLocalStorage, saveSandBox } from '../../structure/proxy'
 /**
  * fastest(at most time) unique array method
  * @see https://jsperf.com/array-filter-unique/30
@@ -178,6 +178,7 @@ export default class ProxySandbox implements SandBox {
     var proxyDoc: any
     var proxyHis: any
     var proxyLoc: any
+    var proxyWidget: any
     var _this  = this
     const proxy = new Proxy(fakeWindow, {
       set: (target: FakeWindow, p: PropertyKey, value: any): boolean => {
@@ -256,6 +257,9 @@ export default class ProxySandbox implements SandBox {
           // TODO 如果是单应用模式（提升性能）则不用代理 
           proxyHis = proxyHis  || createHistoryProxy(name, _this)
           return proxyHis
+        }
+        if(p === 'childWidget'){
+          proxyWidget = proxyWidget || createWidgetProxy(name, _this)
         }
         if (p === 'location') {
           // TODO 如果是单应用模式（提升性能）则不用代理, 可以设置location.href的使用权限 
