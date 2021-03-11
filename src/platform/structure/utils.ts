@@ -2,29 +2,31 @@
 
 import {baseUrl} from '../../services/base'
 export function getContainer(father: string | HTMLElement, id: string): HTMLElement | null |undefined {
-    const fatherContainer =  typeof father === 'string' ? document.querySelector(father) : father;
+    const fatherContainer =  typeof father === 'string' ? document.querySelector('#' + father) : father;
     // @ts-ignore
     return id ? fatherContainer?.querySelector('#' + id) : fatherContainer
   }
 
-export function createContainer(container: string | HTMLElement, id: string): string | void  {
-  const father =  typeof container === 'string' ? document.querySelector(container) : container;
-  if(father?.querySelector('#' + id)) return 'already exists'
+export function createContainer(container: string | HTMLElement, id: string): HTMLElement   {
+  const father =  typeof container === 'string' ? document.querySelector('#' + container) : container;
+  // @ts-ignore
+  if(father?.querySelector('#' + id)) return father?.querySelector('#' + id)
   let child = document.createElement('DIV')
   child.setAttribute('id', id)
   father?.appendChild(child)
+  return child
 }
 
 // TODO 确定返回类型
 export function deleteContainer(father: string | HTMLElement, child: string | HTMLElement): any  {
-  const fatherContainer =  typeof father === 'string' ? document.querySelector(father) : father;
-  const childContainer =  typeof child === 'string' ? document.querySelector(child) : child;
+  const fatherContainer =  typeof father === 'string' ? document.querySelector('#' + father) : father;
+  const childContainer =  typeof child === 'string' ? document.querySelector('#' + child) : child;
 
   return childContainer? fatherContainer?.removeChild(childContainer) : true
 }
 
 export function createId(): any  {
-  let id = 'freelog' + new Date().toUTCString()
+  let id = 'freelog-' + new Date().toUTCString()
   return document.querySelector('#' + id) ? createId() : id
 }
 

@@ -14,6 +14,7 @@
  *    3.
  * 总结：window.FreelogApp.mountPlugin
  */
+import {addSandBox} from './plugins'
 const rawDocument = document
 const rawHistory = window['history']
 const rawLocation = window['location']
@@ -79,6 +80,9 @@ export const freelogLocalStorage = {
 
   },
   length: 0
+}
+export const saveSandBox = function (name: string, sandBox: any) {
+  addSandBox(name, sandBox)
 }
 export const createHistoryProxy = function (name: string, sandbox: any) {
   const historyProxy = {}
@@ -216,7 +220,4 @@ export const createDocumentProxy = function (name: string, sandbox: any, proxy: 
       }
     }
   })
-}
-export const saveSandBox = function (name: string, sandBox: any) {
-
 }
