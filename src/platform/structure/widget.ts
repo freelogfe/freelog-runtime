@@ -16,6 +16,7 @@
  */
 import { createScript, createCssLink, createContainer, createId, resolveUrl } from './utils'
 import { loadMicroApp } from '../runtime';
+import {baseUrl} from '../../services/base'
 
 export const flatternWidgets = new Map<any,any>()
 export const childrenWidgets = new Map<any,any>()
@@ -53,19 +54,24 @@ export function addSandBox(key: string, sandbox:any){
 export function removeSandBox(key: string){
     sandBoxs.has(key) &&  sandBoxs.delete(key)
 }
-
-export function mountWidget(sub:any){
+// 插件自己加载子插件  sub需要验证格式
+export function mountWidget(sub:any, container: any): any{
     const id = createId()
-    const widgetContainer = createContainer('freelog-plugin-container', id)
+    const widgetContainer = createContainer(container, id)
     const config = {
     container: widgetContainer,
     name: id,//id
     widgetName: sub.name,
     id: sub.id,
-    entry: '//localhost:7104'
+    entry: `${baseUrl}//widget/${sub.id}`
     }
     // TODO 所有插件加载用promise all
     // @ts-ignore
     const app = loadMicroApp(config, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
     addWidget(id, app);
+    // TODO 拦截mount做处理
+    return {
+        mount: app.mount(),
+        unmout: app.unmount()
+    }
 }

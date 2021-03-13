@@ -53,7 +53,7 @@ import { loadMicroApp } from './runtime';
  * 2.插件签约一个html，html依赖有插件：此时运行时提给插件html加载器（实际也是插件）判断插件的依赖
  * 但html依赖的插件，使用html的插件是不知道的，所以必须用标签来做
  * 
- * 
+ * 对子插件的修改需要做
  */
 const config = {
     react15: {

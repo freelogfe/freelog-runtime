@@ -6,6 +6,9 @@ import { loadMicroApp } from '../runtime';
 import { addWidget } from './widget'
 import { getFileStreamInfoById, getSubFileStreamInfoById } from './api'
 import {baseUrl} from '../../services/base'
+import {freelogApp} from './global'
+// @ts-ignore  TODO 需要控制不可改变
+window.freelogApp = freelogApp
 export function initNode() {
   /**
    * 1.resolveUrl
@@ -22,7 +25,7 @@ export function initNode() {
     const nodeDomain = await getDomain(location.href)
     const nodeInfo = await requestNodeInfo(nodeDomain)
     // @ts-ignore
-    window.freelogApp.nodeInfo = nodeInfo
+    freelogApp.nodeInfo = nodeInfo
     // @ts-ignore
     const theme = await requestTheme(nodeInfo.nodeId, nodeInfo.nodeThemeId)
     const container = document.getElementById('freelog-plugin-container')
@@ -57,19 +60,8 @@ export function initNode() {
                  2.const container = createContainer('freelog-plugin-container', id)
                  3.loadMicroApp
            */
-          const id = createId()
-          const widgetContainer = createContainer('freelog-plugin-container', id)
-          const config = {
-            container: widgetContainer,
-            name: id,//id
-            widgetName: sub.name,
-            id: sub.id,
-            entry: `${baseUrl}//widget/${sub.id}`, // '//localhost:7104'
-          }
-          // TODO 所有插件加载用promise all
-          // @ts-ignore
-          const app = loadMicroApp(config, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
-          addWidget(id, app);
+
+          freelogApp.mountWidget(sub, 'freelog-plugin-container')
           // TODO 所有插件加载完成后 加载交给运行时子依赖的插件
           break;
           case 'js': {
