@@ -17,9 +17,9 @@
 import { createScript, createCssLink, createContainer, createId, resolveUrl } from './utils'
 import { loadMicroApp } from '../runtime';
 
-const flatternWidgets = new Map<any,any>()
-const childrenWidgets = new Map<any,any>()
-const sandBoxs = new Map<any,any>() // 沙盒不交给plugin, 因为plugin是插件可以用的
+export const flatternWidgets = new Map<any,any>()
+export const childrenWidgets = new Map<any,any>()
+export const sandBoxs = new Map<any,any>() // 沙盒不交给plugin, 因为plugin是插件可以用的
 // TODO plugin type
 export function addWidget(key: string, plugin:any){
     if(flatternWidgets.has(key)){

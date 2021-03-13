@@ -5,6 +5,7 @@ import { createScript, createCssLink, createContainer, createId, resolveUrl } fr
 import { loadMicroApp } from '../runtime';
 import { addWidget } from './widget'
 import { getFileStreamInfoById, getSubFileStreamInfoById } from './api'
+import {baseUrl} from '../../services/base'
 export function initNode() {
   /**
    * 1.resolveUrl
@@ -27,14 +28,19 @@ export function initNode() {
     const container = document.getElementById('freelog-plugin-container')
     // @ts-ignore
     container.innerHTML = theme.data
-    container
+    
     const promises: Promise<any>[] = []
     // @ts-ignore
     theme.subDeps.forEach(sub => {
       // 检测主题内部有没有这个插件，没有则不走这不
+      const tags = document.getElementsByName(sub.tagName)
+      if(!tags.length){
+        return
+      }
       // {"id":"60068f63973b31003a4fbf2a","name":"chtes/pubu","type":"resource","resourceType":"image"}
-      let url = resolveUrl(`auths/presentables/${theme.entityNid}/fileStream`, { parentNid: nodeInfo.nodeThemeId, subResourceIdOrName: sub.id }) 
-      if(isTest) resolveUrl(`auths/testResources/${theme.entityNid}/fileStream`, { parentNid: nodeInfo.nodeThemeId, subEntityIdOrName: sub.id })
+      let url = resolveUrl(`${baseUrl}auths/presentables/${theme.entityNid}/fileStream`, { parentNid: nodeInfo.nodeThemeId, subResourceIdOrName: sub.id }) 
+      if(isTest) resolveUrl(`${baseUrl}auths/testResources/${theme.entityNid}/fileStream`, { parentNid: nodeInfo.nodeThemeId, subEntityIdOrName: sub.id })
+      
       switch (sub.resourceType) {
         case 'widget':
           /**
@@ -58,7 +64,7 @@ export function initNode() {
             name: id,//id
             widgetName: sub.name,
             id: sub.id,
-            entry: '//localhost:7104'
+            entry: `${baseUrl}//widget/${sub.id}`, // '//localhost:7104'
           }
           // TODO 所有插件加载用promise all
           // @ts-ignore

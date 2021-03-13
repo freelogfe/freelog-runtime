@@ -14,30 +14,42 @@
  *    3.
  * 总结：window.FreelogApp.mountWidget
  */
-import {addSandBox} from './widget'
+import {addSandBox, flatternWidgets} from './widget'
 const rawDocument = document
 const rawHistory = window['history']
 const rawLocation = window['location']
 const locations = new Map()
-if (rawLocation.hash && rawLocation.hash.split('#')) {
-  var loc = rawLocation.hash.split('#')
-  loc.forEach((item) => {
-    try {
-      if(!item) return
-      if (item.indexOf('?') > -1) {
-        let index = item.indexOf('?')
-        let [id, pathname] = item.substring(0, index - 1).split('=')
-        let search = item.substring(index)
-        // TODO 判断id是否存在 isExist(id) &&
-        locations.set(id, { pathname, href: pathname + search, search })
-        return 
+export function initLocation(){
+  if (rawLocation.hash && rawLocation.hash.split('#')) {
+    var loc = rawLocation.hash.split('#')
+    loc.forEach((item) => {
+      try {
+        if(!item) return
+        if (item.indexOf('?') > -1) {
+          let index = item.indexOf('?')
+          let [id, pathname] = item.substring(0, index - 1).split('=')
+          let search = item.substring(index)
+          // TODO 判断id是否存在 isExist(id) &&
+          locations.set(id, { pathname, href: pathname + search, search })
+          return 
+        }
+        var l = item.split('=')
+        locations.set(l[0], { pathname: l[1], href: l[1], search: '' })
+      } catch (e) {
+        console.error('url is error' + e)
       }
-      var l = item.split('=')
-      locations.set(l[0], { pathname: l[1], href: l[1], search: '' })
-    } catch (e) {
-      console.error('url is error' + e)
-    }
-  })
+    })
+  }
+}
+initLocation()
+export function setLocation(){
+ // TODO 只有在线的应用才在url上显示, 只有pathname和query需要
+ var hash = ''
+ locations.forEach((value, key) => {
+   if(!flatternWidgets.get(key)) return
+   hash += '#' + key + '=' + value.pathname || ''
+ })
+ rawLocation.hash = hash
 }
 // TODO pathname  search 需要不可变
 export const locationCenter = {
@@ -50,13 +62,7 @@ export const locationCenter = {
       ...loc,
       ...attr
     })
-
-    // TODO 只有在线的应用才在url上显示, 只有pathname和query需要
-    var hash = ''
-    locations.forEach((value, key) => {
-      hash += '#' + key + '=' + value.pathname || ''
-    })
-    rawLocation.hash = hash
+    setLocation()    
   },
 
   get: function (name: string): string {
