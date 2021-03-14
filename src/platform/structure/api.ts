@@ -65,14 +65,17 @@
  *          
  */
 import frequest from '../../services/handler'
-import type { Presentable } from '../../services/api/modules/presentable'
-import presentable from '../../services/api/modules/presentable'
+ import presentable from '../../services/api/modules/presentable'
 let isTest = false
-if (location.href.replace('http://', '').replace('https://', '').indexOf('t.') === 0) {
+if (window.location.href.replace('http://', '').replace('https://', '').indexOf('t.') === 0) {
     isTest = true
 }
 // @ts-ignore
-const nodeId = window.freelogApp.nodeInfo.nodeId
+let nodeId = ''
+export function init(){
+    //@ts-ignore
+ nodeId  = window.freelogApp.nodeInfo.nodeId
+} 
 export async function getPresentables(query: any): Promise<any> {
     if (query && Object.prototype.toString.call(query) !== '[Object Object]') {
         return 'query parameter must be object'

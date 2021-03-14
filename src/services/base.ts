@@ -1,6 +1,6 @@
 export const placeHolder = 'urlPlaceHolder'
 let baseURL = 'http://qi.freelog.com/v2/'
-if (location.href.indexOf('testfreelog') > -1) {
+if (window.location.href.indexOf('testfreelog') > -1) {
     baseURL = 'http://qi.testfreelog.com/v2/'
 }
 export const baseUrl = baseURL

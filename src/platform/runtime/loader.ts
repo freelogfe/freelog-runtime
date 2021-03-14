@@ -220,7 +220,7 @@ function getLifecyclesFromExports(
 
   // fallback to sandbox latest set property if it had
   if (globalLatestSetProp) {
-    const lifecycles = (<any>global)[globalLatestSetProp];
+    const lifecycles = (global as any)[globalLatestSetProp];
     if (validateExportLifecycle(lifecycles)) {
       return lifecycles;
     }

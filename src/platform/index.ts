@@ -1,4 +1,5 @@
 import {initNode} from './structure/init';
 
-
-initNode()
+export function run(){
+    initNode()
+}

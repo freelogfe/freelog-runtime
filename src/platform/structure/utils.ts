@@ -59,7 +59,7 @@ export function createCssLink(href: string, type?: string): Promise<any> {
 //
 export function resolveUrl(path: string, params?: any): string {
   // @ts-ignore
-  const { nodeType, qiOrigin } = window.freelogApp.nodeInfo
+  const { nodeType } = window.freelogApp.nodeInfo
   params = Object.assign({ nodeType }, params)
   var queryStringArr = []
   for (let key in params) {

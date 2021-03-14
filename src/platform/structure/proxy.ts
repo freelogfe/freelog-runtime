@@ -124,7 +124,7 @@ export const createLocationProxy = function (name: string, sandbox: any) {
     get: function get(docTarget: any, property: string) {
       if (['href', 'pathname', 'hash'].indexOf(property) > -1) {
         // @ts-ignore
-        return locationCenter.get(name) && locationCenter.get(name)[property] || ''
+        return locationCenter.get(name) && (locationCenter.get(name)[property] || '')
       } else {
         if (['replace'].indexOf(property) > -1) {
           return function () {
@@ -134,7 +134,7 @@ export const createLocationProxy = function (name: string, sandbox: any) {
         if (property === 'toString') {
           return () => {
             // @ts-ignore
-            return locationCenter.get(name) && locationCenter.get(name)['pathname'] || ''
+            return locationCenter.get(name) && (locationCenter.get(name)['pathname'] || '')
           }
         }
         // @ts-ignore

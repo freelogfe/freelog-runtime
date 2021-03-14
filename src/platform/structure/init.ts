@@ -1,12 +1,10 @@
 import frequest from '../../services/handler'
 import node from '../../services/api/modules/node'
-import presentable from '../../services/api/modules/presentable'
-import { createScript, createCssLink, createContainer, createId, resolveUrl } from './utils'
-import { loadMicroApp } from '../runtime';
-import { addWidget } from './widget'
-import { getFileStreamInfoById, getSubFileStreamInfoById } from './api'
+import { createScript, createCssLink, resolveUrl } from './utils'
+import { getFileStreamInfoById } from './api'
 import {baseUrl} from '../../services/base'
 import {freelogApp} from './global'
+import {init} from './api'
 // @ts-ignore  TODO 需要控制不可改变
 window.freelogApp = freelogApp
 export function initNode() {
@@ -18,14 +16,15 @@ export function initNode() {
    * TODO title 问题
    */
   let isTest = false
-  if (location.href.replace('http://', '').replace('https://', '').indexOf('t.') === 0) {
+  if (window.location.href.replace('http://', '').replace('https://', '').indexOf('t.') === 0) {
     isTest = true
   }
   return new Promise<void>(async (resolve) => {
-    const nodeDomain = await getDomain(location.href)
+    const nodeDomain = await getDomain(window.location.href)
     const nodeInfo = await requestNodeInfo(nodeDomain)
     // @ts-ignore
     freelogApp.nodeInfo = nodeInfo
+    init()
     // @ts-ignore
     const theme = await requestTheme(nodeInfo.nodeId, nodeInfo.nodeThemeId)
     const container = document.getElementById('freelog-plugin-container')

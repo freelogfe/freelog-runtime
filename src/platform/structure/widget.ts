@@ -14,7 +14,7 @@
  *   中央集权：沙盒全部在运行时进行管控，一旦有恶意侵入可中断（对沙盒的中断算paused?）， 挂载后控制对象就在全局，故有加载与卸载任何插件权限。
  *     
  */
-import { createScript, createCssLink, createContainer, createId, resolveUrl } from './utils'
+import {createContainer, createId } from './utils'
 import { loadMicroApp } from '../runtime';
 import {baseUrl} from '../../services/base'
 
@@ -63,7 +63,7 @@ export function mountWidget(sub:any, container: any): any{
     name: id,//id
     widgetName: sub.name,
     id: sub.id,
-    entry: `${baseUrl}//widget/${sub.id}`
+    entry: `${baseUrl}/widget/${sub.id}`
     }
     // TODO 所有插件加载用promise all
     // @ts-ignore

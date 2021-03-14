@@ -1,6 +1,5 @@
 import axios  from './request';
 import { placeHolder, baseConfig } from './base'
-import apis from './api'
 import { compareObjects } from '../utils/utils'
 
 
