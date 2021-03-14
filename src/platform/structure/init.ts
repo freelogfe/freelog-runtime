@@ -20,13 +20,16 @@ export function initNode() {
     isTest = true
   }
   return new Promise<void>(async (resolve) => {
-    const nodeDomain = await getDomain(window.location.href)
-    const nodeInfo = await requestNodeInfo(nodeDomain)
+    const nodeDomain = await getDomain(window.location.host)
+    const nodeData = await requestNodeInfo(nodeDomain)
+    const nodeInfo = nodeData.data
+    console.log(nodeInfo)
     // @ts-ignore
     freelogApp.nodeInfo = nodeInfo
     init()
     // @ts-ignore
-    const theme = await requestTheme(nodeInfo.nodeId, nodeInfo.nodeThemeId)
+    const theme = await requestTheme(nodeInfo.nodeThemeId)
+    console.log(theme)
     const container = document.getElementById('freelog-plugin-container')
     // @ts-ignore
     container.innerHTML = theme.data
@@ -101,6 +104,7 @@ async function requestNodeInfo(nodeDomain: string) {
 // TODO if error 
 async function requestTheme(nodeThemeId: string) {
   let info = await getFileStreamInfoById(nodeThemeId)
+  console.log(info)
   const [subDeps, entityNid] = findValueByKeyIgnoreUpperLower(info.headers, ['freelog-sub-dependencies', 'freelog-entity-nid'])
   return { subDeps: subDeps ? decodeURIComponent(subDeps) : [], entityNid, data: info.data.toString() }
 }

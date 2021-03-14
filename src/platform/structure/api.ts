@@ -88,11 +88,18 @@ function getByPresentableId(presentableId: string | number, type: string, parent
     if (!presentableId) {
         return 'presentableId is required'
     }
-    if (type && Object.prototype.toString.call(type) !== '[Object Object]') {
-        return 'query parameter must be object'
+    let test:any = {}
+    let form:any = {}
+    if(parentNid){
+    test.parentNid = parentNid
+      form.parentNid = parentNid
     }
-    if (isTest) return frequest(presentable.getTestByPresentableId, [presentableId, type], {parentNid, subEntityIdOrName:subResourceIdOrName})
-    return frequest(presentable.getByPresentableId, [presentableId, type], {parentNid, subResourceIdOrName})
+    if(subResourceIdOrName){
+       test.subEntityIdOrName = subResourceIdOrName
+       form.subResourceIdOrName = subResourceIdOrName
+    }
+    if (isTest) return frequest(presentable.getTestByPresentableId, [presentableId, type], test)
+    return frequest(presentable.getByPresentableId, [presentableId, type], form)
 }
 export async function getResultById(presentableId: string | number){
     return getByPresentableId(presentableId, 'result', '','')
@@ -125,12 +132,19 @@ export async function getSubFileStreamInfoById(presentableId: string | number,pa
 function getByResourceIdOrName(presentableId: string | number, type: string, parentNid: string,subResourceIdOrName: string): Promise<any> | string {
     if (!presentableId) {
         return 'presentableId is required'
+    } 
+    let test:any = {}
+    let form:any = {}
+    if(parentNid){
+    test.parentNid = parentNid
+      form.parentNid = parentNid
     }
-    if (type && Object.prototype.toString.call(type) !== '[Object Object]') {
-        return 'query parameter must be object'
+    if(subResourceIdOrName){
+       test.subEntityIdOrName = subResourceIdOrName
+       form.subResourceIdOrName = subResourceIdOrName
     }
-    if (isTest) return frequest(presentable.getTestByResourceIdOrName, [presentableId, type],  {parentNid, subEntityIdOrName:subResourceIdOrName})
-    return frequest(presentable.getByResourceIdOrName, [nodeId, presentableId, type],  {parentNid, subResourceIdOrName})
+    if (isTest) return frequest(presentable.getTestByResourceIdOrName, [presentableId, type],  test)
+    return frequest(presentable.getByResourceIdOrName, [nodeId, presentableId, type],  form)
 }
 export async function getResultByName(presentableId: string | number){
     return getByResourceIdOrName(presentableId, 'result', '', '')
