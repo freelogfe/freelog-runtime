@@ -33,15 +33,17 @@ export function initNode() {
     const container = document.getElementById('freelog-plugin-container')
     // @ts-ignore
     container.innerHTML = theme.data
-    
+    // @ts-ignore
+    theme.subDeps.push({id:"60068f63973b31003a4fbf2a",name:"chtes/pubu",type:"resource",resourceType:"widget"})
     const promises: Promise<any>[] = []
+    console.log(theme.subDeps)
     // @ts-ignore
     theme.subDeps.forEach(sub => {
       // 检测主题内部有没有这个插件，没有则不走这不
-      const tags = document.getElementsByName(sub.tagName)
-      if(!tags.length){
-        return
-      }
+      // const tags = document.getElementsByName(sub.tagName)
+      // if(!tags.length){
+      //   return
+      // }
       // {"id":"60068f63973b31003a4fbf2a","name":"chtes/pubu","type":"resource","resourceType":"image"}
       let url = resolveUrl(`${baseUrl}auths/presentables/${theme.entityNid}/fileStream`, { parentNid: nodeInfo.nodeThemeId, subResourceIdOrName: sub.id }) 
       if(isTest) resolveUrl(`${baseUrl}auths/testResources/${theme.entityNid}/fileStream`, { parentNid: nodeInfo.nodeThemeId, subEntityIdOrName: sub.id })
@@ -105,17 +107,8 @@ async function requestNodeInfo(nodeDomain: string) {
 async function requestTheme(nodeThemeId: string) {
   let info = await getFileStreamInfoById(nodeThemeId)
   console.log(info)
-  const [subDeps, entityNid] = findValueByKeyIgnoreUpperLower(info.headers, ['freelog-sub-dependencies', 'freelog-entity-nid'])
+  const [subDeps, entityNid] =  [info.headers['freelog-sub-dependencies'], info.headers['freelog-entity-nid']]
+  console.log(info.headers)
   return { subDeps: subDeps ? decodeURIComponent(subDeps) : [], entityNid, data: info.data.toString() }
 }
-function findValueByKeyIgnoreUpperLower(object: any, keys: string[]): string[] {
-  const map = new Map()
-  for (let [key, value] of Object.entries(object)) {
-    map.set(key.toLowerCase(), value)
-  }
-  const result: string[] = []
-  for (let key of keys) {
-    result.push(map.get(key))
-  }
-  return result
-}
+ 

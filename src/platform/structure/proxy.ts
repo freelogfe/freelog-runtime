@@ -14,7 +14,7 @@
  *    3.
  * 总结：window.FreelogApp.mountWidget
  */
-import {addSandBox, flatternWidgets} from './widget'
+import {addSandBox, activeWidgets} from './widget'
 const rawDocument = document
 const rawHistory = window['history']
 const rawLocation = window['location']
@@ -46,7 +46,7 @@ export function setLocation(){
  // TODO 只有在线的应用才在url上显示, 只有pathname和query需要
  var hash = ''
  locations.forEach((value, key) => {
-   if(!flatternWidgets.get(key)) return
+   if(!activeWidgets.get(key)) return
    hash += '#' + key + '=' + value.pathname || ''
  })
  rawLocation.hash = hash
@@ -97,10 +97,11 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
      */
     get: function get(HisTarget: any, property: string) {
       if (property === 'pushState' || property === 'replaceState') {
-        if (arguments[2] && arguments[2].indexOf('#') > -1) {
-          console.error('hash route is not supported!')
-        }
         return function () {
+          if (arguments[2] && arguments[2].indexOf('#') > -1) {
+            console.error('hash route is not supported!')
+            return 
+          }
           // TODO 解析query参数  search
           let href = arguments[2]
           let [pathname, serach] = href.split('?')
@@ -123,8 +124,12 @@ export const createLocationProxy = function (name: string, sandbox: any) {
      */
     get: function get(docTarget: any, property: string) {
       if (['href', 'pathname', 'hash'].indexOf(property) > -1) {
+        if(locationCenter.get(name)){
+          // @ts-ignore
+          return locationCenter.get(name)[property] || ''
+        }
         // @ts-ignore
-        return locationCenter.get(name) && (locationCenter.get(name)[property] || '')
+        return ''
       } else {
         if (['replace'].indexOf(property) > -1) {
           return function () {
@@ -174,6 +179,7 @@ export const createDocumentProxy = function (name: string, sandbox: any, proxy: 
        4.属性（包括原型）方法：替换this为根节点
     */
     get: function get(docTarget: any, property: string) {
+      console.log(window)
       if (property === 'location') {
         // TODO varify
         return proxy.location

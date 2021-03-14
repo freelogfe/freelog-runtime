@@ -17,20 +17,25 @@
 import {createContainer, createId } from './utils'
 import { loadMicroApp } from '../runtime';
 import {baseUrl} from '../../services/base'
-
+import {setLocation} from './proxy'
 export const flatternWidgets = new Map<any,any>()
+export const activeWidgets = new Map<any,any>()
 export const childrenWidgets = new Map<any,any>()
 export const sandBoxs = new Map<any,any>() // 沙盒不交给plugin, 因为plugin是插件可以用的
 // TODO plugin type
 export function addWidget(key: string, plugin:any){
-    if(flatternWidgets.has(key)){
+    if(activeWidgets.has(key)){
         console.log(flatternWidgets.get(key).name + 'reloaded')
     }
     flatternWidgets.set(key, plugin)
+    activeWidgets.set(key, plugin)
 }
 // TODO error
 export function removeWidget(key: string){
     flatternWidgets.has(key) &&  flatternWidgets.delete(key) && removeSandBox(key)
+}
+export function deactiveWidget(key: string){
+    activeWidgets.has(key) &&  activeWidgets.delete(key) 
 }
 export function addChildWidget(key: string, childKey:any){
     const arr = childrenWidgets.get(key) || []
@@ -56,22 +61,32 @@ export function removeSandBox(key: string){
 }
 // 插件自己加载子插件  sub需要验证格式
 export function mountWidget(sub:any, container: any): any{
-    const id = createId()
+    // @ts-ignore
+    const id = createId(sub.id)
     const widgetContainer = createContainer(container, id)
     const config = {
     container: widgetContainer,
     name: id,//id
     widgetName: sub.name,
     id: sub.id,
-    entry: `${baseUrl}/widget/${sub.id}`
+    entry: '//localhost:7101/' // `${baseUrl}/widget/${sub.id}`
     }
     // TODO 所有插件加载用promise all
     // @ts-ignore
+    console.log(config)
     const app = loadMicroApp(config, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
+    console.log(app)
     addWidget(id, app);
     // TODO 拦截mount做处理
     return {
-        mount: app.mount(),
-        unmout: app.unmount()
+        mount: ()=>{
+            app.mount();
+            addWidget(id, app);
+         },
+        unmout: ()=> {
+            app.unmount();
+            deactiveWidget(id)
+            setLocation()
+        }
     }
 }

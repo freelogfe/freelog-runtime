@@ -24,10 +24,11 @@ export function deleteContainer(father: string | HTMLElement, child: string | HT
 
   return childContainer? fatherContainer?.removeChild(childContainer) : true
 }
-
-export function createId(): any  {
-  let id = 'freelog-' + new Date().toUTCString()
-  return document.querySelector('#' + id) ? createId() : id
+let count = 0
+export function createId(subId:string, count?:number): any  {
+  let id = count? 'freelog-' + subId + '-' + count  : 'freelog-' + subId
+  // @ts-ignore
+  return document.querySelector('#' + id) ? createId(subId, ++count) : id
 }
 
 
