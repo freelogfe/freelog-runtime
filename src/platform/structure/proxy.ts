@@ -46,9 +46,13 @@ export function setLocation(){
  // TODO 只有在线的应用才在url上显示, 只有pathname和query需要
  var hash = ''
  locations.forEach((value, key) => {
-   if(!activeWidgets.get(key)) return
+   if(!activeWidgets.get(key)) {
+    locations.delete(key)
+    return
+   }
    hash += '#' + key + '=' + value.pathname || ''
  })
+ console.log(hash)
  rawLocation.hash = hash
 }
 // TODO pathname  search 需要不可变
