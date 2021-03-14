@@ -81,9 +81,10 @@ export function mountWidget(sub:any, container: any): any{
     return {
         mount: ()=>{
             app.mount();
+            console.log(app)
             addWidget(id, app);
          },
-        unmout: ()=> {
+         unmount: ()=> {
             app.unmount();
             deactiveWidget(id)
             setLocation()

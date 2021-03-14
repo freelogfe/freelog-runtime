@@ -66,8 +66,8 @@ export function initNode() {
            */
 
           const app = freelogApp.mountWidget(sub, 'freelog-plugin-container')
-          setTimeout(app.unmout, 2000)
-          setTimeout(app.mout, 5000)
+          setTimeout(app.unmount, 2000)
+          setTimeout(app.mount, 5000)
           // TODO 所有插件加载完成后 加载交给运行时子依赖的插件
           break;
           case 'js': {

@@ -179,8 +179,7 @@ export const createDocumentProxy = function (name: string, sandbox: any, proxy: 
        4.属性（包括原型）方法：替换this为根节点
     */
     get: function get(docTarget: any, property: string) {
-      console.log(window)
-      if (property === 'location') {
+       if (property === 'location') {
         // TODO varify
         return proxy.location
       }
