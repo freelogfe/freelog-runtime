@@ -1,7 +1,7 @@
 import frequest from '../../services/handler'
 import node from '../../services/api/modules/node'
 import { createScript, createCssLink, resolveUrl } from './utils'
-import { getFileStreamInfoById } from './api'
+import { getFileStreamById } from './api'
 import {baseUrl} from '../../services/base'
 import {freelogApp} from './global'
 import {init} from './api'
@@ -34,7 +34,7 @@ export function initNode() {
     // @ts-ignore
     container.innerHTML = theme.data
     // @ts-ignore
-    theme.subDeps.push({id:"60068f63973b31003a4fbf2a",name:"chtes/pubu",type:"resource",resourceType:"widget"})
+    // theme.subDeps.push({id:"60068f63973b31003a4fbf2a",name:"chtes/pubu",type:"resource",resourceType:"widget"})
     const promises: Promise<any>[] = []
     console.log(theme.subDeps)
     // @ts-ignore
@@ -66,8 +66,8 @@ export function initNode() {
            */
 
           const app = freelogApp.mountWidget(sub, 'freelog-plugin-container')
-          setTimeout(app.unmount, 2000)
-          setTimeout(app.mount, 5000)
+          // setTimeout(app.unmount, 2000)
+          // setTimeout(app.mount, 5000)
           // TODO 所有插件加载完成后 加载交给运行时子依赖的插件
           break;
           case 'js': {
@@ -107,10 +107,10 @@ async function requestNodeInfo(nodeDomain: string) {
 }
 // TODO if error 
 async function requestTheme(nodeThemeId: string) {
-  let info = await getFileStreamInfoById(nodeThemeId)
+  let info = await getFileStreamById(nodeThemeId)
   console.log(info)
   const [subDeps, entityNid] =  [info.headers['freelog-sub-dependencies'], info.headers['freelog-entity-nid']]
   console.log(info.headers)
-  return { subDeps: subDeps ? decodeURIComponent(subDeps) : [], entityNid, data: info.data.toString() }
+  return { subDeps: subDeps ? JSON.parse(decodeURIComponent(subDeps)) : [], entityNid, data: info.data.toString() }
 }
  

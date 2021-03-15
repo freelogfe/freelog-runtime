@@ -9,7 +9,7 @@ import { compareObjects } from '../utils/utils'
  * @param urlData array, use item for replace url's placeholder 
  * @param data  body data or query data  string | object | Array<any> | null | JSON | undefined
  */
-export default function frequest(action: any, urlData: Array<string | number> | null | undefined | '', data: any): any {
+export default function frequest(action: any, urlData: Array<string | number> | null | undefined | '', data: any, returnUrl?: boolean): any {
     let api = Object.assign({}, action)
         // type Api2 = Exclude<Api, 'url' | 'before' | 'after'>
     let url = api.url
@@ -43,6 +43,19 @@ export default function frequest(action: any, urlData: Array<string | number> | 
         delete api[item]
     })
     let _api = Object.assign({}, baseConfig, api)
+    if(returnUrl && _api.method.toLowerCase() === 'get'){
+        let query = ''
+        if(_api.params){
+            Object.keys(_api.params).forEach(key=>{
+                query = query + '&' + key + '=' + _api.params[key]  
+            })
+        }
+        if(query){
+            query = '?' + query
+        }
+        console.log(_api)
+        return _api.baseURL + url + query
+    }
         // show msg
     return new Promise((resolve, reject) => {
         axios(url, _api).then(async(response) => {

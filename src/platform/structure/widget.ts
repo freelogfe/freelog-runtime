@@ -69,7 +69,7 @@ export function mountWidget(sub:any, container: any): any{
     name: id,//id
     widgetName: sub.name,
     id: sub.id,
-    entry: '//localhost:7001/' // `${baseUrl}/widget/${sub.id}`
+    entry: '//localhost:7101/' // `${baseUrl}/widget/${sub.id}`
     }
     // TODO 所有插件加载用promise all
     // @ts-ignore
