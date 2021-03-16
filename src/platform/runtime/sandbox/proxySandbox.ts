@@ -22,7 +22,7 @@ function uniq(array: PropertyKey[]) {
 const rawObjectDefineProperty = Object.defineProperty;
 
 const variableWhiteListInDev =
-  process.env.NODE_ENV === 'development' || window.__QIANKUN_DEVELOPMENT__
+  process.env.NODE_ENV === 'development' || window.__FREELOG_DEVELOPMENT__
     ? [
       // for react hot reload
       // see https://github.com/facebook/create-react-app/blob/66bf7dfc43350249e2f09d138a20840dae8a0a4a/packages/react-error-overlay/src/index.js#L180
@@ -146,7 +146,7 @@ export default class ProxySandbox implements SandBox {
 
   inactive() {
     if (process.env.NODE_ENV === 'development') {
-      console.info(`[qiankun:sandbox] ${this.name} modified global properties restore...`, [
+      console.info(`[freelog:sandbox] ${this.name} modified global properties restore...`, [
         // @ts-ignore
         ...this.updatedValueSet.keys(),
       ]);
@@ -214,7 +214,7 @@ export default class ProxySandbox implements SandBox {
         }
 
         if (process.env.NODE_ENV === 'development') {
-          console.warn(`[qiankun] Set window.${p.toString()} while sandbox destroyed or inactive in ${name}!`);
+          console.warn(`[freelog] Set window.${p.toString()} while sandbox destroyed or inactive in ${name}!`);
         }
 
         // 在 strict-mode 下，Proxy 的 handler.set 返回 false 会抛出 TypeError，在沙箱卸载的情况下应该忽略错误

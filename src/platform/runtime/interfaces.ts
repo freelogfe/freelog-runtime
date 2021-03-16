@@ -8,9 +8,9 @@ import type { RegisterApplicationConfig, StartOpts, Parcel } from 'single-spa';
 declare global {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface Window {
-    __POWERED_BY_QIANKUN__?: boolean;
-    __INJECTED_PUBLIC_PATH_BY_QIANKUN__?: string;
-    __QIANKUN_DEVELOPMENT__?: boolean;
+    __POWERED_BY_FREELOG__?: boolean;
+    __INJECTED_PUBLIC_PATH_BY_FREELOG__?: string;
+    __FREELOG_DEVELOPMENT__?: boolean;
   }
 }
 
@@ -59,7 +59,7 @@ export type PrefetchStrategy =
   | string[]
   | ((apps: AppMetadata[]) => { criticalAppNames: string[]; minorAppsName: string[] });
 
-type QiankunSpecialOpts = {
+type FreelogSpecialOpts = {
   /**
    * @deprecated internal api, don't used it as normal, might be removed after next version
    */
@@ -86,7 +86,7 @@ type QiankunSpecialOpts = {
    */
   excludeAssetFilter?: (url: string) => boolean;
 };
-export type FrameworkConfiguration = QiankunSpecialOpts & ImportEntryOpts & StartOpts;
+export type FrameworkConfiguration = FreelogSpecialOpts & ImportEntryOpts & StartOpts;
 
 export type LifeCycleFn<T extends ObjectType> = (app: LoadableApp<T>, global: typeof window) => Promise<any>;
 export type FrameworkLifeCycles<T extends ObjectType> = {
@@ -108,7 +108,7 @@ export enum SandBoxType {
   Snapshot = 'Snapshot',
 
   // for legacy sandbox
-  // https://github.com/umijs/qiankun/blob/0d1d3f0c5ed1642f01854f96c3fabf0a2148bd26/src/sandbox/legacy/sandbox.ts#L22...L25
+  // https://github.com/umijs/freelog/blob/0d1d3f0c5ed1642f01854f96c3fabf0a2148bd26/src/sandbox/legacy/sandbox.ts#L22...L25
   LegacyProxy = 'LegacyProxy',
 }
 

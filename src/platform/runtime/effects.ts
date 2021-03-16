@@ -3,7 +3,7 @@
  * @since 2019-02-19
  */
 
-const firstMountLogLabel = '[qiankun] first app mounted';
+const firstMountLogLabel = '[freelog] first app mounted';
 if (process.env.NODE_ENV === 'development') {
   console.time(firstMountLogLabel);
 }

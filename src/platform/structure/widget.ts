@@ -75,8 +75,16 @@ export function mountWidget(sub:any, container: any): any{
     // @ts-ignore
     console.log(config)
     const app = loadMicroApp(config, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
+    const id2 = createId(sub.id + 1)
+    const widgetContainer2 = createContainer(container, id2)
+    const app2 = loadMicroApp({
+        container: widgetContainer2,
+        name: id2,
+        entry: '//localhost:7103'
+    }, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
     console.log(app)
     addWidget(id, app);
+    addWidget(id2, app2);
     // TODO 拦截mount做处理
     return {
         mount: ()=>{

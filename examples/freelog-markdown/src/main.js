@@ -2,6 +2,7 @@
 import store from "./store";
 
 Vue.config.productionTip = false;
+import './public-path';
 
  
 import Vue from 'vue'
@@ -49,7 +50,7 @@ function render(props = {}) {
     const { container } = props;
     router = new VueRouter({
 		mode: 'history',
-		base: window.__POWERED_BY_QIANKUN__ ? '/vue' : '/',
+		base: window.__POWERED_BY_FREELOG__ ? '/vue' : '/',
 		scrollBehavior,
 		routes: [
 			{
@@ -69,7 +70,7 @@ function render(props = {}) {
     }).$mount(container ? container.querySelector('#app') : '#app');
 }
 
-if (!window.__POWERED_BY_QIANKUN__) {
+if (!window.__POWERED_BY_FREELOG__) {
     render();
 }
 

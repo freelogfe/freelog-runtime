@@ -25,7 +25,7 @@ export default class HelloModal extends React.Component {
           onCancel={() => this.setVisible(false)}
           title="Install"
         >
-          <code>$ yarn add qiankun  # or npm i qiankun -S</code>
+          <code>$ yarn add freelog  # or npm i freelog -S</code>
         </Modal>
       </div>
     );

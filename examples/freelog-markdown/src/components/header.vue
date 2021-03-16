@@ -5,7 +5,7 @@
         <span class="el-icon-menu"></span>
       </div>
       <div class="fd-logo">
-        <i class="freelog fl-icon-logo-freelog"></i>
+        <i class="freelog fl-icon-logo-freelog">eedsf 34</i>
       </div>
     </div>
   </header>

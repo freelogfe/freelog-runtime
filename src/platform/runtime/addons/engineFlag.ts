@@ -9,17 +9,17 @@ export default function getAddOn(global: Window): FrameworkLifeCycles<any> {
   return {
     async beforeLoad() {
       // eslint-disable-next-line no-param-reassign
-      global.__POWERED_BY_QIANKUN__ = true;
+      global.__POWERED_BY_FREELOG__ = true;
     },
 
     async beforeMount() {
       // eslint-disable-next-line no-param-reassign
-      global.__POWERED_BY_QIANKUN__ = true;
+      global.__POWERED_BY_FREELOG__ = true;
     },
 
     async beforeUnmount() {
       // eslint-disable-next-line no-param-reassign
-      delete global.__POWERED_BY_QIANKUN__;
+      delete global.__POWERED_BY_FREELOG__;
     },
   };
 }

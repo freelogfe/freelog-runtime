@@ -1,51 +1,34 @@
-<template >
-	<div>
-		<fd-header @toggle-menu="toggleAsideMenu"></fd-header>
-		<div id="f-docs-body" :class="[ aSideMenuVisble ? 'aside-menu-opened' : 'aside-menu-closed' ]">
-			<div id="f-docs-container" style="min-height: 100vh;" @click="hideAsideMenu">
-				<fd-sidebar-left ></fd-sidebar-left>
-				<router-view></router-view>
-			</div>
-		</div>
-	</div>
+<template>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link>
+      |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view/>
+  </div>
 </template>
 
-<script>
-import fdHeader from './components/header.vue'
-import fdSidebarLeft from './components/sidebar-left.vue'
-import scrollHandler from './scroll-handler'
-
-export default {
-	name: 'freelog-document-app',
-	components: { fdHeader, fdSidebarLeft },
-	data() {
-		return {
-			aSideMenuVisble: false,
-		}
-	},
-	computed: {
-	
-	},
-	methods: {
-		toggleAsideMenu() {
-			this.aSideMenuVisble = !this.aSideMenuVisble
-		},
-		hideAsideMenu() {
-			this.aSideMenuVisble = false
-		}
-	},
-	mounted() {
-		window.addEventListener('resize', this.hideAsideMenu)
-		window.addEventListener('scroll', scrollHandler)
-	},
-	destroyed() {
-		window.removeEventListener('resize', this.hideAsideMenu)
-		window.removeEventListener('scroll', scrollHandler)
-	},
+<style>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
 }
 
-</script>
+#nav {
+  padding-bottom: 20px;
+}
 
-<style lang="less">
-	@import './index.less';
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+  text-decoration: none;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
 </style>

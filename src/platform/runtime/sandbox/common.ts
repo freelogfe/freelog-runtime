@@ -36,7 +36,7 @@ export function getTargetValue(target: any, value: any): any {
     }
 
     // copy prototype if bound function not have
-    // mostly a bound function have no own prototype, but it not absolute in some old version browser, see https://github.com/umijs/qiankun/issues/1121
+    // mostly a bound function have no own prototype, but it not absolute in some old version browser, see https://github.com/umijs/freelog/issues/1121
     if (value.hasOwnProperty('prototype') && !boundValue.hasOwnProperty('prototype'))
       boundValue.prototype = value.prototype;
 

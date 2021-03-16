@@ -33,6 +33,6 @@ export async function unmount(props) {
   );
 }
 
-if (!window.__POWERED_BY_QIANKUN__) {
+if (!window.__POWERED_BY_FREELOG__) {
   bootstrap().then(mount);
 }

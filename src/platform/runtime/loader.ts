@@ -36,7 +36,7 @@ function assertElementExist(element: Element | null | undefined, msg?: string) {
       throw new Error(msg);
     }
 
-    throw new Error('[qiankun] element not existed!');
+    throw new Error('[freelog] element not existed!');
   }
 }
 
@@ -75,7 +75,7 @@ function createElement(
   if (strictStyleIsolation) {
     if (!supportShadowDOM) {
       console.warn(
-        '[qiankun]: As current browser not support shadow dom, your strictStyleIsolation configuration will be ignored!',
+        '[freelog]: As current browser not support shadow dom, your strictStyleIsolation configuration will be ignored!',
       );
     } else {
       const { innerHTML } = appElement;
@@ -93,9 +93,9 @@ function createElement(
   }
 
   if (scopedCSS) {
-    const attr = appElement.getAttribute(css.QiankunCSSRewriteAttr);
+    const attr = appElement.getAttribute(css.FreelogCSSRewriteAttr);
     if (!attr) {
-      appElement.setAttribute(css.QiankunCSSRewriteAttr, appName);
+      appElement.setAttribute(css.FreelogCSSRewriteAttr, appName);
     }
 
     const styleNodes = appElement.querySelectorAll('style') || [];
@@ -118,13 +118,13 @@ function getAppWrapperGetter(
 ) {
   return () => {
     if (useLegacyRender) {
-      if (strictStyleIsolation) throw new Error('[qiankun]: strictStyleIsolation can not be used with legacy render!');
-      if (scopedCSS) throw new Error('[qiankun]: experimentalStyleIsolation can not be used with legacy render!');
+      if (strictStyleIsolation) throw new Error('[freelog]: strictStyleIsolation can not be used with legacy render!');
+      if (scopedCSS) throw new Error('[freelog]: experimentalStyleIsolation can not be used with legacy render!');
 
       const appWrapper = document.getElementById(getWrapperId(appInstanceId));
       assertElementExist(
         appWrapper,
-        `[qiankun] Wrapper element for ${appName} with instance ${appInstanceId} is not existed!`,
+        `[freelog] Wrapper element for ${appName} with instance ${appInstanceId} is not existed!`,
       );
       return appWrapper!;
     }
@@ -132,7 +132,7 @@ function getAppWrapperGetter(
     const element = elementGetter();
     assertElementExist(
       element,
-      `[qiankun] Wrapper element for ${appName} with instance ${appInstanceId} is not existed!`,
+      `[freelog] Wrapper element for ${appName} with instance ${appInstanceId} is not existed!`,
     );
 
     if (strictStyleIsolation) {
@@ -152,7 +152,7 @@ type ElementRender = (
 
 /**
  * Get the render function
- * If the legacy render function is provide, used as it, otherwise we will insert the app element to target container by qiankun
+ * If the legacy render function is provide, used as it, otherwise we will insert the app element to target container by freelog
  * @param appName
  * @param appContent
  * @param legacyRender
@@ -162,7 +162,7 @@ function getRender(appName: string, appContent: string, legacyRender?: HTMLConte
     if (legacyRender) {
       if (process.env.NODE_ENV === 'development') {
         console.warn(
-          '[qiankun] Custom rendering function is deprecated, you can use the container element setting instead!',
+          '[freelog] Custom rendering function is deprecated, you can use the container element setting instead!',
         );
       }
 
@@ -178,13 +178,13 @@ function getRender(appName: string, appContent: string, legacyRender?: HTMLConte
         switch (phase) {
           case 'loading':
           case 'mounting':
-            return `[qiankun] Target container with ${container} not existed while ${appName} ${phase}!`;
+            return `[freelog] Target container with ${container} not existed while ${appName} ${phase}!`;
 
           case 'mounted':
-            return `[qiankun] Target container with ${container} not existed after ${appName} ${phase}!`;
+            return `[freelog] Target container with ${container} not existed after ${appName} ${phase}!`;
 
           default:
-            return `[qiankun] Target container with ${container} not existed while ${appName} rendering!`;
+            return `[freelog] Target container with ${container} not existed while ${appName} rendering!`;
         }
       })();
       assertElementExist(containerElement, errorMsg);
@@ -228,7 +228,7 @@ function getLifecyclesFromExports(
 
   if (process.env.NODE_ENV === 'development') {
     console.warn(
-      `[qiankun] lifecycle not found from ${appName} entry exports, fallback to get from window['${appName}']`,
+      `[freelog] lifecycle not found from ${appName} entry exports, fallback to get from window['${appName}']`,
     );
   }
 
@@ -239,7 +239,7 @@ function getLifecyclesFromExports(
     return globalVariableExports;
   }
 
-  throw new Error(`[qiankun] You need to export lifecycle functions in ${appName} entry`);
+  throw new Error(`[freelog] You need to export lifecycle functions in ${appName} entry`);
 }
 
 let prevAppUnmountedDeferred: Deferred<void>;
@@ -254,7 +254,7 @@ export async function loadApp<T extends ObjectType>(
   const { entry, name: appName } = app;
   const appInstanceId = `${appName}_${+new Date()}_${Math.floor(Math.random() * 1000)}`;
 
-  const markName = `[qiankun] App ${appInstanceId} Loading`;
+  const markName = `[freelog] App ${appInstanceId} Loading`;
   if (process.env.NODE_ENV === 'development') {
     performanceMark(markName);
   }
@@ -308,7 +308,7 @@ export async function loadApp<T extends ObjectType>(
   if (sandbox) {
     sandboxContainer = createSandboxContainer(
       appName,
-      // FIXME should use a strict sandbox logic while remount, see https://github.com/umijs/qiankun/issues/518
+      // FIXME should use a strict sandbox logic while remount, see https://github.com/umijs/freelog/issues/518
       initialAppWrapperGetter,
       scopedCSS,
       useLooseSandbox,
@@ -405,7 +405,7 @@ export async function loadApp<T extends ObjectType>(
         },
         async () => {
           if (process.env.NODE_ENV === 'development') {
-            const measureName = `[qiankun] App ${appInstanceId} Loading Consuming`;
+            const measureName = `[freelog] App ${appInstanceId} Loading Consuming`;
             performanceMeasure(measureName, markName);
           }
         },

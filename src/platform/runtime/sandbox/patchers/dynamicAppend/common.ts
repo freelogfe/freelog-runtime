@@ -88,7 +88,7 @@ function convertLinkAsStyle(
   const styleElement = document.createElement('style');
   const { href } = element;
   // add source link element href
-  styleElement.dataset.qiankunHref = href;
+  styleElement.dataset.freelogHref = href;
 
   fetchFn(href)
     .then((res: any) => res.text())
@@ -236,14 +236,14 @@ function getOverwrittenAppendChildOrInsertBefore(opts: {
               },
             });
 
-            const dynamicScriptCommentElement = document.createComment(`dynamic script ${src} replaced by qiankun`);
+            const dynamicScriptCommentElement = document.createComment(`dynamic script ${src} replaced by freelog`);
             dynamicScriptAttachedCommentMap.set(element, dynamicScriptCommentElement);
             return rawDOMAppendOrInsertBefore.call(mountDOM, dynamicScriptCommentElement, referenceNode);
           }
 
           // inline script never trigger the onload and onerror event
           execScripts(null, [`<script>${text}</script>`], proxy, { strictGlobal });
-          const dynamicInlineScriptCommentElement = document.createComment('dynamic inline script replaced by qiankun');
+          const dynamicInlineScriptCommentElement = document.createComment('dynamic inline script replaced by freelog');
           dynamicScriptAttachedCommentMap.set(element, dynamicInlineScriptCommentElement);
           return rawDOMAppendOrInsertBefore.call(mountDOM, dynamicInlineScriptCommentElement, referenceNode);
         }

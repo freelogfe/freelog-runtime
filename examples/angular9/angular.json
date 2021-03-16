@@ -18,7 +18,7 @@
           "options": {
             "outputPath": "dist/angular9",
             "index": "src/index.html",
-            "main": "src/main.qiankun.ts",
+            "main": "src/main.freelog.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,

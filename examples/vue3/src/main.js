@@ -11,7 +11,7 @@ let instance = null;
 function render(props = {}) {
     const { container } = props;
     router = createRouter({
-        history: createWebHistory(window.__POWERED_BY_QIANKUN__ ? '/vue3' : '/'),
+        history: createWebHistory(window.__POWERED_BY_FREELOG__ ? '/vue3' : '/'),
         routes,
     });
 
@@ -21,7 +21,7 @@ function render(props = {}) {
     instance.mount(container ? container.querySelector('#app') : '#app');
 }
 
-if (!window.__POWERED_BY_QIANKUN__) {
+if (!window.__POWERED_BY_FREELOG__) {
     render();
 }
 
