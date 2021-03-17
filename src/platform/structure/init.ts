@@ -65,7 +65,7 @@ export function initNode() {
                  3.loadMicroApp
            */
 
-          const app = freelogApp.mountWidget(sub, 'freelog-plugin-container')
+          const app = freelogApp.mountWidget(sub, 'freelog-plugin-container', {entityNid: theme.entityNid, parentNid: nodeInfo.nodeThemeId, subDependId: sub.id})
           console.log(app)
           // setTimeout(app.unmount, 2000)
           // setTimeout(app.mount, 5000)
