@@ -222,6 +222,7 @@ function getData(page = 1) {
               index,
               // resourceID: i.resourceId,
             });
+            
           });
          
         resolve({
