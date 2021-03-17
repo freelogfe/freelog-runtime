@@ -131,7 +131,7 @@ export async function getSubFileStreamById(presentableId: string | number,parent
 }
  
 // TODO return a promise
-function getByResourceIdOrName(presentableId: string | number, type: string, parentNid: string,subResourceIdOrName: string): Promise<any> | string {
+function getByResourceIdOrName(presentableId: string | number, type: string, parentNid: string,subResourceIdOrName: string, returnUrl?: boolean): Promise<any> | string {
     if (!presentableId) {
         return 'presentableId is required'
     } 
@@ -145,8 +145,8 @@ function getByResourceIdOrName(presentableId: string | number, type: string, par
        test.subEntityIdOrName = subResourceIdOrName
        form.subResourceIdOrName = subResourceIdOrName
     }
-    if (isTest) return frequest(presentable.getTestByResourceIdOrName, [presentableId, type],  test)
-    return frequest(presentable.getByResourceIdOrName, [nodeId, presentableId, type],  form)
+    if (isTest) return frequest(presentable.getTestByResourceIdOrName, [presentableId, type],  test, returnUrl)
+    return frequest(presentable.getByResourceIdOrName, [nodeId, presentableId, type],  form, returnUrl)
 }
 export async function getResultByName(presentableId: string | number){
     return getByResourceIdOrName(presentableId, 'result', '', '')
@@ -158,8 +158,8 @@ export async function getResourceInfoByName(presentableId: string | number){
     if(isTest) return 'not supported!'
     return getByResourceIdOrName(presentableId, 'resourceInfo', '', '')
 }
-export async function getFileStreamByName(presentableId: string | number){
-    return getByResourceIdOrName(presentableId, 'fileStream', '', '')
+export async function getFileStreamByName(presentableId: string | number, returnUrl?: boolean){
+    return getByResourceIdOrName(presentableId, 'fileStream', '', '', returnUrl)
 }
 // sub
 export async function getSubResultByName(presentableId: string | number, parentNid: string,subResourceIdOrName: string){
@@ -172,6 +172,6 @@ export async function getSubResourceInfoByName(presentableId: string | number, p
     if(isTest) return 'not supported!'
     return getByResourceIdOrName(presentableId, 'resourceInfo', parentNid,subResourceIdOrName)
 }
-export async function getSubFileStreamByName(presentableId: string | number, parentNid: string,subResourceIdOrName: string){
-    return getByResourceIdOrName(presentableId, 'fileStream', parentNid,subResourceIdOrName)
+export async function getSubFileStreamByName(presentableId: string | number, parentNid: string,subResourceIdOrName: string, returnUrl?: boolean){
+    return getByResourceIdOrName(presentableId, 'fileStream', parentNid,subResourceIdOrName, returnUrl)
 }

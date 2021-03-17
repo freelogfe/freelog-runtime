@@ -69,22 +69,23 @@ export function mountWidget(sub:any, container: any): any{
     name: id,//id
     widgetName: sub.name,
     id: sub.id,
-    entry: '//localhost:7101/' // `${baseUrl}/widget/${sub.id}`
+    entry: '//localhost:7103/' // `${baseUrl}/widget/${sub.id}`
     }
     // TODO 所有插件加载用promise all
     // @ts-ignore
     console.log(config)
     const app = loadMicroApp(config, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
-    const id2 = createId(sub.id + 1)
-    const widgetContainer2 = createContainer(container, id2)
-    const app2 = loadMicroApp({
-        container: widgetContainer2,
-        name: id2,
-        entry: '//localhost:7103'
-    }, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
+    // const id2 = createId(sub.id + 1)
+    // const widgetContainer2 = createContainer(container, id2)
+    // const app2 = loadMicroApp({
+    //     container: widgetContainer2,
+    //     name: id2,
+    //     entry: '//localhost:7103'
+    // }, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
+    // addWidget(id2, app2);
     console.log(app)
     addWidget(id, app);
-    addWidget(id2, app2);
+    
     // TODO 拦截mount做处理
     return {
         mount: ()=>{

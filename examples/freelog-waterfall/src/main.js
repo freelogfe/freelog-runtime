@@ -2,9 +2,13 @@ import Vue from 'vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-
+import VueLazyLoad from 'vue-lazyload';
+import VueClipboard from 'vue-clipboard2'
 Vue.config.productionTip = false
+require('vue-image-lightbox/dist/vue-image-lightbox.min.css');
 
+Vue.use(VueLazyLoad);
+Vue.use(VueClipboard);
 import './public-path';
 import App from './App.vue';
 
