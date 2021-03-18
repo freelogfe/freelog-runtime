@@ -68,13 +68,8 @@ export function mountWidget(sub:any, container: any, data: any): any{
     container: widgetContainer,
     name: id,//id
     widgetName: sub.name,
-<<<<<<< HEAD
-    id: sub.id, 
-    entry: `//qi.testfreelog.com/widgets/${data.subDependId}?presentableId=${data.parentNid}&entityNid=${data.entityNid}` // `${baseUrl}/widget/${sub.id}`
-=======
     id: sub.id,
     entry:   `${baseUrl}widgets/${data.subDependId}?entityNid=${data.entityNid}&presentableId=${data.presentableId}`
->>>>>>> 7f1807e3dde4f22e4448838a350fadedb4b9a2c1
     }
     // console.log(sub)
     // TODO 所有插件加载用promise all
