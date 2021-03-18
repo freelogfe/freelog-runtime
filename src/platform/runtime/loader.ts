@@ -3,7 +3,7 @@
  * @since 2020-04-01
  */
 
-import { importEntry } from 'import-html-entry';
+import { importEntry } from './import-html-entry';
 import { concat, forEach, mergeWith } from 'lodash';
 import type { LifeCycles, ParcelConfigObject } from 'single-spa';
 import getAddOns from './addons';

@@ -71,10 +71,10 @@ export function mountWidget(sub:any, container: any, data: any): any{
     id: sub.id,
     entry:   `${baseUrl}widgets/${data.subDependId}?entityNid=${data.entityNid}&presentableId=${data.presentableId}`
     }
-    console.log(sub)
+    // console.log(sub)
     // TODO 所有插件加载用promise all
     // @ts-ignore
-    console.log(baseUrl)
+    // console.log(baseUrl)
     const app = loadMicroApp(config, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
     // const id2 = createId(sub.id + 1)
     // const widgetContainer2 = createContainer(container, id2)
@@ -84,14 +84,14 @@ export function mountWidget(sub:any, container: any, data: any): any{
     //     entry: '//localhost:7103'
     // }, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
     // addWidget(id2, app2);
-    console.log(app)
+    // console.log(app)
     addWidget(id, app);
     
     // TODO 拦截mount做处理
     return {
         mount: ()=>{
             app.mount();
-            console.log(app)
+            // console.log(app)
             addWidget(id, app);
          },
          unmount: ()=> {

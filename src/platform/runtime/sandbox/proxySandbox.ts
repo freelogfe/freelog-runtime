@@ -227,6 +227,13 @@ export default class ProxySandbox implements SandBox {
           console.log(234234234,name)
           return getPublicPath(name);
         }
+        if(p==='fetch'){
+          return function(url:string){
+            const patchUrl = getPublicPath(name) + url.split('freelog.com')[1]
+            console.log(1234234324342, patchUrl)
+            return rawWindow.fetch(patchUrl)
+          }
+        }
         // avoid who using window.window or window.self to escape the sandbox environment to touch the really window
         // see https://github.com/eligrey/FileSaver.js/blob/master/src/FileSaver.js#L13
         if (p === 'window' || p === 'self') {
