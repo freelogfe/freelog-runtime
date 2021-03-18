@@ -7,7 +7,7 @@ import type { SandBox } from '../interfaces';
 import { SandBoxType } from '../interfaces';
 import { nextTick } from '../utils';
 import { getTargetValue, setCurrentRunningSandboxProxy } from './common';
-import {createHistoryProxy, createLocationProxy, createDocumentProxy, createWidgetProxy, freelogLocalStorage, saveSandBox } from '../../structure/proxy'
+import {createHistoryProxy, createLocationProxy, createDocumentProxy, createWidgetProxy, freelogLocalStorage, saveSandBox, getPublicPath } from '../../structure/proxy'
 /**
  * fastest(at most time) unique array method
  * @see https://jsperf.com/array-filter-unique/30
@@ -223,7 +223,17 @@ export default class ProxySandbox implements SandBox {
 
       get(target: FakeWindow, p: PropertyKey): any {
         if (p === Symbol.unscopables) return unscopables;
-
+        if(p === '__INJECTED_PUBLIC_PATH_BY_FREELOG__') {
+          console.log(234234234,name)
+          return getPublicPath(name);
+        }
+        if(p==='fetch'){
+          return function(url:string){
+            const patchUrl = getPublicPath(name) + url.split('freelog.com')[1]
+            console.log(1234234324342, patchUrl)
+            return rawWindow.fetch(patchUrl)
+          }
+        }
         // avoid who using window.window or window.self to escape the sandbox environment to touch the really window
         // see https://github.com/eligrey/FileSaver.js/blob/master/src/FileSaver.js#L13
         if (p === 'window' || p === 'self') {

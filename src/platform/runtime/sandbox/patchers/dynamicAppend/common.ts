@@ -2,7 +2,7 @@
  * @author Kuitos
  * @since 2019-10-21
  */
-import { execScripts } from 'import-html-entry';
+import { execScripts } from '../../../import-html-entry';
 import { isFunction } from 'lodash';
 import { frameworkConfiguration } from '../../../apis';
 

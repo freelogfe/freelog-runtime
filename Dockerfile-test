@@ -1,0 +1,21 @@
+FROM node:14.6.0
+
+MAINTAINER yuliang <yu.liang@freelog.com>
+
+RUN mkdir -p /data/freelog-node-web
+
+WORKDIR /data/freelog-node-web
+
+COPY . /data/freelog-node-web
+
+RUN npm install
+
+ENV NODE_ENV test
+ENV EGG_SERVER_ENV test
+ENV PORT 5777
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+EXPOSE 5777
+
+CMD [ "npm", "start" ]

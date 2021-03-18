@@ -68,12 +68,18 @@ export function mountWidget(sub:any, container: any, data: any): any{
     container: widgetContainer,
     name: id,//id
     widgetName: sub.name,
+<<<<<<< HEAD
     id: sub.id, 
     entry: `//qi.testfreelog.com/widgets/${data.subDependId}?presentableId=${data.parentNid}&entityNid=${data.entityNid}` // `${baseUrl}/widget/${sub.id}`
+=======
+    id: sub.id,
+    entry:   `${baseUrl}widgets/${data.subDependId}?entityNid=${data.entityNid}&presentableId=${data.presentableId}`
+>>>>>>> 7f1807e3dde4f22e4448838a350fadedb4b9a2c1
     }
+    // console.log(sub)
     // TODO 所有插件加载用promise all
     // @ts-ignore
-    console.log(config)
+    // console.log(baseUrl)
     const app = loadMicroApp(config, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
     // const id2 = createId(sub.id + 1)
     // const widgetContainer2 = createContainer(container, id2)
@@ -83,14 +89,14 @@ export function mountWidget(sub:any, container: any, data: any): any{
     //     entry: '//localhost:7103'
     // }, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
     // addWidget(id2, app2);
-    console.log(app)
+    // console.log(app)
     addWidget(id, app);
     
     // TODO 拦截mount做处理
     return {
         mount: ()=>{
             app.mount();
-            console.log(app)
+            // console.log(app)
             addWidget(id, app);
          },
          unmount: ()=> {

@@ -15,6 +15,8 @@
  * 总结：window.FreelogApp.mountWidget
  */
 import {addSandBox, activeWidgets} from './widget'
+import {baseUrl} from '../../services/base'
+
 const rawDocument = document
 const rawHistory = window['history']
 const rawLocation = window['location']
@@ -160,6 +162,7 @@ export const createLocationProxy = function (name: string, sandbox: any) {
   })
 }
 export const createDocumentProxy = function (name: string, sandbox: any, proxy: any) {
+  console.log(name)
   // TODO 为了保证id唯一性，必须每访问一次都取不同的值作为id
   const documentProxy = {}
   var doc = rawDocument.getElementById(name)
@@ -250,4 +253,10 @@ export const createWidgetProxy = function (name: string, sandbox: any) {
       } 
     }
   })
+}
+export function getPublicPath(name:string){
+  const route = name.split('-')[1]
+  console.log(`${baseUrl}widgets/${route}`)
+  return `${baseUrl}widgets/${route}/`
+
 }

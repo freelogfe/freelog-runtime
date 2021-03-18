@@ -23,20 +23,17 @@ export function initNode() {
     const nodeDomain = await getDomain(window.location.host)
     const nodeData = await requestNodeInfo(nodeDomain)
     const nodeInfo = nodeData.data
-    console.log(nodeInfo)
     // @ts-ignore
     freelogApp.nodeInfo = nodeInfo
     init()
     // @ts-ignore
     const theme = await requestTheme(nodeInfo.nodeThemeId)
-    console.log(theme)
     const container = document.getElementById('freelog-plugin-container')
     // @ts-ignore
     container.innerHTML = theme.data
     // @ts-ignore
     // theme.subDeps.push({id:"60068f63973b31003a4fbf2a",name:"chtes/pubu",type:"resource",resourceType:"widget"})
     const promises: Promise<any>[] = []
-    console.log(theme.subDeps)
     // @ts-ignore
     theme.subDeps.forEach(sub => {
       // 检测主题内部有没有这个插件，没有则不走这不
@@ -65,7 +62,11 @@ export function initNode() {
                  3.loadMicroApp
            */
 
+<<<<<<< HEAD
           const app = freelogApp.mountWidget(sub, 'freelog-plugin-container', {entityNid: theme.entityNid, parentNid: nodeInfo.nodeThemeId, subDependId: sub.id})
+=======
+          const app = freelogApp.mountWidget(sub, 'freelog-plugin-container',{presentableId: nodeInfo.nodeThemeId, entityNid: theme.entityNid, subDependId: sub.id})
+>>>>>>> 7f1807e3dde4f22e4448838a350fadedb4b9a2c1
           console.log(app)
           // setTimeout(app.unmount, 2000)
           // setTimeout(app.mount, 5000)
@@ -109,9 +110,7 @@ async function requestNodeInfo(nodeDomain: string) {
 // TODO if error 
 async function requestTheme(nodeThemeId: string) {
   let info = await getFileStreamById(nodeThemeId)
-  console.log(info)
   const [subDeps, entityNid] =  [info.headers['freelog-sub-dependencies'], info.headers['freelog-entity-nid']]
-  console.log(info.headers)
   return { subDeps: subDeps ? JSON.parse(decodeURIComponent(subDeps)) : [], entityNid, data: info.data.toString() }
 }
  
