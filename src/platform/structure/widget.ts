@@ -60,7 +60,7 @@ export function removeSandBox(key: string){
     sandBoxs.has(key) &&  sandBoxs.delete(key)
 }
 // 插件自己加载子插件  sub需要验证格式
-export function mountWidget(sub:any, container: any): any{
+export function mountWidget(sub:any, container: any, data: any): any{
     // @ts-ignore
     const id = createId(sub.id)
     const widgetContainer = createContainer(container, id)
@@ -69,11 +69,12 @@ export function mountWidget(sub:any, container: any): any{
     name: id,//id
     widgetName: sub.name,
     id: sub.id,
-    entry: '//localhost:7103/' // `${baseUrl}/widget/${sub.id}`
+    entry:   `${baseUrl}widgets/${data.subDependId}?entityNid=${data.entityNid}&presentableId=${data.presentableId}`
     }
+    console.log(sub)
     // TODO 所有插件加载用promise all
     // @ts-ignore
-    console.log(config)
+    console.log(baseUrl)
     const app = loadMicroApp(config, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
     // const id2 = createId(sub.id + 1)
     // const widgetContainer2 = createContainer(container, id2)
