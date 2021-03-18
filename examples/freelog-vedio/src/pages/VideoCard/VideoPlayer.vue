@@ -35,27 +35,6 @@
         },
 
         methods: {
-
-            // captureImage() {
-            //     const scale = 0.8;
-            //     const video = document.querySelector('video');
-            //     console.log(video, 'videovideo');
-            //     video.addEventListener('loadeddata', captureImage);
-            //
-            //     var captureImage = function () {
-            //         console.log('######');
-            //         setTimeout(() => {
-            //             var canvas = document.createElement("canvas");
-            //             canvas.width = video.videoWidth * scale;
-            //             canvas.height = video.videoHeight * scale;
-            //             canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-            //
-            //             const src = canvas.toDataURL("image/png");
-            //             console.log(src, 'src');
-            //         }, 1000);
-            //
-            //     };
-            // },
         },
 
 
@@ -64,7 +43,6 @@
                 this.player.dispose()
             }
         },
-
         watch: {
             play(val) {
                 if (val) {
