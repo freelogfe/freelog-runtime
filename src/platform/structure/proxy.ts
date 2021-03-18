@@ -20,6 +20,7 @@ import {baseUrl} from '../../services/base'
 const rawDocument = document
 const rawHistory = window['history']
 const rawLocation = window['location']
+const rawLocalStorage = window['localStorage']
 const locations = new Map()
 export function initLocation(){
   if (rawLocation.hash && rawLocation.hash.split('#')) {
@@ -75,23 +76,25 @@ export const locationCenter = {
     return locations.get(name)
   }
 }
-export const freelogLocalStorage = {
-  clear: function (name: string) {
-
-  },
-  getItem: function (name: string) {
-
-  },
-  key: function (name: string) {
-
-  },
-  removeItem: function (name: string) {
-
-  },
-  setItem: function (name: string) {
-
-  },
-  length: 0
+export function freelogLocalStorage(id:string){
+  return {
+    clear: function (name: string) {
+      
+    },
+    getItem: function (name: string) {
+      rawLocalStorage.getItem(id + name)
+    },
+    key: function (name: string) {
+  
+    },
+    removeItem: function (name: string) {
+      rawLocalStorage.removeItem(id + name)
+    },
+    setItem: function (name: string, value: string) {
+      rawLocalStorage.setItem(id + name, value)
+    },
+    length: 0
+  }
 }
 export const saveSandBox = function (name: string, sandBox: any) {
   addSandBox(name, sandBox)
