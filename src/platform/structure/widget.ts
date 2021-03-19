@@ -14,62 +14,62 @@
  *   中央集权：沙盒全部在运行时进行管控，一旦有恶意侵入可中断（对沙盒的中断算paused?）， 挂载后控制对象就在全局，故有加载与卸载任何插件权限。
  *     
  */
-import {createContainer, createId } from './utils'
+import { createContainer, createId } from './utils'
 import { loadMicroApp } from '../runtime';
-import {baseUrl} from '../../services/base'
-import {setLocation} from './proxy'
-export const flatternWidgets = new Map<any,any>()
-export const activeWidgets = new Map<any,any>()
-export const childrenWidgets = new Map<any,any>()
-export const sandBoxs = new Map<any,any>() // 沙盒不交给plugin, 因为plugin是插件可以用的
+import { baseUrl } from '../../services/base'
+import { setLocation } from './proxy'
+export const flatternWidgets = new Map<any, any>()
+export const activeWidgets = new Map<any, any>()
+export const childrenWidgets = new Map<any, any>()
+export const sandBoxs = new Map<any, any>() // 沙盒不交给plugin, 因为plugin是插件可以用的
 // TODO plugin type
-export function addWidget(key: string, plugin:any){
-    if(activeWidgets.has(key)){
+export function addWidget(key: string, plugin: any) {
+    if (activeWidgets.has(key)) {
         console.log(flatternWidgets.get(key).name + 'reloaded')
     }
     flatternWidgets.set(key, plugin)
     activeWidgets.set(key, plugin)
 }
 // TODO error
-export function removeWidget(key: string){
-    flatternWidgets.has(key) &&  flatternWidgets.delete(key) && removeSandBox(key)
+export function removeWidget(key: string) {
+    flatternWidgets.has(key) && flatternWidgets.delete(key) && removeSandBox(key)
 }
-export function deactiveWidget(key: string){
-    activeWidgets.has(key) &&  activeWidgets.delete(key) 
+export function deactiveWidget(key: string) {
+    activeWidgets.has(key) && activeWidgets.delete(key)
 }
-export function addChildWidget(key: string, childKey:any){
+export function addChildWidget(key: string, childKey: any) {
     const arr = childrenWidgets.get(key) || []
     !arr.contains(childKey) && arr.push(childKey)
     childrenWidgets.set(key, arr)
 }
-export function removeChildWidget(key:string, childKey: string){
-    if(childrenWidgets.has(key)){
+export function removeChildWidget(key: string, childKey: string) {
+    if (childrenWidgets.has(key)) {
         let arr = childrenWidgets.get(key) || []
-        arr.contains(childKey) && arr.splice(arr.indexOf(childKey), 1) 
+        arr.contains(childKey) && arr.splice(arr.indexOf(childKey), 1)
         childrenWidgets.set(key, arr)
     }
 }
 // maybe plugin is not exists in flatternWidgets
-export function addSandBox(key: string, sandbox:any){
-    if(sandBoxs.has(key)){
+export function addSandBox(key: string, sandbox: any) {
+    if (sandBoxs.has(key)) {
         console.log(flatternWidgets.get(key).name + 'reloaded')
     }
     sandBoxs.set(key, sandbox)
 }
-export function removeSandBox(key: string){
-    sandBoxs.has(key) &&  sandBoxs.delete(key)
+export function removeSandBox(key: string) {
+    sandBoxs.has(key) && sandBoxs.delete(key)
 }
 // 插件自己加载子插件  sub需要验证格式
-export function mountWidget(sub:any, container: any, data: any): any{
+export function mountWidget(sub: any, container: any, data: any): any {
     // @ts-ignore
     const id = createId(sub.id)
     const widgetContainer = createContainer(container, id)
     const config = {
-    container: widgetContainer,
-    name: id,//id
-    widgetName: sub.name,
-    id: sub.id,
-    entry:   `${baseUrl}widgets/${data.subDependId}?entityNid=${data.entityNid}&presentableId=${data.presentableId}`
+        container: widgetContainer,
+        name: id,//id
+        widgetName: sub.name,
+        id: sub.id,
+        entry: `${baseUrl}widgets/${data.subDependId}?entityNid=${data.entityNid}&presentableId=${data.presentableId}`
     }
     // console.log(sub)
     // TODO 所有插件加载用promise all
@@ -86,15 +86,15 @@ export function mountWidget(sub:any, container: any, data: any): any{
     // addWidget(id2, app2);
     // console.log(app)
     addWidget(id, app);
-    
+
     // TODO 拦截mount做处理
     return {
-        mount: ()=>{
+        mount: () => {
             app.mount();
             // console.log(app)
             addWidget(id, app);
-         },
-         unmount: ()=> {
+        },
+        unmount: () => {
             app.unmount();
             deactiveWidget(id)
             setLocation()
