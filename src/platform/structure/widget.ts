@@ -19,6 +19,7 @@ import { loadMicroApp } from '../runtime';
 import { baseUrl } from '../../services/base'
 import { setLocation } from './proxy'
 export const flatternWidgets = new Map<any, any>()
+export const widgetsConfig = new Map<any, any>()
 export const activeWidgets = new Map<any, any>()
 export const childrenWidgets = new Map<any, any>()
 export const sandBoxs = new Map<any, any>() // 沙盒不交给plugin, 因为plugin是插件可以用的
@@ -29,6 +30,9 @@ export function addWidget(key: string, plugin: any) {
     }
     flatternWidgets.set(key, plugin)
     activeWidgets.set(key, plugin)
+}
+export function addWidgetConfig(key: string, config: any) {
+    widgetsConfig.set(key, config)
 }
 // TODO error
 export function removeWidget(key: string) {
@@ -62,14 +66,15 @@ export function removeSandBox(key: string) {
 // 插件自己加载子插件  sub需要验证格式
 export function mountWidget(sub: any, container: any, data: any, entry:string): any {
     // @ts-ignore TODO 用了太多重复判断，要抽取,当entry存在时该行不出现sub data
-    const id = createId(entry ? 'freelog-dev' : sub.id)
+    const id = createId(!sub ? 'freelogDev' : sub.id)
     const widgetContainer = createContainer(container, id)
     const config = {
         container: widgetContainer,
         name: id,//id
-        widgetName: entry ? 'freelogDev' : sub.name,
-        id: entry ? 'freelogDev' : sub.id,
-        entry: entry || `${baseUrl}widgets/${data.subDependId}?entityNid=${data.entityNid}&presentableId=${data.presentableId}`
+        widgetName: !sub? 'freelogDev' : sub.name,
+        id: !sub? 'freelogDev' : sub.id,
+        entry: entry || `${baseUrl}widgets/${data.subDependId}?entityNid=${data.entityNid}&presentableId=${data.presentableId}`,
+        isDev: !!entry
     }
     // console.log(sub)
     // TODO 所有插件加载用promise all
@@ -85,6 +90,7 @@ export function mountWidget(sub: any, container: any, data: any, entry:string): 
     // }, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
     // addWidget(id2, app2);
     console.log(config)
+    addWidgetConfig(id, config)
     addWidget(id, app);
 
     // TODO 拦截mount做处理

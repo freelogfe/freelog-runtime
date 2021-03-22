@@ -16,7 +16,7 @@
  */
 import {addSandBox, activeWidgets} from './widget'
 import {baseUrl} from '../../services/base'
-
+import {widgetsConfig} from './widget'
 const rawDocument = document
 const rawHistory = window['history']
 const rawLocation = window['location']
@@ -257,6 +257,14 @@ export const createWidgetProxy = function (name: string, sandbox: any) {
   })
 }
 export function getPublicPath(name:string){
+  const config = widgetsConfig.get(name)
+  console.log(213423423423,config)
+  if(config.isDev){
+    if(/\/$/.test(config.entry)){
+      return config.entry
+    }
+    return config.entry + '/'
+  }
   const route = name.split('-')[1]
   console.log(`${baseUrl}widgets/${route}`)
   return `${baseUrl}widgets/${route}/`
