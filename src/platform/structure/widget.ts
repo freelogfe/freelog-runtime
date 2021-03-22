@@ -60,16 +60,16 @@ export function removeSandBox(key: string) {
     sandBoxs.has(key) && sandBoxs.delete(key)
 }
 // 插件自己加载子插件  sub需要验证格式
-export function mountWidget(sub: any, container: any, data: any): any {
-    // @ts-ignore
-    const id = createId(sub.id)
+export function mountWidget(sub: any, container: any, data: any, entry:string): any {
+    // @ts-ignore TODO 用了太多重复判断，要抽取,当entry存在时该行不出现sub data
+    const id = createId(entry ? 'freelog-dev' : sub.id)
     const widgetContainer = createContainer(container, id)
     const config = {
         container: widgetContainer,
         name: id,//id
-        widgetName: sub.name,
-        id: sub.id,
-        entry: `${baseUrl}widgets/${data.subDependId}?entityNid=${data.entityNid}&presentableId=${data.presentableId}`
+        widgetName: entry ? 'freelogDev' : sub.name,
+        id: entry ? 'freelogDev' : sub.id,
+        entry: entry || `${baseUrl}widgets/${data.subDependId}?entityNid=${data.entityNid}&presentableId=${data.presentableId}`
     }
     // console.log(sub)
     // TODO 所有插件加载用promise all
@@ -84,7 +84,7 @@ export function mountWidget(sub: any, container: any, data: any): any {
     //     entry: '//localhost:7103'
     // }, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
     // addWidget(id2, app2);
-    // console.log(app)
+    console.log(config)
     addWidget(id, app);
 
     // TODO 拦截mount做处理

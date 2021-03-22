@@ -5,6 +5,7 @@ import { getFileStreamById } from './api'
 import {baseUrl} from '../../services/base'
 import {freelogApp} from './global'
 import {init} from './api'
+import {dev, DEV_TYPE_FALSE, DEV_TYPE_REPLACE, DEV_WIDGET} from './dev'
 // @ts-ignore  TODO 需要控制不可改变
 window.freelogApp = freelogApp
 export function initNode() {
@@ -26,9 +27,16 @@ export function initNode() {
     // @ts-ignore
     freelogApp.nodeInfo = nodeInfo
     init()
+    const devData = dev()
+    const container = document.getElementById('freelog-plugin-container')
+    console.log(34535, devData)
+    if(devData.type === DEV_WIDGET){
+      console.log(devData.params.dev)
+      freelogApp.mountWidget('', container, '', devData.params.dev)
+      return
+    }
     // @ts-ignore
     const theme = await requestTheme(nodeInfo.nodeThemeId)
-    const container = document.getElementById('freelog-plugin-container')
     // @ts-ignore
     container.innerHTML = theme.data
     // @ts-ignore
@@ -61,8 +69,11 @@ export function initNode() {
                  2.const container = createContainer('freelog-plugin-container', id)
                  3.loadMicroApp
            */
-
-          const app = freelogApp.mountWidget(sub, 'freelog-plugin-container',{presentableId: nodeInfo.nodeThemeId, entityNid: theme.entityNid, subDependId: sub.id})
+          let entry = ''
+          if(devData.type === DEV_TYPE_REPLACE){
+            entry = devData.params[sub.id] || ''
+          }
+          const app = freelogApp.mountWidget(sub, 'freelog-plugin-container',{presentableId: nodeInfo.nodeThemeId, entityNid: theme.entityNid, subDependId: sub.id}, entry)
           console.log(app)
           // setTimeout(app.unmount, 2000)
           // setTimeout(app.mount, 5000)
