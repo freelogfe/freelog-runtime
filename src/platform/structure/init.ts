@@ -5,7 +5,7 @@ import { getFileStreamById } from './api'
 import {baseUrl} from '../../services/base'
 import {freelogApp} from './global'
 import {init} from './api'
-import {dev, DEV_TYPE_FALSE, DEV_TYPE_REPLACE, DEV_WIDGET} from './dev'
+import {dev, DEV_FALSE, DEV_TYPE_REPLACE, DEV_WIDGET} from './dev'
 // @ts-ignore  TODO 需要控制不可改变
 window.freelogApp = freelogApp
 export function initNode() {

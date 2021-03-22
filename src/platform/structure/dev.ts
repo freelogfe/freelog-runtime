@@ -1,4 +1,4 @@
-export const DEV_TYPE_FALSE= 0
+export const DEV_FALSE= 0
 export const DEV_WIDGET = 1
 export const DEV_TYPE_REPLACE = 2
 export function dev():any{
@@ -8,7 +8,7 @@ export function dev():any{
         params[item.split('=')[0]] = item.split('=')[1]
     })
     if(!params.dev){
-      return {type: DEV_TYPE_FALSE}
+      return {type: DEV_FALSE}
     }
     if(params.dev.toLowerCase() === 'replace'){
         return {type: DEV_TYPE_REPLACE, params}
