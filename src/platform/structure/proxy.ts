@@ -30,7 +30,7 @@ export function initLocation(){
         if(!item) return
         if (item.indexOf('?') > -1) {
           let index = item.indexOf('?')
-          let [id, pathname] = item.substring(0, index - 1).split('=')
+          let [id, pathname] = item.substring(0, index ).split('=')
           let search = item.substring(index)
           // TODO 判断id是否存在 isExist(id) &&
           locations.set(id, { pathname, href: pathname + search, search })
@@ -63,6 +63,7 @@ export const locationCenter = {
   set: function (name: string, attr: any) {
     var loc = locations.get(name) || {}
     if (attr.pathname && attr.pathname.indexOf(rawLocation.host) > -1) {
+      // for vue3
       attr.pathname = attr.pathname.replace(rawLocation.protocol, '').replace(rawLocation.host, '').replace('//', '')
     }
     locations.set(name, {
@@ -113,8 +114,9 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
           }
           // TODO 解析query参数  search
           let href = arguments[2]
-          let [pathname, serach] = href.split('?')
-          locationCenter.set(name, { pathname, href, serach })
+          let [pathname, search] = href.split('?')
+          console.log(pathname, search)
+          locationCenter.set(name, { pathname, href, search})
         };
       } else {
         // @ts-ignore
@@ -132,14 +134,16 @@ export const createLocationProxy = function (name: string, sandbox: any) {
          TODO reload 是重新加载插件
      */
     get: function get(docTarget: any, property: string) {
-      if (['href', 'pathname', 'hash'].indexOf(property) > -1) {
+      if (['href', 'pathname', 'hash', 'search'].indexOf(property) > -1) {
         if(locationCenter.get(name)){
+          console.log(11111, locationCenter.get(name),property)
           // @ts-ignore
           return locationCenter.get(name)[property] || ''
         }
         // @ts-ignore
         return ''
       } else {
+        console.log(11111, locationCenter.get(name),property)
         if (['replace'].indexOf(property) > -1) {
           return function () {
 
