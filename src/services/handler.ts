@@ -53,7 +53,6 @@ export default function frequest(action: any, urlData: Array<string | number> | 
         if(query){
             query = '?' + query
         }
-        // console.log(_api)
         return _api.baseURL + url + query
     }
         // show msg

@@ -30,9 +30,7 @@ function hasProtocol(url) {
 }
 
 function getEntirePath(path, baseURI) {
-	console.log(path, new URL(path, baseURI).toString(), baseURI)
 	const url = baseURI + path.replace('/', '')
-	console.log(url)
 	return url
 	// return new URL(path, baseURI).toString();
 }

@@ -20,6 +20,7 @@ import {
     getSubResourceInfoById,
     getSubResourceInfoByName
 } from './api'
+let devData = ''
 export const freelogApp = {
     mountWidget,
     getPresentables,
@@ -38,5 +39,6 @@ export const freelogApp = {
     getResourceInfoById,
     getResourceInfoByName,
     getSubResourceInfoById,
-    getSubResourceInfoByName
+    getSubResourceInfoByName,
+    devData
 }

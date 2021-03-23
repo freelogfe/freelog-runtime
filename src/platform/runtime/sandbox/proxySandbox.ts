@@ -224,13 +224,11 @@ export default class ProxySandbox implements SandBox {
       get(target: FakeWindow, p: PropertyKey): any {
         if (p === Symbol.unscopables) return unscopables;
         if(p === '__INJECTED_PUBLIC_PATH_BY_FREELOG__') {
-          console.log(234234234,name)
           return getPublicPath(name);
         }
         if(p==='fetch'){
           return function(url:string){
             const patchUrl = getPublicPath(name) + url.split('freelog.com')[1]
-            console.log(1234234324342, patchUrl)
             return rawWindow.fetch(patchUrl)
           }
         }

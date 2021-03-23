@@ -28,11 +28,10 @@ export function initNode() {
     freelogApp.nodeInfo = nodeInfo
     init()
     const devData = dev()
+    freelogApp.devData = devData
     const container = document.getElementById('freelog-plugin-container')
-    console.log(34535, devData)
     if(devData.type === DEV_WIDGET){
-      console.log(devData.params.dev)
-      freelogApp.mountWidget('', container, '', devData.params.dev)
+      freelogApp.mountWidget('', container, '')
       return
     }
     // @ts-ignore
@@ -69,12 +68,11 @@ export function initNode() {
                  2.const container = createContainer('freelog-plugin-container', id)
                  3.loadMicroApp
            */
-          let entry = ''
-          if(devData.type === DEV_TYPE_REPLACE){
-            entry = devData.params[sub.id] || ''
-          }
-          const app = freelogApp.mountWidget(sub, 'freelog-plugin-container',{presentableId: nodeInfo.nodeThemeId, entityNid: theme.entityNid, subDependId: sub.id}, entry)
-          console.log(app)
+          // let entry = ''
+          // if(devData.type === DEV_TYPE_REPLACE){
+          //   entry = devData.params[sub.id] || ''
+          // }
+          const app = freelogApp.mountWidget(sub, 'freelog-plugin-container',{presentableId: nodeInfo.nodeThemeId, entityNid: theme.entityNid, subDependId: sub.id})
           // setTimeout(app.unmount, 2000)
           // setTimeout(app.mount, 5000)
           // TODO 所有插件加载完成后 加载交给运行时子依赖的插件

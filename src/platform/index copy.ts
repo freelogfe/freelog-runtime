@@ -102,7 +102,6 @@ if (rawLocation.hash && rawLocation.hash.split('#')) {
 }
 // @ts-ignore 
 function mount(e) {
-    console.log(e)
     var id = e.target.id.replace('unmount', '').replace('mount', '')
     // @ts-ignore 
     apps[id] = loadMicroApp(config[id], { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
@@ -111,13 +110,11 @@ function mount(e) {
     // = loadMicroApp({ name: 'angular', entry: '//localhost:7103', container: '#react15' }, { sandbox: { experimentalStyleIsolation: true } }, );
 
     // app = loadMicroApp({ name: 'purehtml', entry: '//localhost:7104', container: '#react15' });
-    console.log(apps)
 }
 // TODO 如果插件卸载失败，需要中断（沙盒中处理）
 // @ts-ignore 
 function unmount(e) {
     var id = e.target.id.replace('unmount', '').replace('mount', '')
-    console.log(id, apps)
     // @ts-ignore 
     apps[id] && apps[id].unmount();
 }

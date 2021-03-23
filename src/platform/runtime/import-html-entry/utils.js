@@ -88,11 +88,9 @@ export function defaultGetPublicPath(entry) {
 	try {
 		// URL 构造函数不支持使用 // 前缀的 url
 		const { origin, pathname } = new URL(entry.startsWith('//') ? `${window.location.protocol}${entry}` : entry, window.location.href);
-		console.log(origin, pathname)
 		const paths = pathname.split('/');
 		// 移除最后一个元素
 		// paths.pop();
-		console.log(`${origin}${paths.join('/')}/`)
 		return `${origin}${paths.join('/')}/`;
 	} catch (e) {
 		console.warn(e);

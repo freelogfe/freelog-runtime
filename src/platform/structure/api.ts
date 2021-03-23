@@ -77,7 +77,6 @@ export function init(){
  nodeId  = window.freelogApp.nodeInfo.nodeId
 } 
 export async function getPresentables(query: any): Promise<any> {
-    console.log(query)
     if (query && Object.prototype.toString.call(query) !== '[object Object]') {
         return 'query parameter must be object'
     }
