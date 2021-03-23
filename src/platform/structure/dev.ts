@@ -2,6 +2,10 @@ export const DEV_FALSE= 0
 export const DEV_WIDGET = 1
 export const DEV_TYPE_REPLACE = 2
 export function dev():any{
+    const searchs = window.location.search? window.location.search.split('?') : []
+    if(!searchs[1]){
+        return {type: DEV_FALSE}
+    }
     const paramsArray = window.location.search.split('?')[1].split('&')
     const params:any = {}
     paramsArray.forEach(item=>{
