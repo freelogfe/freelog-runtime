@@ -24,6 +24,7 @@ export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
 export const activeWidgets = new Map<any, any>();
 export const childrenWidgets = new Map<any, any>();
+export const parentDocument = new Map<any, any>();
 export const sandBoxs = new Map<any, any>(); // 沙盒不交给plugin, 因为plugin是插件可以用的
 
 // TODO plugin type
