@@ -1,10 +1,9 @@
 // 工具utils：获取容器，生成容器，销毁容器，生成id
 
 import {baseUrl} from '../../services/base'
-export function getContainer(father: string | HTMLElement, id: string): HTMLElement | null |undefined {
-    const fatherContainer =  typeof father === 'string' ? document.querySelector('#' + father) : father;
+export function getContainer(container: string | HTMLElement): HTMLElement | null |undefined {
     // @ts-ignore
-    return id ? fatherContainer?.querySelector('#' + id) : fatherContainer
+    return typeof container === 'string' ? document.querySelector('#' + container) : container;
   }
 
 export function createContainer(container: string | HTMLElement, id: string): HTMLElement   {

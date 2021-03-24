@@ -14,7 +14,7 @@
  *   中央集权：沙盒全部在运行时进行管控，一旦有恶意侵入可中断（对沙盒的中断算paused?）， 挂载后控制对象就在全局，故有加载与卸载任何插件权限。
  *
  */
-import { createContainer, createId } from "./utils";
+import { getContainer, createId } from "./utils";
 import { loadMicroApp } from "../runtime";
 import { baseUrl } from "../../services/base";
 import { setLocation } from "./proxy";
@@ -71,7 +71,7 @@ export function mountWidget(
   sub: any,
   container: any,
   data: any,
-  entry?: string
+  entry?: string,
 ): any {
   // @ts-ignore
   const devData = window.freelogApp.devData;
@@ -83,12 +83,11 @@ export function mountWidget(
       entry = devData.params.dev;
     }
   }
-
+ console.log(container)
   // @ts-ignore TODO 用了太多重复判断，要抽取,当entry存在时该行不出现sub data
   const id = createId(!sub ? "freelogDev" : sub.id);
-  const widgetContainer = createContainer(container, id);
   const config = {
-    container: widgetContainer,
+    container,
     name: id, //id
     widgetName: !sub ? "freelogDev" : sub.name,
     id: !sub ? "freelogDev" : sub.id,
@@ -97,20 +96,19 @@ export function mountWidget(
       `${baseUrl}widgets/${data.subDependId}?entityNid=${data.entityNid}&presentableId=${data.presentableId}`,
     isDev: !!entry,
   };
+  addWidgetConfig(id, config);
   // TODO 所有插件加载用promise all
   // @ts-ignore
   const app = loadMicroApp(config, {
     sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true },
   });
   // const id2 = createId(sub.id + 1)
-  // const widgetContainer2 = createContainer(container, id2)
   // const app2 = loadMicroApp({
   //     container: widgetContainer2,
   //     name: id2,
   //     entry: '//localhost:7103'
   // }, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
   // addWidget(id2, app2);
-  addWidgetConfig(id, config);
   addWidget(id, app);
   console.log(app)
   // TODO 拦截mount做处理

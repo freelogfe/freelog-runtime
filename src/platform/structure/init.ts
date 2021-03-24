@@ -26,6 +26,7 @@ export function initNode() {
   ) {
     isTest = true;
   }
+  console.log(234234234234)
   return new Promise<void>(async (resolve) => {
     const nodeDomain = await getDomain(window.location.host);
     const nodeData = await requestNodeInfo(nodeDomain);
@@ -60,10 +61,9 @@ export function initNode() {
           resolve && resolve();
 
         }
-      }, 3200);
+      }, 200);
     }).then(() => {
       const themeGlobal = sandBoxs.get('freelog-' + theme.data.presentableId).proxy
-      console.log(themeGlobal, 2134234234)
       // @ts-ignore
       // @ts-ignore
       // theme.subDeps.push({id:"60068f63973b31003a4fbf2a",name:"chtes/pubu",type:"resource",resourceType:"widget"})
@@ -99,7 +99,6 @@ export function initNode() {
               step:包装以下三步，子插件加载时需要用
                  
                  1.const id = createId
-                 2.const container = createContainer('freelog-plugin-container', id)
                  3.loadMicroApp
            */
             // let entry = ''
@@ -107,7 +106,7 @@ export function initNode() {
             //   entry = devData.params[sub.id] || ''
             // }
             const subContainer = themeGlobal.document.getElementById('freelog-' + sub.id);
-            console.log(themeGlobal, themeGlobal.document, subContainer)
+            console.log(234234234234, subContainer)
             const app = freelogApp.mountWidget(sub, subContainer, {
               presentableId: nodeInfo.nodeThemeId,
               entityNid: theme.entityNid,
