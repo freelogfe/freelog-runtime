@@ -112,9 +112,10 @@ export function mountWidget(
   // addWidget(id2, app2);
   addWidgetConfig(id, config);
   addWidget(id, app);
-
+  console.log(app)
   // TODO 拦截mount做处理
   return {
+    ...app,
     mount: () => {
       app.mount();
       addWidget(id, app);

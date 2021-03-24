@@ -58,7 +58,7 @@ export function setLocation() {
   rawLocation.hash = hash;
 }
 // TODO pathname  search 需要不可变
-export const locationCenter:any = {
+export const locationCenter: any = {
   set: function (name: string, attr: any) {
     var loc = locations.get(name) || {};
     if (attr.pathname && attr.pathname.indexOf(rawLocation.host) > -1) {
@@ -168,15 +168,11 @@ export const createDocumentProxy = function (
   proxy: any
 ) {
   const documentProxy = {};
-  var doc:any = rawDocument.getElementById(name);
+  var doc: any = rawDocument.getElementById(name);
   // for shadow dom
   // @ts-ignore
   if (doc.firstChild.shadowRoot) {
-    // @ts-ignore
-    var a = doc.firstChild.shadowRoot.children || [];
-    for (var i = 0; i < a.length; i++) {
-      if (a.item(i).tagName === "DIV") doc = a.item(i);
-    }
+    doc = doc.firstChild.shadowRoot;
   }
   if (!doc) return rawDocument;
   return new Proxy(documentProxy, {
@@ -189,6 +185,13 @@ export const createDocumentProxy = function (
        4.属性（包括原型）方法：替换this为根节点
     */
     get: function get(docTarget: any, property: string) {
+      let rootDoc:any = null;
+      // @ts-ignore
+      var a = doc.children || [];
+      for (var i = 0; i < a.length; i++) {
+        if (a.item(i).tagName === "DIV") rootDoc = a.item(i);
+      }
+      console.log(rootDoc)
       if (property === "location") {
         // TODO varify
         return proxy.location;
@@ -197,22 +200,22 @@ export const createDocumentProxy = function (
         return rawDocument.createElement.bind(rawDocument);
       }
       // @ts-ignore
-      rawDocument.addEventListener = doc.addEventListener.bind(doc);
+      rawDocument.addEventListener = rootDoc.addEventListener.bind(rootDoc);
       // @ts-ignore
-      doc.body = doc;
+      rootDoc.body = rootDoc;
       // @ts-ignore
-      doc.body.appendChild = doc.appendChild.bind(doc);
+      rootDoc.body.appendChild = rootDoc.appendChild.bind(rootDoc);
       // if (property === 'addEventListener') debugger
       // @ts-ignore
       if (
-        doc[property] &&
+        rootDoc[property] &&
         ["querySelector", "getElementsByTagName"].indexOf(property) === -1
       ) {
         if (property === "nodeType") return rawDocument.nodeType;
         // @ts-ignore
-        if (typeof doc[property] === "function") return doc[property].bind(doc);
+        if (typeof rootDoc[property] === "function") return rootDoc[property].bind(rootDoc);
         // @ts-ignore
-        return doc[property];
+        return rootDoc[property];
       } else {
         if (
           ["querySelector", "getElementsByTagName"].indexOf(property) !== -1
@@ -223,18 +226,18 @@ export const createDocumentProxy = function (
               return rawDocument[property](...arguments);
             } else {
               // @ts-ignore
-              return doc[property](...arguments);
+              return rootDoc[property](...arguments);
             }
           };
         }
         if (property === "getElementById")
           return function (id: string) {
             // @ts-ignore
-            let children = doc.getElementsByTagName("*").children;
+            let children = rootDoc.getElementsByTagName("*");
             if (children) {
               for (let i = 0; i < children.length; i++) {
-                if (children[i].getAttribute("id") === id) {
-                  return children[i];
+                if (children.item(i).getAttribute("id") === id) {
+                  return children.item(i);
                 }
               }
             }

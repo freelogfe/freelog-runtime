@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <router-view/>
+        <div id="freelog-60534c84328c040039779206"></div>
+
   </div>
 </template>
 
