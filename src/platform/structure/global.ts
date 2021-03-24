@@ -1,5 +1,5 @@
 import {
-    mountWidget
+    mountWidget, getAndMoutSubWdigets
 } from './widget'
 import {
     getPresentables,
@@ -40,5 +40,6 @@ export const freelogApp = {
     getResourceInfoByName,
     getSubResourceInfoById,
     getSubResourceInfoByName,
-    devData
+    devData,
+    getAndMoutSubWdigets
 }

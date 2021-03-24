@@ -14,9 +14,8 @@
  *    3.
  * 总结：window.FreelogApp.mountWidget
  */
-import { addSandBox, activeWidgets } from "./widget";
+import { addSandBox, activeWidgets,widgetsConfig, childrenWidgets, flatternWidgets } from "./widget";
 import { baseUrl } from "../../services/base";
-import { widgetsConfig } from "./widget";
 const rawDocument = document;
 const rawHistory = window["history"];
 const rawLocation = window["location"];
@@ -259,8 +258,16 @@ export const createWidgetProxy = function (name: string, sandbox: any) {
   return new Proxy(proxyWidget, {
     /*
      */
-    get: function get(childWidget: any, property: string) {
-      if (property === "mount") {
+    get: function get(childWidgets: any, property: string) {
+      if (property === "getAll") {
+        return function(){
+          const children = childrenWidgets.get(name)
+          let childrenArray = []
+          children && children.forEach((childId: string)=>{
+            childrenArray.push(flatternWidgets.get(childId))
+          })
+          return childrenArray
+        }
       }
       if (property === "unmount") {
       }

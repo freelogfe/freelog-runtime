@@ -1,6 +1,8 @@
 // 工具utils：获取容器，生成容器，销毁容器，生成id
 
 import {baseUrl} from '../../services/base'
+import { getInfoById } from "./api";
+
 export function getContainer(container: string | HTMLElement): HTMLElement | null |undefined {
     // @ts-ignore
     return typeof container === 'string' ? document.querySelector('#' + container) : container;
@@ -68,4 +70,18 @@ export function resolveUrl(path: string, params?: any): string {
     }
   }
   return `${baseUrl}${path}?${queryStringArr.join('&')}`
+}
+// TODO if error
+export async function getSubDep(nodeThemeId: string) {
+  let info = await getInfoById(nodeThemeId);
+  const [subDeps, entityNid] = [
+    info.headers["freelog-sub-dependencies"],
+    info.headers["freelog-entity-nid"],
+  ];
+  console.log(info);
+  return {
+    subDeps: subDeps ? JSON.parse(decodeURIComponent(subDeps)) : [],
+    entityNid,
+    data: info.data.data,
+  };
 }
