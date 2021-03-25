@@ -92,7 +92,7 @@ export function removeSandBox(key: string) {
     sandBoxs.has(key) && sandBoxs.delete(key);
 }
 const count = 0
-// 插件自己加载子插件  sub需要验证格式
+// 可供插件自己加载子插件  sub需要验证格式
 export function mountWidget(
     sub: any,
     container: any,
@@ -157,6 +157,7 @@ export function mountWidget(
     // TODO 拦截mount做处理
     return _app;
 }
+// 固定id 的加载子插件，仅支持加载一次
 export function mountSubWidgets(parent: any, resolve?: any) {
     console.log(sandBoxs, parent)
     const parentGlobal = sandBoxs.get('freelog-' + parent.data.presentableId).proxy
@@ -198,6 +199,7 @@ export function mountSubWidgets(parent: any, resolve?: any) {
         switch (sub.resourceType) {
             case "widget":
                 const subContainer = parentGlobal.document.getElementById('freelog-' + sub.id);
+                console.log(subContainer)
                 if(!subContainer){
                     console.error('container is not exists: ' + sub.presentableName)
                     return 
@@ -216,12 +218,12 @@ export function mountSubWidgets(parent: any, resolve?: any) {
                 // TODO 所有插件加载完成后 加载交给运行时子依赖的插件
                 break;
             case "js": {
-                promises.push(createScript(url));
                 break;
+                promises.push(createScript(url));
             }
             case "css": {
-                promises.push(createCssLink(url));
                 break;
+                promises.push(createCssLink(url));
             }
             default: {}
         }

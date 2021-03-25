@@ -262,7 +262,7 @@ export const createWidgetProxy = function (name: string, sandbox: any) {
       if (property === "getAll") {
         return function(){
           const children = childrenWidgets.get(name)
-          let childrenArray = []
+          let childrenArray:any = []
           children && children.forEach((childId: string)=>{
             childrenArray.push(flatternWidgets.get(childId))
           })
