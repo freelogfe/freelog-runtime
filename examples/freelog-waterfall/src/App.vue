@@ -2,7 +2,8 @@
   <div id="app">
     <router-view/>
         <div id="freelog-60534c84328c040039779206"></div>
-
+        <div id="freelog-60535428328c040039779209"></div> 
+        <div id="freelog-60535628328c04003977920b"></div> 
   </div>
 </template>
 

@@ -259,14 +259,16 @@ export default class ProxySandbox implements SandBox {
         if (p === 'hasOwnProperty') {
           return hasOwnProperty;
         }
-
+        if (p === 'widgetName') {
+          return name;
+        }
         // mark the symbol to document while accessing as document.createElement could know is invoked by which sandbox for dynamic append patcher
         if (p === 'history') {
           // TODO 如果是单应用模式（提升性能）则不用代理 
           proxyHis = proxyHis  || createHistoryProxy(name, _this)
           return proxyHis
         }
-        if(p === 'childWidget'){
+        if(p === 'childWidgets'){
           proxyWidget = proxyWidget || createWidgetProxy(name, _this)
         }
         if (p === 'location') {

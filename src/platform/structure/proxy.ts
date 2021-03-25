@@ -14,9 +14,8 @@
  *    3.
  * 总结：window.FreelogApp.mountWidget
  */
-import { addSandBox, activeWidgets } from "./widget";
+import { addSandBox, activeWidgets,widgetsConfig, childrenWidgets, flatternWidgets } from "./widget";
 import { baseUrl } from "../../services/base";
-import { widgetsConfig } from "./widget";
 const rawDocument = document;
 const rawHistory = window["history"];
 const rawLocation = window["location"];
@@ -168,7 +167,8 @@ export const createDocumentProxy = function (
   proxy: any
 ) {
   const documentProxy = {};
-  var doc: any = rawDocument.getElementById(name);
+  var doc = widgetsConfig.get(name).container
+  // var doc: any = rawDocument.getElementById(name);
   // for shadow dom
   // @ts-ignore
   if (doc.firstChild.shadowRoot) {
@@ -191,7 +191,6 @@ export const createDocumentProxy = function (
       for (var i = 0; i < a.length; i++) {
         if (a.item(i).tagName === "DIV") rootDoc = a.item(i);
       }
-      console.log(rootDoc)
       if (property === "location") {
         // TODO varify
         return proxy.location;
@@ -259,8 +258,16 @@ export const createWidgetProxy = function (name: string, sandbox: any) {
   return new Proxy(proxyWidget, {
     /*
      */
-    get: function get(childWidget: any, property: string) {
-      if (property === "mount") {
+    get: function get(childWidgets: any, property: string) {
+      if (property === "getAll") {
+        return function(){
+          const children = childrenWidgets.get(name)
+          let childrenArray = []
+          children && children.forEach((childId: string)=>{
+            childrenArray.push(flatternWidgets.get(childId))
+          })
+          return childrenArray
+        }
       }
       if (property === "unmount") {
       }
