@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import VueLazyLoad from 'vue-lazyload';
 import VueClipboard from 'vue-clipboard2'
+import './font.css'
 Vue.config.productionTip = false
 require('vue-image-lightbox/dist/vue-image-lightbox.min.css');
 

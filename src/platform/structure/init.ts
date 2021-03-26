@@ -52,7 +52,7 @@ export function initNode() {
         }
       }, 200);
     }).then(() => {
-      mountSubWidgets(theme, resolve)
+      mountSubWidgets(theme, true, resolve)
     });
   });
 }

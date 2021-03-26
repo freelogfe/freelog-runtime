@@ -7,8 +7,9 @@
         style="min-height: 170px;"
         @load="$emit('onload')"
       />
-      <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{title}}</div>
+      <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;font-family: 'freelog';">{{title}}edfgdffgdfg</div>
     </div>
+    <img src="@/assets/new.png" />
     <div
       @click="$emit('preview')"
     >

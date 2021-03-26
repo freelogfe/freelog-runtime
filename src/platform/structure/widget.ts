@@ -98,6 +98,7 @@ export function mountWidget(
     container: any,
     data: any,
     entry ? : string,
+    config?: any
 ): any {
     // @ts-ignore
     const devData = window.freelogApp.devData;
@@ -109,13 +110,13 @@ export function mountWidget(
             entry = devData.params.dev;
         }
     }
-    console.log(container)
+    console.log(container, entry)
     let id = !sub ? "freelogDev" : 'freelog-' + sub.id
     if(sub && flatternWidgets.has(sub.id)){
        id = 'freelog-' +  sub.id + (count + 1)
     }
     // @ts-ignore TODO 用了太多重复判断，要抽取,当entry存在时该行不出现sub data
-    const config = {
+    const widgetConfig = {
         container,
         name: id, //id
         widgetName: !sub ? "freelogDev" : sub.name,
@@ -124,13 +125,13 @@ export function mountWidget(
             `${baseUrl}widgets/${data.subDependId}?entityNid=${data.entityNid}&presentableId=${data.presentableId}`,
         isDev: !!entry,
     };
-    addWidgetConfig(id, config);
+    addWidgetConfig(id, widgetConfig);
     // TODO 所有插件加载用promise all
     // @ts-ignore
-    const app = loadMicroApp(config, {
+    const app = loadMicroApp(widgetConfig, {
         sandbox: {
-            strictStyleIsolation: true,
-            experimentalStyleIsolation: true
+            strictStyleIsolation: config? !!config.shadowDom : true,
+            experimentalStyleIsolation: config? !!config.scopedCss : true
         },
     });
     // const id2 = createId(sub.id + 1)
@@ -158,7 +159,7 @@ export function mountWidget(
     return _app;
 }
 // 固定id 的加载子插件，仅支持加载一次
-export function mountSubWidgets(parent: any, resolve?: any) {
+export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
     console.log(sandBoxs, parent)
     const parentGlobal = sandBoxs.get('freelog-' + parent.data.presentableId).proxy
     // @ts-ignore
@@ -199,7 +200,6 @@ export function mountSubWidgets(parent: any, resolve?: any) {
         switch (sub.resourceType) {
             case "widget":
                 const subContainer = parentGlobal.document.getElementById('freelog-' + sub.id);
-                console.log(subContainer)
                 if(!subContainer){
                     console.error('container is not exists: ' + sub.presentableName)
                     return 
@@ -211,7 +211,7 @@ export function mountSubWidgets(parent: any, resolve?: any) {
                     presentableId: window.freelogApp.nodeInfo.nodeThemeId,
                     entityNid: parent.entityNid,
                     subDependId: sub.id,
-                });
+                }, '', config);
                 console.log(app)
                 // setTimeout(app.unmount, 2000)
                 // setTimeout(app.mount, 5000)
@@ -242,9 +242,9 @@ export function mountSubWidgets(parent: any, resolve?: any) {
         }
     }
 }
-export async function getAndMoutSubWdigets(global:any){
+export async function getAndMoutSubWdigets(global:any, config?: any){
     const presenbaleId = widgetsConfig.get(global.widgetName)?.id
     // @ts-ignore
     const parent = await getSubDep(presenbaleId);
-    mountSubWidgets(parent)
+    mountSubWidgets(parent, config)
 }

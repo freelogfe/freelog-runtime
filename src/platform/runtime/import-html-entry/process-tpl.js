@@ -30,8 +30,13 @@ function hasProtocol(url) {
 }
 
 function getEntirePath(path, baseURI) {
+	// new URL 虽然可保安全，但我们有特殊需求
+	if(/\/\/$/.test(baseURI)){
+		baseURI = baseURI.substr(0, baseURI.length - 1)
+	}
 	const url = baseURI + path.replace('/', '')
 	return url
+
 	// return new URL(path, baseURI).toString();
 }
 
