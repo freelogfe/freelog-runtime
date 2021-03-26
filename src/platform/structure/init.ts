@@ -28,7 +28,7 @@ export function initNode() {
     freelogApp.devData = devData;
     const container = document.getElementById("freelog-plugin-container");
     if (devData.type === DEV_WIDGET) {
-      freelogApp.mountWidget("", container, "");
+      freelogApp.mountWidget("", container, "", "", {shadowDom: false});
       return;
     }
     // @ts-ignore
