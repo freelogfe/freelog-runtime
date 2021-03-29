@@ -17,7 +17,7 @@ export default {
     async getSub() {
       console.log(window.freelogApp);
       const presentableId = await window.freelogApp.getSelfId(window);
-      const subData = await window.freelogApp.getSubDep('6061e6404f444904e84c1984');
+      const subData = await window.freelogApp.getSubDep(presentableId);
       console.log(
         presentableId,
         3243444,
@@ -32,7 +32,7 @@ export default {
           document.getElementById("freelog-single"),
           {
             //@ts-ignore
-            presentableId: '6061e6404f444904e84c1984',
+            presentableId: presentableId,
             entityNid: subData.entityNid,
             subDependId: sub.id,
           },
