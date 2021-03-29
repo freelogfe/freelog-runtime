@@ -25,6 +25,8 @@ export function initNode() {
     init();
     const devData = dev();
     freelogApp.devData = devData;
+    // @ts-ignore
+    console.log(6546546476,window.freelogApp)
     const container = document.getElementById("freelog-plugin-container");
     if (devData.type === DEV_WIDGET) {
       freelogApp.mountWidget("", container, "", "", {shadowDom: false});
@@ -59,6 +61,9 @@ export function initNode() {
 }
 
 function getDomain(url: string) {
+  if(url.split(".")[0] === 't'){
+    return url.split(".")[1]
+  }
   return url.split(".")[0];
 }
 

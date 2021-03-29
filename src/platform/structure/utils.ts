@@ -3,7 +3,6 @@
 import {baseUrl} from '../../services/base'
 import { getInfoById } from "./api";
 import { widgetsConfig } from './widget'
-import presentable from '../../services/api/modules/presentable';
 
 export function getContainer(container: string | HTMLElement): HTMLElement | null |undefined {
     // @ts-ignore

@@ -20,38 +20,14 @@ import App from './App.vue'
  */
 Vue.use(VueRouter)
 
-let router = null;
 let instance = null;
-const scrollBehavior = (to, from, savedPosition) => {
-	if (savedPosition) {
-		return savedPosition
-	}
-	const position = {}
-	if (to.hash) {
-		position.selector = to.hash
-	}
-
-	if (to.meta.scrollToTop !== false) {
-		position.x = 0
-		position.y = 0
-	}
-	return position
-}
-
+ 
 
 
 
 function render(props = {}) {
     const { container } = props;
-    router = new VueRouter({
-		mode: 'history',
-		base: window.__POWERED_BY_FREELOG__ ? '/vue' : '/',
-		scrollBehavior,
-		routes: [ 
-		]
-	})
     instance = new Vue({
-        router,
         store,
         render: h => h(App),
     }).$mount(container ? container.querySelector('#app') : '#app');
@@ -74,5 +50,4 @@ export async function unmount() {
     instance.$destroy();
     instance.$el.innerHTML = '';
     instance = null;
-    router = null;
 }

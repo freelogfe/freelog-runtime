@@ -1,5 +1,7 @@
 <template >
-  <div id="freelog-single"></div>
+  <div>
+    <div id="freelog-single"></div>
+  </div>
 </template>
 
 <script>
@@ -13,11 +15,15 @@ export default {
   computed: {},
   methods: {
     async getSub() {
+      console.log(window.freelogApp);
       const presentableId = await window.freelogApp.getSelfId(window);
-      const subData = await window.freelogApp.getSubDep(
-        "605af02b9e199a03e0fe68f0"
+      const subData = await window.freelogApp.getSubDep('6061e6404f444904e84c1984');
+      console.log(
+        presentableId,
+        3243444,
+        subData,
+        document.getElementById("freelog-single")
       );
-      console.log(presentableId, 3243444,subData, document.getElementById("freelog-single"));
       subData.subDeps.some((sub, index) => {
         if (index === 1) return true;
         console.log(sub, 234234234234);
@@ -26,7 +32,7 @@ export default {
           document.getElementById("freelog-single"),
           {
             //@ts-ignore
-            presentableId: "605af02b9e199a03e0fe68f0",
+            presentableId: '6061e6404f444904e84c1984',
             entityNid: subData.entityNid,
             subDependId: sub.id,
           },
