@@ -87,6 +87,7 @@ export function removeSandBox(key: string) {
     sandBoxs.has(key) && sandBoxs.delete(key);
 }
 const count = 0
+let firstDev = false
 // 可供插件自己加载子插件  sub需要验证格式
 export function mountWidget(
     sub: any,
@@ -101,8 +102,9 @@ export function mountWidget(
         if (devData.type === DEV_TYPE_REPLACE) {
             entry = devData.params[sub.id] || "";
         }
-        if (devData.type === DEV_WIDGET) {
+        if (devData.type === DEV_WIDGET && !firstDev) {
             entry = devData.params.dev;
+            firstDev = true
         }
     }
     console.log(container, entry)
