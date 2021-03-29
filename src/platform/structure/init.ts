@@ -1,11 +1,10 @@
 import frequest from "../../services/handler";
 import node from "../../services/api/modules/node";
-import { createScript, createCssLink, resolveUrl, getSubDep } from "./utils";
-import { baseUrl } from "../../services/base";
+import { getSubDep } from "./utils";
 import { freelogApp } from "./global";
 import { init } from "./api";
-import { dev, DEV_FALSE, DEV_TYPE_REPLACE, DEV_WIDGET } from "./dev";
-import { mountSubWidgets, sandBoxs, flatternWidgets } from "./widget";
+import { dev, DEV_WIDGET } from "./dev";
+import { mountSubWidgets } from "./widget";
 // @ts-ignore  TODO 需要控制不可改变
 window.freelogApp = freelogApp;
 export function initNode() {
@@ -43,17 +42,18 @@ export function initNode() {
         isTheme: true,
       }
     );
-    new Promise<void>((resolve) => {
-      const inter = setInterval(() => {
-        console.log(themeApp)
-        if (themeApp.getStatus() === "MOUNTED") {
-          clearInterval(inter)
-          resolve && resolve();
-        }
-      }, 200);
-    }).then(() => {
-      mountSubWidgets(theme, true, resolve)
-    });
+    // new Promise<void>((resolve) => {
+    //   let count = 0
+    //   const inter = setInterval(() => {
+    //     count++
+    //     if (themeApp.getStatus() === "MOUNTED" || count === 25) {
+    //       clearInterval(inter)
+    //       resolve && resolve();
+    //     }
+    //   }, 200);
+    // }).then(() => {
+    //   mountSubWidgets(theme, true, resolve)
+    // });
   });
 }
 

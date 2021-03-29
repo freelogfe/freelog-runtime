@@ -2,6 +2,7 @@
 
 import {baseUrl} from '../../services/base'
 import { getInfoById } from "./api";
+import presentable from '../../services/api/modules/presentable';
 
 export function getContainer(container: string | HTMLElement): HTMLElement | null |undefined {
     // @ts-ignore
@@ -72,13 +73,12 @@ export function resolveUrl(path: string, params?: any): string {
   return `${baseUrl}${path}?${queryStringArr.join('&')}`
 }
 // TODO if error
-export async function getSubDep(nodeThemeId: string) {
-  let info = await getInfoById(nodeThemeId);
+export async function getSubDep(presentableId: string) {
+  let info = await getInfoById(presentableId);
   const [subDeps, entityNid] = [
     info.headers["freelog-sub-dependencies"],
     info.headers["freelog-entity-nid"],
   ];
-  console.log(info);
   return {
     subDeps: subDeps ? JSON.parse(decodeURIComponent(subDeps)) : [],
     entityNid,

@@ -14,10 +14,7 @@
  *   中央集权：沙盒全部在运行时进行管控，一旦有恶意侵入可中断（对沙盒的中断算paused?）， 挂载后控制对象就在全局，故有加载与卸载任何插件权限。
  *
  */
-import {
-    getContainer,
-    createId
-} from "./utils";
+ 
 import {
     loadMicroApp
 } from "../runtime";
@@ -27,9 +24,7 @@ import {
 import {
     setLocation
 } from "./proxy";
-import {
-    dev,
-    DEV_FALSE,
+import { 
     DEV_TYPE_REPLACE,
     DEV_WIDGET
 } from "./dev";
@@ -204,7 +199,7 @@ export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
                     console.error('container is not exists: ' + sub.presentableName)
                     return 
                 }
-                console.log(234234234234, subContainer)
+                console.log('subContainer: ', subContainer)
                 // @ts-ignore
                 const app = window.freelogApp.mountWidget(sub, subContainer, {
                     //@ts-ignore
@@ -242,7 +237,7 @@ export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
         }
     }
 }
-export async function getAndMoutSubWdigets(global:any, config?: any){
+export async function autoMoutSubWdigets(global:any, config?: any){
     const presenbaleId = widgetsConfig.get(global.widgetName)?.id
     // @ts-ignore
     const parent = await getSubDep(presenbaleId);
