@@ -2,6 +2,7 @@
 
 import {baseUrl} from '../../services/base'
 import { getInfoById } from "./api";
+import { widgetsConfig } from './widget'
 import presentable from '../../services/api/modules/presentable';
 
 export function getContainer(container: string | HTMLElement): HTMLElement | null |undefined {
@@ -72,8 +73,12 @@ export function resolveUrl(path: string, params?: any): string {
   }
   return `${baseUrl}${path}?${queryStringArr.join('&')}`
 }
+export async function getSelfId(global: any) {
+  return widgetsConfig.get(global.widgetName)?.id
+} 
 // TODO if error
-export async function getSubDep(presentableId: string) {
+export async function getSubDep(presentableId: any, global: any) {
+  presentableId = presentableId || getSelfId(global)
   let info = await getInfoById(presentableId);
   const [subDeps, entityNid] = [
     info.headers["freelog-sub-dependencies"],

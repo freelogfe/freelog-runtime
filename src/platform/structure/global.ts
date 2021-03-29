@@ -1,6 +1,7 @@
 import {
     mountWidget, autoMoutSubWdigets
 } from './widget'
+import { getSubDep,  getSelfId} from './utils'
 import {
     getPresentables,
     getInfoById,
@@ -41,5 +42,7 @@ export const freelogApp = {
     getSubResourceInfoById,
     getSubResourceInfoByName,
     devData,
-    autoMoutSubWdigets
+    autoMoutSubWdigets,
+    getSubDep,
+    getSelfId
 }
