@@ -30,7 +30,6 @@ export function initNode() {
     const container = document.getElementById("freelog-plugin-container");
     if (devData.type === DEV_WIDGET) {
       freelogApp.mountWidget("", container, "", "", {shadowDom: false});
-      console.log(234234234)
       return;
     }
     // @ts-ignore
@@ -43,7 +42,9 @@ export function initNode() {
         entityNid: "",
         subDependId: theme.data.presentableId,
         isTheme: true,
-      }
+      },
+      "",
+      {shadowDom: false}
     );
     // new Promise<void>((resolve) => {
     //   let count = 0
