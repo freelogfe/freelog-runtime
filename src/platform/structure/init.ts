@@ -22,6 +22,8 @@ export function initNode() {
     const nodeInfo = nodeData.data;
     // @ts-ignore
     freelogApp.nodeInfo = nodeInfo;
+    document.title = nodeInfo.nodeName
+    console.log(nodeInfo)
     init();
     const devData = dev();
     freelogApp.devData = devData;
