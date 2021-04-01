@@ -82,7 +82,7 @@ export function freelogLocalStorage(id: string) {
   return {
     clear: function (name: string) {},
     getItem: function (name: string) {
-      rawLocalStorage.getItem(id + name);
+      return rawLocalStorage.getItem(id + name);
     },
     key: function (name: string) {},
     removeItem: function (name: string) {
@@ -106,13 +106,13 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
       if (property === "pushState" || property === "replaceState") {
         return function () {
           if (arguments[2] && arguments[2].indexOf("#") > -1) {
-            console.error("hash route is not supported!");
-            return;
+            console.warn("hash route is not supported!");
+            // return;
           }
           // TODO 解析query参数  search
           let href = arguments[2];
           let [pathname, search] = href.split("?");
-          locationCenter.set(name, { pathname, href, search });
+          locationCenter.set(name, { pathname, href, search, hash: href });
         };
       } else {
         // @ts-ignore
@@ -224,6 +224,9 @@ export const createDocumentProxy = function (
               // @ts-ignore
               return rawDocument[property](...arguments);
             } else {
+              if(["body"].indexOf(arguments[0]) !== -1){
+                return rootDoc
+              }
               // @ts-ignore
               return rootDoc[property](...arguments);
             }

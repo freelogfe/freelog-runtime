@@ -34,7 +34,12 @@ function getEntirePath(path, baseURI) {
 	if(/\/\/$/.test(baseURI)){
 		baseURI = baseURI.substr(0, baseURI.length - 1)
 	}
-	const url = baseURI + path.replace('/', '')
+	if(!/\/$/.test(baseURI)){
+ 		baseURI =  baseURI + '/'
+	}
+    if(path.startsWith('/')) path = path.replace('/', '') 
+	const url = baseURI + path
+	console.log(baseURI, path, url)
 	return url
 
 	// return new URL(path, baseURI).toString();
