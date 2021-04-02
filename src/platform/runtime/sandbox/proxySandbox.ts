@@ -280,7 +280,6 @@ export default class ProxySandbox implements SandBox {
         }
         // TODO test localstorage
         if (p === 'localStorage') {
-          console.log(p)
           return freelogLocalStorage(name)
         }
         if (p === 'document' || p === 'eval') {

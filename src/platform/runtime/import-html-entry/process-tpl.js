@@ -3,7 +3,7 @@
  * @homepage https://github.com/kuitos/
  * @since 2018-09-03 15:04
  */
-import { getInlineCode, isModuleScriptSupported } from './utils';
+ import { getInlineCode, isModuleScriptSupported } from './utils';
 
 const ALL_SCRIPT_REGEX = /(<script[\s\S]*?>)[\s\S]*?<\/script>/gi;
 const SCRIPT_TAG_REGEX = /<(script)\s+((?!type=('|")text\/ng-template\3).)*?>.*?<\/\1>/is;
@@ -39,7 +39,6 @@ function getEntirePath(path, baseURI) {
 	}
     if(path.startsWith('/')) path = path.replace('/', '') 
 	const url = baseURI + path
-	console.log(baseURI, path, url)
 	return url
 
 	// return new URL(path, baseURI).toString();
@@ -68,13 +67,17 @@ export const genModuleScriptReplaceSymbol = (scriptSrc, moduleSupport) => `<!-- 
  * @returns {{template: void | string | *, scripts: *[], entry: *}}
  */
 export default function processTpl(tpl, baseURI) {
-
-	let scripts = [];
+ 	let scripts = [];
 	const styles = [];
 	let entry = null;
 	const moduleSupport = isModuleScriptSupported();
-
-	const template = tpl
+	if(/\/\/$/.test(baseURI)){
+		baseURI = baseURI.substr(0, baseURI.length - 1)
+	};
+	if(!/\/$/.test(baseURI)){
+ 		baseURI =  baseURI + '/'
+	};
+	const template = tpl.replace(/url\(static/g,`url(${baseURI}static`).replace(/url\(\/static/g,`url(${baseURI}static`) 
 
 		/*
 		remove html comment first
@@ -117,6 +120,7 @@ export default function processTpl(tpl, baseURI) {
 			return match;
 		})
 		.replace(STYLE_TAG_REGEX, match => {
+
 			if (STYLE_IGNORE_REGEX.test(match)) {
 				return genIgnoreAssetReplaceSymbol('style file');
 			}
@@ -199,7 +203,6 @@ export default function processTpl(tpl, baseURI) {
 		// filter empty script
 		return !!script;
 	});
-
 	return {
 		template,
 		scripts,

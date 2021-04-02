@@ -23,12 +23,10 @@ export function initNode() {
     // @ts-ignore
     freelogApp.nodeInfo = nodeInfo;
     document.title = nodeInfo.nodeName
-    console.log(nodeInfo)
     init();
     const devData = dev();
     freelogApp.devData = devData;
     // @ts-ignore
-    console.log(6546546476,window.freelogApp)
     const container = document.getElementById("freelog-plugin-container");
     if (devData.type === DEV_WIDGET) {
       freelogApp.mountWidget("", container, "", "", {shadowDom: false});

@@ -57,6 +57,8 @@ module.exports = {
     },
     headers: {
       'Access-Control-Allow-Origin': '*',
+      'Access-Control-Request-Headers': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT,DELETE',
     },
     after: mockServer(),
   },

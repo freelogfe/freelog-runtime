@@ -33,13 +33,21 @@ function defaultGetTemplate(tpl) {
  * @param opts
  * @return embedHTML
  */
-function getEmbedHTML(template, styles, opts = {}) {
+function getEmbedHTML(template, styles, opts = {}, baseURI) {
 	const { fetch = defaultFetch } = opts;
 	let embedHTML = template;
-
+    if(/\/\/$/.test(baseURI)){
+		baseURI = baseURI.substr(0, baseURI.length - 1)
+	}
+	if(!/\/$/.test(baseURI)){
+ 		baseURI =  baseURI + '/'
+	}
 	return getExternalStyleSheets(styles, fetch)
 		.then(styleSheets => {
 			embedHTML = styles.reduce((html, styleSrc, i) => {
+				let styleText = styleSheets[i]
+				styleText = styleText.replace(/url\(static/g,`url(${baseURI}static`) ;
+				styleText = styleText.replace(/url\(\/static/g,`url(${baseURI}static`) ;
 				html = html.replace(genLinkReplaceSymbol(styleSrc), `<style>/* ${styleSrc} */${styleSheets[i]}</style>`);
 				return html;
 			}, embedHTML);
@@ -65,16 +73,19 @@ function getExecutableScript(scriptSrc, scriptText, proxy, strictGlobal) {
 // for prefetch
 export function getExternalStyleSheets(styles, fetch = defaultFetch) {
 	return Promise.all(styles.map(styleLink => {
-			if (isInlineCode(styleLink)) {
-				// if it is inline style
-				return getInlineCode(styleLink);
-			} else {
-				// external styles
-				return styleCache[styleLink] ||
-					(styleCache[styleLink] = fetch(styleLink).then(response => response.text()));
-			}
+		if (isInlineCode(styleLink)) {
+			// if it is inline style
+			return getInlineCode(styleLink);
+		} else {
+			// external styles
+			return styleCache[styleLink] ||
+				(styleCache[styleLink] = fetch(styleLink).then(response => {
+					let text = response.text()
+					return text
+				}));
+		}
 
-		},
+	},
 	));
 }
 
@@ -96,28 +107,28 @@ export function getExternalScripts(scripts, fetch = defaultFetch, errorCallback 
 
 	return Promise.all(scripts.map(script => {
 
-			if (typeof script === 'string') {
-				if (isInlineCode(script)) {
-					// if it is inline script
-					return getInlineCode(script);
-				} else {
-					// external script
-					return fetchScript(script);
-				}
+		if (typeof script === 'string') {
+			if (isInlineCode(script)) {
+				// if it is inline script
+				return getInlineCode(script);
 			} else {
-				// use idle time to load async script
-				const { src, async } = script;
-				if (async) {
-					return {
-						src,
-						async: true,
-						content: new Promise((resolve, reject) => requestIdleCallback(() => fetchScript(src).then(resolve, reject))),
-					};
-				}
-
-				return fetchScript(src);
+				// external script
+				return fetchScript(script);
 			}
-		},
+		} else {
+			// use idle time to load async script
+			const { src, async } = script;
+			if (async) {
+				return {
+					src,
+					async: true,
+					content: new Promise((resolve, reject) => requestIdleCallback(() => fetchScript(src).then(resolve, reject))),
+				};
+			}
+
+			return fetchScript(src);
+		}
+	},
 	));
 }
 
@@ -258,11 +269,10 @@ export default function importHTML(url, opts = {}) {
 	return embedHTMLCache[url] || (embedHTMLCache[url] = fetch(url)
 		.then(response => readResAsString(response, autoDecodeResponse))
 		.then(html => {
-
 			const assetPublicPath = getPublicPath(url);
 			const { template, scripts, entry, styles } = processTpl(getTemplate(html), assetPublicPath);
 
-			return getEmbedHTML(template, styles, { fetch }).then(embedHTML => ({
+			return getEmbedHTML(template, styles, { fetch }, assetPublicPath).then(embedHTML => ({
 				template: embedHTML,
 				assetPublicPath,
 				getExternalScripts: () => getExternalScripts(scripts, fetch),

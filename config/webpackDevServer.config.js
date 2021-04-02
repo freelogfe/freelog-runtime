@@ -104,6 +104,7 @@ module.exports = function (proxy, allowedHost) {
     proxy,
     headers: {
       'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': '*'
     },
     before(app, server) {
       // Keep `evalSourceMapMiddleware` and `errorOverlayMiddleware`

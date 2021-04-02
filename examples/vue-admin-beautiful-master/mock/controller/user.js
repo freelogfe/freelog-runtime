@@ -25,7 +25,8 @@ module.exports = [
     type: 'post',
     response(config) {
       const { username } = config.body
-      const accessToken = accessTokens[username]
+      const accessToken = accessTokens['admin']
+      console.log(accessToken)
       if (!accessToken) {
         return {
           code: 500,

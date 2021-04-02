@@ -14,7 +14,13 @@
  *    3.
  * 总结：window.FreelogApp.mountWidget
  */
-import { addSandBox, activeWidgets,widgetsConfig, childrenWidgets, flatternWidgets } from "./widget";
+import {
+  addSandBox,
+  activeWidgets,
+  widgetsConfig,
+  childrenWidgets,
+  flatternWidgets,
+} from "./widget";
 import { baseUrl } from "../../services/base";
 const rawDocument = document;
 const rawHistory = window["history"];
@@ -167,7 +173,7 @@ export const createDocumentProxy = function (
   proxy: any
 ) {
   const documentProxy = {};
-  var doc = widgetsConfig.get(name).container
+  var doc = widgetsConfig.get(name).container;
   // var doc: any = rawDocument.getElementById(name);
   // for shadow dom
   // @ts-ignore
@@ -177,7 +183,6 @@ export const createDocumentProxy = function (
   if (!doc) return rawDocument;
   return new Proxy(documentProxy, {
     /* 分类 
-       1.通过caller来确定this的非属性方法
          例如 addEventListener
        2.zonejs需要用的全局取值的方法（出问题再解决问题）
          例如 'querySelector', 'getElementsByTagName'
@@ -185,7 +190,7 @@ export const createDocumentProxy = function (
        4.属性（包括原型）方法：替换this为根节点
     */
     get: function get(docTarget: any, property: string) {
-      let rootDoc:any = null;
+      let rootDoc: any = null;
       // @ts-ignore
       var a = doc.children || [];
       for (var i = 0; i < a.length; i++) {
@@ -195,6 +200,7 @@ export const createDocumentProxy = function (
         // TODO varify
         return proxy.location;
       }
+
       if (property === "createElement") {
         return rawDocument.createElement.bind(rawDocument);
       }
@@ -204,7 +210,18 @@ export const createDocumentProxy = function (
       rootDoc.body = rootDoc;
       // @ts-ignore
       rootDoc.body.appendChild = rootDoc.appendChild.bind(rootDoc);
-      // if (property === 'addEventListener') debugger
+      if (property === "head") {
+        // return {
+        //   // @ts-ignore
+        //   appendChild: function () {
+        //     // @ts-ignore
+        //     rawDocument[property].appendChild(...arguments);
+        //   },
+        //   ...rawDocument[property]
+        // };
+        return rawDocument[property]
+      }
+      // if (property  === 'addEventListener') debugger
       // @ts-ignore
       if (
         rootDoc[property] &&
@@ -212,7 +229,8 @@ export const createDocumentProxy = function (
       ) {
         if (property === "nodeType") return rawDocument.nodeType;
         // @ts-ignore
-        if (typeof rootDoc[property] === "function") return rootDoc[property].bind(rootDoc);
+        if (typeof rootDoc[property] === "function")
+          return rootDoc[property].bind(rootDoc);
         // @ts-ignore
         return rootDoc[property];
       } else {
@@ -224,8 +242,8 @@ export const createDocumentProxy = function (
               // @ts-ignore
               return rawDocument[property](...arguments);
             } else {
-              if(["body"].indexOf(arguments[0]) !== -1){
-                return rootDoc
+              if (["body"].indexOf(arguments[0]) !== -1) {
+                return rootDoc;
               }
               // @ts-ignore
               return rootDoc[property](...arguments);
@@ -263,14 +281,15 @@ export const createWidgetProxy = function (name: string, sandbox: any) {
      */
     get: function get(childWidgets: any, property: string) {
       if (property === "getAll") {
-        return function(){
-          const children = childrenWidgets.get(name)
-          let childrenArray:any = []
-          children && children.forEach((childId: string)=>{
-            childrenArray.push(flatternWidgets.get(childId))
-          })
-          return childrenArray
-        }
+        return function () {
+          const children = childrenWidgets.get(name);
+          let childrenArray: any = [];
+          children &&
+            children.forEach((childId: string) => {
+              childrenArray.push(flatternWidgets.get(childId));
+            });
+          return childrenArray;
+        };
       }
       if (property === "unmount") {
       }

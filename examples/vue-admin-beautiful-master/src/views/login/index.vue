@@ -170,6 +170,7 @@
                     ? '/'
                     : this.redirect
                 this.$router.push(routerPath).catch(() => {})
+                console.log(564654)
                 this.loading = false
               })
               .catch(() => {

@@ -6,7 +6,7 @@ const { mock } = require('mockjs')
 const { baseURL } = require('../src/config')
 const mockDir = path.join(process.cwd(), 'mock')
 const { handleMockArray } = require('./utils')
-console.log(23423423423423,baseURL)
+console.log(23423423423423, baseURL)
 /**
  *
  * @param app
@@ -54,6 +54,7 @@ const responseFake = (url, type, respond) => {
         console.log(chalk.green(`> 请求地址：${req.path}\n`))
       }
       res.json(mock(respond instanceof Function ? respond(req, res) : respond))
+      console.log(res)
     },
   }
 }

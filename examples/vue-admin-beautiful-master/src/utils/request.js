@@ -43,17 +43,19 @@ const handleCode = (code, msg) => {
 }
 
 const instance = axios.create({
-  baseURL,
+  baseURL: 'http://192.168.2.152:8081/vab-mock-server',
   timeout: requestTimeout,
   headers: {
-    'Content-Type': contentType,
+    'Content-Type': 'application/x-www-form-urlencoded',
   },
 })
 
 instance.interceptors.request.use(
   (config) => {
+    console.log(config)
     if (store.getters['user/accessToken']) {
-      config.headers[tokenName] = store.getters['user/accessToken']
+      console.log(store.getters['user/accessToken'])
+      // config.headers[tokenName] = store.getters['user/accessToken']
     }
     //这里会过滤所有为空、0、false的key，如果不需要请自行注释
     if (config.data)
@@ -61,12 +63,11 @@ instance.interceptors.request.use(
         config.data,
         Vue.prototype.$baseLodash.identity
       )
-    if (
-      config.data &&
-      config.headers['Content-Type'] ===
-        'application/x-www-form-urlencoded;charset=UTF-8'
-    )
-      config.data = qs.stringify(config.data)
+    // if (
+    //   config.data &&
+    //   config.headers['Content-Type'] === 'application/x-www-form-urlencoded;'
+    // )
+    //   config.data = qs.stringify(config.data)
     if (debounce.some((item) => config.url.includes(item)))
       loadingInstance = Vue.prototype.$baseLoading()
     return config
