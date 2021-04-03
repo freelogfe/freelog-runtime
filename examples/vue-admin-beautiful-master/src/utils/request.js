@@ -43,7 +43,7 @@ const handleCode = (code, msg) => {
 }
 
 const instance = axios.create({
-  baseURL: 'http://192.168.2.152:8081/vab-mock-server',
+  baseURL: 'http://localhost:8081/vab-mock-server',
   timeout: requestTimeout,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',

@@ -104,7 +104,7 @@
               <p>
                 这是一个付费群，谢谢您愿意支持开源，加群获取详细文档，群内提供vue-admin-beautiful-template基础模板
               </p>
-              <el-image :src="require('@/assets/ewm.png')"></el-image>
+              <!-- <el-image :src="require('@/assets/ewm.png')"></el-image> -->
               <a slot="reference" target="_blank">
                 <el-button type="primary">QQ讨论群</el-button>
               </a>
@@ -128,7 +128,7 @@
             </a>
             <el-popover placement="top" width="250" trigger="hover">
               <p>谢谢您愿意支持开源，加群获取文档，群内提供基础模板</p>
-              <el-image :src="require('@/assets/ewm.png')"></el-image>
+              <!-- <el-image :src="require('@/assets/ewm.png')"></el-image> -->
               <a slot="reference" target="_blank">
                 <el-button type="warning">文档</el-button>
               </a>

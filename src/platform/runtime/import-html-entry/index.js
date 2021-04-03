@@ -36,18 +36,18 @@ function defaultGetTemplate(tpl) {
 function getEmbedHTML(template, styles, opts = {}, baseURI) {
 	const { fetch = defaultFetch } = opts;
 	let embedHTML = template;
-    if(/\/\/$/.test(baseURI)){
-		baseURI = baseURI.substr(0, baseURI.length - 1)
-	}
-	if(!/\/$/.test(baseURI)){
- 		baseURI =  baseURI + '/'
-	}
+    // if(/\/\/$/.test(baseURI)){
+	// 	baseURI = baseURI.substr(0, baseURI.length - 1)
+	// }
+	// if(!/\/$/.test(baseURI)){
+ 	// 	baseURI =  baseURI + '/'
+	// }
 	return getExternalStyleSheets(styles, fetch)
 		.then(styleSheets => {
 			embedHTML = styles.reduce((html, styleSrc, i) => {
-				let styleText = styleSheets[i]
-				styleText = styleText.replace(/url\(static/g,`url(${baseURI}static`) ;
-				styleText = styleText.replace(/url\(\/static/g,`url(${baseURI}static`) ;
+				// let styleText = styleSheets[i]
+				// styleText = styleText.replace(/url\(static/g,`url(${baseURI}static`) ;
+				// styleText = styleText.replace(/url\(\/static/g,`url(${baseURI}static`) ;
 				html = html.replace(genLinkReplaceSymbol(styleSrc), `<style>/* ${styleSrc} */${styleSheets[i]}</style>`);
 				return html;
 			}, embedHTML);

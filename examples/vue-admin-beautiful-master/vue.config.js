@@ -91,7 +91,20 @@ module.exports = {
       .exclude.add(resolve('src/remixIcon'))
       .add(resolve('src/colorfulIcon'))
       .end()
-
+      config.module.rule('fonts')
+      .use('url-loader')
+      .loader('url-loader')
+      .options({
+        limit: 4096, // 小于4kb将会被打包成 base64
+        fallback: {
+          loader: 'file-loader',
+          options: {
+            name: 'fonts/[name].[hash:8].[ext]',
+            publicPath: 'http://localhost:8081/'
+          }
+        }
+      })
+      .end()
     config.module
       .rule('remixIcon')
       .test(/\.svg$/)
