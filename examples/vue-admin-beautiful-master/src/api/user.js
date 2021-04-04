@@ -4,11 +4,9 @@ import { loginRSA, tokenName } from '@/config'
 
 export async function login(data) {
   if (loginRSA) {
-    console.log(345345)
 
     data = await encryptedData(data)
   }
-  console.log(345345)
   return request({
     url: '/login',
     method: 'post',

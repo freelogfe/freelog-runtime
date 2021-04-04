@@ -13,7 +13,6 @@ const privateKey =
 export async function encryptedData(data) {
   let publicKey = ''
   const res = await getPublicKey()
-  console.log(res, 234234234)
   publicKey = res.data.publicKey
   if (res.data.mockServer) {
     publicKey = ''

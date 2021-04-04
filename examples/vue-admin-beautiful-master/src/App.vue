@@ -8,11 +8,14 @@
   export default {
     name: 'App',
     mounted() {
-      console.log(document, document.head)
+      console.log(document)
       const styleTag = document.createElement('style')
       styleTag.setAttribute('id', 'f324523232323')
-      document.head.appendChild(styleTag)
+      // document.head.appendChild(styleTag)
       styleTag.innerText = '234233333333333333'
+      console.log(
+        document.getElementsByClassName('vue-admin-beautiful-theme-glory')
+      )
     },
   }
 </script>

@@ -52,9 +52,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    console.log(config)
     if (store.getters['user/accessToken']) {
-      console.log(store.getters['user/accessToken'])
       // config.headers[tokenName] = store.getters['user/accessToken']
     }
     //这里会过滤所有为空、0、false的key，如果不需要请自行注释

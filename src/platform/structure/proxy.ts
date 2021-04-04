@@ -167,6 +167,13 @@ export const createLocationProxy = function (name: string, sandbox: any) {
     },
   });
 };
+rawDocument.write = ()=>{
+  console.warn('please be careful')
+} 
+// 需要改的几个属性 body  fonts ParentNode cookie domain designMode title
+const getElementsByClassName = rawDocument.getElementsByClassName  
+const getElementsByTagName = rawDocument.getElementsByTagName  
+const getElementsByTagNameNS = rawDocument.getElementsByTagNameNS   
 export const createDocumentProxy = function (
   name: string,
   sandbox: any,
@@ -181,6 +188,31 @@ export const createDocumentProxy = function (
     doc = doc.firstChild.shadowRoot;
   }
   if (!doc) return rawDocument;
+  let rootDoc: any = null;
+  // @ts-ignore
+  var a = doc.children || [];
+  for (var i = 0; i < a.length; i++) {
+    if (a.item(i).tagName === "DIV") rootDoc = a.item(i);
+  }
+  // TODO  判断document与doc的原型是否都有该方法，有则bind
+  // @ts-ignore
+  rawDocument.getElementsByClassName = rootDoc.getElementsByClassName.bind(doc);
+  rawDocument.getElementsByTagName = (tag:string) => {
+    if(tag === 'head'){
+      return [rawDocument.head]
+    }
+    if(tag === 'body'){
+      return [rootDoc]
+    }
+    return rootDoc.getElementsByTagName(tag)
+  }
+  rawDocument.getElementsByTagNameNS = rootDoc.getElementsByTagNameNS.bind(doc)
+  setTimeout(()=>{
+    rawDocument.getElementsByClassName = getElementsByClassName
+    rawDocument.getElementsByTagName = getElementsByTagName
+    rawDocument.getElementsByTagNameNS = getElementsByTagNameNS
+  },0)
+  return rawDocument;
   return new Proxy(documentProxy, {
     /* 分类 
          例如 addEventListener
@@ -219,7 +251,7 @@ export const createDocumentProxy = function (
         //   },
         //   ...rawDocument[property]
         // };
-        return rawDocument[property]
+        return rawDocument[property];
       }
       // if (property  === 'addEventListener') debugger
       // @ts-ignore

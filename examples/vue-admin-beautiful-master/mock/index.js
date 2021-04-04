@@ -6,7 +6,6 @@ const { mock } = require('mockjs')
 const { baseURL } = require('../src/config')
 const mockDir = path.join(process.cwd(), 'mock')
 const { handleMockArray } = require('./utils')
-console.log(23423423423423, baseURL)
 /**
  *
  * @param app

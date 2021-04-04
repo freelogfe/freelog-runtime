@@ -163,7 +163,6 @@ function getOverwrittenAppendChildOrInsertBefore(opts: {
         scopedCSS,
         excludeAssetFilter,
       } = containerConfig;
-
       switch (element.tagName) {
         case LINK_TAG_NAME:
         case STYLE_TAG_NAME: {
