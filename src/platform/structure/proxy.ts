@@ -212,8 +212,19 @@ export const createDocumentProxy = function (
     return rootDoc.getElementsByTagName(tag);
   };
   rawDocument.getElementsByTagNameNS = rootDoc.getElementsByTagNameNS.bind(doc);
-  // rawDocument.querySelector = rootDoc.querySelector.bind(doc);
-  rawDocument.getElementByIduyuu = function (id: string) {
+  rawDocument.querySelector =  function () {
+    if (["head", "html"].indexOf(arguments[0]) !== -1) {
+      // @ts-ignore
+      return rawDocument.querySelector(...arguments);
+    } else {
+      if (["body"].indexOf(arguments[0]) !== -1) {
+        return rootDoc;
+      }
+      // @ts-ignore
+      return rootDoc.querySelector(...arguments);
+    }
+  }; 
+  rawDocument.getElementById = function (id: string) {
     // @ts-ignore
     let children = rootDoc.getElementsByTagName("*");
     if (children) {
