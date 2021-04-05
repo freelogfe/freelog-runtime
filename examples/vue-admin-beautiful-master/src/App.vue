@@ -8,7 +8,8 @@
   export default {
     name: 'App',
     mounted() {
-      console.log(document)
+      console.log(1111, document.getElementById('freelog-plugin-container'), document
+          .getElementsByTagName('body'))
       const styleTag = document.createElement('style')
       styleTag.setAttribute('id', 'f324523232323')
       // document.head.appendChild(styleTag)

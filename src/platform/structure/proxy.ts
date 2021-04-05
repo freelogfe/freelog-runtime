@@ -167,13 +167,15 @@ export const createLocationProxy = function (name: string, sandbox: any) {
     },
   });
 };
-rawDocument.write = ()=>{
-  console.warn('please be careful')
-} 
+rawDocument.write = () => {
+  console.warn("please be careful");
+};
 // 需要改的几个属性 body  fonts ParentNode cookie domain designMode title
-const getElementsByClassName = rawDocument.getElementsByClassName  
-const getElementsByTagName = rawDocument.getElementsByTagName  
-const getElementsByTagNameNS = rawDocument.getElementsByTagNameNS   
+const getElementsByClassName = rawDocument.getElementsByClassName;
+const getElementsByTagName = rawDocument.getElementsByTagName;
+const getElementsByTagNameNS = rawDocument.getElementsByTagNameNS;
+const querySelector = rawDocument.querySelector;
+const getElementById = rawDocument.getElementById;
 export const createDocumentProxy = function (
   name: string,
   sandbox: any,
@@ -194,24 +196,42 @@ export const createDocumentProxy = function (
   for (var i = 0; i < a.length; i++) {
     if (a.item(i).tagName === "DIV") rootDoc = a.item(i);
   }
+  // HTMLElement.prototype.parentNode = ()=>{
+
+  // }
   // TODO  判断document与doc的原型是否都有该方法，有则bind
   // @ts-ignore
   rawDocument.getElementsByClassName = rootDoc.getElementsByClassName.bind(doc);
-  rawDocument.getElementsByTagName = (tag:string) => {
-    if(tag === 'head'){
-      return [rawDocument.head]
+  rawDocument.getElementsByTagName = (tag: string) => {
+    if (tag === "head") {
+      return [rawDocument.head];
     }
-    if(tag === 'body'){
-      return [rootDoc]
+    if (tag === "body") {
+      return [rootDoc];
     }
-    return rootDoc.getElementsByTagName(tag)
-  }
-  rawDocument.getElementsByTagNameNS = rootDoc.getElementsByTagNameNS.bind(doc)
-  setTimeout(()=>{
-    rawDocument.getElementsByClassName = getElementsByClassName
-    rawDocument.getElementsByTagName = getElementsByTagName
-    rawDocument.getElementsByTagNameNS = getElementsByTagNameNS
-  },0)
+    return rootDoc.getElementsByTagName(tag);
+  };
+  rawDocument.getElementsByTagNameNS = rootDoc.getElementsByTagNameNS.bind(doc);
+  // rawDocument.querySelector = rootDoc.querySelector.bind(doc);
+  rawDocument.getElementByIduyuu = function (id: string) {
+    // @ts-ignore
+    let children = rootDoc.getElementsByTagName("*");
+    if (children) {
+      for (let i = 0; i < children.length; i++) {
+        if (children.item(i).getAttribute("id") === id) {
+          return children.item(i);
+        }
+      }
+    }
+    return null;
+  };
+  setTimeout(() => {
+    rawDocument.getElementsByClassName = getElementsByClassName;
+    rawDocument.getElementsByTagName = getElementsByTagName;
+    rawDocument.getElementsByTagNameNS = getElementsByTagNameNS;
+    rawDocument.querySelector = querySelector;
+    rawDocument.getElementById = getElementById;
+  }, 0);
   return rawDocument;
   return new Proxy(documentProxy, {
     /* 分类 
