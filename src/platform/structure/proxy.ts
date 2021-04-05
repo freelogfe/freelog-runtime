@@ -214,8 +214,9 @@ export const createDocumentProxy = function (
   rawDocument.getElementsByTagNameNS = rootDoc.getElementsByTagNameNS.bind(doc);
   rawDocument.querySelector =  function () {
     if (["head", "html"].indexOf(arguments[0]) !== -1) {
+      if(arguments[0] === 'head') return rawDocument.head
       // @ts-ignore
-      return rawDocument.querySelector(...arguments);
+      if(arguments[0] === 'html') return querySelector.bind(document)(...arguments)
     } else {
       if (["body"].indexOf(arguments[0]) !== -1) {
         return rootDoc;
@@ -237,11 +238,11 @@ export const createDocumentProxy = function (
     return null;
   };
   setTimeout(() => {
-    rawDocument.getElementsByClassName = getElementsByClassName;
-    rawDocument.getElementsByTagName = getElementsByTagName;
-    rawDocument.getElementsByTagNameNS = getElementsByTagNameNS;
-    rawDocument.querySelector = querySelector;
-    rawDocument.getElementById = getElementById;
+    rawDocument.getElementsByClassName = getElementsByClassName.bind(rawDocument);
+    rawDocument.getElementsByTagName = getElementsByTagName.bind(rawDocument);
+    rawDocument.getElementsByTagNameNS = getElementsByTagNameNS.bind(rawDocument);
+    rawDocument.querySelector = querySelector.bind(rawDocument);
+    rawDocument.getElementById = getElementById.bind(rawDocument);
   }, 0);
   return rawDocument;
   return new Proxy(documentProxy, {
