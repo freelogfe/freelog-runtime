@@ -135,7 +135,10 @@ export const createLocationProxy = function (name: string, sandbox: any) {
         a标签的href需要拦截，// TODO 如果以http开头则不拦截
          TODO reload 是重新加载插件
      */
-    get: function get(docTarget: any, property: string) {
+    set: (target: any, p: PropertyKey, value: any): boolean => {
+      return false;
+    },
+    get: function get(target: any, property: string) {
       if (["href", "pathname", "hash", "search"].indexOf(property) > -1) {
         if (locationCenter.get(name)) {
           // @ts-ignore
@@ -145,6 +148,9 @@ export const createLocationProxy = function (name: string, sandbox: any) {
         return "";
       } else {
         if (["replace"].indexOf(property) > -1) {
+          return function () {};
+        }
+        if (["reload"].indexOf(property) > -1) {
           return function () {};
         }
         if (property === "toString") {
@@ -175,7 +181,9 @@ const getElementsByClassName = rawDocument.getElementsByClassName;
 const getElementsByTagName = rawDocument.getElementsByTagName;
 const getElementsByTagNameNS = rawDocument.getElementsByTagNameNS;
 const querySelector = rawDocument.querySelector;
+const querySelectorAll = rawDocument.querySelectorAll;
 const getElementById = rawDocument.getElementById;
+const appendChild = rawDocument.body.appendChild;
 export const createDocumentProxy = function (
   name: string,
   sandbox: any,
@@ -218,8 +226,10 @@ export const createDocumentProxy = function (
       return rootDoc.getElementsByTagName(tag);
     };
     rawDocument.getElementsByTagNameNS = rootDoc.getElementsByTagNameNS.bind(
-      doc
+      rootDoc
     );
+    rawDocument.querySelectorAll = rootDoc.querySelectorAll.bind(rootDoc);
+    rawDocument.body.appendChild = rootDoc.appendChild.bind(rootDoc);
     rawDocument.querySelector = function () {
       if (["head", "html"].indexOf(arguments[0]) !== -1) {
         if (arguments[0] === "head") return rawDocument.head;
@@ -251,10 +261,13 @@ export const createDocumentProxy = function (
       rawDocument.getElementsByClassName = getElementsByClassName.bind(
         rawDocument
       );
+      rawDocument.querySelectorAll = querySelectorAll.bind(rawDocument);
       rawDocument.getElementsByTagName = getElementsByTagName.bind(rawDocument);
       rawDocument.getElementsByTagNameNS = getElementsByTagNameNS.bind(
         rawDocument
       );
+      rawDocument.body.appendChild = appendChild.bind(rawDocument.body);
+      rawDocument.querySelector = querySelector.bind(rawDocument);
       rawDocument.querySelector = querySelector.bind(rawDocument);
       rawDocument.getElementById = getElementById.bind(rawDocument);
     }, 0);
@@ -313,7 +326,6 @@ export const createDocumentProxy = function (
           return rootDoc[property].bind(rootDoc);
         if (typeof appDiv[property] === "function")
           return appDiv[property].bind(appDiv);
-        console.log(appDiv[property], property);
         // @ts-ignore
         return rootDoc[property] || appDiv[property];
       } else {
@@ -328,15 +340,14 @@ export const createDocumentProxy = function (
               if (["body"].indexOf(arguments[0]) !== -1) {
                 return appDiv;
               }
-              console.log(appDiv);
-
               // @ts-ignore
-              return rootDoc[property]? rootDoc[property](...arguments) : appDiv[property](...arguments);
+              return rootDoc[property]
+                ? rootDoc[property](...arguments)
+                : appDiv[property](...arguments);
             }
           };
         }
         if (property === "getElementById") {
-          console.log(rootDoc, 2222);
           if (rootDoc.getElementById) {
             return rootDoc.getElementById.bind(rootDoc);
           }

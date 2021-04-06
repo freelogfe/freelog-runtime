@@ -8,16 +8,14 @@
   export default {
     name: 'App',
     mounted() {
-      console.log(document, document.getElementById('freelog-plugin-container'), document
-          .getElementsByTagName('body'))
-      const styleTag = document.createElement('style')
-      styleTag.setAttribute('id', 'f324523232323')
-      // document.head.appendChild(styleTag)
-      styleTag.innerText = '234233333333333333'
-      console.log(
-        document, document.getElementsByClassName,
-        document.getElementsByClassName('vue-admin-beautiful-theme-glory')
-      )
+      const el = document.createElement('DIV')
+      el.innerHTML = '23423423423'
+      const append = document.body.appendChild
+      document.body.appendChild = function () {
+        console.log(arguments[0])
+        append.bind(document.body)(...arguments)
+      }
+      document.body.appendChild(el)
     },
   }
 </script>

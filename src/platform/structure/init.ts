@@ -29,7 +29,7 @@ export function initNode() {
     // @ts-ignore
     const container = document.getElementById("freelog-plugin-container");
     if (devData.type === DEV_WIDGET) {
-      freelogApp.mountWidget("", container, "", "", {shadowDom: false});
+      freelogApp.mountWidget("", container, "", "");
       return;
     }
     // @ts-ignore

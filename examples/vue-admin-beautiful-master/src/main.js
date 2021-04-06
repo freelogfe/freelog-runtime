@@ -22,8 +22,6 @@ let instance = null
 
 function render(props = {}) {
   const { container } = props
-  console.log(document.querySelector('#vue-admin-beautiful'))
-  console.log(container)
   instance = new Vue({
     router,
     store,

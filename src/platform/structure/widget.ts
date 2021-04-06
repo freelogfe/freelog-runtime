@@ -127,8 +127,8 @@ export function mountWidget(
     // @ts-ignore
     const app = loadMicroApp(widgetConfig, {
         sandbox: {
-            strictStyleIsolation: config? !!config.shadowDom : true,
-            experimentalStyleIsolation: config? !!config.scopedCss : true
+            strictStyleIsolation: config? !!config.shadowDom : false,
+            experimentalStyleIsolation: config? !!config.scopedCss : false
         },
     });
     // const id2 = createId(sub.id + 1)
@@ -151,13 +151,11 @@ export function mountWidget(
         },
     }
     addWidget(id, _app);
-    console.log(_app)
     // TODO 拦截mount做处理
     return _app;
 }
 // 固定id 的加载子插件，仅支持加载一次
 export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
-    console.log(sandBoxs, parent)
     const parentGlobal = sandBoxs.get('freelog-' + parent.data.presentableId).proxy
     // @ts-ignore
     // @ts-ignore
@@ -209,7 +207,6 @@ export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
                     entityNid: parent.entityNid,
                     subDependId: sub.id,
                 }, '', config);
-                console.log(app)
                 // setTimeout(app.unmount, 2000)
                 // setTimeout(app.mount, 5000)
                 // TODO 所有插件加载完成后 加载交给运行时子依赖的插件
