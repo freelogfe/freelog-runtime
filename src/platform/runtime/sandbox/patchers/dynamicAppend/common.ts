@@ -148,9 +148,8 @@ function getOverwrittenAppendChildOrInsertBefore(opts: {
   ) {
     let element = newChild as any;
     const { rawDOMAppendOrInsertBefore, isInvokedByMicroApp, containerConfigGetter } = opts;
-    console.log(isInvokedByMicroApp(element), element)
-    if (!isHijackingTag(element.tagName) || !isInvokedByMicroApp(element)) {
-      return rawDOMAppendOrInsertBefore.call(this, element, refChild) as T;
+     if (!isHijackingTag(element.tagName) || !isInvokedByMicroApp(element)) {
+       return rawDOMAppendOrInsertBefore.call(this, element, refChild) as T;
     }
 
     if (element.tagName) {

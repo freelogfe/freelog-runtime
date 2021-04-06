@@ -190,14 +190,14 @@ export const createDocumentProxy = function (
   proxy: any
 ) {
   const documentProxy = {};
-  var doc = widgetsConfig.get(name).container;
+  var doc = widgetsConfig.get(name).container.firstChild;
   // var doc: any = rawDocument.getElementById(name);
   // for shadow dom
   let isShadow = false;
   // @ts-ignore
-  if (doc.firstChild.shadowRoot) {
+  if (doc.shadowRoot) {
     isShadow = true;
-    doc = doc.firstChild.shadowRoot;
+    doc = doc.shadowRoot;
   }
   if (!doc) return rawDocument;
   let rootDoc: any = doc;
@@ -342,7 +342,9 @@ export const createDocumentProxy = function (
               }
               // @ts-ignore
               return rootDoc[property]
+              // @ts-ignore
                 ? rootDoc[property](...arguments)
+                // @ts-ignore
                 : appDiv[property](...arguments);
             }
           };

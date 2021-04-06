@@ -128,7 +128,7 @@ export function mountWidget(
     const app = loadMicroApp(widgetConfig, {
         sandbox: {
             strictStyleIsolation: config? !!config.shadowDom : false,
-            experimentalStyleIsolation: config? !!config.scopedCss : false
+            experimentalStyleIsolation: config? !!config.scopedCss : true
         },
     });
     // const id2 = createId(sub.id + 1)
