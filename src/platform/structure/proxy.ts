@@ -28,7 +28,7 @@ const rawLocation = window["location"];
 const rawLocalStorage = window["localStorage"];
 const locations = new Map();
 export function initLocation() {
-  if (rawLocation.hash && rawLocation.hash.split("#$").length) {
+  if (rawLocation.hash && rawLocation.hash.split("#$")) {
     var loc = rawLocation.hash.split("#$");
     loc.forEach((item) => {
       try {
@@ -104,7 +104,22 @@ export const saveSandBox = function (name: string, sandBox: any) {
   addSandBox(name, sandBox);
 };
 export const createHistoryProxy = function (name: string, sandbox: any) {
-  const historyProxy = {};
+  function patch() {
+    // if (arguments[2] && arguments[2].indexOf("#") > -1) {
+    //   console.warn("hash route is not supported!");
+    //   // return;
+    // }
+    // TODO 解析query参数  search
+    let href = arguments[2];
+    let [pathname, search] = href.split("?");
+    locationCenter.set(name, { pathname, href, search, hash: href });
+  };
+  const historyProxy = {
+    ...window.history,
+    pushState:patch,
+    replaceState:patch
+  };
+  return historyProxy
   return new Proxy(historyProxy, {
     /*
      */
@@ -136,7 +151,7 @@ export const createLocationProxy = function (name: string, sandbox: any) {
          TODO reload 是重新加载插件
      */
     set: (target: any, p: PropertyKey, value: any): boolean => {
-      return false;
+      return true;
     },
     get: function get(target: any, property: string) {
       if (["href", "pathname", "hash", "search"].indexOf(property) > -1) {
