@@ -28,8 +28,8 @@ const rawLocation = window["location"];
 const rawLocalStorage = window["localStorage"];
 const locations = new Map();
 export function initLocation() {
-  if (rawLocation.hash && rawLocation.hash.split("#")) {
-    var loc = rawLocation.hash.split("#");
+  if (rawLocation.hash && rawLocation.hash.split("#$").length) {
+    var loc = rawLocation.hash.split("#$");
     loc.forEach((item) => {
       try {
         if (!item) return;
@@ -58,7 +58,7 @@ export function setLocation() {
       locations.delete(key);
       return;
     }
-    hash += "#" + key + "=" + value.pathname || "";
+    hash += "#$" + key + "=" + value.pathname || "";
   });
   rawLocation.hash = hash;
 }
@@ -111,10 +111,10 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     get: function get(HisTarget: any, property: string) {
       if (property === "pushState" || property === "replaceState") {
         return function () {
-          if (arguments[2] && arguments[2].indexOf("#") > -1) {
-            console.warn("hash route is not supported!");
-            // return;
-          }
+          // if (arguments[2] && arguments[2].indexOf("#") > -1) {
+          //   console.warn("hash route is not supported!");
+          //   // return;
+          // }
           // TODO 解析query参数  search
           let href = arguments[2];
           let [pathname, search] = href.split("?");
