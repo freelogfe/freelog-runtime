@@ -22,14 +22,15 @@ let instance = null
 
 function render(props = {}) {
   const { container } = props
-
+  console.log(document.querySelector('#vue-admin-beautiful'))
+  console.log(container)
   instance = new Vue({
     router,
     store,
     render: (h) => h(App),
   }).$mount(
     container
-      ? container.querySelector('#vue-admin-beautiful')
+      ? document.querySelector('#vue-admin-beautiful')
       : '#vue-admin-beautiful'
   )
 }
