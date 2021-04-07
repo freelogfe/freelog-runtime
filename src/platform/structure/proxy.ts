@@ -108,7 +108,7 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     let hash = "";
     if (arguments[2] && arguments[2].indexOf("#") > -1) {
       hash = arguments[2];
-      console.warn("hash route is not supported!");
+      console.warn("hash route is not suggested!");
       // return;
     }
     // TODO 解析query参数  search
