@@ -105,14 +105,16 @@ export const saveSandBox = function (name: string, sandBox: any) {
 };
 export const createHistoryProxy = function (name: string, sandbox: any) {
   function patch() {
-    // if (arguments[2] && arguments[2].indexOf("#") > -1) {
-    //   console.warn("hash route is not supported!");
-    //   // return;
-    // }
+    let hash = ''
+    if (arguments[2] && arguments[2].indexOf("#") > -1) {
+      hash = arguments[2]
+      console.warn("hash route is not supported!");
+      // return;
+    }
     // TODO 解析query参数  search
     let href = arguments[2];
     let [pathname, search] = href.split("?");
-    locationCenter.set(name, { pathname, href, search, hash: href });
+    locationCenter.set(name, { pathname, href, search, hash });
   };
   const historyProxy = {
     ...window.history,

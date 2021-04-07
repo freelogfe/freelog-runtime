@@ -2,6 +2,8 @@
  * @author chuzhixin 1204505056@qq.com
  * @description vue.config.js全局配置
  */
+ const { name } = require('./package');
+
 const path = require('path')
 const {
   /* baseURL, */
@@ -55,9 +57,15 @@ module.exports = {
     port: devPort,
     open: true,
     noInfo: false,
+    disableHostCheck: true,
     overlay: {
-      warnings: true,
+      warnings: false,
       errors: true,
+    },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Request-Headers': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT,DELETE',
     },
     // 注释掉的地方是前端配置代理访问后端的示例
     // proxy: {
@@ -71,9 +79,15 @@ module.exports = {
     //   },
     // },
     after: mockServer(),
-  },
+  }, 
   configureWebpack() {
     return {
+      output: {
+        // 把子应用打包成 umd 库格式
+        library: `${name}-[name]`,
+        libraryTarget: 'umd',
+        jsonpFunction: `webpackJsonp_${name}`,
+      },
       resolve: {
         alias: {
           '@': resolve('src'),
