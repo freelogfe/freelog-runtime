@@ -105,9 +105,9 @@ export const saveSandBox = function (name: string, sandBox: any) {
 };
 export const createHistoryProxy = function (name: string, sandbox: any) {
   function patch() {
-    let hash = ''
+    let hash = "";
     if (arguments[2] && arguments[2].indexOf("#") > -1) {
-      hash = arguments[2]
+      hash = arguments[2];
       console.warn("hash route is not supported!");
       // return;
     }
@@ -115,13 +115,13 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     let href = arguments[2];
     let [pathname, search] = href.split("?");
     locationCenter.set(name, { pathname, href, search, hash });
-  };
+  }
   const historyProxy = {
     ...window.history,
-    pushState:patch,
-    replaceState:patch
+    pushState: patch,
+    replaceState: patch,
   };
-  return historyProxy
+  return historyProxy;
   return new Proxy(historyProxy, {
     /*
      */
@@ -193,6 +193,9 @@ export const createLocationProxy = function (name: string, sandbox: any) {
 rawDocument.write = () => {
   console.warn("please be careful");
 };
+rawDocument.writeln = () => {
+  console.warn("please be careful");
+};
 // 需要改的几个属性 body  fonts ParentNode cookie domain designMode title
 const getElementsByClassName = rawDocument.getElementsByClassName;
 const getElementsByTagName = rawDocument.getElementsByTagName;
@@ -201,6 +204,7 @@ const querySelector = rawDocument.querySelector;
 const querySelectorAll = rawDocument.querySelectorAll;
 const getElementById = rawDocument.getElementById;
 const appendChild = rawDocument.body.appendChild;
+const addEventListener = rawDocument.addEventListener;
 export const createDocumentProxy = function (
   name: string,
   sandbox: any,
@@ -246,7 +250,9 @@ export const createDocumentProxy = function (
       rootDoc
     );
     rawDocument.querySelectorAll = rootDoc.querySelectorAll.bind(rootDoc);
+    rawDocument.addEventListener = rootDoc.addEventListener.bind(rootDoc);
     rawDocument.body.appendChild = rootDoc.appendChild.bind(rootDoc);
+    rawDocument.body.removeChild = rootDoc.removeChild.bind(rootDoc);
     rawDocument.querySelector = function () {
       if (["head", "html"].indexOf(arguments[0]) !== -1) {
         if (arguments[0] === "head") return rawDocument.head;
@@ -283,6 +289,7 @@ export const createDocumentProxy = function (
       rawDocument.getElementsByTagNameNS = getElementsByTagNameNS.bind(
         rawDocument
       );
+      rawDocument.addEventListener = addEventListener.bind(rawDocument);
       rawDocument.body.appendChild = appendChild.bind(rawDocument.body);
       rawDocument.querySelector = querySelector.bind(rawDocument);
       rawDocument.querySelector = querySelector.bind(rawDocument);
@@ -359,10 +366,10 @@ export const createDocumentProxy = function (
               }
               // @ts-ignore
               return rootDoc[property]
-              // @ts-ignore
-                ? rootDoc[property](...arguments)
-                // @ts-ignore
-                : appDiv[property](...arguments);
+                ? // @ts-ignore
+                  rootDoc[property](...arguments)
+                : // @ts-ignore
+                  appDiv[property](...arguments);
             }
           };
         }
