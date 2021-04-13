@@ -22,22 +22,29 @@ function createLoader(loader) {
   }
 }
 
-var nodeId = window.__auth_info__.__auth_node_id__
 
 function handleErrorResponse(response) {
   window.FreelogApp.trigger('HANDLE_INVALID_RESPONSE', { response })
 }
 
 var onloadBookDetail = createLoader(function (callback) {
-  window.FreelogApp.QI.pagingGetPresentables({ tags: 'book-intro', resourceType: 'json', isLoadingResourceInfo: 1 })
+  window.freelogApp.getPresentables({ tags: 'book-intro', resourceType: 'json', isLoadingResourceInfo: 1 })
     .then(res => {
-      if (res.errcode === 0 && res.data.dataList.length) {
-        const { presentableId } = res.data.dataList[0]
-        window.FreelogApp.QI.getPresentableData(presentableId)
-          .then(resp => resp.json())
-          .then(data => {
-            if (data && !data.errcode) {
-              callback(data)
+      console.log(res)
+      if (res.data.errcode === 0 && res.data.data.dataList.length) {
+        const { presentableId } = res.data.data.dataList[0]
+        window.freelogApp.getFileStreamById(presentableId, '', {
+          responseType: "blob",
+          onDownloadProgress: function (evt) {
+            console.log(11111, parseInt((evt.loaded / evt.total) * 100))
+          }
+        })
+          .then(async res => {
+            console.log(res)
+            const data = await res.data.text()
+            console.log(data)
+            if (data) {
+              callback(JSON.parse(data))
             } else {
               handleErrorResponse(res)
             }
@@ -49,7 +56,7 @@ var onloadBookDetail = createLoader(function (callback) {
 })
 
 function loadPresentablesByTags(tags) {
-  return window.FreelogApp.QI.pagingGetPresentables({ tags }).then(res => res.json())
+  return window.freelogApp.getPresentables({ tags }).then(res => res.json())
 }
 
 function resolveChapters(chapters) {
@@ -83,10 +90,10 @@ function resolveChapters(chapters) {
 }
 
 var onloadChapters = createLoader(function (callback) {
-  window.FreelogApp.QI.pagingGetPresentables({ tags: 'chapter', isLoadVersionProperty: 1 })
+  window.freelogApp.getPresentables({ tags: 'chapter', isLoadVersionProperty: 1 })
     .then(res => {
-      if (res.errcode === 0 && res.data.dataList.length) {
-        var data = resolveChapters(res.data.dataList)
+      if (res.data.errcode === 0 && res.data.data.dataList.length) {
+        var data = resolveChapters(res.data.data.dataList)
         callback(data)
       } else {
         handleErrorResponse(res)
@@ -95,10 +102,9 @@ var onloadChapters = createLoader(function (callback) {
 })
 
 function requestPresentableData(presentableId) {
-  var nodeId = window.__auth_info__.__auth_node_id__
-  return window.FreelogApp.QI.getPresentableData(presentableId)
+  return window.freelogApp.getFileStreamById(presentableId)
     .then(res => {
-      var meta = decodeURIComponent(res.headers.get('freelog-resource-property'))
+      var meta = decodeURIComponent(res.headers['freelog-resource-property'])
       var chapter
       try {
         chapter = JSON.parse(meta)
@@ -106,33 +112,30 @@ function requestPresentableData(presentableId) {
         chapter = null
         console.error(e)
       }
+      console.log(res)
       if (!chapter) {
-        return res.blob().then(errResponse => {
-          let a = window.FreelogApp.QI.getPresentable(presentableId)
-          return window.FreelogApp.QI.getPresentable(presentableId)
-            .then(res => {
-              chapter = res.data && res.data.versionProperty || {
-                "chapterName": "第一章 秦羽",
-                "volume": 1,
-                "chapter": 1,
-                "volumeName": "秦羽"
-              }
-              chapter.presentableId = presentableId
-              chapter.error = errResponse
-              return chapter
-            }).catch((e)=>{
-              console.error(e)
-            })
-        })
+        return window.freelogApp.getInfoById(presentableId)
+          .then(res => {
+            chapter = res.data && res.data.versionProperty || {
+              "chapterName": "第一章 秦羽",
+              "volume": 1,
+              "chapter": 1,
+              "volumeName": "秦羽"
+            }
+            chapter.presentableId = presentableId
+            chapter.error = 'no chapter'
+            return chapter
+          }).catch((e) => {
+            console.error(e)
+          })
       } else {
-        return res.text().then(content => {
-          content = content.split('\n')
-            .filter(cont => cont !== '')
-            .map(cont => `<p style="text-indent: 2em;">${cont}</p><br/>`)
-            .join('')
-          chapter.content = `<div>${content}</div>`
-          return chapter
-        })
+        let content = res.data
+        content = content.split('\n')
+          .filter(cont => cont !== '')
+          .map(cont => `<p style="text-indent: 2em;">${cont}</p><br/>`)
+          .join('')
+        chapter.content = `<div>${content}</div>`
+        return chapter
       }
     })
 }

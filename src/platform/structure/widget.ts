@@ -107,7 +107,7 @@ export function mountWidget(
             firstDev = true
         }
     }
-    console.log(container, entry)
+    // console.log(container, entry)
     let id = !sub ? "freelogDev" : 'freelog-' + sub.id
     if(sub && flatternWidgets.has(sub.id)){
        id = 'freelog-' +  sub.id + (count + 1)
