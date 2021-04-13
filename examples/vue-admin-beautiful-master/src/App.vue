@@ -8,6 +8,7 @@
   export default {
     name: 'App',
     mounted() {
+      document.querySelector('html')
       // const el = document.createElement('DIV')
       // el.innerHTML = '23423423423'
       // const append = document.body.appendChild

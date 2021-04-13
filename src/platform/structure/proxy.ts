@@ -257,9 +257,11 @@ export const createDocumentProxy = function (
       if (["head", "html"].indexOf(arguments[0]) !== -1) {
         if (arguments[0] === "head") return rawDocument.head;
         // @ts-ignore
-        if (arguments[0] === "html")
+        if (arguments[0] === "html") {
+          console.log(1111, arguments)
           // @ts-ignore
           return querySelector.bind(document)(...arguments);
+        }
       } else {
         if (["body"].indexOf(arguments[0]) !== -1) {
           return rootDoc;
