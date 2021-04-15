@@ -6,10 +6,11 @@ import Vant from "vant";
 import VueLazyload from "vue-lazyload";
 import VuePageStack from "vue-page-stack";
 import "normalize.css/normalize.css";
-import "./utils/vw.css";
+// import "./utils/vw.css";
 import "vant/lib/index.css";
 import "./assets/css/reset.scss";
 import "./public-path";
+import './utils/flexible.js'
 
 Vue.use(Vant);
 Vue.use(VuePageStack, { router });

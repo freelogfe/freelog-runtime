@@ -124,6 +124,7 @@ export function mountWidget(
     };
     addWidgetConfig(id, widgetConfig);
     // TODO 所有插件加载用promise all
+    console.log(1111111111,config)
     // @ts-ignore
     const app = loadMicroApp(widgetConfig, {
         sandbox: {

@@ -22,7 +22,7 @@
 1024x768
 1080x1812
 1080x1920
- */
+
  html {
     font-size: -webkit-calc(13.33333333vw);
     font-size: calc(13.33333333vw);
@@ -111,3 +111,4 @@
       font-size: calc(13.33333333vw);
     }
   }
+   */

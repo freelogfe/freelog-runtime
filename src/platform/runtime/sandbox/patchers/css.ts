@@ -121,6 +121,7 @@ export class ScopedCSS {
     // handle body { ... }
     // handle :root { ... }
     if (selector === 'html' || selector === 'body' || selector === ':root') {
+      console.log(cssText, rootSelectorRE, prefix)
       return cssText.replace(rootSelectorRE, prefix);
     }
 

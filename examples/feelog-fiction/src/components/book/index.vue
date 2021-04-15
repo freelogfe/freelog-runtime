@@ -79,7 +79,7 @@
         </section>
       </div>
     </MyScroll>
-    <van-popup v-model="isStartArticle" :overlay="false" position="top" :style="{ height: '100%'}">
+    <van-popup v-model="isStartArticle" :overlay="false" position="top" :style="{ height: '100%', width:  '10rem', margin: 'auto', left: '5rem !important'}">
       <MyArticle
         @close="closeHandle"
         @loadCatalog="_getArticle"

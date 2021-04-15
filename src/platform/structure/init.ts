@@ -29,7 +29,7 @@ export function initNode() {
     // @ts-ignore
     const container = document.getElementById("freelog-plugin-container");
     if (devData.type === DEV_WIDGET) {
-      freelogApp.mountWidget("", container, "", "");
+      freelogApp.mountWidget("", container, "", "", {shadowDom: false,scopedCss: true});
       return;
     }
     // @ts-ignore
@@ -44,7 +44,7 @@ export function initNode() {
         isTheme: true,
       },
       "",
-      {shadowDom: false}
+      {shadowDom: false,scopedCss: true}
     );
     // new Promise<void>((resolve) => {
     //   let count = 0
