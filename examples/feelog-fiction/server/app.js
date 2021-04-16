@@ -34,7 +34,7 @@ app.use(async (req, res, next) => {
 })
 app.use('/api', router);
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3001
 const host = process.env.HOST || ''
 
 app.server = app.listen(port, host, () => {

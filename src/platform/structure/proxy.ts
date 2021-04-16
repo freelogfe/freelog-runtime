@@ -20,6 +20,11 @@ import {
   widgetsConfig,
   childrenWidgets,
   flatternWidgets,
+  historyBack,
+  historyForward,
+  historyGo,
+  setHistory,
+  getHistory
 } from "./widget";
 import { baseUrl } from "../../services/base";
 const rawDocument = document;
@@ -27,6 +32,12 @@ const rawHistory = window["history"];
 const rawLocation = window["location"];
 const rawLocalStorage = window["localStorage"];
 const locations = new Map();
+window.addEventListener('popstate', function (event) {
+  initLocation() 
+}, true);
+window.addEventListener('hashchange', function() {
+  initLocation() 
+}, true);
 export function initLocation() {
   if (rawLocation.hash && rawLocation.hash.split("#$")) {
     var loc = rawLocation.hash.split("#$");
@@ -58,7 +69,7 @@ export function setLocation() {
       locations.delete(key);
       return;
     }
-    hash += "#$" + key + "=" + value.pathname || "";
+    hash += "#$" + key + "=" + value.href || "";
   });
   rawLocation.hash = hash;
 }
@@ -108,7 +119,7 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     let hash = "";
     if (arguments[2] && arguments[2].indexOf("#") > -1) {
       hash = arguments[2];
-      console.warn("hash route is not suggested!");
+      // console.warn("hash route is not suggested!");
       // return;
     }
     // TODO 解析query参数  search
@@ -116,10 +127,49 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     let [pathname, search] = href.split("?");
     locationCenter.set(name, { pathname, href, search, hash });
   }
+  function pushPatch(){
+    // @ts-ignore
+    patch(...arguments)
+    setHistory(name, arguments)
+  }
+  function replacePatch(){
+    // @ts-ignore
+    patch(...arguments)
+    setHistory(name, arguments, true)
+  }
+  function go(count: number){
+    const history = historyGo(name, count)
+    if(history){
+      // @ts-ignore
+      patch(...history)
+    }
+  }
+  function back(){
+    const history = historyBack(name)
+    if(history){
+      // @ts-ignore
+      patch(...history)
+    }
+  }
+  function forward(){
+    const history = historyForward(name)   
+    if(history){
+      // @ts-ignore
+      patch(...history)
+    }
+  }
+  const state = getHistory(name).histories[getHistory(name).position]?[0] : {}
+  const length = getHistory(name).length 
   const historyProxy = {
+    // @ts-ignore
+    length: length, 
     ...window.history,
-    pushState: patch,
-    replaceState: patch,
+    pushState: pushPatch,
+    replaceState: replacePatch,
+    state,
+    go: go, // window.history.go.bind(window.history),
+    back: back, // window.history.back.bind(window.history),
+    forward: forward, //window.history.forward.bind(window.history)
   };
   return historyProxy;
   return new Proxy(historyProxy, {
@@ -258,7 +308,6 @@ export const createDocumentProxy = function (
         if (arguments[0] === "head") return rawDocument.head;
         // @ts-ignore
         if (arguments[0] === "html") {
-          console.log(1111, arguments)
           // @ts-ignore
           return querySelector.bind(document)(...arguments);
         }

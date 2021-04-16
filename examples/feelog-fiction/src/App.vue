@@ -10,7 +10,12 @@ export default {
     return {};
   },
   created() {},
-  mounted() {},
+  mounted() {
+    setTimeout(()=>{
+      console.log('234234234')
+      history.forward()
+    }, 5000)
+  },
 };
 </script>
 <style lang="scss">
