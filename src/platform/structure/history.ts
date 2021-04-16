@@ -14,8 +14,7 @@ export function setHistory(key: string, history: any, isReplace?: boolean) {
     obj.histories.splice(obj.position, 1, history);
   } else {
     let cut = obj.position
-    if(obj.position === 0) cut = 1 
-    obj.histories = obj.histories.slice(0, cut)
+    obj.histories = obj.histories.slice(0, cut + 1)
     obj.histories.push(history);
     obj.length = obj.histories.length;
     obj.position = obj.histories.length - 1
