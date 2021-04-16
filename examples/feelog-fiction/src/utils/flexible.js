@@ -69,7 +69,7 @@
     function refreshRem(){
         var width = docEl.getBoundingClientRect().width;
         if (!window.isMobile) {
-            width = width / 2;
+            // width = width / 2;
         }
         var rem = width / 10;
         docEl.style.fontSize = rem + 'px';

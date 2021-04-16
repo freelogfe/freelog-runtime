@@ -53,7 +53,6 @@ export default function frequest(
     })
   }
   let _api = Object.assign(_config, baseConfig, api);
-  console.log(_api)
   if (returnUrl && _api.method.toLowerCase() === "get") {
     let query = "";
     if (_api.params) {

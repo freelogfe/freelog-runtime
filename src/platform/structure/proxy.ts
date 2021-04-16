@@ -19,13 +19,15 @@ import {
   activeWidgets,
   widgetsConfig,
   childrenWidgets,
-  flatternWidgets,
+  flatternWidgets
+} from "./widget";
+import { 
   historyBack,
   historyForward,
   historyGo,
   setHistory,
   getHistory
-} from "./widget";
+} from "./history";
 import { baseUrl } from "../../services/base";
 const rawDocument = document;
 const rawHistory = window["history"];
@@ -142,6 +144,8 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     if(history){
       // @ts-ignore
       patch(...history)
+    }else if(count == -1){
+      window.history.go(-1)
     }
   }
   function back(){
@@ -149,7 +153,7 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     if(history){
       // @ts-ignore
       patch(...history)
-    }
+    } 
   }
   function forward(){
     const history = historyForward(name)   

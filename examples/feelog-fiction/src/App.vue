@@ -11,10 +11,10 @@ export default {
   },
   created() {},
   mounted() {
-    setTimeout(()=>{
-      console.log('234234234')
-      history.forward()
-    }, 5000)
+    // setTimeout(()=>{
+    //   console.log('234234234')
+    //   history.forward()
+    // }, 5000)
   },
 };
 </script>
