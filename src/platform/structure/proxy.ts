@@ -144,9 +144,10 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     if(history){
       // @ts-ignore
       patch(...history)
-    }else if(count == -1){
-      window.history.go(-1)
     }
+    // else if(count == -1){
+    //   window.history.go(-1)
+    // }
   }
   function back(){
     const history = historyBack(name)
