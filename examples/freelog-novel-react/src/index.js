@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './public-path';
-
+import './utils/flexible'
  
 
 // If you want to start measuring performance in your app, pass a function
@@ -12,15 +12,14 @@ import './public-path';
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 export async function bootstrap() {
-  console.log('[react15] react app bootstraped');
+  console.log('[react17] react app bootstraped');
 }
+//     </React.StrictMode>,
 
 export async function mount(props = {}) {
   const { container } = props;
   ReactDOM.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
+      <App />,
     document.getElementById('root')
   );
 }

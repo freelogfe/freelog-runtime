@@ -131,6 +131,12 @@ module.exports = function (webpackEnv) {
               },
               stage: 3,
             }),
+            require('postcss-pxtorem')({
+              rootValue: 75,
+              selectorBlackList: [], //过滤
+              propList: ['*'],
+              exclude: /node_modules/i  // 过滤掉node_modules 文件夹下面的样式
+            }),  
             // Adds PostCSS Normalize as the reset css with default options,
             // so that it honors browserslist config in package.json
             // which in turn let's users customize the target behavior as per their needs.
