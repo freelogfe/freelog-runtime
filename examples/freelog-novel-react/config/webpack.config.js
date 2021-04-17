@@ -2,6 +2,8 @@
 
 const fs = require('fs');
 const path = require('path');
+const { name } = require('../package');
+
 const webpack = require('webpack');
 const resolve = require('resolve');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
@@ -228,6 +230,9 @@ module.exports = function (webpackEnv) {
       // this defaults to 'window', but by setting it to 'this' then
       // module chunks which are built will work in web workers as well.
       globalObject: 'this',
+      library: `${name}-[name]`,
+    libraryTarget: 'umd',
+    jsonpFunction: `webpackJsonp_${name}`,
     },
     optimization: {
       minimize: isEnvProduction,

@@ -32,13 +32,10 @@ module.exports = function (proxy, allowedHost) {
     // So we will disable the host check normally, but enable it if you have
     // specified the `proxy` setting. Finally, we let you override it if you
     // really know what you're doing with a special environment variable.
-    disableHostCheck:
-      !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true',
+ 
     // Enable gzip compression of generated files.
-    compress: true,
-    // Silence WebpackDevServer's own logs since they're generally not useful.
+     // Silence WebpackDevServer's own logs since they're generally not useful.
     // It will still show compile warnings and errors with this setting.
-    clientLogLevel: 'none',
     // By default WebpackDevServer serves physical files from current directory
     // in addition to all the virtual build products that it serves from memory.
     // This is confusing because those files won’t automatically be available in
@@ -100,6 +97,15 @@ module.exports = function (proxy, allowedHost) {
       index: paths.publicUrlOrPath,
     },
     public: allowedHost,
+    port: '7102',
+    clientLogLevel: 'warning',
+    disableHostCheck: true,
+    compress: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+    overlay: { warnings: false, errors: true },
+  
     // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
     proxy,
     before(app, server) {
