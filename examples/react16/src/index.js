@@ -3,6 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import '../../freelog-novel-react/src/utils/flexible.js'
+
 import zhCN from 'antd/lib/locale/zh_CN';
 function render(props) {
   const { container } = props;
