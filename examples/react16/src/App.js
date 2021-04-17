@@ -4,7 +4,7 @@ import { Divider } from 'antd';
 
 import 'antd/dist/antd.min.css';
 import './App.css';
-
+import {routeConfig} from './route'
 import LibVersion from './components/LibVersion';
 import HelloModal from './components/HelloModal';
 
@@ -13,19 +13,8 @@ const About = lazy(() => import('./pages/About'));
 
 const RouteExample = () => {
   return (
-    <Router basename={window.__POWERED_BY_FREELOG__ ? '/react16' : '/'}>
-      <nav>
-        <Link to="/">Home</Link>
-        <Divider type="vertical" />
-        <Link to="/about">About</Link>
-      </nav>
-      <Suspense fallback={null}>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/about" component={About} />
-        </Switch>
-      </Suspense>
-    </Router>
+    <Router routes={routeConfig} />
+    
   );
 };
 
@@ -36,7 +25,11 @@ export default function App() {
       <HelloModal />
 
       <Divider />
-
+      <nav>
+        <Link to="/">Home</Link>
+        <Divider type="vertical" />
+        <Link to="/about">About</Link>
+      </nav>
       <RouteExample />
     </div>
   );

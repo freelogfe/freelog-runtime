@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
+import zhCN from 'antd/lib/locale/zh_CN';
 function render(props) {
   const { container } = props;
   ReactDOM.render(<App />, container ? container.querySelector('#root') : document.querySelector('#root'));
