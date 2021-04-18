@@ -92,6 +92,13 @@ export function mountWidget(
   if (sub && flatternWidgets.has(sub.id)) {
     id = "freelog-" + sub.id + (count + 1);
   }
+  if(!data && sub){
+    data = {
+      presentableId:sub.id,
+      entityNid: '',
+      subDependId: sub.id
+    }
+  }
   // @ts-ignore TODO 用了太多重复判断，要抽取,当entry存在时该行不出现sub data
   const widgetConfig = {
     container,
