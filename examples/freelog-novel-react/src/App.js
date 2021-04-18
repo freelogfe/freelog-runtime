@@ -5,13 +5,10 @@ import { Button } from "antd";
 
 import "./App.scss";
 
-import LibVersion from "./components/LibVersion";
-import HelloModal from "./components/HelloModal";
-
+  
 import Home from "./pages/Home";
 const Book = lazy(() => import("./pages/book/book"));
 const Reader = lazy(() => import("./pages/book/reader"));
-const Chapter = lazy(() => import("./pages/book/component/chapter"));
 
 const RouteExample = () => {
   return (
@@ -21,7 +18,6 @@ const RouteExample = () => {
           <Route path="/" exact component={Home} />
           <Route path="/book/:id" exact component={Book} />
           <Route path="/book/:id/reader" exact component={Reader} />
-          <Route path="/book/:id/reader/chapter" component={Chapter} />
         </Switch>
       </Suspense>
     </Router>

@@ -66,7 +66,9 @@
   .h-#{$i} {
     height: (1px * $i) !important;
   }
-
+  .z-#{$i} {
+    z-index: $i !important;
+  }
 }
 
  

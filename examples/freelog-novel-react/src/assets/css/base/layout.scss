@@ -123,7 +123,15 @@
   -webkit-line-clamp: 3;
   overflow: hidden;
 }
-
+.text-pre-wrap{
+  white-space: pre-wrap
+}
+.text-pre{
+  white-space: pre
+}
+.text-pre-line{
+  white-space: pre-line
+}
 .shrink-0 {
   flex-shrink: 0;
 }

@@ -57,7 +57,7 @@ export default function (props) {
 
               className={
                 (index % 2 === 0 ? "ml-25" : " mr-25") +
-                " mb-20 p-10 w-336 h-400 flex-column br-middle b-1"
+                " mb-20 p-10 w-336 h-400 flex-column br-middle b-1 space-between"
               }
             >
               <div className="flex-1 over-h flex-column">
@@ -67,7 +67,7 @@ export default function (props) {
             </div>
           );
         })}
-        <div className="fc-less w-100x mb-20 mt-10 text-center">到底啦....</div>
+        <div className="fc-less w-100x mb-20 mt-10 text-center fs-30 f-italic">到底啦....</div>
       </div>
     </div>
   );

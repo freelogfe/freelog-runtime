@@ -4,7 +4,12 @@
   .fs-#{$i} {
     font-size: (1px * $i)  !important;
   }
-
+  .lh-#{$i} {
+    line-height: (1px * $i)  !important;
+  }
+  .ls-#{$i} {
+    letter-spacing: (1px * $i)  !important;
+  }
 }
 
 
@@ -28,7 +33,15 @@
 .fc-grey {
   color: $fc-grey
 }
+.fc-nav-normal {
+  color: $fc-nav-normal;
+}
 
+.fc-nav-active {
+  color: $fc-nav-active
+}
+ 
+ 
 $weight-regular: 400;
 
 $weight-medium: 500;
@@ -123,4 +136,12 @@ $weight-bold: 600;
 .f-nav-active {
   font-size: $fs-nav-active;
   color: $fc-nav-active;
+}
+
+.f-italic{
+  font-style: italic;
+}
+
+.f-oblique{
+  font-style: oblique;
 }
