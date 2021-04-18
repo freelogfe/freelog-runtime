@@ -115,11 +115,13 @@ export default {
   computed: {
     ...mapGetters(["bookInfo", "articleContent"]),
     star() {
+      console.log(this.bookInfo.catalog)
       return parseFloat(this.bookInfo.starScore);
     }
   },
   watch: {
     bookInfo(val) {
+      console.log(val)
       this.isCollect = val.collect;
       this.isLike = val.like;
       val.catalog.forEach(item => {

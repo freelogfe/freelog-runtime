@@ -1,23 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 export default function Chapter(props) {
   const [hovered, setHovered] = useState(false);
   const [nextHovered, setNextHovered] = useState(false);
   const [preHovered, setPreHovered] = useState(false);
-  const chapters = props.current.bookInfo.chapter;
+  const chapters = props.current.chapters;
   const [chapterIndex, setChapterIndex] = useState(props.current.chapterIndex);
-  const [chapter, setChapter] = useState(props.current.chapter);
+  const [chapter, setChapter] = useState(chapters[chapterIndex]);
   const [tapTime, setTaptime] = useState(0);
-  let data =
-    "            又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。         \r\n    又或者他们早就发现了那个小镇的异常，       \r\n 只不过对那尊邪神有什么特别的想法， \r\n 准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。 \r\n 又或者他们早就发现了那个小镇的异常，  \r\n 只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。";
-  function getChapter(index) {
+  const scrollRef = useRef(null);
+
+  async function getChapter(index) {
     if (chapters[index]) {
-      let data2 = index%2 === 1 ? data :
-        "          w43534535  又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。         \r\n    又或者他们早就发现了那个小镇的异常，       \r\n 只不过对那尊邪神有什么特别的想法， \r\n 准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。 \r\n 又或者他们早就发现了那个小镇的异常，  \r\n 只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。又或者他们早就发现了那个小镇的异常，只不过对那尊邪神有什么特别的想法，准备来个放长线钓大鱼，所以才一直没有行动。";
+      const res = await window.freelogApp.getFileStreamById(chapters[chapterIndex].presentableId)
       setChapterIndex(index)
-      setChapter({...chapters[index], data: data2});
+      setChapter({...chapters[index], data: res.data});
+      scrollRef.current.scrollTop = 0
     }
   }
+
+  useEffect(async() => {
+    getChapter(chapterIndex)
+   }, []);
   return (
     <div className="p-absolute w-100x h-100x over-h flex-column z-100  fadeInDown bg-less">
       <div className="flex-row w-100x over-h align-center py-10 pr-10 bb-1">
@@ -39,14 +43,14 @@ export default function Chapter(props) {
           x
         </div>
         <div className="flex-1 over-h">
-          <div className="fs-30 text-ellipsis w-100x text-align-center">
-            {chapter.name}
+          <div className="fs-30 text-ellipsis w-100x text-align-center pr-20">
+            {chapter.presentableName}
           </div>
         </div>
       </div>
       <div className="flex-1 w-100x over-h">
-        <div className="w-100x h-100x y-auto fs-30 p-20 flex-column">
-          <p className="lh-50 ls-4 text-pre-wrap pl-10">{chapter.data || data}</p>
+        <div className="w-100x h-100x y-auto fs-30 p-20 flex-column" ref={scrollRef}>
+          <p className="lh-50 ls-4 text-pre-wrap pl-10">{chapter.data || ''}</p>
           <div className="fc-less w-100x mb-20 mt-10 text-center f-italic">
             本章结束....
           </div>
