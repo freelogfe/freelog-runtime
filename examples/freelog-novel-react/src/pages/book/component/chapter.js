@@ -12,7 +12,7 @@ export default function Chapter(props) {
 
   async function getChapter(index) {
     if (chapters[index]) {
-      const res = await window.freelogApp.getFileStreamById(chapters[chapterIndex].presentableId)
+      const res = await window.freelogApp.getFileStreamById(chapters[index].presentableId)
       setChapterIndex(index)
       setChapter({...chapters[index], data: res.data});
       scrollRef.current.scrollTop = 0
@@ -43,7 +43,7 @@ export default function Chapter(props) {
           x
         </div>
         <div className="flex-1 over-h h-55">
-          <div className="fs-30 text-ellipsis w-100x text-align-center pr-20 lh-55">
+          <div className="fs-30 text-ellipsis w-100x b-box text-align-center pr-40 lh-55">
             {chapter.presentableName}
           </div>
         </div>
