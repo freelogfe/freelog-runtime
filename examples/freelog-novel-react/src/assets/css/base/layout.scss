@@ -168,7 +168,12 @@
   right: 0;
   bottom: 0;
 }
-
+.b-box{
+  box-sizing: border-box;
+}
+.c-box{
+  box-sizing: content-box;
+}
 // display
 .d-block {
   display: block !important;

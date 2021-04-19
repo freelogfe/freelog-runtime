@@ -24,7 +24,7 @@ export default function Chapter(props) {
    }, []);
   return (
     <div className="p-absolute w-100x h-100x over-h flex-column z-100  fadeInDown bg-less">
-      <div className="flex-row w-100x over-h align-center py-10 pr-10 bb-1">
+      <div className="flex-row w-100x over-h align-center py-10 pr-10 bb-1 b-box">
         <div
           className={
             (hovered ? " fc-nav-active" : "fc-less") +
@@ -42,16 +42,16 @@ export default function Chapter(props) {
         >
           x
         </div>
-        <div className="flex-1 over-h">
-          <div className="fs-30 text-ellipsis w-100x text-align-center pr-20">
+        <div className="flex-1 over-h h-55">
+          <div className="fs-30 text-ellipsis w-100x text-align-center pr-20 lh-55">
             {chapter.presentableName}
           </div>
         </div>
       </div>
       <div className="flex-1 w-100x over-h">
-        <div className="w-100x h-100x y-auto fs-30 p-20 flex-column" ref={scrollRef}>
-          <p className="lh-50 ls-4 text-pre-wrap pl-10">{chapter.data || ''}</p>
-          <div className="fc-less w-100x mb-20 py-10 text-center f-italic">
+        <div className="w-100x h-100x y-auto fs-35 px-20 pt-30 flex-column b-box" ref={scrollRef}>
+          <p className="lh-50 ls-4 text-pre-wrap px-10 flex-1">{chapter.data || ''}</p>
+          <div className="fc-less w-100x  py-30 text-center f-italic">
             本章结束....
           </div>
         </div>

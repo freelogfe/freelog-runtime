@@ -61,7 +61,7 @@ function Book(props) {
           className={"text-ellipsis flex-row align-center" + (hovered? ' fc-nav-active': '')}
         >
           <div className={"mr-5 fs-40 pb-5"  + (!hovered? ' fc-less': '')}>&lt;</div>{" "}
-          <div className="fs-30 text-ellipsis flex-1">{bookInfo.presentableName}</div>
+          <div className="fs-30 text-ellipsis flex-1 lh-55">{bookInfo.presentableName}</div>
         </div>
       </div>
       <div className="flex-1 over-h w-100x">
