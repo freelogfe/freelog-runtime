@@ -10,10 +10,10 @@ function Book(props) {
 
   useEffect(async() => {
     const res = await window.freelogApp.getPresentablesSearch({presentableIds: bookId})
-    const chaptersRes = await window.freelogApp.getPresentables({ resourceType: "chapter", tags: bookInfo.presentableName, isLoadVersionProperty: 1})
     const bookResource = await window.freelogApp.getResourceInfoById(bookId)
     console.log(bookResource)
     setBookInfo({...res.data.data[0], intro: bookResource.data.data.intro})
+    const chaptersRes = await window.freelogApp.getPresentables({ resourceType: "chapter", tags: res.data.data[0].presentableName, isLoadVersionProperty: 1})
     let chaptersData = chaptersRes.data.data.dataList
     console.log(chaptersData)
     chaptersData.sort((a,b)=>{
@@ -68,19 +68,19 @@ function Book(props) {
         <div className="flex-column h-100x y-auto w-100x">
           {/* 简介 */}
           <div className="flex-column bb-1">
-            <div className="fw-bold fs-35 py-10 bg-less px-20">简介</div>
-            <div className="fs-30 px-30 py-10">
+            <div className="fw-bold fs-35 py-20 bg-less px-20">简介</div>
+            <div className="fs-30 px-30 py-20 mb-20 lh-50">
               {bookInfo.intro? <p className="">{bookInfo.intro}</p> : <span className="fc-less f-italic">暂无</span>}
             </div>
           </div>
           {/* 章节 */}
           <div className="flex-column">
-            <div className="fw-bold fs-35 py-10 px-20 bg-less">
+            <div className="fw-bold fs-35 py-20 px-20 bg-less">
               章节（共{chapters.length}章）
             </div>
             {chapters.map((item, index) => {
               return (
-                <div key={index} className="fs-30 pl-40 pr-10 py-20 bb-1 text-pre-wrap" onClick={() => {
+                <div key={index} className="fs-30 pl-40 pr-10 py-30 bb-1 text-pre-wrap" onClick={() => {
                   setCurrent({bookInfo, chapters, chapterIndex: index })
                   setVisible(true)
                 }}>
