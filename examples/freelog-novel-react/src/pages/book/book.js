@@ -1,7 +1,8 @@
 import React, { lazy, useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
-const Chapter = lazy(() => import("./component/chapter"));
+import {toChinesNum} from '../../utils/utils'
 
+const Chapter = lazy(() => import("./component/chapter"));
 function Book(props) {
   const bookId = props.match.params.id;
   const [bookInfo, setBookInfo] = useState({});
@@ -11,7 +12,25 @@ function Book(props) {
     const res = await window.freelogApp.getInfoById(bookId)
     console.log(res)
     setBookInfo(res.data.data)
-    const chaptersRes = await window.freelogApp.getPresentables({ resourceType: "chapter", tags: res.data.data.presentableName})
+    const chaptersRes = await window.freelogApp.getPresentables({ resourceType: "chapter", tags: res.data.data.presentableName, isLoadVersionProperty: 1})
+    console.log(chaptersRes)
+    let chaptersData = chaptersRes.data.data.dataList
+    chaptersData.sort((a,b)=>{
+      let aIndex = 0
+      let bIndex = 1
+      try{
+         aIndex = parseInt(a.versionProperty.chapter)
+         bIndex = parseInt(b.versionProperty.chapter)
+      }catch(e){
+        console.log("chapter 设置错误 " + a.presentableName + ' 或者 ' + b.presentableName )
+      }
+      
+      return aIndex - bIndex
+    })
+    chaptersData = chaptersData.map((item, index)=>{
+      item.chapterIndex = '第' + toChinesNum(index + 1) + '章'  
+      return item
+    })
     setChapters(chaptersRes.data.data.dataList || [])
   }, []);
   
@@ -61,11 +80,11 @@ function Book(props) {
             </div>
             {chapters.map((item, index) => {
               return (
-                <div key={index} className="fs-30 pl-40 pr-10 py-20 bb-1" onClick={() => {
+                <div key={index} className="fs-30 pl-40 pr-10 py-20 bb-1 text-pre-wrap" onClick={() => {
                   setCurrent({bookInfo, chapters, chapterIndex: index })
                   setVisible(true)
                 }}>
-                  {item.presentableName}
+                  {item.chapterIndex + '      '  + item.presentableName}
                 </div>
               );
             })}

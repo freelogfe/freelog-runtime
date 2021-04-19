@@ -8,7 +8,6 @@ import "./App.scss";
   
 import Home from "./pages/Home";
 const Book = lazy(() => import("./pages/book/book"));
-const Reader = lazy(() => import("./pages/book/reader"));
 
 const RouteExample = () => {
   return (
@@ -17,7 +16,6 @@ const RouteExample = () => {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/book/:id" exact component={Book} />
-          <Route path="/book/:id/reader" exact component={Reader} />
         </Switch>
       </Suspense>
     </Router>
