@@ -1,5 +1,5 @@
 <template >
-  <div>
+  <div class="theme-main">
     <div id="freelog-single"></div>
   </div>
 </template>
@@ -49,5 +49,12 @@ export default {
 </script>
 
 <style lang="less">
-@import "./index.less";
-</style>
+.theme-main{
+  height: 100%;
+  width: 100%;
+}
+#freelog-single{
+  height: 100%;
+  width: 100%;
+}
+ </style>

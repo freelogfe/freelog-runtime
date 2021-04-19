@@ -10,10 +10,8 @@ function Book(props) {
 
   useEffect(async() => {
     const res = await window.freelogApp.getInfoById(bookId)
-    console.log(res)
     setBookInfo(res.data.data)
     const chaptersRes = await window.freelogApp.getPresentables({ resourceType: "chapter", tags: res.data.data.presentableName, isLoadVersionProperty: 1})
-    console.log(chaptersRes)
     let chaptersData = chaptersRes.data.data.dataList
     chaptersData.sort((a,b)=>{
       let aIndex = 0
@@ -24,7 +22,6 @@ function Book(props) {
       }catch(e){
         console.log("chapter 设置错误 " + a.presentableName + ' 或者 ' + b.presentableName )
       }
-      
       return aIndex - bIndex
     })
     chaptersData = chaptersData.map((item, index)=>{
