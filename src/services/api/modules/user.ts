@@ -1,9 +1,32 @@
-import { placeHolder } from '../../base'
+import { placeHolder } from "../../base";
 
+export type User = {
+  login: any;
+  loginOut: any;
+};
 
-const user = {}
+const user = {
+  login: {
+    url: `passport/login`,
+    method: "post",
+    params: {
+      loginName: "string",
+      password: "string",
+      isRemember: "string",
+      returnUrl: "string",
+      jwtType: "string",
+    },
+  },
+  loginOut: {
+    url: `passport/logout`,
+    method: "post",
+    params: {
+      returnUrl: "string",
+    },
+  },
+};
 
-// user.getUserInfos = {
+// user.getUserInfos = {  passport/logout?returnUrl={returnUrl}
 //     url: '/api/userinfos',
 //     method: 'GET',
 // }
@@ -17,8 +40,6 @@ const user = {}
 //     url: '/api/users/current',
 //     method: 'GET',
 // }
-
-// // TODO 使用namespace来做
 
 // user.login = {
 //     url: '/v1/passport/login',

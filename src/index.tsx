@@ -1,7 +1,7 @@
 // @ts-ignore
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.scss';
 import App from './ui/App';
 import reportWebVitals from './reportWebVitals';
 import {run} from './platform'

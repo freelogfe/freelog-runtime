@@ -5,6 +5,7 @@ export default function (props) {
 
   useEffect(async() => {
     const res = await window.freelogApp.getPresentables({ resourceType: 'novel'})
+    console.log(res)
     setNovels(res.data.data.dataList)
   }, []);
 
@@ -20,7 +21,7 @@ export default function (props) {
           return (
             <div
               key={index}
-              onClick={()=> {props.history.push("/book/" + item.presentableId)}}
+              onClick={()=> { props.history.push("/book/" + item.presentableId)}}
 
               className={
                 (index % 2 === 0 ? "ml-25" : " mr-25") +
