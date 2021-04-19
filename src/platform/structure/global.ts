@@ -4,6 +4,8 @@ import {
 import { getSubDep,  getSelfId} from './utils'
 import {
     getPresentables,
+    getPresentablesPaging,
+    getPresentablesSearch,
     getInfoById,
     getInfoByName,
     getResultById,
@@ -25,6 +27,8 @@ let devData = ''
 export const freelogApp = {
     mountWidget,
     getPresentables,
+    getPresentablesPaging,
+    getPresentablesSearch,
     getInfoById,
     getInfoByName,
     getResultById,

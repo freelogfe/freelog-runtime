@@ -24,7 +24,7 @@ export default function (props) {
 
               className={
                 (index % 2 === 0 ? "ml-25" : " mr-25") +
-                " mb-20 p-10 w-336 h-400 flex-column br-middle b-1 space-between"
+                " mb-20 p-10 w-310 h-400 flex-column br-middle b-1 space-between"
               }
             >
               <div className="flex-1 over-h flex-column">

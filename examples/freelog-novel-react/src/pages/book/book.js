@@ -9,10 +9,13 @@ function Book(props) {
   const [chapters, setChapters] = useState([]);
 
   useEffect(async() => {
-    const res = await window.freelogApp.getInfoById(bookId)
-    setBookInfo(res.data.data)
-    const chaptersRes = await window.freelogApp.getPresentables({ resourceType: "chapter", tags: res.data.data.presentableName, isLoadVersionProperty: 1})
+    const res = await window.freelogApp.getPresentablesSearch({presentableIds: bookId})
+    const chaptersRes = await window.freelogApp.getPresentables({ resourceType: "chapter", tags: bookInfo.presentableName, isLoadVersionProperty: 1})
+    const bookResource = await window.freelogApp.getResourceInfoById(bookId)
+    console.log(bookResource)
+    setBookInfo({...res.data.data[0], intro: bookResource.data.data.intro})
     let chaptersData = chaptersRes.data.data.dataList
+    console.log(chaptersData)
     chaptersData.sort((a,b)=>{
       let aIndex = 0
       let bIndex = 1
@@ -66,8 +69,8 @@ function Book(props) {
           {/* 简介 */}
           <div className="flex-column bb-1">
             <div className="fw-bold fs-35 py-10 bg-less px-20">简介</div>
-            <div className="fs-30 px-30 py-20">
-              {bookInfo.desc? <p>{bookInfo.desc}</p> : <span className="fc-less f-italic">暂无</span>}
+            <div className="fs-30 px-30 py-10">
+              {bookInfo.intro? <p className="">{bookInfo.intro}</p> : <span className="fc-less f-italic">暂无</span>}
             </div>
           </div>
           {/* 章节 */}

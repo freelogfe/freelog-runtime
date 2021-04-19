@@ -51,7 +51,7 @@ export default function Chapter(props) {
       <div className="flex-1 w-100x over-h">
         <div className="w-100x h-100x y-auto fs-30 p-20 flex-column" ref={scrollRef}>
           <p className="lh-50 ls-4 text-pre-wrap pl-10">{chapter.data || ''}</p>
-          <div className="fc-less w-100x mb-20 mt-10 text-center f-italic">
+          <div className="fc-less w-100x mb-20 py-10 text-center f-italic">
             本章结束....
           </div>
         </div>

@@ -1,4 +1,4 @@
-@for $i from 1 through 500 {
+@for $i from 0 through 500 {
   .p-#{$i} {
     padding: (1px * $i) !important;
   }

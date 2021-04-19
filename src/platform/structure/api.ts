@@ -87,7 +87,23 @@ export async function getPresentables(query: any): Promise<any> {
   }
   if (isTest)
     return frequest(presentable.getTestPagingData, [nodeId], { ...query });
-  return frequest(presentable.getPagingData, "", { nodeId, ...query });
+  return frequest(presentable.getPagingPresentables, "", { nodeId, ...query });
+}
+export async function getPresentablesPaging(query: any): Promise<any> {
+  if (query && Object.prototype.toString.call(query) !== "[object Object]") {
+    return "query parameter must be object";
+  }
+  if (isTest)
+    return frequest(presentable.getTestPagingData, [nodeId], { ...query });
+  return frequest(presentable.getPagingPresentables, "", { nodeId, ...query });
+}
+export async function getPresentablesSearch(query: any): Promise<any> {
+  if (query && Object.prototype.toString.call(query) !== "[object Object]") {
+    return "query parameter must be object";
+  }
+  if (isTest)
+    return frequest(presentable.getTestPagingData, [nodeId], { ...query });
+  return frequest(presentable.getPresentables, "", { nodeId, ...query });
 }
 // TODO return a promise
 function getByPresentableId(
