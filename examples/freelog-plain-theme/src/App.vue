@@ -1,3 +1,4 @@
+import presentable from '../../../.history/src/services/api/modules/presentable_20210419152606';
 <template >
   <div id="theme-main">
     <div id="freelog-single"></div>
@@ -15,13 +16,20 @@ export default {
   computed: {},
   methods: {
     async getSub() {
-      const res = await window.freelogApp.getPresentables({ resourceType: 'widget'})
-      const widgets = res.data.data.dataList
+      const res = await window.freelogApp.getPresentables({
+        resourceType: "widget",
+      });
+      const widgets = res.data.data.dataList;
       widgets.some((widget, index) => {
         if (index === 1) return true;
         window.freelogApp.mountWidget(
-          {id: widget.presentableId, name: widget.presentableName},
-          document.getElementById("freelog-single"),
+          {
+            id: widget.resourceInfo.resourceId,
+            presentableId: widget.presentableId,
+            name: widget.presentableName,
+            resourceId: widget.resourceInfo.resourceId,
+          },
+          document.getElementById("freelog-single")
         );
       });
     },
@@ -34,11 +42,11 @@ export default {
 </script>
 
 <style lang="less">
-#theme-main{
+#theme-main {
   width: 100%;
   height: 100%;
 }
-#freelog-single{
+#freelog-single {
   width: 100%;
   height: 100%;
 }

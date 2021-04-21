@@ -224,13 +224,17 @@ export default class ProxySandbox implements SandBox {
       get(target: FakeWindow, p: PropertyKey): any {
         if (p === Symbol.unscopables) return unscopables;
         if(p === '__INJECTED_PUBLIC_PATH_BY_FREELOG__') {
-          console.log(getPublicPath(name))
+          console.log(1111, getPublicPath(name))
           return getPublicPath(name);
         }
         if(p==='fetch'){
-          return function(url:string){
+          return function(url:string, options: any){
+            if(url.indexOf('i18n-ts') > -1){
+              return rawWindow.fetch(url, options) 
+            }
+            console.log(url)
             const patchUrl = getPublicPath(name) + url.split('freelog.com')[1]
-            return rawWindow.fetch(patchUrl)
+            return rawWindow.fetch(patchUrl, options)
           }
         }
         // avoid who using window.window or window.self to escape the sandbox environment to touch the really window

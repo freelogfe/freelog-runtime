@@ -88,26 +88,30 @@ export function mountWidget(
       firstDev = true;
     }
   }
-  let id = !sub ? "freelogDev" : "freelog-" + sub.id;
+  if(!data && sub){
+    data = {
+      presentableId:sub.presentableId,
+      entityNid: '',
+      subDependId: sub.presentableId,
+      resourceInfo: {
+        resourceId: sub.id
+      }
+    }
+  }
+  let id = !sub ? "freelogDev" : "freelog-" + data.resourceInfo.resourceId;
   if (sub && flatternWidgets.has(sub.id)) {
     id = "freelog-" + sub.id + (count + 1);
   }
-  if(!data && sub){
-    data = {
-      presentableId:sub.id,
-      entityNid: '',
-      subDependId: sub.id
-    }
-  }
+  console.log(id,data)
   // @ts-ignore TODO 用了太多重复判断，要抽取,当entry存在时该行不出现sub data
   const widgetConfig = {
     container,
     name: id, //id
     widgetName: !sub ? "freelogDev" : sub.name,
-    id: !sub ? "freelogDev" : sub.id,
+    id: !sub ? "freelogDev" : data.resourceInfo.resourceId,
     entry:
       entry ||
-      `${baseUrl}widgets/${data.subDependId}?entityNid=${data.entityNid}&presentableId=${data.presentableId}`,
+      `${baseUrl}widgets/${data.resourceInfo.resourceId}?entityNid=${data.entityNid}&presentableId=${data.presentableId}&subDependId=${data.subDependId}`,
     isDev: !!entry,
   };
   addWidgetConfig(id, widgetConfig);
@@ -146,7 +150,6 @@ export function mountWidget(
 export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
   const parentGlobal = sandBoxs.get("freelog-" + parent.data.presentableId)
     .proxy;
-  // @ts-ignore
   // @ts-ignore
   // theme.subDeps.push({id:"60068f63973b31003a4fbf2a",name:"chtes/pubu",type:"resource",resourceType:"widget"})
   const promises: Promise<any>[] = [];

@@ -43,6 +43,7 @@ export function initNode() {
         presentableId: theme.data.presentableId,
         entityNid: "",
         subDependId: theme.data.presentableId,
+        resourceInfo: { resourceId: theme.data.resourceInfo.resourceId },
         isTheme: true,
       },
       "",
