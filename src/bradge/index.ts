@@ -1,39 +1,45 @@
-
-
-
-export const socket = function(){
-
+import { SUCCESS, FAILED, USER_CANCEL } from "./event";
+export const socket = function () {};
+export const eventMap = new Map<any, any>();
+export const failedMap = new Map<any, any>();
+var UI:any = null
+var updateUI:any = null
+export function reisterUI(ui: any, update: any){
+    UI = ui
+    updateUI = update
 }
-// const pubSub = {
-//     subs: [],
-//     subscribe(key, fn) { //订阅
-//       if (!this.subs[key]) {
-//         this.subs[key] = [];
-//       }
-//       this.subs[key].push(fn);
-//     },
-//     publish(...arg) {//发布
-//       let args = arg;
-//       let key = args.shift();
-//       let fns = this.subs[key];
-   
-//       if (!fns || fns.length <= 0) return;
-   
-//       for (let i = 0, len = fns.length; i < len; i++) {
-//         fns[i](args);
-//       }
-//     },
-//     unSubscribe(key) {
-//       delete this.subs[key]
-//     }
-//   }
-   
-//   //测试
-//   pubSub.subscribe('name', name => {
-//     console.log(`your name is ${name}`);
-//   })
-//   pubSub.subscribe('gender', gender => {
-//     console.log(`your name is ${gender}`);
-//   })
-//   pubSub.publish('name', 'leaf333');  // your name is leaf333
-//   pubSub.publish('gender', '18');  // your gender is 18
+let seq = 0;
+export function addEvent(
+  name: string,
+  event: string,
+  presentable: any,
+  callBack: any,
+  options: any
+) {
+  seq++;
+  const eventId = name + "#" + seq;
+  eventMap.set(eventId, {eventId, event, presentable, callBack, options });
+  UI && UI()
+}
+function removeEvent(eventId: string) {
+  eventMap.delete(eventId);
+  updateUI && updateUI()
+}
+export function endEvent(eventId: string, type: number, data: any) {
+  if (eventMap.get(eventId)) {
+    switch (type) {
+      case SUCCESS:
+        eventMap.get(eventId).callBack(SUCCESS, data);
+        removeEvent(eventId);
+        break;
+      case FAILED:
+        eventMap.get(eventId).callBack(FAILED, data);
+        removeEvent(eventId);
+        break;
+      case USER_CANCEL:
+        eventMap.get(eventId).callBack(USER_CANCEL, data);
+        removeEvent(eventId);
+        break;
+    }
+  }
+}
