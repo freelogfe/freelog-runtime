@@ -66,6 +66,7 @@ export default {
   methods: {
     async commitAndPushChanges() {
       const changes = this.repositoryChanges
+      console.log(this.repositoryName)
       if (changes.length === 0) return
       if (this.commitMsg === '') return 
       try {
@@ -73,11 +74,14 @@ export default {
         const accessToken = localStorage.getItem('github_access_toekn')
         const result = await window.fetch('//i18n-ts.testfreelog.com/v1/i18nRepository/changes/push', {
           method: 'POST',
-          body: {
+          body: JSON.stringify({
             repositoryName: this.repositoryName,
             commitMsg: this.commitMsg,
             accessToken: accessToken,
-          }
+          }),
+           headers: {
+              'content-type': 'application/json'
+            },
         }).then(res => res.json())
         
         if (result.errcode === 0) {
