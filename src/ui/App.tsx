@@ -4,8 +4,7 @@ import React, { useEffect, useState } from "react";
 import { LOGIN, CONTRACT, PAY } from "../bradge/event";
 import Login from "./components/login";
 import Contract from "./components/contract";
-import "antd/dist/antd.css";
-
+ 
 import Pay from "./components/pay";
 
 import { reisterUI, eventMap, failedMap, endEvent } from "../bradge/index";
@@ -21,12 +20,12 @@ function App() {
     });
     if (!arr.length) {
       // @ts-ignore
-      document.getElementById("root").style.zIndex = 0;
+      document.getElementById("runtime-root").style.zIndex = 0;
       // @ts-ignore
       document.getElementById("freelog-plugin-container").style.zIndex = 1;
     } else {
       // @ts-ignore
-      document.getElementById("root").style.zIndex = 1;
+      document.getElementById("runtime-root").style.zIndex = 1;
       // @ts-ignore
       document.getElementById("freelog-plugin-container").style.zIndex = 0;
     }
