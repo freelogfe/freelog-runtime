@@ -229,7 +229,8 @@ export default class ProxySandbox implements SandBox {
         }
         if(p==='fetch'){
           return function(url:string, options: any){
-            if(url.indexOf('i18n') === 0){
+            if(url.indexOf('i18n-ts') > -1){
+              console.log(url)
               return rawWindow.fetch(url, options) 
             }
             console.log(url)
