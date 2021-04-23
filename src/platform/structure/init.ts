@@ -81,7 +81,7 @@ function getDomain(url: string) {
 }
 
 async function requestNodeInfo(nodeDomain: string) {
-  let info = await frequest('node', node.getInfoByNameOrDomain, "", { nodeDomain });
+  let info = await frequest({name: 'node'}, node.getInfoByNameOrDomain, "", { nodeDomain });
   return info.data;
 }
 

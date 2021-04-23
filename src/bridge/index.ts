@@ -1,5 +1,5 @@
 import { SUCCESS, FAILED, USER_CANCEL } from "./event";
-export const socket = function () {};
+export const presentableQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>();
 export const failedMap = new Map<any, any>();
 var UI:any = null
@@ -7,6 +7,10 @@ var updateUI:any = null
 export function reisterUI(ui: any, update: any){
     UI = ui
     updateUI = update
+}
+export function setPresentableQueue(name: string, value:any){
+  presentableQueue.set(name, value)
+  console.log(presentableQueue)
 }
 let seq = 0;
 export function addEvent(
@@ -27,6 +31,7 @@ function removeEvent(eventId: string) {
 }
 export function endEvent(eventId: string, type: number, data: any) {
   if (eventMap.get(eventId)) {
+    // TODO 重复代码
     switch (type) {
       case SUCCESS:
         eventMap.get(eventId).callBack(SUCCESS, data);

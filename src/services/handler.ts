@@ -1,7 +1,7 @@
 import axios from "./request";
 import { placeHolder, baseConfig } from "./base";
 import { compareObjects } from "../utils/utils";
-
+import {setPresentableQueue} from '../bridge/index'
 /**
  *
  * @param action api namespace.apiName
@@ -9,7 +9,7 @@ import { compareObjects } from "../utils/utils";
  * @param data  body data or query data  string | object | Array<any> | null | JSON | undefined
  */
 export default function frequest(
-  name: string,
+  caller: any,
   action: any,
   urlData: Array<string | number> | null | undefined | "",
   data: any,
@@ -71,6 +71,11 @@ export default function frequest(
     axios(url, _api)
       .then(async (response) => {
         api.after && api.after(response);
+        console.log(response)
+        // TODO 仅授权失败
+        if(response.data.errCode !== 0 && caller && caller.name){
+          setPresentableQueue(caller.name + '#' + (caller.presentableId ||  caller.subResourceIdOrName || ''), response.data)
+        }
         resolve(response);
       })
       .catch((error) => {

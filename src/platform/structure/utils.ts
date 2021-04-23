@@ -3,7 +3,8 @@
 import {baseUrl} from '../../services/base'
 import { getInfoById } from "./api";
 import { widgetsConfig, sandBoxs } from './widget'
-
+import {LOGIN} from '../../bridge/event'
+import {addEvent} from '../../bridge/index'
 export function getContainer(container: string | HTMLElement): HTMLElement | null |undefined {
     // @ts-ignore
     return typeof container === 'string' ? document.querySelector('#' + container) : container;
@@ -78,7 +79,13 @@ export async function getSelfId(global: any) {
 // TODO if error
 export async function getSubDep(presentableId: any, global: any) {
   presentableId = presentableId || getSelfId(global)
-  let info = await getInfoById.bind(global ? sandBoxs.get(global.widgetName) : {name: 'freelog-' + presentableId})(presentableId);
+  let info = await getInfoById.bind(global ? sandBoxs.get(global.widgetName) : {name: 'freelog-' + presentableId, presentableId})(presentableId);
+  if(info.errCode === 30){
+    const result = await new Promise((resolve, reject)=>{
+      addEvent('theme', LOGIN, '', resolve)
+    })
+    info = await  getInfoById.bind(global ? sandBoxs.get(global.widgetName) : {name: 'freelog-' + presentableId})(presentableId);
+  }
   const [subDeps, entityNid] = [
     info.headers["freelog-sub-dependencies"],
     info.headers["freelog-entity-nid"],

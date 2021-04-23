@@ -87,11 +87,11 @@ export async function getPresentables(query: any): Promise<any> {
   }
   if (isTest)
     //@ts-ignore
-    return frequest(this.name, presentable.getTestPagingData, [nodeId], {
+    return frequest({name: this.name}, presentable.getTestPagingData, [nodeId], {
       ...query,
     });
   //@ts-ignore
-  return frequest(this.name, presentable.getPagingPresentables, "", {
+  return frequest({name: this.name}, presentable.getPagingPresentables, "", {
     nodeId,
     ...query,
   });
@@ -102,11 +102,11 @@ export async function getPresentablesPaging(query: any): Promise<any> {
   }
   if (isTest)
     // @ts-ignore
-    return frequest(this.name, presentable.getTestPagingData, [nodeId], {
+    return frequest({name: this.name}, presentable.getTestPagingData, [nodeId], {
       ...query,
     });
   // @ts-ignore
-  return frequest(this.name, presentable.getPagingPresentables, "", {
+  return frequest({name: this.name}, presentable.getPagingPresentables, "", {
     nodeId,
     ...query,
   });
@@ -117,11 +117,11 @@ export async function getPresentablesSearch(query: any): Promise<any> {
   }
   if (isTest)
     // @ts-ignore
-    return frequest(this.name, presentable.getTestPagingData, [nodeId], {
+    return frequest({name: this.name}, presentable.getTestPagingData, [nodeId], {
       ...query,
     });
   // @ts-ignore
-  return frequest(this.name, presentable.getPresentables, "", {
+  return frequest({name: this.name}, presentable.getPresentables, "", {
     nodeId,
     ...query,
   });
@@ -151,7 +151,7 @@ function getByPresentableId(
   }
   if (isTest)
     return frequest(
-      name,
+      {name, presentableId},
       presentable.getTestByPresentableId,
       [presentableId, type],
       test,
@@ -159,7 +159,7 @@ function getByPresentableId(
       config
     );
   return frequest(
-    name,
+    {name, presentableId},
     presentable.getByPresentableId,
     [presentableId, type],
     form,
@@ -206,7 +206,7 @@ export async function getSubResultById(
   // @ts-ignore
   return getByPresentableId(
     // @ts-ignore
-    this.name,
+    this.name, 
     presentableId,
     "result",
     parentNid,
@@ -289,7 +289,7 @@ function getByResourceIdOrName(
   }
   if (isTest)
     return frequest(
-      name,
+      {name, subResourceIdOrName},
       presentable.getTestByResourceIdOrName,
       [presentableId, type],
       test,
@@ -297,6 +297,7 @@ function getByResourceIdOrName(
       config
     );
   return frequest(
+    {name, subResourceIdOrName},
     presentable.getByResourceIdOrName,
     [nodeId, presentableId, type],
     form,
