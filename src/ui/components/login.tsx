@@ -8,7 +8,7 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-export const Demo = () => {
+export default () => {
   const onFinish = (values: any) => {
     console.log('Success:', values);
   };

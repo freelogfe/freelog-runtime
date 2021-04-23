@@ -83,7 +83,6 @@ export async function getSubDep(presentableId: any, global: any) {
     info.headers["freelog-sub-dependencies"],
     info.headers["freelog-entity-nid"],
   ];
-  console.log(info.data.data, JSON.parse(decodeURIComponent(subDeps)))
   return {
     subDeps: subDeps ? JSON.parse(decodeURIComponent(subDeps)) : [],
     entityNid,
