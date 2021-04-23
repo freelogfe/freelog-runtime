@@ -1,13 +1,13 @@
 // import logo from './logo.svg';
 import "./App.scss";
 import React, { useEffect, useState } from "react";
-import { LOGIN, CONTRACT, PAY } from "../bradge/event";
+import { LOGIN, CONTRACT, PAY } from "../bridge/event";
 import Login from "./components/login";
 import Contract from "./components/contract";
  
 import Pay from "./components/pay";
 
-import { reisterUI, eventMap, failedMap, endEvent } from "../bradge/index";
+import { reisterUI, eventMap, failedMap, endEvent } from "../bridge/index";
 function App() {
   const [events, setEvents] = useState([]);
   const [failedEvents, setFailedEvents] = useState([]);
@@ -49,6 +49,7 @@ function App() {
     <div className="App flex-row w-100x h-100x over-h bg-white">
       <div className="w-200x h-100x flex-column p-20">
         {events.map((item: any, index) => {
+          if(item.event === LOGIN) return ''
           return (
             <div
               key={index}

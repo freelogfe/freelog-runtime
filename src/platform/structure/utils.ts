@@ -2,7 +2,7 @@
 
 import {baseUrl} from '../../services/base'
 import { getInfoById } from "./api";
-import { widgetsConfig } from './widget'
+import { widgetsConfig, sandBoxs } from './widget'
 
 export function getContainer(container: string | HTMLElement): HTMLElement | null |undefined {
     // @ts-ignore
@@ -78,7 +78,7 @@ export async function getSelfId(global: any) {
 // TODO if error
 export async function getSubDep(presentableId: any, global: any) {
   presentableId = presentableId || getSelfId(global)
-  let info = await getInfoById(presentableId);
+  let info = await getInfoById.bind(global ? sandBoxs.get(global.widgetName) : {name: 'freelog-' + presentableId})(presentableId);
   const [subDeps, entityNid] = [
     info.headers["freelog-sub-dependencies"],
     info.headers["freelog-entity-nid"],

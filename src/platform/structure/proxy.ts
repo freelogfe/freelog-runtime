@@ -494,3 +494,21 @@ export function getPublicPath(name: string) {
   const route = name.split("-")[1];
   return `${baseUrl}widgets/${route}/`;
 }
+export const createFreelogAppProxy = function (name: string, sandbox: any) {
+  const freelogAppProxy = {};
+  return new Proxy(freelogAppProxy, {
+    /*
+     */
+    get: function get(app: any, p: string) {
+      const pro = window.freelogApp[p]
+      if (typeof pro === 'function') {
+        return function () {
+
+          // @ts-ignore
+          return pro.bind(sandbox)(...arguments);
+        };
+      }
+      return pro
+    },
+  });
+};

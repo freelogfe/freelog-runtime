@@ -9,6 +9,7 @@ import { compareObjects } from "../utils/utils";
  * @param data  body data or query data  string | object | Array<any> | null | JSON | undefined
  */
 export default function frequest(
+  name: string,
   action: any,
   urlData: Array<string | number> | null | undefined | "",
   data: any,

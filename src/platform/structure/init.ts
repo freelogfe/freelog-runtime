@@ -5,6 +5,8 @@ import { freelogApp } from "./global";
 import { init } from "./api";
 import { dev, DEV_WIDGET } from "./dev";
 import { mountSubWidgets } from "./widget";
+import {LOGIN} from '../../bridge/event'
+import {addEvent} from '../../bridge/index'
 // @ts-ignore  TODO 需要控制不可改变
 window.freelogApp = freelogApp;
 export function initNode() {
@@ -18,7 +20,14 @@ export function initNode() {
   
   return new Promise<void>(async (resolve) => {
     const nodeDomain = await getDomain(window.location.host);
-    const nodeData = await requestNodeInfo(nodeDomain);
+    let nodeData = await requestNodeInfo(nodeDomain);
+    console.log(nodeData)
+    if(nodeData.errCode === 30){
+      const result = await new Promise((resolve, reject)=>{
+        addEvent('node', LOGIN, '', resolve)
+      })
+      nodeData = await requestNodeInfo(nodeDomain);
+    }
     const nodeInfo = nodeData.data;
     // @ts-ignore
     freelogApp.nodeInfo = nodeInfo;
@@ -72,7 +81,7 @@ function getDomain(url: string) {
 }
 
 async function requestNodeInfo(nodeDomain: string) {
-  let info = await frequest(node.getInfoByNameOrDomain, "", { nodeDomain });
+  let info = await frequest('node', node.getInfoByNameOrDomain, "", { nodeDomain });
   return info.data;
 }
 

@@ -86,27 +86,49 @@ export async function getPresentables(query: any): Promise<any> {
     return "query parameter must be object";
   }
   if (isTest)
-    return frequest(presentable.getTestPagingData, [nodeId], { ...query });
-  return frequest(presentable.getPagingPresentables, "", { nodeId, ...query });
+    //@ts-ignore
+    return frequest(this.name, presentable.getTestPagingData, [nodeId], {
+      ...query,
+    });
+  //@ts-ignore
+  return frequest(this.name, presentable.getPagingPresentables, "", {
+    nodeId,
+    ...query,
+  });
 }
 export async function getPresentablesPaging(query: any): Promise<any> {
   if (query && Object.prototype.toString.call(query) !== "[object Object]") {
     return "query parameter must be object";
   }
   if (isTest)
-    return frequest(presentable.getTestPagingData, [nodeId], { ...query });
-  return frequest(presentable.getPagingPresentables, "", { nodeId, ...query });
+    // @ts-ignore
+    return frequest(this.name, presentable.getTestPagingData, [nodeId], {
+      ...query,
+    });
+  // @ts-ignore
+  return frequest(this.name, presentable.getPagingPresentables, "", {
+    nodeId,
+    ...query,
+  });
 }
 export async function getPresentablesSearch(query: any): Promise<any> {
   if (query && Object.prototype.toString.call(query) !== "[object Object]") {
     return "query parameter must be object";
   }
   if (isTest)
-    return frequest(presentable.getTestPagingData, [nodeId], { ...query });
-  return frequest(presentable.getPresentables, "", { nodeId, ...query });
+    // @ts-ignore
+    return frequest(this.name, presentable.getTestPagingData, [nodeId], {
+      ...query,
+    });
+  // @ts-ignore
+  return frequest(this.name, presentable.getPresentables, "", {
+    nodeId,
+    ...query,
+  });
 }
 // TODO return a promise
 function getByPresentableId(
+  name: string,
   presentableId: string | number,
   type: string,
   parentNid: string,
@@ -129,6 +151,7 @@ function getByPresentableId(
   }
   if (isTest)
     return frequest(
+      name,
       presentable.getTestByPresentableId,
       [presentableId, type],
       test,
@@ -136,6 +159,7 @@ function getByPresentableId(
       config
     );
   return frequest(
+    name,
     presentable.getByPresentableId,
     [presentableId, type],
     form,
@@ -144,21 +168,27 @@ function getByPresentableId(
   );
 }
 export async function getResultById(presentableId: string | number) {
-  return getByPresentableId(presentableId, "result", "", "");
+  // @ts-ignore
+  return getByPresentableId(this.name, presentableId, "result", "", "");
 }
 export async function getInfoById(presentableId: string | number) {
-  return getByPresentableId(presentableId, "info", "", "");
+  // @ts-ignore
+  return getByPresentableId(this.name, presentableId, "info", "", "");
 }
 export async function getResourceInfoById(presentableId: string | number) {
   if (isTest) return "not supported!";
-  return getByPresentableId(presentableId, "resourceInfo", "", "");
+  // @ts-ignore
+  return getByPresentableId(this.name, presentableId, "resourceInfo", "", "");
 }
 export async function getFileStreamById(
   presentableId: string | number,
   returnUrl?: boolean,
   config?: any
 ) {
+  // @ts-ignore
   return getByPresentableId(
+    // @ts-ignore
+    this.name,
     presentableId,
     "fileStream",
     "",
@@ -173,7 +203,10 @@ export async function getSubResultById(
   parentNid: string,
   subResourceIdOrName: string
 ) {
+  // @ts-ignore
   return getByPresentableId(
+    // @ts-ignore
+    this.name,
     presentableId,
     "result",
     parentNid,
@@ -185,7 +218,10 @@ export async function getSubInfoById(
   parentNid: string,
   subResourceIdOrName: string
 ) {
+  // @ts-ignore
   return getByPresentableId(
+    // @ts-ignore
+    this.name,
     presentableId,
     "info",
     parentNid,
@@ -198,7 +234,10 @@ export async function getSubResourceInfoById(
   subResourceIdOrName: string
 ) {
   if (isTest) return "not supported!";
+  // @ts-ignore
   return getByPresentableId(
+    // @ts-ignore
+    this.name,
     presentableId,
     "resourceInfo",
     parentNid,
@@ -212,7 +251,10 @@ export async function getSubFileStreamById(
   returnUrl?: boolean,
   config?: any
 ) {
+  // @ts-ignore
   return getByPresentableId(
+    // @ts-ignore
+    this.name,
     presentableId,
     "fileStream",
     parentNid,
@@ -224,6 +266,7 @@ export async function getSubFileStreamById(
 
 // TODO return a promise
 function getByResourceIdOrName(
+  name: string,
   presentableId: string | number,
   type: string,
   parentNid: string,
@@ -246,6 +289,7 @@ function getByResourceIdOrName(
   }
   if (isTest)
     return frequest(
+      name,
       presentable.getTestByResourceIdOrName,
       [presentableId, type],
       test,
@@ -261,21 +305,34 @@ function getByResourceIdOrName(
   );
 }
 export async function getResultByName(presentableId: string | number) {
-  return getByResourceIdOrName(presentableId, "result", "", "");
+  // @ts-ignore
+  return getByResourceIdOrName(this.name, presentableId, "result", "", "");
 }
 export async function getInfoByName(presentableId: string | number) {
-  return getByResourceIdOrName(presentableId, "info", "", "");
+  // @ts-ignore
+  return getByResourceIdOrName(this.name, presentableId, "info", "", "");
 }
 export async function getResourceInfoByName(presentableId: string | number) {
   if (isTest) return "not supported!";
-  return getByResourceIdOrName(presentableId, "resourceInfo", "", "");
+  // @ts-ignore
+  return getByResourceIdOrName(
+    // @ts-ignore
+    this.name,
+    presentableId,
+    "resourceInfo",
+    "",
+    ""
+  );
 }
 export async function getFileStreamByName(
   presentableId: string | number,
   returnUrl?: boolean,
   config?: any
 ) {
+  // @ts-ignore
   return getByResourceIdOrName(
+    // @ts-ignore
+    this.name,
     presentableId,
     "fileStream",
     "",
@@ -291,6 +348,8 @@ export async function getSubResultByName(
   subResourceIdOrName: string
 ) {
   return getByResourceIdOrName(
+    // @ts-ignore
+    this.name,
     presentableId,
     "result",
     parentNid,
@@ -303,6 +362,8 @@ export async function getSubInfoByName(
   subResourceIdOrName: string
 ) {
   return getByResourceIdOrName(
+    // @ts-ignore
+    this.name,
     presentableId,
     "info",
     parentNid,
@@ -316,6 +377,8 @@ export async function getSubResourceInfoByName(
 ) {
   if (isTest) return "not supported!";
   return getByResourceIdOrName(
+    // @ts-ignore
+    this.name,
     presentableId,
     "resourceInfo",
     parentNid,
@@ -330,6 +393,8 @@ export async function getSubFileStreamByName(
   config?: any
 ) {
   return getByResourceIdOrName(
+    // @ts-ignore
+    this.name,
     presentableId,
     "fileStream",
     parentNid,

@@ -3,11 +3,20 @@
  * @author Kuitos
  * @since 2020-3-31
  */
-import type { SandBox } from '../interfaces';
-import { SandBoxType } from '../interfaces';
-import { nextTick } from '../utils';
-import { getTargetValue, setCurrentRunningSandboxProxy } from './common';
-import {createHistoryProxy, createLocationProxy, createDocumentProxy, createWidgetProxy, freelogLocalStorage, saveSandBox, getPublicPath } from '../../structure/proxy'
+import type { SandBox } from "../interfaces";
+import { SandBoxType } from "../interfaces";
+import { nextTick } from "../utils";
+import { getTargetValue, setCurrentRunningSandboxProxy } from "./common";
+import {
+  createHistoryProxy,
+  createFreelogAppProxy,
+  createLocationProxy,
+  createDocumentProxy,
+  createWidgetProxy,
+  freelogLocalStorage,
+  saveSandBox,
+  getPublicPath,
+} from "../../structure/proxy";
 /**
  * fastest(at most time) unique array method
  * @see https://jsperf.com/array-filter-unique/30
@@ -22,22 +31,22 @@ function uniq(array: PropertyKey[]) {
 const rawObjectDefineProperty = Object.defineProperty;
 
 const variableWhiteListInDev =
-  process.env.NODE_ENV === 'development' || window.__FREELOG_DEVELOPMENT__
+  process.env.NODE_ENV === "development" || window.__FREELOG_DEVELOPMENT__
     ? [
-      // for react hot reload
-      // see https://github.com/facebook/create-react-app/blob/66bf7dfc43350249e2f09d138a20840dae8a0a4a/packages/react-error-overlay/src/index.js#L180
-      '__REACT_ERROR_OVERLAY_GLOBAL_HOOK__',
-    ]
+        // for react hot reload
+        // see https://github.com/facebook/create-react-app/blob/66bf7dfc43350249e2f09d138a20840dae8a0a4a/packages/react-error-overlay/src/index.js#L180
+        "__REACT_ERROR_OVERLAY_GLOBAL_HOOK__",
+      ]
     : [];
 // who could escape the sandbox
 const variableWhiteList: PropertyKey[] = [
   // FIXME System.js used a indirect call with eval, which would make it scope escape to global
   // To make System.js works well, we write it back to global window temporary
   // see https://github.com/systemjs/systemjs/blob/457f5b7e8af6bd120a279540477552a07d5de086/src/evaluate.js#L106
-  'System',
+  "System",
 
   // see https://github.com/systemjs/systemjs/blob/457f5b7e8af6bd120a279540477552a07d5de086/src/instantiate.js#L357
-  '__cjsWrapper',
+  "__cjsWrapper",
   ...variableWhiteListInDev,
 ];
 
@@ -57,7 +66,7 @@ const unscopables = {
   Float32Array: true,
 };
 
-type SymbolTarget = 'target' | 'rawWindow';
+type SymbolTarget = "target" | "rawWindow";
 
 type FakeWindow = Window & Record<PropertyKey, any>;
 
@@ -80,7 +89,10 @@ function createFakeWindow(global: Window) {
     .forEach((p) => {
       const descriptor = Object.getOwnPropertyDescriptor(global, p);
       if (descriptor) {
-        const hasGetter = Object.prototype.hasOwnProperty.call(descriptor, 'get');
+        const hasGetter = Object.prototype.hasOwnProperty.call(
+          descriptor,
+          "get"
+        );
 
         /*
          make top/self/window property configurable and writable, otherwise it will cause TypeError while get trap return.
@@ -88,11 +100,12 @@ function createFakeWindow(global: Window) {
          > The value reported for a property must be the same as the value of the corresponding target object property if the target object property is a non-writable, non-configurable data property.
          */
         if (
-          p === 'top' ||
-          p === 'parent' ||
-          p === 'self' ||
-          p === 'window' ||
-          (process.env.NODE_ENV === 'test' && (p === 'mockTop' || p === 'mockSafariTop'))
+          p === "top" ||
+          p === "parent" ||
+          p === "self" ||
+          p === "window" ||
+          (process.env.NODE_ENV === "test" &&
+            (p === "mockTop" || p === "mockSafariTop"))
         ) {
           descriptor.configurable = true;
           /*
@@ -124,7 +137,7 @@ let activeSandboxCount = 0;
 /**
  * 基于 Proxy 实现的沙箱
  */
- 
+
 export default class ProxySandbox implements SandBox {
   /** window 值变更记录 */
   private updatedValueSet = new Set<PropertyKey>();
@@ -145,11 +158,14 @@ export default class ProxySandbox implements SandBox {
   }
 
   inactive() {
-    if (process.env.NODE_ENV === 'development') {
-      console.info(`[freelog:sandbox] ${this.name} modified global properties restore...`, [
-        // @ts-ignore
-        ...this.updatedValueSet.keys(),
-      ]);
+    if (process.env.NODE_ENV === "development") {
+      console.info(
+        `[freelog:sandbox] ${this.name} modified global properties restore...`,
+        [
+          // @ts-ignore
+          ...this.updatedValueSet.keys(),
+        ]
+      );
     }
 
     if (--activeSandboxCount === 0) {
@@ -173,16 +189,18 @@ export default class ProxySandbox implements SandBox {
     const { fakeWindow, propertiesWithGetter } = createFakeWindow(rawWindow);
 
     const descriptorTargetMap = new Map<PropertyKey, SymbolTarget>();
-    const hasOwnProperty = (key: PropertyKey) => fakeWindow.hasOwnProperty(key) || rawWindow.hasOwnProperty(key);
- 
-    var proxyDoc: any
-    var proxyHis: any
-    var proxyLoc: any
-    var proxyWidget: any
-    var _this  = this
+    const hasOwnProperty = (key: PropertyKey) =>
+      fakeWindow.hasOwnProperty(key) || rawWindow.hasOwnProperty(key);
+
+    var proxyDoc: any;
+    var proxyHis: any;
+    var proxyLoc: any;
+    var proxyWidget: any;
+    var freelogAppProxy: any;
+    var _this = this;
     const proxy = new Proxy(fakeWindow, {
       set: (target: FakeWindow, p: PropertyKey, value: any): boolean => {
-        if(p === 'freelogApp') return false
+        if (p === "freelogApp") return false;
         if (this.sandboxRunning) {
           // We must kept its description while the property existed in rawWindow before
           if (!target.hasOwnProperty(p) && rawWindow.hasOwnProperty(p)) {
@@ -213,8 +231,10 @@ export default class ProxySandbox implements SandBox {
           return true;
         }
 
-        if (process.env.NODE_ENV === 'development') {
-          console.warn(`[freelog] Set window.${p.toString()} while sandbox destroyed or inactive in ${name}!`);
+        if (process.env.NODE_ENV === "development") {
+          console.warn(
+            `[freelog] Set window.${p.toString()} while sandbox destroyed or inactive in ${name}!`
+          );
         }
 
         // 在 strict-mode 下，Proxy 的 handler.set 返回 false 会抛出 TypeError，在沙箱卸载的情况下应该忽略错误
@@ -223,36 +243,37 @@ export default class ProxySandbox implements SandBox {
 
       get(target: FakeWindow, p: PropertyKey): any {
         if (p === Symbol.unscopables) return unscopables;
-        if(p === '__INJECTED_PUBLIC_PATH_BY_FREELOG__') {
-          console.log(1111, getPublicPath(name))
+        if (p === "__INJECTED_PUBLIC_PATH_BY_FREELOG__") {
+          console.log(1111, getPublicPath(name));
           return getPublicPath(name);
         }
-        if(p==='fetch'){
-          return function(url:string, options: any){
-            if(url.indexOf('i18n-ts') > -1){
-              console.log(url)
-              return rawWindow.fetch(url, options) 
+        if (p === "fetch") {
+          return function (url: string, options: any) {
+            if (url.indexOf("i18n-ts") > -1) {
+              console.log(url);
+              return rawWindow.fetch(url, options);
             }
-            console.log(url)
-            const patchUrl = getPublicPath(name) + url.split('freelog.com')[1]
-            return rawWindow.fetch(patchUrl, options)
-          }
+            console.log(url);
+            const patchUrl = getPublicPath(name) + url.split("freelog.com")[1];
+            return rawWindow.fetch(patchUrl, options);
+          };
         }
         // avoid who using window.window or window.self to escape the sandbox environment to touch the really window
         // see https://github.com/eligrey/FileSaver.js/blob/master/src/FileSaver.js#L13
-        if (p === 'window' || p === 'self') {
+        if (p === "window" || p === "self") {
           return proxy;
         }
 
         // hijack global accessing with globalThis keyword
-        if (p === 'globalThis') {
+        if (p === "globalThis") {
           return proxy;
         }
 
         if (
-          p === 'top' ||
-          p === 'parent' ||
-          (process.env.NODE_ENV === 'test' && (p === 'mockTop' || p === 'mockSafariTop'))
+          p === "top" ||
+          p === "parent" ||
+          (process.env.NODE_ENV === "test" &&
+            (p === "mockTop" || p === "mockSafariTop"))
         ) {
           // if your master app in an iframe context, allow these props escape the sandbox
           if (rawWindow === rawWindow.parent) {
@@ -262,33 +283,38 @@ export default class ProxySandbox implements SandBox {
         }
 
         // proxy.hasOwnProperty would invoke getter firstly, then its value represented as rawWindow.hasOwnProperty
-        if (p === 'hasOwnProperty') {
+        if (p === "hasOwnProperty") {
           return hasOwnProperty;
         }
-        if (p === 'widgetName') {
+        if (p === "freelogApp") {
+          freelogAppProxy =
+            freelogAppProxy || createFreelogAppProxy(name, _this);
+          return freelogAppProxy;
+        }
+        if (p === "widgetName") {
           return name;
         }
         // mark the symbol to document while accessing as document.createElement could know is invoked by which sandbox for dynamic append patcher
-        if (p === 'history') {
-          // TODO 如果是单应用模式（提升性能）则不用代理 
-          proxyHis = proxyHis  || createHistoryProxy(name, _this)
-          return proxyHis
+        if (p === "history") {
+          // TODO 如果是单应用模式（提升性能）则不用代理
+          proxyHis = proxyHis || createHistoryProxy(name, _this);
+          return proxyHis;
         }
-        if(p === 'childWidgets'){
-          proxyWidget = proxyWidget || createWidgetProxy(name, _this)
+        if (p === "childWidgets") {
+          proxyWidget = proxyWidget || createWidgetProxy(name, _this);
         }
-        if (p === 'location') {
-          // TODO 如果是单应用模式（提升性能）则不用代理, 可以设置location.href的使用权限 
+        if (p === "location") {
+          // TODO 如果是单应用模式（提升性能）则不用代理, 可以设置location.href的使用权限
           // TODO reload相当于重载应用，想办法把主应用的对应操控函数弄过来，发布订阅模式
           // TODO replace与reload、toString方法无法访问
-          proxyLoc = proxyLoc || createLocationProxy(name, _this)
-          return proxyLoc
+          proxyLoc = proxyLoc || createLocationProxy(name, _this);
+          return proxyLoc;
         }
         // TODO test localstorage
-        if (p === 'localStorage') {
-          return freelogLocalStorage(name)
+        if (p === "localStorage") {
+          return freelogLocalStorage(name);
         }
-        if (p === 'document' || p === 'eval') {
+        if (p === "document" || p === "eval") {
           setCurrentRunningSandboxProxy(proxy); // FIXME if you have any other good ideas
           // remove the mark in next tick, thus we can identify whether it in micro app or not
           // this approach is just a workaround, it could not cover all complex cases, such as the micro app runs in the same task context with master in some case
@@ -298,23 +324,22 @@ export default class ProxySandbox implements SandBox {
           });
 
           switch (p) {
-            case 'document':
-              proxyDoc = createDocumentProxy(name, _this, proxy)
-              return proxyDoc
-            case 'eval':
+            case "document":
+              proxyDoc = createDocumentProxy(name, _this, proxy);
+              return proxyDoc;
+            case "eval":
               // eslint-disable-next-line no-eval
               return eval;
             // no default
           }
         } // eslint-disable-next-line no-nested-ternary
 
-
         // eslint-disable-next-line no-nested-ternary
         const value = propertiesWithGetter.has(p)
           ? (rawWindow as any)[p]
           : p in target
-            ? (target as any)[p]
-            : (rawWindow as any)[p];
+          ? (target as any)[p]
+          : (rawWindow as any)[p];
         return getTargetValue(rawWindow, value);
       },
 
@@ -324,7 +349,10 @@ export default class ProxySandbox implements SandBox {
         return p in unscopables || p in target || p in rawWindow;
       },
 
-      getOwnPropertyDescriptor(target: FakeWindow, p: string | number | symbol): PropertyDescriptor | undefined {
+      getOwnPropertyDescriptor(
+        target: FakeWindow,
+        p: string | number | symbol
+      ): PropertyDescriptor | undefined {
         /*
          as the descriptor of top/self/window/mockTop in raw window are configurable but not in proxy target, we need to get it from target to avoid TypeError
          see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/handler/getOwnPropertyDescriptor
@@ -332,13 +360,13 @@ export default class ProxySandbox implements SandBox {
          */
         if (target.hasOwnProperty(p)) {
           const descriptor = Object.getOwnPropertyDescriptor(target, p);
-          descriptorTargetMap.set(p, 'target');
+          descriptorTargetMap.set(p, "target");
           return descriptor;
         }
 
         if (rawWindow.hasOwnProperty(p)) {
           const descriptor = Object.getOwnPropertyDescriptor(rawWindow, p);
-          descriptorTargetMap.set(p, 'rawWindow');
+          descriptorTargetMap.set(p, "rawWindow");
           // A property cannot be reported as non-configurable, if it does not exists as an own property of the target object
           if (descriptor && !descriptor.configurable) {
             descriptor.configurable = true;
@@ -350,20 +378,26 @@ export default class ProxySandbox implements SandBox {
       },
 
       // trap to support iterator with sandbox
-       // @ts-ignore
+      // @ts-ignore
       ownKeys(target: FakeWindow): PropertyKey[] {
-        const keys = uniq(Reflect.ownKeys(rawWindow).concat(Reflect.ownKeys(target)));
+        const keys = uniq(
+          Reflect.ownKeys(rawWindow).concat(Reflect.ownKeys(target))
+        );
         return keys;
       },
 
-      defineProperty(target: Window, p: PropertyKey, attributes: PropertyDescriptor): boolean {
+      defineProperty(
+        target: Window,
+        p: PropertyKey,
+        attributes: PropertyDescriptor
+      ): boolean {
         const from = descriptorTargetMap.get(p);
         /*
          Descriptor must be defined to native window while it comes from native window via Object.getOwnPropertyDescriptor(window, p),
          otherwise it would cause a TypeError with illegal invocation.
          */
         switch (from) {
-          case 'rawWindow':
+          case "rawWindow":
             return Reflect.defineProperty(rawWindow, p, attributes);
           default:
             return Reflect.defineProperty(target, p, attributes);
@@ -382,10 +416,9 @@ export default class ProxySandbox implements SandBox {
         return true;
       },
     });
-     
+
     this.proxy = proxy;
     activeSandboxCount++;
-    saveSandBox(name, this)
+    saveSandBox(name, this);
   }
 }
-

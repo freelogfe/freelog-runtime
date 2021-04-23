@@ -11,10 +11,10 @@ export function reisterUI(ui: any, update: any){
 let seq = 0;
 export function addEvent(
   name: string,
-  event: string,
+  event: number,
   presentable: any,
   callBack: any,
-  options: any
+  options?: any
 ) {
   seq++;
   const eventId = name + "#" + seq;
