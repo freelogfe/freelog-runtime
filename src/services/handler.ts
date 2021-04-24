@@ -9,13 +9,14 @@ import {setPresentableQueue} from '../bridge/index'
  * @param data  body data or query data  string | object | Array<any> | null | JSON | undefined
  */
 export default function frequest(
-  caller: any,
   action: any,
   urlData: Array<string | number> | null | undefined | "",
   data: any,
   returnUrl?: boolean,
   config?: any
 ): any {
+  // @ts-ignore
+  const caller = this
   let api = Object.assign({}, action);
   // type Api2 = Exclude<Api, 'url' | 'before' | 'after'>
   let url = api.url;

@@ -6,15 +6,22 @@ import App from './ui/App';
 import reportWebVitals from './reportWebVitals';
 import {run} from './platform'
 import {isMobile} from './utils/utils'
+import zhCN from 'antd/lib/locale/zh_CN';
+import {
+  ConfigProvider
+} from 'antd';
 if(isMobile()){
   //@ts-ignore
   window.isMobile = true
   // @ts-ignore
   document.querySelector('meta[name=viewport]').content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"
 }
+
 ReactDOM.render(
   <React.StrictMode>
+     <ConfigProvider locale={zhCN}>
     <App />
+  </ConfigProvider>
   </React.StrictMode>,
   document.getElementById('runtime-root')
 );

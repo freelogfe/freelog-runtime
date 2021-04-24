@@ -24,7 +24,7 @@ export function initNode() {
     console.log(nodeData)
     if(nodeData.errCode === 30){
       const result = await new Promise((resolve, reject)=>{
-        addEvent.bind({name: 'node', event: LOGIN})('', '', resolve)
+        addEvent.bind({name: 'node', event: LOGIN})('', resolve, reject)
       })
       nodeData = await requestNodeInfo(nodeDomain);
     }
@@ -80,7 +80,7 @@ function getDomain(url: string) {
 }
 
 async function requestNodeInfo(nodeDomain: string) {
-  let info = await frequest({name: 'node'}, node.getInfoByNameOrDomain, "", { nodeDomain });
+  let info = await frequest.bind({name: 'node'})(node.getInfoByNameOrDomain, "", { nodeDomain });
   return info.data;
 }
 

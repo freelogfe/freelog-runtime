@@ -52,6 +52,7 @@ export function addEvent(
     }
     eventMap.set(presentableId, {
       event,
+      eventId: presentableId, // 后期evnetId是要与prsesentableId区分开来的
       presentableId,
       presentableInfo: data.info,
       resolve,
@@ -65,6 +66,8 @@ export function addEvent(
   eventMap.set(this.name, {
     // @ts-ignore
     event: this.event,
+    // @ts-ignore
+    eventId: this.name, // 后期evnetId是要与prsesentableId区分开来的
     presentableId,
     resolve,
     reject,
@@ -77,6 +80,7 @@ function removeEvent(eventId: string) {
   updateUI && updateUI();
 }
 export function endEvent(eventId: string, type: number, data: any) {
+  console.log(eventMap.get(eventId))
   if (eventMap.get(eventId)) {
     // TODO 重复代码
     switch (type) {

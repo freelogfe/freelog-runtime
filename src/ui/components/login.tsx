@@ -1,4 +1,7 @@
 import { Form, Input, Button, Checkbox } from 'antd';
+import  user from '../../services/api/modules/user'
+import  frequest from '../../services/handler'
+import { SUCCESS, FAILED, USER_CANCEL } from "../../bridge/event";
 
 const layout = {
   labelCol: { span: 8 },
@@ -8,11 +11,21 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-export default () => {
-  const onFinish = (values: any) => {
+export default (props: any) => {
+  const onFinish = async (values: any) => {
     console.log('Success:', values);
+    // loginName: "string",
+    //   password: "string",
+    //   isRemember: "string",
+    //   returnUrl: "string",
+    //   jwtType: "string",
+    values.isRemember = values.isRemember ? 1: 0
+    const res = await frequest(user.login,'',values)
+    if(res.data.errCode === 0){
+      props.eventFinished(SUCCESS)
+    }
   };
-
+  
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
@@ -26,28 +39,28 @@ export default () => {
       onFinishFailed={onFinishFailed}
     >
       <Form.Item
-        label="Username"
-        name="username"
-        rules={[{ required: true, message: 'Please input your username!' }]}
+        label="用户名"
+        name="loginName"
+        rules={[{ required: true, message: '请输入用户名!' }]}
       >
         <Input />
       </Form.Item>
 
       <Form.Item
-        label="Password"
+        label="密码"
         name="password"
-        rules={[{ required: true, message: 'Please input your password!' }]}
+        rules={[{ required: true, message: '请输入密码!' }]}
       >
         <Input.Password />
       </Form.Item>
 
-      <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-        <Checkbox>Remember me</Checkbox>
+      <Form.Item {...tailLayout} name="isRemember" valuePropName="checked">
+        <Checkbox>记住我</Checkbox>
       </Form.Item>
 
       <Form.Item {...tailLayout}>
         <Button type="primary" htmlType="submit">
-          Submit
+          登录
         </Button>
       </Form.Item>
     </Form>

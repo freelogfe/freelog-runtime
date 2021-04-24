@@ -1,4 +1,6 @@
 #runtime-root {
+    @import './antd.scss';
+
     @import 'base/layout.scss';
     @import 'base/pmwh.scss';
     @import 'base/mouse.scss';
