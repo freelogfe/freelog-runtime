@@ -82,7 +82,7 @@ export async function getSubDep(presentableId: any, global: any) {
   let info = await getInfoById.bind(global ? sandBoxs.get(global.widgetName) : {name: 'freelog-' + presentableId, presentableId})(presentableId);
   if(info.errCode === 30){
     const result = await new Promise((resolve, reject)=>{
-      addEvent('theme', LOGIN, '', resolve)
+      addEvent.bind({name: 'freelog-' + presentableId})(presentableId, resolve)
     })
     info = await  getInfoById.bind(global ? sandBoxs.get(global.widgetName) : {name: 'freelog-' + presentableId})(presentableId);
   }

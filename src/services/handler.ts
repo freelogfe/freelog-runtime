@@ -74,7 +74,7 @@ export default function frequest(
         console.log(response)
         // TODO 仅授权失败
         if(response.data.errCode !== 0 && caller && caller.name){
-          setPresentableQueue(caller.name + '#' + (caller.presentableId ||  caller.subResourceIdOrName || ''), response.data)
+          setPresentableQueue((caller.presentableId ||  caller.subResourceIdOrName || caller.name), { widget: caller.name, info: response.data})
         }
         resolve(response);
       })

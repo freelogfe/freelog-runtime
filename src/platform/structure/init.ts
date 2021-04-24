@@ -24,7 +24,7 @@ export function initNode() {
     console.log(nodeData)
     if(nodeData.errCode === 30){
       const result = await new Promise((resolve, reject)=>{
-        addEvent('node', LOGIN, '', resolve)
+        addEvent.bind({name: 'node', event: LOGIN})('', '', resolve)
       })
       nodeData = await requestNodeInfo(nodeDomain);
     }
@@ -36,7 +36,6 @@ export function initNode() {
     const devData = dev();
     freelogApp.devData = devData;
     Object.freeze(freelogApp)
-    // @ts-ignore
     // @ts-ignore
     const container = document.getElementById("freelog-plugin-container");
     if (devData.type === DEV_WIDGET) {

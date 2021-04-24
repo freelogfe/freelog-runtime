@@ -2,6 +2,7 @@ import {
     mountWidget, autoMoutSubWdigets
 } from './widget'
 import { getSubDep,  getSelfId} from './utils'
+import { asyncCallUI,  callUI} from './event'
 import {
     getPresentables,
     getPresentablesPaging,
@@ -48,5 +49,7 @@ export const freelogApp = {
     devData,
     autoMoutSubWdigets,
     getSubDep,
-    getSelfId
+    getSelfId,
+    callUI,
+    asyncCallUI
 }

@@ -60,7 +60,7 @@ function App() {
                 " mb-20 p-10 w-310 h-200 flex-column br-middle b-1 space-between"
               }
             >
-              <div>{item.presentable.name}</div>
+              <div>{item.presentableId}</div>
             </div>
           );
         })}
