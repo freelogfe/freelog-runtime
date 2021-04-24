@@ -21,7 +21,6 @@ export function initNode() {
   return new Promise<void>(async (resolve) => {
     const nodeDomain = await getDomain(window.location.host);
     let nodeData = await requestNodeInfo(nodeDomain);
-    console.log(nodeData)
     if(nodeData.errCode === 30){
       const result = await new Promise((resolve, reject)=>{
         addEvent.bind({name: 'node', event: LOGIN})('', resolve, reject)

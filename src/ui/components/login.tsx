@@ -13,7 +13,6 @@ const tailLayout = {
 
 export default (props: any) => {
   const onFinish = async (values: any) => {
-    console.log('Success:', values);
     // loginName: "string",
     //   password: "string",
     //   isRemember: "string",

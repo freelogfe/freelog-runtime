@@ -70,7 +70,7 @@ function App() {
   return (
     <div id="freelog-app" className="App flex-row w-100x h-100x over-h bg-white">
 
-      <div className="w-200x h-100x flex-column p-20">
+      {window.isMobile ? '' : (<div className="w-200 h-100x flex-column p-20">
         {events.map((item: any, index) => {
           if(item.event === LOGIN) return ''
           return (
@@ -87,12 +87,11 @@ function App() {
             </div>
           );
         })}
-      </div>
+      </div>) }
       <div className="flex-1 h-100x text-center">
         {currentEvent? (() => {
           // @ts-ignore
           if (currentEvent.event === LOGIN) {
-            console.log(currentEvent);
             // @ts-ignore
             return <Login presentableData={currentEvent} eventFinished={eventFinished}></Login>;
             // @ts-ignore

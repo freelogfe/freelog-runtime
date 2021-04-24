@@ -80,7 +80,6 @@ function removeEvent(eventId: string) {
   updateUI && updateUI();
 }
 export function endEvent(eventId: string, type: number, data: any) {
-  console.log(eventMap.get(eventId))
   if (eventMap.get(eventId)) {
     // TODO 重复代码
     switch (type) {

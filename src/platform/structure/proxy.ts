@@ -35,11 +35,9 @@ const rawLocation = window["location"];
 const rawLocalStorage = window["localStorage"];
 const locations = new Map();
 window.addEventListener('popstate', function (event) {
-  console.log('popstate')
   initLocation() 
 }, true);
 window.addEventListener('hashchange', function() {
-  console.log('hashchange')
   initLocation() 
 }, true);
 export function initLocation() {
@@ -490,7 +488,6 @@ export function getPublicPath(name: string) {
     }
     return config.entry + "/";
   }
-  console.log(name)
   const route = name.split("-")[1];
   return `${baseUrl}widgets/${route}/`;
 }

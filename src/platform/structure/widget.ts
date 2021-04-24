@@ -102,7 +102,6 @@ export function mountWidget(
   if (sub && flatternWidgets.has(sub.id)) {
     id = "freelog-" + sub.id + '-' + (count + 1);
   }
-  console.log(id,data)
   // @ts-ignore TODO 用了太多重复判断，要抽取,当entry存在时该行不出现sub data
   const widgetConfig = {
     container,
@@ -195,7 +194,6 @@ export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
           console.error("container is not exists: " + sub.presentableName);
           return;
         }
-        console.log("subContainer: ", subContainer);
         // @ts-ignore
         const app = window.freelogApp.mountWidget(
           sub,

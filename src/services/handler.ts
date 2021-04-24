@@ -72,7 +72,6 @@ export default function frequest(
     axios(url, _api)
       .then(async (response) => {
         api.after && api.after(response);
-        console.log(response)
         // TODO 仅授权失败
         if(response.data.errCode !== 0 && caller && caller.name){
           setPresentableQueue((caller.presentableId ||  caller.subResourceIdOrName || caller.name), { widget: caller.name, info: response.data})
