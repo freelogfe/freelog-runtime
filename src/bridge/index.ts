@@ -15,27 +15,61 @@ export function setPresentableQueue(name: string, value: any) {
   console.log(presentableQueue);
 }
 // 公共非展品事件UI， 后面考虑
-export function addEvent(presentableId: any, callBack: any, options?: any) {
-  let event 
+export function addEvent(
+  presentableId: any,
+  resolve: any,
+  reject: any,
+  options?: any
+) {
+  if(typeof resolve !== 'function'){
+    resolve = ()=>{}
+  }
+  if(typeof reject !== 'function'){
+    reject = ()=>{}
+  }
+  let event;
   // @ts-ignore
   if (this.name !== "node") {
     // @ts-ignore
     let data = presentableQueue.get(presentableId);
-    if(!data){
+    if (!data) {
       //  TODO 返回信息
-      callBack({ errorCode: 2, msg: presentableId + ' is inncorrect or not required for callUI' })
-      return
+      reject && reject({
+        errorCode: 2,
+        msg: presentableId + " is inncorrect or not required for callUI",
+      });
+      return;
     }
-    // TODO 根据errorCode 决定事件
-    if(data.info.errorCode === 30){
-      event = LOGIN
+    // TODO 根据errorCode 决定事件 外部函数判断，不写在里面
+    if (data.info.errorCode === 30) {
+      event = LOGIN;
     }
-    eventMap.set(presentableId, { event, presentableId, presentableInfo: data.info, callBack, options });
+    if (data.info.errorCode === 30) {
+      event = PAY;
+    }
+    if (data.info.errorCode === 30) {
+      event = CONTRACT;
+    }
+    eventMap.set(presentableId, {
+      event,
+      presentableId,
+      presentableInfo: data.info,
+      resolve,
+      reject,
+      options,
+    });
     UI && UI();
-    return 
+    return;
   }
   // @ts-ignore
-  eventMap.set(this.name, { event: this.event, presentableId, callBack, options });
+  eventMap.set(this.name, {
+    // @ts-ignore
+    event: this.event,
+    presentableId,
+    resolve,
+    reject,
+    options,
+  });
   UI && UI();
 }
 function removeEvent(eventId: string) {
@@ -47,16 +81,16 @@ export function endEvent(eventId: string, type: number, data: any) {
     // TODO 重复代码
     switch (type) {
       case SUCCESS:
-        eventMap.get(eventId).callBack(SUCCESS, data);
-        presentableQueue.delete(eventId)
+        eventMap.get(eventId).resolve(SUCCESS, data);
+        presentableQueue.delete(eventId);
         removeEvent(eventId);
         break;
       case FAILED:
-        eventMap.get(eventId).callBack(FAILED, data);
+        eventMap.get(eventId).reject(FAILED, data);
         removeEvent(eventId);
         break;
       case USER_CANCEL:
-        eventMap.get(eventId).callBack(USER_CANCEL, data);
+        eventMap.get(eventId).reject(USER_CANCEL, data);
         removeEvent(eventId);
         break;
     }
