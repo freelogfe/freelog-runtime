@@ -60,6 +60,7 @@ export default {
       const $mdParser = document.querySelector('#f-docs-main-content freelog-markdown-parser')
       try {
         await $mdParser.mountPromise
+        console.log($mdParser)
         this.navItems = $mdParser._tocs.map(item => {
           const { text: name, level, anchor: id } = item
           return {
