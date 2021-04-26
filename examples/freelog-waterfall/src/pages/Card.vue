@@ -9,8 +9,7 @@
       />
       <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;font-family: 'freelog';">{{title}}edfgdffgdfg</div>
     </div>
-    <img src="@/assets/new.png" />
-    <div
+     <div
       @click="$emit('preview')"
     >
 

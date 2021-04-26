@@ -74,7 +74,7 @@ export function resolveUrl(path: string, params?: any): string {
   return `${baseUrl}${path}?${queryStringArr.join('&')}`
 }
 export async function getSelfId(global: any) {
-  return widgetsConfig.get(global.widgetName)?.id
+  return widgetsConfig.get(global.widgetName)?.presentableId
 } 
 // TODO if error
 export async function getSubDep(presentableId: any, global: any) {

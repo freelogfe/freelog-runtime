@@ -166,6 +166,7 @@ export default {
       const eleHeights = Array(this.columns)
         .fill(-1)
         .map((i, j) => this.$refs["ref" + j][0].getBoundingClientRect().height);
+        console.log(this.columns, Math.floor(window.innerWidth / 250), eleHeights, eleHeights.indexOf(Math.min.apply(Math, eleHeights)), 22222)
       return eleHeights.indexOf(Math.min.apply(Math, eleHeights));
     },
 

@@ -20,13 +20,11 @@ export default {
       const subData = await window.freelogApp.getSubDep(presentableId);
       console.log(
         presentableId,
-        3243444,
         subData,
         document.getElementById("freelog-single")
       );
       subData.subDeps.some((sub, index) => {
         if (index === 1) return true;
-        console.log(sub, 234234234234);
         window.freelogApp.mountWidget(
           sub,
           document.getElementById("freelog-single"),
@@ -35,7 +33,9 @@ export default {
             presentableId: presentableId,
             entityNid: subData.entityNid,
             subDependId: sub.id,
+            resourceInfo: { resourceId: sub.id}
           },
+          'http://localhost:7103/',
           ""
         );
       });
