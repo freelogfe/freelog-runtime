@@ -30,7 +30,7 @@
 </template>
 <script>
 import VueMarkdown from "vue-markdown";
-
+// var a = require('@/assets/test.txt')
 // @ is an alias to /src
 export default {
   name: "App",
@@ -43,11 +43,20 @@ export default {
     };
   },
   async mounted() {
-    console.log(this.$refs.markdomw, this.md);
+    this.getdev()
+    // console.log(this.$refs.markdomw, this.md, a);
     var response = await window.freelogApp.getFileStreamById('60092dbb10d7e600342b7b43')
-    this.md = response.data
+    // this.md = response.data
   },
   methods: {
+        
+    getdev() {
+      window.fetch('/docs/README.md').then(async res=>{
+        const data = await res.text()
+        this.md = data
+      })
+         
+    },
     allRight: function (htmlStr) {
       console.log("markdown is parsed !");
     },
