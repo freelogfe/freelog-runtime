@@ -35,7 +35,6 @@ export default {
             subDependId: sub.id,
             resourceInfo: { resourceId: sub.id}
           },
-          'http://localhost:7103/',
           ""
         );
       });
