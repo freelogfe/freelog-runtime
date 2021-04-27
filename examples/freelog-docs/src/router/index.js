@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Index from '../views/index'
 import Home from '../views/home/home'
 import Dev from '../views/dev/dev.vue'
+import Guide from '../views/dev/guide/guide.vue'
 
 Vue.use(VueRouter);
 
@@ -36,13 +37,13 @@ const routes = [
       ,
       {
         path: 'dev',
-        name: 'dev', 
         component: Dev,
-        children: [
+        redirect: 'dev/guide',  
+        children: [ 
           {
             path: 'guide',
             name: 'guide', 
-            component: () => import(/* webpackChunkName: "guide" */ '../views/dev/guide/guide.vue'),
+            component: Guide,
           },
           {
             path: 'api',

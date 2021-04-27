@@ -42,7 +42,6 @@ export default {
     };
   },
   methods: {
-    
     handleSelect(key, keyPath) {
       if (key == 1) {
         this.$router.push("home");
@@ -54,50 +53,50 @@ export default {
         this.$router.push("faq");
       }
       if (key == 4) {
-                    this.$router.push("dev");
+        this.$router.push("dev");
 
         this.$router.push("guide");
       }
-      if (key == '4-1') {
-          this.$router.push("dev");
-        this.$router.push("guide");
+      if (key == "4-1") {
+        // this.$router.push("dev");
+        this.$router.push({name: "guide"});
       }
-      if (key == '4-2') {
-          this.$router.push("dev");
-        this.$router.push("api");
+      if (key == "4-2") {
+        // this.$router.push("dev");
+        this.$router.push({name:"api"});
       }
-      if (key == '4-3') {
-          this.$router.push("dev");
-        this.$router.push("faqDev");
+      if (key == "4-3") {
+        // this.$router.push("dev");
+        this.$router.push({name:"faqDev"});
       }
     },
   },
-  mounted(){
-    console.log(this.$route)
-    switch(this.$route.name){
-        case 'home': 
-         this.activeIndex = "1" 
-         break
-        case 'concept': 
-         this.activeIndex = "2" 
-         break
-         case 'faq': 
-         this.activeIndex = "3" 
-         break
-         case 'guide': 
-         this.activeIndex = "4-1" 
-         break
-         case 'api': 
-         this.activeIndex = "4-2" 
-         break
-         case 'faqDev': 
-         this.activeIndex = "4-3" 
-         break
-         default:
-         this.activeIndex = "1" 
-         break
+  mounted() {
+    console.log(this.$route);
+    switch (this.$route.name) {
+      case "home":
+        this.activeIndex = "1";
+        break;
+      case "concept":
+        this.activeIndex = "2";
+        break;
+      case "faq":
+        this.activeIndex = "3";
+        break;
+      case "guide":
+        this.activeIndex = "4-1";
+        break;
+      case "api":
+        this.activeIndex = "4-2";
+        break;
+      case "faqDev":
+        this.activeIndex = "4-3";
+        break;
+      default:
+        this.activeIndex = "1";
+        break;
     }
-  }
+  },
 };
 </script>
 <style>

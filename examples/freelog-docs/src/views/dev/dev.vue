@@ -1,6 +1,7 @@
 <!--  -->
 <template>
     <div class="w-100x h-100x  over-h">
+        jjjj
         <router-view ></router-view>
   </div>
 </template>
@@ -17,6 +18,8 @@ export default {
     },
     methods: {
         
+    },
+    mounted(){
     }
 }
 </script>
