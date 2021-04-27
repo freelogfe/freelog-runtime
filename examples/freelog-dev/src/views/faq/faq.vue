@@ -1,7 +1,7 @@
 <!--  -->
 <template>
     <div class = ''>
-      this is home
+       this is faq
    </div>
 </template>
 

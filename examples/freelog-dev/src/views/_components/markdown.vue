@@ -1,6 +1,31 @@
 <template>
-  <div id="app" class="w-100x h-100x over-h">
-    <router-view></router-view>
+  <div id="app">
+    <div id="nav">
+      <el-dropdown>
+  <span class="el-dropdown-link">
+    下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+  </span>
+  <el-dropdown-menu slot="dropdown">
+    <el-dropdown-item>黄金糕</el-dropdown-item>
+    <el-dropdown-item>狮子头</el-dropdown-item>
+    <el-dropdown-item>螺蛳粉</el-dropdown-item>
+    <el-dropdown-item disabled>双皮奶</el-dropdown-item>
+    <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+  </el-dropdown-menu>
+</el-dropdown>
+
+
+      |<vue-markdown
+        :source="md"
+        @toc-rendered="tocAllRight"
+        toc-id="toc"
+        @rendered="allRight"
+        ref="markdomw"
+        :watches="['source', 'show', 'toc']"
+        :toc="true"
+      ></vue-markdown>
+      <div id="toc"></div>
+    </div>
   </div>
 </template>
 <script>
@@ -8,7 +33,7 @@ import VueMarkdown from "vue-markdown";
 // var a = require('@/assets/test.txt')
 // @ is an alias to /src
 export default {
-  name: "App",
+  name: "markdown",
   components: {
     VueMarkdown,
   },

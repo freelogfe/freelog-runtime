@@ -1,21 +1,26 @@
 <template>
-  <div class="w-100x h-100x flex-column over-h">
-    <Header/>
-    <div class="flex-w w-100x flex-1">
-        <router-view class="w-100x h-100x over-h"></router-view>
+  <div id="guide" class="w-100x h-100x flex-row y-auto">
+    <div id="toc"></div>
+    <div class="flex-1">
+      <vue-markdown
+        :source="md"
+        @toc-rendered="tocAllRight"
+        toc-id="toc"
+        @rendered="allRight"
+        ref="markdomw"
+        :watches="['source', 'show', 'toc']"
+        :toc="true"
+      ></vue-markdown>
     </div>
   </div>
 </template>
 <script>
 import VueMarkdown from "vue-markdown";
-import Header from "./_components/header";
 
-// var a = require('@/assets/test.txt')
-// @ is an alias to /src
 export default {
-  name: "App",
+  name: "markdown",
   components: {
-    Header,
+    VueMarkdown,
   },
   data() {
     return {
@@ -23,17 +28,16 @@ export default {
     };
   },
   async mounted() {
-    this.getdev()
+    this.getdev();
     // console.log(this.$refs.markdomw, this.md, a);
     // this.md = response.data
   },
   methods: {
-        
     getdev() {
-      window.fetch('/docs/README.md').then(async res=>{
-        const data = await res.text()
-        this.md = data
-      })
+      window.fetch("/docs/README.md").then(async (res) => {
+        const data = await res.text();
+        this.md = data;
+      });
     },
     allRight: function (htmlStr) {
       console.log("markdown is parsed !");
@@ -45,6 +49,5 @@ export default {
 };
 </script>
 
-<style>
- 
+<style lang='scss' scoped>
 </style>

@@ -8,9 +8,10 @@ import routes from "./router";
 import store from "./store";
 import  './assets/css/index.scss';
 Vue.config.productionTip = false;
+import VueMarkdown from "vue-markdown";
 
 Vue.use(ElementUI);
-
+Vue.component("vue-markdown", VueMarkdown)
 let router = null;
 let instance = null;
 
