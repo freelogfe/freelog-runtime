@@ -1,47 +1,236 @@
----
-title: qiankun
-hero:
-  title: qiankun
-  desc: 可能是你见过最完善的微前端解决方案🧐 
-  actions:
-    - text:  快速开始 →
-      link: /zh/guide
-features:
-  - title: 简单
-    desc: 任意 js 框架均可使用。微应用接入像使用接入一个 iframe 系统一样简单，但实际不是 iframe。
-  - title: 完备
-    desc: 几乎包含所有构建微前端系统时所需要的基本能力，如 样式隔离、js 沙箱、预加载等。
-  - title: 生产可用
-    desc: 已在蚂蚁内外经受过足够大量的线上系统的考验及打磨，健壮性值得信赖。
-footer: MIT Licensed | Copyright © 2019-present<br />Powered by [dumi](https://d.umijs.org)
+# h1 Heading 8-)
+<h2> h2 Heading by HTML</h2>
+## h2 Heading
+### h3 Heading
+
+## Horizontal Rules
+
+___
+
 ---
 
-## 📦 安装
+***
 
-```shell
-$ yarn add qiankun  # or npm i qiankun -S
+## Typographic replacements
+
+Enable typographer option to see result.
+
+(c) (C) (r) (R) (tm) (TM) (p) (P) +-
+
+test.. test... test..... test?..... test!....
+
+!!!!!! ???? ,,  -- ---
+
+"Smartypants, double quotes" and 'single quotes'
+
+``` js
+function $initHighlight(block, cls) {
+  try {
+    if (cls.search(/\bno\-highlight\b/) != -1)
+      return process(block, true, 0x0F) +
+             ` class="${cls}"`;
+  } catch (e) {
+    /* handle exception */
+  }
+  for (var i = 0 / 2; i < classes.length; i++) {
+    if (checkCondition(classes[i]) === undefined)
+      console.log('undefined');
+  }
+}
+```
+## Emphasis
+
+**This is bold text**
+
+__This is bold text__
+
+*This is italic text*
+
+_This is italic text_
+
+~~Strikethrough~~
+
+
+## Blockquotes
+
+
+> Blockquotes can also be nested...
+>> ...by using additional greater-than signs right next to each other...
+> > > ...or with spaces between arrows.
+
+
+## Lists
+
+Unordered
+
++ Create a list by starting a line with `+`, `-`, or `*`
++ Sub-lists are made by indenting 2 spaces:
+  - Marker character change forces new list start:
+    * Ac tristique libero volutpat at
+    + Facilisis in pretium nisl aliquet
+    - Nulla volutpat aliquam velit
++ Very easy!
+
+Ordered
+
+1. Lorem ipsum dolor sit amet
+2. Consectetur adipiscing elit
+3. Integer molestie lorem at massa
+
+
+1. You can use sequential numbers...
+1. ...or keep all the numbers as `1.`
+
+Start numbering with offset:
+
+57. foo
+1. bar
+
+
+## Code
+
+Inline `code`
+
+Indented code
+
+    // Some comments
+    line 1 of code
+    line 2 of code
+    line 3 of code
+
+
+Block code "fences"
+
+```
+Sample text here...
+```
+Syntax highlighting
+
+``` javascript
+var foo = function (bar) {
+  return bar++;
+};
+
+console.log(foo(5));
 ```
 
-## 🔨 使用
+``` go
+package main
 
-```tsx
-import { loadMicroApp } from 'qiankun';
+import "fmt"
 
-// 加载微应用
-loadMicroApp({
-  name: 'reactApp',
-  entry: '//localhost:7100',
-  container: '#container',
-  props: {
-    slogan: 'Hello Qiankun'
-  },
-});
+func main() {
+	fmt.Println("Hello, world!")
+}
 ```
 
-参考：[快速上手](/zh/guide/getting-started)。
+## Tables
 
-## 社区
+| Option | Description |
+| ------ | ----------- |
+| data   | path to data files to supply the data that will be passed into templates. |
+| engine | engine to be used for processing templates. Handlebars is the default. |
+| ext    | extension to be used for dest files. |
 
-| Github Issue | 钉钉群 |
-| --- | --- |
-| [umijs/qiankun/issues](https://github.com/umijs/qiankun/issues) | <img src="https://gw.alipayobjects.com/mdn/rms_655822/afts/img/A*hIQlR6gslPYAAAAAAAAAAAAAARQnAQ" width="150" /> |
+Right aligned columns
+
+| Option | Description |
+| ------:| -----------:|
+| data   | path to data files to supply the data that will be passed into templates. |
+| engine | engine to be used for processing templates. Handlebars is the default. |
+| ext    | extension to be used for dest files. |
+
+## Links
+
+[vue-markdown](https://github.com/miaolz123/vue-markdown)
+
+[link with title](https://github.com/miaolz123/vue-markdown "VueMarkdown")
+
+Autoconverted link https://github.com/miaolz123/vue-markdown (enable linkify to see)
+
+
+## Images
+
+![Minion](dist/img/minion.png)
+
+Like links, Images also have a footnote style syntax
+
+![Alt text][id]
+
+With a reference later in the document defining the URL location:
+
+[id]: dist/img/minion.png  "The Dojocat"
+
+
+### Emojies
+
+> Classic markup: :wink: :cry: :laughing: :yum:
+>
+> Shortcuts (emoticons): :-) :-( 8-) ;)
+
+
+### Subscript / Superscript
+
+- 19^th^
+- H~2~O
+
+
+### \<ins>
+
+++Inserted text++
+
+
+### \<mark>
+
+==Marked text==
+
+
+### Footnotes
+
+Footnote 1 link[^first].
+
+Footnote 2 link[^second].
+
+Inline footnote^[Text of inline footnote] definition.
+
+Duplicated footnote reference[^second].
+
+[^first]: Footnote **can have markup**
+
+    and multiple paragraphs.
+
+[^second]: Footnote text.
+
+
+### Definition lists
+
+Term 1
+
+:   Definition 1
+with lazy continuation.
+
+Term 2 with *inline markup*
+
+:   Definition 2
+
+        { some code, part of Definition 2 }
+
+    Third paragraph of definition 2.
+
+_Compact style:_
+
+Term 1
+  ~ Definition 1
+
+Term 2
+  ~ Definition 2a
+  ~ Definition 2b
+
+
+### Abbreviations
+
+This is HTML abbreviation example.
+
+It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
+
+*[HTML]: Hyper Text Markup Language

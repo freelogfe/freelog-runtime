@@ -1,7 +1,7 @@
 <template>
   <div id="guide" class="w-100x h-100x flex-row y-auto">
-    <div id="toc"></div>
-    <div class="flex-1">
+    <div id="toc" class="h-100x y-auto w-260 br-1 fs-18 px-10"></div>
+    <div class="h-100x y-auto flex-1 px-40">
       <vue-markdown
         :source="md"
         @toc-rendered="tocAllRight"
@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     getdev() {
-      window.fetch("/docs/README.md").then(async (res) => {
+      window.fetch("/docs/README.zh.md").then(async (res) => {
         const data = await res.text();
         this.md = data;
       });
@@ -49,5 +49,11 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
+#toc {
+  li {
+    line-height: 1.5;
+    margin: 3px 0 3px 0;
+  }
+}
 </style>

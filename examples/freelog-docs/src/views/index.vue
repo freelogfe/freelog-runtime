@@ -1,13 +1,12 @@
 <template>
   <div class="w-100x h-100x flex-column over-h">
     <Header/>
-    <div class="flex-w w-100x flex-1">
+    <div class="w-100x flex-1 over-h">
         <router-view class="w-100x h-100x over-h"></router-view>
     </div>
   </div>
 </template>
 <script>
-import VueMarkdown from "vue-markdown";
 import Header from "./_components/header";
 
 // var a = require('@/assets/test.txt')

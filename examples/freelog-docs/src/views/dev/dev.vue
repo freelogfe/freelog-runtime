@@ -1,7 +1,6 @@
 <!--  -->
 <template>
-    <div class="w-100x h-100x  over-h">
-        jjjj
+    <div class="w-100x h-100x  over-h py-20">
         <router-view ></router-view>
   </div>
 </template>

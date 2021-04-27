@@ -1,6 +1,6 @@
 <template>
   <div class="flex-row w-100x h-61 space-between bb-1">
-    <div class="w-100x text-center ml-20">
+    <div class="w-200 text-center ml-20">
       <a
         aria-current="page"
         class="freelog fl-icon-logo-freelog fc-regular fs-34 td-none"

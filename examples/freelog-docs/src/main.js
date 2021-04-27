@@ -1,17 +1,20 @@
 import "./public-path";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
+import "./prism.css";
 import Vue from "vue";
 import VueRouter from "vue-router";
 import App from "./App.vue";
 import routes from "./router";
 import store from "./store";
-import  './assets/css/index.scss';
+import "./assets/css/index.scss";
+import "./prism.js";
 Vue.config.productionTip = false;
 import VueMarkdown from "vue-markdown";
-
+// Vue.prototype.$prims = prims;
+// console.log(prims)
 Vue.use(ElementUI);
-Vue.component("vue-markdown", VueMarkdown)
+Vue.use(VueMarkdown);
 let router = null;
 let instance = null;
 
