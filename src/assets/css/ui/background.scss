@@ -1,9 +1,37 @@
-.bg-main{
+.bg-main {
     background-color: white;
 }
-.bg-less{
+
+.bg-less {
     background-color: #f0f2f5;
 }
-.bg-white{
+
+.bg-white {
     background-color: white;
+}
+
+.bg-content {
+    background-color: #FAFBFC;
+}
+
+
+// color
+.bg-success {
+    background-color: $success;
+}
+
+.bg-warn {
+    background-color: $warn;
+}
+
+.bg-error {
+    background-color: $error;
+}
+ 
+.bg-main {
+    background-color: $main;
+}
+
+.bg-end{
+    background-color: $end;
 }

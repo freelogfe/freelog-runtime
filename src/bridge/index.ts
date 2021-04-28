@@ -1,3 +1,4 @@
+import { add } from "lodash";
 import { SUCCESS, FAILED, USER_CANCEL } from "./event";
 import { LOGIN, CONTRACT } from "./event";
 
@@ -13,6 +14,7 @@ export function reisterUI(ui: any, update: any) {
 export function setPresentableQueue(name: string, value: any) {
   presentableQueue.set(name, value);
   console.log(presentableQueue);
+  addEvent.bind({name: 'test'})(name,()=>{console.log('success')},()=>{console.log('fail')})
 }
 // 公共非展品事件UI， 后面考虑
 export function addEvent(
@@ -44,7 +46,7 @@ export function addEvent(
     if (data.info.errorCode === 30) {
       event = LOGIN;
     } 
-    if (data.info.errorCode === 30) {
+    if (data.info.errorCode !== 30) {
       event = CONTRACT;
     }
     eventMap.set(presentableId, {

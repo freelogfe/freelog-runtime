@@ -13,7 +13,7 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-export default (props: any) => {
+export default function(props: any) {
   const onFinish = async (values: any) => {
     // loginName: "string",
     //   password: "string",

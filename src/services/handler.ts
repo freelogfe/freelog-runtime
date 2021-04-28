@@ -1,7 +1,7 @@
 import axios from "./request";
 import { placeHolder, baseConfig } from "./base";
 import { compareObjects } from "../utils/utils";
-import {setPresentableQueue} from '../bridge/index'
+import { setPresentableQueue } from "../bridge/index";
 /**
  *
  * @param action api namespace.apiName
@@ -16,7 +16,7 @@ export default function frequest(
   config?: any
 ): any {
   // @ts-ignore
-  const caller = this
+  const caller = this;
   let api = Object.assign({}, action);
   // type Api2 = Exclude<Api, 'url' | 'before' | 'after'>
   let url = api.url;
@@ -48,11 +48,13 @@ export default function frequest(
   ["url", "before", "after"].forEach((item) => {
     delete api[item];
   });
-  let _config:any = {};
+  let _config: any = {};
   if (config) {
-    ["onUploadProgress", "onDownloadProgress", "responseType"].forEach(key=>{
-        if(config[key]) _config[key] = config[key]
-    })
+    ["onUploadProgress", "onDownloadProgress", "responseType"].forEach(
+      (key) => {
+        if (config[key]) _config[key] = config[key];
+      }
+    );
   }
   let _api = Object.assign(_config, baseConfig, api);
   if (returnUrl && _api.method.toLowerCase() === "get") {
@@ -73,9 +75,14 @@ export default function frequest(
       .then(async (response) => {
         api.after && api.after(response);
         // TODO 仅授权失败
-        if(response.data.errCode > 0 && caller && caller.name){
-          setPresentableQueue((caller.presentableId ||  caller.subResourceIdOrName || caller.name), { widget: caller.name, info: response.data})
+        // if(response.data.errCode > 0 && caller && caller.name){
+        if (caller.presentableId ) {
+          setTimeout(()=>{setPresentableQueue(
+            caller.presentableId || caller.subResourceIdOrName || caller.name,
+            { widget: caller.name, info: response.data }
+          );}, 200)
         }
+        // }
         resolve(response);
       })
       .catch((error) => {

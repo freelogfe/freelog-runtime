@@ -43,3 +43,14 @@
     z-index: 1200
   }
 }
+.freelog-contract{
+  .ant-modal-body{
+    padding: 0 !important;
+  }
+  .ant-modal-header > .ant-modal-title{
+     color: #222222  !important;
+     font-size: 18px !important;
+     text-align: center !important;
+     font-weight: bold !important;
+  }
+}

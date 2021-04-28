@@ -56,6 +56,7 @@ function App() {
   }
   function UI() {
     const arr = updateEvents();
+    console.log(arr)
     setCurrentEvent(arr[0] || null);
   }
   function updateUI() {
@@ -69,34 +70,16 @@ function App() {
   reisterUI(UI, updateUI);
   return (
     <div id="freelog-app" className="App flex-row w-100x h-100x over-h">
-      {window.isMobile ? '' : (<div className="w-200 h-100x flex-column p-20">
-        {events.map((item: any, index) => {
-          if(item.event === LOGIN) return ''
-          return (
-            <div
-              key={index}
-              onClick={() => {
-                setCurrentEvent(item);
-              }}
-              className={
-                " mb-20 p-10 w-310 h-200 flex-column br-middle b-1 space-between"
-              }
-            >
-              <div>{item.presentableId}</div>
-            </div>
-          );        
-        })}
-      </div>) }
       <div className="flex-1 h-100x text-center">
         {currentEvent? (() => {
           // @ts-ignore
           if (currentEvent.event === LOGIN) {
             // @ts-ignore
-            return <Login presentableData={currentEvent}  eventFinished={eventFinished}></Login>;
+            return <Login presentableData={currentEvent}  eventFinished={eventFinished} events={events}></Login>;
             // @ts-ignore
           } else if (currentEvent.event === CONTRACT) {
             // @ts-ignore
-            return <Contract presentableData={currentEvent}></Contract>;
+            return <Contract presentableData={currentEvent} events={events}></Contract>;
             // @ts-ignore
           }
         })() : ''}

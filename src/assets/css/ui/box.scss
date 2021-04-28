@@ -14,7 +14,7 @@
 }
 
 .bb-1 {
-  border-bottom: 1px solid #d9d9d9 !important;
+  border-bottom: 1px solid #E5E7EB !important;
 }
 
 .bt-1 {
@@ -28,7 +28,11 @@
 .br-1 {
   border-right: 1px solid #d9d9d9 !important;
 }
-
+@for $i from 0 through 100 {
+  .brs-#{$i} {
+    border-radius: (1px * $i) !important;
+  }
+}
 
 // br: border-radius
 .br-samll {
