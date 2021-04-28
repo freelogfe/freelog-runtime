@@ -1,5 +1,5 @@
 import { SUCCESS, FAILED, USER_CANCEL } from "./event";
-import { LOGIN, CONTRACT, PAY } from "./event";
+import { LOGIN, CONTRACT } from "./event";
 
 export const presentableQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>();
@@ -43,10 +43,7 @@ export function addEvent(
     // TODO 根据errorCode 决定事件 外部函数判断，不写在里面
     if (data.info.errorCode === 30) {
       event = LOGIN;
-    }
-    if (data.info.errorCode === 30) {
-      event = PAY;
-    }
+    } 
     if (data.info.errorCode === 30) {
       event = CONTRACT;
     }

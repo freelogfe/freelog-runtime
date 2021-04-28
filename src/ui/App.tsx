@@ -1,12 +1,10 @@
 // import logo from './logo.svg';
 import "./App.scss";
 import React, { useEffect, useState } from "react";
-import { LOGIN, CONTRACT, PAY } from "../bridge/event";
+import { LOGIN, CONTRACT } from "../bridge/event";
 import Login from "./components/login";
 import Contract from "./components/contract";
  
-import Pay from "./components/pay";
-
 import { reisterUI, eventMap, failedMap, endEvent } from "../bridge/index";
 function App() {
   const [events, setEvents] = useState([]);
@@ -100,9 +98,6 @@ function App() {
             // @ts-ignore
             return <Contract presentableData={currentEvent}></Contract>;
             // @ts-ignore
-          } else if (currentEvent.event === PAY) {
-            // @ts-ignore
-            return <Pay presentableData={currentEvent}></Pay>;
           }
         })() : ''}
       </div>
