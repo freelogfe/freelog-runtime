@@ -259,6 +259,7 @@ const querySelector = rawDocument.querySelector;
 const querySelectorAll = rawDocument.querySelectorAll;
 const getElementById = rawDocument.getElementById;
 const appendChild = rawDocument.body.appendChild;
+const removeChild = rawDocument.body.removeChild;
 const addEventListener = rawDocument.addEventListener;
 export const createDocumentProxy = function (
   name: string,
@@ -346,7 +347,8 @@ export const createDocumentProxy = function (
         rawDocument
       );
       rawDocument.addEventListener = addEventListener.bind(rawDocument);
-      rawDocument.body.appendChild = appendChild.bind(rawDocument.body);
+      rawDocument.body.appendChild = appendChild.bind(document.getElementById('runtime-root'));
+      rawDocument.body.removeChild = removeChild.bind(document.getElementById('runtime-root'));
       rawDocument.querySelector = querySelector.bind(rawDocument);
       rawDocument.querySelector = querySelector.bind(rawDocument);
       rawDocument.getElementById = getElementById.bind(rawDocument);

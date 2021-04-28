@@ -37,12 +37,14 @@ function App() {
       // @ts-ignore
       document.getElementById("freelog-plugin-container").style.zIndex = 1;
     } else {
+      document.body.appendChild = document.body.appendChild.bind(document.getElementById('runtime-root'));
+      document.body.removeChild = document.body.removeChild.bind(document.getElementById('runtime-root'));
       // @ts-ignore
       const app = document.getElementById("runtime-root")
             // @ts-ignore
       app.style.zIndex = 1;
       // @ts-ignore
-      app.style.opacity = 1;
+      // app.style.opacity = 1;
       // @ts-ignore
       document.getElementById("freelog-plugin-container").style.zIndex = 0;
     }
@@ -68,8 +70,7 @@ function App() {
   }
   reisterUI(UI, updateUI);
   return (
-    <div id="freelog-app" className="App flex-row w-100x h-100x over-h bg-white">
-
+    <div id="freelog-app" className="App flex-row w-100x h-100x over-h">
       {window.isMobile ? '' : (<div className="w-200 h-100x flex-column p-20">
         {events.map((item: any, index) => {
           if(item.event === LOGIN) return ''
@@ -85,7 +86,7 @@ function App() {
             >
               <div>{item.presentableId}</div>
             </div>
-          );
+          );        
         })}
       </div>) }
       <div className="flex-1 h-100x text-center">
@@ -93,7 +94,7 @@ function App() {
           // @ts-ignore
           if (currentEvent.event === LOGIN) {
             // @ts-ignore
-            return <Login presentableData={currentEvent} eventFinished={eventFinished}></Login>;
+            return <Login presentableData={currentEvent}  eventFinished={eventFinished}></Login>;
             // @ts-ignore
           } else if (currentEvent.event === CONTRACT) {
             // @ts-ignore

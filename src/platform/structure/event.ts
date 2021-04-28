@@ -17,7 +17,6 @@ export async function callUI(
   reject: any,
   options?: any
 ) {
-  function res() {}
   await new Promise((res, rej) => {
     const _res = () => {
       // @ts-ignore

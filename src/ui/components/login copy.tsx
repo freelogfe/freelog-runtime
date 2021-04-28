@@ -41,27 +41,22 @@ export default (props: any) => {
   };
   return (
     <Modal
-      title="登录"
-      zIndex={1200}
+      title="Basic Modal"
+      zIndex="1200"
       centered
-      footer={null}
       visible={true}
-      closable={false}
-      className="w-400 h-400"
       onOk={handleOk}
       onCancel={handleCancel}
     >
       <Form
         {...layout}
         name="basic"
-        className=""
         initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
         <Form.Item
           label="用户名"
-          className="mr-40"
           name="loginName"
           rules={[{ required: true, message: "请输入用户名!" }]}
         >
@@ -70,18 +65,17 @@ export default (props: any) => {
 
         <Form.Item
           label="密码"
-          className="mr-40"
           name="password"
           rules={[{ required: true, message: "请输入密码!" }]}
         >
           <Input.Password />
         </Form.Item>
 
-        <Form.Item {...tailLayout} name="isRemember" valuePropName="checked" className="ml-40">
+        <Form.Item {...tailLayout} name="isRemember" valuePropName="checked">
           <Checkbox>记住我</Checkbox>
         </Form.Item>
 
-        <Form.Item {...tailLayout} className="ml-40">
+        <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit">
             登录
           </Button>

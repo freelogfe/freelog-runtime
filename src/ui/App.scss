@@ -38,3 +38,8 @@
     transform: rotate(360deg);
   }
 }
+.freelo-login{
+  .ant-modal-root{
+    z-index: 1200
+  }
+}
