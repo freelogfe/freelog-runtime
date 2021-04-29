@@ -16,10 +16,9 @@ export default function (props: any) {
   const events = props.events || [];
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
-  const [currentDetail, setCurrentDetail] = useState({presentableId: ''});
+  const [currentDetail, setCurrentDetail] = useState({});
   async function getDetail(id: string){
-    console.log(23424)
-   const res = await frequest(presentable.getPresentableDetail, [id], '')
+   const res = await frequest(presentable.getPresentableDetail, [id], {isLoadPolicyInfo: 1})
    console.log(res)
    setCurrentDetail(res.data.data)
   }
@@ -27,6 +26,9 @@ export default function (props: any) {
     console.log(events[0])
     events[0] && getDetail(events[0].presentableId)
   }, [])
+  useEffect(() => {
+    currentPresentable && getDetail(currentPresentable.presentableId)
+  }, [currentPresentable])
   const handleOk = () => {
     setIsModalVisible(false);
   };
@@ -50,24 +52,22 @@ export default function (props: any) {
       <div className="w-100x h-500 flex-row">
         <div className="flex-column w-344 h-100x  y-auto">
           {events.length ? (
-            <div className="w-100x h-100x flex-column ">
-              {[...events].map((item: any, index: number) => {
+              [...events].map((item: any, index: number) => {
                 if (item.event === LOGIN) return "";
                 return (
                   <div
                     key={index}
                     onClick={() => {
-                      // setcurrentPresentable(item);
+                      setCurrentPresentable(item);
                     }}
                     className={
-                      (index === 1 ? "bg-content ": "") + "pl-20 w-100x b-box h-60  f-main lh-60"
+                      (currentPresentable === item ? "bg-content ": "") + "pl-20 w-100x b-box h-60 cur-pointer f-main lh-60"
                     }
                   >
                     <div>{item.presentableId}</div>
                   </div>
                 );
-              })}
-            </div>
+              })
           ) : (
             ""
           )}
@@ -78,7 +78,7 @@ export default function (props: any) {
               <div key={index} className="brs-10 w-476x  bg-white my-15 mx-20">
                 <div className="f-main flex-row align-center space-between bb-1 px-20 h-50">
                   <div className="fw-bold  fs-14 fc-black">策略1</div>
-                  <div className="px-10 py-5 bg-main fs-13 fw-medium fc-white brs-4">
+                  <div className="px-10 py-5 bg-main fs-13 fw-medium fc-white brs-4 cur-pointer">
                     获取授权
                   </div>
                 </div>
