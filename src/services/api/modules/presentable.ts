@@ -10,9 +10,15 @@ export type Presentable = {
   getTestPagingData: any;
   getTestByPresentableId: any;
   getTestByResourceIdOrName: any;
+  getPresentableDetail: any
 };
 
 const presentable: Presentable = {
+  // presentableId, result|info|resourceInfo|fileStream
+  getPresentableDetail: {
+    url: `presentables/${placeHolder}`,
+    method: "GET",
+  },
   getPagingPresentables: {
     url: "presentables",
     method: "GET",

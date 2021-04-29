@@ -76,7 +76,7 @@ export default function frequest(
         api.after && api.after(response);
         // TODO 仅授权失败
         // if(response.data.errCode > 0 && caller && caller.name){
-        if (caller.presentableId ) {
+        if (caller && caller.presentableId ) {
           setTimeout(()=>{setPresentableQueue(
             caller.presentableId || caller.subResourceIdOrName || caller.name,
             { widget: caller.name, info: response.data }

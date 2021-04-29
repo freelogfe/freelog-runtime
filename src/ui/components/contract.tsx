@@ -1,11 +1,9 @@
 import { Form, Input, Modal, Button, Checkbox } from "antd";
-import user from "../../services/api/modules/user";
-import frequest from "../../services/handler";
 import { SUCCESS, FAILED, USER_CANCEL } from "../../bridge/event";
-import React, { useState } from "react";
-import { reisterUI, eventMap, failedMap, endEvent } from "../../bridge/index";
-import { LOGIN, CONTRACT } from "../../bridge/event";
-
+import React, { useState, useEffect } from "react";
+import { LOGIN } from "../../bridge/event";
+import frequest from "../../services/handler";
+import presentable from "../../services/api/modules/presentable";
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
@@ -15,28 +13,23 @@ const tailLayout = {
 };
 
 export default function (props: any) {
-  const onFinish = async (values: any) => {
-    // loginName: "string",
-    //   password: "string",
-    //   isRemember: "string",
-    //   returnUrl: "string",
-    //   jwtType: "string",
-    values.isRemember = values.isRemember ? 1 : 0;
-    const res = await frequest(user.login, "", values);
-    if (res.data.errCode === 0) {
-      props.eventFinished(SUCCESS);
-    }
-  };
-  const events = props.events;
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
+  const events = props.events || [];
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const [currentPresentable, setCurrentPresentable] = useState(events[0]);
+  const [currentDetail, setCurrentDetail] = useState({presentableId: ''});
+  async function getDetail(id: string){
+    console.log(23424)
+   const res = await frequest(presentable.getPresentableDetail, [id], '')
+   console.log(res)
+   setCurrentDetail(res.data.data)
+  }
+  useEffect(() => {
+    console.log(events[0])
+    events[0] && getDetail(events[0].presentableId)
+  }, [])
   const handleOk = () => {
     setIsModalVisible(false);
   };
-  console.log(events, LOGIN);
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -58,13 +51,13 @@ export default function (props: any) {
         <div className="flex-column w-344 h-100x  y-auto">
           {events.length ? (
             <div className="w-100x h-100x flex-column ">
-              {[...events, ...events, ...events, ...events, ...events, ...events, ...events, ...events, ...events].map((item: any, index: number) => {
+              {[...events].map((item: any, index: number) => {
                 if (item.event === LOGIN) return "";
                 return (
                   <div
                     key={index}
                     onClick={() => {
-                      // setCurrentEvent(item);
+                      // setcurrentPresentable(item);
                     }}
                     className={
                       (index === 1 ? "bg-content ": "") + "pl-20 w-100x b-box h-60  f-main lh-60"
@@ -80,9 +73,9 @@ export default function (props: any) {
           )}
         </div>
         <div className="w-516 bg-content h-100x   y-auto ">
-          {[1, 3, 3, 4].map((item: any) => {
+          {[1, 3, 3, 4].map((item: any, index: number) => {
             return (
-              <div className="brs-10 w-476x  bg-white my-15 mx-20">
+              <div key={index} className="brs-10 w-476x  bg-white my-15 mx-20">
                 <div className="f-main flex-row align-center space-between bb-1 px-20 h-50">
                   <div className="fw-bold  fs-14 fc-black">策略1</div>
                   <div className="px-10 py-5 bg-main fs-13 fw-medium fc-white brs-4">
