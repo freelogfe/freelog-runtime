@@ -16,7 +16,7 @@ export default function (props: any) {
   const events = props.events || [];
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
-  const [currentDetail, setCurrentDetail] = useState({});
+  const [currentDetail, setCurrentDetail] = useState({policies: []});
   async function getDetail(id: string){
    const res = await frequest(presentable.getPresentableDetail, [id], {isLoadPolicyInfo: 1})
    console.log(res)
@@ -24,7 +24,7 @@ export default function (props: any) {
   }
   useEffect(() => {
     console.log(events[0])
-    events[0] && getDetail(events[0].presentableId)
+    // events[0] && getDetail(events[0].presentableId)
   }, [])
   useEffect(() => {
     currentPresentable && getDetail(currentPresentable.presentableId)
@@ -61,10 +61,10 @@ export default function (props: any) {
                       setCurrentPresentable(item);
                     }}
                     className={
-                      (currentPresentable === item ? "bg-content ": "") + "pl-20 w-100x b-box h-60 cur-pointer f-main lh-60"
+                      (currentPresentable === item ? "bg-content ": "") + " pl-20 w-100x b-box h-60 cur-pointer f-main lh-60 select-none"
                     }
                   >
-                    <div>{item.presentableId}</div>
+                    <div>{item.presentableInfo.data.presentableName || item.presentableInfo.data.resourceName}</div>
                   </div>
                 );
               })
@@ -73,22 +73,21 @@ export default function (props: any) {
           )}
         </div>
         <div className="w-516 bg-content h-100x   y-auto ">
-          {[1, 3, 3, 4].map((item: any, index: number) => {
+          {currentDetail.policies.map((item: any, index: number) => {
             return (
-              <div key={index} className="brs-10 w-476x  bg-white my-15 mx-20">
+              <div key={index} className="brs-10 w-476x  bg-white my-15 mx-20 bs-less">
                 <div className="f-main flex-row align-center space-between bb-1 px-20 h-50">
-                  <div className="fw-bold  fs-14 fc-black">策略1</div>
-                  <div className="px-10 py-5 bg-main fs-13 fw-medium fc-white brs-4 cur-pointer">
+                  <div className="fw-bold  fs-14 fc-black">{item.policyName}</div>
+                  <div className="px-10 py-5 bg-main fs-13 fw-medium fc-white brs-4 cur-pointer select-none">
                     获取授权
                   </div>
                 </div>
-                <div
+                <pre
                   className="px-20 py-15 fw-bold fs-14 fc-black lh-20"
                   style={{ whiteSpace: "pre-wrap" }}
                 >
-                  for public initial[active]: terminate for public
-                  initial[active]: terminate
-                </div>
+                  {item.policyText}
+                </pre>
               </div>
             );
           })}
