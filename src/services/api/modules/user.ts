@@ -3,6 +3,7 @@ import { placeHolder } from "../../base";
 export type User = {
   login: any;
   loginOut: any;
+  getCurrent: any;
 };
 
 const user = {
@@ -24,6 +25,10 @@ const user = {
       returnUrl: "string",
     },
   },
+  getCurrent: {
+    url: `users/current`,
+    method: "get",
+  }
 };
 
 // user.getUserInfos = {  passport/logout?returnUrl={returnUrl}

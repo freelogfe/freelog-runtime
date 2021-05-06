@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { LOGIN } from "../../bridge/event";
 import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
+import contract from "../../services/api/modules/contract";
+
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
@@ -19,6 +21,7 @@ export default function (props: any) {
   const [currentDetail, setCurrentDetail] = useState({policies: []});
   async function getDetail(id: string){
    const res = await frequest(presentable.getPresentableDetail, [id], {isLoadPolicyInfo: 1})
+   const con = await frequest(contract.getContracts, '', {subjectIds: 1, subjectType: 2, licenseeIdentityType: 3, licenseeId: 1})
    console.log(res)
    setCurrentDetail(res.data.data)
   }
