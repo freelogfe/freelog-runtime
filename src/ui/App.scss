@@ -1,6 +1,7 @@
 @import '../assets/css/index.scss';
+
 #freelog-app {
-  
+
   text-align: center;
 }
 
@@ -34,23 +35,44 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
-.freelo-login{
-  .ant-modal-root{
+
+.freelo-login {
+  .ant-modal-root {
     z-index: 1200
   }
 }
-.freelog-contract{
-  .ant-modal-body{
+
+.freelog-contract {
+  .ant-modal-body {
     padding: 0 !important;
   }
-  .ant-modal-header > .ant-modal-title{
-     color: #222222  !important;
-     font-size: 18px !important;
-     text-align: center !important;
-     font-weight: bold !important;
+
+  .ant-modal-header>.ant-modal-title {
+    color: #222222 !important;
+    font-size: 18px !important;
+    text-align: center !important;
+    font-weight: bold !important;
+  }
+}
+
+.freelog-confirm {
+  .ant-modal-content{
+    border-radius: 6px !important;
+  }
+  .ant-modal-header {
+    border-radius: 6px !important;
+    padding: 30px 24px !important;
+    border-bottom: none !important;
+    .ant-modal-title {
+      color: #222222 !important;
+      font-size: 18px !important;
+      text-align: center !important;
+      font-weight: normal !important;
+    }
   }
 }

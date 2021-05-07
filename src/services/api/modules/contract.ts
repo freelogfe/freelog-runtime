@@ -1,10 +1,9 @@
 import { placeHolder } from "../../base";
 
-// TODO  需要给data或params定义类型
-
 export type Contract = {
   getContractInfo: any;
   getContracts: any;
+  contract: any;
 };
 
 const contract: Contract = {
@@ -30,6 +29,17 @@ const contract: Contract = {
       licenseeId: "string",
       isLoadPolicyInfo: "int",
       projection: "string",
+    },
+  },
+  contract: {
+    url: `contracts`,
+    method: "POST",
+    params: {
+      subjectIds: "string",
+      subjectType: "int",
+      policyId: "string",
+      licenseeId: "string",
+      licenseeIdentityType: "int"
     },
   },
 };
