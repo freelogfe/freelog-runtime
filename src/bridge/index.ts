@@ -1,5 +1,6 @@
 import { SUCCESS, FAILED, USER_CANCEL } from "./event";
 import { LOGIN, CONTRACT } from "./event";
+import presentable from '../../.history/src/services/api/modules/presentable_20210315113633';
 /**
  * 架构设计目的： 
  *     1.有利于更快进行业务细分实现和技术实现 
@@ -32,7 +33,7 @@ export function reisterUI(ui: any, update: any) {
 export function setPresentableQueue(name: string, value: any) {
   presentableQueue.set(name, value);
   console.log(presentableQueue);
-  addEvent.bind({name: 'test'})(name,()=>{console.log('success')},()=>{console.log('fail')})
+  // addEvent.bind({name: 'test'})(name,()=>{console.log('success')},()=>{console.log('fail')})
 }
 // 公共非展品事件UI， 后面考虑
 export function addEvent(
@@ -71,11 +72,13 @@ export function addEvent(
       event,
       eventId: presentableId, // 后期evnetId是要与prsesentableId区分开来的
       presentableId,
+      presentableName: data.presentableName,
       presentableInfo: data.info,
       resolve,
       reject,
       options,
     });
+    console.log(data.info)
     UI && UI();
     return;
   }
@@ -101,6 +104,7 @@ export function endEvent(eventId: string, type: number, data: any) {
     // TODO 重复代码
     switch (type) {
       case SUCCESS:
+        console.log(23424234234)
         eventMap.get(eventId).resolve(SUCCESS, data);
         presentableQueue.delete(eventId);
         removeEvent(eventId);

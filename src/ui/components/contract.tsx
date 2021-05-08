@@ -47,7 +47,14 @@ export default function (props: any) {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  const getAuth = () => {
+  const getAuth = async () => {
+    const res = await frequest(contract.contract, [], {
+      subjectId: currentPresentable.presentableId,
+      subjectType: 2,
+      policyId: currentPolicy.policyId,
+      licenseeId: 23345,
+      licenseeIdentityType: 3
+    });
     setIsModalVisible(false);
   };
   return (
@@ -132,8 +139,7 @@ export default function (props: any) {
                       }
                     >
                       <div>
-                        {item.presentableInfo.data.presentableName ||
-                          item.presentableInfo.data.resourceName}
+                        {item.presentableName}
                       </div>
                     </div>
                   );

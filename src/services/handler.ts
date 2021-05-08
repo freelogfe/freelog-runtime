@@ -2,6 +2,7 @@ import axios from "./request";
 import { placeHolder, baseConfig } from "./base";
 import { compareObjects } from "../utils/utils";
 import { setPresentableQueue } from "../bridge/index";
+import presentable from "../../.history/src/services/api/modules/presentable_20210315113633";
 /**
  *
  * @param action api namespace.apiName
@@ -74,13 +75,18 @@ export default function frequest(
     axios(url, _api)
       .then(async (response) => {
         api.after && api.after(response);
+
         // TODO 仅授权失败
         // if(response.data.errCode > 0 && caller && caller.name){
-        if (caller && caller.presentableId ) {
-          setTimeout(()=>{setPresentableQueue(
-            caller.presentableId || caller.subResourceIdOrName || caller.name,
-            { widget: caller.name, info: response.data }
-          );}, 200)
+        if (caller && (caller.presentableId || caller.resourceIdOrName)) {
+          const presentableId = response.headers["freelog-presentable-id"];
+          const presentableName = response.headers["freelog-presentable-name"];
+          setPresentableQueue(presentableId, {
+            widget: caller.name,
+            info: response.data,
+            presentableName,
+            presentableId,
+          });
         }
         // }
         resolve(response);

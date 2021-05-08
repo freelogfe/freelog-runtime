@@ -43,6 +43,7 @@ export function initNode() {
     }
     // @ts-ignore
     const theme = await getSubDep(nodeInfo.nodeThemeId);
+    console.log(theme)
     const themeApp = freelogApp.mountWidget(
       { id: theme.data.presentableId, name: theme.data.presentableName },
       container,

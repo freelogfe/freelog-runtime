@@ -35,7 +35,7 @@ const contract: Contract = {
     url: `contracts`,
     method: "POST",
     params: {
-      subjectIds: "string",
+      subjectId: "string",
       subjectType: "int",
       policyId: "string",
       licenseeId: "string",
