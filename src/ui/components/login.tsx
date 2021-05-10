@@ -23,7 +23,7 @@ export default function(props: any) {
     values.isRemember = values.isRemember ? 1 : 0;
     const res = await frequest(user.login, "", values);
     if (res.data.errCode === 0) {
-      props.eventFinished(SUCCESS);
+      props.eventFinished(SUCCESS, res.data.data);
     }
   };
 

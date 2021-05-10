@@ -96,6 +96,11 @@ export async function getSelfId(global: any) {
 // TODO if error
 export async function getSubDep(presentableId: any, global: any) {
   presentableId = presentableId || getSelfId(global);
+  getInfoById.bind(
+    global
+      ? sandBoxs.get(global.widgetName)
+      : { name: "freelog-" + presentableId, presentableId }
+  )(presentableId).then(res=>console.log(res));
   let info = await getInfoById.bind(
     global
       ? sandBoxs.get(global.widgetName)
@@ -145,6 +150,10 @@ export async function getSubDep(presentableId: any, global: any) {
 let userInfo:any = null
 export async function getUserInfo(){
   if(userInfo) return userInfo
-  userInfo = await frequest(user.getCurrent, "", "")
+  const res = await frequest(user.getCurrent, "", "")
+  userInfo = res.data.errCode === 0 ? res.data.data : null
   return userInfo
+}
+export async function setUserInfo(info:any){
+  userInfo = info 
 }

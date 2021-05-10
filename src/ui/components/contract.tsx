@@ -6,32 +6,35 @@ import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
 import contract from "../../services/api/modules/contract";
 import Button from './_components/button'
+import { getUserInfo } from "../../platform/structure/utils";
 
 
 export default function (props: any) {
   const events = props.events || [];
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [currentPolicy, setCurrentCurrentPolicy] = useState({policyId: '', policyName: ''});
+  const [currentPolicy, setCurrentCurrentPolicy] = useState({ policyId: '', policyName: '' });
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
   const [currentDetail, setCurrentDetail] = useState({
     policies: [],
   });
   async function getDetail(id: string) {
+    const userInfo: any = await getUserInfo()
+
     const res = await frequest(presentable.getPresentableDetail, [id], {
       isLoadPolicyInfo: 1,
     });
     const con = await frequest(contract.getContracts, "", {
-      subjectIds: 1,
+      subjectIds: currentPresentable.presentableId,
       subjectType: 2,
       licenseeIdentityType: 3,
-      licenseeId: 1,
+      licenseeId: userInfo.userId,
     });
     console.log(res.data.data, 234234)
     setCurrentDetail(res.data.data);
   }
   useEffect(() => {
     // events.forEach((item: any) => {
-      
+
     // })
     setCurrentPresentable(events[0])
   }, [props.events]);
@@ -45,11 +48,12 @@ export default function (props: any) {
     setIsModalVisible(false);
   };
   const getAuth = async () => {
+    const userInfo: any = await getUserInfo()
     const res = await frequest(contract.contract, [], {
       subjectId: currentPresentable.presentableId,
       subjectType: 2,
       policyId: currentPolicy.policyId,
-      licenseeId: 23345,
+      licenseeId: userInfo.userId,
       licenseeIdentityType: 3
     });
     setIsModalVisible(false);
@@ -101,7 +105,7 @@ export default function (props: any) {
                 getAuth();
               }}
               type="main"
-             >
+            >
               确定
             </Button>
           </div>
@@ -123,24 +127,24 @@ export default function (props: any) {
           <div className="flex-column w-344 h-100x  y-auto">
             {events.length
               ? [...events].map((item: any, index: number) => {
-                  if (item.event === LOGIN) return "";
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => {
-                        setCurrentPresentable(item);
-                      }}
-                      className={
-                        (currentPresentable === item ? "bg-content " : "") +
-                        " pl-20 w-100x b-box h-60 cur-pointer f-main lh-60 select-none"
-                      }
-                    >
-                      <div>
-                        {item.presentableName}
-                      </div>
+                if (item.event === LOGIN) return "";
+                return (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      setCurrentPresentable(item);
+                    }}
+                    className={
+                      (currentPresentable === item ? "bg-content " : "") +
+                      " pl-20 w-100x b-box h-60 cur-pointer f-main lh-60 select-none"
+                    }
+                  >
+                    <div>
+                      {item.presentableName}
                     </div>
-                  );
-                })
+                  </div>
+                );
+              })
               : ""}
           </div>
           <div className="w-516 bg-content h-100x   y-auto ">

@@ -31,9 +31,11 @@ export default function frequest(
   }
   // filter data if there is dataModel
   if (api.dataModel) {
+    console.log(data)
     // TODO 需要用deepclone
     data = Object.assign({}, data);
     compareObjects(api.dataModel, data, !!api.isDiff);
+    console.log(data)
   }
   // pre method
   if (api.before) {
@@ -44,6 +46,7 @@ export default function frequest(
   } else {
     api.data = data;
   }
+  console.log(data);
   // delete extra keys
   ["url", "before", "after"].forEach((item) => {
     delete api[item];

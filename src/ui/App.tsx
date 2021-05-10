@@ -4,17 +4,23 @@ import React, { useEffect, useState } from "react";
 import { LOGIN, CONTRACT } from "../bridge/event";
 import Login from "./components/login";
 import Contract from "./components/contract";
-import { reisterUI, eventMap, failedMap, endEvent } from "../bridge/index";
+import { reisterUI, eventMap, failedMap, endEvent, updateLock } from "../bridge/index";
+import {  setUserInfo } from "../platform/structure/utils";
+
 function App() {
   const [events, setEvents] = useState([]);
   const [failedEvents, setFailedEvents] = useState([]);
   const [loginEvent, setLoginEvent] = useState(null);
   const [inited, setInited] = useState(false);
   useEffect(()=>{
-    console.log(2332424, events)
+    updateLock(false)
   },[events])
+  useEffect(()=>{
+    console.log(234554532424, inited)
+  },[inited])
   // 遍历顺序是否永远一致
   function updateEvents() {
+    updateLock(true)
     const arr: any = [];
     let login = null;
     eventMap.forEach((val, key) => {
@@ -35,7 +41,6 @@ function App() {
       document.getElementById("freelog-plugin-container").style.zIndex = 1;
       // setInited(false);
     } else {
-      console.log(arr, login);
       document.body.appendChild = document.body.appendChild.bind(
         document.getElementById("runtime-root")
       );
@@ -47,28 +52,28 @@ function App() {
       // @ts-ignore
       app.style.zIndex = 1;
       // @ts-ignore
+      app.style.opacity = 1;
+      // @ts-ignore
       document.getElementById("freelog-plugin-container").style.zIndex = 0;
       setInited(true)
-      setTimeout(()=> {console.log(inited, events)}, 800)
     }
-    setEvents(arr);
     setLoginEvent(login);
-    console.log(arr)
     const arr2: any = [];
     failedMap.forEach((val) => {
       arr2.push(val);
     });
     setFailedEvents(arr2);
+    setEvents(arr);
     return arr;
   }
   function UI() {
     updateEvents();
   }
   function updateUI() {
-   updateEvents();
+    updateEvents();
   }
   function eventFinished(type: number, data?: any) {
-    console.log(loginEvent)
+    setUserInfo(data)
     // @ts-ignore
     endEvent(loginEvent.eventId, type, data);
   }
@@ -80,8 +85,7 @@ function App() {
           !!loginEvent ? (
             <Login eventFinished={eventFinished} events={events}></Login>
           ) : (
-            // <Contract events={events}></Contract>
-            ""
+            <Contract events={events}></Contract>
           )
         ) : (
           ""
