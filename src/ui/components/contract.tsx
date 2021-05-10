@@ -6,18 +6,12 @@ import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
 import contract from "../../services/api/modules/contract";
 import Button from './_components/button'
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
+
 
 export default function (props: any) {
   const events = props.events || [];
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [currentPolicy, setCurrentCurrentPolicy] = useState(events[0]);
+  const [currentPolicy, setCurrentCurrentPolicy] = useState({policyId: '', policyName: ''});
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
   const [currentDetail, setCurrentDetail] = useState({
     policies: [],
@@ -32,12 +26,15 @@ export default function (props: any) {
       licenseeIdentityType: 3,
       licenseeId: 1,
     });
+    console.log(res.data.data, 234234)
     setCurrentDetail(res.data.data);
   }
   useEffect(() => {
-    console.log(events[0]);
-    // events[0] && getDetail(events[0].presentableId)
-  }, []);
+    // events.forEach((item: any) => {
+      
+    // })
+    setCurrentPresentable(events[0])
+  }, [props.events]);
   useEffect(() => {
     currentPresentable && getDetail(currentPresentable.presentableId);
   }, [currentPresentable]);

@@ -1,6 +1,6 @@
 import frequest from "../../services/handler";
 import node from "../../services/api/modules/node";
-import { getSubDep } from "./utils";
+import { getSubDep, getUserInfo } from "./utils";
 import { freelogApp } from "./global";
 import { init } from "./api";
 import { dev, DEV_WIDGET } from "./dev";
@@ -41,6 +41,7 @@ export function initNode() {
       freelogApp.mountWidget("", container, {presentableId: nodeInfo.nodeThemeId}, "", {shadowDom: false,scopedCss: true});
       return;
     }
+    const userInfo = await getUserInfo()
     // @ts-ignore
     const theme = await getSubDep(nodeInfo.nodeThemeId);
     console.log(theme)

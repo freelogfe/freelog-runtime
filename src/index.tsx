@@ -20,7 +20,7 @@ ReactDOM.render(
   <ConfigProvider locale={zhCN}>
     <App />
   </ConfigProvider>,
-  document.getElementById("runtime-root")
+  document.getElementById("ui-root")
 );
 run();
 // If you want to start measuring performance in your app, pass a function

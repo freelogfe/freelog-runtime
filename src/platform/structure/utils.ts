@@ -4,6 +4,9 @@ import { baseUrl } from "../../services/base";
 import { getInfoById } from "./api";
 import { widgetsConfig, sandBoxs } from "./widget";
 import { LOGIN } from "../../bridge/event";
+import frequest from "../../services/handler";
+import user from "../../services/api/modules/user";
+
 import { addEvent } from "../../bridge/index";
 export function getContainer(
   container: string | HTMLElement
@@ -98,7 +101,7 @@ export async function getSubDep(presentableId: any, global: any) {
       ? sandBoxs.get(global.widgetName)
       : { name: "freelog-" + presentableId, presentableId }
   )(presentableId);
-  if (info.errCode != 0) {
+  if (info.data.errCode != 0) {
     console.log(info.headers);
     const result = await new Promise((resolve, reject) => {
       addEvent.bind({ name: "freelog-" + presentableId })(
@@ -114,7 +117,7 @@ export async function getSubDep(presentableId: any, global: any) {
         : { name: "freelog-" + presentableId }
     )(presentableId);
     console.log(info)
-    if (info.errCode != 0) {
+    if (info.data.errCode != 0) {
       await new Promise((resolve, reject) => {
         addEvent.bind({ name: "freelog-" + presentableId })(
           presentableId,
@@ -138,4 +141,10 @@ export async function getSubDep(presentableId: any, global: any) {
     entityNid,
     data: info.data.data,
   };
+}
+let userInfo:any = null
+export async function getUserInfo(){
+  if(userInfo) return userInfo
+  userInfo = await frequest(user.getCurrent, "", "")
+  return userInfo
 }

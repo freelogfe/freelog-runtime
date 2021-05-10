@@ -1,5 +1,4 @@
-import presentable from '../../../.history/src/services/api/modules/presentable_20210419152606';
-<template >
+ <template >
   <div id="theme-main">
     <div id="freelog-single"></div>
   </div>

@@ -2,7 +2,6 @@ import axios from "./request";
 import { placeHolder, baseConfig } from "./base";
 import { compareObjects } from "../utils/utils";
 import { setPresentableQueue } from "../bridge/index";
-import presentable from "../../.history/src/services/api/modules/presentable_20210315113633";
 /**
  *
  * @param action api namespace.apiName
@@ -78,7 +77,7 @@ export default function frequest(
 
         // TODO 仅授权失败
         // if(response.data.errCode > 0 && caller && caller.name){
-        if (caller && (caller.presentableId || caller.resourceIdOrName)) {
+        if (response.data.errCode && response.data.errCode === 3 && caller && (caller.presentableId || caller.resourceIdOrName)) {
           const presentableId = response.headers["freelog-presentable-id"];
           const presentableName = response.headers["freelog-presentable-name"];
           setPresentableQueue(presentableId, {

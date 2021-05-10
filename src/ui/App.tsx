@@ -4,49 +4,56 @@ import React, { useEffect, useState } from "react";
 import { LOGIN, CONTRACT } from "../bridge/event";
 import Login from "./components/login";
 import Contract from "./components/contract";
- 
 import { reisterUI, eventMap, failedMap, endEvent } from "../bridge/index";
 function App() {
   const [events, setEvents] = useState([]);
   const [failedEvents, setFailedEvents] = useState([]);
-  const [currentEvent, setCurrentEvent] = useState(null);
+  const [loginEvent, setLoginEvent] = useState(null);
+  const [inited, setInited] = useState(false);
+  useEffect(()=>{
+    console.log(2332424, events)
+  },[events])
   // 遍历顺序是否永远一致
   function updateEvents() {
     const arr: any = [];
-    let flag = false
-    if(currentEvent) flag = true
+    let login = null;
     eventMap.forEach((val, key) => {
-      arr.push(val);
-      //@ts-ignore
-      if(flag && currentEvent.eventId === key){
-        flag = false
+      if (key === LOGIN) {
+        login = val;
+      } else {
+        arr.push(val);
       }
     });
-    if(flag){
-      setCurrentEvent(null)
-    }
-    if (!arr.length) {
+    if (!arr.length && !login) {
       // @ts-ignore
-      const app = document.getElementById("runtime-root")
-            // @ts-ignore
+      const app = document.getElementById("runtime-root");
+      // @ts-ignore
       app.style.zIndex = 0;
       // @ts-ignore
       app.style.opacity = 0;
       // @ts-ignore
       document.getElementById("freelog-plugin-container").style.zIndex = 1;
+      // setInited(false);
     } else {
-      document.body.appendChild = document.body.appendChild.bind(document.getElementById('runtime-root'));
-      document.body.removeChild = document.body.removeChild.bind(document.getElementById('runtime-root'));
+      console.log(arr, login);
+      document.body.appendChild = document.body.appendChild.bind(
+        document.getElementById("runtime-root")
+      );
+      document.body.removeChild = document.body.removeChild.bind(
+        document.getElementById("runtime-root")
+      );
       // @ts-ignore
-      const app = document.getElementById("runtime-root")
-            // @ts-ignore
+      const app = document.getElementById("runtime-root");
+      // @ts-ignore
       app.style.zIndex = 1;
       // @ts-ignore
-      // app.style.opacity = 1;
-      // @ts-ignore
       document.getElementById("freelog-plugin-container").style.zIndex = 0;
+      setInited(true)
+      setTimeout(()=> {console.log(inited, events)}, 800)
     }
     setEvents(arr);
+    setLoginEvent(login);
+    console.log(arr)
     const arr2: any = [];
     failedMap.forEach((val) => {
       arr2.push(val);
@@ -55,34 +62,30 @@ function App() {
     return arr;
   }
   function UI() {
-    const arr = updateEvents();
-    console.log(arr)
-    setCurrentEvent(arr[0] || null);
+    updateEvents();
   }
   function updateUI() {
-    const arr = updateEvents();
-    !currentEvent && setCurrentEvent(arr[0] || null);
+   updateEvents();
   }
-  function eventFinished(type: number, data?: any){
+  function eventFinished(type: number, data?: any) {
+    console.log(loginEvent)
     // @ts-ignore
-    endEvent(currentEvent.eventId, type, data)
+    endEvent(loginEvent.eventId, type, data);
   }
   reisterUI(UI, updateUI);
   return (
     <div id="freelog-app" className="App flex-row w-100x h-100x over-h">
       <div className="flex-1 h-100x text-center">
-        {currentEvent? (() => {
-          // @ts-ignore
-          if (currentEvent.event === LOGIN) {
-            // @ts-ignore
-            return <Login presentableData={currentEvent}  eventFinished={eventFinished} events={events}></Login>;
-            // @ts-ignore
-          } else if (currentEvent.event === CONTRACT) {
-            // @ts-ignore
-            return <Contract presentableData={currentEvent} events={events}></Contract>;
-            // @ts-ignore
-          }
-        })() : ''}
+        {inited ? (
+          !!loginEvent ? (
+            <Login eventFinished={eventFinished} events={events}></Login>
+          ) : (
+            // <Contract events={events}></Contract>
+            ""
+          )
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

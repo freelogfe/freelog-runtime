@@ -1,7 +1,6 @@
 import { SUCCESS, FAILED, USER_CANCEL } from "./event";
 import { LOGIN, CONTRACT } from "./event";
-import presentable from '../../.history/src/services/api/modules/presentable_20210315113633';
-/**
+ /**
  * 架构设计目的： 
  *     1.有利于更快进行业务细分实现和技术实现 
  *     2.便于维护和管理
@@ -22,8 +21,8 @@ import presentable from '../../.history/src/services/api/modules/presentable_202
  * 文档编写工作量安排：3日
  */
 export const presentableQueue = new Map<any, any>();
-export const eventMap = new Map<any, any>();
-export const failedMap = new Map<any, any>();
+export const eventMap = new Map<any, any>(); // 数组
+export const failedMap = new Map<any, any>(); 
 var UI: any = null;
 var updateUI: any = null;
 export function reisterUI(ui: any, update: any) {
@@ -35,6 +34,10 @@ export function setPresentableQueue(name: string, value: any) {
   console.log(presentableQueue);
   // addEvent.bind({name: 'test'})(name,()=>{console.log('success')},()=>{console.log('fail')})
 }
+function eventResolve(){
+
+}
+let uiInited = false
 // 公共非展品事件UI， 后面考虑
 export function addEvent(
   presentableId: any,
@@ -50,7 +53,8 @@ export function addEvent(
   }
   let event;
   // @ts-ignore
-  if (this.name !== "node") {
+  const name = this.name
+  if (name !== "node") {
     // @ts-ignore
     let data = presentableQueue.get(presentableId);
     if (!data) {
@@ -61,39 +65,47 @@ export function addEvent(
       });
       return;
     }
-    // TODO 根据errorCode 决定事件 外部函数判断，不写在里面
-    if (data.info.errorCode === 30) {
+    // TODO 根据 errCode 决定事件 外部函数判断，不写在里面
+    if (data.info.errCode === 3 && data.info.data.authCode === 502) {
       event = LOGIN;
-    } 
-    if (data.info.errorCode !== 30) {
+    }else{
       event = CONTRACT;
-    }
-    eventMap.set(presentableId, {
-      event,
-      eventId: presentableId, // 后期evnetId是要与prsesentableId区分开来的
+    } 
+    const arr = eventMap.get(presentableId)?.callBacks  || []
+    arr.push({resolve,
+      reject,
+      options})
+    let id = presentableId
+    if(event === LOGIN)  id = event
+    eventMap.set(id, {
+      event, // UI事件用最新的
+      eventId: id, // 后期evnetId是要与prsesentableId区分开来的
       presentableId,
       presentableName: data.presentableName,
-      presentableInfo: data.info,
-      resolve,
-      reject,
-      options,
+      presentableInfo: data.info, // 展品信息用最新的
+      callBacks: arr
     });
-    console.log(data.info)
-    UI && UI();
+    if(!uiInited){
+       UI && UI();
+    }else{
+      console.log(2345234234)
+      updateUI()
+    }
+    uiInited = true
     return;
   }
-  // @ts-ignore
-  eventMap.set(this.name, {
+  eventMap.set(name, {
     // @ts-ignore
     event: this.event,
     // @ts-ignore
-    eventId: this.name, // 后期evnetId是要与prsesentableId区分开来的
+    eventId: name, // 后期evnetId是要与prsesentableId区分开来的
     presentableId,
-    resolve,
+    callBacks: [{resolve,
     reject,
-    options,
+    options}]
   });
   UI && UI();
+  uiInited = true
 }
 function removeEvent(eventId: string) {
   eventMap.delete(eventId);
@@ -105,16 +117,22 @@ export function endEvent(eventId: string, type: number, data: any) {
     switch (type) {
       case SUCCESS:
         console.log(23424234234)
-        eventMap.get(eventId).resolve(SUCCESS, data);
+        eventMap.get(eventId).callBacks.forEach((item: any)=>{
+          item.resolve(data);
+        }) 
         presentableQueue.delete(eventId);
         removeEvent(eventId);
         break;
       case FAILED:
-        eventMap.get(eventId).reject(FAILED, data);
+        eventMap.get(eventId).callBacks.forEach((item: any)=>{
+          item.reject(FAILED, data);
+        }) 
         removeEvent(eventId);
         break;
       case USER_CANCEL:
-        eventMap.get(eventId).reject(USER_CANCEL, data);
+        eventMap.get(eventId).callBacks.forEach((item: any)=>{
+          item.reject(USER_CANCEL, data);
+        }) 
         removeEvent(eventId);
         break;
     }
