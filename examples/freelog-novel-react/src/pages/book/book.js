@@ -12,9 +12,10 @@ function Book(props) {
     const res = await window.freelogApp.getPresentablesSearch({presentableIds: bookId})
     let bookResource = await window.freelogApp.getResourceInfoById(bookId)
     console.log(res, bookResource)
-    if (bookResource.data.errCode !== 0) {
+    if (bookResource.data.errCode) {
       bookResource = await new Promise((resolve, rej) => {
-        window.freelogApp.addAuth(bookResource.presentableId, async () => {
+        console.log(bookResource)
+        window.freelogApp.addAuth(bookResource.data.presentableId, async () => {
           const book = await window.freelogApp.getResourceInfoById(bookId)
           console.log(resolve)
           resolve && resolve(book)

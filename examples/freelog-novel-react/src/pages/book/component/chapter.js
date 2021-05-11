@@ -12,16 +12,17 @@ export default function Chapter(props) {
 
   async function getChapter(index) {
     if (chapters[index]) {
-      const res = await window.freelogApp.getFileStreamById(chapters[index].presentableId)
-      if (res.data.errCode !== 0) {
-        await new Promise((res, rej) => {
-          window.freelogApp.addAuth(res.presentableId, () => {
-
+      let ch = await window.freelogApp.getFileStreamById(chapters[index].presentableId)
+      if (ch.data.errCode) {
+        ch = await new Promise((resolve, rej) => {
+          window.freelogApp.addAuth(ch.data.presentableId, async () => {
+            const res  = await window.freelogApp.getFileStreamById(chapters[index].presentableId)
+            resolve(res)
           }, () => { }, { immediate: true })
         })
       }
       setChapterIndex(index)
-      setChapter({ ...chapters[index], data: res.data });
+      setChapter({ ...chapters[index], data: ch.data });
       scrollRef.current.scrollTop = 0
     }
   }

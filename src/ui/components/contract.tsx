@@ -11,7 +11,7 @@ import { getUserInfo } from "../../platform/structure/utils";
 interface contractProps {
   events: Array<any>;
   contractFinished(eventId: any, type: number, data?: any): any;
-  children: any; 
+  children?: any; 
 }
 export default function (props: contractProps) {
   const events = props.events || [];

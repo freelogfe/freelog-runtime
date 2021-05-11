@@ -23,7 +23,7 @@ export function initNode() {
     let nodeData = await requestNodeInfo(nodeDomain);
     if(nodeData.errCode === 30){
       const result = await new Promise((resolve, reject)=>{
-        addAuth.bind({name: 'node', event: LOGIN})('', resolve, reject)
+        addAuth.bind({name: 'node', event: LOGIN})('', resolve, reject, {immediate: true})
       })
       nodeData = await requestNodeInfo(nodeDomain);
     }

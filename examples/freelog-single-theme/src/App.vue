@@ -25,6 +25,7 @@ export default {
       );
       subData.subDeps.some((sub, index) => {
         if (index === 1) return true;
+        console.log(212341243,sub)
         window.freelogApp.mountWidget(
           sub,
           document.getElementById("freelog-single"),
