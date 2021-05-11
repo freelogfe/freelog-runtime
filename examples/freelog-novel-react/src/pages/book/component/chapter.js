@@ -13,15 +13,22 @@ export default function Chapter(props) {
   async function getChapter(index) {
     if (chapters[index]) {
       const res = await window.freelogApp.getFileStreamById(chapters[index].presentableId)
+      if (res.data.errCode !== 0) {
+        await new Promise((res, rej) => {
+          window.freelogApp.addAuth(res.presentableId, () => {
+
+          }, () => { }, { immediate: true })
+        })
+      }
       setChapterIndex(index)
-      setChapter({...chapters[index], data: res.data});
+      setChapter({ ...chapters[index], data: res.data });
       scrollRef.current.scrollTop = 0
     }
   }
 
-  useEffect(async() => {
+  useEffect(() => {
     getChapter(chapterIndex)
-   }, []);
+  }, []);
   return (
     <div className="p-absolute w-100x h-100x over-h flex-column z-100  fadeInDown bg-less">
       <div className="flex-row w-100x over-h align-center py-10 pr-10 bb-1 b-box">
@@ -69,11 +76,11 @@ export default function Chapter(props) {
             setPreHovered(true);
           }}
           onTouchEnd={() => {
-            if(new Date().getTime() - tapTime > 50 && new Date().getTime() - tapTime < 500){
+            if (new Date().getTime() - tapTime > 50 && new Date().getTime() - tapTime < 500) {
               getChapter(chapterIndex - 1);
             }
             setPreHovered(false);
-          }} 
+          }}
         >
           上一章
         </div>
@@ -91,11 +98,11 @@ export default function Chapter(props) {
             setNextHovered(true);
           }}
           onTouchEnd={() => {
-            if(new Date().getTime() - tapTime > 50 && new Date().getTime() - tapTime < 500){
+            if (new Date().getTime() - tapTime > 50 && new Date().getTime() - tapTime < 500) {
               getChapter(chapterIndex + 1);
             }
             setNextHovered(false);
-          }} 
+          }}
         >
           下一章
         </div>

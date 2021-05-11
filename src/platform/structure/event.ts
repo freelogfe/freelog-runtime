@@ -1,4 +1,4 @@
-import { addEvent } from "../../bridge/index";
+import { addAuth } from "../../bridge/index";
 // 异步回调
 export function asyncCallUI(
   presentableId: any,
@@ -7,7 +7,7 @@ export function asyncCallUI(
   options?: any
 ) {
   // @ts-ignore
-  addEvent.bind(this)(presentableId, resolve, reject, options);
+  addAuth.bind(this)(presentableId, resolve, reject, options);
 }
 // 同步回调  callBack 与callUI函数后面的代码执行顺序 是有问题的，后面代码可能先执行，所以这里的同步回调，把后面代码写入callBack才是正确的
 // 已解决
@@ -31,6 +31,6 @@ export async function callUI(
       rej && rej(...arguments);
     };
     // @ts-ignore
-    addEvent.bind(this)(presentableId, _res, _rej, options);
+    addAuth.bind(this)(presentableId, _res, _rej, options);
   });
 }

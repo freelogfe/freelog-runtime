@@ -3,11 +3,10 @@
 import { baseUrl } from "../../services/base";
 import { getInfoById } from "./api";
 import { widgetsConfig, sandBoxs } from "./widget";
-import { LOGIN } from "../../bridge/event";
 import frequest from "../../services/handler";
 import user from "../../services/api/modules/user";
 
-import { addEvent } from "../../bridge/index";
+import { addAuth } from "../../bridge/index";
 export function getContainer(
   container: string | HTMLElement
 ): HTMLElement | null | undefined {
@@ -96,35 +95,27 @@ export async function getSelfId(global: any) {
 // TODO if error
 export async function getSubDep(presentableId: any, global: any) {
   presentableId = presentableId || getSelfId(global);
-  getInfoById.bind(
-    global
-      ? sandBoxs.get(global.widgetName)
-      : { name: "freelog-" + presentableId, presentableId }
-  )(presentableId).then(res=>console.log(res));
   let info = await getInfoById.bind(
     global
       ? sandBoxs.get(global.widgetName)
       : { name: "freelog-" + presentableId, presentableId }
   )(presentableId);
   if (info.data.errCode != 0) {
-    console.log(info.headers);
     const result = await new Promise((resolve, reject) => {
-      addEvent.bind({ name: "freelog-" + presentableId })(
+      addAuth.bind({ name: "freelog-" + presentableId })(
         presentableId,
         resolve,
         reject
       );
     });
-    console.log(2334234)
     info = await getInfoById.bind(
       global
         ? sandBoxs.get(global.widgetName)
         : { name: "freelog-" + presentableId }
     )(presentableId);
-    console.log(info)
     if (info.data.errCode != 0) {
       await new Promise((resolve, reject) => {
-        addEvent.bind({ name: "freelog-" + presentableId })(
+        addAuth.bind({ name: "freelog-" + presentableId })(
           presentableId,
           resolve,
           reject

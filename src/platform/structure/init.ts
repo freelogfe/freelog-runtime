@@ -6,7 +6,7 @@ import { init } from "./api";
 import { dev, DEV_WIDGET } from "./dev";
 import { mountSubWidgets } from "./widget";
 import {LOGIN} from '../../bridge/event'
-import {addEvent} from '../../bridge/index'
+import {addAuth} from '../../bridge/index'
 // @ts-ignore  TODO 需要控制不可改变
 window.freelogApp = freelogApp;
 export function initNode() {
@@ -23,7 +23,7 @@ export function initNode() {
     let nodeData = await requestNodeInfo(nodeDomain);
     if(nodeData.errCode === 30){
       const result = await new Promise((resolve, reject)=>{
-        addEvent.bind({name: 'node', event: LOGIN})('', resolve, reject)
+        addAuth.bind({name: 'node', event: LOGIN})('', resolve, reject)
       })
       nodeData = await requestNodeInfo(nodeDomain);
     }
@@ -44,7 +44,6 @@ export function initNode() {
     const userInfo = await getUserInfo()
     // @ts-ignore
     const theme = await getSubDep(nodeInfo.nodeThemeId);
-    console.log(theme)
     const themeApp = freelogApp.mountWidget(
       { id: theme.data.presentableId, name: theme.data.presentableName },
       container,

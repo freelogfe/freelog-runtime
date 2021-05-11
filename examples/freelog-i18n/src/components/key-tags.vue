@@ -145,11 +145,8 @@ export default {
       this.$emit("update:selectedTag", tag);
     },
     resolveKeyInfo() {
-      let tags = [];
-      if (this.keyInfo != null) {
-        tags = this.keyInfo.tags;
-      }
-      this.tags = tags;
+      console.log(this.keyInfo)
+      this.tags = this.keyInfo.info? this.keyInfo.info.tags : [];
     },
   },
   async mounted() {

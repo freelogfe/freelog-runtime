@@ -16,7 +16,7 @@ const node: Node = {
     getInfoByNameOrDomain: {
         url: `nodes/detail`,
         method: 'GET',
-        params: {
+        dataModel: {
             nodeName: 'string',
             nodeDomain: 'string' 
         }

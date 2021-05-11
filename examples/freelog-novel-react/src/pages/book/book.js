@@ -10,7 +10,17 @@ function Book(props) {
 
   useEffect(async() => {
     const res = await window.freelogApp.getPresentablesSearch({presentableIds: bookId})
-    const bookResource = await window.freelogApp.getResourceInfoById(bookId)
+    let bookResource = await window.freelogApp.getResourceInfoById(bookId)
+    console.log(res, bookResource)
+    if (bookResource.data.errCode !== 0) {
+      bookResource = await new Promise((resolve, rej) => {
+        window.freelogApp.addAuth(bookResource.presentableId, async () => {
+          const book = await window.freelogApp.getResourceInfoById(bookId)
+          console.log(resolve)
+          resolve && resolve(book)
+        }, () => { }, { immediate: true })
+      })
+    }
     console.log(bookResource)
     setBookInfo({...res.data.data[0], intro: bookResource.data.data.intro})
     const chaptersRes = await window.freelogApp.getPresentables({ resourceType: "chapter", tags: res.data.data[0].presentableName, isLoadVersionProperty: 1})

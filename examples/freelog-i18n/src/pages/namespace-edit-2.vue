@@ -158,7 +158,7 @@ export default {
       filteredNamespaceList: [],
       renderedKeysListMap: {},
       selectedKeyItem: null,
-      selectedKeyInfo: null,
+      selectedKeyInfo: {info: null},
       newKeyDialogVisible: false,
       newKey: '',
       newKeyOfModuleName: '',
@@ -215,11 +215,12 @@ export default {
     },
     selectedKeyItem() {
       if (this.selectedKeyItem == null) return
-      console.log()
       this.selectedRepoModule = this.reposModulesMap[this.selectedKeyItem.moduleName]
+      console.log(this.selectedRepoModule)
       this.getKeyInfo()
     },
     selectedTag() {
+      console.log(this.selectedKeyItem)
       this.filteredKeyInfos = []
       if (this.selectedTag !== '') {
         window.fetch(`//i18n-ts.testfreelog.com/v1/i18nKeyInfos/list?tags=${this.selectedTag}`)
@@ -579,7 +580,7 @@ export default {
             this.$message.success('标签修改成功！')
             for (let keyInfo of result.data) {
               if (keyInfo.name === this.selectedKeyItem.key) {
-                this.selectedKeyInfo = keyInfo
+                this.selectedKeyInfo = {info: keyInfo}
                 // this.selectedItemTags = keyInfo.tags
                 break
               }
@@ -594,12 +595,13 @@ export default {
       this.selectedTag = newTag
     },
     async getKeyInfo() {
+      console.log(this.selectedKeyItem)
       const { key, moduleName} = this.selectedKeyItem
       const { repositoryName } = this
       const url = `//i18n-ts.testfreelog.com/v1/i18nKeyInfos?name=${key}&moduleName=${moduleName}&repositoryName=${repositoryName}`
       const result = await window.fetch(url).then(resp => resp.json())
       if (result.errcode === 0) {
-        this.selectedKeyInfo = result.data
+        this.selectedKeyInfo =  {info: result.data} 
       } 
     },
   },

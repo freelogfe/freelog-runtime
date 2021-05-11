@@ -3,6 +3,7 @@ import {
 } from './widget'
 import { getSubDep,  getSelfId} from './utils'
 import { asyncCallUI,  callUI} from './event'
+import {callAuth, addAuth} from '../../bridge/index'
 import {
     getPresentables,
     getPresentablesPaging,
@@ -50,6 +51,6 @@ export const freelogApp = {
     autoMoutSubWdigets,
     getSubDep,
     getSelfId,
-    callUI,
-    asyncCallUI
+    callAuth,
+    addAuth
 }

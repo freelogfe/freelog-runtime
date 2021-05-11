@@ -14,10 +14,7 @@ function App() {
   const [inited, setInited] = useState(false);
   useEffect(()=>{
     updateLock(false)
-  },[events])
-  useEffect(()=>{
-    console.log(234554532424, inited)
-  },[inited])
+  },[events]) 
   // 遍历顺序是否永远一致
   function updateEvents() {
     updateLock(true)
@@ -72,10 +69,13 @@ function App() {
   function updateUI() {
     updateEvents();
   }
-  function eventFinished(type: number, data?: any) {
+  function loginFinished(type: number, data?: any) {
     setUserInfo(data)
     // @ts-ignore
     endEvent(loginEvent.eventId, type, data);
+  }
+  function contractFinished(eventId: any, type: number, data?: any) {
+    endEvent(eventId, type, data);
   }
   reisterUI(UI, updateUI);
   return (
@@ -83,9 +83,9 @@ function App() {
       <div className="flex-1 h-100x text-center">
         {inited ? (
           !!loginEvent ? (
-            <Login eventFinished={eventFinished} events={events}></Login>
+            <Login eventFinished={loginFinished} events={events}></Login>
           ) : (
-            <Contract events={events}></Contract>
+            <Contract events={events} contractFinished={contractFinished}></Contract>
           )
         ) : (
           ""

@@ -31,11 +31,9 @@ export default function frequest(
   }
   // filter data if there is dataModel
   if (api.dataModel) {
-    console.log(data)
     // TODO 需要用deepclone
     data = Object.assign({}, data);
     compareObjects(api.dataModel, data, !!api.isDiff);
-    console.log(data)
   }
   // pre method
   if (api.before) {
@@ -46,7 +44,6 @@ export default function frequest(
   } else {
     api.data = data;
   }
-  console.log(data);
   // delete extra keys
   ["url", "before", "after"].forEach((item) => {
     delete api[item];
@@ -77,21 +74,35 @@ export default function frequest(
     axios(url, _api)
       .then(async (response) => {
         api.after && api.after(response);
-
         // TODO 仅授权失败
-        // if(response.data.errCode > 0 && caller && caller.name){
-        if (response.data.errCode && response.data.errCode === 3 && caller && (caller.presentableId || caller.resourceIdOrName)) {
+        if (
+          response.data.errCode &&
+          response.data.errCode === 3 &&
+          caller &&
+          (caller.presentableId || caller.resourceIdOrName)
+        ) {
           const presentableId = response.headers["freelog-presentable-id"];
-          const presentableName = response.headers["freelog-presentable-name"];
+          const presentableName = decodeURI(
+            response.headers["freelog-presentable-name"]
+          );
           setPresentableQueue(presentableId, {
             widget: caller.name,
             info: response.data,
             presentableName,
             presentableId,
           });
+          resolve({
+            data: {
+              errCode: 3,
+              presentableName,
+              presentableId,
+              errorMsg: response.data.data.errorMsg,
+            },
+          });
+          return;
+        } else {
+          resolve(response);
         }
-        // }
-        resolve(response);
       })
       .catch((error) => {
         // 防止error为空

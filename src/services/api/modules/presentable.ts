@@ -22,7 +22,7 @@ const presentable: Presentable = {
   getPagingPresentables: {
     url: "presentables",
     method: "GET",
-    params: {
+    dataModel: {
       nodeId: "string",
       skip: "string",
       limit: "string",
@@ -39,7 +39,7 @@ const presentable: Presentable = {
   getPresentables: {
     url: "presentables/list",
     method: "GET",
-    params: {
+    dataModel: {
       nodeId: "string",
       userId: "string",
       presentableIds: "string",
@@ -63,7 +63,7 @@ const presentable: Presentable = {
   getTestPagingData: {
     url: `testNodes/${placeHolder}/testResources`,
     method: "GET",
-    params: {
+    dataModel: {
       nodeId: "string",
       skip: "string",
       limit: "string",

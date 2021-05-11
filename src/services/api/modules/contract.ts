@@ -11,7 +11,7 @@ const contract: Contract = {
   getContractInfo: {
     url: `contracts/${placeHolder}`,
     method: "GET",
-    params: {
+    dataModel: {
       contractIds: "string",
       isLoadPolicyInfo: "int",
       projection: "string",
@@ -20,7 +20,7 @@ const contract: Contract = {
   getContracts: {
     url: `contracts/list`,
     method: "GET",
-    params: {
+    dataModel: {
       contractIds: "string",
       subjectIds: "string",
       subjectType: "int",
@@ -34,7 +34,7 @@ const contract: Contract = {
   contract: {
     url: `contracts`,
     method: "POST",
-    params: {
+    dataModel: {
       subjectId: "string",
       subjectType: "int",
       policyId: "string",

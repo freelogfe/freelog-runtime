@@ -8,8 +8,12 @@ import contract from "../../services/api/modules/contract";
 import Button from './_components/button'
 import { getUserInfo } from "../../platform/structure/utils";
 
-
-export default function (props: any) {
+interface contractProps {
+  events: Array<any>;
+  contractFinished(eventId: any, type: number, data?: any): any;
+  children: any; 
+}
+export default function (props: contractProps) {
   const events = props.events || [];
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentPolicy, setCurrentCurrentPolicy] = useState({ policyId: '', policyName: '' });
@@ -19,7 +23,6 @@ export default function (props: any) {
   });
   async function getDetail(id: string) {
     const userInfo: any = await getUserInfo()
-
     const res = await frequest(presentable.getPresentableDetail, [id], {
       isLoadPolicyInfo: 1,
     });
@@ -29,13 +32,9 @@ export default function (props: any) {
       licenseeIdentityType: 3,
       licenseeId: userInfo.userId,
     });
-    console.log(res.data.data, 234234)
     setCurrentDetail(res.data.data);
   }
   useEffect(() => {
-    // events.forEach((item: any) => {
-
-    // })
     setCurrentPresentable(events[0])
   }, [props.events]);
   useEffect(() => {
@@ -53,9 +52,10 @@ export default function (props: any) {
       subjectId: currentPresentable.presentableId,
       subjectType: 2,
       policyId: currentPolicy.policyId,
-      licenseeId: userInfo.userId,
+      licenseeId: userInfo.userId + '',
       licenseeIdentityType: 3
     });
+    props.contractFinished(currentPresentable.eventId, SUCCESS)
     setIsModalVisible(false);
   };
   return (
