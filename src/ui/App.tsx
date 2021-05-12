@@ -1,7 +1,7 @@
 // import logo from './logo.svg';
 import "./App.scss";
 import React, { useEffect, useState } from "react";
-import { LOGIN, CONTRACT } from "../bridge/event";
+import { LOGIN, CONTRACT, USER_CANCEL } from '../bridge/event';
 import Login from "./components/login";
 import Contract from "./components/contract";
 import { reisterUI, eventMap, failedMap, endEvent, updateLock } from "../bridge/index";
@@ -15,6 +15,33 @@ function App() {
   useEffect(()=>{
     updateLock(false)
   },[events]) 
+  function backToNode(){
+    // @ts-ignore
+    const app = document.getElementById("runtime-root");
+    // @ts-ignore
+    app.style.zIndex = 0;
+    // @ts-ignore
+    app.style.opacity = 0;
+    // @ts-ignore
+    document.getElementById("freelog-plugin-container").style.zIndex = 1;
+    // setInited(false);
+  }
+  function showUI(){
+    document.body.appendChild = document.body.appendChild.bind(
+      document.getElementById("runtime-root")
+    );
+    document.body.removeChild = document.body.removeChild.bind(
+      document.getElementById("runtime-root")
+    );
+    // @ts-ignore
+    const app = document.getElementById("runtime-root");
+    // @ts-ignore
+    app.style.zIndex = 1;
+    // @ts-ignore
+    app.style.opacity = 1;
+    // @ts-ignore
+    document.getElementById("freelog-plugin-container").style.zIndex = 0;
+  }
   // 遍历顺序是否永远一致
   function updateEvents() {
     updateLock(true)
@@ -28,30 +55,9 @@ function App() {
       }
     });
     if (!arr.length && !login) {
-      // @ts-ignore
-      const app = document.getElementById("runtime-root");
-      // @ts-ignore
-      app.style.zIndex = 0;
-      // @ts-ignore
-      app.style.opacity = 0;
-      // @ts-ignore
-      document.getElementById("freelog-plugin-container").style.zIndex = 1;
-      // setInited(false);
+      backToNode()
     } else {
-      document.body.appendChild = document.body.appendChild.bind(
-        document.getElementById("runtime-root")
-      );
-      document.body.removeChild = document.body.removeChild.bind(
-        document.getElementById("runtime-root")
-      );
-      // @ts-ignore
-      const app = document.getElementById("runtime-root");
-      // @ts-ignore
-      app.style.zIndex = 1;
-      // @ts-ignore
-      app.style.opacity = 1;
-      // @ts-ignore
-      document.getElementById("freelog-plugin-container").style.zIndex = 0;
+      showUI()
       setInited(true)
     }
     setLoginEvent(login);
@@ -75,6 +81,11 @@ function App() {
     endEvent(loginEvent.eventId, type, data);
   }
   function contractFinished(eventId: any, type: number, data?: any) {
+    if(type === USER_CANCEL && !eventId) {
+      // TODO 通知所有 用户取消了
+      backToNode()
+      return
+    }
     endEvent(eventId, type, data);
   }
   reisterUI(UI, updateUI);

@@ -69,7 +69,7 @@ function Book(props) {
           onTouchEnd={()=>{
             setHovered(false)
           }}
-          className={"text-ellipsis flex-row align-center" + (hovered? ' fc-nav-active': '')}
+          className={"text-ellipsis flex-row align-center cur-pointer select-none " + (hovered? ' fc-nav-active': '')}
         >
           <div className={"mr-5 fs-40 pb-5"  + (!hovered? ' fc-less': '')}>&lt;</div>{" "}
           <div className="fs-30 text-ellipsis flex-1 lh-55">{bookInfo.presentableName}</div>
@@ -91,7 +91,7 @@ function Book(props) {
             </div>
             {chapters.map((item, index) => {
               return (
-                <div key={index} className="fs-30 pl-40 pr-10 py-30 bb-1 text-pre-wrap" onClick={() => {
+                <div key={index} className="fs-30 pl-40 pr-10 py-30 bb-1 text-pre-wrap cur-pointer select-none " onClick={() => {
                   setCurrent({bookInfo, chapters, chapterIndex: index })
                   setVisible(true)
                 }}>

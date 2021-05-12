@@ -36,7 +36,7 @@ export default function Chapter(props) {
         <div
           className={
             (hovered ? " fc-nav-active" : "fc-less") +
-            " fs-40 mb-10 px-20 pl-10 "
+            " fs-40 mb-10 px-20 pl-10  cur-pointer select-none "
           }
           onClick={() => {
             props.setVisible(false);
@@ -68,7 +68,7 @@ export default function Chapter(props) {
         <div
           className={
             (preHovered ? " fc-nav-active" : "") +
-            " w-260 text-align-center py-20 bg-white " +
+            " w-260 text-align-center py-20 bg-white  cur-pointer select-none " +
             (chapterIndex === 0 ? "fc-less disabled" : "")
           }
           onTouchStart={() => {
@@ -91,7 +91,7 @@ export default function Chapter(props) {
         <div
           className={
             (nextHovered ? " fc-nav-active" : "") +
-            " w-260 text-align-center py-20 bg-white " +
+            " w-260 text-align-center py-20 bg-white cur-pointer select-none " +
             (chapterIndex === chapters.length - 1 ? "fc-less disabled" : "")
           }
           onTouchStart={() => {

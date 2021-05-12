@@ -31,6 +31,7 @@ export default function (props: contractProps) {
       subjectType: 2,
       licenseeIdentityType: 3,
       licenseeId: userInfo.userId,
+      isLoadPolicyInfo: 1
     });
     setCurrentDetail(res.data.data);
   }
@@ -46,6 +47,10 @@ export default function (props: contractProps) {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+  const userCancel = () =>{
+    props.contractFinished('', USER_CANCEL) 
+    console.log('userCancel')
+  }
   const getAuth = async () => {
     const userInfo: any = await getUserInfo()
     const res = await frequest(contract.contract, [], {
@@ -119,7 +124,7 @@ export default function (props: contractProps) {
         footer={null}
         visible={true}
         width={860}
-        closable={false}
+        onCancel={userCancel}
         className="h-600"
         wrapClassName="freelog-contract"
       >
