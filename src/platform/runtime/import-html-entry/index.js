@@ -13,7 +13,8 @@ import {
 	readResAsString,
 	requestIdleCallback,
 } from './utils';
-
+import { setFetch } from '../../structure/proxy'
+setFetch()
 const styleCache = {};
 const scriptCache = {};
 const embedHTMLCache = {};
@@ -21,7 +22,6 @@ if (!window.fetch) {
 	throw new Error('[import-html-entry] Here is no "fetch" on the window env, you need to polyfill it');
 }
 const defaultFetch = window.fetch.bind(window);
-
 function defaultGetTemplate(tpl) {
 	return tpl;
 }

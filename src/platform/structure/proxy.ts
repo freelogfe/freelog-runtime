@@ -40,6 +40,18 @@ window.addEventListener('popstate', function (event) {
 window.addEventListener('hashchange', function() {
   initLocation() 
 }, true);
+export function setFetch(){
+  const rawFetch = window.fetch
+  // @ts-ignore
+  window.fetch =  function (url: string, options: any) { 
+    options = options || {}
+    if(url.indexOf("freelog.com") > -1){
+      return rawFetch(url, {...options, credentials: 'include'});
+    }else{
+      return rawFetch(url, options);
+    }
+  };
+}
 export function initLocation() {
   if (rawLocation.hash && rawLocation.hash.split("#$")) {
     var loc = rawLocation.hash.split("#$");
