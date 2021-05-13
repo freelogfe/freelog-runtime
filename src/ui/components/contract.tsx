@@ -176,8 +176,11 @@ export default function (props: contractProps) {
                   <pre
                     className="px-20 py-15 fw-bold fs-14 fc-black lh-20"
                     style={{ whiteSpace: "pre-wrap" }}
+                    dangerouslySetInnerHTML={{ __html: item.policyText.replace(/~freelog.*?=>\s*\w+\b/g,(match: string)=>{
+                      return '<div class="flex-row fc-red fw-weight  br-middle b-1 p-5 b-box my-10 text-breakAll">' + match + '</div>'
+                   })}}
                   >
-                    {item.policyText}
+                    
                   </pre>
                 </div>
               );
