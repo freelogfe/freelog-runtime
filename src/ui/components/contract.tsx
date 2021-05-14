@@ -38,7 +38,7 @@ export default function (props: contractProps) {
      * 获取
      */
     console.log(con)
-    console.log(res.data.data.policies)
+    console.log(Object.keys(con.data.data[0].policyInfo.fsmDescriptionInfo))
     const contracts =  con.data.data.filter((item: any) => {
       return item.status === 0;
     });
@@ -65,7 +65,7 @@ export default function (props: contractProps) {
       licenseeIdentityType: 3,
     });
     if(res.data.isAuth){
-      
+      // `付款到${seller}${amount}块钱就可以达到${status}状态`
     }
     props.contractFinished(currentPresentable.eventId, SUCCESS);
     setIsModalVisible(false);
