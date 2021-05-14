@@ -19,35 +19,43 @@ import {
   activeWidgets,
   widgetsConfig,
   childrenWidgets,
-  flatternWidgets
+  flatternWidgets,
 } from "./widget";
-import { 
+import {
   historyBack,
   historyForward,
   historyGo,
   setHistory,
-  getHistory
+  getHistory,
 } from "./history";
 import { baseUrl } from "../../services/base";
 const rawDocument = document;
-const rawHistory = window["history"];
+// const rawHistory = window["history"];
 const rawLocation = window["location"];
 const rawLocalStorage = window["localStorage"];
 const locations = new Map();
-window.addEventListener('popstate', function (event) {
-  initLocation() 
-}, true);
-window.addEventListener('hashchange', function() {
-  initLocation() 
-}, true);
-export function setFetch(){
-  const rawFetch = window.fetch
+window.addEventListener(
+  "popstate",
+  function (event) {
+    initLocation();
+  },
+  true
+);
+window.addEventListener(
+  "hashchange",
+  function () {
+    initLocation();
+  },
+  true
+);
+export function setFetch() {
+  const rawFetch = window.fetch;
   // @ts-ignore
-  window.fetch =  function (url: string, options: any) { 
-    options = options || {}
-    if(url.indexOf("freelog.com") > -1){
-      return rawFetch(url, {...options, credentials: 'include'});
-    }else{
+  window.fetch = function (url: string, options: any) {
+    options = options || {};
+    if (url.indexOf("freelog.com") > -1) {
+      return rawFetch(url, { ...options, credentials: "include" });
+    } else {
       return rawFetch(url, options);
     }
   };
@@ -141,45 +149,47 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     let [pathname, search] = href.split("?");
     locationCenter.set(name, { pathname, href, search, hash });
   }
-  function pushPatch(){
+  function pushPatch() {
     // @ts-ignore
-    patch(...arguments)
-    setHistory(name, arguments)
+    patch(...arguments);
+    setHistory(name, arguments);
   }
-  function replacePatch(){
+  function replacePatch() {
     // @ts-ignore
-    patch(...arguments)
-    setHistory(name, arguments, true)
+    patch(...arguments);
+    setHistory(name, arguments, true);
   }
-  function go(count: number){
-    const history = historyGo(name, count)
-    if(history){
+  function go(count: number) {
+    const history = historyGo(name, count);
+    if (history) {
       // @ts-ignore
-      patch(...history)
+      patch(...history);
     }
     // else if(count == -1){
     //   window.history.go(-1)
     // }
   }
-  function back(){
-    const history = historyBack(name)
-    if(history){
+  function back() {
+    const history = historyBack(name);
+    if (history) {
       // @ts-ignore
-      patch(...history)
-    } 
-  }
-  function forward(){
-    const history = historyForward(name)   
-    if(history){
-      // @ts-ignore
-      patch(...history)
+      patch(...history);
     }
   }
-  const state = getHistory(name).histories[getHistory(name).position]?[0] : {}
-  const length = getHistory(name).length 
+  function forward() {
+    const history = historyForward(name);
+    if (history) {
+      // @ts-ignore
+      patch(...history);
+    }
+  }
+  const state = getHistory(name).histories[getHistory(name).position]
+    ? [0]
+    : {};
+  const length = getHistory(name).length;
   const historyProxy = {
     // @ts-ignore
-    length: length, 
+    length: length,
     ...window.history,
     pushState: pushPatch,
     replaceState: replacePatch,
@@ -189,9 +199,9 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     forward: forward, //window.history.forward.bind(window.history)
   };
   return historyProxy;
-  return new Proxy(historyProxy, {
-    /*
-     */
+  /*return new Proxy(historyProxy, {
+   
+    
     get: function get(HisTarget: any, property: string) {
       if (property === "pushState" || property === "replaceState") {
         return function () {
@@ -210,6 +220,7 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
       }
     },
   });
+   */
 };
 export const createLocationProxy = function (name: string, sandbox: any) {
   const locationProxy = {};
@@ -302,9 +313,8 @@ export const createDocumentProxy = function (
   if (!isShadow) {
     // TODO  判断document与doc的原型是否都有该方法，有则bind
     // @ts-ignore
-    rawDocument.getElementsByClassName = rootDoc.getElementsByClassName.bind(
-      doc
-    );
+    rawDocument.getElementsByClassName =
+      rootDoc.getElementsByClassName.bind(doc);
     rawDocument.getElementsByTagName = (tag: string) => {
       if (tag === "head") {
         return [rawDocument.head];
@@ -314,9 +324,8 @@ export const createDocumentProxy = function (
       }
       return rootDoc.getElementsByTagName(tag);
     };
-    rawDocument.getElementsByTagNameNS = rootDoc.getElementsByTagNameNS.bind(
-      rootDoc
-    );
+    rawDocument.getElementsByTagNameNS =
+      rootDoc.getElementsByTagNameNS.bind(rootDoc);
     rawDocument.querySelectorAll = rootDoc.querySelectorAll.bind(rootDoc);
     rawDocument.addEventListener = rootDoc.addEventListener.bind(rootDoc);
     rawDocument.body.appendChild = rootDoc.appendChild.bind(rootDoc);
@@ -350,17 +359,19 @@ export const createDocumentProxy = function (
       return null;
     };
     setTimeout(() => {
-      rawDocument.getElementsByClassName = getElementsByClassName.bind(
-        rawDocument
-      );
+      rawDocument.getElementsByClassName =
+        getElementsByClassName.bind(rawDocument);
       rawDocument.querySelectorAll = querySelectorAll.bind(rawDocument);
       rawDocument.getElementsByTagName = getElementsByTagName.bind(rawDocument);
-      rawDocument.getElementsByTagNameNS = getElementsByTagNameNS.bind(
-        rawDocument
-      );
+      rawDocument.getElementsByTagNameNS =
+        getElementsByTagNameNS.bind(rawDocument);
       rawDocument.addEventListener = addEventListener.bind(rawDocument);
-      rawDocument.body.appendChild = appendChild.bind(document.getElementById('runtime-root'));
-      rawDocument.body.removeChild = removeChild.bind(document.getElementById('runtime-root'));
+      rawDocument.body.appendChild = appendChild.bind(
+        document.getElementById("runtime-root")
+      );
+      rawDocument.body.removeChild = removeChild.bind(
+        document.getElementById("runtime-root")
+      );
       rawDocument.querySelector = querySelector.bind(rawDocument);
       rawDocument.querySelector = querySelector.bind(rawDocument);
       rawDocument.getElementById = getElementById.bind(rawDocument);
@@ -511,15 +522,14 @@ export const createFreelogAppProxy = function (name: string, sandbox: any) {
     /*
      */
     get: function get(app: any, p: string) {
-      const pro = window.freelogApp[p]
-      if (typeof pro === 'function') {
+      const pro = window.freelogApp[p];
+      if (typeof pro === "function") {
         return function () {
-
           // @ts-ignore
           return pro.bind(sandbox)(...arguments);
         };
       }
-      return pro
+      return pro;
     },
   });
 };

@@ -1,28 +1,29 @@
-import { Form, Input, Modal, Checkbox } from "antd";
-import { SUCCESS, FAILED, USER_CANCEL } from "../../bridge/event";
+import { Modal } from "antd";
+import { SUCCESS, USER_CANCEL } from "../../bridge/event";
 import React, { useState, useEffect } from "react";
 import { LOGIN } from "../../bridge/event";
 import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
 import contract from "../../services/api/modules/contract";
-import Button from './_components/button'
+import Button from "./_components/button";
 import { getUserInfo } from "../../platform/structure/utils";
-
+import Confirm from "./_components/confirm";
 interface contractProps {
   events: Array<any>;
   contractFinished(eventId: any, type: number, data?: any): any;
-  children?: any; 
+  children?: any;
 }
 export default function (props: contractProps) {
-  const events = props.events || [];
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [currentPolicy, setCurrentCurrentPolicy] = useState({ policyId: '', policyName: '' });
-  const [currentPresentable, setCurrentPresentable] = useState(events[0]);
-  const [currentDetail, setCurrentDetail] = useState({
-    policies: [],
+  const events = props.events || [];
+  const [currentPolicy, setCurrentCurrentPolicy] = useState({
+    policyId: "",
+    policyName: "",
   });
+  const [currentPresentable, setCurrentPresentable] = useState(events[0]);
+  const [policies, setPolicies] = useState([]);
   async function getDetail(id: string) {
-    const userInfo: any = await getUserInfo()
+    const userInfo: any = await getUserInfo();
     const res = await frequest(presentable.getPresentableDetail, [id], {
       isLoadPolicyInfo: 1,
     });
@@ -31,92 +32,53 @@ export default function (props: contractProps) {
       subjectType: 2,
       licenseeIdentityType: 3,
       licenseeId: userInfo.userId,
-      isLoadPolicyInfo: 1
+      isLoadPolicyInfo: 1,
     });
-    setCurrentDetail(res.data.data);
+    /**
+     * 获取
+     */
+    console.log(con)
+    console.log(res.data.data.policies)
+    const contracts =  con.data.data.filter((item: any) => {
+      return item.status === 0;
+    });
+    setPolicies(res.data.data.policies)
   }
   useEffect(() => {
-    setCurrentPresentable(events[0])
+    setCurrentPresentable(events[0]);
   }, [props.events]);
   useEffect(() => {
     currentPresentable && getDetail(currentPresentable.presentableId);
   }, [currentPresentable]);
-  const handleOk = () => {
-    setIsModalVisible(false);
+
+  const userCancel = () => {
+    props.contractFinished("", USER_CANCEL);
+    console.log("userCancel");
   };
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-  const userCancel = () =>{
-    props.contractFinished('', USER_CANCEL) 
-    console.log('userCancel')
-  }
   const getAuth = async () => {
-    const userInfo: any = await getUserInfo()
+    const userInfo: any = await getUserInfo();
     const res = await frequest(contract.contract, [], {
       subjectId: currentPresentable.presentableId,
       subjectType: 2,
       policyId: currentPolicy.policyId,
-      licenseeId: userInfo.userId + '',
-      licenseeIdentityType: 3
+      licenseeId: userInfo.userId + "",
+      licenseeIdentityType: 3,
     });
-    props.contractFinished(currentPresentable.eventId, SUCCESS)
+    if(res.data.isAuth){
+      
+    }
+    props.contractFinished(currentPresentable.eventId, SUCCESS);
     setIsModalVisible(false);
   };
   return (
     <React.Fragment>
-      <Modal
-        title="签约确认"
-        zIndex={1201}
-        centered
-        footer={null}
-        visible={isModalVisible}
-        className="w-560"
-        onOk={handleOk}
-        onCancel={handleCancel}
-        wrapClassName="freelog-confirm"
-      >
-        <div className="w-100x h-100x flex-column justify-center  pt-16">
-          <div className="flex-row fc-grey mb-20 fs-14 justify-center">
-            <span className="pr-10 shrink-0">展品名称</span>
-            {currentPresentable ? (
-              <span>
-                {currentPresentable.presentableInfo.data.presentableName ||
-                  currentPresentable.presentableInfo.data.resourceName}
-              </span>
-            ) : (
-              ""
-            )}
-          </div>
-          <div className="flex-row align-center lh-25 fs-16 fc-grey mb-70 justify-center">
-            <span className="shrink-0">确定使用</span>
-            <span className="fc-main fw-bold px-10">
-              {currentPolicy.policyName}
-            </span>
-            <span className="shrink-0">获取授权？</span>
-          </div>
-          <div className="flex-row justify-center">
-            <Button
-              type="cancel"
-              click={(e) => {
-                setIsModalVisible(false);
-              }}
-              className="mr-10"
-            >
-              取消
-            </Button>
-            <Button
-              click={(e) => {
-                getAuth();
-              }}
-              type="main"
-            >
-              确定
-            </Button>
-          </div>
-        </div>
-      </Modal>
-
+      <Confirm
+        setIsModalVisible={setIsModalVisible}
+        isModalVisible={isModalVisible}
+        getAuth={getAuth}
+        currentPolicy={currentPolicy}
+        currentPresentable={currentPresentable}
+      />
       <Modal
         title="展品授权"
         zIndex={1200}
@@ -132,28 +94,26 @@ export default function (props: contractProps) {
           <div className="flex-column w-344 h-100x  y-auto">
             {events.length
               ? [...events].map((item: any, index: number) => {
-                if (item.event === LOGIN) return "";
-                return (
-                  <div
-                    key={index}
-                    onClick={() => {
-                      setCurrentPresentable(item);
-                    }}
-                    className={
-                      (currentPresentable === item ? "bg-content " : "") +
-                      " pl-20 w-100x b-box h-60 cur-pointer f-main lh-60 select-none"
-                    }
-                  >
-                    <div>
-                      {item.presentableName}
+                  if (item.event === LOGIN) return "";
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => {
+                        setCurrentPresentable(item);
+                      }}
+                      className={
+                        (currentPresentable === item ? "bg-content " : "") +
+                        " pl-20 w-100x b-box h-60 cur-pointer f-main lh-60 select-none"
+                      }
+                    >
+                      <div>{item.presentableName}</div>
                     </div>
-                  </div>
-                );
-              })
+                  );
+                })
               : ""}
           </div>
           <div className="w-516 bg-content h-100x   y-auto ">
-            {currentDetail.policies.map((item: any, index: number) => {
+            {policies.map((item: any, index: number) => {
               return (
                 <div
                   key={index}
@@ -168,7 +128,7 @@ export default function (props: contractProps) {
                         setCurrentCurrentPolicy(item);
                         setIsModalVisible(true);
                       }}
-                      className=""
+                      className=" bg-white"
                     >
                       获取授权
                     </Button>
@@ -176,12 +136,19 @@ export default function (props: contractProps) {
                   <pre
                     className="px-20 py-15 fw-bold fs-14 fc-black lh-20"
                     style={{ whiteSpace: "pre-wrap" }}
-                    dangerouslySetInnerHTML={{ __html: item.policyText.replace(/~freelog.*?=>\s*\w+\b/g,(match: string)=>{
-                      return '<div class="flex-row fc-red fw-weight  br-middle b-1 p-5 b-box my-10 text-breakAll">' + match + '</div>'
-                   })}}
-                  >
-                    
-                  </pre>
+                    dangerouslySetInnerHTML={{
+                      __html: item.policyText.replace(
+                        /~freelog\..*?=>\s*\w+\b/g,
+                        (match: string) => {
+                          return (
+                            '<div class="flex-row fc-red fw-weight  br-middle b-1 p-5 b-box my-10 text-breakAll">' +
+                            match +
+                            "</div>"
+                          );
+                        }
+                      ),
+                    }}
+                  ></pre>
                 </div>
               );
             })}

@@ -1,4 +1,3 @@
-import { placeHolder } from "../../base";
 
 export type User = {
   login: any;

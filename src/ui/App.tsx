@@ -1,7 +1,7 @@
 // import logo from './logo.svg';
 import "./App.scss";
-import React, { useEffect, useState } from "react";
-import { LOGIN, CONTRACT, USER_CANCEL } from '../bridge/event';
+import { useEffect, useState } from "react";
+import { LOGIN, USER_CANCEL } from '../bridge/event';
 import Login from "./components/login";
 import Contract from "./components/contract";
 import { reisterUI, eventMap, failedMap, endEvent, updateLock } from "../bridge/index";

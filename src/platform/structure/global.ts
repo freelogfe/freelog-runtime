@@ -2,7 +2,6 @@ import {
     mountWidget, autoMoutSubWdigets
 } from './widget'
 import { getSubDep,  getSelfId} from './utils'
-import { asyncCallUI,  callUI} from './event'
 import {callAuth, addAuth} from '../../bridge/index'
 import {
     getPresentables,

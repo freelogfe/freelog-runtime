@@ -44,7 +44,7 @@ export function deleteContainer(
 
   return childContainer ? fatherContainer?.removeChild(childContainer) : true;
 }
-let count = 0;
+// let count = 0;
 export function createId(subId: string, count?: number): any {
   let id = count ? "freelog-" + subId + "-" + count : "freelog-" + subId;
   // @ts-ignore
@@ -102,7 +102,7 @@ export async function getSubDep(presentableId: any, global: any) {
   )(presentableId);
   console.log(info)
   if (info.data.errCode) {
-    const result = await new Promise((resolve, reject) => {
+    await new Promise((resolve, reject) => {
       addAuth.bind({ name: "freelog-" + presentableId })(
         presentableId,
         resolve,

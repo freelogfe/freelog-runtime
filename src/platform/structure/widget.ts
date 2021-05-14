@@ -19,7 +19,7 @@ import { loadMicroApp } from "../runtime";
 import { baseUrl } from "../../services/base";
 import { setLocation } from "./proxy";
 import { DEV_TYPE_REPLACE, DEV_WIDGET } from "./dev";
-import { createScript, createCssLink, resolveUrl, getSubDep } from "./utils";
+import { getSubDep } from "./utils";
 
 export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
@@ -88,21 +88,21 @@ export function mountWidget(
       firstDev = true;
     }
   }
-  if(!data && sub){
+  if (!data && sub) {
     data = {
-      presentableId:sub.presentableId || '',
-      entityNid: '',
-      subDependId: sub.presentableId || '',
+      presentableId: sub.presentableId || "",
+      entityNid: "",
+      subDependId: sub.presentableId || "",
       resourceInfo: {
-        resourceId: sub.id
-      }
-    }
+        resourceId: sub.id,
+      },
+    };
   }
   let id = !sub ? "freelogDev" : "freelog-" + data.resourceInfo.resourceId;
   if (sub && flatternWidgets.has(sub.id)) {
-    id = "freelog-" + sub.id + '-' + (count + 1);
+    id = "freelog-" + sub.id + "-" + (count + 1);
   }
-  console.log(data, data.presentableId, entry)
+  console.log(data, data.presentableId, entry);
   // @ts-ignore TODO 用了太多重复判断，要抽取,当entry存在时该行不出现sub data
   const widgetConfig = {
     container,
@@ -149,8 +149,9 @@ export function mountWidget(
 }
 // 固定id 的加载子插件，仅支持加载一次
 export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
-  const parentGlobal = sandBoxs.get("freelog-" + parent.data.presentableId)
-    .proxy;
+  const parentGlobal = sandBoxs.get(
+    "freelog-" + parent.data.presentableId
+  ).proxy;
   // @ts-ignore
   // theme.subDeps.push({id:"60068f63973b31003a4fbf2a",name:"chtes/pubu",type:"resource",resourceType:"widget"})
   const promises: Promise<any>[] = [];
@@ -162,13 +163,13 @@ export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
     //   return
     // }
     // {"id":"60068f63973b31003a4fbf2a","name":"chtes/pubu","type":"resource","resourceType":"image"}
-    let url = resolveUrl(
-      `${baseUrl}auths/presentables/${parent.entityNid}/fileStream`,
-      {
-        parentNid: parent.data.presentableId,
-        subResourceIdOrName: sub.id,
-      }
-    );
+    // let url = resolveUrl(
+    //   `${baseUrl}auths/presentables/${parent.entityNid}/fileStream`,
+    //   {
+    //     parentNid: parent.data.presentableId,
+    //     subResourceIdOrName: sub.id,
+    //   }
+    // );
     let isTest = false;
     if (
       window.location.href
@@ -178,14 +179,14 @@ export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
     ) {
       isTest = true;
     }
-    if (isTest)
-      resolveUrl(
-        `${baseUrl}auths/testResources/${parent.entityNid}/fileStream`,
-        {
-          parentNid: parent.data.presentableId,
-          subEntityIdOrName: sub.id,
-        }
-      );
+    // if (isTest)
+    //   resolveUrl(
+    //     `${baseUrl}auths/testResources/${parent.entityNid}/fileStream`,
+    //     {
+    //       parentNid: parent.data.presentableId,
+    //       subEntityIdOrName: sub.id,
+    //     }
+    //   );
 
     switch (sub.resourceType) {
       case "widget":
@@ -197,7 +198,7 @@ export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
           return;
         }
         // @ts-ignore
-        const app = window.freelogApp.mountWidget(
+        window.freelogApp.mountWidget(
           sub,
           subContainer,
           {
@@ -213,14 +214,14 @@ export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
         // setTimeout(app.mount, 5000)
         // TODO 所有插件加载完成后 加载交给运行时子依赖的插件
         break;
-      case "js": {
-        break;
-        promises.push(createScript(url));
-      }
-      case "css": {
-        break;
-        promises.push(createCssLink(url));
-      }
+      // case "js": {
+      //   promises.push(createScript(url));
+      //   break;
+      // }
+      // case "css": {
+      //   promises.push(createCssLink(url));
+      //   break;
+      // }
       default: {
       }
     }

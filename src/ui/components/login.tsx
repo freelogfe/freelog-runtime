@@ -1,8 +1,8 @@
 import { Form, Input,Modal, Button, Checkbox } from "antd";
 import user from "../../services/api/modules/user";
 import frequest from "../../services/handler";
-import { SUCCESS, FAILED, USER_CANCEL } from "../../bridge/event";
-import React, { useState } from 'react';
+import { SUCCESS } from "../../bridge/event";
+import { useState } from 'react';
 
 
 const layout = {

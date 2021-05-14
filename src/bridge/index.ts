@@ -36,7 +36,6 @@ export function updateLock(status: boolean) {
 export function setPresentableQueue(name: string, value: any) {
   presentableQueue.set(name, value);
 }
-function eventResolve() {}
 let uiInited = false;
 // 公共非展品事件UI， 后面考虑
 export function addAuth(
