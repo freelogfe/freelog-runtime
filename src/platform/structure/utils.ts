@@ -100,7 +100,6 @@ export async function getSubDep(presentableId: any, global: any) {
       ? sandBoxs.get(global.widgetName)
       : { name: "freelog-" + presentableId, presentableId }
   )(presentableId);
-  console.log(info)
   if (info.data.errCode) {
     await new Promise((resolve, reject) => {
       addAuth.bind({ name: "freelog-" + presentableId })(

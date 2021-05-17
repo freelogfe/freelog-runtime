@@ -37,8 +37,8 @@ export default function (props: contractProps) {
     /**
      * 获取
      */
-    console.log(con)
-    console.log(Object.keys(con.data.data[0].policyInfo.fsmDescriptionInfo))
+    console.log(res.data.data.policies[2].fsmDescriptionInfo, con)
+    // console.log(Object.keys(con.data.data[0].policyInfo.fsmDescriptionInfo))
     const contracts =  con.data.data.filter((item: any) => {
       return item.status === 0;
     });
