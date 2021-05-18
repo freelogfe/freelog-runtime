@@ -6,6 +6,7 @@ import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
 import contract from "../../services/api/modules/contract";
 import Button from "./_components/button";
+import { getStatusMaps } from "../../utils/policy";
 import { getUserInfo } from "../../platform/structure/utils";
 import Confirm from "./_components/confirm";
 interface contractProps {
@@ -37,12 +38,18 @@ export default function (props: contractProps) {
     /**
      * 获取
      */
-    console.log(res.data.data.policies[2].fsmDescriptionInfo, con)
     // console.log(Object.keys(con.data.data[0].policyInfo.fsmDescriptionInfo))
-    const contracts =  con.data.data.filter((item: any) => {
+    const contracts = con.data.data.filter((item: any) => {
       return item.status === 0;
     });
-    setPolicies(res.data.data.policies)
+    res.data.data.policies.forEach((item: any) => {
+      console.log(item);
+      item.routeMaps = getStatusMaps(
+        item.fsmDescriptionInfo
+      );
+    });
+    console.log(res.data.data.policies);
+    setPolicies(res.data.data.policies);
   }
   useEffect(() => {
     setCurrentPresentable(events[0]);
@@ -64,7 +71,7 @@ export default function (props: contractProps) {
       licenseeId: userInfo.userId + "",
       licenseeIdentityType: 3,
     });
-    if(res.data.isAuth){
+    if (res.data.isAuth) {
       // `付款到${seller}${amount}块钱就可以达到${status}状态`
     }
     props.contractFinished(currentPresentable.eventId, SUCCESS);
@@ -113,7 +120,7 @@ export default function (props: contractProps) {
               : ""}
           </div>
           <div className="w-516 bg-content h-100x   y-auto ">
-            {policies.map((item: any, index: number) => {
+            {policies.map((policy: any, index: number) => {
               return (
                 <div
                   key={index}
@@ -121,11 +128,11 @@ export default function (props: contractProps) {
                 >
                   <div className="f-main flex-row align-center space-between bb-1 px-20 h-50">
                     <div className="fw-bold  fs-14 fc-black">
-                      {item.policyName}
+                      {policy.policyName}
                     </div>
                     <Button
                       click={(e) => {
-                        setCurrentCurrentPolicy(item);
+                        setCurrentCurrentPolicy(policy);
                         setIsModalVisible(true);
                       }}
                       className=" bg-white"
@@ -133,22 +140,22 @@ export default function (props: contractProps) {
                       获取授权
                     </Button>
                   </div>
-                  <pre
-                    className="px-20 py-15 fw-bold fs-14 fc-black lh-20"
-                    style={{ whiteSpace: "pre-wrap" }}
-                    dangerouslySetInnerHTML={{
-                      __html: item.policyText.replace(
-                        /~freelog\..*?=>\s*\w+\b/g,
-                        (match: string) => {
+
+                  {policy.routeMaps.map((route: any) => {
+                    return (
+                      <div className="flex-column   mb-10 bb-1 px-10" key={route}>
+                        {route.map((node: any, index: number) => {
                           return (
-                            '<div class="flex-row fc-red fw-weight  br-middle b-1 p-5 b-box my-10 text-breakAll">' +
-                            match +
-                            "</div>"
+                            <div className="flex-column" key={index}>
+                              {index === 0 ? <div>签约后</div> : null}
+                              <div className="pl-20">{node[1].translation}</div>
+                              <div className="my-5">{node[0] + (node[2].isAuth ? '[授权]' : '')}</div>
+                            </div>
                           );
-                        }
-                      ),
-                    }}
-                  ></pre>
+                        })}
+                      </div>
+                    );
+                  })}
                 </div>
               );
             })}
