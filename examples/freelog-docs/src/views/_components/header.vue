@@ -44,16 +44,16 @@ export default {
   methods: {
     handleSelect(key, keyPath) {
       if (key == 1) {
-        this.$router.push("home");
+        this.$router.push({name:"home"});
       }
       if (key == 2) {
-        this.$router.push("concept");
+        this.$router.push({name:"concept"});
       }
       if (key == 3) {
-        this.$router.push("faq");
+        this.$router.push({name:"faq"});
       }
       if (key == 4) {
-        this.$router.push("dev");
+        this.$router.push({name: "dev"});
 
         this.$router.push("guide");
       }

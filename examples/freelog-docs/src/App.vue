@@ -25,7 +25,7 @@ export default {
   methods: {
         
     getdev() {
-      window.fetch('/docs/README.md').then(async res=>{
+      window.fetch('/docs/guide/freelog-guide.md').then(async res=>{
         const data = await res.text()
         this.md = data
       })
