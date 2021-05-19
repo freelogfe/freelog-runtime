@@ -1,3 +1,5 @@
+## 草稿，仅供内部使用
+
 ## 介绍
 
 ### 概念
@@ -58,7 +60,7 @@ if (window.__POWERED_BY_FREELOG__) {
 
 **打包配置文件配置**
 
-```
+```ts
 // 开发模式需配置headers
 
 devServer: {
@@ -106,7 +108,7 @@ let instance = null;
 function render(props = {}) {
   const { container } = props;
   router = new VueRouter({
-    base: window.__POWERED_BY_FREELOG__ ? "/vue" : "/",
+    base: "/",
     mode: "history",
     routes,
   });
@@ -157,7 +159,7 @@ export async function unmount() {
 
 **webpack 配置**
 
-```
+```ts
 const path = require('path');
 const { name } = require('./package');
 
@@ -228,7 +230,7 @@ let instance = null;
 function render(props = {}) {
   const { container } = props;
   router = createRouter({
-    history: createWebHistory(window.__POWERED_BY_FREELOG__ ? "/vue3" : "/"),
+    history: createWebHistory("/"),
     routes,
   });
 
@@ -279,7 +281,7 @@ function storeTest(props) {
 
 **webpack 配置**
 
-```
+```ts
 const path = require('path');
 const { name } = require('./package');
 
@@ -414,8 +416,128 @@ const render = $ => {
 **2.将 js 打包成库，让运行时能够获取到 bootstrap,mount,unmount 来启动卸载插件**
 
 
-## 开发模式
- 
-   **需要有一个节点，节点建立请参考**
+## 开发
+  ### 创建一个节点
+   进入 console.testfreelog.com ---> 节点管理 
 
-   
+  创建节点后可以签约一些资源作为展品 
+
+  假设节点为http://snnaenu.testfreelog.com/
+
+  ### 连接节点与插件
+
+  启动插件，例如‘http://localhost:7101’
+
+  在节点url的http://snnaenu.testfreelog.com/后面加上
+  ```ts
+  ‘http://snnaenu.testfreelog.com/?dev=http:localhost:7101'
+  ```
+
+  此时插件是作为节点主题（即入口）使用
+
+  替换指定子插件
+  ```ts
+   `http://snnaenu.testfreelog.com/?dev=replace&${widgetId}=http:localhost:7101`
+  ```
+
+  ### 加载子依赖插件
+
+
+```ts
+  const presentableId = await window.freelogApp.getSelfId(window);
+  const subData = await window.freelogApp.getSubDep(presentableId);
+  subData.subDeps.some((sub, index) => {
+    if (index === 1) return true;
+    window.freelogApp.mountWidget(
+      sub,
+      document.getElementById("freelog-single"),
+      {
+        //@ts-ignore
+        presentableId: presentableId,
+        entityNid: subData.entityNid,
+        subDependId: sub.id,
+        resourceInfo: { resourceId: sub.id}
+      },
+      ""
+    );
+  });
+```   
+  ### 加载展品插件
+
+```ts
+  const res = await window.freelogApp.getPresentables({
+    resourceType: "widget",
+  });
+  const widgets = res.data.data.dataList;
+  widgets.some((widget, index) => {
+    if (index === 1) return true;
+    window.freelogApp.mountWidget(
+      {
+        id: widget.resourceInfo.resourceId,
+        presentableId: widget.presentableId,
+        name: widget.presentableName,
+        resourceId: widget.resourceInfo.resourceId,
+      },
+      document.getElementById("freelog-single") // 挂载到哪个div下面
+    );
+  });
+```   
+
+### 获取展品
+
+  **分页列表**
+  ```ts
+     window.freelogApp.getPresentablesPaging(query).then((res)=>{
+
+     })
+     query:{
+      skip: "string", // 从第几个开始
+      limit: "string", // 取多少个
+      resourceType: "string", // 资源类型
+      omitResourceType: "string", // 过滤资源类型
+      tags: "string", // 展品和资源标签，多个使用","隔开
+      projection: "string",
+      keywords: "string",
+      isLoadVersionProperty: "string", // 是否加载版本
+    }  
+```
+ **查找展品**
+
+  ```ts
+   window.freelogApp.getPresentablesSearch(query).then((res)=>{
+
+   })
+    query:{
+      presentableIds: "string", // 展品ids 多个使用","隔开
+      resourceIds: "string", // 资源ids
+      resourceNames: "string", // 资源名称s
+    }  
+```
+### 获取展品资源
+
+
+```ts
+  window.freelogApp.getFileStreamById(
+    presentableId: string | number,  // 展品id
+    returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
+    config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
+  )
+```
+
+### 获取展品子依赖
+
+```ts
+  window.freelogApp.getSubFileStreamById(
+    presentableId: string | number,
+    parentNid: string,
+    subResourceIdOrName: string,
+    returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
+    config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
+  )
+```
+
+### 授权处理
+
+```ts
+
+```
