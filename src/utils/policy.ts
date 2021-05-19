@@ -71,6 +71,12 @@ export function getEventDes(eventName: string, args: any) {
 }
 
 export function getStatusMaps(strategy: any) {
+  if(strategy.s2) {
+    strategy.s2.transition.s1 = strategy.s2.transition.s3 
+    delete strategy.s1.transition.finish
+  }
+  if(strategy.s3) delete strategy.s3.transition
+  console.log(strategy)
   const statusMaps: any = [];
   function findNext(status: any, route: any) {
     Object.keys(status.transition).forEach((key: string) => {
@@ -105,5 +111,6 @@ export function getStatusMaps(strategy: any) {
     return [[["initial", "", strategy.initial]]]
   }
   findNext(strategy.initial, [["initial", "", strategy.initial]]);
+  console.log(statusMaps)
   return statusMaps;
 }
