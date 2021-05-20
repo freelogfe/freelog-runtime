@@ -21,7 +21,7 @@ let instance = null;
 function render(props = {}) {
   const { container } = props;
   router = new VueRouter({
-    base: window.__POWERED_BY_FREELOG__ ? "/vue" : "/",
+    base: window.__POWERED_BY_FREELOG__ ? "/" : "/",
     mode: "history",
     routes,
   });

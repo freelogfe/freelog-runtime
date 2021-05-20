@@ -34,8 +34,10 @@ export default {
   },
   methods: {
     getdev() {
-      const url = (window.__INJECTED_PUBLIC_PATH_BY_FREELOG__ || '') +  '/docs/guide/freelog-guide.md'
-      window.fetch(url).then(async (res) => {
+      const url =  'freelog.com/docs/guide/freelog-guide.md'
+      window.fetch(url,{
+        method: 'GET',
+        mode: 'cors'}).then(async (res) => {
         const data = await res.text();
         this.md = data;
       });
