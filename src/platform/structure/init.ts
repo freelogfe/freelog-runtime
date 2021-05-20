@@ -32,7 +32,8 @@ export function initNode() {
     document.title = nodeInfo.nodeName
     init();
     const devData = dev();
-    freelogApp.devData = devData;
+    // TODO 深度克隆
+    freelogApp.devData = {...devData};
     Object.freeze(freelogApp)
     // @ts-ignore
     const container = document.getElementById("freelog-plugin-container");

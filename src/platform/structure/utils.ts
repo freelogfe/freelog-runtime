@@ -90,10 +90,14 @@ export function resolveUrl(path: string, params?: any): string {
   return `${baseUrl}${path}?${queryStringArr.join("&")}`;
 }
 export async function getSelfId(global: any) {
+  // @ts-ignore
+  console.log(89999999, this)
   return widgetsConfig.get(global.widgetName)?.presentableId;
 }
 // TODO if error
 export async function getSubDep(presentableId: any, global: any) {
+  // @ts-ignore
+  console.log(2234234243, this)
   presentableId = presentableId || getSelfId(global);
   let info = await getInfoById.bind(
     global

@@ -160,8 +160,8 @@ export async function unmount() {
 **webpack 配置**
 
 ```ts
-const path = require('path');
-const { name } = require('./package');
+const path = require("path");
+const { name } = require("./package");
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -177,8 +177,8 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  outputDir: 'dist',
-  assetsDir: 'static',
+  outputDir: "dist",
+  assetsDir: "static",
   filenameHashing: true,
   // tweak internal webpack configuration.
   // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
@@ -192,24 +192,29 @@ module.exports = {
       errors: true,
     },
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      "Access-Control-Allow-Origin": "*",
     },
   },
   // 自定义webpack配置
   configureWebpack: {
     resolve: {
       alias: {
-        '@': resolve('src'),
+        "@": resolve("src"),
       },
     },
     output: {
       // 把子应用打包成 umd 库格式
       library: `${name}-[name]`,
-      libraryTarget: 'umd',
+      libraryTarget: "umd",
       jsonpFunction: `webpackJsonp_${name}`,
     },
   },
 };
+```
+
+### 静态文件处理
+
+```ts
 ```
 
 ### Vue3 配置示例
@@ -282,8 +287,8 @@ function storeTest(props) {
 **webpack 配置**
 
 ```ts
-const path = require('path');
-const { name } = require('./package');
+const path = require("path");
+const { name } = require("./package");
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -292,8 +297,8 @@ function resolve(dir) {
 const port = 7105;
 
 module.exports = {
-  outputDir: 'dist',
-  assetsDir: 'static',
+  outputDir: "dist",
+  assetsDir: "static",
   filenameHashing: true,
   devServer: {
     hot: true,
@@ -304,25 +309,24 @@ module.exports = {
       errors: true,
     },
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      "Access-Control-Allow-Origin": "*",
     },
   },
   // 自定义webpack配置
   configureWebpack: {
     resolve: {
       alias: {
-        '@': resolve('src'),
+        "@": resolve("src"),
       },
     },
     output: {
       // 把子应用打包成 umd 库格式
       library: `${name}-[name]`,
-      libraryTarget: 'umd',
+      libraryTarget: "umd",
       jsonpFunction: `webpackJsonp_${name}`,
     },
   },
 };
-
 ```
 
 ### React 配置示例
@@ -376,8 +380,9 @@ if (!window.__POWERED_BY_FREELOG__) {
  jsonpFunction: `webpackJsonp_${name}`,
 
 ```
-### jquery配置
- 
+
+### jquery 配置
+
 ```
 // entry.js  在index.html中引入
 
@@ -415,110 +420,117 @@ const render = $ => {
 
 **2.将 js 打包成库，让运行时能够获取到 bootstrap,mount,unmount 来启动卸载插件**
 
-
 ## 开发
-  ### 创建一个节点
-   进入 console.testfreelog.com ---> 节点管理 
 
-  创建节点后可以签约一些资源作为展品 
+### 创建一个节点
 
-  假设节点为http://snnaenu.testfreelog.com/
+进入 console.testfreelog.com ---> 节点管理
 
-  ### 连接节点与插件
+创建节点后可以签约一些资源作为展品
 
-  启动插件，例如‘http://localhost:7101’
+假设节点为http://snnaenu.testfreelog.com/
 
-  在节点url的http://snnaenu.testfreelog.com/后面加上
-  ```ts
-  ‘http://snnaenu.testfreelog.com/?dev=http:localhost:7101'
-  ```
+用于开发的测试节点为http://t.snnaenu.testfreelog.com/
 
-  此时插件是作为节点主题（即入口）使用
+### 连接节点与插件
 
-  替换指定子插件
-  ```ts
-   `http://snnaenu.testfreelog.com/?dev=replace&${widgetId}=http:localhost:7101`
-  ```
+启动插件，例如‘http://localhost:7101’
 
-  ### 加载子依赖插件
-
+在节点 url 的http://t.snnaenu.testfreelog.com/后面加上
 
 ```ts
-  const presentableId = await window.freelogApp.getSelfId(window);
-  const subData = await window.freelogApp.getSubDep(presentableId);
-  subData.subDeps.some((sub, index) => {
-    if (index === 1) return true;
-    window.freelogApp.mountWidget(
-      sub,
-      document.getElementById("freelog-single"),
-      {
-        //@ts-ignore
-        presentableId: presentableId,
-        entityNid: subData.entityNid,
-        subDependId: sub.id,
-        resourceInfo: { resourceId: sub.id}
-      },
-      ""
-    );
-  });
-```   
-  ### 加载展品插件
+‘http://t.snnaenu.testfreelog.com/?dev=http:localhost:7101'
+```
+
+此时插件是作为节点主题（即入口）使用
+
+替换指定子插件
 
 ```ts
-  const res = await window.freelogApp.getPresentables({
-    resourceType: "widget",
-  });
-  const widgets = res.data.data.dataList;
-  widgets.some((widget, index) => {
-    if (index === 1) return true;
-    window.freelogApp.mountWidget(
-      {
-        id: widget.resourceInfo.resourceId,
-        presentableId: widget.presentableId,
-        name: widget.presentableName,
-        resourceId: widget.resourceInfo.resourceId,
-      },
-      document.getElementById("freelog-single") // 挂载到哪个div下面
-    );
-  });
-```   
+`http://t.snnaenu.testfreelog.com/?dev=replace&${widgetId}=http:localhost:7101`;
+```
+
+### 加载子依赖插件
+
+```ts
+const presentableId = await window.freelogApp.getSelfId(window);
+const subData = await window.freelogApp.getSubDep(presentableId);
+subData.subDeps.some((sub, index) => {
+  if (index === 1) return true;
+  window.freelogApp.mountWidget(
+    sub,
+    document.getElementById("freelog-single"),
+    {
+      //@ts-ignore
+      presentableId: presentableId,
+      entityNid: subData.entityNid,
+      subDependId: sub.id,
+      resourceInfo: { resourceId: sub.id },
+    },
+    ""
+  );
+});
+```
+
+### 加载展品插件
+
+```ts
+const res = await window.freelogApp.getPresentablesSearch({
+  resourceType: "widget",
+});
+const widgets = res.data.data.dataList;
+widgets.some((widget, index) => {
+  if (index === 1) return true;
+  window.freelogApp.mountWidget(
+    {
+      id: widget.resourceInfo.resourceId,
+      presentableId: widget.presentableId,
+      name: widget.presentableName,
+      resourceId: widget.resourceInfo.resourceId,
+    },
+    document.getElementById("freelog-single") // 挂载到哪个div下面
+  );
+});
+```
 
 ### 获取展品
 
-  **分页列表**
-  ```ts
-     window.freelogApp.getPresentablesPaging(query).then((res)=>{
+**分页列表**
 
-     })
-     query:{
-      skip: "string", // 从第几个开始
-      limit: "string", // 取多少个
-      resourceType: "string", // 资源类型
-      omitResourceType: "string", // 过滤资源类型
-      tags: "string", // 展品和资源标签，多个使用","隔开
-      projection: "string",
-      keywords: "string",
-      isLoadVersionProperty: "string", // 是否加载版本
-    }  
-```
- **查找展品**
-
-  ```ts
-   window.freelogApp.getPresentablesSearch(query).then((res)=>{
+```ts
+   window.freelogApp.getPresentablesPaging(query).then((res)=>{
 
    })
-    query:{
-      presentableIds: "string", // 展品ids 多个使用","隔开
-      resourceIds: "string", // 资源ids
-      resourceNames: "string", // 资源名称s
-    }  
+   query:{
+    skip: "string", // 从第几个开始
+    limit: "string", // 取多少个
+    resourceType: "string", // 资源类型
+    omitResourceType: "string", // 过滤资源类型
+    tags: "string", // 展品和资源标签，多个使用","隔开
+    projection: "string",
+    keywords: "string",
+    isLoadVersionProperty: "string", // 是否加载版本
+  }
 ```
-### 获取展品资源
 
+**查找展品**
+
+```ts
+ window.freelogApp.getPresentablesSearch(query).then((res)=>{
+
+ })
+  query:{
+    presentableIds: "string", // 展品ids 多个使用","隔开
+    resourceIds: "string", // 资源ids
+    resourceNames: "string", // 资源名称s
+  }
+```
+
+### 获取展品资源
 
 ```ts
   window.freelogApp.getFileStreamById(
-    presentableId: string | number,  // 展品id
+    presentableId: string,  // 展品id
     returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
     config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
   )
@@ -538,6 +550,280 @@ const render = $ => {
 
 ### 授权处理
 
-```ts
+**单个呼出授权**
 
+```ts
+// 根据展品id获取展品资源
+let ch = await window.freelogApp.getFileStreamById(
+  chapters[index].presentableId
+);
+/**
+ *  未授权返回值
+ * {
+ *   data: {
+ *     errCode: 3,
+ *     presentableName,
+ *     presentableId,
+ *     errorMsg: response.data.data.errorMsg,
+ *   },
+ * }
+ */
+if (ch.data.errCode) {
+  // 提交给运行时处理
+  /**
+   * addAuth 参数
+   * {
+   *  presentableId: string,
+      resolve: Function,  // 授权成功回调
+      reject: Function,  // 授权失败回调
+      options?: {
+        immediate: boolean  // 是否立即弹出授权窗口
+      }
+   * }
+  */
+  ch = await new Promise((resolve, rej) => {
+    window.freelogApp.addAuth(
+      ch.data.presentableId,
+      async () => {
+        const res = await window.freelogApp.getFileStreamById(
+          chapters[index].presentableId
+        );
+        resolve(res);
+      },
+      () => {},
+      { immediate: true }
+    );
+  });
+}
+```
+
+**呼出授权**
+
+```ts
+// 当addAuth多个未授权展品且没有立刻呼出（或者存在未授权展品且已经addAuth 但用户关闭了，插件想要用户签约时）可以通过callAuth()唤出
+window.freelogApp.callAuth();
+```
+
+### 打包之后 css 中的字体文件和图片加载 404
+
+原因是 freelog 将外链样式改成了内联样式，但是字体文件和背景图片的加载路径是相对路径。
+
+而 css 文件一旦打包完成，就无法通过动态修改 publicPath 来修正其中的字体文件和背景图片的路径。
+
+主要有以下几个解决方案：
+
+1. 所有图片等静态资源上传至 freelog平台, css中直接引用 获取的 资源 地址（**推荐**）
+
+2. 借助 webpack 的 url-loader 将字体文件和图片打包成 base64（适用于字体文件和图片体积小的项目）（**推荐**）
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpe?g|gif|webp|woff2?|eot|ttf|otf)$/i,
+        use: [
+          {
+            loader: "url-loader",
+            options: {},
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+`vue-cli3` 项目写法：
+
+```js
+module.exports = {
+  chainWebpack: (config) => {
+    config.module
+      .rule("fonts")
+      .use("url-loader")
+      .loader("url-loader")
+      .options({})
+      .end();
+    config.module
+      .rule("images")
+      .use("url-loader")
+      .loader("url-loader")
+      .options({})
+      .end();
+  },
+};
+```
+
+3. 借助 `webpack` 的 `file-loader` ，在打包时给其注入完整路径（适用于字体文件和图片体积比较大的项目）
+
+```js
+const publicPath =
+  process.env.NODE_ENV === "production"
+    ? `https://qi.testfreelog/${widgetId}`
+    : `http://localhost:${port}`;
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpe?g|gif|webp)$/i,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "img/[name].[hash:8].[ext]",
+              publicPath,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)$/i,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "fonts/[name].[hash:8].[ext]",
+              publicPath,
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+`vue-cli3` 项目写法：
+
+```js
+const publicPath =
+  process.env.NODE_ENV === "production"
+    ? `https://qi.testfreelog/${widgetId}`
+    : `http://localhost:${port}`;
+module.exports = {
+  chainWebpack: (config) => {
+    const fontRule = config.module.rule("fonts");
+    fontRule.uses.clear();
+    fontRule
+      .use("file-loader")
+      .loader("file-loader")
+      .options({
+        name: "fonts/[name].[hash:8].[ext]",
+        publicPath,
+      })
+      .end();
+    const imgRule = config.module.rule("images");
+    imgRule.uses.clear();
+    imgRule
+      .use("file-loader")
+      .loader("file-loader")
+      .options({
+        name: "img/[name].[hash:8].[ext]",
+        publicPath,
+      })
+      .end();
+  },
+};
+```
+
+4. 将两种方案结合起来，小文件转 `base64` ，大文件注入路径前缀
+
+```js
+const publicPath =
+  process.env.NODE_ENV === "production"
+    ? `https://qi.testfreelog/${widgetId}`
+    : `http://localhost:${port}`;
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpe?g|gif|webp)$/i,
+        use: [
+          {
+            loader: "url-loader",
+            options: {},
+            fallback: {
+              loader: "file-loader",
+              options: {
+                name: "img/[name].[hash:8].[ext]",
+                publicPath,
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)$/i,
+        use: [
+          {
+            loader: "url-loader",
+            options: {},
+            fallback: {
+              loader: "file-loader",
+              options: {
+                name: "fonts/[name].[hash:8].[ext]",
+                publicPath,
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+`vue-cli3` 项目写法：
+
+```js
+const publicPath =
+  process.env.NODE_ENV === "production"
+    ? `https://qi.testfreelog/${widgetId}`
+    : `http://localhost:${port}`;
+module.exports = {
+  chainWebpack: (config) => {
+    config.module
+      .rule("fonts")
+      .use("url-loader")
+      .loader("url-loader")
+      .options({
+        limit: 4096, // 小于4kb将会被打包成 base64
+        fallback: {
+          loader: "file-loader",
+          options: {
+            name: "fonts/[name].[hash:8].[ext]",
+            publicPath,
+          },
+        },
+      })
+      .end();
+    config.module
+      .rule("images")
+      .use("url-loader")
+      .loader("url-loader")
+      .options({
+        limit: 4096, // 小于4kb将会被打包成 base64
+        fallback: {
+          loader: "file-loader",
+          options: {
+            name: "img/[name].[hash:8].[ext]",
+            publicPath,
+          },
+        },
+      });
+  },
+};
+```
+
+5. `vue-cli3` 项目可以将 `css` 打包到 `js`里面，不单独生成文件(不推荐，仅适用于 `css` 较少的项目)
+
+配置参考 [vue-cli3 官网](https://cli.vuejs.org/zh/config/#css-extract):
+
+```js
+module.exports = {
+  css: {
+    extract: false,
+  },
+};
 ```
