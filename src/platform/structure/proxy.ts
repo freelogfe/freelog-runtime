@@ -54,10 +54,8 @@ export function setFetch() {
   window.fetch = function (url: string, options: any) {
     options = options || {};
     if (url.indexOf("freelog.com") > -1) {
-      console.log(234234234, url)
       return rawFetch(url, { ...options, credentials: "include" });
     } else {
-      console.log(234234234, url, options)
       return rawFetch(url, options);
     }
   };

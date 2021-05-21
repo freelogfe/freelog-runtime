@@ -102,7 +102,6 @@ export function mountWidget(
   if (sub && flatternWidgets.has(sub.id)) {
     id = "freelog-" + sub.id + "-" + (count + 1);
   }
-  console.log(data, data.presentableId, entry);
   // @ts-ignore TODO 用了太多重复判断，要抽取,当entry存在时该行不出现sub data
   const widgetConfig = {
     container,
@@ -117,7 +116,6 @@ export function mountWidget(
   };
   addWidgetConfig(id, widgetConfig);
   // TODO 所有插件加载用promise all
-  console.log(config, 2342334234)
   // @ts-ignore
   const app = loadMicroApp(widgetConfig, {
     sandbox: {

@@ -253,7 +253,6 @@ export default class ProxySandbox implements SandBox {
             }
             if(url.indexOf("freelog.com") > -1){
               const patchUrl = getPublicPath(name) + url.split("freelog.com/")[1];
-              console.log(getPublicPath(name), patchUrl, url.split("freelog.com")[1])
               return rawWindow.fetch(patchUrl, {...options});
             }else{
               return rawWindow.fetch(url, options);
