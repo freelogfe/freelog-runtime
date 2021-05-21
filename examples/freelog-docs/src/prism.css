@@ -34,7 +34,7 @@ audio,
 canvas,
 progress,
 video {
-	display: inline-block;
+	/* display: inline-block; */
 	vertical-align: baseline
 }
 

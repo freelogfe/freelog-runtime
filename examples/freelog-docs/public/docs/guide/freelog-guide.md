@@ -212,11 +212,6 @@ module.exports = {
 };
 ```
 
-### 静态文件处理
-
-```ts
-```
-
 ### Vue3 配置示例
 
 **入口配置**
@@ -383,7 +378,7 @@ if (!window.__POWERED_BY_FREELOG__) {
 
 ### jquery 配置
 
-```
+```ts
 // entry.js  在index.html中引入
 
 const render = $ => {
@@ -439,7 +434,7 @@ const render = $ => {
 在节点 url 的http://t.snnaenu.testfreelog.com/后面加上
 
 ```ts
-‘http://t.snnaenu.testfreelog.com/?dev=http:localhost:7101'
+'http://t.snnaenu.testfreelog.com/?dev=http:localhost:7101'
 ```
 
 此时插件是作为节点主题（即入口）使用
@@ -604,7 +599,9 @@ if (ch.data.errCode) {
 window.freelogApp.callAuth();
 ```
 
-### 打包之后 css 中的字体文件和图片加载 404
+### 静态文件处理
+
+**打包之后 css 中的字体文件和图片加载 404**
 
 原因是 freelog 将外链样式改成了内联样式，但是字体文件和背景图片的加载路径是相对路径。
 
@@ -634,7 +631,7 @@ module.exports = {
 };
 ```
 
-`vue-cli3` 项目写法：
+**vue-cli3 项目写法：**
 
 ```js
 module.exports = {
@@ -655,7 +652,7 @@ module.exports = {
 };
 ```
 
-3. 借助 `webpack` 的 `file-loader` ，在打包时给其注入完整路径（适用于字体文件和图片体积比较大的项目）
+**3. 借助 webpack 的 file-loader ，在打包时给其注入完整路径（适用于字体文件和图片体积比较大的项目）**
 
 ```js
 const publicPath =
@@ -694,7 +691,7 @@ module.exports = {
 };
 ```
 
-`vue-cli3` 项目写法：
+**vue-cli3 项目写法：**
 
 ```js
 const publicPath =
@@ -727,7 +724,7 @@ module.exports = {
 };
 ```
 
-4. 将两种方案结合起来，小文件转 `base64` ，大文件注入路径前缀
+**4. 将两种方案结合起来，小文件转 base64 ，大文件注入路径前缀**
 
 ```js
 const publicPath =
@@ -774,7 +771,7 @@ module.exports = {
 };
 ```
 
-`vue-cli3` 项目写法：
+**vue-cli3 项目写法：**
 
 ```js
 const publicPath =
@@ -816,7 +813,7 @@ module.exports = {
 };
 ```
 
-5. `vue-cli3` 项目可以将 `css` 打包到 `js`里面，不单独生成文件(不推荐，仅适用于 `css` 较少的项目)
+**5. vue-cli3 项目可以将 css 打包到 js 里面，不单独生成文件(不推荐，仅适用于 css 较少的项目)**
 
 配置参考 [vue-cli3 官网](https://cli.vuejs.org/zh/config/#css-extract):
 

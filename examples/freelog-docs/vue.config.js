@@ -6,7 +6,7 @@ function resolve(dir) {
 }
 
 const port = 7101; // dev port
-const publicPath = process.env.NODE_ENV === 'production' ? 'https://qiankun.umijs.org/' : `http://localhost:${port}`;
+const publicPath = process.env.NODE_ENV === 'production' ? 'http://qi.testfreelog.com/v2/widgets/60a614de12ac83003f09d975' : `http://localhost:${port}`;
 
 module.exports = {
   /**
@@ -36,7 +36,7 @@ module.exports = {
       "Access-Control-Allow-Credentials": "true"
     },
     proxy: {
-      '/v2': {
+      '/v2': { 
         target: 'http://qi.testfreelog.com', // 请求服务器根路径
         changeOrigin: true, // 是否跨域
         ws: true, // websocket

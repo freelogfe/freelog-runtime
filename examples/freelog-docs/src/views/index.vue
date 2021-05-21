@@ -22,18 +22,11 @@ export default {
     };
   },
   async mounted() {
-    this.getdev()
     // console.log(this.$refs.markdomw, this.md, a);
     // this.md = response.data
   },
   methods: {
-        
-    getdev() {
-      window.fetch('/docs/README.md').then(async res=>{
-        const data = await res.text()
-        this.md = data
-      })
-    },
+     
     allRight: function (htmlStr) {
       console.log("markdown is parsed !");
     },

@@ -117,11 +117,12 @@ export function mountWidget(
   };
   addWidgetConfig(id, widgetConfig);
   // TODO 所有插件加载用promise all
+  console.log(config, 2342334234)
   // @ts-ignore
   const app = loadMicroApp(widgetConfig, {
     sandbox: {
       strictStyleIsolation: config ? !!config.shadowDom : false,
-      experimentalStyleIsolation: config ? !!config.scopedCss : true,
+      experimentalStyleIsolation: config ? !!config.scopedCss : false,
     },
   });
   // const id2 = createId(sub.id + 1)
