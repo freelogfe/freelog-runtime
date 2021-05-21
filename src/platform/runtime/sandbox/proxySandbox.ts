@@ -247,7 +247,6 @@ export default class ProxySandbox implements SandBox {
           return getPublicPath(name);
         }
         if (p === "fetch") {
-          console.log(1111111234234234)
           return function (url: string, options: any) {
             if (url.indexOf("i18n-ts") > -1) {
               return rawWindow.fetch(url, {...options, credentials: 'include'} );
