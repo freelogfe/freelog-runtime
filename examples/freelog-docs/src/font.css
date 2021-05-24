@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'fanti';
+    src: url('./assets/fff.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+    font-family: fanti;
+}

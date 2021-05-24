@@ -8,6 +8,7 @@ import App from "./App.vue";
 import routes from "./router";
 import store from "./store";
 import "./assets/css/index.scss";
+// import './font.css';
 import "./prism.js";
 Vue.config.productionTip = false;
 import VueMarkdown from "vue-markdown";

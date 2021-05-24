@@ -5,6 +5,9 @@ import { placeHolder } from '../../base'
 export type Node = {
     getInfoById: any;
     getInfoByNameOrDomain: any; 
+    postUserData: any;
+    putUserData: any;
+    getUserData: any;
 };
 
 const node: Node = {
@@ -20,6 +23,21 @@ const node: Node = {
             nodeName: 'string',
             nodeDomain: 'string' 
         }
+    },
+    // storages/buckets/.UserNodeData/objects   post
+    postUserData: {
+        url: `storages/buckets/.UserNodeData/objects/${placeHolder}`,
+        method: 'POST' 
+    },
+    // storages/buckets/.UserNodeData/objects/{nodeId}  PUT
+    putUserData: {
+        url: `storages/buckets/.UserNodeData/objects/${placeHolder}`,
+        method: 'PUT' 
+    },
+    // storages/buckets/.UserNodeData/objects/{objectIdOrNodeId}/customPick  GET
+    getUserData: {
+        url: `storages/buckets/.UserNodeData/objects/${placeHolder}`,
+        method: 'GET' 
     }
 }
 export default node
