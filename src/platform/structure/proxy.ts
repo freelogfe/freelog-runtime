@@ -514,7 +514,8 @@ export function getPublicPath(name: string) {
     return config.entry + "/";
   }
   const route = name.split("-")[1];
-  return `${baseUrl}widgets/${route}/`;
+  console.log(config)
+  return `${baseUrl}widgets/${config.widgetName}/`;
 }
 export const createFreelogAppProxy = function (name: string, sandbox: any) {
   const freelogAppProxy = {};

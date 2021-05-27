@@ -102,16 +102,17 @@ export function mountWidget(
   if (sub && flatternWidgets.has(sub.id)) {
     id = "freelog-" + sub.id + "-" + (count + 1);
   }
+  console.log(sub)
   // @ts-ignore TODO 用了太多重复判断，要抽取,当entry存在时该行不出现sub data
   const widgetConfig = {
     container,
     name: id, //id
     presentableId: data.presentableId,
-    widgetName: !sub ? "freelogDev" : sub.name,
+    widgetName: !sub ? "freelogDev" : sub.name.replace('/','-'),
     id: !sub ? "freelogDev" : data.resourceInfo.resourceId, // id可以重复，name不可以
     entry:
       entry ||
-      `${baseUrl}widgets/${data.resourceInfo.resourceId}?entityNid=${data.entityNid}&presentableId=${data.presentableId}&subDependId=${data.subDependId}`,
+      `${baseUrl}widgets/${sub.name.replace('/','-')}?entityNid=${data.entityNid}&presentableId=${data.presentableId}&subDependId=${data.subDependId}&resourceId=${data.resourceInfo.resourceId}`,
     isDev: !!entry,
   };
   addWidgetConfig(id, widgetConfig);

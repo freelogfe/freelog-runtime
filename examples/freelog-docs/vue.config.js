@@ -6,7 +6,7 @@ function resolve(dir) {
 }
 
 const port = 7101; // dev port
-const publicPath = process.env.NODE_ENV === 'production' ? 'http://qi.testfreelog.com/v2/widgets/60a614de12ac83003f09d975' : `http://localhost:${port}`;
+const publicPath = process.env.NODE_ENV === 'production' ? '/freelog-widget/Freelog/dev-docs' : `http://localhost:${port}` // '/freelog-widget/Freelog/dev-docs'; // `http://localhost:${port}`;
 
 module.exports = {
   /**
