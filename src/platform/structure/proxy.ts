@@ -514,7 +514,6 @@ export function getPublicPath(name: string) {
     return config.entry + "/";
   }
   const route = name.split("-")[1];
-  console.log(config)
   return `${baseUrl}widgets/${config.widgetName}/`;
 }
 export const createFreelogAppProxy = function (name: string, sandbox: any) {
@@ -534,3 +533,14 @@ export const createFreelogAppProxy = function (name: string, sandbox: any) {
     },
   });
 };
+
+
+export function pathATag(){
+  document.addEventListener('click', (e)=>{
+    // @ts-ignore
+    if(e.target.nodeName === 'A'){
+       console.log(e)
+       return false
+    }
+  })
+}

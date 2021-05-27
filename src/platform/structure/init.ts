@@ -6,9 +6,12 @@ import { init } from "./api";
 import { dev, DEV_WIDGET } from "./dev";
 import {LOGIN} from '../../bridge/event'
 import {addAuth} from '../../bridge/index'
+import { pathATag } from './proxy'
 // @ts-ignore  TODO 需要控制不可改变
 window.freelogApp = freelogApp;
+
 export function initNode() {
+  pathATag()
   /**
    * 1.resolveUrl
    * 2.requestNodeInfo
