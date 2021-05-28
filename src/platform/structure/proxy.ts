@@ -61,11 +61,12 @@ export function setFetch() {
   };
 }
 export function initLocation() {
-  if (rawLocation.hash && rawLocation.hash.split("#$")) {
-    var loc = rawLocation.hash.split("#$");
+  if (rawLocation.href.includes(".com/$freelog")) {
+    var loc = rawLocation.href.split("freelog.com/")[1].split('$');
     loc.forEach((item) => {
       try {
         if (!item) return;
+        item = item.replace('_', '?')
         if (item.indexOf("?") > -1) {
           let index = item.indexOf("?");
           let [id, pathname] = item.substring(0, index).split("=");
@@ -80,6 +81,7 @@ export function initLocation() {
         console.error("url is error" + e);
       }
     });
+    console.log(locations)
   }
 }
 initLocation();
@@ -91,9 +93,10 @@ export function setLocation() {
       locations.delete(key);
       return;
     }
-    hash += "#$" + key + "=" + value.href || "";
+    hash += "$" + key + "=" + value.href || "";
   });
-  rawLocation.hash = hash;
+  window.history.pushState('', '', hash.replace('?','_'))
+  // rawLocation.hash = hash;
 }
 // TODO pathname  search 需要不可变
 export const locationCenter: any = {
