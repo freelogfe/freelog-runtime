@@ -95,13 +95,17 @@ export function setLocation() {
     }
     hash += "$" + key + "=" + value.href || "";
   });
-  window.history.pushState('', '', hash.replace('?','_'))
+  console.log(hash)
+  const url = rawLocation.origin + '/' + hash.replace('?','_') + rawLocation.hash + rawLocation.search
+  console.log(url)
+  window.history.pushState('', '', url)
   // rawLocation.hash = hash;
 }
 // TODO pathname  search 需要不可变
 export const locationCenter: any = {
   set: function (name: string, attr: any) {
     var loc = locations.get(name) || {};
+    console.log(name, locations)
     if (attr.pathname && attr.pathname.indexOf(rawLocation.host) > -1) {
       // for vue3
       attr.pathname = attr.pathname
@@ -114,6 +118,7 @@ export const locationCenter: any = {
       ...attr,
     });
     setLocation();
+    console.log(name, locations)
   },
 
   get: function (name: string): string {
