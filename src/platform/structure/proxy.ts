@@ -29,7 +29,10 @@ import {
   getHistory,
 } from "./history";
 import { baseUrl } from "../../services/base";
+import { DEV_WIDGET } from "./dev";
+
 const rawDocument = document;
+
 // const rawHistory = window["history"];
 const rawLocation = window["location"];
 const rawLocalStorage = window["localStorage"];
@@ -61,8 +64,14 @@ export function setFetch() {
   };
 }
 export function initLocation() {
-  if (rawLocation.href.includes(".com/$freelog")) {
+  if (rawLocation.href.includes("$freelog")) {
     var loc = rawLocation.href.split("freelog.com/")[1].split('$');
+    if (window.freelogApp.devData.type === DEV_WIDGET) {
+      const temp = rawLocation.search.split('$_')[1]
+      console.log(temp)
+      // @ts-ignore
+      loc = temp ? temp.split('$') : []
+    }
     loc.forEach((item) => {
       try {
         if (!item) return;
@@ -84,7 +93,6 @@ export function initLocation() {
     console.log(locations)
   }
 }
-initLocation();
 export function setLocation() {
   // TODO 只有在线的应用才在url上显示, 只有pathname和query需要
   var hash = "";
@@ -95,10 +103,18 @@ export function setLocation() {
     }
     hash += "$" + key + "=" + value.href || "";
   });
-  console.log(hash)
-  const url = rawLocation.origin + '/' + hash.replace('?','_') + rawLocation.hash + rawLocation.search
-  console.log(url)
-  window.history.pushState('', '', url)
+  console.log(locations, window.freelogApp.devData.type)
+  if (window.freelogApp.devData.type === DEV_WIDGET) {
+    let devUrl = rawLocation.search.split("$_")[0]
+    if(!devUrl.endsWith('/')){
+      devUrl = devUrl + '/' 
+    }
+    const url = rawLocation.origin + devUrl + "$_" + hash.replace('?', '_') + rawLocation.hash 
+    window.history.pushState('', '', url)
+  } else {
+    const url = rawLocation.origin + '/' + hash.replace('?', '_') + rawLocation.hash + rawLocation.search
+    window.history.pushState('', '', url)
+  }
   // rawLocation.hash = hash;
 }
 // TODO pathname  search 需要不可变
@@ -127,11 +143,11 @@ export const locationCenter: any = {
 };
 export function freelogLocalStorage(id: string) {
   return {
-    clear: function (name: string) {},
+    clear: function (name: string) { },
     getItem: function (name: string) {
       return rawLocalStorage.getItem(id + name);
     },
-    key: function (name: string) {},
+    key: function (name: string) { },
     removeItem: function (name: string) {
       rawLocalStorage.removeItem(id + name);
     },
@@ -251,10 +267,10 @@ export const createLocationProxy = function (name: string, sandbox: any) {
         return "";
       } else {
         if (["replace"].indexOf(property) > -1) {
-          return function () {};
+          return function () { };
         }
         if (["reload"].indexOf(property) > -1) {
-          return function () {};
+          return function () { };
         }
         if (property === "toString") {
           return () => {
@@ -456,9 +472,9 @@ export const createDocumentProxy = function (
               // @ts-ignore
               return rootDoc[property]
                 ? // @ts-ignore
-                  rootDoc[property](...arguments)
+                rootDoc[property](...arguments)
                 : // @ts-ignore
-                  appDiv[property](...arguments);
+                appDiv[property](...arguments);
             }
           };
         }
@@ -543,12 +559,12 @@ export const createFreelogAppProxy = function (name: string, sandbox: any) {
 };
 
 
-export function pathATag(){
-  document.addEventListener('click', (e)=>{
+export function pathATag() {
+  document.addEventListener('click', (e) => {
     // @ts-ignore
-    if(e.target.nodeName === 'A'){
-       console.log(e)
-       return false
+    if (e.target.nodeName === 'A') {
+      console.log(e)
+      return false
     }
   })
 }

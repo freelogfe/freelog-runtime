@@ -13,9 +13,11 @@ export function dev():any{
     })
     if(!params.dev){
       return {type: DEV_FALSE}
-    }
+    } 
     if(params.dev.toLowerCase() === 'replace'){
         return {type: DEV_TYPE_REPLACE, params}
+    }else{
+        params.dev =  params.dev.split('$_')[0]
     }
     return {type: DEV_WIDGET, params}
 }

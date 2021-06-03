@@ -6,7 +6,7 @@ import { init } from "./api";
 import { dev, DEV_WIDGET } from "./dev";
 import {LOGIN} from '../../bridge/event'
 import {addAuth} from '../../bridge/index'
-import { pathATag } from './proxy'
+import { pathATag, initLocation } from './proxy'
 // @ts-ignore  TODO 需要控制不可改变
 window.freelogApp = freelogApp;
 
@@ -38,6 +38,8 @@ export function initNode() {
     // TODO 深度克隆
     freelogApp.devData = {...devData};
     Object.freeze(freelogApp)
+    initLocation();
+
     // @ts-ignore
     const container = document.getElementById("freelog-plugin-container");
     if (devData.type === DEV_WIDGET) {
