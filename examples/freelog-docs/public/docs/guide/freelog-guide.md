@@ -381,28 +381,27 @@ if (!window.__POWERED_BY_FREELOG__) {
 ```ts
 // entry.js  在index.html中引入
 
-const render = $ => {
-  $('#purehtml-container').html('Hello, render with jQuery');
+const render = ($) => {
+  $("#purehtml-container").html("Hello, render with jQuery");
   return Promise.resolve();
 };
 
-(global => {
-  global['purehtml'] = {
+((global) => {
+  global["purehtml"] = {
     bootstrap: () => {
-      console.log('purehtml bootstrap');
+      console.log("purehtml bootstrap");
       return Promise.resolve();
     },
     mount: () => {
-      console.log('purehtml mount');
+      console.log("purehtml mount");
       return render($);
     },
     unmount: () => {
-      console.log('purehtml unmount');
+      console.log("purehtml unmount");
       return Promise.resolve();
     },
   };
 })(window);
-
 ```
 
 ### 配置总结
@@ -434,7 +433,7 @@ const render = $ => {
 在节点 url 的http://t.snnaenu.testfreelog.com/后面加上
 
 ```ts
-'http://t.snnaenu.testfreelog.com/?dev=http:localhost:7101'
+"http://t.snnaenu.testfreelog.com/?dev=http:localhost:7101";
 ```
 
 此时插件是作为节点主题（即入口）使用
@@ -609,7 +608,7 @@ window.freelogApp.callAuth();
 
 主要有以下几个解决方案：
 
-1. 所有图片等静态资源上传至 freelog平台, css中直接引用 获取的 资源 地址（**推荐**）
+1. 所有图片等静态资源上传至 freelog 平台, css 中直接引用 获取的 资源 地址（**推荐**）
 
 2. 借助 webpack 的 url-loader 将字体文件和图片打包成 base64（适用于字体文件和图片体积小的项目）（**推荐**）
 
@@ -657,8 +656,9 @@ module.exports = {
 ```js
 const publicPath =
   process.env.NODE_ENV === "production"
-    ? `https://qi.testfreelog/${widgetId}`
-    : `http://localhost:${port}`;
+    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称
+    : `http://localhost:${port}`; // '/freelog-widget/Freelog/dev-docs'; // `http://localhost:${port}`;
+
 module.exports = {
   module: {
     rules: [
@@ -696,8 +696,8 @@ module.exports = {
 ```js
 const publicPath =
   process.env.NODE_ENV === "production"
-    ? `https://qi.testfreelog/${widgetId}`
-    : `http://localhost:${port}`;
+    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称
+    : `http://localhost:${port}`; // '/freelog-widget/Freelog/dev-docs'; // `http://localhost:${port}`;
 module.exports = {
   chainWebpack: (config) => {
     const fontRule = config.module.rule("fonts");
@@ -729,8 +729,8 @@ module.exports = {
 ```js
 const publicPath =
   process.env.NODE_ENV === "production"
-    ? `https://qi.testfreelog/${widgetId}`
-    : `http://localhost:${port}`;
+    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称
+    : `http://localhost:${port}`; // '/freelog-widget/Freelog/dev-docs'; // `http://localhost:${port}`;
 module.exports = {
   module: {
     rules: [
@@ -776,8 +776,8 @@ module.exports = {
 ```js
 const publicPath =
   process.env.NODE_ENV === "production"
-    ? `https://qi.testfreelog/${widgetId}`
-    : `http://localhost:${port}`;
+    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称
+    : `http://localhost:${port}`; // '/freelog-widget/Freelog/dev-docs'; // `http://localhost:${port}`;
 module.exports = {
   chainWebpack: (config) => {
     config.module
