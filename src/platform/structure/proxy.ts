@@ -68,7 +68,6 @@ export function initLocation() {
     var loc = rawLocation.href.split("freelog.com/")[1].split('$');
     if (window.freelogApp.devData.type === DEV_WIDGET) {
       const temp = rawLocation.search.split('$_')[1]
-      console.log(temp)
       // @ts-ignore
       loc = temp ? temp.split('$') : []
     }
@@ -90,7 +89,6 @@ export function initLocation() {
         console.error("url is error" + e);
       }
     });
-    console.log(locations)
   }
 }
 export function setLocation() {
@@ -103,7 +101,6 @@ export function setLocation() {
     }
     hash += "$" + key + "=" + value.href || "";
   });
-  console.log(locations, window.freelogApp.devData.type)
   if (window.freelogApp.devData.type === DEV_WIDGET) {
     let devUrl = rawLocation.search.split("$_")[0]
     if(!devUrl.endsWith('/')){
@@ -121,7 +118,6 @@ export function setLocation() {
 export const locationCenter: any = {
   set: function (name: string, attr: any) {
     var loc = locations.get(name) || {};
-    console.log(name, locations)
     if (attr.pathname && attr.pathname.indexOf(rawLocation.host) > -1) {
       // for vue3
       attr.pathname = attr.pathname
@@ -134,7 +130,6 @@ export const locationCenter: any = {
       ...attr,
     });
     setLocation();
-    console.log(name, locations)
   },
 
   get: function (name: string): string {
@@ -563,7 +558,6 @@ export function pathATag() {
   document.addEventListener('click', (e) => {
     // @ts-ignore
     if (e.target.nodeName === 'A') {
-      console.log(e)
       return false
     }
   })

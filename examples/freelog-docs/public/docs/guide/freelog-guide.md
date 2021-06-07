@@ -656,7 +656,7 @@ module.exports = {
 ```js
 const publicPath =
   process.env.NODE_ENV === "production"
-    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称
+    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称（即需要先创建插件资源获取到名称）
     : `http://localhost:${port}`; // '/freelog-widget/Freelog/dev-docs'; // `http://localhost:${port}`;
 
 module.exports = {
@@ -696,7 +696,7 @@ module.exports = {
 ```js
 const publicPath =
   process.env.NODE_ENV === "production"
-    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称
+    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称（即需要先创建插件资源获取到名称）
     : `http://localhost:${port}`; // '/freelog-widget/Freelog/dev-docs'; // `http://localhost:${port}`;
 module.exports = {
   chainWebpack: (config) => {
@@ -729,7 +729,7 @@ module.exports = {
 ```js
 const publicPath =
   process.env.NODE_ENV === "production"
-    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称
+    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称（即需要先创建插件资源获取到名称）
     : `http://localhost:${port}`; // '/freelog-widget/Freelog/dev-docs'; // `http://localhost:${port}`;
 module.exports = {
   module: {
@@ -776,7 +776,7 @@ module.exports = {
 ```js
 const publicPath =
   process.env.NODE_ENV === "production"
-    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称
+    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称（即需要先创建插件资源获取到名称）
     : `http://localhost:${port}`; // '/freelog-widget/Freelog/dev-docs'; // `http://localhost:${port}`;
 module.exports = {
   chainWebpack: (config) => {
@@ -824,3 +824,12 @@ module.exports = {
   },
 };
 ```
+
+
+## 打包上传
+
+**正常build后，将打包后的所有文件压缩为一个zip文件（无根目录），作为widget类型上传为资源**
+
+## 模板下载
+  
+[vue模板](http://freelog-docs.testfreelog.com/$freelog-60a614de12ac83003f09d975=/dev/guide) 

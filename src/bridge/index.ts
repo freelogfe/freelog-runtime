@@ -23,8 +23,8 @@ import { LOGIN, CONTRACT } from "./event";
 export const presentableQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
 export const failedMap = new Map<any, any>();
-var UI: any = null;
-var updateUI: any = null;
+let UI: any = null;
+let updateUI: any = null;
 export function reisterUI(ui: any, update: any) {
   UI = ui;
   updateUI = update;

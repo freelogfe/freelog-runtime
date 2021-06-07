@@ -102,6 +102,7 @@ export async function getSubDep(presentableId: any, global: any) {
       ? sandBoxs.get(global.widgetName)
       : { name: "freelog-" + presentableId, presentableId }
   )(presentableId);
+  console.log(info)
   if (info.data.errCode) {
     await new Promise((resolve, reject) => {
       addAuth.bind({ name: "freelog-" + presentableId })(
@@ -111,6 +112,7 @@ export async function getSubDep(presentableId: any, global: any) {
         {immediate: true}
       );
     });
+    console.log(123123, info)
     info = await getInfoById.bind(
       global
         ? sandBoxs.get(global.widgetName)
@@ -136,6 +138,7 @@ export async function getSubDep(presentableId: any, global: any) {
     info.headers["freelog-sub-dependencies"],
     info.headers["freelog-entity-nid"],
   ];
+  console.log(subDeps)
   return {
     subDeps: subDeps ? JSON.parse(decodeURIComponent(subDeps)) : [],
     entityNid,

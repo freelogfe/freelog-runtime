@@ -18,14 +18,9 @@ export default {
       console.log(window.freelogApp);
       const presentableId = await window.freelogApp.getSelfId(window);
       const subData = await window.freelogApp.getSubDep(presentableId);
-      console.log(
-        presentableId,
-        subData,
-        document.getElementById("freelog-single")
-      );
+      console.log(122222, subData)
       subData.subDeps.some((sub, index) => {
         if (index === 1) return true;
-        console.log(212341243,sub)
         window.freelogApp.mountWidget(
           sub,
           document.getElementById("freelog-single"),
@@ -34,7 +29,7 @@ export default {
             presentableId: presentableId,
             entityNid: subData.entityNid,
             subDependId: sub.id,
-            resourceInfo: { resourceId: sub.id}
+            resourceInfo: { resourceId: sub.id },
           },
           ""
         );
@@ -49,12 +44,12 @@ export default {
 </script>
 
 <style lang="less">
-.theme-main{
+.theme-main {
   height: 100%;
   width: 100%;
 }
-#freelog-single{
+#freelog-single {
   height: 100%;
   width: 100%;
 }
- </style>
+</style>

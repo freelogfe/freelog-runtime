@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      md: "# 自然" + "/n ### ",
+      md: "",
     };
   },
   async mounted() {
