@@ -111,6 +111,12 @@ export async function getSubDep(presentableId: any, global: any) {
         reject,
         {immediate: true}
       );
+      addAuth.bind({ name: "freelog-" + presentableId })(
+        presentableId + 1,
+        resolve,
+        reject,
+        {immediate: true}
+      );
     });
     console.log(123123, info)
     info = await getInfoById.bind(

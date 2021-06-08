@@ -170,15 +170,15 @@ export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
     //     subResourceIdOrName: sub.id,
     //   }
     // );
-    let isTest = false;
-    if (
-      window.location.href
-        .replace("http://", "")
-        .replace("https://", "")
-        .indexOf("t.") === 0
-    ) {
-      isTest = true;
-    }
+    // let isTest = false;
+    // if (
+    //   window.location.href
+    //     .replace("http://", "")
+    //     .replace("https://", "")
+    //     .indexOf("t.") === 0
+    // ) {
+    //   isTest = true;
+    // }
     // if (isTest)
     //   resolveUrl(
     //     `${baseUrl}auths/testResources/${parent.entityNid}/fileStream`,

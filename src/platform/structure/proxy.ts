@@ -532,7 +532,7 @@ export function getPublicPath(name: string) {
     }
     return config.entry + "/";
   }
-  const route = name.split("-")[1];
+  // const route = name.split("-")[1];
   return `${baseUrl}widgets/${config.widgetName}/`;
 }
 export const createFreelogAppProxy = function (name: string, sandbox: any) {

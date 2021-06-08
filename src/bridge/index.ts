@@ -90,13 +90,16 @@ export function addAuth(
     });
     if (options && options.immediate) {
       if (!uiInited) {
+        console.log('uiInited')
         UI && UI();
       } else {
         if (locked) {
           setTimeout(() => {
+            console.log('locked updateUI')
             updateUI && updateUI();
           }, 0);
         } else {
+          console.log('updateUI')
           updateUI && updateUI();
         }
       }

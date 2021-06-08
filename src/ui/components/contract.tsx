@@ -21,6 +21,7 @@ export default function (props: contractProps) {
     policyId: "",
     policyName: "",
   });
+  console.log(props, 23423424)
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
   const [policies, setPolicies] = useState([]);
   async function getDetail(id: string) {
@@ -95,12 +96,15 @@ export default function (props: contractProps) {
         width={860}
         onCancel={userCancel}
         className="h-600"
+        keyboard={false}
+        maskClosable={false}
         wrapClassName="freelog-contract"
+        // getContainer={document.getElementById('runtime-root')}
       >
         <div className="w-100x h-500 flex-row">
           <div className="flex-column w-344 h-100x  y-auto">
             {events.length
-              ? [...events].map((item: any, index: number) => {
+              ? events.map((item: any, index: number) => {
                   if (item.event === LOGIN) return "";
                   return (
                     <div

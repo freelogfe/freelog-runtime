@@ -24,7 +24,7 @@ function App() {
     app.style.opacity = 0;
     // @ts-ignore
     document.getElementById("freelog-plugin-container").style.zIndex = 1;
-    // setInited(false);
+    setInited(false);
   }
   function showUI(){
     document.body.appendChild = document.body.appendChild.bind(
@@ -54,12 +54,6 @@ function App() {
         arr.push(val);
       }
     });
-    if (!arr.length && !login) {
-      backToNode()
-    } else {
-      showUI()
-      setInited(true)
-    }
     setLoginEvent(login);
     const arr2: any = [];
     failedMap.forEach((val) => {
@@ -67,7 +61,15 @@ function App() {
     });
     setFailedEvents(arr2);
     setEvents(arr);
-    return arr;
+    if (!arr.length && !login) {
+      backToNode()
+    } else {
+      showUI()
+      console.log('showUI')
+      setInited(true)
+    }
+    
+    // return arr;
   }
   function UI() {
     updateEvents();
