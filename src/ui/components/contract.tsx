@@ -9,6 +9,7 @@ import Button from "./_components/button";
 import { getStatusMaps } from "../../utils/policy";
 import { getUserInfo } from "../../platform/structure/utils";
 import Confirm from "./_components/confirm";
+import Dag from "./_components/dag";
 interface contractProps {
   events: Array<any>;
   contractFinished(eventId: any, type: number, data?: any): any;
@@ -145,7 +146,7 @@ export default function (props: contractProps) {
                       获取授权
                     </Button>
                   </div>
-
+                  <Dag routeMaps={policy.routeMaps} />
                   {policy.routeMaps.map((route: any) => {
                     return (
                       <div className="flex-column   mb-10 bb-1 px-10" key={route}>
