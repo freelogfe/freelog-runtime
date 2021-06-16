@@ -70,47 +70,47 @@ export function getEventDes(eventName: string, args: any) {
   return template
 }
 
-export function getStatusMaps(strategy: any) {
-  // if(strategy.s2) {
-  //   strategy.s2.transition.s1 = strategy.s2.transition.s3 
-  //   delete strategy.s1.transition.finish
+export function getStatusMaps(policy: any) {
+  // if(policy.s2) {
+  //   policy.s2.transition.s1 = policy.s2.transition.s3 
+  //   delete policy.s1.transition.finish
   // }
-  // if(strategy.s3) delete strategy.s3.transition
-  // console.log(strategy)
+  // if(policy.s3) delete policy.s3.transition
+  // console.log(policy)
   const statusMaps: any = [];
   function findNext(status: any, route: any) {
-    Object.keys(status.transition).forEach((key: string) => {
+    status.transitions.forEach((to: any ) => {
       // cycle test
       let isExist = false;
       route.some((item: any) => {
-        if (item[0] === key) {
+        if (item[0] === to.toState) {
           isExist = true;
           return true;
         }
       });
-      const event = status.transition[key];
+      const event = to;
       event.translation = getEventDes(event.name, event.args);
       // prepare for next route
       const nextRoute = [...route];
-      nextRoute.push([key, event, strategy[key]]);
+      nextRoute.push([to.toState, event, policy[to.toState]]);
       if (isExist) {
         statusMaps.push(nextRoute);
         return;
       }
 
       // route end
-      if (!strategy[key].transition) {
+      if (!policy[to.toState].transitions.length) {
         statusMaps.push(nextRoute);
         return;
       }
       // next route
-      findNext(strategy[key], nextRoute);
+      findNext(policy[to.toState], nextRoute);
     });
   }
-  if(!strategy.initial.transition){
-    return [[["initial", "", strategy.initial]]]
+  if(!policy.initial.transitions){
+    return [[["initial", "", policy.initial]]]
   }
-  findNext(strategy.initial, [["initial", "", strategy.initial]]);
+  findNext(policy.initial, [["initial", "", policy.initial]]);
   console.log(statusMaps)
   return statusMaps;
 }

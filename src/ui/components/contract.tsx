@@ -21,7 +21,6 @@ export default function (props: contractProps) {
     policyId: "",
     policyName: "",
   });
-  console.log(props, 23423424)
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
   const [policies, setPolicies] = useState([]);
   async function getDetail(id: string) {
@@ -48,6 +47,7 @@ export default function (props: contractProps) {
       item.routeMaps = getStatusMaps(
         item.fsmDescriptionInfo
       );
+      console.log(item.routeMaps)
     });
     console.log(res.data.data.policies);
     setPolicies(res.data.data.policies);
@@ -75,8 +75,9 @@ export default function (props: contractProps) {
     if (res.data.isAuth) {
       // `付款到${seller}${amount}块钱就可以达到${status}状态`
     }
-    props.contractFinished(currentPresentable.eventId, SUCCESS);
     setIsModalVisible(false);
+    props.contractFinished(currentPresentable.eventId, SUCCESS);
+    
   };
   return (
     <React.Fragment>
@@ -99,7 +100,7 @@ export default function (props: contractProps) {
         keyboard={false}
         maskClosable={false}
         wrapClassName="freelog-contract"
-        // getContainer={document.getElementById('runtime-root')}
+        getContainer={document.getElementById('runtime-root')}
       >
         <div className="w-100x h-500 flex-row">
           <div className="flex-column w-344 h-100x  y-auto">

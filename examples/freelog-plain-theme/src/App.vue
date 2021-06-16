@@ -18,6 +18,7 @@ export default {
       const res = await window.freelogApp.getPresentables({
         resourceType: "widget",
       });
+      console.log(res)
       const widgets = res.data.data.dataList;
       widgets.some((widget, index) => {
         if (index === 1) return true;

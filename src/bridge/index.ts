@@ -57,6 +57,7 @@ export function addAuth(
   if (name !== "node") {
     // @ts-ignore
     let data = presentableQueue.get(presentableId);
+    console.log(data)
     if (!data) {
       //  TODO 返回信息
       reject &&

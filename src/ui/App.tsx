@@ -27,12 +27,12 @@ function App() {
     setInited(false);
   }
   function showUI(){
-    document.body.appendChild = document.body.appendChild.bind(
-      document.getElementById("runtime-root")
-    );
-    document.body.removeChild = document.body.removeChild.bind(
-      document.getElementById("runtime-root")
-    );
+    // document.body.appendChild = document.body.appendChild.bind(
+    //   document.getElementById("runtime-root")
+    // );
+    // document.body.removeChild = document.body.removeChild.bind(
+    //   document.getElementById("runtime-root")
+    // );
     // @ts-ignore
     const app = document.getElementById("runtime-root");
     // @ts-ignore

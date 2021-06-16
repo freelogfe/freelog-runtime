@@ -50,6 +50,7 @@ export default function(props: any) {
       className="w-400 h-400"
       onOk={handleOk}
       onCancel={handleCancel}
+      getContainer={document.getElementById('runtime-root')}
     >
       <Form
         {...layout}
