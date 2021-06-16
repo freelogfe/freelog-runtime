@@ -10,7 +10,7 @@ interface ConfirmProps {
 export default function (props: ConfirmProps) {
   /**
    * first: 面临最大问题，计算文字长短问题
-   * start: 1. 广度优先
+   * start: 
    */
   const data = {
     // 节点
