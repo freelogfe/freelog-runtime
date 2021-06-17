@@ -392,28 +392,10 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
   // 目前存在问题
-  window.freelogApp.autoMoutSubWdigets(global, config)
-  global: window 对象
+  window.freelogApp.autoMoutSubWdigets(config)
   config: 
 ```
-## getSubDep
- 
-```ts
 
- **获取自身依赖***
- /**
-  * {presentableId: 自身展品id}
-  * 注：后面会删掉golbal，现在也不需要传
- */
- window.freelogApp.getSubDep(presentableId, global) 
-
- **返回值**
-  {
-    subDeps:  [], // 子依赖数组
-    entityNid,  // 自身链路id
-    data: data, // 自身信息
-  }
-```
 
 ## getSelfId
 
@@ -423,7 +405,27 @@ subData.subDeps.some((sub, index) => {
  */ 
  window.freelogApp.getSubDep(global) 
 
+``` 
+
+## getSubDep
+ 
+```ts
+
+ **获取自身依赖***
+ /**
+  * {presentableId: 自身展品id}
+ */
+ window.freelogApp.getSubDep(presentableId) 
+
+ **返回值**
+  {
+    subDeps:  [], // 子依赖数组
+    entityNid,  // 自身链路id
+    data: data, // 自身信息
+  }
 ```
+
+
 
 ## callAuth
 
