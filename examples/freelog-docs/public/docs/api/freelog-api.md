@@ -400,10 +400,7 @@ subData.subDeps.some((sub, index) => {
 ## getSelfId
 
 ```ts
-/** global: 即window对象
-  * 注：后面会删掉 global，现在也不需要传
- */ 
- window.freelogApp.getSubDep(global) 
+ window.freelogApp.getSelfId() 
 
 ``` 
 
