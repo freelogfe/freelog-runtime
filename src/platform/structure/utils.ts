@@ -89,68 +89,52 @@ export function resolveUrl(path: string, params?: any): string {
   }
   return `${baseUrl}${path}?${queryStringArr.join("&")}`;
 }
-export async function getSelfId(global: any) {
+export async function getSelfId() {
   // @ts-ignore
-  return widgetsConfig.get(global.widgetName)?.presentableId;
+  console.log(this.name)
+  // @ts-ignore
+  return widgetsConfig.get(this.name)?.presentableId;
 }
 // TODO if error
-export async function getSubDep(presentableId: any, global: any) {
+export async function getSubDep(presentableId: any) {
   // @ts-ignore
-  presentableId = presentableId || getSelfId(global);
-  let info = await getInfoById.bind(
-    global
-      ? sandBoxs.get(global.widgetName)
-      : { name: "freelog-" + presentableId, presentableId }
-  )(presentableId);
-  console.log(info)
+  let that = sandBoxs.get(this.name);
+  if (!that) {
+    that = { name: "freelog-" + presentableId, presentableId };
+  }
+  // @ts-ignore
+  let info = await getInfoById.bind(that)(presentableId);
+  console.log(that,presentableId, info);
   if (info.data.errCode) {
     await new Promise((resolve, reject) => {
-      addAuth.bind({ name: "freelog-" + presentableId })(
-        presentableId,
-        resolve,
-        reject,
-        {immediate: true}
-      );
+      addAuth.bind(that)(presentableId, resolve, reject, { immediate: true });
     });
-    info = await getInfoById.bind(
-      global
-        ? sandBoxs.get(global.widgetName)
-        : { name: "freelog-" + presentableId }
-    )(presentableId);
+    info = await getInfoById.bind(that)(presentableId);
     if (info.data.errCode) {
       await new Promise((resolve, reject) => {
-        addAuth.bind({ name: "freelog-" + presentableId })(
-          presentableId,
-          resolve,
-          reject,
-          {immediate: true}
-        );
+        addAuth.bind(that)(presentableId, resolve, reject, { immediate: true });
       });
     }
-    info = await getInfoById.bind(
-      global
-        ? sandBoxs.get(global.widgetName)
-        : { name: "freelog-" + presentableId }
-    )(presentableId);
+    info = await getInfoById.bind(that)(presentableId);
   }
   const [subDeps, entityNid] = [
     info.headers["freelog-sub-dependencies"],
     info.headers["freelog-entity-nid"],
   ];
-  console.log(subDeps)
+  console.log(subDeps);
   return {
     subDeps: subDeps ? JSON.parse(decodeURIComponent(subDeps)) : [],
     entityNid,
     data: info.data.data,
   };
 }
-let userInfo:any = null
-export async function getUserInfo(){
-  if(userInfo) return userInfo
-  const res = await frequest(user.getCurrent, "", "")
-  userInfo = res.data.errCode === 0 ? res.data.data : null
-  return userInfo
+let userInfo: any = null;
+export async function getUserInfo() {
+  if (userInfo) return userInfo;
+  const res = await frequest(user.getCurrent, "", "");
+  userInfo = res.data.errCode === 0 ? res.data.data : null;
+  return userInfo;
 }
-export async function setUserInfo(info:any){
-  userInfo = info 
+export async function setUserInfo(info: any) {
+  userInfo = info;
 }

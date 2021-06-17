@@ -84,6 +84,12 @@ export default function (props: ConfirmProps) {
       container: document.getElementById("x6-container"),
       width: 800,
       height: 600,
+      // frozen: true,
+      panning: false,
+      interacting: {
+        nodeMovable: false,
+        edgeMovable: false
+      }
     });
     graph.fromJSON(data);
   });

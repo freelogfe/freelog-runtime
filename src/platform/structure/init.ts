@@ -48,7 +48,7 @@ export function initNode() {
     }
     await getUserInfo()
     // @ts-ignore
-    const theme = await getSubDep(nodeInfo.nodeThemeId);
+    const theme = await getSubDep.bind({ name: "freelog-" + nodeInfo.nodeThemeId, presentableId: nodeInfo.nodeThemeId })(nodeInfo.nodeThemeId);
     console.log(theme)
     freelogApp.mountWidget(
       { id: theme.data.presentableId, name: theme.data.resourceInfo.resourceName },

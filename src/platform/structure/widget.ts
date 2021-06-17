@@ -240,9 +240,10 @@ export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
     }
   }
 }
-export async function autoMoutSubWdigets(global: any, config?: any) {
-  const presenbaleId = widgetsConfig.get(global.widgetName)?.id;
+export async function autoMoutSubWdigets(config?: any) {
   // @ts-ignore
-  const parent = await getSubDep(presenbaleId);
+  const presenbaleId = widgetsConfig.get(this.widgetName)?.id;
+  // @ts-ignore
+  const parent = await getSubDep.bind(this)(presenbaleId);
   mountSubWidgets(parent, config);
 }
