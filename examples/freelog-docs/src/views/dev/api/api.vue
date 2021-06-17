@@ -1,6 +1,6 @@
 <template>
   <div id="guide" class="w-100x h-100x flex-row y-auto">
-    <div id="toc" class="h-100x y-auto w-260 br-1 fs-18 px-10"></div>
+    <div id="toc" class="h-100x y-auto w-290 br-1 fs-18 px-10"></div>
     <div class="h-100x y-auto flex-1 px-40">
       <vue-markdown
         :source="md"
