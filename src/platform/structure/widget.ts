@@ -19,7 +19,7 @@ import { loadMicroApp } from "../runtime";
 import { baseUrl } from "../../services/base";
 import { setLocation } from "./proxy";
 import { DEV_TYPE_REPLACE, DEV_WIDGET } from "./dev";
-import { getSubDep, getStatic } from "./utils";
+import { getSubDep, getStatic, getEntry } from "./utils";
 import presentable from '../../services/api/modules/presentable';
 
 export const flatternWidgets = new Map<any, any>();
@@ -110,15 +110,16 @@ export function mountWidget(
     name: id, //id
     presentableId: data.presentableId,
     widgetName: !sub ? "freelogDev" : sub.name.replace('/','-'),
-    parentNid: data.entityNid,
-    subResourceIdOrName: data.resourceInfo.resourceId,
+    parentNid: entry ? '' : data.entityNid,
+    subResourceIdOrName: entry ? '' :  data.resourceInfo.resourceId,
     resourceId: !sub ? "freelogDev" : data.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
     entry:
-      entry || getStatic.bind({presentableId: data.presentableId, parentNid: data.entityNid, subResourceIdOrName: data.resourceInfo.resourceId })('/'),
+      entry || getEntry({presentableId: data.presentableId, parentNid: data.entityNid, subResourceIdOrName: data.resourceInfo.resourceId }),
       // `${baseUrl}widgets/${sub.name.replace('/','-')}?entityNid=${data.entityNid}&presentableId=${data.presentableId}&subDependId=${data.subDependId}&resourceId=${data.resourceInfo.resourceId}`,
     isDev: !!entry,
   };
   addWidgetConfig(id, widgetConfig);
+  console.log(widgetConfig)
   // TODO 所有插件加载用promise all
   // @ts-ignore
   const app = loadMicroApp(widgetConfig, {

@@ -155,3 +155,14 @@ export function getStatic(path: string, type?: string) {
   console.log(url + url2)
   return url + url2;
 }
+export function getEntry(that: any) {
+   let url = `http://qi.testfreelog.com/v2/auths/presentables/${that.presentableId}/fileStream?`;
+  let url2 = `parentNid=${that.parentNid}&subResourceIdOrName=${
+    that.subResourceIdOrName
+  }`;
+  if(that.parentNid){
+    return url + url2 + '&subResourceFile='
+  }else{
+    return url  + 'subResourceFile='
+  }
+}
