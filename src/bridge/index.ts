@@ -51,13 +51,11 @@ export function addAuth(
     reject = () => {};
   }
   let event;
-  console.log(presentableId, options)
   // @ts-ignore
   const name = this.name;
   if (name !== "node") {
     // @ts-ignore
     let data = presentableQueue.get(presentableId);
-    console.log(data)
     if (!data) {
       //  TODO 返回信息
       reject &&
@@ -91,16 +89,13 @@ export function addAuth(
     });
     if (options && options.immediate) {
       if (!uiInited) {
-        console.log('uiInited')
         UI && UI();
       } else {
         if (locked) {
           setTimeout(() => {
-            console.log('locked updateUI')
             updateUI && updateUI();
           }, 0);
         } else {
-          console.log('updateUI')
           updateUI && updateUI();
         }
       }

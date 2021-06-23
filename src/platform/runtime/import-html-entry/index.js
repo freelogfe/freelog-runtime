@@ -265,11 +265,9 @@ export default function importHTML(url, opts = {}) {
 		getPublicPath = opts.getPublicPath || opts.getDomain || defaultGetPublicPath;
 		getTemplate = opts.getTemplate || defaultGetTemplate;
 	}
-    console.log(url)
 	return embedHTMLCache[url] || (embedHTMLCache[url] = fetch(url + '/index.html')
 		.then(response => readResAsString(response, autoDecodeResponse))
 		.then(html => {
-			console.log(html)
 			const assetPublicPath = url; // getPublicPath(url);
 			const { template, scripts, entry, styles } = processTpl(getTemplate(html), assetPublicPath);
 
@@ -300,7 +298,6 @@ export function importEntry(entry, opts = {}) {
 	if (!entry) {
 		throw new SyntaxError('entry should not be empty!');
 	}
-    console.log(entry)
 	// html entry
 	if (typeof entry === 'string') {
 		return importHTML(entry, {

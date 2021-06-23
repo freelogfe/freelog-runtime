@@ -91,8 +91,6 @@ export function resolveUrl(path: string, params?: any): string {
 }
 export async function getSelfId() {
   // @ts-ignore
-  console.log(this.name);
-  // @ts-ignore
   return widgetsConfig.get(this.name)?.presentableId;
 }
 // TODO if error
@@ -104,7 +102,6 @@ export async function getSubDep(presentableId: any) {
   }
   // @ts-ignore
   let info = await getInfoById.bind(that)(presentableId);
-  console.log(that, presentableId, info);
   if (info.data.errCode) {
     await new Promise((resolve, reject) => {
       addAuth.bind(that)(presentableId, resolve, reject, { immediate: true });
@@ -121,7 +118,6 @@ export async function getSubDep(presentableId: any) {
     info.headers["freelog-sub-dependencies"],
     info.headers["freelog-entity-nid"],
   ];
-  console.log(subDeps);
   return {
     subDeps: subDeps ? JSON.parse(decodeURIComponent(subDeps)) : [],
     entityNid,
@@ -140,20 +136,7 @@ export async function setUserInfo(info: any) {
 }
 export function getStatic(path: string, type?: string) {
   // @ts-ignore
-  const that = this
- 
-  
-  let url = `http://qi.testfreelog.com/v2/auths/presentables/${that.presentableId}/fileStream?subResourceFile=`;
-  // @ts-ignore
-  let url2 = `${encodeURIComponent(path)}&parentNid=${that.parentNid}&subResourceIdOrName=${
-    // @ts-ignore
-    that.subResourceIdOrName
-  }`;
-  if(!that.parentNid){
-    url2 = `${encodeURIComponent(path)}`
-  }
-  console.log(url + url2)
-  return url + url2;
+  return widgetsConfig.get(this.name).entry + path;
 }
 export function getEntry(that: any) {
    let url = `http://qi.testfreelog.com/v2/auths/presentables/${that.presentableId}/fileStream?`;

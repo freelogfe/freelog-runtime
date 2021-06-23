@@ -76,7 +76,6 @@ export function getStatusMaps(policy: any) {
   //   delete policy.s1.transition.finish
   // }
   // if(policy.s3) delete policy.s3.transition
-  // console.log(policy)
   const statusMaps: any = [];
   function findNext(status: any, route: any) {
     status.transitions.forEach((to: any ) => {
@@ -111,6 +110,5 @@ export function getStatusMaps(policy: any) {
     return [[["initial", "", policy.initial]]]
   }
   findNext(policy.initial, [["initial", "", policy.initial]]);
-  console.log(statusMaps)
   return statusMaps;
 }

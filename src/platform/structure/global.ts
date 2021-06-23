@@ -1,7 +1,7 @@
 import {
     mountWidget, autoMoutSubWdigets
 } from './widget'
-import { getSubDep,  getSelfId} from './utils'
+import { getSubDep,  getSelfId, getStatic} from './utils'
 import {callAuth, addAuth} from '../../bridge/index'
 import {
     getPresentables,

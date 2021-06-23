@@ -19,7 +19,7 @@ import { loadMicroApp } from "../runtime";
 import { baseUrl } from "../../services/base";
 import { setLocation } from "./proxy";
 import { DEV_TYPE_REPLACE, DEV_WIDGET } from "./dev";
-import { getSubDep, getStatic, getEntry } from "./utils";
+import { getSubDep, getEntry } from "./utils";
 import presentable from '../../services/api/modules/presentable';
 
 export const flatternWidgets = new Map<any, any>();
@@ -103,7 +103,6 @@ export function mountWidget(
   if (sub && flatternWidgets.has(sub.id)) {
     id = "freelog-" + sub.id + "-" + (count + 1);
   }
-  console.log(data, sub)
   // @ts-ignore TODO 用了太多重复判断，要抽取,当entry存在时该行不出现sub data
   const widgetConfig = {
     container,

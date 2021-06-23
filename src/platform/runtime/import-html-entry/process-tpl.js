@@ -30,7 +30,6 @@ function hasProtocol(url) {
 }
 
 function getEntirePath(path, baseURI) {
-	console.log(baseURI)
 	// new URL 虽然可保安全，但我们有特殊需求
 	if(/\/\/$/.test(baseURI)){
 		baseURI = baseURI.substr(0, baseURI.length - 1)
@@ -71,8 +70,8 @@ export default function processTpl(tpl, baseURI) {
  	let scripts = [];
 	const styles = [];
 	let entry = null;
-	console.log(baseURI)
 	const moduleSupport = isModuleScriptSupported();
+	// TODO 可能多余的代码
 	if(/\/\/$/.test(baseURI)){
 		baseURI = baseURI.substr(0, baseURI.length - 1)
 	};
