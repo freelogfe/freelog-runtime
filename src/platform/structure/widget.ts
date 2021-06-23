@@ -19,7 +19,8 @@ import { loadMicroApp } from "../runtime";
 import { baseUrl } from "../../services/base";
 import { setLocation } from "./proxy";
 import { DEV_TYPE_REPLACE, DEV_WIDGET } from "./dev";
-import { getSubDep } from "./utils";
+import { getSubDep, getStatic } from "./utils";
+import presentable from '../../services/api/modules/presentable';
 
 export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
@@ -102,17 +103,19 @@ export function mountWidget(
   if (sub && flatternWidgets.has(sub.id)) {
     id = "freelog-" + sub.id + "-" + (count + 1);
   }
-  console.log(sub)
+  console.log(data, sub)
   // @ts-ignore TODO 用了太多重复判断，要抽取,当entry存在时该行不出现sub data
   const widgetConfig = {
     container,
     name: id, //id
     presentableId: data.presentableId,
     widgetName: !sub ? "freelogDev" : sub.name.replace('/','-'),
-    id: !sub ? "freelogDev" : data.resourceInfo.resourceId, // id可以重复，name不可以
+    parentNid: data.entityNid,
+    subResourceIdOrName: data.resourceInfo.resourceId,
+    resourceId: !sub ? "freelogDev" : data.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
     entry:
-      entry ||
-      `${baseUrl}widgets/${sub.name.replace('/','-')}?entityNid=${data.entityNid}&presentableId=${data.presentableId}&subDependId=${data.subDependId}&resourceId=${data.resourceInfo.resourceId}`,
+      entry || getStatic.bind({presentableId: data.presentableId, parentNid: data.entityNid, subResourceIdOrName: data.resourceInfo.resourceId })('/'),
+      // `${baseUrl}widgets/${sub.name.replace('/','-')}?entityNid=${data.entityNid}&presentableId=${data.presentableId}&subDependId=${data.subDependId}&resourceId=${data.resourceInfo.resourceId}`,
     isDev: !!entry,
   };
   addWidgetConfig(id, widgetConfig);

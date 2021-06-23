@@ -265,7 +265,7 @@ export default function importHTML(url, opts = {}) {
 		getPublicPath = opts.getPublicPath || opts.getDomain || defaultGetPublicPath;
 		getTemplate = opts.getTemplate || defaultGetTemplate;
 	}
-
+    console.log(url)
 	return embedHTMLCache[url] || (embedHTMLCache[url] = fetch(url)
 		.then(response => readResAsString(response, autoDecodeResponse))
 		.then(html => {
@@ -299,7 +299,7 @@ export function importEntry(entry, opts = {}) {
 	if (!entry) {
 		throw new SyntaxError('entry should not be empty!');
 	}
-
+    console.log(entry)
 	// html entry
 	if (typeof entry === 'string') {
 		return importHTML(entry, {
