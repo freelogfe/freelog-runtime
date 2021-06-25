@@ -1,7 +1,7 @@
 import {
     mountWidget, autoMoutSubWdigets
 } from './widget'
-import { getSubDep,  getSelfId, getStatic} from './utils'
+import { getSubDep,  getSelfId, getStaticPath} from './utils'
 import {callAuth, addAuth} from '../../bridge/index'
 import {
     getPresentables,
@@ -47,6 +47,7 @@ export const freelogApp = {
     getSubResourceInfoById,
     getSubResourceInfoByName,
     devData,
+    getStaticPath,
     autoMoutSubWdigets,
     getSubDep,
     getSelfId,

@@ -134,7 +134,10 @@ export async function getUserInfo() {
 export async function setUserInfo(info: any) {
   userInfo = info;
 }
-export function getStatic(path: string, type?: string) {
+export function getStaticPath(path: string, type?: string) {
+  if(!/^\//.test(path)){
+    path =  '/' +  path
+ };
   // @ts-ignore
   return widgetsConfig.get(this.name).entry + path;
 }
