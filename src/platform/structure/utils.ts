@@ -135,20 +135,23 @@ export async function setUserInfo(info: any) {
   userInfo = info;
 }
 export function getStaticPath(path: string, type?: string) {
-  if(!/^\//.test(path)){
-    path =  '/' +  path
- };
+  if (!/^\//.test(path)) {
+    path = '/' + path
+  };
   // @ts-ignore
   return widgetsConfig.get(this.name).entry + path;
 }
 export function getEntry(that: any) {
-   let url = `http://qi.testfreelog.com/v2/auths/presentables/${that.presentableId}/fileStream?`;
-  let url2 = `parentNid=${that.parentNid}&subResourceIdOrName=${
-    that.subResourceIdOrName
-  }`;
-  if(that.parentNid){
+  let baseURL = 'http://qi.freelog.com/v2/'
+  if (window.location.href.indexOf('testfreelog') > -1) {
+    baseURL = 'http://qi.testfreelog.com/v2/'
+  }
+  let url = baseURL + `auths/presentables/${that.presentableId}/fileStream?`;
+  let url2 = `parentNid=${that.parentNid}&subResourceIdOrName=${that.subResourceIdOrName
+    }`;
+  if (that.parentNid) {
     return url + url2 + '&subResourceFile='
-  }else{
-    return url  + 'subResourceFile='
+  } else {
+    return url + 'subResourceFile='
   }
 }
