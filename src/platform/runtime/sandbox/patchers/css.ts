@@ -96,6 +96,9 @@ export class ScopedCSS {
         case RuleType.SUPPORTS:
           css += this.ruleSupport(rule as CSSSupportsRule, prefix);
           break;
+        case RuleType.FONT_FACE:
+          css += this.ruleFont(rule, prefix);
+          break;
         default:
           css += `${rule.cssText}`;
           break;
@@ -104,7 +107,12 @@ export class ScopedCSS {
 
     return css;
   }
-
+   // @font-face repalce exclude [http, data:]
+  private ruleFont(rule: any, prefix: string) {
+    let { cssText } = rule;
+    // cssText.replace(/url\(/, path);
+    return cssText;
+  }
   // handle case:
   // .app-main {}
   // html, body {}

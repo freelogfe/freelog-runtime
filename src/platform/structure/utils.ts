@@ -143,6 +143,7 @@ export function getStaticPath(path: string, type?: string) {
 }
 export function getEntry(that: any) {
   let baseURL = 'http://qi.freelog.com/v2/'
+  // TODO  判断不严谨，会有漏洞
   if (window.location.href.indexOf('testfreelog') > -1) {
     baseURL = 'http://qi.testfreelog.com/v2/'
   }
