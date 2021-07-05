@@ -3,6 +3,8 @@
  * @since 2020-4-19
  */
 
+import { threadId } from "node:worker_threads";
+import { widgetsConfig } from "../../../structure/widget"
 // https://developer.mozilla.org/en-US/docs/Web/API/CSSRule
 enum RuleType {
   // type: rule will be rewrote
@@ -30,11 +32,11 @@ export class ScopedCSS {
   private sheet: StyleSheet;
 
   private swapNode: HTMLStyleElement;
-
-  constructor() {
+  private appName: string;
+  constructor(data:any) {
     const styleNode = document.createElement('style');
     rawDocumentBodyAppend.call(document.body, styleNode);
-
+    this.appName = data.appName
     this.swapNode = styleNode;
     this.sheet = styleNode.sheet!;
     this.sheet.disabled = true;
@@ -96,9 +98,9 @@ export class ScopedCSS {
         case RuleType.SUPPORTS:
           css += this.ruleSupport(rule as CSSSupportsRule, prefix);
           break;
-        case RuleType.FONT_FACE:
-          css += this.ruleFont(rule, prefix);
-          break;
+        // case RuleType.FONT_FACE:
+        //   css += this.ruleFont(rule, prefix);
+        //   break;
         default:
           css += `${rule.cssText}`;
           break;
@@ -107,10 +109,12 @@ export class ScopedCSS {
 
     return css;
   }
-   // @font-face repalce exclude [http, data:]
+   // @font-face repalce exclude [http, data:,//]
   private ruleFont(rule: any, prefix: string) {
     let { cssText } = rule;
-    // cssText.replace(/url\(/, path);
+    // url("/
+    cssText = cssText.replace(/url\(\"\//ig,'url("' +  widgetsConfig.get(this.appName).entry + '/');
+    console.log(cssText, widgetsConfig.get(this.appName).entry)
     return cssText;
   }
   // handle case:
@@ -194,7 +198,7 @@ export const process = (
 ): void => {
   // lazy singleton pattern
   if (!processor) {
-    processor = new ScopedCSS();
+    processor = new ScopedCSS({appName});
   }
 
   if (stylesheetElement.tagName === 'LINK') {

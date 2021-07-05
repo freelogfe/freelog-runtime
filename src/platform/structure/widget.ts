@@ -78,6 +78,10 @@ export function mountWidget(
   entry?: string,
   config?: any
 ): any {
+  if(entry && /\/$/.test(entry)){
+		entry = entry.substr(0, entry.length - 1)
+	};
+	 
   // @ts-ignore
   const devData = window.freelogApp.devData;
   if (devData && !entry) {
