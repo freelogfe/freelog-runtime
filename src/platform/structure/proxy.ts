@@ -526,14 +526,15 @@ export const createWidgetProxy = function (name: string, sandbox: any) {
 };
 export function getPublicPath(name: string) {
   const config = widgetsConfig.get(name);
-  if (config.isDev) {
-    if (/\/$/.test(config.entry)) {
-      return config.entry;
-    }
-    return config.entry + "/";
-  }
-  // const route = name.split("-")[1];
-  return `${baseUrl}widgets/${config.widgetName}/`;
+  return config.entry
+  // if (config.isDev) {
+  //   if (/\/$/.test(config.entry)) {
+  //     return config.entry;
+  //   }
+  //   return config.entry + "/";
+  // }
+  // // const route = name.split("-")[1];
+  // return `${baseUrl}widgets/${config.widgetName}/`;
 }
 export const createFreelogAppProxy = function (name: string, sandbox: any) {
   const freelogAppProxy = {};

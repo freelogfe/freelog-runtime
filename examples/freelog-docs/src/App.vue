@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      md: "# 自然",
+      md: "",
     };
   },
   async mounted() {

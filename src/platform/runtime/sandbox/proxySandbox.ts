@@ -251,12 +251,12 @@ export default class ProxySandbox implements SandBox {
             if (url.indexOf("i18n-ts") > -1) {
               return rawWindow.fetch(url, {...options, credentials: 'include'} );
             }
-            if(url.indexOf("freelog.com") > -1){
-              const patchUrl = getPublicPath(name) + url.split("freelog.com/")[1];
-              return rawWindow.fetch(patchUrl, {...options});
-            }else{
-              return rawWindow.fetch(url, options);
-            }
+            // if(url.indexOf("freelog.com") > -1){
+            //   const patchUrl = getPublicPath(name) + url.split("freelog.com/")[1];
+            //   return rawWindow.fetch(patchUrl, {...options});
+            // }else{
+            return rawWindow.fetch(url, options);
+            // }
           };
         }
         // avoid who using window.window or window.self to escape the sandbox environment to touch the really window

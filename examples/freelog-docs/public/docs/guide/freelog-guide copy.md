@@ -368,7 +368,7 @@ if (!window.__POWERED_BY_FREELOG__) {
 **webpack 配置**
 
 ```
- // 通过npm run eject, 释放出webpack配置，修改webpack.config.js
+ // 通过reject出webpack配置，修改webpack.config.js
  // output处添加三个属性，name为package.json的name
  library: `${name}-[name]`,
  libraryTarget: 'umd',
@@ -606,16 +606,11 @@ window.freelogApp.callAuth();
 
 而 css 文件一旦打包完成，就无法通过动态修改 publicPath 来修正其中的字体文件和背景图片的路径。
 
-解决方案：
+主要有以下几个解决方案：
 
-1. 大图片与大字体处理方式：
-   
-   大图片：放在不需要webpack打包的public目录下，通过 **window.freelogApp.getStaticPath(path)** 获取正确地址，
-           其中path为以/开头的正常开发时的路径。
+1. 所有图片等静态资源上传至 freelog 平台, css 中直接引用 获取的 资源 地址（**推荐**）
 
-   大字体：（暂未实现）如果路径写在css中则无需刻意放在public目录下，如果使用js去赋值，则同图片一样处理。
-
-2. 小文件处理方式：借助 webpack 的 url-loader 将字体文件和图片打包成 base64（适用于字体文件和图片体积小的项目） 
+2. 借助 webpack 的 url-loader 将字体文件和图片打包成 base64（适用于字体文件和图片体积小的项目）（**推荐**）
 
 ```js
 module.exports = {
@@ -652,6 +647,168 @@ module.exports = {
       .loader("url-loader")
       .options({})
       .end();
+  },
+};
+```
+
+**3. 借助 webpack 的 file-loader ，在打包时给其注入完整路径（适用于字体文件和图片体积比较大的项目）**
+
+```js
+const publicPath =
+  process.env.NODE_ENV === "production"
+    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称（即需要先创建插件资源获取到名称）
+    : `http://localhost:${port}`; // '/freelog-widget/Freelog/dev-docs'; // `http://localhost:${port}`;
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpe?g|gif|webp)$/i,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "img/[name].[hash:8].[ext]",
+              publicPath,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)$/i,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "fonts/[name].[hash:8].[ext]",
+              publicPath,
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+**vue-cli3 项目写法：**
+
+```js
+const publicPath =
+  process.env.NODE_ENV === "production"
+    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称（即需要先创建插件资源获取到名称）
+    : `http://localhost:${port}`; // '/freelog-widget/Freelog/dev-docs'; // `http://localhost:${port}`;
+module.exports = {
+  chainWebpack: (config) => {
+    const fontRule = config.module.rule("fonts");
+    fontRule.uses.clear();
+    fontRule
+      .use("file-loader")
+      .loader("file-loader")
+      .options({
+        name: "fonts/[name].[hash:8].[ext]",
+        publicPath,
+      })
+      .end();
+    const imgRule = config.module.rule("images");
+    imgRule.uses.clear();
+    imgRule
+      .use("file-loader")
+      .loader("file-loader")
+      .options({
+        name: "img/[name].[hash:8].[ext]",
+        publicPath,
+      })
+      .end();
+  },
+};
+```
+
+**4. 将两种方案结合起来，小文件转 base64 ，大文件注入路径前缀**
+
+```js
+const publicPath =
+  process.env.NODE_ENV === "production"
+    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称（即需要先创建插件资源获取到名称）
+    : `http://localhost:${port}`; // '/freelog-widget/Freelog/dev-docs'; // `http://localhost:${port}`;
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpe?g|gif|webp)$/i,
+        use: [
+          {
+            loader: "url-loader",
+            options: {},
+            fallback: {
+              loader: "file-loader",
+              options: {
+                name: "img/[name].[hash:8].[ext]",
+                publicPath,
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)$/i,
+        use: [
+          {
+            loader: "url-loader",
+            options: {},
+            fallback: {
+              loader: "file-loader",
+              options: {
+                name: "fonts/[name].[hash:8].[ext]",
+                publicPath,
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+**vue-cli3 项目写法：**
+
+```js
+const publicPath =
+  process.env.NODE_ENV === "production"
+    ? "/freelog-widget/Freelog/dev-docs"  // /freelog-widget/ 固定前缀    Freelog/dev-docs  资源名称（即需要先创建插件资源获取到名称）
+    : `http://localhost:${port}`; // '/freelog-widget/Freelog/dev-docs'; // `http://localhost:${port}`;
+module.exports = {
+  chainWebpack: (config) => {
+    config.module
+      .rule("fonts")
+      .use("url-loader")
+      .loader("url-loader")
+      .options({
+        limit: 4096, // 小于4kb将会被打包成 base64
+        fallback: {
+          loader: "file-loader",
+          options: {
+            name: "fonts/[name].[hash:8].[ext]",
+            publicPath,
+          },
+        },
+      })
+      .end();
+    config.module
+      .rule("images")
+      .use("url-loader")
+      .loader("url-loader")
+      .options({
+        limit: 4096, // 小于4kb将会被打包成 base64
+        fallback: {
+          loader: "file-loader",
+          options: {
+            name: "img/[name].[hash:8].[ext]",
+            publicPath,
+          },
+        },
+      });
   },
 };
 ```

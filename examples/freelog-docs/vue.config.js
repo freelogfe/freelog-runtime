@@ -6,7 +6,7 @@ function resolve(dir) {
 }
 
 const port = 7101; // dev port
-const publicPath = process.env.NODE_ENV !== 'production' ? '/freelog-widget/Freelog/dev-docs' : `http://localhost:${port}` // '/freelog-widget/Freelog/dev-docs'; // `http://localhost:${port}`;
+// const publicPath = process.env.NODE_ENV !== 'production' ? '/freelog-widget/Freelog/dev-docs' : `http://localhost:${port}` // '/freelog-widget/Freelog/dev-docs'; // `http://localhost:${port}`;
 
 module.exports = {
   /**
@@ -71,7 +71,7 @@ module.exports = {
           loader: 'file-loader',
           options: {
             name: 'fonts/[name].[hash:8].[ext]',
-            publicPath,
+            // publicPath,
           },
         },
       })
@@ -91,7 +91,7 @@ module.exports = {
           loader: 'file-loader',
           options: {
             name: 'img/[name].[hash:8].[ext]',
-            publicPath,
+            // publicPath,
           },
         },
       });

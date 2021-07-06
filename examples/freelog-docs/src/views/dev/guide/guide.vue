@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     getdev() {
-      const url =  window.__POWERED_BY_FREELOG__ ?   'freelog.com/docs/guide/freelog-guide.md' : '/docs/guide/freelog-guide.md'
+      const url =  window.freelogApp.getStaticPath('/docs/guide/freelog-guide.md')
       window.fetch(url,{
         method: 'GET',
         mode: 'cors'}).then(async (res) => {
