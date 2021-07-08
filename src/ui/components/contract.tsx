@@ -10,6 +10,24 @@ import { getStatusMaps } from "../../utils/policy";
 import { getUserInfo } from "../../platform/structure/utils";
 import Confirm from "./_components/confirm";
 import Dag from "./_components/dag";
+/**
+ * 展品授权窗口：
+ *     左：展品列表
+ *         上：展品名称
+ *         下：已签约合同：绿色：已授权，黄色：未授权，红色：异常
+ *     右：合约与策略列表：合约列表在上面，策略在下面
+ *         合约：上：策略名称
+ *               中： 上：策略内容：当前状态---->是否授权，当前时间--->状态内容，事件需要可点击
+ *                    下：合约流转记录：可显示隐藏
+ *               下：合约编号，签约时间
+ *         策略：上：整行：名称 复选框（没有合约时，复选框变成签约按钮）
+ *               中：tab页：策略内容，状态机视图，策略代码   
+ * 组件化：不过分考虑细腻度
+ *     最外层：
+ *         合约组件：状态组件（全局），按钮组件（全局）
+ *         策略组件：状态机视图组件
+ *             
+ */ 
 interface contractProps {
   events: Array<any>;
   contractFinished(eventId: any, type: number, data?: any): any;
