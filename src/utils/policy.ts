@@ -70,15 +70,25 @@ export function getEventDes(eventName: string, args: any) {
   return template
 }
 
-export function getStatusMaps(policy: any) {
-  // if(policy.s2) {
-  //   policy.s2.transition.s1 = policy.s2.transition.s3 
-  //   delete policy.s1.transition.finish
-  // }
-  // if(policy.s3) delete policy.s3.transition
-  const statusMaps: any = [];
-  function findNext(status: any, route: any) {
-    status.transitions.forEach((to: any ) => {
+export function getPolicyMaps(policy: any) {
+  /**
+   * 数据结构：
+   *   节点：状态本身和层级，下一状态的集合
+   *   路径：每一个
+   *   金字塔：二维数组，记录每个节点的层级
+   * 1.找到所有路径
+   * 2.明确层级
+   *   2.1 以初始状态往下找到所有层（遇环停止且不记录）
+   *   2.2 向上去重
+   */
+  const policyMaps: any = [];
+  const policyPyramid: any = [];
+  function findNext(status: any, route: any, currentLevel: any) {
+    // 准备下一层的
+    const nextLevel:any = []
+    status.transitions.forEach((to: any,index: number ) => {
+      // 当前层
+      currentLevel.push({status: to.toState, ...policy[to.toState]})
       // cycle test
       let isExist = false;
       route.some((item: any) => {
@@ -93,22 +103,25 @@ export function getStatusMaps(policy: any) {
       const nextRoute = [...route];
       nextRoute.push([to.toState, event, policy[to.toState]]);
       if (isExist) {
-        statusMaps.push(nextRoute);
+        policyMaps.push(nextRoute);
         return;
       }
 
       // route end
       if (!policy[to.toState].transitions.length) {
-        statusMaps.push(nextRoute);
+        policyMaps.push(nextRoute);
         return;
       }
       // next route
-      findNext(policy[to.toState], nextRoute);
+      findNext(policy[to.toState], nextRoute, nextLevel);
     });
+    policyPyramid.push(currentLevel)
   }
   if(!policy.initial.transitions){
     return [[["initial", "", policy.initial]]]
   }
-  findNext(policy.initial, [["initial", "", policy.initial]]);
-  return statusMaps;
+  policyPyramid.push([policy.initial])
+  findNext(policy.initial, [["initial", "", policy.initial]], []);
+  console.log(policyPyramid)
+  return policyMaps;
 }

@@ -6,7 +6,7 @@ import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
 import contract from "../../services/api/modules/contract";
 import Button from "./_components/button";
-import { getStatusMaps } from "../../utils/policy";
+import { getPolicyMaps } from "../../utils/policy";
 import { getUserInfo } from "../../platform/structure/utils";
 import Confirm from "./_components/confirm";
 import Dag from "./_components/dag";
@@ -24,6 +24,7 @@ import Dag from "./_components/dag";
  *               中：tab页：策略内容，状态机视图，策略代码   
  * 组件化：不过分考虑细腻度
  *     最外层：
+ *         待获取授权展品组件
  *         合约组件：授权状态组件（全局），按钮组件（全局），流转记录组件（有可能需要放大，所以提出来）
  *         策略组件(策略组件需要放大或点击合约的策略内容单独显示)：状态机视图组件，策略内容组件，策略代码组件
  *             
@@ -63,7 +64,7 @@ export default function (props: contractProps) {
     });
     res.data.data.policies.forEach((item: any) => {
       console.log(item);
-      item.routeMaps = getStatusMaps(
+      item.routeMaps = getPolicyMaps(
         item.fsmDescriptionInfo
       );
       console.log(item.routeMaps)
