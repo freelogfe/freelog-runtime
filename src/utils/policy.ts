@@ -43,8 +43,8 @@ export const statusTower = new Array<Array<any>>();
  *
  */
 const placeHolder = "____argument"
-const events:any = {
-  CycleEndEvent:{
+const events: any = {
+  CycleEndEvent: {
     template: `经过${placeHolder}${placeHolder}后`,
     args: ['cycleCount', 'timeUnit']  // 对应上面的顺序
   },
@@ -52,19 +52,19 @@ const events:any = {
     template: `支付${placeHolder}给${placeHolder}账户`,
     args: ['amount', 'account']  // 对应上面的顺序
   },
-  TimeEvent:  {
+  TimeEvent: {
     template: `在${placeHolder}后`,
     args: ['dateTime']  // 对应上面的顺序
   },
-  RelativeTimeEvent:  {
+  RelativeTimeEvent: {
     template: `在${placeHolder}${placeHolder}后`,
     args: ['elapsed', 'timeUnit']  // 对应上面的顺序
-  }, 
+  },
 };
 export function getEventDes(eventName: string, args: any) {
   const event = events[eventName]
   let template = events[eventName].template
-  event.args.forEach((arg: string)=>{
+  event.args.forEach((arg: string) => {
     template = template.replace(placeHolder, args[arg])
   })
   return template
@@ -82,13 +82,15 @@ export function getPolicyMaps(policy: any) {
    *   2.2 向上去重
    */
   const policyMaps: any = [];
-  const policyPyramid: any = [];
+  const policyPyramid: Array<any> = [];
   function findNext(status: any, route: any, currentLevel: any) {
     // 准备下一层的
-    const nextLevel:any = []
-    status.transitions.forEach((to: any,index: number ) => {
-      // 当前层
-      currentLevel.push({status: to.toState, ...policy[to.toState]})
+    const nextLevel: any = []
+    status.transitions.forEach((to: any, index: number) => {
+      // 如果没有放入金字塔，则放入
+      !policyPyramid.includes(currentLevel) && policyPyramid.push(currentLevel)
+      // 放入当前层
+      currentLevel.push({ status: to.toState, ...policy[to.toState] })
       // cycle test
       let isExist = false;
       route.some((item: any) => {
@@ -112,16 +114,15 @@ export function getPolicyMaps(policy: any) {
         policyMaps.push(nextRoute);
         return;
       }
-      // next route
+      // next route  同层往下都携带同一个下一层nextLevel
       findNext(policy[to.toState], nextRoute, nextLevel);
     });
-    policyPyramid.push(currentLevel)
+
   }
-  if(!policy.initial.transitions){
+  if (!policy.initial.transitions) {
     return [[["initial", "", policy.initial]]]
   }
-  policyPyramid.push([policy.initial])
+  policyPyramid.push([{ status: "initial", ...policy.initial }])
   findNext(policy.initial, [["initial", "", policy.initial]], []);
-  console.log(policyPyramid)
-  return policyMaps;
+  return { policyMaps, policyPyramid };
 }
