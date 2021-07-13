@@ -42,35 +42,35 @@ export const statusTower = new Array<Array<any>>();
  *          付amount到account后 达到 授权状态
  *
  */
-const placeHolder = "____argument"
+const placeHolder = "____argument";
 const events: any = {
   CycleEndEvent: {
     template: `经过${placeHolder}${placeHolder}后`,
-    args: ['cycleCount', 'timeUnit']  // 对应上面的顺序
+    args: ["cycleCount", "timeUnit"], // 对应上面的顺序
   },
   TransactionEvent: {
     template: `支付${placeHolder}给${placeHolder}账户`,
-    args: ['amount', 'account']  // 对应上面的顺序
+    args: ["amount", "account"], // 对应上面的顺序
   },
   TimeEvent: {
     template: `在${placeHolder}后`,
-    args: ['dateTime']  // 对应上面的顺序
+    args: ["dateTime"], // 对应上面的顺序
   },
   RelativeTimeEvent: {
     template: `在${placeHolder}${placeHolder}后`,
-    args: ['elapsed', 'timeUnit']  // 对应上面的顺序
+    args: ["elapsed", "timeUnit"], // 对应上面的顺序
   },
 };
 export function getEventDes(eventName: string, args: any) {
-  const event = events[eventName]
-  let template = events[eventName].template
+  const event = events[eventName];
+  let template = events[eventName].template;
   event.args.forEach((arg: string) => {
-    template = template.replace(placeHolder, args[arg])
-  })
-  return template
+    template = template.replace(placeHolder, args[arg]);
+  });
+  return template;
 }
 
-export function getPolicyMaps(policy: any) {
+export function getPolicyMaps(policy: any): any {
   /**
    * 数据结构：
    *   节点：状态本身和层级，下一状态的集合
@@ -83,22 +83,11 @@ export function getPolicyMaps(policy: any) {
    */
   const policyMaps: any = [];
   const policyPyramid: Array<any> = [];
-  function findNext(status: any, route: any, currentLevel: any) {
+  function findNext(status: any, route: any) {
     // 准备下一层的
-    const nextLevel: any = []
     status.transitions.forEach((to: any, index: number) => {
-      // 如果没有放入金字塔，则放入
-      !policyPyramid.includes(currentLevel) && policyPyramid.push(currentLevel)
-      // 放入当前层
-      currentLevel.push({ status: to.toState, ...policy[to.toState] })
       // cycle test
-      let isExist = false;
-      route.some((item: any) => {
-        if (item[0] === to.toState) {
-          isExist = true;
-          return true;
-        }
-      });
+      let isExist = route.some((x: any) => x[0] === to.toState);
       const event = to;
       event.translation = getEventDes(event.name, event.args);
       // prepare for next route
@@ -108,21 +97,42 @@ export function getPolicyMaps(policy: any) {
         policyMaps.push(nextRoute);
         return;
       }
-
+      const currentLevel = policyPyramid[nextRoute.length - 1] || [];
+      let flag = true
+      // 是否在上层存在，存在即删除
+      policyPyramid.forEach((item: any, level: number) => {
+        // 1.删除上层的，
+        [...item].forEach((it: any, index: number) => {
+          if (it.status === to.toState) {
+             if(nextRoute.length - 1 >= level){
+              item.splice(index, 1);
+            } else {
+              // 2.如果下层有则不加入当前层
+              flag = false
+            }
+          }
+        });
+      });
+      flag && currentLevel.push({ status: to.toState, ...policy[to.toState] });
+      policyPyramid[nextRoute.length - 1] = currentLevel;
       // route end
       if (!policy[to.toState].transitions.length) {
         policyMaps.push(nextRoute);
         return;
       }
-      // next route  同层往下都携带同一个下一层nextLevel
-      findNext(policy[to.toState], nextRoute, nextLevel);
-    });
 
+      // next route  同层往下都携带同一个下一层nextLevel
+      findNext(policy[to.toState], nextRoute);
+    });
   }
   if (!policy.initial.transitions) {
-    return [[["initial", "", policy.initial]]]
+    return [[["initial", "", policy.initial]]];
   }
-  policyPyramid.push([{ status: "initial", ...policy.initial }])
-  findNext(policy.initial, [["initial", "", policy.initial]], []);
-  return { policyMaps, policyPyramid };
+  policyPyramid.push([{ status: "initial", ...policy.initial }]);
+  findNext(policy.initial, [["initial", "", policy.initial]]);
+  // 去除空的层级
+  [...policyPyramid].forEach((item: any, index: number) => {
+    item && !item.length && policyPyramid.splice(index, 1);
+  });
+   return { policyMaps, policyPyramid };
 }

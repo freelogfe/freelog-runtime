@@ -66,7 +66,10 @@ export default function (props: contractProps) {
       console.log(item);
       item.routeMaps = getPolicyMaps(
         item.fsmDescriptionInfo
-      );
+      ).policyMaps;
+      item.policyPyramid = getPolicyMaps(
+        item.fsmDescriptionInfo
+      ).policyPyramid;
       console.log(item.routeMaps)
     });
     console.log(res.data.data.policies);
@@ -165,7 +168,7 @@ export default function (props: contractProps) {
                       获取授权
                     </Button>
                   </div>
-                  <Dag routeMaps={policy.routeMaps} />
+                  <Dag routeMaps={policy.routeMaps} policyPyramid={policy.policyPyramid}/>
                   {policy.routeMaps.map((route: any) => {
                     return (
                       <div className="flex-column   mb-10 bb-1 px-10" key={route}>
