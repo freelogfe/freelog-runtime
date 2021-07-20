@@ -8,16 +8,16 @@
  * }
  */
 interface Node {
-  row: number,  
+  row: number,
   column: number,
   relations: Array<string>
 }
-let nodes = new  Map<any, Node>() 
+let nodes = new Map<any, Node>()
 
 // 最少交叉的金字塔
 let bestPyramid = {
-    crosses: 0,
-    pyramid: null 
+  crosses: 0,
+  pyramid: null
 }
 
 /**
@@ -30,22 +30,22 @@ let bestPyramid = {
  */
 let betterPyramids = {}
 
- /**
- * 分层工具  同时记录节点信息
- * @param data 
- *  
- */
-function getPyramid(policy: any) {
- /**
-   * 数据结构：
-   *   节点：状态本身和层级，下一状态的集合
-   *   路径：每一个
-   *   金字塔：二维数组，记录每个节点的层级
-   * 1.找到所有路径
-   * 2.明确层级
-   *   2.1 以初始状态往下找到所有层（遇环停止且不记录）
-   *   2.2 向上去重
-   */
+/**
+* 分层工具  同时记录节点信息
+* @param data 
+*  
+*/
+function getPyramid(policy: any): any {
+  /**
+    * 数据结构：
+    *   节点：状态本身和层级，下一状态的集合
+    *   路径：每一个
+    *   金字塔：二维数组，记录每个节点的层级
+    * 1.找到所有路径
+    * 2.明确层级
+    *   2.1 以初始状态往下找到所有层（遇环停止且不记录）
+    *   2.2 向上去重
+    */
   const policyMaps: any = [];
   const policyPyramid: Array<any> = [];
   function findNext(status: any, route: any) {
@@ -62,7 +62,7 @@ function getPyramid(policy: any) {
         return;
       }
       // 保存节点信息
-      const node = nodes.get(to.toState) || {row: 0, column: 0,relations: []}
+      const node = nodes.get(to.toState) || { row: 0, column: 0, relations: [] }
       !node.relations.includes(status) && node.relations.push(status)
       node.row = nextRoute.length - 1
       const currentLevel = policyPyramid[nextRoute.length - 1] || [];
@@ -106,22 +106,104 @@ function getPyramid(policy: any) {
     maxWidth = item.length > maxWidth ? item.length : maxWidth;
   });
   console.log(policyPyramid);
-  return { policyMaps, policyPyramid: { policyPyramid, maxWidth } };
+  return { policyMaps, policyPyramidData: { policyPyramid, maxWidth } };
 }
 
 /**
  * 计算所有交叉
  */
-function getCrosses(){
+function getCrosses() {
 
 }
+// @ts-ignore
+Array.prototype.equals = function (array: any) {
+  // if the other array is a falsy value, return
+  if (!array)
+    return false;
 
+  // compare lengths - can save a lot of time
+  if (this.length != array.length)
+    return false;
+
+  for (var i = 0, l = this.length; i < l; i++) {
+    // Check if we have nested arrays
+    if (this[i] instanceof Array && array[i] instanceof Array) {
+      // recurse into the nested arrays
+      if (!this[i].equals(array[i]))
+        return false;
+    }
+    else if (this[i] != array[i]) {
+      // Warning - two different object instances will never be equal: {x:20} != {x:20}
+      return false;
+    }
+  }
+  return true;
+}
+// Hide method from for-in loops
+Object.defineProperty(Array.prototype, "equals", { enumerable: false });
+/**
+ * 
+ * @param contents 去重
+ * @returns 
+ */
+function norepeat(contents: any) {
+  var norepeatContents = [];
+  for (var i = 0; i < contents.length; i++) {
+    const flag = norepeatContents.some((item: any) => {
+      return item.equals(contents[i])
+    })
+    if (!flag) {
+      norepeatContents.push(contents[i]);
+    }
+  }
+  return norepeatContents;
+}
+
+/**
+ * 
+ * @param 全排列 
+ */
+function fullSort(input: any) {
+  var permArr: any = [],
+    usedChars: any = [];
+  function main(input: any) {
+    var i, ch;
+    for (i = 0; i < input.length; i++) {
+      ch = input.splice(i, 1)[0];
+      usedChars.push(ch);
+      if (input.length == 0) {
+        permArr.push(usedChars.slice());
+      }
+      main(input);
+      input.splice(i, 0, ch);
+      usedChars.pop();
+    }
+    return permArr
+  }
+  return main(input);
+}
 /**
  * 1.分层并记录节点信息  getPyramid
  * 2.按最大层，排列组合 找出最少交叉
  * @param data 
  */
 export default function getBestTopology(data: any) {
-  
+  // bestPyramid betterPyramids 
+  const { policyMaps, policyPyramidData } = getPyramid(data)
+  const { policyPyramid, maxWidth } = policyPyramidData
+  /**
+   * 每一层所有组合方式，与其余层所有组合方式再组合
+   */
+  // 三维数组
+  const allLevel:any = []
+  policyPyramid.forEach((item: any) => {
+    const arr = [...item]
+    for (var i = item.length; i < maxWidth; i++) {
+      arr[i] = null
+    }
+    // 每一层没有重复元素的
+    allLevel.push(norepeat(fullSort(item)))
+  })
+  // 从每一层取一个
 }
 
