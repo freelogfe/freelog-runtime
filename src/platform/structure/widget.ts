@@ -31,7 +31,7 @@ export const sandBoxs = new Map<any, any>(); // 沙盒不交给plugin, 因为plu
 // TODO plugin type
 export function addWidget(key: string, plugin: any) {
   if (activeWidgets.has(key)) {
-    console.warn(flatternWidgets.get(key).name + "reloaded");
+    console.warn(flatternWidgets.get(key).name + " reloaded");
   }
   flatternWidgets.set(key, plugin);
   activeWidgets.set(key, plugin);

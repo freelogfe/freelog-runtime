@@ -98,17 +98,17 @@ export function getPolicyMaps(policy: any): any {
         return;
       }
       const currentLevel = policyPyramid[nextRoute.length - 1] || [];
-      let flag = true
+      let flag = true;
       // 是否在上层存在，存在即删除
       policyPyramid.forEach((item: any, level: number) => {
         // 1.删除上层的，
         [...item].forEach((it: any, index: number) => {
           if (it.status === to.toState) {
-             if(nextRoute.length - 1 >= level){
+            if (nextRoute.length - 1 >= level) {
               item.splice(index, 1);
             } else {
               // 2.如果下层有则不加入当前层
-              flag = false
+              flag = false;
             }
           }
         });
@@ -134,5 +134,10 @@ export function getPolicyMaps(policy: any): any {
   [...policyPyramid].forEach((item: any, index: number) => {
     item && !item.length && policyPyramid.splice(index, 1);
   });
-   return { policyMaps, policyPyramid };
+  let maxWidth = 0;
+  policyPyramid.forEach((item: any) => {
+    maxWidth = item.length > maxWidth ? item.length : maxWidth;
+  });
+  console.log(policyPyramid);
+  return { policyMaps, policyPyramid: { policyPyramid, maxWidth } };
 }

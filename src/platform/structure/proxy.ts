@@ -65,16 +65,16 @@ export function setFetch() {
 }
 export function initLocation() {
   if (rawLocation.href.includes("$freelog")) {
-    var loc = rawLocation.href.split("freelog.com/")[1].split('$');
+    var loc = rawLocation.href.split("freelog.com/")[1].split("$");
     if (window.freelogApp.devData.type === DEV_WIDGET) {
-      const temp = rawLocation.search.split('$_')[1]
+      const temp = rawLocation.search.split("$_")[1];
       // @ts-ignore
-      loc = temp ? temp.split('$') : []
+      loc = temp ? temp.split("$") : [];
     }
     loc.forEach((item) => {
       try {
         if (!item) return;
-        item = item.replace('_', '?')
+        item = item.replace("_", "?");
         if (item.indexOf("?") > -1) {
           let index = item.indexOf("?");
           let [id, pathname] = item.substring(0, index).split("=");
@@ -102,15 +102,25 @@ export function setLocation() {
     hash += "$" + key + "=" + value.href || "";
   });
   if (window.freelogApp.devData.type === DEV_WIDGET) {
-    let devUrl = rawLocation.search.split("$_")[0]
-    if(!devUrl.endsWith('/')){
-      devUrl = devUrl + '/' 
+    let devUrl = rawLocation.search.split("$_")[0];
+    if (!devUrl.endsWith("/")) {
+      devUrl = devUrl + "/";
     }
-    const url = rawLocation.origin + devUrl + "$_" + hash.replace('?', '_') + rawLocation.hash 
-    window.history.pushState('', '', url)
+    const url =
+      rawLocation.origin +
+      devUrl +
+      "$_" +
+      hash.replace("?", "_") +
+      rawLocation.hash;
+    window.history.pushState("", "", url);
   } else {
-    const url = rawLocation.origin + '/' + hash.replace('?', '_') + rawLocation.hash + rawLocation.search
-    window.history.pushState('', '', url)
+    const url =
+      rawLocation.origin +
+      "/" +
+      hash.replace("?", "_") +
+      rawLocation.hash +
+      rawLocation.search;
+    window.history.pushState("", "", url);
   }
   // rawLocation.hash = hash;
 }
@@ -138,11 +148,11 @@ export const locationCenter: any = {
 };
 export function freelogLocalStorage(id: string) {
   return {
-    clear: function (name: string) { },
+    clear: function (name: string) {},
     getItem: function (name: string) {
       return rawLocalStorage.getItem(id + name);
     },
-    key: function (name: string) { },
+    key: function (name: string) {},
     removeItem: function (name: string) {
       rawLocalStorage.removeItem(id + name);
     },
@@ -262,10 +272,12 @@ export const createLocationProxy = function (name: string, sandbox: any) {
         return "";
       } else {
         if (["replace"].indexOf(property) > -1) {
-          return function () { };
+          return function () {};
         }
         if (["reload"].indexOf(property) > -1) {
-          return function () { };
+          console.log(sandbox)
+          // TODO 重新加载自身插件
+          return function () {};
         }
         if (property === "toString") {
           return () => {
@@ -467,9 +479,9 @@ export const createDocumentProxy = function (
               // @ts-ignore
               return rootDoc[property]
                 ? // @ts-ignore
-                rootDoc[property](...arguments)
+                  rootDoc[property](...arguments)
                 : // @ts-ignore
-                appDiv[property](...arguments);
+                  appDiv[property](...arguments);
             }
           };
         }
@@ -526,7 +538,11 @@ export const createWidgetProxy = function (name: string, sandbox: any) {
 };
 export function getPublicPath(name: string) {
   const config = widgetsConfig.get(name);
-  return config.entry
+  if (/\/$/.test(config.entry)) {
+    return config.entry;
+  }
+  return config.entry + "/";
+  // return config.entry + "/";
   // if (config.isDev) {
   //   if (/\/$/.test(config.entry)) {
   //     return config.entry;
@@ -554,12 +570,11 @@ export const createFreelogAppProxy = function (name: string, sandbox: any) {
   });
 };
 
-
 export function pathATag() {
-  document.addEventListener('click', (e) => {
+  document.addEventListener("click", (e) => {
     // @ts-ignore
-    if (e.target.nodeName === 'A') {
-      return false
+    if (e.target.nodeName === "A") {
+      return false;
     }
-  })
+  });
 }
