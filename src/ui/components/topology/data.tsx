@@ -51,7 +51,6 @@ function getPyramid(policy: any) {
   function findNext(status: any, route: any) {
     // 准备下一层的
     status.transitions.forEach((to: any, index: number) => {
-      const node = nodes.get(to.toState) || {row: 0, column: 0,relations: []}
       // cycle test
       let isExist = route.some((x: any) => x[0] === to.toState);
       const event = to;
@@ -62,6 +61,10 @@ function getPyramid(policy: any) {
         policyMaps.push(nextRoute);
         return;
       }
+      // 保存节点信息
+      const node = nodes.get(to.toState) || {row: 0, column: 0,relations: []}
+      !node.relations.includes(status) && node.relations.push(status)
+      node.row = nextRoute.length - 1
       const currentLevel = policyPyramid[nextRoute.length - 1] || [];
       let flag = true;
       // 是否在上层存在，存在即删除
