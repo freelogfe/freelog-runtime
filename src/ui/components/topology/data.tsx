@@ -2,12 +2,17 @@
 /**
  * 节点集合
  * {
- *   row: 0,
- *   column: 0,
+ *   row: 0,    // 固定的
+ *   column: 0, //在不同排列中不同
  *   relations: []
  * }
  */
-let nodes = new  Map<any, any>() 
+interface Node {
+  row: number,  
+  column: number,
+  relations: Array<string>
+}
+let nodes = new  Map<any, Node>() 
 
 // 最少交叉的金字塔
 let bestPyramid = {
@@ -46,6 +51,7 @@ function getPyramid(policy: any) {
   function findNext(status: any, route: any) {
     // 准备下一层的
     status.transitions.forEach((to: any, index: number) => {
+      const node = nodes.get(to.toState) || {row: 0, column: 0,relations: []}
       // cycle test
       let isExist = route.some((x: any) => x[0] === to.toState);
       const event = to;
@@ -79,7 +85,6 @@ function getPyramid(policy: any) {
         policyMaps.push(nextRoute);
         return;
       }
-
       // next route  同层往下都携带同一个下一层nextLevel
       findNext(policy[to.toState], nextRoute);
     });
