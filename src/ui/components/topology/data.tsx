@@ -1,4 +1,3 @@
-
 /**
  * 节点集合
  * {
@@ -8,44 +7,28 @@
  * }
  */
 interface Node {
-  row: number,
-  column: number,
-  relations: Array<string>
+  row: number;
+  column: number;
+  relations: Array<string>;
 }
-let nodes = new Map<any, Node>()
-
-// 最少交叉的金字塔
-let bestPyramid = {
-  crosses: 0,
-  pyramid: null
-}
+let nodes = new Map<any, Node>();
 
 /**
- * 如果出现多个最少交叉的，先按交叉数保存起来，最后再取出跟bestPyramid交叉数一样的
- * 此对象数组中不包含bestPyramid中的pyramid
- * {
- *   0:[],
- *   1:[], 
- * }
+ * 分层工具  同时记录节点信息
+ * @param data
+ *
  */
-let betterPyramids = {}
-
-/**
-* 分层工具  同时记录节点信息
-* @param data 
-*  
-*/
 function getPyramid(policy: any): any {
   /**
-    * 数据结构：
-    *   节点：状态本身和层级，下一状态的集合
-    *   路径：每一个
-    *   金字塔：二维数组，记录每个节点的层级
-    * 1.找到所有路径
-    * 2.明确层级
-    *   2.1 以初始状态往下找到所有层（遇环停止且不记录）
-    *   2.2 向上去重
-    */
+   * 数据结构：
+   *   节点：状态本身和层级，下一状态的集合
+   *   路径：每一个
+   *   金字塔：二维数组，记录每个节点的层级
+   * 1.找到所有路径
+   * 2.明确层级
+   *   2.1 以初始状态往下找到所有层（遇环停止且不记录）
+   *   2.2 向上去重
+   */
   const policyMaps: any = [];
   const policyPyramid: Array<any> = [];
   function findNext(status: any, route: any) {
@@ -62,9 +45,13 @@ function getPyramid(policy: any): any {
         return;
       }
       // 保存节点信息
-      const node = nodes.get(to.toState) || { row: 0, column: 0, relations: [] }
-      !node.relations.includes(status) && node.relations.push(status)
-      node.row = nextRoute.length - 1
+      const node = nodes.get(to.toState) || {
+        row: 0,
+        column: 0,
+        relations: [],
+      };
+      !node.relations.includes(status) && node.relations.push(status);
+      node.row = nextRoute.length - 1;
       const currentLevel = policyPyramid[nextRoute.length - 1] || [];
       let flag = true;
       // 是否在上层存在，存在即删除
@@ -109,49 +96,39 @@ function getPyramid(policy: any): any {
   return { policyMaps, policyPyramidData: { policyPyramid, maxWidth } };
 }
 
-/**
- * 计算所有交叉
- */
-function getCrosses() {
-
-}
 // @ts-ignore
 Array.prototype.equals = function (array: any) {
   // if the other array is a falsy value, return
-  if (!array)
-    return false;
+  if (!array) return false;
 
   // compare lengths - can save a lot of time
-  if (this.length != array.length)
-    return false;
+  if (this.length != array.length) return false;
 
   for (var i = 0, l = this.length; i < l; i++) {
     // Check if we have nested arrays
     if (this[i] instanceof Array && array[i] instanceof Array) {
       // recurse into the nested arrays
-      if (!this[i].equals(array[i]))
-        return false;
-    }
-    else if (this[i] != array[i]) {
+      if (!this[i].equals(array[i])) return false;
+    } else if (this[i] != array[i]) {
       // Warning - two different object instances will never be equal: {x:20} != {x:20}
       return false;
     }
   }
   return true;
-}
+};
 // Hide method from for-in loops
 Object.defineProperty(Array.prototype, "equals", { enumerable: false });
 /**
- * 
+ *
  * @param contents 去重
- * @returns 
+ * @returns
  */
 function norepeat(contents: any) {
   var norepeatContents = [];
   for (var i = 0; i < contents.length; i++) {
     const flag = norepeatContents.some((item: any) => {
-      return item.equals(contents[i])
-    })
+      return item.equals(contents[i]);
+    });
     if (!flag) {
       norepeatContents.push(contents[i]);
     }
@@ -160,8 +137,8 @@ function norepeat(contents: any) {
 }
 
 /**
- * 
- * @param 全排列 
+ *
+ * @param 全排列
  */
 function fullSort(input: any) {
   var permArr: any = [],
@@ -178,32 +155,84 @@ function fullSort(input: any) {
       input.splice(i, 0, ch);
       usedChars.pop();
     }
-    return permArr
+    return permArr;
   }
   return main(input);
 }
+
+// 最少交叉的金字塔
+let bestPyramid = {
+  crosses: 0,
+  pyramid: null,
+};
+
+/**
+ * 如果出现多个最少交叉的，先按交叉数保存起来，最后再取出跟bestPyramid交叉数一样的
+ * 此对象数组中不包含bestPyramid中的pyramid
+ * {
+ *   0:[],
+ *   1:[],
+ * }
+ */
+let betterPyramids: any = {};
+
+/**
+ * 计算所有交叉
+ */
+function getCrosses(pyramid: any):number {
+  let cross = 0
+  pyramid.forEach((item:any)=>{
+         
+  })
+  return cross
+}
+
 /**
  * 1.分层并记录节点信息  getPyramid
  * 2.按最大层，排列组合 找出最少交叉
- * @param data 
+ * @param data
  */
 export default function getBestTopology(data: any) {
-  // bestPyramid betterPyramids 
-  const { policyMaps, policyPyramidData } = getPyramid(data)
-  const { policyPyramid, maxWidth } = policyPyramidData
+  // bestPyramid betterPyramids
+  const { policyMaps, policyPyramidData } = getPyramid(data);
+  const { policyPyramid, maxWidth } = policyPyramidData;
+  const height = policyPyramid.length - 1;
   /**
    * 每一层所有组合方式，与其余层所有组合方式再组合
    */
   // 三维数组
-  const allLevel:any = []
+  const allLevel: any = [];
   policyPyramid.forEach((item: any) => {
-    const arr = [...item]
+    const arr = [...item];
     for (var i = item.length; i < maxWidth; i++) {
-      arr[i] = null
+      arr[i] = null;
     }
-    // 每一层没有重复元素的
-    allLevel.push(norepeat(fullSort(item)))
-  })
-  // 从每一层取一个
-}
+    // 每一层没有重复组合的
+    allLevel.push(norepeat(fullSort(item)));
+  });
 
+  // 从每一层取一个  深度优先
+  function compose(nextLevel: any, index: number, pyramid: any) {
+    nextLevel.forEach((layer: any) => {
+      // 取一个
+      pyramid.push(layer);
+      if (index + 1 === allLevel.length) {
+        // getCross for this tower      bestPyramid    betterPyramids
+        const crosses = getCrosses(pyramid);
+        if (crosses < bestPyramid.crosses) {
+          bestPyramid = {
+            crosses,
+            pyramid,
+          };
+          betterPyramids = { crosses: betterPyramids[crosses] };
+        } else if (crosses === bestPyramid.crosses) {
+          betterPyramids[crosses] = betterPyramids[crosses] || [];
+        }
+        return;
+      }
+      compose(allLevel[index + 1], index + 1, [...pyramid]);
+    });
+  }
+  // 从第一层开始
+  compose(allLevel[0], 0, []);
+}
