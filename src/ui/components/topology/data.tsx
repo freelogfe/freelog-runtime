@@ -161,10 +161,7 @@ function fullSort(input: any) {
 }
 
 // 最少交叉的金字塔
-let bestPyramid = {
-  crosses: 0,
-  pyramid: null,
-};
+let bestPyramid:any = null;
 
 /**
  * 如果出现多个最少交叉的，先按交叉数保存起来，最后再取出跟bestPyramid交叉数一样的
@@ -177,13 +174,56 @@ let bestPyramid = {
 let betterPyramids: any = {};
 
 /**
+ * 找到在第几列
+ * @param status 
+ * @param pyramid 
+ * @returns 
+ */
+function getColumn(status:string, pyramid:any){
+  let column = 0
+  pyramid.forEach((item:any)=>{
+    item.some((node:string, index: number)=>{
+      column = index
+      return node === status
+    })
+  })
+  return column
+}
+/**
  * 计算所有交叉
  */
 function getCrosses(pyramid: any):number {
   let cross = 0
-  pyramid.forEach((item:any)=>{
-         
-  })
+  // 从最后一层开始
+  for (let aRow = 0; aRow < pyramid.length; aRow++) {
+    const layer = pyramid[aRow];
+    // 选一个a并比较当层和上面所有层的中列大于a的
+    layer.forEach((a:any, aColumn: number)=>{
+      if(!a) return
+      const aNode = nodes.get(a)
+      for (let bRow = aRow; bRow < pyramid.length; bRow++) {
+        pyramid[bRow].forEach((b:any, bColumn:number)=>{
+          // a后面的列才判断
+          if(bColumn > aColumn && b){
+            const bNode = nodes.get(b)
+            // 此处都是上层  如果存在b的relations中的节点 c 的 column大于a的relations中d的column, 且b的row小于d的row
+            // 但是如果是同样的列，会出现重叠，解决方案：1.此处要找出重叠  2.绘图时如果不从同一点画两条线且以折线方式
+            // 选用方案2
+            bNode?.relations.forEach((c:string)=>{
+              const cColumn = getColumn(c,pyramid)
+              aNode?.relations.forEach((d:string)=>{
+                const dRow = nodes.get(d)
+                // @ts-ignore  如果是小于bRow的就是ad与bc无法产生交叉，因为bc的层都在ad上
+                if(dRow?.row <= bRow) return
+                const dColumn = getColumn(d,pyramid)
+                cColumn > dColumn && cross++
+              })
+            })
+          }
+        })
+      }
+    })
+  }
   return cross
 }
 
@@ -192,7 +232,7 @@ function getCrosses(pyramid: any):number {
  * 2.按最大层，排列组合 找出最少交叉
  * @param data
  */
-export default function getBestTopology(data: any) {
+export default function getBestTopology(data: any):any {
   // bestPyramid betterPyramids
   const { policyMaps, policyPyramidData } = getPyramid(data);
   const { policyPyramid, maxWidth } = policyPyramidData;
@@ -219,7 +259,7 @@ export default function getBestTopology(data: any) {
       if (index + 1 === allLevel.length) {
         // getCross for this tower      bestPyramid    betterPyramids
         const crosses = getCrosses(pyramid);
-        if (crosses < bestPyramid.crosses) {
+        if (crosses < bestPyramid.crosses || !bestPyramid) {
           bestPyramid = {
             crosses,
             pyramid,
@@ -235,4 +275,5 @@ export default function getBestTopology(data: any) {
   }
   // 从第一层开始
   compose(allLevel[0], 0, []);
+  return {bestPyramid, betterPyramids}
 }
