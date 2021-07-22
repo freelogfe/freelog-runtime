@@ -31,7 +31,7 @@ function getPyramid(policy: any): any {
    */
   const policyMaps: any = [];
   const policyPyramid: Array<any> = [];
-  function findNext(status: any, route: any) {
+  function findNext(status: any, route: any, statusName: string) {
     // 准备下一层的
     status.transitions.forEach((to: any, index: number) => {
       // cycle test
@@ -41,7 +41,6 @@ function getPyramid(policy: any): any {
       const nextRoute = [...route];
       nextRoute.push([to.toState, event, policy[to.toState]]);
       if (isExist) {
-        // console.log(nextRoute)
         policyMaps.push(nextRoute);
         return;
       }
@@ -51,8 +50,9 @@ function getPyramid(policy: any): any {
         column: 0,
         relations: [],
       };
-      !node.relations.includes(status) && node.relations.push(status);
+      !node.relations.includes(statusName) && node.relations.push(statusName);
       node.row = nextRoute.length - 1;
+      nodes.set(to.toState, node)
       const currentLevel = policyPyramid[nextRoute.length - 1] || [];
       let flag = true;
       // 是否在上层存在，存在即删除
@@ -77,14 +77,14 @@ function getPyramid(policy: any): any {
         return;
       }
       // next route  同层往下都携带同一个下一层nextLevel
-      findNext(policy[to.toState], nextRoute);
+      findNext(policy[to.toState], nextRoute, to.toState);
     });
   }
   if (!policy.initial.transitions) {
     return [[["initial", "", policy.initial]]];
   }
   policyPyramid.push([{ status: "initial", ...policy.initial }]);
-  findNext(policy.initial, [["initial", "", policy.initial]]);
+  findNext(policy.initial, [["initial", "", policy.initial]], "initial");
   // 去除空的层级
   [...policyPyramid].forEach((item: any, index: number) => {
     item && !item.length && policyPyramid.splice(index, 1);
@@ -93,7 +93,6 @@ function getPyramid(policy: any): any {
   policyPyramid.forEach((item: any) => {
     maxWidth = item.length > maxWidth ? item.length : maxWidth;
   });
-  console.log(policyPyramid);
   return { policyMaps, policyPyramidData: { policyPyramid, maxWidth } };
 }
 
@@ -169,10 +168,10 @@ function fullSort(input: any) {
  */
 function getColumn(status: string, pyramid: any) {
   let column = 0;
-  pyramid.forEach((item: any) => {
-    item.some((node: string, index: number) => {
+  pyramid.some((item: any) => {
+    return item.some((node: any, index: number) => {
       column = index;
-      return node === status;
+      return node && node.status === status;
     });
   });
   return column;
@@ -183,28 +182,28 @@ function getColumn(status: string, pyramid: any) {
 function getCrosses(pyramid: any): number {
   let cross = 0;
   // 从最后一层开始
-  for (let aRow = 0; aRow < pyramid.length; aRow++) {
+  for (let aRow = pyramid.length - 1; aRow > -1; aRow--) {
     const layer = pyramid[aRow];
     // 选一个a并比较当层和上面所有层的中列大于a的
     layer.forEach((a: any, aColumn: number) => {
       if (!a) return;
-      const aNode = nodes.get(a);
-      for (let bRow = aRow; bRow < pyramid.length; bRow++) {
+      const aNode = nodes.get(a.status);
+      for (let bRow = aRow; bRow > -1; bRow--) {
         pyramid[bRow].forEach((b: any, bColumn: number) => {
           // a后面的列才判断
           if (bColumn > aColumn && b) {
-            const bNode = nodes.get(b);
-            // 此处都是上层  如果存在b的relations中的节点 c 的 column大于a的relations中d的column, 且b的row小于d的row
+            const bNode = nodes.get(b.status);
+            // 此处都是上层  如果存在b的relations中的节点 c 的 column小于a的relations中d的column, 且b的row小于d的row
             // 但是如果是同样的列，会出现重叠，解决方案：1.此处要找出重叠  2.绘图时如果不从同一点画两条线且以折线方式
             // 选用方案2
             bNode?.relations.forEach((c: string) => {
               const cColumn = getColumn(c, pyramid);
               aNode?.relations.forEach((d: string) => {
                 const dRow = nodes.get(d);
-                // @ts-ignore  如果是小于bRow的就是ad与bc无法产生交叉，因为bc的层都在ad上
-                if (dRow?.row <= bRow) return;
+                // @ts-ignore  如果是大于bRow的就是ad与bc无法产生交叉，因为bc的层都在ad上
+                if (dRow?.row >= bRow) return;
                 const dColumn = getColumn(d, pyramid);
-                cColumn > dColumn && cross++;
+                if(cColumn < dColumn) cross++;
               });
             });
           }
@@ -237,7 +236,8 @@ export default function getBestTopology(data: any): any {
   // bestPyramid betterPyramids
   const { policyMaps, policyPyramidData } = getPyramid(data);
   const { policyPyramid, maxWidth } = policyPyramidData;
-  const height = policyPyramid.length - 1;
+  console.log(nodes, policyPyramid)
+
   /**
    * 每一层所有组合方式，与其余层所有组合方式再组合
    */
@@ -252,16 +252,19 @@ export default function getBestTopology(data: any): any {
     allLevel.push(norepeat(fullSort(arr)));
   });
   console.log('allLevel', allLevel);
+  let count = 0
   // 从每一层取一个  深度优先
   function compose(nextLevel: any, index: number, _pyramid: any) {
-    nextLevel.forEach((layer: any) => {
+    nextLevel.forEach((layer: any, i: number) => {
       // 取一个
       const pyramid = [..._pyramid]
       pyramid.push(layer);
       if (index + 1 === allLevel.length) {
         // getCross for this tower      bestPyramid    betterPyramids
         const crosses = getCrosses(pyramid);
-        console.log('crosses', crosses)
+        if(!crosses){
+          count++
+        }
         if (!bestPyramid || crosses < bestPyramid.crosses) {
           bestPyramid = {
             crosses,
@@ -280,5 +283,7 @@ export default function getBestTopology(data: any): any {
   }
   // 从第一层开始
   compose(allLevel[0], 0, []);
+  console.log('zero', count)
+
   return { policyMaps, bestPyramid, betterPyramids };
 }
