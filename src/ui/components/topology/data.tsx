@@ -264,11 +264,9 @@ export default function getBestTopology(data: any): any {
             crosses,
             pyramid,
           };
-          console.log(pyramid);
           betterPyramids = {};
-          betterPyramids[crosses] = betterPyramids[crosses];
         } else if (crosses === bestPyramid.crosses) {
-          betterPyramids[crosses] = betterPyramids[crosses] || [];
+          betterPyramids[crosses] = (betterPyramids[crosses] || []).push(pyramid);
         }
         return;
       }
