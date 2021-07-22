@@ -63,6 +63,9 @@ export default function (props: contractProps) {
     const contracts = con.data.data.filter((item: any) => {
       return item.status === 0;
     });
+    res.data.data.policies = res.data.data.policies.filter((i:any)=>{
+      return i.status === 1
+    })
     res.data.data.policies.forEach((item: any) => {
       console.log(item);
       const {policyMaps, bestPyramid, betterPyramids} = getBestTopology(item.fsmDescriptionInfo)

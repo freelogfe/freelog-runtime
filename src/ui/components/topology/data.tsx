@@ -41,6 +41,7 @@ function getPyramid(policy: any): any {
       const nextRoute = [...route];
       nextRoute.push([to.toState, event, policy[to.toState]]);
       if (isExist) {
+        // console.log(nextRoute)
         policyMaps.push(nextRoute);
         return;
       }
@@ -220,6 +221,7 @@ function getCrosses(pyramid: any): number {
  * @param data
  */
 export default function getBestTopology(data: any): any {
+  nodes = new Map<any, Node>();
   // 最少交叉的金字塔
   let bestPyramid: any = null;
 
@@ -247,18 +249,19 @@ export default function getBestTopology(data: any): any {
       arr[i] = null;
     }
     // 每一层没有重复组合的
-    allLevel.push(norepeat(fullSort(item)));
+    allLevel.push(norepeat(fullSort(arr)));
   });
-  console.log(allLevel);
+  console.log('allLevel', allLevel);
   // 从每一层取一个  深度优先
-  function compose(nextLevel: any, index: number, pyramid: any) {
+  function compose(nextLevel: any, index: number, _pyramid: any) {
     nextLevel.forEach((layer: any) => {
       // 取一个
+      const pyramid = [..._pyramid]
       pyramid.push(layer);
       if (index + 1 === allLevel.length) {
-        console.log(pyramid);
         // getCross for this tower      bestPyramid    betterPyramids
         const crosses = getCrosses(pyramid);
+        console.log('crosses', crosses)
         if (!bestPyramid || crosses < bestPyramid.crosses) {
           bestPyramid = {
             crosses,
@@ -266,7 +269,9 @@ export default function getBestTopology(data: any): any {
           };
           betterPyramids = {};
         } else if (crosses === bestPyramid.crosses) {
-          betterPyramids[crosses] = (betterPyramids[crosses] || []).push(pyramid);
+          const arr = (betterPyramids[crosses] || [])
+          arr.push(pyramid);
+          betterPyramids[crosses] = arr
         }
         return;
       }
