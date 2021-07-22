@@ -10,6 +10,7 @@ import { getPolicyMaps } from "../../utils/policy";
 import { getUserInfo } from "../../platform/structure/utils";
 import Confirm from "./_components/confirm";
 import Dag from "./_components/dag";
+import getBestTopology from "./topology/data"
 /**
  * 展品授权窗口：
  *     左：展品列表
@@ -64,13 +65,10 @@ export default function (props: contractProps) {
     });
     res.data.data.policies.forEach((item: any) => {
       console.log(item);
-      item.routeMaps = getPolicyMaps(
-        item.fsmDescriptionInfo
-      ).policyMaps;
-      item.policyPyramid = getPolicyMaps(
-        item.fsmDescriptionInfo
-      ).policyPyramid;
-      console.log(item.routeMaps)
+      const {policyMaps, bestPyramid, betterPyramids} = getBestTopology(item.fsmDescriptionInfo)
+      item.policyMaps =  policyMaps;
+      item.bestPyramid =  bestPyramid;
+      console.log(policyMaps, bestPyramid, betterPyramids)
     });
     console.log(res.data.data.policies);
     setPolicies(res.data.data.policies);
@@ -168,8 +166,8 @@ export default function (props: contractProps) {
                       获取授权
                     </Button>
                   </div>
-                  <Dag routeMaps={policy.routeMaps} policyPyramid={policy.policyPyramid}/>
-                  {policy.routeMaps.map((route: any) => {
+                  <Dag policyMaps={policy.policyMaps} bestPyramid={policy.bestPyramid}/>
+                  {policy.policyMaps.map((route: any) => {
                     return (
                       <div className="flex-column   mb-10 bb-1 px-10" key={route}>
                         {route.map((node: any, index: number) => {

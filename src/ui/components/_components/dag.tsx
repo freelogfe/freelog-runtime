@@ -4,8 +4,8 @@ import { Graph } from "@antv/x6";
 import React, { useState, useEffect } from "react";
 
 interface ConfirmProps {
-  routeMaps: any;
-  policyPyramid: any;
+  policyMaps: any;
+  bestPyramid: any;
 }
 
 export default function (props: ConfirmProps) {
