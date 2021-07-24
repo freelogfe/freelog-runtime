@@ -11,71 +11,91 @@ interface Node {
   column: number;
   relations: Array<string>;
 }
-let nodesMap = new Map<any, Node>();
+let nodes = new Map<any, Node>();
 
 /**
  * 分层工具  同时记录节点信息
- * @param policy
- * 如果ba
+ * @param data
+ *
  */
-
 function getPyramid(policy: any): any {
-  const pyramid: any = []
-  function findNextLevel(level: number) {
-    const currentLevel = pyramid[level] || []
-    // 遍历上层的所有节点
-    pyramid[level - 1].forEach((node: any) => {
-      // 拿出节点信息 
-      const nodeData = nodesMap.get(node.status)|| {
+  /**
+   * 数据结构：
+   *   节点：状态本身和层级，下一状态的集合
+   *   路径：每一个
+   *   金字塔：二维数组，记录每个节点的层级
+   * 1.找到所有路径
+   * 2.明确层级
+   *   2.1 以初始状态往下找到所有层（遇环停止且不记录）
+   *   2.2 向上去重
+   */
+  const policyMaps: any = [];
+  const policyPyramid: Array<any> = [];
+  function findNext(status: any, route: any, statusName: string) {
+    // 准备下一层的
+    status.transitions.forEach((to: any, index: number) => {
+      // cycle test
+      let isExist = route.some((x: any) => x[0] === to.toState);
+      const event = to;
+      // prepare for next route
+      const nextRoute = [...route];
+      nextRoute.push([to.toState, event, policy[to.toState]]);
+      if (isExist) {
+        policyMaps.push(nextRoute);
+        return;
+      }
+      // 保存节点信息
+      const node = nodes.get(to.toState) || {
         row: 0,
         column: 0,
         relations: [],
       };
-      node.transitions.forEach((to: any, index: number) => {
-
-        // @ts-ignore 先考虑relations中有没有出现过，如果出现过就是环，则忽略
-        if (nodeData.relations.includes(to.toState)) {
-          return
-        }
-        // 再考虑同层去重
-        if (!currentLevel.some((item: any) => item.status === to.toState)) {
-          // 拿出节点信息
-          const toNodeData = nodesMap.get(node.status) || {
-            row: 0,
-            column: 0,
-            relations: [],
-          };
-          // 保存上层过来的对应节点
-          !toNodeData.relations.includes(node.status) && toNodeData.relations.push(node.status);
-          toNodeData.row = level; // 此时的层是准确的，在后面向上去重也不会影响，因为会保留最后一个
-          nodesMap.set(to.toState, toNodeData)
-          currentLevel.push({ status: to.toState, ...policy[to.toState] })
-        }
-      })
-    })
-    pyramid[level] = currentLevel
-    findNextLevel(level + 1)
-  }
-  // 第一层已经有了
-  pyramid.push([{ status: "initial", ...policy.initial }]);
-  // 开始找第一层的所有子节点即第二层
-  findNextLevel(1);
-  let maxWidth = 0
-  // 向上去重
-  for (let aRow = pyramid.length - 1; aRow > 0; aRow--) {
-    const layer = pyramid[aRow];
-    maxWidth < layer.length && (maxWidth = layer.length)
-    // 选一个a并比较当层和上面所有层的中列大于a的
-    layer.forEach((a: any, aColumn: number) => {
-      // 同层已经没有重复的了
-      for (let bRow = aRow -1; bRow > -1; bRow--) {
-        pyramid[bRow] = pyramid[bRow].filter((b: any, bColumn: number) => b.status !== a.status );
+      !node.relations.includes(statusName) && node.relations.push(statusName);
+      node.row = nextRoute.length - 1;
+      nodes.set(to.toState, node)
+      const currentLevel = policyPyramid[nextRoute.length - 1] || [];
+      let flag = true;
+      // 是否在上层存在，存在即删除
+      policyPyramid.forEach((item: any, level: number) => {
+        // 1.删除上层的，
+        [...item].forEach((it: any, index: number) => {
+          if (it.status === to.toState) {
+            if (nextRoute.length - 1 >= level) {
+              item.splice(index, 1);
+            } else {
+              // 2.如果下层有则不加入当前层
+              flag = false;
+            }
+          }
+        });
+      });
+      flag && currentLevel.push({ status: to.toState, ...policy[to.toState] });
+      policyPyramid[nextRoute.length - 1] = currentLevel;
+      // route end
+      if (!policy[to.toState].transitions.length) {
+        policyMaps.push(nextRoute);
+        return;
       }
+      // next route  同层往下都携带同一个下一层nextLevel
+      findNext(policy[to.toState], nextRoute, to.toState);
     });
   }
-  maxWidth < pyramid[0].length  && (maxWidth = pyramid[0].length )
-  return { policyPyramid: pyramid, maxWidth }
+  if (!policy.initial.transitions) {
+    return [[["initial", "", policy.initial]]];
+  }
+  policyPyramid.push([{ status: "initial", ...policy.initial }]);
+  findNext(policy.initial, [["initial", "", policy.initial]], "initial");
+  // 去除空的层级
+  [...policyPyramid].forEach((item: any, index: number) => {
+    item && !item.length && policyPyramid.splice(index, 1);
+  });
+  let maxWidth = 0;
+  policyPyramid.forEach((item: any) => {
+    maxWidth = item.length > maxWidth ? item.length : maxWidth;
+  });
+  return { policyMaps, policyPyramidData: { policyPyramid, maxWidth } };
 }
+
 // @ts-ignore
 Array.prototype.equals = function (array: any) {
   // if the other array is a falsy value, return
@@ -167,23 +187,23 @@ function getCrosses(pyramid: any): number {
     // 选一个a并比较当层和上面所有层的中列大于a的
     layer.forEach((a: any, aColumn: number) => {
       if (!a) return;
-      const aNode = nodesMap.get(a.status);
+      const aNode = nodes.get(a.status);
       for (let bRow = aRow; bRow > -1; bRow--) {
         pyramid[bRow].forEach((b: any, bColumn: number) => {
           // a后面的列才判断
           if (bColumn > aColumn && b) {
-            const bNode = nodesMap.get(b.status);
+            const bNode = nodes.get(b.status);
             // 此处都是上层  如果存在b的relations中的节点 c 的 column小于a的relations中d的column, 且b的row小于d的row
             // 但是如果是同样的列，会出现重叠，解决方案：1.此处要找出重叠  2.绘图时如果不从同一点画两条线且以折线方式
             // 选用方案2
             bNode?.relations.forEach((c: string) => {
               const cColumn = getColumn(c, pyramid);
               aNode?.relations.forEach((d: string) => {
-                const dRow = nodesMap.get(d);
+                const dRow = nodes.get(d);
                 // @ts-ignore  如果是大于bRow的就是ad与bc无法产生交叉，因为bc的层都在ad上
                 if (dRow?.row >= bRow) return;
                 const dColumn = getColumn(d, pyramid);
-                if (cColumn < dColumn) cross++;
+                if(cColumn < dColumn) cross++;
               });
             });
           }
@@ -200,7 +220,7 @@ function getCrosses(pyramid: any): number {
  * @param data
  */
 export default function getBestTopology(data: any): any {
-  nodesMap = new Map<any, Node>();
+  nodes = new Map<any, Node>();
   // 最少交叉的金字塔
   let bestPyramid: any = null;
 
@@ -214,8 +234,9 @@ export default function getBestTopology(data: any): any {
    */
   let betterPyramids: any = {};
   // bestPyramid betterPyramids
-  const { policyPyramid, maxWidth } = getPyramid(data);
-  console.log(nodesMap, policyPyramid)
+  const { policyMaps, policyPyramidData } = getPyramid(data);
+  const { policyPyramid, maxWidth } = policyPyramidData;
+  console.log(nodes, policyPyramid)
 
   /**
    * 每一层所有组合方式，与其余层所有组合方式再组合
@@ -241,7 +262,7 @@ export default function getBestTopology(data: any): any {
       if (index + 1 === allLevel.length) {
         // getCross for this tower      bestPyramid    betterPyramids
         const crosses = getCrosses(pyramid);
-        if (!crosses) {
+        if(!crosses){
           count++
         }
         if (!bestPyramid || crosses < bestPyramid.crosses) {
@@ -264,5 +285,5 @@ export default function getBestTopology(data: any): any {
   compose(allLevel[0], 0, []);
   console.log('zero', count)
 
-  return { bestPyramid, betterPyramids };
+  return { policyMaps, bestPyramid, betterPyramids };
 }
