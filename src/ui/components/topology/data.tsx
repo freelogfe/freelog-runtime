@@ -79,6 +79,8 @@ function getPyramid(policy: any): any {
         // @ts-ignore 先考虑relations中有没有出现过，如果出现过就是环，则忽略
         // 这里有问题，并没有一直往上找，而是只找了上级
         if (nodeData.route.includes(next.toState)) {
+          // 反转
+          !nodeData.relations.includes(next.toState) && nodeData.relations.push(next.toState);
           return
         }
         // 拿出节点信息
