@@ -76,13 +76,6 @@ function getPyramid(policy: any): any {
       };
       pre.transitions.forEach((next: any, index: number) => {
         if(next.toState === 'g') console.log(nodeData)
-        // @ts-ignore 先考虑relations中有没有出现过，如果出现过就是环，则忽略
-        // 这里有问题，并没有一直往上找，而是只找了上级
-        if (nodeData.route.includes(next.toState)) {
-          // 反转,即面向对象，忽略箭头，此时pre与next也建立连接
-          !nodeData.relations.includes(next.toState) && nodeData.relations.push(next.toState);
-          return
-        }
         // 拿出节点信息
         const toNodeData = nodesMap.get(next.toState) || {
           row: 0,
@@ -90,6 +83,14 @@ function getPyramid(policy: any): any {
           relations: [],
           route: []
         };
+        // @ts-ignore 先考虑relations中有没有出现过，如果出现过就是环，则忽略
+        // 这里有问题，并没有一直往上找，而是只找了上级
+        if (nodeData.route.includes(next.toState)) {
+          // 反转,即面向对象，忽略箭头，此时pre与next也建立连接
+          !nodeData.relations.includes(next.toState) && !toNodeData.relations.includes(pre.status) && nodeData.relations.push(next.toState);
+          return
+        }
+        
         // 保存上层过来的对应节点
         !toNodeData.relations.includes(pre.status) && toNodeData.relations.push(pre.status);
         toNodeData.row = level; // 此时的层是准确的，在后面向上去重也不会影响，因为会保留最后一个
