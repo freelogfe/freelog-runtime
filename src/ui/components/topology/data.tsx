@@ -13,6 +13,46 @@ interface Node {
 }
 let nodesMap = new Map<any, Node>();
 
+function getRouteMaps(policy: any): any {
+  /**
+   * 数据结构：
+   *   节点：状态本身和层级，下一状态的集合
+   *   路径：每一个
+   *   金字塔：二维数组，记录每个节点的层级
+   * 1.找到所有路径
+   * 2.明确层级
+   *   2.1 以初始状态往下找到所有层（遇环停止且不记录）
+   *   2.2 向上去重
+   */
+  const policyMaps: any = [];
+  function findNext(status: any, route: any) {
+    // 准备下一层的
+    status.transitions.forEach((to: any, index: number) => {
+      // cycle test
+      let isExist = route.some((x: any) => x[0] === to.toState);
+      const event = to;
+      // prepare for next route
+      const nextRoute = [...route];
+      nextRoute.push([to.toState, event, policy[to.toState]]);
+      if (isExist) {
+        policyMaps.push(nextRoute);
+        return;
+      } 
+            // route end
+      if (!policy[to.toState].transitions.length) {
+        policyMaps.push(nextRoute);
+        return;
+      }
+      // next route  同层往下都携带同一个下一层nextLevel
+      findNext(policy[to.toState], nextRoute);
+    });
+  }
+  if (!policy.initial.transitions) {
+    return [[["initial", "", policy.initial]]];
+  }
+  findNext(policy.initial, [["initial", "", policy.initial]]);
+  return policyMaps
+}
 /**
  * 分层工具  同时记录节点信息
  * @param policy
@@ -53,6 +93,7 @@ function getPyramid(policy: any): any {
         }
       })
     })
+    if(!currentLevel.length) return 
     pyramid[level] = currentLevel
     findNextLevel(level + 1)
   }
@@ -263,6 +304,6 @@ export default function getBestTopology(data: any): any {
   // 从第一层开始
   compose(allLevel[0], 0, []);
   console.log('zero', count)
-
-  return { bestPyramid, betterPyramids };
+  const policyMaps = getRouteMaps(data)
+  return { policyMaps,bestPyramid, betterPyramids };
 }
