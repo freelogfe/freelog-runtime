@@ -10,6 +10,7 @@ interface Node {
   row: number;
   column: number;
   relations: Array<string>;
+  route: Array<string>;
 }
 let nodesMap = new Map<any, Node>();
 
@@ -37,8 +38,8 @@ function getRouteMaps(policy: any): any {
       if (isExist) {
         policyMaps.push(nextRoute);
         return;
-      } 
-            // route end
+      }
+      // route end
       if (!policy[to.toState].transitions.length) {
         policyMaps.push(nextRoute);
         return;
@@ -63,37 +64,43 @@ function getPyramid(policy: any): any {
   const pyramid: any = []
   function findNextLevel(level: number) {
     const currentLevel = pyramid[level] || []
+    console.log('currentLevel', currentLevel, pyramid[level - 1])
     // 遍历上层的所有节点
-    pyramid[level - 1].forEach((node: any) => {
+    pyramid[level - 1].forEach((pre: any) => {
       // 拿出节点信息 
-      const nodeData = nodesMap.get(node.status)|| {
+      const nodeData = nodesMap.get(pre.status) || {
         row: 0,
         column: 0,
         relations: [],
+        route: ['initial']
       };
-      node.transitions.forEach((to: any, index: number) => {
-
+      pre.transitions.forEach((next: any, index: number) => {
+        if(next.toState === 'g') console.log(nodeData)
         // @ts-ignore 先考虑relations中有没有出现过，如果出现过就是环，则忽略
-        if (nodeData.relations.includes(to.toState)) {
+        // 这里有问题，并没有一直往上找，而是只找了上级
+        if (nodeData.route.includes(next.toState)) {
           return
         }
+        // 拿出节点信息
+        const toNodeData = nodesMap.get(next.toState) || {
+          row: 0,
+          column: 0,
+          relations: [],
+          route: []
+        };
+        // 保存上层过来的对应节点
+        !toNodeData.relations.includes(pre.status) && toNodeData.relations.push(pre.status);
+        toNodeData.row = level; // 此时的层是准确的，在后面向上去重也不会影响，因为会保留最后一个
+        // 需要去重，这里是所有到达此节点的路径节点
+        toNodeData.route = [...nodeData.route, ...toNodeData.route, next.toState] // 节点自己以及上级的route
+        nodesMap.set(next.toState, toNodeData)
         // 再考虑同层去重
-        if (!currentLevel.some((item: any) => item.status === to.toState)) {
-          // 拿出节点信息
-          const toNodeData = nodesMap.get(node.status) || {
-            row: 0,
-            column: 0,
-            relations: [],
-          };
-          // 保存上层过来的对应节点
-          !toNodeData.relations.includes(node.status) && toNodeData.relations.push(node.status);
-          toNodeData.row = level; // 此时的层是准确的，在后面向上去重也不会影响，因为会保留最后一个
-          nodesMap.set(to.toState, toNodeData)
-          currentLevel.push({ status: to.toState, ...policy[to.toState] })
+        if (!(currentLevel.some((item: any) => item.status === next.toState))) {
+          currentLevel.push({ status: next.toState, ...policy[next.toState] })
         }
       })
     })
-    if(!currentLevel.length) return 
+    if (!currentLevel.length) return
     pyramid[level] = currentLevel
     findNextLevel(level + 1)
   }
@@ -109,12 +116,12 @@ function getPyramid(policy: any): any {
     // 选一个a并比较当层和上面所有层的中列大于a的
     layer.forEach((a: any, aColumn: number) => {
       // 同层已经没有重复的了
-      for (let bRow = aRow -1; bRow > -1; bRow--) {
-        pyramid[bRow] = pyramid[bRow].filter((b: any, bColumn: number) => b.status !== a.status );
+      for (let bRow = aRow - 1; bRow > -1; bRow--) {
+        pyramid[bRow] = pyramid[bRow].filter((b: any, bColumn: number) => b.status !== a.status);
       }
     });
   }
-  maxWidth < pyramid[0].length  && (maxWidth = pyramid[0].length )
+  maxWidth < pyramid[0].length && (maxWidth = pyramid[0].length)
   return { policyPyramid: pyramid, maxWidth }
 }
 // @ts-ignore
@@ -257,7 +264,7 @@ export default function getBestTopology(data: any): any {
   // bestPyramid betterPyramids
   const { policyPyramid, maxWidth } = getPyramid(data);
   console.log(nodesMap, policyPyramid)
-
+  // return
   /**
    * 每一层所有组合方式，与其余层所有组合方式再组合
    */
@@ -305,5 +312,5 @@ export default function getBestTopology(data: any): any {
   compose(allLevel[0], 0, []);
   console.log('zero', count)
   const policyMaps = getRouteMaps(data)
-  return { policyMaps,bestPyramid, betterPyramids };
+  return { policyMaps, bestPyramid, betterPyramids };
 }
