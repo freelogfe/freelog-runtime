@@ -87,7 +87,7 @@ function getPyramid(policy: any): any {
         // 这里有问题，并没有一直往上找，而是只找了上级
         if (nodeData.route.includes(next.toState)) {
           // 反转,即面向对象，忽略箭头，此时pre与next也建立连接
-          !nodeData.relations.includes(next.toState) && !toNodeData.relations.includes(pre.status) && nodeData.relations.push(next.toState);
+          !nodeData.relations.includes(next.toState)  && nodeData.relations.push(next.toState);
           return
         }
         
