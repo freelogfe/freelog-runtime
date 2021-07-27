@@ -3,7 +3,7 @@ import "./App.scss";
 import { useEffect, useState } from "react";
 import { LOGIN, USER_CANCEL } from '../bridge/event';
 import Login from "./components/login";
-import Contract from "./components/contract";
+import Auth from "./components/auth";
 import { reisterUI, eventMap, failedMap, endEvent, updateLock } from "../bridge/index";
 import {  setUserInfo } from "../platform/structure/utils";
 
@@ -98,7 +98,7 @@ function App() {
           !!loginEvent ? (
             <Login eventFinished={loginFinished} events={events}></Login>
           ) : (
-            <Contract events={events} contractFinished={contractFinished}></Contract>
+            <Auth events={events} contractFinished={contractFinished}></Auth>
           )
         ) : (
           ""
