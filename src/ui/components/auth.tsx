@@ -68,9 +68,11 @@ export default function (props: contractProps) {
     })
     res.data.data.policies.forEach((item: any) => {
       console.log(item);
-      const {policyMaps, bestPyramid, betterPyramids} = getBestTopology(item.fsmDescriptionInfo)
+      const {policyMaps, bestPyramid, betterPyramids, nodesMap} = getBestTopology(item.fsmDescriptionInfo)
       item.policyMaps =  policyMaps;
       item.bestPyramid =  bestPyramid;
+      item.betterPyramids = betterPyramids;
+      item.nodesMap = nodesMap;
       console.log(policyMaps, bestPyramid, betterPyramids)
     });
     console.log(res.data.data.policies);
@@ -149,13 +151,13 @@ export default function (props: contractProps) {
               <div className="w-516 bg-content h-100x   y-auto ">
                 {/* <Contract></Contract> */}
                 {policies.map((policy: any, index: number) => {
-                  <Policy policy={policy}></Policy>
+                  return (<Policy policy={policy} key={index}></Policy>)
                 })}
                 
               </div>
             </div>
           </div>
-          <div className="h-74 w-100x">立即签约</div>
+          <div className="h-74 w-100x text-center">立即签约</div>
         </div>
 
       </Modal>

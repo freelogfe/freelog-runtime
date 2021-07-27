@@ -6,10 +6,13 @@
  *   relations: []
  * }
  */
+ 
 interface Node {
   row: number;
   column: number;
   relations: Array<string>;
+  to: Array<string>;
+  from: Array<string>;
   route: Array<string>;
 }
 let nodesMap = new Map<any, Node>();
@@ -72,7 +75,9 @@ function getPyramid(policy: any): any {
         row: 0,
         column: 0,
         relations: [],
-        route: ['initial']
+        route: ['initial'],
+        to: [],
+        from: []
       };
       pre.transitions.forEach((next: any, index: number) => {
         if(next.toState === 'g') console.log(nodeData)
@@ -81,18 +86,26 @@ function getPyramid(policy: any): any {
           row: 0,
           column: 0,
           relations: [],
-          route: []
+          route: [],
+          to: [],
+          from: []
         };
         // @ts-ignore 先考虑relations中有没有出现过，如果出现过就是环，则忽略
         // 这里有问题，并没有一直往上找，而是只找了上级
         if (nodeData.route.includes(next.toState)) {
+          !nodeData.to.includes(next.toState) && nodeData.to.push(next.toState);
           // 反转,即面向对象，忽略箭头，此时pre与next也建立连接
-          !nodeData.relations.includes(next.toState)  && nodeData.relations.push(next.toState);
+          if(!nodeData.relations.includes(next.toState)){
+            nodeData.relations.push(next.toState);
+          }  
           return
         }
         
         // 保存上层过来的对应节点
-        !toNodeData.relations.includes(pre.status) && toNodeData.relations.push(pre.status);
+        if(!toNodeData.relations.includes(pre.status)){
+          toNodeData.relations.push(pre.status);
+          toNodeData.from.push(pre.status);
+        }
         toNodeData.row = level; // 此时的层是准确的，在后面向上去重也不会影响，因为会保留最后一个
         // 需要去重，这里是所有到达此节点的路径节点
         toNodeData.route = [...nodeData.route, ...toNodeData.route, next.toState] // 节点自己以及上级的route
@@ -315,5 +328,5 @@ export default function getBestTopology(data: any): any {
   compose(allLevel[0], 0, []);
   console.log('zero', count)
   const policyMaps = getRouteMaps(data)
-  return { policyMaps, bestPyramid, betterPyramids };
+  return { policyMaps, bestPyramid, betterPyramids, nodesMap };
 }
