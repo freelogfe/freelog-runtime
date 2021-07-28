@@ -1,4 +1,6 @@
+import PolicyGraph from './_components/policyGraph'
  
+
 interface ItemProps {
   policy: any;
   children?: any;
@@ -6,6 +8,6 @@ interface ItemProps {
 export default function (props:ItemProps) {
   console.log(props.policy)
   return (
-     <div></div>
+     <div><PolicyGraph policy={props.policy}></PolicyGraph></div>
   );
 }
