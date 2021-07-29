@@ -48,6 +48,7 @@ export default function (props: contractProps) {
     const userInfo: any = await getUserInfo();
     const res = await frequest(presentable.getPresentableDetail, [id], {
       isLoadPolicyInfo: 1,
+      isTranslate: 1
     });
     const con = await frequest(contract.getContracts, "", {
       subjectIds: currentPresentable.presentableId,

@@ -328,5 +328,6 @@ export default function getBestTopology(data: any): any {
   compose(allLevel[0], 0, []);
   console.log('zero', count)
   const policyMaps = getRouteMaps(data)
+  bestPyramid.maxWidth = maxWidth
   return { policyMaps, bestPyramid, betterPyramids, nodesMap };
 }
