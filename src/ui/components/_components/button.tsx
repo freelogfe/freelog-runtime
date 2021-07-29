@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 interface buttonProps {
   disabled?: boolean;
-  click(e: any): any;
+  click?(e: any): any;
   children: any;
   className?: string;
   type?: string;
