@@ -1,11 +1,16 @@
 import { Radio, Input, Space } from 'antd';
+import { useState, useEffect } from "react";
+
 
 interface ItemProps {
   contract: any;
   children: any;
 }
 export default function (props: ItemProps) {
+  const [value, setValue] = useState(1);
+  function onChange(e:any){
 
+  }
   return (
     <div>
       <div className="flex-row">
@@ -25,7 +30,7 @@ export default function (props: ItemProps) {
         {/* 可选事件 */}
         <div>
           <div className="flex-row">
-            <Radio.Group onChange={this.onChange} value={value}>
+            <Radio.Group onChange={onChange} value={value}>
               <div className="flex-column">
                 <Radio value={1}>
                   <div className="flex-column">支付10fetch获取授权</div>

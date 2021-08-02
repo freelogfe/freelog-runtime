@@ -1,7 +1,10 @@
- 
-export default function () {
+interface CodeProps {
+  policyText: any;
+  children?: any;
+} 
+export default function (props:CodeProps ) {
    
   return (
-     <div></div>
+     <div>{props.policyText}</div>
   );
 }

@@ -1,16 +1,17 @@
 import { Modal } from "antd";
 import { SUCCESS, USER_CANCEL } from "../../bridge/event";
 import React, { useState, useEffect } from "react";
-import Presentables from './presenbles/presentbles'
+import Presentables from "./presenbles/presentbles";
 import { LOGIN } from "../../bridge/event";
+import Button from "./_components/button";
 
-import Contract from './contract/contract'
-import Policy from './policy/policy'
+import Contract from "./contract/contract";
+import Policy from "./policy/policy";
 import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
 import contract from "../../services/api/modules/contract";
 import { getUserInfo } from "../../platform/structure/utils";
-import getBestTopology from "./topology/data"
+import getBestTopology from "./topology/data";
 /**
  * 展品授权窗口：
  *     左：展品列表
@@ -22,14 +23,17 @@ import getBestTopology from "./topology/data"
  *                    下：合约流转记录：可显示隐藏
  *               下：合约编号，签约时间
  *         策略：上：整行：名称 复选框（没有合约时，复选框变成签约按钮）
- *               中：tab页：策略内容，状态机视图，策略代码   
+ *               中：tab页：策略内容，状态机视图，策略代码
  * 组件化：不过分考虑细腻度
  *     最外层：
  *         待获取授权展品组件
  *         合约组件：授权状态组件（全局），按钮组件（全局），流转记录组件（有可能需要放大，所以提出来）
  *         策略组件(策略组件需要放大或点击合约的策略内容单独显示)：状态机视图组件，策略内容组件，策略代码组件
- *             
+ * 
+ * 最外面拦截到errCode === 30 时需要跳转登录
+ * 
  */
+
 interface contractProps {
   events: Array<any>;
   contractFinished(eventId: any, type: number, data?: any): any;
@@ -38,17 +42,14 @@ interface contractProps {
 export default function (props: contractProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const events = props.events || [];
-  const [currentPolicy, setCurrentCurrentPolicy] = useState({
-    policyId: "",
-    policyName: "",
-  });
+
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
   const [policies, setPolicies] = useState([]);
   async function getDetail(id: string) {
     const userInfo: any = await getUserInfo();
     const res = await frequest(presentable.getPresentableDetail, [id], {
       isLoadPolicyInfo: 1,
-      isTranslate: 1
+      isTranslate: 1,
     });
     const con = await frequest(contract.getContracts, "", {
       subjectIds: currentPresentable.presentableId,
@@ -64,17 +65,18 @@ export default function (props: contractProps) {
     const contracts = con.data.data.filter((item: any) => {
       return item.status === 0;
     });
-    res.data.data.policies = res.data.data.policies.filter((i:any)=>{
-      return i.status === 1
-    })
+    res.data.data.policies = res.data.data.policies.filter((i: any) => {
+      return i.status === 1;
+    });
     res.data.data.policies.forEach((item: any) => {
       console.log(item);
-      const {policyMaps, bestPyramid, betterPyramids, nodesMap} = getBestTopology(item.fsmDescriptionInfo)
-      item.policyMaps =  policyMaps;
-      item.bestPyramid =  bestPyramid;
+      const { policyMaps, bestPyramid, betterPyramids, nodesMap } =
+        getBestTopology(item.fsmDescriptionInfo);
+      item.policyMaps = policyMaps;
+      item.bestPyramid = bestPyramid;
       item.betterPyramids = betterPyramids;
       item.nodesMap = nodesMap;
-      console.log(policyMaps, bestPyramid, betterPyramids)
+      console.log(policyMaps, bestPyramid, betterPyramids);
     });
     console.log(res.data.data.policies);
     setPolicies(res.data.data.policies);
@@ -91,11 +93,18 @@ export default function (props: contractProps) {
     console.log("userCancel");
   };
   const getAuth = async () => {
+    const subjects: any = [];
+    policies.forEach((item: any) => {
+      item.checked &&
+        subjects.push({
+          subjectId: currentPresentable.presentableId,
+          policyId: item.policyId,
+        });
+    });
     const userInfo: any = await getUserInfo();
-    const res = await frequest(contract.contract, [], {
-      subjectId: currentPresentable.presentableId,
+    const res = await frequest(contract.contracts, [], {
+      subjects,
       subjectType: 2,
-      policyId: currentPolicy.policyId,
       licenseeId: userInfo.userId + "",
       licenseeIdentityType: 3,
     });
@@ -104,7 +113,7 @@ export default function (props: contractProps) {
     }
     setIsModalVisible(false);
     props.contractFinished(currentPresentable.eventId, SUCCESS);
-  }; 
+  };
   return (
     <React.Fragment>
       <Modal
@@ -119,48 +128,50 @@ export default function (props: contractProps) {
         keyboard={false}
         maskClosable={false}
         wrapClassName="freelog-contract"
-        getContainer={document.getElementById('runtime-root')}
+        getContainer={document.getElementById("runtime-root")}
       >
         <div className="w-100x h-574 flex-column">
           {/* 左右 */}
-          <div className="w-100x flex-1 flex-row">
-            <div className="w-100x h-100x over-h flex-row">
+          <div className="w-100x flex-1 flex-row over-h">
+            <div className="w-100x h-100x  flex-row">
               {/* 左：待授权展品列表 */}
               <div className="flex-column w-344 h-100x  y-auto">
-              {events.length
-              ? events.map((item: any, index: number) => {
-                  if (item.event === LOGIN) return "";
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => {
-                        setCurrentPresentable(item);
-                      }}
-                      className={
-                        (currentPresentable === item ? "bg-content " : "") +
-                        " pl-20 w-100x b-box h-60 cur-pointer f-main lh-60 select-none"
-                      }
-                    >
-                      <div>{item.presentableName}</div>
-                    </div>
-                  );
-                })
-              : ""}
+                {events.length
+                  ? events.map((item: any, index: number) => {
+                      if (item.event === LOGIN) return "";
+                      return (
+                        <div
+                          key={index}
+                          onClick={() => {
+                            setCurrentPresentable(item);
+                          }}
+                          className={
+                            (currentPresentable === item ? "bg-content " : "") +
+                            " pl-20 w-100x b-box h-60 cur-pointer f-main lh-60 select-none"
+                          }
+                        >
+                          <div>{item.presentableName}</div>
+                        </div>
+                      );
+                    })
+                  : ""}
                 {/* <Presentables></Presentables> */}
               </div>
               {/* 右：策略或合约列表 */}
               <div className="w-516 bg-content h-100x   y-auto ">
                 {/* <Contract></Contract> */}
                 {policies.map((policy: any, index: number) => {
-                  return (<Policy policy={policy} key={index}></Policy>)
+                  return <Policy policy={policy} key={index}></Policy>;
                 })}
-                
               </div>
             </div>
           </div>
-          <div className="h-74 w-100x text-center">立即签约</div>
-        </div>
 
+          <div className="h-74 w-100x text-center">
+            {" "}
+            <Button click={getAuth}>立即签约</Button>
+          </div>
+        </div>
       </Modal>
     </React.Fragment>
   );

@@ -1,11 +1,11 @@
-import PolicyGraph from './_components/policyGraph'
-import PolicyCode from './_components/policyCode'
+import PolicyGraph from "./_components/policyGraph";
+import PolicyCode from "./_components/policyCode";
 
-import PolicyContent from './_components/policyContent'
+import PolicyContent from "./_components/policyContent";
 import Button from "../_components/button";
-import { Checkbox } from 'antd';
+import { Checkbox } from "antd";
 
-import { Tabs } from 'antd';
+import { Tabs } from "antd";
 
 const { TabPane } = Tabs;
 
@@ -14,11 +14,12 @@ interface ItemProps {
   children?: any;
 }
 export default function (props: ItemProps) {
-  console.log(props.policy)
+  console.log(props.policy);
   function callback(key: any) {
     console.log(key);
   }
-  function onChange(e:any) {
+  function onChange(e: any) {
+    props.policy.checked = e.target.checked
     console.log(`checked = ${e.target.checked}`);
   }
   return (
@@ -33,13 +34,13 @@ export default function (props: ItemProps) {
       <div className="flex-column px-20">
         <Tabs defaultActiveKey="1" onChange={callback}>
           <TabPane tab="策略内容" key="1">
-            <PolicyCode></PolicyCode>
+            <PolicyContent translateInfo={props.policy.translateInfo}></PolicyContent>
           </TabPane>
           <TabPane tab="状态机视图" key="2">
             <PolicyGraph policy={props.policy}></PolicyGraph>
           </TabPane>
           <TabPane tab="策略代码" key="3">
-            <PolicyContent></PolicyContent>
+            <PolicyCode policyText={props.policy.policyText}></PolicyCode>
           </TabPane>
         </Tabs>
       </div>

@@ -33,7 +33,7 @@ export default function (props: buttonProps) {
   return (
     <div
       onClick={(e) => {
-        props.click(e);
+        props.click && props.click(e);
       }}
       onMouseDown={(e) => {
         setStatus(2);

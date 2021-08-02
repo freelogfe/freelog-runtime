@@ -1,7 +1,10 @@
- 
-export default function () {
+interface CotentProps {
+  translateInfo: any;
+  children?: any;
+}  
+export default function (props:CotentProps) {
    
   return (
-     <div></div>
+     <pre>{props.translateInfo.content}</pre>
   );
 }

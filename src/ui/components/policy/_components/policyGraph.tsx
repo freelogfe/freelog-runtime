@@ -45,6 +45,7 @@ export default function (props: GraphProps) {
                   2.通过bestPyramid.pyramid 确定节点的id和位置和内容
                   3.通过nodesMap确定线段的起始点 折线点 以及计算出是否重叠与穿过了节点。
    */
+  console.log(props.policy)
   const data = {
     // 节点
     nodes: [

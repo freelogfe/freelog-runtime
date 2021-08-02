@@ -4,6 +4,7 @@ export type Contract = {
   getContractInfo: any;
   getContracts: any;
   contract: any;
+  contracts: any;
   pay: any;
 };
 
@@ -36,6 +37,18 @@ const contract: Contract = {
     url: `contracts`,
     method: "POST",
     dataModel: {
+      subjectId: "string",
+      subjectType: "int",
+      policyId: "string",
+      licenseeId: "string",
+      licenseeIdentityType: "int"
+    },
+  },
+  contracts: {
+    url: `contracts/batchSign`,
+    method: "POST",
+    dataModel: {
+      subjects: "array",
       subjectId: "string",
       subjectType: "int",
       policyId: "string",
