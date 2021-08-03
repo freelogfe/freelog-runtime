@@ -16,11 +16,9 @@ interface ItemProps {
 export default function (props: ItemProps) {
   console.log(props.policy);
   function callback(key: any) {
-    console.log(key);
   }
   function onChange(e: any) {
     props.policy.checked = e.target.checked
-    console.log(`checked = ${e.target.checked}`);
   }
   return (
     <div className="flex-column">

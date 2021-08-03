@@ -93,7 +93,8 @@ function getPyramid(policy: any): any {
         // @ts-ignore 先考虑relations中有没有出现过，如果出现过就是环，则忽略
         // 这里有问题，并没有一直往上找，而是只找了上级
         if (nodeData.route.includes(next.toState)) {
-          !nodeData.to.includes(next.toState) && nodeData.to.push(next.toState);
+          // /  !nodeData.to.includes(next.toState) && nodeData.to.push(next.toState);
+          nodeData.to.push(next.toState);
           // 反转,即面向对象，忽略箭头，此时pre与next也建立连接
           if(!nodeData.relations.includes(next.toState)){
             nodeData.relations.push(next.toState);
@@ -102,9 +103,9 @@ function getPyramid(policy: any): any {
         }
         
         // 保存上层过来的对应节点
+        toNodeData.from.push(pre.status);
         if(!toNodeData.relations.includes(pre.status)){
           toNodeData.relations.push(pre.status);
-          toNodeData.from.push(pre.status);
         }
         toNodeData.row = level; // 此时的层是准确的，在后面向上去重也不会影响，因为会保留最后一个
         // 需要去重，这里是所有到达此节点的路径节点

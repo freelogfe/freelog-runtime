@@ -42,7 +42,7 @@ interface contractProps {
 export default function (props: contractProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const events = props.events || [];
-
+  console.log(events)
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
   const [policies, setPolicies] = useState([]);
   async function getDetail(id: string) {

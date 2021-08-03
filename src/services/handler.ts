@@ -75,9 +75,9 @@ export default function frequest(
       .then(async (response) => {
         api.after && api.after(response);
         //最外面拦截到errCode === 30 时需要跳转登录
-        if(response.data.errCode === 30){
-          // TODO 需要登录的也是未授权
-        }
+        // if(response.data.errCode === 30){
+        //   // TODO 需要登录的也是未授权
+        // }
         // TODO 仅授权失败
         if (
           response.data.errCode &&
