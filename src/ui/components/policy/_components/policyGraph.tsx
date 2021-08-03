@@ -51,11 +51,21 @@ export default function (props: GraphProps) {
       if (!node) return;
       nodes.push({
         id: node.status, // String，可选，节点的唯一标识
-        x: xIndex * 100 + xIndex * 40, // Number，必选，节点位置的 x 值
+        x: xIndex * 100 + xIndex * 80, // Number，必选，节点位置的 x 值
         y: yIndex * 60 + yIndex * 60, // Number，必选，节点位置的 y 值
         width: 100, // Number，可选，节点大小的 width 值
         height: 60, // Number，可选，节点大小的 height 值
         label: node.status, // String，节点标签
+        zIndex: 1000,
+        attrs: {
+          body: {
+            fill: '#efdbff',
+            stroke: '#9254de',
+            rx: 8,
+            ry: 8,
+            zIndex: 1
+          },
+        },
       });
     });
   });
@@ -73,10 +83,11 @@ export default function (props: GraphProps) {
     node.from.forEach((item:any)=>{
       let text = ''
       props.policy.translateInfo.fsmInfos.forEach((info:any)=>{
-        if(info.stateInfo.origin === item && info.used){
+        if(info.stateInfo.origin === item){
           info.eventTranslateInfos.forEach((eventInfo:any)=>{
             if(eventInfo.origin.state === key){
-              text = eventInfo.content
+              eventInfo.used = true
+              text = eventInfo.content.substr(0, eventInfo.content.lastIndexOf('，'))
             }
           })
         }
@@ -99,12 +110,23 @@ export default function (props: GraphProps) {
       })
     })
     node.to.forEach((item:any)=>{
+      let text = ''
+      props.policy.translateInfo.fsmInfos.forEach((info:any)=>{
+        if(info.stateInfo.origin === key){
+          info.eventTranslateInfos.forEach((eventInfo:any)=>{
+            if(eventInfo.origin.state === item){
+              eventInfo.used = true
+              text = eventInfo.content.substr(0, eventInfo.content.lastIndexOf('，'))
+            }
+          })
+        }
+      })
       edges.push({
         source: key, // String，必须，起始节点 id
         target: item, // String，必须，目标节点 id
         labels: [
           {
-            attrs: { label: { text: "edge33" } },
+            attrs: { label: { text } },
           },
         ],
         // connector: {
@@ -119,8 +141,7 @@ export default function (props: GraphProps) {
   })
   console.log(props.policy, props.policy.nodesMap);
   const data = {
-    // 节点
-    nodes,
+
     // 边
     edges: [
       ...edges
@@ -141,6 +162,8 @@ export default function (props: GraphProps) {
       //   ],
       // }
     ],
+        // 节点
+        nodes,
   };
   console.log(data)
   useEffect(() => {
