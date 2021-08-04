@@ -1,6 +1,7 @@
 import { Radio, Input, Space } from 'antd';
 import { useState, useEffect } from "react";
 import './contract.scss'
+var moment = require('moment');
 
 interface ItemProps {
   contract: any;
@@ -8,22 +9,23 @@ interface ItemProps {
 }
 export default function (props: ItemProps) {
   const [value, setValue] = useState(1);
+  console.log(props.contract)
   function onChange(e:any){
 
   }
   return (
     <div className="contract-card px-20 py-15 mt-15 w-100x">
       <div className="flex-row w-100x">
-        <div className="contract-name  text-ellipsis">策略名称</div>
+        <div className="contract-name  text-ellipsis">{props.contract.contractName}</div>
         <div className="policy-button cur-pointer  shrink-0">策略内容</div>
       </div>
       {/* 状态整体 */}
-      <div>
+      <div className="status-card p-15 mt-15">
         <div className="flex-row">
-          <div>授权状态</div>
-          <div>当前状态到达时间</div>
+          <div className="bg-auth-none auth-status text-center">未授权</div>
+          <div className="auth-time">{moment(props.contract.updateDate).format('YYYY-MM-DD HH:mm')}</div>
         </div>
-        <div className="flex-row">
+        <div className="flex-row py-10">
           <div>当前无授权，请选择执行事件</div>
           <div>支付</div>
         </div>
