@@ -1,0 +1,14 @@
+.policy-card {
+    margin-top: 15px;
+    width: 476px;
+    background: #FFFFFF;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    .policy-name {
+        font-size: 14px;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #333333;
+        line-height: 20px;
+    }
+}

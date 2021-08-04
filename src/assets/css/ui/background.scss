@@ -57,3 +57,13 @@
     background-color: $end;
 }
 
+// 授权状态
+.bg-auth{
+    background-color: $success; 
+}
+.bg-auth-none{
+    background-color: $warn; 
+}
+.bg-auth-error{
+    background-color: $error; 
+}

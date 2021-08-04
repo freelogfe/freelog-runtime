@@ -1,0 +1,23 @@
+.contract-card {
+    width: 476px;
+    background: #FFFFFF;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+    .contract-name {
+        font-size: 14px;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #333333;
+        line-height: 20px;
+    }
+
+    .policy-button {
+        margin-left: 10px;
+        font-size: 12px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #2784FF;
+        line-height: 18px;
+    }
+}

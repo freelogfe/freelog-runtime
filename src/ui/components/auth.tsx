@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Presentables from "./presenbles/presentbles";
 import { LOGIN } from "../../bridge/event";
 import Button from "./_components/button";
-
+import "./auth.scss";
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
 import frequest from "../../services/handler";
@@ -12,6 +12,7 @@ import presentable from "../../services/api/modules/presentable";
 import contract from "../../services/api/modules/contract";
 import { getUserInfo } from "../../platform/structure/utils";
 import getBestTopology from "./topology/data";
+import { authcodes } from "../../bridge/authCode";
 /**
  * 展品授权窗口：
  *     左：展品列表
@@ -29,9 +30,9 @@ import getBestTopology from "./topology/data";
  *         待获取授权展品组件
  *         合约组件：授权状态组件（全局），按钮组件（全局），流转记录组件（有可能需要放大，所以提出来）
  *         策略组件(策略组件需要放大或点击合约的策略内容单独显示)：状态机视图组件，策略内容组件，策略代码组件
- * 
+ *
  * 最外面拦截到errCode === 30 时需要跳转登录
- * 
+ *
  */
 
 interface contractProps {
@@ -41,8 +42,9 @@ interface contractProps {
 }
 export default function (props: contractProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [contracts, setContracts] = useState([]);
   const events = props.events || [];
-  console.log(events)
+  console.log(events);
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
   const [policies, setPolicies] = useState([]);
   async function getDetail(id: string) {
@@ -62,10 +64,19 @@ export default function (props: contractProps) {
      * 获取
      */
     // console.log(Object.keys(con.data.data[0].policyInfo.fsmDescriptionInfo))
+    const contractedPolicies: any = [];
     const contracts = con.data.data.filter((item: any) => {
-      return item.status === 0;
+      if (item.status === 0) {
+        contractedPolicies.push(item.policyId);
+        return true;
+      }
     });
+    console.log(contracts);
+    setContracts(contracts);
     res.data.data.policies = res.data.data.policies.filter((i: any) => {
+      if (contractedPolicies.includes(i.policyId)) {
+        i.contracted = true;
+      }
       return i.status === 1;
     });
     res.data.data.policies.forEach((item: any) => {
@@ -147,10 +158,40 @@ export default function (props: contractProps) {
                           }}
                           className={
                             (currentPresentable === item ? "bg-content " : "") +
-                            " pl-20 w-100x b-box h-60 cur-pointer f-main lh-60 select-none"
+                            " px-20 py-15 w-100x b-box x-auto  cur-pointer presentable-item select-none"
                           }
                         >
-                          <div>{item.presentableName}</div>
+                          <div
+                            className="presentable-name w-100x text-ellipsis"
+                            title={item.presentableName}
+                          >
+                            {item.presentableName}
+                          </div>
+                          <div className="flex-row pt-10">
+                            {item.presentableInfo.data.data.contracts.map(
+                              (contract: any) => {
+                                return (
+                                  <div
+                                    className={
+                                      "contract-tag flex-row align-center mr-5"
+                                    }
+                                  >
+                                    <div className="contract-name">
+                                      {contract.contractName}
+                                    </div>
+                                    <div
+                                      className={
+                                        "contract-dot ml-6 " +
+                                        (contract.authStatus === 128
+                                          ? "bg-auth-none"
+                                          : "bg-auth")
+                                      }
+                                    ></div>
+                                  </div>
+                                );
+                              }
+                            )}
+                          </div>
                         </div>
                       );
                     })
@@ -158,19 +199,36 @@ export default function (props: contractProps) {
                 {/* <Presentables></Presentables> */}
               </div>
               {/* 右：策略或合约列表 */}
-              <div className="w-516 bg-content h-100x   y-auto ">
-                {/* <Contract></Contract> */}
+              <div className="w-516 bg-content h-100x   y-auto px-20 pb-20">
+                {contracts.length && policies.length - contracts.length ? (
+                  <div className="policy-tip flex-row align-center mt-15 px-10">
+                    <div className="tip">最下方有可签约的策略</div>
+                  </div>
+                ) : null}
+                {contracts.map((contract: any, index: number) => {
+                  return <Contract contract={contract} key={index}></Contract>;
+                })}
                 {policies.map((policy: any, index: number) => {
-                  return <Policy policy={policy} key={index}></Policy>;
+                  return policy.contracted ? null : (
+                    <Policy
+                      policy={policy}
+                      key={index}
+                      selectType={contracts.length ? true : false}
+                    ></Policy>
+                  );
                 })}
               </div>
             </div>
           </div>
-
-          <div className="h-74 w-100x text-center">
-            {" "}
-            <Button click={getAuth}>立即签约</Button>
-          </div>
+          {contracts.length ? (
+            ""
+          ) : (
+            <div className="h-74 w-100x text-center">
+              <Button click={getAuth} className="w-300 h-38 fs-14 text-center">
+                立即签约
+              </Button>
+            </div>
+          )}
         </div>
       </Modal>
     </React.Fragment>

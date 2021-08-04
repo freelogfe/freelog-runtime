@@ -1,5 +1,6 @@
 import PolicyGraph from "./_components/policyGraph";
 import PolicyCode from "./_components/policyCode";
+import "./policy.scss";
 
 import PolicyContent from "./_components/policyContent";
 import Button from "../_components/button";
@@ -11,6 +12,7 @@ const { TabPane } = Tabs;
 
 interface ItemProps {
   policy: any;
+  selectType: boolean;
   children?: any;
 }
 export default function (props: ItemProps) {
@@ -21,12 +23,12 @@ export default function (props: ItemProps) {
     props.policy.checked = e.target.checked
   }
   return (
-    <div className="flex-column">
+    <div className="flex-column policy-card">
       {/* 上：策略名称与操作 */}
       <div className="flex-row space-between px-20 py-15">
-        <div className="flex-1">策略名称，需要做省略</div>
-        <Button>签约</Button>
-        <Checkbox onChange={onChange}>Checkbox</Checkbox>
+        <div className="flex-1 policy-name  text-ellipsis">策略名称，需要做省略</div>
+        {props.selectType ? <Button className="fs-13">签约</Button>
+       : <Checkbox onChange={onChange}>Checkbox</Checkbox>}
       </div>
       {/* 下：tab */}
       <div className="flex-column px-20">

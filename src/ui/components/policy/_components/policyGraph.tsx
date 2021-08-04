@@ -49,27 +49,34 @@ export default function (props: GraphProps) {
     // x 40间隙 node 宽100    y 60间隙 node搞60
     layer.forEach((node: any, xIndex: number) => {
       if (!node) return;
+      // console.log(node)
+      let body:any = {
+        fill: '#FFFFFF',
+        stroke: '#D4D4D4',
+        rx: 8,
+        ry: 8,
+        zIndex: 1
+      }
+      if(node.isAuth){
+        body.fill = '#E5F6EF'
+        body.stroke = '#8FD6B8'
+      }
       nodes.push({
         id: node.status, // String，可选，节点的唯一标识
-        x: xIndex * 100 + xIndex * 80, // Number，必选，节点位置的 x 值
-        y: yIndex * 60 + yIndex * 60, // Number，必选，节点位置的 y 值
+        x: xIndex * 100 + xIndex * 80 + 10, // Number，必选，节点位置的 x 值
+        y: yIndex * 60 + yIndex * 60 + 10, // Number，必选，节点位置的 y 值
         width: 100, // Number，可选，节点大小的 width 值
         height: 60, // Number，可选，节点大小的 height 值
         label: node.status, // String，节点标签
         zIndex: 1000,
         attrs: {
-          body: {
-            fill: '#efdbff',
-            stroke: '#9254de',
-            rx: 8,
-            ry: 8,
-            zIndex: 1
-          },
+          body
         },
       });
     });
   });
   const edges: any = []
+  // TODO 需要在处理数据时做，不能放在这里
   props.policy.translateInfo.fsmInfos.forEach((info:any)=>{
     info.eventTranslateInfos.forEach((eventInfo:any)=>{
       eventInfo.used = false      
@@ -100,6 +107,11 @@ export default function (props: GraphProps) {
             attrs: { label: { text } },
           },
         ],
+        attrs: {
+          line: {
+            stroke: "#979797", // 指定 path 元素的填充色
+          },
+        },
         // connector: {
         //     name: 'rounded',
         //     args: {},
@@ -129,6 +141,11 @@ export default function (props: GraphProps) {
             attrs: { label: { text } },
           },
         ],
+        attrs: {
+          line: {
+            stroke: "#979797", // 指定 path 元素的填充色
+          },
+        },
         // connector: {
         //     name: 'rounded',
         //     args: {},
@@ -139,7 +156,7 @@ export default function (props: GraphProps) {
       })
     })
   })
-  console.log(props.policy, props.policy.nodesMap);
+  // console.log(props.policy, props.policy.nodesMap);
   const data = {
 
     // 边
@@ -165,7 +182,7 @@ export default function (props: GraphProps) {
         // 节点
         nodes,
   };
-  console.log(data)
+  // console.log(data)
   useEffect(() => {
     const graph = new Graph({
       // @ts-ignore
