@@ -59,6 +59,7 @@ export default function (props: contractProps) {
       licenseeIdentityType: 3,
       licenseeId: userInfo.userId,
       isLoadPolicyInfo: 1,
+      isTranslate: 1,
     });
     /**
      * 获取
@@ -72,13 +73,13 @@ export default function (props: contractProps) {
       }
     });
     console.log(contracts);
-    setContracts(contracts);
     res.data.data.policies = res.data.data.policies.filter((i: any) => {
       if (contractedPolicies.includes(i.policyId)) {
         i.contracted = true;
       }
       return i.status === 1;
     });
+    setContracts(contracts);
     res.data.data.policies.forEach((item: any) => {
       console.log(item);
       const { policyMaps, bestPyramid, betterPyramids, nodesMap } =

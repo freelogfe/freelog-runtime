@@ -31,6 +31,7 @@ const contract: Contract = {
       licenseeId: "string",
       isLoadPolicyInfo: "int",
       projection: "string",
+      isTranslate: "int"
     },
   },
   contract: {
