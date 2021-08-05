@@ -8,29 +8,47 @@ interface ItemProps {
   contract: any;
   children?: any;
 }
+interface CurrentStatus {
+  status: string;
+  transitions: Array<any>;
+  [propName: string]: any
+}
 export default function (props: ItemProps) {
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(0);
   const [unfold, setUnFold] = useState(false);
   const [authClass, setAuthClass] = useState("bg-auth-non");
   const [authStatus, setAuthStatus] = useState("未授权");
+  const [currentStatus, setCurrentStatus] = useState({})
   useEffect(() => {
     console.log(props.contract);
     setAuthStatus(
       props.contract.status === 1
         ? "已终止"
         : props.contract.status === 128
-        ? "未授权"
-        : "已授权"
+          ? "未授权"
+          : "已授权"
     );
     setAuthClass(
       props.contract.status === 1
         ? "bg-auth-end"
         : props.contract.status === 128
-        ? "bg-auth-non"
-        : "bg-auth"
+          ? "bg-auth-non"
+          : "bg-auth"
     );
+    props.contract.policyInfo.translateInfo.fsmInfos.forEach((item: any) => {
+      if (item.stateInfo.origin === props.contract.fsmCurrentState) {
+        const data = { status: props.contract.fsmCurrentState, ...item, ...props.contract.policyInfo.fsmDescriptionInfo[props.contract.fsmCurrentState] }
+        console.log(data)
+        // @ts-ignore
+        setCurrentStatus(data)
+      }
+    })
+
   }, [props.contract]);
-  function onChange(e: any) {}
+  function onChange(e: any) {
+    console.log(e)
+    setValue(e.target.value)
+  }
   return (
     <div className="contract-card px-20 py-15 mt-15 w-100x">
       <div className="flex-row w-100x">
@@ -58,17 +76,14 @@ export default function (props: ItemProps) {
           <div className="flex-row">
             <Radio.Group onChange={onChange} value={value}>
               <div className="flex-column">
-                <Radio value={1}>
-                  <div className="flex-column">支付10fetch获取授权</div>
-                </Radio>
-                <Radio value={2}>Option B</Radio>
-                <Radio value={3}>Option C</Radio>
-                <Radio value={4}>
-                  More...
-                  {value === 4 ? (
-                    <Input style={{ width: 100, marginLeft: 10 }} />
-                  ) : null}
-                </Radio>
+                {
+                  // @ts-ignore
+                  currentStatus.eventTranslateInfos && currentStatus.eventTranslateInfos.map((event: any) => {
+                    // origin.id  name 
+                    return <Radio value={event.origin.id} disabled={event.origin.name !== "TransactionEvent"}>{event.content}</Radio>
+                  })
+                }
+
               </div>
             </Radio.Group>
           </div>
