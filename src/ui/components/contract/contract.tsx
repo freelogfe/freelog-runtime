@@ -12,9 +12,7 @@ export default function (props: ItemProps) {
   const [value, setValue] = useState(1);
   const [unfold, setUnFold] = useState(false);
   const [authClass, setAuthClass] = useState("bg-auth-non");
-
   const [authStatus, setAuthStatus] = useState("未授权");
-
   useEffect(() => {
     console.log(props.contract);
     setAuthStatus(
