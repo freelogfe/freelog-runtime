@@ -1,5 +1,7 @@
 import { Radio, Input, Space } from "antd";
 import { useState, useEffect } from "react";
+import Button from "../_components/button";
+
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import "./contract.scss";
 var moment = require("moment");
@@ -14,7 +16,7 @@ interface CurrentStatus {
   [propName: string]: any
 }
 export default function (props: ItemProps) {
-  const [value, setValue] = useState(0);
+  const [eventId, setEventId] = useState(0);
   const [unfold, setUnFold] = useState(false);
   const [authClass, setAuthClass] = useState("bg-auth-non");
   const [authStatus, setAuthStatus] = useState("未授权");
@@ -24,20 +26,24 @@ export default function (props: ItemProps) {
     setAuthStatus(
       props.contract.status === 1
         ? "已终止"
-        : props.contract.status === 128
+        : props.contract.authStatus === 128
           ? "未授权"
           : "已授权"
     );
     setAuthClass(
       props.contract.status === 1
         ? "bg-auth-end"
-        : props.contract.status === 128
+        : props.contract.authStatus === 128
           ? "bg-auth-non"
           : "bg-auth"
     );
     props.contract.policyInfo.translateInfo.fsmInfos.forEach((item: any) => {
       if (item.stateInfo.origin === props.contract.fsmCurrentState) {
-        const data = { status: props.contract.fsmCurrentState, ...item, ...props.contract.policyInfo.fsmDescriptionInfo[props.contract.fsmCurrentState] }
+        let tec = 0 // TransactionEventCount
+        item.eventTranslateInfos.forEach((event: any) => {
+          if (event.origin.name === "TransactionEvent") tec++
+        })
+        const data = { tec, status: props.contract.fsmCurrentState, ...item, ...props.contract.policyInfo.fsmDescriptionInfo[props.contract.fsmCurrentState] }
         console.log(data)
         // @ts-ignore
         setCurrentStatus(data)
@@ -47,7 +53,10 @@ export default function (props: ItemProps) {
   }, [props.contract]);
   function onChange(e: any) {
     console.log(e)
-    setValue(e.target.value)
+    setEventId(e.target.value)
+  }
+  function payEvent(e:any){
+    console.log(e)
   }
   return (
     <div className="contract-card px-20 py-15 mt-15 w-100x">
@@ -67,20 +76,29 @@ export default function (props: ItemProps) {
             {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm")}
           </div>
         </div>
-        <div className="flex-row py-10">
+        <div className="flex-row py-10 space-between">
           <div>当前无授权，请选择执行事件</div>
-          <div>支付</div>
+
+          {// @ts-ignore
+            currentStatus.tec > 1 && <Button className="fs-12" disabled={eventId === 0} click={payEvent}>支付</Button>}
         </div>
         {/* 可选事件 */}
         <div>
           <div className="flex-row">
-            <Radio.Group onChange={onChange} value={value}>
+            <Radio.Group onChange={onChange} value={eventId}>
               <div className="flex-column">
                 {
                   // @ts-ignore
                   currentStatus.eventTranslateInfos && currentStatus.eventTranslateInfos.map((event: any) => {
                     // origin.id  name 
-                    return <Radio value={event.origin.id} disabled={event.origin.name !== "TransactionEvent"}>{event.content}</Radio>
+                    return <Radio className="mt-10" value={event.origin.id} disabled={event.origin.name !== "TransactionEvent"}>
+                      <div className="flex-row">
+                        <span className="pr-10">{event.content}</span>
+                        {
+                          // @ts-ignore
+                          currentStatus.tec === 1 && event.origin.name === "TransactionEvent" && <Button disabled={event.origin.id !== eventId}  className="fs-12" click={payEvent}>支付</Button>}
+                      </div>
+                    </Radio>
                   })
                 }
 
