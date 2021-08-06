@@ -1,7 +1,7 @@
 import { Radio, Input, Space } from "antd";
 import { useState, useEffect } from "react";
 import Button from "../_components/button";
-
+import Pay from '../event/pay'
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import "./contract.scss";
 var moment = require("moment");
@@ -23,6 +23,7 @@ export default function (props: ItemProps) {
   const [authClass, setAuthClass] = useState("bg-auth-non");
   const [authStatus, setAuthStatus] = useState("未授权");
   const [currentStatus, setCurrentStatus] = useState({});
+  const [isModalVisible, setIsModalVisible] = useState(false)
   useEffect(() => {
     console.log(props.contract);
     setAuthStatus(
@@ -50,15 +51,18 @@ export default function (props: ItemProps) {
             (state: any) => {
               if (state.stateInfo.origin === event.origin.state) {
                 console.log(item);
-                let tec = 0; // TransactionEventCount
-                event.nextState = state;
-
-                // @ts-ignore
+                event.nextState = {
+                  ...state,
+                  ...props.contract.policyInfo.fsmDescriptionInfo[
+                    event.origin.state
+                  ],
+                };
                 return true;
               }
             }
           );
         });
+
         const currentSatus = {
           tec,
           status: props.contract.fsmCurrentState,
@@ -79,10 +83,11 @@ export default function (props: ItemProps) {
     setEventId(e.target.value);
   }
   function payEvent(e: any) {
-    // console.log(e)
+    setIsModalVisible(true)
   }
   return (
     <div className="contract-card px-20 py-15 mt-15 w-100x">
+      <Pay isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible}></Pay>
       <div className="flex-row w-100x">
         <div className="contract-name  text-ellipsis">
           {props.contract.contractName}
@@ -99,7 +104,7 @@ export default function (props: ItemProps) {
             {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm")}
           </div>
         </div>
-        <div className="flex-row py-10 space-between">
+        <div className="flex-row py-10 space-between align-center">
           <div>当前无授权，请选择执行事件</div>
 
           {
@@ -133,8 +138,11 @@ export default function (props: ItemProps) {
                             value={event.origin.id}
                             disabled={event.origin.name !== "TransactionEvent"}
                           >
-                            <div className="flex-row">
-                              <span className="pr-10">{event.content}</span>
+                            <div className="flex-row event flex-wrap">
+                              <div className="mr-10">
+                                <span>{event.content}</span>
+                                <span className="auth ml-10">{event.nextState.isAuth? '获得授权': ''}</span>
+                              </div>
                               {
                                 // @ts-ignore
                                 currentStatus.tec === 1 &&
@@ -151,15 +159,21 @@ export default function (props: ItemProps) {
                             </div>
                           </Radio>
                           {/* 执行完成后下一个状态的所有事件 */}
-                          <div className="flex-column event-next pt-10 ml-25">
+                          <div className="flex-column event-next pt-5 ml-25">
                             {/** 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
                              * event.origin.state
                              */}
-                            <div className="event-next">执行成功后:</div>
+                            <div className="event-next">{event.nextState.isAuth? '获得授权后': '执行成功后:'}</div>
                             {event.nextState.eventTranslateInfos.map(
                               (nextEvent: any, index: number) => {
                                 return (
-                                  <div key={index} className="flex-row align-center"><div className="event-dot mr-5"></div><span>{nextEvent.content}</span></div>
+                                  <div
+                                    key={index}
+                                    className="flex-row align-center"
+                                  >
+                                    <div className="event-dot mr-5"></div>
+                                    <span>{nextEvent.content}</span>
+                                  </div>
                                 );
                               }
                             )}
