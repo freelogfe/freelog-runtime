@@ -8,14 +8,14 @@ interface buttonProps {
 }
 const buttonTypes = {
   main: {
-    common: "px-10 py-5 brs-4 cur-pointer select-none fw-medium fc-white",
+    common: "text-align-center px-10 py-5 brs-4 cur-pointer select-none fw-medium fc-white",
     normal: "bg-main",
     hover: "bg-hover",
     active: "bg-active",
     disabled: "bg-disabled bg-main",
   },
   cancel: {
-    common: "px-10 py-5 brs-4 cur-pointer select-none fc-grey",
+    common: "text-align-center px-10 py-5 brs-4 cur-pointer select-none fc-grey",
     normal: "bg-c-main",
     hover: "bg-c-hover",
     active: "bg-c-active",

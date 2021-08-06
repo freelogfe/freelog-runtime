@@ -1,12 +1,17 @@
-import { Modal } from "antd";
+import { Modal, Input } from "antd";
 import Button from "../_components/button";
 import "./pay.scss";
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { useState, useEffect } from "react";
+
 interface ConfirmProps {
   isModalVisible: boolean;
   setIsModalVisible: any;
 }
 
 export default function (props: ConfirmProps) {
+  const [password, setPassword] = useState('');
+
   const handleOk = () => {
     props.setIsModalVisible(false);
   };
@@ -35,7 +40,7 @@ export default function (props: ConfirmProps) {
         </div>
         <div className="flex-row px-80 over-h">
           <div className="flex-column shrink-0">
-            <div className="left-item">标的物标的物标的物标的物标的物标的物</div>
+            <div className="left-item">标的物</div>
             <div className="left-item">授权合约</div>
             <div className="left-item">收款方</div>
             <div className="left-item">支付方式</div>
@@ -47,6 +52,9 @@ export default function (props: ConfirmProps) {
             <div className="right-item text-ellipsis">支付方式</div>
           </div>
         </div>
+        <div className="forgot-p text-align-right px-80 mt-18">忘记密码</div>
+        <div className="px-80 pt-5"><Input.Password size="large" onChange={(e)=>{setPassword(e.target.value)}} maxLength={6} value={password} placeholder="输入6位支付密码" /></div>
+        <div className="px-80 pt-20"><Button disabled={password.length!==6} className="py-9">确认支付</Button></div>
       </div>
     </Modal>
   );
