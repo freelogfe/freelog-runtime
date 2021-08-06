@@ -18,6 +18,9 @@ export default function (props: ConfirmProps) {
   const handleCancel = () => {
     props.setIsModalVisible(false);
   };
+  function pay(){
+    
+  }
   return (
     <Modal
       title="支付"
@@ -54,7 +57,7 @@ export default function (props: ConfirmProps) {
         </div>
         <div className="forgot-p text-align-right px-80 mt-18">忘记密码</div>
         <div className="px-80 pt-5"><Input.Password size="large" onChange={(e)=>{setPassword(e.target.value)}} maxLength={6} value={password} placeholder="输入6位支付密码" /></div>
-        <div className="px-80 pt-20"><Button disabled={password.length!==6} className="py-9">确认支付</Button></div>
+        <div className="px-80 pt-20"><Button click={pay} disabled={password.length!==6} className="py-9">确认支付</Button></div>
       </div>
     </Modal>
   );
