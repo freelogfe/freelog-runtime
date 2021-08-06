@@ -45,6 +45,26 @@
             color: #222222;
             line-height: 18px;
         }
+
+        .event-card {
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+
+            .event-next {
+                font-size: 12px;
+                font-family: PingFangSC-Semibold, PingFang SC;
+                font-weight: 600;
+                color: #7A869A;
+                line-height: 20px;
+
+                .event-dot {
+                    width: 4px;
+                    height: 4px;
+                    background: #7A869A;
+                    border-radius: 50%;
+                }
+            }
+        }
     }
 
     .fluent-record {
@@ -61,5 +81,9 @@
         font-weight: 400;
         color: #999999;
         line-height: 18px;
+    }
+
+    .ant-radio-group {
+        width: 100%;
     }
 }

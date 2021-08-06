@@ -5,7 +5,9 @@ import Button from "../_components/button";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import "./contract.scss";
 var moment = require("moment");
-
+/**
+ * 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
+ */
 interface ItemProps {
   contract: any;
   children?: any;
@@ -13,50 +15,71 @@ interface ItemProps {
 interface CurrentStatus {
   status: string;
   transitions: Array<any>;
-  [propName: string]: any
+  [propName: string]: any;
 }
 export default function (props: ItemProps) {
   const [eventId, setEventId] = useState(0);
   const [unfold, setUnFold] = useState(false);
   const [authClass, setAuthClass] = useState("bg-auth-non");
   const [authStatus, setAuthStatus] = useState("未授权");
-  const [currentStatus, setCurrentStatus] = useState({})
+  const [currentStatus, setCurrentStatus] = useState({});
   useEffect(() => {
     console.log(props.contract);
     setAuthStatus(
       props.contract.status === 1
         ? "已终止"
         : props.contract.authStatus === 128
-          ? "未授权"
-          : "已授权"
+        ? "未授权"
+        : "已授权"
     );
     setAuthClass(
       props.contract.status === 1
         ? "bg-auth-end"
         : props.contract.authStatus === 128
-          ? "bg-auth-non"
-          : "bg-auth"
+        ? "bg-auth-non"
+        : "bg-auth"
     );
-    props.contract.policyInfo.translateInfo.fsmInfos.forEach((item: any) => {
+    let currentSatus: any;
+    props.contract.policyInfo.translateInfo.fsmInfos.some((item: any) => {
       if (item.stateInfo.origin === props.contract.fsmCurrentState) {
-        let tec = 0 // TransactionEventCount
+        console.log(item);
+        let tec = 0; // TransactionEventCount
         item.eventTranslateInfos.forEach((event: any) => {
-          if (event.origin.name === "TransactionEvent") tec++
-        })
-        const data = { tec, status: props.contract.fsmCurrentState, ...item, ...props.contract.policyInfo.fsmDescriptionInfo[props.contract.fsmCurrentState] }
-        console.log(data)
-        // @ts-ignore
-        setCurrentStatus(data)
-      }
-    })
+          if (event.origin.name === "TransactionEvent") tec++;
+          props.contract.policyInfo.translateInfo.fsmInfos.some(
+            (state: any) => {
+              if (state.stateInfo.origin === event.origin.state) {
+                console.log(item);
+                let tec = 0; // TransactionEventCount
+                event.nextState = state;
 
+                // @ts-ignore
+                return true;
+              }
+            }
+          );
+        });
+        const currentSatus = {
+          tec,
+          status: props.contract.fsmCurrentState,
+          ...item,
+          ...props.contract.policyInfo.fsmDescriptionInfo[
+            props.contract.fsmCurrentState
+          ],
+        };
+        console.log(currentSatus);
+        // @ts-ignore
+        setCurrentStatus(currentSatus);
+        return true;
+      }
+    });
   }, [props.contract]);
   function onChange(e: any) {
-    console.log(e)
-    setEventId(e.target.value)
+    // console.log(e)
+    setEventId(e.target.value);
   }
-  function payEvent(e:any){
-    console.log(e)
+  function payEvent(e: any) {
+    // console.log(e)
   }
   return (
     <div className="contract-card px-20 py-15 mt-15 w-100x">
@@ -79,8 +102,18 @@ export default function (props: ItemProps) {
         <div className="flex-row py-10 space-between">
           <div>当前无授权，请选择执行事件</div>
 
-          {// @ts-ignore
-            currentStatus.tec > 1 && <Button className="fs-12" disabled={eventId === 0} click={payEvent}>支付</Button>}
+          {
+            // @ts-ignore
+            currentStatus.tec > 1 && (
+              <Button
+                className="fs-12"
+                disabled={eventId === 0}
+                click={payEvent}
+              >
+                支付
+              </Button>
+            )
+          }
         </div>
         {/* 可选事件 */}
         <div>
@@ -89,25 +122,57 @@ export default function (props: ItemProps) {
               <div className="flex-column">
                 {
                   // @ts-ignore
-                  currentStatus.eventTranslateInfos && currentStatus.eventTranslateInfos.map((event: any) => {
-                    // origin.id  name 
-                    return <Radio className="mt-10" value={event.origin.id} disabled={event.origin.name !== "TransactionEvent"}>
-                      <div className="flex-row">
-                        <span className="pr-10">{event.content}</span>
-                        {
-                          // @ts-ignore
-                          currentStatus.tec === 1 && event.origin.name === "TransactionEvent" && <Button disabled={event.origin.id !== eventId}  className="fs-12" click={payEvent}>支付</Button>}
-                      </div>
-                    </Radio>
-                  })
+                  currentStatus.eventTranslateInfos &&
+                    // @ts-ignore
+                    currentStatus.eventTranslateInfos.map((event: any) => {
+                      // origin.id  name
+                      return (
+                        <div className="event-card p-10 mt-10 flex-column">
+                          <Radio
+                            className=""
+                            value={event.origin.id}
+                            disabled={event.origin.name !== "TransactionEvent"}
+                          >
+                            <div className="flex-row">
+                              <span className="pr-10">{event.content}</span>
+                              {
+                                // @ts-ignore
+                                currentStatus.tec === 1 &&
+                                  event.origin.name === "TransactionEvent" && (
+                                    <Button
+                                      disabled={event.origin.id !== eventId}
+                                      className="fs-12"
+                                      click={payEvent}
+                                    >
+                                      支付
+                                    </Button>
+                                  )
+                              }
+                            </div>
+                          </Radio>
+                          {/* 执行完成后下一个状态的所有事件 */}
+                          <div className="flex-column event-next pt-10 ml-25">
+                            {/** 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
+                             * event.origin.state
+                             */}
+                            <div className="event-next">执行成功后:</div>
+                            {event.nextState.eventTranslateInfos.map(
+                              (nextEvent: any, index: number) => {
+                                return (
+                                  <div key={index} className="flex-row align-center"><div className="event-dot mr-5"></div><span>{nextEvent.content}</span></div>
+                                );
+                              }
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })
                 }
-
               </div>
             </Radio.Group>
           </div>
         </div>
         <div className="fluent-record text-align-center cur-pointer select-none mt-20">
-          {" "}
           {!unfold ? (
             <div
               onClick={(e) => {

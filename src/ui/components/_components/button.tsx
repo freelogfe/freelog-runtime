@@ -26,7 +26,6 @@ export default function (props: buttonProps) {
   const [status, setStatus] = useState(0);
   const [buttonClass, setButtonClass] = useState(buttonTypes.main);
   useEffect(() => {
-    console.log(props)
     setStatus(props.disabled ? 3 : 0);
     // @ts-ignore
     setButtonClass(buttonTypes[props.type || 'main'] || buttonClass)
