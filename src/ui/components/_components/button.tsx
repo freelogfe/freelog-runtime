@@ -34,6 +34,7 @@ export default function (props: buttonProps) {
     <div
       onClick={(e) => {
         !props.disabled && props.click && props.click(e);
+        return true
       }}
       onMouseDown={(e) => {
         !props.disabled && setStatus(2);
