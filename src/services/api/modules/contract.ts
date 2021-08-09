@@ -5,7 +5,6 @@ export type Contract = {
   getContracts: any;
   contract: any;
   contracts: any;
-  pay: any;
 };
 
 const contract: Contract = {
@@ -56,16 +55,6 @@ const contract: Contract = {
       licenseeId: "string",
       licenseeIdentityType: "int"
     },
-  },
-  pay: {
-    url: `contracts/${placeHolder}/events/payment`,
-    method: "POST",
-    dataModel: {
-      eventId: "string",
-      accountId: "int",
-      transactionAmount: "string",
-      password: "string" 
-    },
-  },
+  }
 };
 export default contract;

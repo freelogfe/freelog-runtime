@@ -1,8 +1,11 @@
 
+import { placeHolder } from "../../base";
+
 export type User = {
   login: any;
   loginOut: any;
   getCurrent: any;
+  getAccount:any
 };
 
 const user = {
@@ -26,6 +29,10 @@ const user = {
   },
   getCurrent: {
     url: `users/current`,
+    method: "get",
+  },
+  getAccount:{
+    url: `accounts/individualAccounts/${placeHolder}`,
     method: "get",
   }
 };

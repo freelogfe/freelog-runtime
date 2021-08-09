@@ -36,7 +36,7 @@ export default function (props: ItemProps) {
     <div className="flex-column policy-card">
       {/* 上：策略名称与操作 */}
       <div className="flex-row space-between px-20 py-15">
-        <div className="flex-1 policy-name  text-ellipsis">策略名称，需要做省略</div>
+        <div className="flex-1 policy-name  text-ellipsis">{props.policy.policyName}</div>
         {props.selectType ? (<Popconfirm
           title="确定使用此策略与资源签约？"
           onConfirm={confirm}
@@ -48,9 +48,9 @@ export default function (props: ItemProps) {
           okText="确定"
           cancelText="取消"
         >
-          <Button className="fs-13" click={()=>{setVisible(true)}}>签3约</Button>
+          <Button className="fs-13" click={()=>{setVisible(true)}}>签约</Button>
         </Popconfirm>)
-          : <Checkbox onChange={onChange}>Checkbox</Checkbox>}
+          : <Checkbox onChange={onChange}></Checkbox>}
       </div>
       {/* 下：tab */}
       <div className="flex-column px-20">
