@@ -3,7 +3,8 @@ import Button from "../_components/button";
 import "./pay.scss";
 import { useState, useEffect } from "react";
 import frequest from "../../../services/handler";
-import getAccount from "../../../services/api/modules/user";
+import user from "../../../services/api/modules/user";
+import { getUserInfo } from "../../../platform/structure/utils";
 
 interface PayProps {
   isModalVisible: boolean;
@@ -17,24 +18,31 @@ interface PayProps {
 }
 
 export default function (props: PayProps) {
-  const [password, setPassword] = useState('');
-
+  const [password, setPassword] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [userAccount, setUserAccount] = useState<any>({});
   const handleOk = () => {
     props.setIsModalVisible(false);
   };
   const handleCancel = () => {
     props.setIsModalVisible(false);
   };
-  useEffect(()=>{
-    if(props.isModalVisible){
-      // 请求付款账户信息
-    }
-  },[props.isModalVisible])
-  function pay(){
+  async function getAccount() {
+    // @ts-ignore
+    const userInfo = await getUserInfo();
+    // @ts-ignore
+    const res = await frequest(user.getAccount, [userInfo.userId]);
+    setUserAccount(res.data.data);
+  }
+  useEffect(() => {
+    setVisible(props.isModalVisible);
+    props.isModalVisible && getAccount();
+  }, [props.isModalVisible]);
+  function pay() {
     // eventId: "string",  contractId
     //   accountId: "int",
     //   transactionAmount: "string",
-    //   password: "string" 
+    //   password: "string"
   }
   return (
     <Modal
@@ -67,12 +75,31 @@ export default function (props: PayProps) {
             <div className="right-item text-ellipsis">{props.subjectName}</div>
             <div className="right-item text-ellipsis">{props.contractName}</div>
             <div className="right-item text-ellipsis">{props.receiver}</div>
-            <div className="right-item text-ellipsis">支付方式</div>
+            <div className="right-item text-ellipsis">
+              <span className="">羽币账户</span>
+              <span className="balance">（余额{userAccount.balance}枚）</span>
+            </div>
           </div>
         </div>
-        <div className="forgot-p text-align-right px-80 mt-18 cur-pointer">忘记密码</div>
-        <div className="px-80 pt-5"><Input.Password size="large" onChange={(e)=>{setPassword(e.target.value)}} maxLength={6} value={password} placeholder="输入6位支付密码" /></div>
-        <div className="px-80 pt-20"><Button click={pay} disabled={password.length!==6} className="py-9">确认支付</Button></div>
+        <div className="forgot-p text-align-right px-80 mt-18 cur-pointer">
+          忘记密码
+        </div>
+        <div className="px-80 pt-5">
+          <Input.Password
+            size="large"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            maxLength={6}
+            value={password}
+            placeholder="输入6位支付密码"
+          />
+        </div>
+        <div className="px-80 pt-20">
+          <Button click={pay} disabled={password.length !== 6} className="py-9">
+            确认支付
+          </Button>
+        </div>
       </div>
     </Modal>
   );
