@@ -1,4 +1,4 @@
-import { Modal, Input } from "antd";
+import { Modal, Input, Spin } from "antd";
 import Button from "../_components/button";
 import "./pay.scss";
 import { useState, useEffect } from "react";
@@ -9,16 +9,17 @@ import { getUserInfo } from "../../../platform/structure/utils";
 interface PayProps {
   isModalVisible: boolean;
   setIsModalVisible: any;
-  contractId?: string;
-  subjectName?: string;
+  contractId: string;
+  subjectName: string;
   receiver: string;
-  contractName?: string;
+  contractName: string;
   transactionAmount?: number;
-  eventId?: any;
+  eventId: any;
 }
 
 export default function (props: PayProps) {
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [userAccount, setUserAccount] = useState<any>({});
   const handleOk = () => {
@@ -31,15 +32,24 @@ export default function (props: PayProps) {
     // @ts-ignore
     const userInfo = await getUserInfo();
     // @ts-ignore
-    const res = await frequest(user.getAccount, [userInfo.userId]);
+    const res = await frequest(user.getAccount, [userInfo.userId], '');
     setUserAccount(res.data.data);
   }
   useEffect(() => {
     setVisible(props.isModalVisible);
     props.isModalVisible && getAccount();
   }, [props.isModalVisible]);
-  function pay() {
-    // eventId: "string",  contractId
+  async function pay() {
+    const userInfo = await getUserInfo();
+    setLoading(true)
+    const res = await frequest(user.getAccount, [props.contractId], {
+      eventId: props.eventId,
+      accountId: userInfo.accountId,
+      transactionAmount: props.transactionAmount,
+      password: password
+    });
+    setLoading(false)
+    //   eventId: "string",  contractId
     //   accountId: "int",
     //   transactionAmount: "string",
     //   password: "string"
@@ -50,7 +60,7 @@ export default function (props: PayProps) {
       zIndex={1201}
       centered
       footer={null}
-      visible={props.isModalVisible}
+      visible={visible}
       className="w-600 "
       onOk={handleOk}
       onCancel={handleCancel}
@@ -58,6 +68,7 @@ export default function (props: PayProps) {
       getContainer={document.getElementById("runtime-root")}
     >
       <div className="flex-column ">
+        {loading && <Spin />}
         {/* 金额 */}
         <div className="amount text-center my-40 px-80">
           <span>
