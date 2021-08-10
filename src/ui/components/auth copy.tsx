@@ -109,7 +109,7 @@ export default function (props: contractProps) {
         setIsModalVisible={setIsModalVisible}
         isModalVisible={isModalVisible}
         getAuth={getAuth}
-        currentPolicy={currentPolicy}
+        policies={policies}
         currentPresentable={currentPresentable}
       />
       <Modal

@@ -9,6 +9,8 @@ import Contract from "./contract/contract";
 import Policy from "./policy/policy";
 import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
+import Confirm from "./_components/confirm";
+
 import contract from "../../services/api/modules/contract";
 import { getUserInfo } from "../../platform/structure/utils";
 import getBestTopology from "./topology/data";
@@ -130,6 +132,13 @@ export default function (props: contractProps) {
   };
   return (
     <React.Fragment>
+      <Confirm
+        setIsModalVisible={setIsModalVisible}
+        isModalVisible={isModalVisible}
+        getAuth={getAuth}
+        policies={policies}
+        currentPresentable={currentPresentable}
+      />
       <Modal
         title="展品授权"
         zIndex={1200}
@@ -227,7 +236,7 @@ export default function (props: contractProps) {
             ""
           ) : (
             <div className="h-74 w-100x text-center">
-              <Button click={getAuth} className="w-300 h-38 fs-14 text-center">
+              <Button click={()=>setIsModalVisible(true)} className="w-300 h-38 fs-14 text-center">
                 立即签约
               </Button>
             </div>

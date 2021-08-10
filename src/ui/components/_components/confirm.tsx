@@ -1,10 +1,11 @@
-import {Modal } from "antd";
+import { Modal } from "antd";
 import Button from "./button";
- 
+import React, { useState, useEffect } from "react";
+
 interface ConfirmProps {
   isModalVisible: boolean;
   currentPresentable: any;
-  currentPolicy: any;
+  policies: any;
   getAuth: any;
   setIsModalVisible: any;
 }
@@ -15,7 +16,20 @@ export default function (props: ConfirmProps) {
   };
   const handleCancel = () => {
     props.setIsModalVisible(false);
-  }; 
+  };
+  const [policNames, setPolicNames] = useState<any>('');
+
+  useEffect(() => {
+    if (props.isModalVisible) {
+      let names = ''
+      props.policies.forEach((item: any) => {
+        if (item.checked) {
+          names += names ? names + '，' + item.policyName : item.policyName
+        }
+      });
+      setPolicNames(names)
+    }
+  }, [props.isModalVisible])
   return (
     <Modal
       title="签约确认"
@@ -43,8 +57,8 @@ export default function (props: ConfirmProps) {
         </div>
         <div className="flex-row align-center lh-25 fs-16 fc-grey mb-70 justify-center">
           <span className="shrink-0">确定使用</span>
-          <span className="fc-main fw-bold px-10">
-            {props.currentPolicy.policyName}
+          <span className="fc-main fw-bold px-10 text-ellipsis">
+            {policNames}
           </span>
           <span className="shrink-0">获取授权？</span>
         </div>
