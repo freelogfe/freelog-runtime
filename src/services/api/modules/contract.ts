@@ -53,7 +53,8 @@ const contract: Contract = {
       subjectType: "int",
       policyId: "string",
       licenseeId: "string",
-      licenseeIdentityType: "int"
+      licenseeIdentityType: "int",
+      isWaitInitial: "int"
     },
   }
 };

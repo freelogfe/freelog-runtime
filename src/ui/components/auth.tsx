@@ -119,6 +119,7 @@ export default function (props: contractProps) {
       subjectType: 2,
       licenseeId: userInfo.userId + "",
       licenseeIdentityType: 3,
+      isWaitInitial: 1
     });
     if (res.data.isAuth) {
       // `付款到${seller}${amount}块钱就可以达到${status}状态`
