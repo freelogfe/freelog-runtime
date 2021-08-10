@@ -4,6 +4,8 @@ import "./pay.scss";
 import { useState, useEffect } from "react";
 import frequest from "../../../services/handler";
 import user from "../../../services/api/modules/user";
+import event from "../../../services/api/modules/event";
+
 import { getUserInfo } from "../../../platform/structure/utils";
 
 interface PayProps {
@@ -32,7 +34,7 @@ export default function (props: PayProps) {
     // @ts-ignore
     const userInfo = await getUserInfo();
     // @ts-ignore
-    const res = await frequest(user.getAccount, [userInfo.userId], '');
+    const res = await frequest(user.getAccount, [userInfo.userId], "");
     setUserAccount(res.data.data);
   }
   useEffect(() => {
@@ -40,15 +42,14 @@ export default function (props: PayProps) {
     props.isModalVisible && getAccount();
   }, [props.isModalVisible]);
   async function pay() {
-    const userInfo = await getUserInfo();
-    setLoading(true)
-    const res = await frequest(user.getAccount, [props.contractId], {
+    setLoading(true);
+    const res = await frequest(event.pay, [props.contractId], {
       eventId: props.eventId,
-      accountId: userInfo.accountId,
+      accountId: userAccount.accountId,
       transactionAmount: props.transactionAmount,
-      password: password
+      password: password,
     });
-    setLoading(false)
+    setLoading(false);
     //   eventId: "string",  contractId
     //   accountId: "int",
     //   transactionAmount: "string",
@@ -71,8 +72,9 @@ export default function (props: PayProps) {
         {loading && <Spin />}
         {/* 金额 */}
         <div className="amount text-center my-40 px-80">
-          <span>
-            100<span className="type ml-10">羽币</span>
+          <span className="ml-30">
+            {props.transactionAmount}
+            <span className="type ml-10">羽币</span>
           </span>
         </div>
         <div className="flex-row px-80 over-h">

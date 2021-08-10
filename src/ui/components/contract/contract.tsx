@@ -4,7 +4,6 @@ import Button from "../_components/button";
 import Pay from "../event/pay";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import "./contract.scss";
-import { stringify } from "querystring";
 var moment = require("moment");
 /**
  * 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
