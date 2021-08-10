@@ -124,7 +124,8 @@ export default function (props: contractProps) {
       // `付款到${seller}${amount}块钱就可以达到${status}状态`
     }
     setIsModalVisible(false);
-    props.contractFinished(currentPresentable.eventId, SUCCESS);
+    console.log(res)
+    // props.contractFinished(currentPresentable.eventId, SUCCESS);
   };
   return (
     <React.Fragment>
