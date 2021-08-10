@@ -17,32 +17,35 @@ interface ItemProps {
 export default function (props: ItemProps) {
   const [eventIndex, setEventIndex] = useState(-1);
   const [unfold, setUnFold] = useState(false);
-  const [argsMap, setArgsMap] = useState<Map<any,any>>(new Map());
+  const [argsMap, setArgsMap] = useState<Map<any, any>>(new Map());
   const [authClass, setAuthClass] = useState("bg-auth-non");
   const [authStatus, setAuthStatus] = useState("未授权");
-  const [currentStatus, setCurrentStatus] = useState({eventTranslateInfos: []});
+  const [currentStatus, setCurrentStatus] = useState({
+    eventTranslateInfos: [{ origin: { args: { amount: "" } } }],
+  });
   const [isModalVisible, setIsModalVisible] = useState(false);
   useEffect(() => {
-    const argsMap = new Map()
-    props.contract.fsmDeclarations.envArgs.forEach((item:any)=>{
-      argsMap.set(item.name, item)
-     })
-    setArgsMap(argsMap)
+    const argsMap = new Map();
+    props.contract.fsmDeclarations.envArgs.forEach((item: any) => {
+      argsMap.set(item.name, item);
+    });
+    setArgsMap(argsMap);
     console.log(props.contract);
-    setAuthStatus(
-      props.contract.status === 1
-        ? "已终止"
-        : props.contract.authStatus === 128
-        ? "未授权"
-        : "已授权"
-    );
-    setAuthClass(
-      props.contract.status === 1
-        ? "bg-auth-end"
-        : props.contract.authStatus === 128
-        ? "bg-auth-non"
-        : "bg-auth"
-    );
+    let authClass = "bg-auth-end";
+    let authStatus = "已终止";
+    if (props.contract.status !== 1) {
+      authStatus = "未授权";
+      authClass = "bg-auth-non";
+      if (props.contract.authStatus === 2 && window.isTest) {
+        authStatus = "已授权";
+        authClass = "bg-auth";
+      } else if (props.contract.authStatus === 1) {
+        authStatus = "已授权";
+        authClass = "bg-auth";
+      }
+    }
+    setAuthStatus(authStatus);
+    setAuthClass(authClass);
     props.contract.policyInfo.translateInfo.fsmInfos.some((item: any) => {
       if (item.stateInfo.origin === props.contract.fsmCurrentState) {
         console.log(item);
@@ -83,28 +86,34 @@ export default function (props: ItemProps) {
   function onChange(e: any) {
     // console.log(e)
     setEventIndex(e.target.value);
-    // @ts-ignore
-   console.log(argsMap, currentStatus.eventTranslateInfos[e.target.value].origin.args.account)
-    
   }
   function payEvent(e: any) {
     setIsModalVisible(true);
   }
   return (
     <div className="contract-card px-20 py-15 mt-15 w-100x">
-     { eventIndex > -1 && <Pay
-        contractId={props.contract.contractId}
-        subjectName={props.contract.subjectName}
-        contractName={props.contract.contractName}
-        // @ts-ignore
-        receiver={argsMap.get(currentStatus.eventTranslateInfos[eventIndex].origin.args.account).ownerName}
-        // @ts-ignore
-        eventId={currentStatus.eventTranslateInfos[eventIndex].origin.id}
-        // @ts-ignore
-        transactionAmount={currentStatus.eventTranslateInfos[eventIndex].origin.args.amount}
-        isModalVisible={isModalVisible}
-        setIsModalVisible={setIsModalVisible}
-      ></Pay> }
+      {eventIndex > -1 && (
+        <Pay
+          contractId={props.contract.contractId}
+          subjectName={props.contract.subjectName}
+          contractName={props.contract.contractName}
+          // @ts-ignore
+          receiver={
+            argsMap.get(
+              // @ts-ignore
+              currentStatus.eventTranslateInfos[eventIndex].origin.args.account
+            ).ownerName
+          }
+          // @ts-ignore
+          eventId={currentStatus.eventTranslateInfos[eventIndex].origin.id}
+          // @ts-ignore
+          transactionAmount={
+            currentStatus.eventTranslateInfos[eventIndex].origin.args.amount
+          }
+          isModalVisible={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+        ></Pay>
+      )}
       <div className="flex-row w-100x">
         <div className="contract-name  text-ellipsis">
           {props.contract.contractName}
@@ -146,64 +155,69 @@ export default function (props: ItemProps) {
                   // @ts-ignore
                   currentStatus.eventTranslateInfos &&
                     // @ts-ignore
-                    currentStatus.eventTranslateInfos.map((event: any, index:number) => {
-                      // origin.id  name
-                      return (
-                        <div className="event-card p-10 mt-10 flex-column">
-                          <Radio
-                            className=""
-                            value={index}
-                            disabled={event.origin.name !== "TransactionEvent"}
-                          >
-                            <div className="flex-row event flex-wrap">
-                              <div className="mr-10">
-                                <span>{event.content}</span>
-                                <span className="auth ml-10">
-                                  {event.nextState.isAuth ? "获得授权" : ""}
-                                </span>
+                    currentStatus.eventTranslateInfos.map(
+                      (event: any, index: number) => {
+                        // origin.id  name
+                        return (
+                          <div className="event-card p-10 mt-10 flex-column">
+                            <Radio
+                              className=""
+                              value={index}
+                              disabled={
+                                event.origin.name !== "TransactionEvent"
+                              }
+                            >
+                              <div className="flex-row event flex-wrap">
+                                <div className="mr-10">
+                                  <span>{event.content}</span>
+                                  <span className="auth ml-10">
+                                    {event.nextState && event.nextState.isAuth ? "获得授权" : ""}
+                                  </span>
+                                </div>
+                                {
+                                  // @ts-ignore
+                                  currentStatus.tec === 1 &&
+                                    event.origin.name ===
+                                      "TransactionEvent" && (
+                                      <Button
+                                        disabled={index !== eventIndex}
+                                        className="fs-12"
+                                        click={payEvent}
+                                      >
+                                        支付
+                                      </Button>
+                                    )
+                                }
                               </div>
-                              {
-                                // @ts-ignore
-                                currentStatus.tec === 1 &&
-                                  event.origin.name === "TransactionEvent" && (
-                                    <Button
-                                      disabled={index !== eventIndex}
-                                      className="fs-12"
-                                      click={payEvent}
+                            </Radio>
+                            {/* 执行完成后下一个状态的所有事件 */}
+                            <div className="flex-column event-next pt-5 ml-25">
+                              {/** 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
+                               * event.origin.state
+                               */}
+                              <div className="event-next">
+                                {event.nextState && event.nextState.isAuth
+                                  ? "获得授权后"
+                                  : "执行成功后:"}
+                              </div>
+                              {event.nextState && event.nextState.eventTranslateInfos.map(
+                                (nextEvent: any, index: number) => {
+                                  return (
+                                    <div
+                                      key={index}
+                                      className="flex-row align-center"
                                     >
-                                      支付
-                                    </Button>
-                                  )
-                              }
+                                      <div className="event-dot mr-5"></div>
+                                      <span>{nextEvent.content}</span>
+                                    </div>
+                                  );
+                                }
+                              )}
                             </div>
-                          </Radio>
-                          {/* 执行完成后下一个状态的所有事件 */}
-                          <div className="flex-column event-next pt-5 ml-25">
-                            {/** 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
-                             * event.origin.state
-                             */}
-                            <div className="event-next">
-                              {event.nextState.isAuth
-                                ? "获得授权后"
-                                : "执行成功后:"}
-                            </div>
-                            {event.nextState.eventTranslateInfos.map(
-                              (nextEvent: any, index: number) => {
-                                return (
-                                  <div
-                                    key={index}
-                                    className="flex-row align-center"
-                                  >
-                                    <div className="event-dot mr-5"></div>
-                                    <span>{nextEvent.content}</span>
-                                  </div>
-                                );
-                              }
-                            )}
                           </div>
-                        </div>
-                      );
-                    })
+                        );
+                      }
+                    )
                 }
               </div>
             </Radio.Group>
