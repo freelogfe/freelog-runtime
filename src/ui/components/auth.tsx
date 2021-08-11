@@ -43,6 +43,23 @@ interface contractProps {
   children?: any;
 }
 export default function (props: contractProps) {
+  /**
+   * 对象形式authDatas：
+   *   key: subjectId
+   *   value: { policies: {policyId: }, contracts: {contractId: }，}
+   * 在合约里面通过策略拿翻译
+   * 流程：
+   *     未授权过来有
+   *     {
+   *      contracts: [],
+   *      policies:[]
+   *     }
+   *     点击展品：
+   *         1.如果有合约则请求合约
+   *         2.请求策略
+   *     签约：签约后  
+   *       
+   */
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [contracts, setContracts] = useState([]);
   const events = props.events || [];
@@ -127,7 +144,9 @@ export default function (props: contractProps) {
       // `付款到${seller}${amount}块钱就可以达到${status}状态`
     }
     setIsModalVisible(false);
-    console.log(res)
+    if((window.isTest && res.data.data.authStatus === 2) || res.data.data.authStatus === 1){
+      props.contractFinished(currentPresentable.eventId, SUCCESS);
+    }
     // props.contractFinished(currentPresentable.eventId, SUCCESS);
   };
   return (

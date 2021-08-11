@@ -74,7 +74,11 @@ export default function frequest(
     axios(url, _api)
       .then(async (response) => {
         api.after && api.after(response);
-        //最外面拦截到errCode === 30 时需要跳转登录
+        //最外面拦截到errCode === 30 时需要跳转登录    
+        /** 301 合同未获得授权
+         *  303 标的物未签约
+         *  502 未登陆的用户
+         * /
         // if(response.data.errCode === 30){
         //   // TODO 需要登录的也是未授权
         // }
