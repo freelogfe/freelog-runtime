@@ -5,8 +5,10 @@ import { useState, useEffect } from "react";
 import frequest from "../../../services/handler";
 import user from "../../../services/api/modules/user";
 import event from "../../../services/api/modules/event";
+import transaction from "../../../services/api/modules/transaction";
 
 import { getUserInfo } from "../../../platform/structure/utils";
+import { clearInterval } from "timers";
 
 interface PayProps {
   isModalVisible: boolean;
@@ -51,8 +53,24 @@ export default function (props: PayProps) {
       transactionAmount: props.transactionAmount,
       password: password,
     });
+
     console.log(res)
-    // TODO 查交易状态
+    // TODO 查交易状态, flag应该设为状态，在关闭弹窗时清除
+    const flag = setInterval(async()=>{
+      const res:any = await frequest(event.pay, [props.contractId], {
+        eventId: props.eventId,
+        accountId: userAccount.accountId,
+        transactionAmount: props.transactionAmount,
+        password: password,
+      });
+      const status = res.data.data.status
+      if([2,3,4].includes(status)){
+      
+        setLoading(false)
+        clearInterval(flag)
+      }
+    },1000)
+    
     // setLoading(false);
     //   eventId: "string",  contractId
     //   accountId: "int",
