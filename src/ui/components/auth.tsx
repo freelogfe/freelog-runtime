@@ -41,6 +41,7 @@ interface contractProps {
   events: Array<any>;
   contractFinished(eventId: any, type: number, data?: any): any;
   children?: any;
+  updateEvents: any;
 }
 export default function (props: contractProps) {
   /**
@@ -49,16 +50,24 @@ export default function (props: contractProps) {
    *   value: { policies: {policyId: }, contracts: {contractId: }，}
    * 在合约里面通过策略拿翻译
    * 流程：
-   *     未授权过来有
-   *     {
-   *      contracts: [],
-   *      policies:[]
-   *     }
+   *     未授权过来需要整合数据
+  *       widget: caller.name,
+          errCode: response.data.errCode,
+          authCode: response.data.data.authCode,
+          contracts: response.data.data.data.contracts,
+          policies: response.data.data.data.policies,
+          presentableName,
+          presentableId,
+          info: response.data,
    *     点击展品：
    *         1.如果有合约则请求合约
    *         2.请求策略
-   *     签约：签约后  
-   *       
+   *     签约：
+   *         签约后判断有无授权：
+   *             1.授权：直接清除events
+   *             2.未授权：更新events对应的数据
+   *     执行事件：
+   *             
    */
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [contracts, setContracts] = useState([]);
@@ -66,7 +75,9 @@ export default function (props: contractProps) {
   console.log(events);
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
   const [policies, setPolicies] = useState([]);
+  const [selectedPolicies, setSelectedPolicies] = useState<Array<any>>([]);
   async function getDetail(id: string) {
+    setSelectedPolicies([])
     const userInfo: any = await getUserInfo();
     const res = await frequest(presentable.getPresentableDetail, [id], {
       isLoadPolicyInfo: 1,
@@ -123,10 +134,17 @@ export default function (props: contractProps) {
     props.contractFinished("", USER_CANCEL);
     console.log("userCancel");
   };
+  function policySelect(policyId: number, clear?: boolean){
+    if(policyId) {
+      setSelectedPolicies([...selectedPolicies, policyId])
+    }else{
+      setSelectedPolicies([])
+    }
+  }
   const getAuth = async () => {
     const subjects: any = [];
     policies.forEach((item: any) => {
-      item.checked &&
+      selectedPolicies.includes(item.policyId) &&
         subjects.push({
           subjectId: currentPresentable.presentableId,
           policyId: item.policyId,
@@ -138,26 +156,33 @@ export default function (props: contractProps) {
       subjectType: 2,
       licenseeId: userInfo.userId + "",
       licenseeIdentityType: 3,
-      isWaitInitial: 1
+      isWaitInitial: 1,
     });
     if (res.data.isAuth) {
       // `付款到${seller}${amount}块钱就可以达到${status}状态`
     }
     setIsModalVisible(false);
-    if((window.isTest && res.data.data.authStatus === 2) || res.data.data.authStatus === 1){
-      props.contractFinished(currentPresentable.eventId, SUCCESS);
+    const isAuth = res.data.data.some((item: any) => {
+      if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
+        props.contractFinished(currentPresentable.eventId, SUCCESS);
+        return true;
+      }
+    });
+    if(!isAuth){
+      props.updateEvents({...currentPresentable, contracts: res.data.data})
     }
-    // props.contractFinished(currentPresentable.eventId, SUCCESS);
   };
   return (
     <React.Fragment>
-      <Confirm
-        setIsModalVisible={setIsModalVisible}
-        isModalVisible={isModalVisible}
-        getAuth={getAuth}
-        policies={policies}
-        currentPresentable={currentPresentable}
-      />
+      {isModalVisible && (
+        <Confirm
+          setIsModalVisible={setIsModalVisible}
+          isModalVisible={isModalVisible}
+          getAuth={getAuth}
+          policies={policies}
+          currentPresentable={currentPresentable}
+        />
+      )}
       <Modal
         title="展品授权"
         zIndex={1200}
@@ -180,7 +205,7 @@ export default function (props: contractProps) {
               <div className="flex-column w-344 h-100x  y-auto">
                 {events.length
                   ? events.map((item: any, index: number) => {
-                      if (item.event === LOGIN) return "";
+                      if (item.event === LOGIN) return null;
                       return (
                         <div
                           key={index}
@@ -199,29 +224,28 @@ export default function (props: contractProps) {
                             {item.presentableName}
                           </div>
                           <div className="flex-row pt-10">
-                            {item.presentableInfo.data.data.contracts.map(
-                              (contract: any) => {
-                                return (
+                            {item.contracts.map((contract: any, index: number) => {
+                              return (
+                                <div
+                                  className={
+                                    "contract-tag flex-row align-center mr-5"
+                                  }
+                                  key={index}
+                                >
+                                  <div className="contract-name">
+                                    {contract.contractName}
+                                  </div>
                                   <div
                                     className={
-                                      "contract-tag flex-row align-center mr-5"
+                                      "contract-dot ml-6 " +
+                                      (contract.authStatus === 128
+                                        ? "bg-auth-none"
+                                        : "bg-auth")
                                     }
-                                  >
-                                    <div className="contract-name">
-                                      {contract.contractName}
-                                    </div>
-                                    <div
-                                      className={
-                                        "contract-dot ml-6 " +
-                                        (contract.authStatus === 128
-                                          ? "bg-auth-none"
-                                          : "bg-auth")
-                                      }
-                                    ></div>
-                                  </div>
-                                );
-                              }
-                            )}
+                                  ></div>
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
                       );
@@ -244,6 +268,9 @@ export default function (props: contractProps) {
                     <Policy
                       policy={policy}
                       key={index}
+                      seq={index}
+                      getAuth={getAuth}
+                      policySelect={policySelect}
                       selectType={contracts.length ? true : false}
                     ></Policy>
                   );
@@ -255,7 +282,10 @@ export default function (props: contractProps) {
             ""
           ) : (
             <div className="h-74 w-100x text-center">
-              <Button click={()=>setIsModalVisible(true)} className="w-300 h-38 fs-14 text-center">
+              <Button
+                click={() => setIsModalVisible(true)}
+                className="w-300 h-38 fs-14 text-center"
+              >
                 立即签约
               </Button>
             </div>

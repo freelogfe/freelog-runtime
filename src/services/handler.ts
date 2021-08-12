@@ -73,12 +73,13 @@ export default function frequest(
   return new Promise((resolve, reject) => {
     axios(url, _api)
       .then(async (response) => {
-        api.after && api.after(response);
-        //最外面拦截到errCode === 30 时需要跳转登录    
-        /** 301 合同未获得授权
+         /** 301 合同未获得授权
          *  303 标的物未签约
          *  502 未登陆的用户
-         * /
+         */
+        api.after && api.after(response);
+        //最外面拦截到errCode === 30 时需要跳转登录    
+       
         // if(response.data.errCode === 30){
         //   // TODO 需要登录的也是未授权
         // }
@@ -95,13 +96,19 @@ export default function frequest(
           );
           setPresentableQueue(presentableId, {
             widget: caller.name,
-            info: response.data,
+            errCode: response.data.errCode,
+            authCode: response.data.data.authCode,
+            contracts: response.data.data.data.contracts,
+            policies: response.data.data.data.policies,
             presentableName,
             presentableId,
+            info: response.data,
           });
+          console.log(response.data.data.contracts, response)
           resolve({
             data: {
               errCode: 3,
+              authCode: response.data.errCode,
               presentableName,
               presentableId,
               errorMsg: response.data.data.errorMsg,

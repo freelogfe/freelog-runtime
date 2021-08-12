@@ -66,7 +66,7 @@ export function addAuth(
       return;
     }
     // TODO 根据 errCode 决定事件 外部函数判断，不写在里面
-    if (data.info.errCode === 3 && data.info.data.authCode === 502) {
+    if (data.errCode === 3 && data.authCode === 502) {
       event = LOGIN;
     } else {
       event = CONTRACT;
@@ -82,9 +82,7 @@ export function addAuth(
     eventMap.set(id, {
       event, // UI事件用最新的
       eventId: id, // 后期evnetId是要与prsesentableId区分开来的
-      presentableId,
-      presentableName: data.presentableName,
-      presentableInfo: data.info, // 展品信息用最新的
+      ...data,
       callBacks: arr,
     });
     if (options && options.immediate) {
@@ -132,6 +130,11 @@ export function callAuth() {
       updateUI && updateUI();
     }
   }
+}
+export function updateEvent(event:any) {
+  if(!event) return eventMap
+  eventMap.set(event.eventId, event)
+  return eventMap
 }
 function removeEvent(eventId: string) {
   eventMap.delete(eventId);

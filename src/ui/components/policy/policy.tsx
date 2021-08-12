@@ -6,57 +6,73 @@ import { useState, useEffect } from "react";
 import PolicyContent from "./_components/policyContent";
 import Button from "../_components/button";
 
-import { Tabs,Checkbox, Popconfirm } from "antd";
+import { Tabs, Checkbox, Popconfirm } from "antd";
 
 const { TabPane } = Tabs;
 
 interface ItemProps {
   policy: any;
   selectType: boolean;
+  policySelect: any;
+  seq: number;
+  getAuth: any;
   children?: any;
 }
 export default function (props: ItemProps) {
   const [visible, setVisible] = useState(false);
-
-  console.log(props.policy);
-  function callback(key: any) {
-  }
+  function callback(key: any) {}
   function onChange(e: any) {
-    props.policy.checked = e.target.checked
+    props.policySelect(props.policy.policyId);
   }
-  function confirm(e: any) {
-    console.log(e);
-    setVisible(false)
-   }
+  async function confirm(e: any) {
+    props.getAuth()
+    setVisible(false);
+  }
 
   function cancel(e: any) {
-    setVisible(false)
-   }
+    props.policySelect();
+    setVisible(false);
+  }
   return (
     <div className="flex-column policy-card">
       {/* 上：策略名称与操作 */}
       <div className="flex-row space-between px-20 py-15">
-        <div className="flex-1 policy-name  text-ellipsis">{props.policy.policyName}</div>
-        {props.selectType ? (<Popconfirm
-          title="确定使用此策略与资源签约？"
-          onConfirm={confirm}
-          onCancel={cancel}
-          zIndex={1202}
-          visible={visible}
-          // @ts-ignore
-          getPopupContainer={()=>document.getElementById("runtime-root")}
-          okText="确定"
-          cancelText="取消"
-        >
-          <Button className="fs-13" click={()=>{setVisible(true)}}>签约</Button>
-        </Popconfirm>)
-          : <Checkbox onChange={onChange}></Checkbox>}
+        <div className="flex-1 policy-name  text-ellipsis">
+          {props.policy.policyName}
+        </div>
+        {props.selectType ? (
+          <Popconfirm
+            title="确定使用此策略与资源签约？"
+            onConfirm={confirm}
+            onCancel={cancel}
+            zIndex={1202}
+            visible={visible}
+            // @ts-ignore
+            getPopupContainer={() => document.getElementById("runtime-root")}
+            okText="确定"
+            cancelText="取消"
+          >
+            <Button
+              className="fs-13"
+              click={() => {
+                props.policySelect(props.policy.policyId);
+                setVisible(true);
+              }}
+            >
+              签约
+            </Button>
+          </Popconfirm>
+        ) : (
+          <Checkbox onChange={onChange}></Checkbox>
+        )}
       </div>
       {/* 下：tab */}
       <div className="flex-column px-20">
         <Tabs defaultActiveKey="1" onChange={callback}>
           <TabPane tab="策略内容" key="1">
-            <PolicyContent translateInfo={props.policy.translateInfo}></PolicyContent>
+            <PolicyContent
+              translateInfo={props.policy.translateInfo}
+            ></PolicyContent>
           </TabPane>
           <TabPane tab="状态机视图" key="2">
             <PolicyGraph policy={props.policy}></PolicyGraph>

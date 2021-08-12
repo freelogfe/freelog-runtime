@@ -1,21 +1,28 @@
 // import logo from './logo.svg';
 import "./App.scss";
 import { useEffect, useState } from "react";
-import { LOGIN, USER_CANCEL } from '../bridge/event';
+import { LOGIN, USER_CANCEL } from "../bridge/event";
 import Login from "./components/login";
 import Auth from "./components/auth";
-import { reisterUI, eventMap, failedMap, endEvent, updateLock } from "../bridge/index";
-import {  setUserInfo } from "../platform/structure/utils";
+import {
+  reisterUI,
+  eventMap,
+  failedMap,
+  endEvent,
+  updateLock,
+  updateEvent,
+} from "../bridge/index";
+import { setUserInfo } from "../platform/structure/utils";
 
 function App() {
   const [events, setEvents] = useState([]);
   const [failedEvents, setFailedEvents] = useState([]);
   const [loginEvent, setLoginEvent] = useState(null);
   const [inited, setInited] = useState(false);
-  useEffect(()=>{
-    updateLock(false)
-  },[events]) 
-  function backToNode(){
+  useEffect(() => {
+    updateLock(false);
+  }, [events]);
+  function backToNode() {
     // @ts-ignore
     const app = document.getElementById("runtime-root");
     // @ts-ignore
@@ -26,7 +33,7 @@ function App() {
     document.getElementById("freelog-plugin-container").style.zIndex = 1;
     setInited(false);
   }
-  function showUI(){
+  function showUI() {
     // document.body.appendChild = document.body.appendChild.bind(
     //   document.getElementById("runtime-root")
     // );
@@ -43,8 +50,9 @@ function App() {
     document.getElementById("freelog-plugin-container").style.zIndex = 0;
   }
   // 遍历顺序是否永远一致
-  function updateEvents() {
-    updateLock(true)
+  function updateEvents(event?:any) {
+    const eventMap = updateEvent(event)
+    updateLock(true);
     const arr: any = [];
     let login = null;
     eventMap.forEach((val, key) => {
@@ -62,14 +70,12 @@ function App() {
     setFailedEvents(arr2);
     setEvents(arr);
     if (!arr.length && !login) {
-      backToNode()
+      backToNode();
     } else {
-      showUI()
-      console.log('showUI')
-      setInited(true)
+      showUI();
+      console.log("showUI");
+      setInited(true);
     }
-    
-    // return arr;
   }
   function UI() {
     updateEvents();
@@ -78,15 +84,15 @@ function App() {
     updateEvents();
   }
   function loginFinished(type: number, data?: any) {
-    setUserInfo(data)
+    setUserInfo(data);
     // @ts-ignore
     endEvent(loginEvent.eventId, type, data);
   }
   function contractFinished(eventId: any, type: number, data?: any) {
-    if(type === USER_CANCEL && !eventId) {
+    if (type === USER_CANCEL && !eventId) {
       // TODO 通知所有 用户取消了
-      backToNode()
-      return
+      backToNode();
+      return;
     }
     endEvent(eventId, type, data);
   }
@@ -98,7 +104,7 @@ function App() {
           !!loginEvent ? (
             <Login eventFinished={loginFinished} events={events}></Login>
           ) : (
-            <Auth events={events} contractFinished={contractFinished}></Auth>
+            <Auth events={events} contractFinished={contractFinished} updateEvents={updateEvents}></Auth>
           )
         ) : (
           ""
