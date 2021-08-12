@@ -42,6 +42,8 @@ export default function (props: PayProps) {
     props.isModalVisible && getAccount();
   }, [props.isModalVisible]);
   async function pay() {
+    // TODO 防止多次点击
+    if(loading) return 
     setLoading(true);
     const res = await frequest(event.pay, [props.contractId], {
       eventId: props.eventId,
@@ -49,7 +51,9 @@ export default function (props: PayProps) {
       transactionAmount: props.transactionAmount,
       password: password,
     });
-    setLoading(false);
+    console.log(res)
+    // TODO 查交易状态
+    // setLoading(false);
     //   eventId: "string",  contractId
     //   accountId: "int",
     //   transactionAmount: "string",
@@ -63,14 +67,14 @@ export default function (props: PayProps) {
       footer={null}
       visible={visible}
       className="w-600 "
+      maskClosable={false}
       onOk={handleOk}
       onCancel={handleCancel}
       wrapClassName="freelog-pay"
       getContainer={document.getElementById("runtime-root")}
     >
       <div className="flex-column ">
-        {loading && <Spin />}
-        {/* 金额 */}
+         {/* 金额 */}
         <div className="amount text-center my-40 px-80">
           <span className="ml-30">
             {props.transactionAmount}
@@ -109,8 +113,9 @@ export default function (props: PayProps) {
           />
         </div>
         <div className="px-80 pt-20">
-          <Button click={pay} disabled={password.length !== 6} className="py-9">
-            确认支付
+          <Button click={pay} disabled={password.length !== 6 || loading} className="py-9">
+            {loading? <span>支付中...<Spin /></span>: 
+            '确认支付'}
           </Button>
         </div>
       </div>
