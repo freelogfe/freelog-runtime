@@ -113,6 +113,18 @@ export default function (props: contractProps) {
     /**
      * 获取
      */
+    
+    res.data.data.policies = res.data.data.policies.filter((i: any) => {
+      return i.status === 1;
+    });
+    res.data.data.policies.forEach((item: any) => {
+      const { policyMaps, bestPyramid, betterPyramids, nodesMap } =
+        getBestTopology(item.fsmDescriptionInfo);
+      item.policyMaps = policyMaps;
+      item.bestPyramid = bestPyramid;
+      item.betterPyramids = betterPyramids;
+      item.nodesMap = nodesMap;
+    });
     const contracts = con.data.data.filter((item: any) => {
       if (item.status === 0) {
         res.data.data.policies.some((i: any) => {
@@ -125,18 +137,8 @@ export default function (props: contractProps) {
         return true;
       }
     });
-    res.data.data.policies = res.data.data.policies.filter((i: any) => {
-      return i.status === 1;
-    });
     setContracts(contracts);
-    res.data.data.policies.forEach((item: any) => {
-      const { policyMaps, bestPyramid, betterPyramids, nodesMap } =
-        getBestTopology(item.fsmDescriptionInfo);
-      item.policyMaps = policyMaps;
-      item.bestPyramid = bestPyramid;
-      item.betterPyramids = betterPyramids;
-      item.nodesMap = nodesMap;
-    });
+
     setPolicies(res.data.data.policies);
   }
   useEffect(() => {
