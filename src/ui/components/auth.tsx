@@ -78,7 +78,7 @@ export default function (props: contractProps) {
   function paymentFinish() {
     getDetail();
   }
-  function showPolicy() {}
+  function showPolicy() { }
   async function getDetail(id?: string) {
     setSelectedPolicies([]);
     const userInfo: any = await getUserInfo();
@@ -113,17 +113,19 @@ export default function (props: contractProps) {
     /**
      * 获取
      */
-    const contractedPolicies: any = [];
     const contracts = con.data.data.filter((item: any) => {
       if (item.status === 0) {
-        contractedPolicies.push(item.policyId);
+        res.data.data.policies.some((i: any) => {
+          if (item.policyId === i.policyId) {
+            item.policyInfo = i
+            i.contracted = true;
+            return true
+          }
+        });
         return true;
       }
     });
     res.data.data.policies = res.data.data.policies.filter((i: any) => {
-      if (contractedPolicies.includes(i.policyId)) {
-        i.contracted = true;
-      }
       return i.status === 1;
     });
     setContracts(contracts);
@@ -139,10 +141,10 @@ export default function (props: contractProps) {
   }
   useEffect(() => {
     const isExist = events.some((item: any) => {
-      if(item.presentableId === currentPresentable.presentableId){
+      if (item.presentableId === currentPresentable.presentableId) {
         setCurrentPresentable(item);
         return true
-      } 
+      }
     });
     !isExist && setCurrentPresentable(events[0]);
   }, [props.events]);
@@ -224,27 +226,27 @@ export default function (props: contractProps) {
               <div className="flex-column w-344 h-100x  y-auto">
                 {events.length
                   ? events.map((item: any, index: number) => {
-                      if (item.event === LOGIN) return null;
-                      return (
+                    if (item.event === LOGIN) return null;
+                    return (
+                      <div
+                        key={index}
+                        onClick={() => {
+                          setCurrentPresentable(item);
+                        }}
+                        className={
+                          (currentPresentable === item
+                            ? "presentable-selected "
+                            : "") +
+                          " px-20 py-15 w-100x b-box x-auto  cur-pointer presentable-item select-none flex-column"
+                        }
+                      >
                         <div
-                          key={index}
-                          onClick={() => {
-                            setCurrentPresentable(item);
-                          }}
-                          className={
-                            (currentPresentable === item
-                              ? "presentable-selected "
-                              : "") +
-                            " px-20 py-15 w-100x b-box x-auto  cur-pointer presentable-item select-none flex-column"
-                          }
+                          className="presentable-name w-100x text-ellipsis flex-1 flex-row align-center"
+                          title={item.presentableName}
                         >
-                          <div
-                            className="presentable-name w-100x text-ellipsis flex-1 flex-row align-center"
-                            title={item.presentableName}
-                          >
-                            <span>{item.presentableName}</span>
-                          </div>
-                          {!item.contracts.length ? null : 
+                          <span>{item.presentableName}</span>
+                        </div>
+                        {!item.contracts.length ? null :
                           <div className="flex-row pt-10">
                             {item.contracts.map(
                               (contract: any, index: number) => {
@@ -265,8 +267,8 @@ export default function (props: contractProps) {
                                           ? "bg-auth-none"
                                           : !window.isTest &&
                                             contract.authStatus === 1
-                                          ? "bg-auth"
-                                          : "bg-auth-none")
+                                            ? "bg-auth"
+                                            : "bg-auth-none")
                                       }
                                     ></div>
                                   </div>
@@ -274,10 +276,10 @@ export default function (props: contractProps) {
                               }
                             )}
                           </div>}
-                        </div>
-                      );
-                    })
-                  : ""}
+                      </div>
+                    );
+                  })
+                  : null}
                 {/* <Presentables></Presentables> */}
               </div>
               {/* 右：策略或合约列表 */}
@@ -290,6 +292,7 @@ export default function (props: contractProps) {
                 {contracts.map((contract: any, index: number) => {
                   return (
                     <Contract
+                      policy={contract.policyInfo}
                       contract={contract}
                       paymentFinish={paymentFinish}
                       key={index}
