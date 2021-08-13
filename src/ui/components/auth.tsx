@@ -76,18 +76,33 @@ export default function (props: contractProps) {
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
   const [policies, setPolicies] = useState([]);
   const [selectedPolicies, setSelectedPolicies] = useState<Array<any>>([]);
-  async function getDetail(id: string) {
+  function paymentFinish(){
+    getDetail()
+  }
+  async function getDetail(id?: string) {
     setSelectedPolicies([])
     const userInfo: any = await getUserInfo();
-    const res = await frequest(presentable.getPresentableDetail, [id], {
-      isLoadPolicyInfo: 1,
-      isTranslate: 1,
-    });
     const con = await frequest(contract.getContracts, "", {
       subjectIds: currentPresentable.presentableId,
       subjectType: 2,
       licenseeIdentityType: 3,
       licenseeId: userInfo.userId,
+      isLoadPolicyInfo: 1,
+      isTranslate: 1,
+    });
+    if(!id){
+      const isAuth = con.data.data.some((item: any) => {
+        if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
+          props.contractFinished(currentPresentable.eventId, SUCCESS);
+          return true;
+        }
+      });
+      if(!isAuth){
+        props.updateEvents({...currentPresentable, contracts: con.data.data})
+      }
+      return
+    }
+    const res = await frequest(presentable.getPresentableDetail, [id || currentPresentable.presentableId], {
       isLoadPolicyInfo: 1,
       isTranslate: 1,
     });
@@ -261,7 +276,7 @@ export default function (props: contractProps) {
                   </div>
                 ) : null}
                 {contracts.map((contract: any, index: number) => {
-                  return <Contract contract={contract} key={index}></Contract>;
+                  return <Contract contract={contract} paymentFinish={paymentFinish} key={index}></Contract>;
                 })}
                 {policies.map((policy: any, index: number) => {
                   return policy.contracted ? null : (

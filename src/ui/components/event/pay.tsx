@@ -19,6 +19,7 @@ interface PayProps {
   contractName: string;
   transactionAmount?: number;
   eventId: any;
+  paymentFinish: any;
 }
 
 export default function (props: PayProps) {
@@ -40,6 +41,7 @@ export default function (props: PayProps) {
     setUserAccount(res.data.data);
   }
   useEffect(() => {
+    setPassword("")
     setVisible(props.isModalVisible);
     props.isModalVisible && getAccount();
   }, [props.isModalVisible]);
@@ -47,27 +49,23 @@ export default function (props: PayProps) {
     // TODO 防止多次点击
     if(loading) return 
     setLoading(true);
-    const res = await frequest(event.pay, [props.contractId], {
+    const payResult = await frequest(event.pay, [props.contractId], {
       eventId: props.eventId,
       accountId: userAccount.accountId,
       transactionAmount: props.transactionAmount,
       password: password,
     });
 
-    console.log(res)
+    console.log(payResult)
     // TODO 查交易状态, flag应该设为状态，在关闭弹窗时清除
     const flag = setInterval(async()=>{
-      const res:any = await frequest(event.pay, [props.contractId], {
-        eventId: props.eventId,
-        accountId: userAccount.accountId,
-        transactionAmount: props.transactionAmount,
-        password: password,
-      });
+      const res:any = await frequest(transaction.getRecord, [payResult.data.data.transactionRecordId],'');
       const status = res.data.data.status
+      console.log(res)
       if([2,3,4].includes(status)){
-      
+        props.paymentFinish(status)
         setLoading(false)
-        clearInterval(flag)
+        window.clearInterval(flag)
       }
     },1000)
     

@@ -11,6 +11,7 @@ var moment = require("moment");
 interface ItemProps {
   contract: any;
   children?: any;
+  paymentFinish:any;
   [propName: string]: any;
 }
 
@@ -90,6 +91,12 @@ export default function (props: ItemProps) {
   function payEvent(e: any) {
     setIsModalVisible(true);
   }
+  function paymentFinish(status: number){
+    if(status === 2){
+      setIsModalVisible(false);
+    }
+    props.paymentFinish()
+  }
   return (
     <div className="contract-card px-20 py-15 mt-15 w-100x">
       {eventIndex > -1 && (
@@ -97,6 +104,7 @@ export default function (props: ItemProps) {
           contractId={props.contract.contractId}
           subjectName={props.contract.subjectName}
           contractName={props.contract.contractName}
+          paymentFinish={paymentFinish}
           // @ts-ignore
           receiver={
             argsMap.get(
@@ -167,8 +175,8 @@ export default function (props: ItemProps) {
                                 event.origin.name !== "TransactionEvent"
                               }
                             >
-                              <div className="flex-row event flex-wrap">
-                                <div className="mr-10">
+                              <div className="flex-row event flex-wrap align-center">
+                                <div className="mr-10 flex-row align-center">
                                   <span>{event.content}</span>
                                   <span className="auth ml-10">
                                     {event.nextState && event.nextState.isAuth ? "获得授权" : ""}
