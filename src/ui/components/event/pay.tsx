@@ -55,7 +55,7 @@ export default function (props: PayProps) {
       transactionAmount: props.transactionAmount,
       password: password,
     });
-
+    console.log(payResult)
     // TODO 查交易状态, flag应该设为状态，在关闭弹窗时清除
     const flag = setInterval(async()=>{
       const res:any = await frequest(transaction.getRecord, [payResult.data.data.transactionRecordId],'');
