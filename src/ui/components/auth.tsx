@@ -80,7 +80,7 @@ export default function (props: contractProps) {
     getDetail()
   }
   function showPolicy(){
-    
+
   }
   async function getDetail(id?: string) {
     setSelectedPolicies([])
@@ -231,7 +231,7 @@ export default function (props: contractProps) {
                             setCurrentPresentable(item);
                           }}
                           className={
-                            (currentPresentable === item ? "bg-content " : "") +
+                            (currentPresentable === item ? "presentable-selected " : "") +
                             " px-20 py-15 w-100x b-box x-auto  cur-pointer presentable-item select-none"
                           }
                         >
