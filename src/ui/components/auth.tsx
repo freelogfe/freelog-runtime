@@ -79,6 +79,9 @@ export default function (props: contractProps) {
   function paymentFinish(){
     getDetail()
   }
+  function showPolicy(){
+    
+  }
   async function getDetail(id?: string) {
     setSelectedPolicies([])
     const userInfo: any = await getUserInfo();

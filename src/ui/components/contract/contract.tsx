@@ -126,7 +126,7 @@ export default function (props: ItemProps) {
         <div className="contract-name  text-ellipsis">
           {props.contract.contractName}
         </div>
-        <div className="policy-button cur-pointer  shrink-0">策略内容</div>
+        <div className="policy-button cur-pointer  shrink-0 select-none">策略内容</div>
       </div>
       {/* 状态整体 */}
       <div className="status-card p-15 mt-15">
