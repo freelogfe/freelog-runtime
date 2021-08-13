@@ -49,7 +49,6 @@ export default function (props: GraphProps) {
     // x 40间隙 node 宽100    y 60间隙 node搞60
     layer.forEach((node: any, xIndex: number) => {
       if (!node) return;
-      // console.log(node)
       let body:any = {
         fill: '#FFFFFF',
         stroke: '#D4D4D4',
@@ -156,7 +155,6 @@ export default function (props: GraphProps) {
       })
     })
   })
-  // console.log(props.policy, props.policy.nodesMap);
   const data = {
 
     // 边
@@ -182,7 +180,6 @@ export default function (props: GraphProps) {
         // 节点
         nodes,
   };
-  // console.log(data)
   useEffect(() => {
     const graph = new Graph({
       // @ts-ignore

@@ -72,18 +72,15 @@ export default function (props: contractProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [contracts, setContracts] = useState([]);
   const events = props.events || [];
-  console.log(events);
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
   const [policies, setPolicies] = useState([]);
   const [selectedPolicies, setSelectedPolicies] = useState<Array<any>>([]);
-  function paymentFinish(){
-    getDetail()
+  function paymentFinish() {
+    getDetail();
   }
-  function showPolicy(){
-
-  }
+  function showPolicy() {}
   async function getDetail(id?: string) {
-    setSelectedPolicies([])
+    setSelectedPolicies([]);
     const userInfo: any = await getUserInfo();
     const con = await frequest(contract.getContracts, "", {
       subjectIds: currentPresentable.presentableId,
@@ -93,26 +90,29 @@ export default function (props: contractProps) {
       isLoadPolicyInfo: 1,
       isTranslate: 1,
     });
-    if(!id){
+    if (!id) {
       const isAuth = con.data.data.some((item: any) => {
         if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
           props.contractFinished(currentPresentable.eventId, SUCCESS);
           return true;
         }
       });
-      if(!isAuth){
-        props.updateEvents({...currentPresentable, contracts: con.data.data})
+      if (!isAuth) {
+        props.updateEvents({ ...currentPresentable, contracts: con.data.data });
       }
-      return
+      return;
     }
-    const res = await frequest(presentable.getPresentableDetail, [id || currentPresentable.presentableId], {
-      isLoadPolicyInfo: 1,
-      isTranslate: 1,
-    });
+    const res = await frequest(
+      presentable.getPresentableDetail,
+      [id || currentPresentable.presentableId],
+      {
+        isLoadPolicyInfo: 1,
+        isTranslate: 1,
+      }
+    );
     /**
      * 获取
      */
-    // console.log(Object.keys(con.data.data[0].policyInfo.fsmDescriptionInfo))
     const contractedPolicies: any = [];
     const contracts = con.data.data.filter((item: any) => {
       if (item.status === 0) {
@@ -120,7 +120,6 @@ export default function (props: contractProps) {
         return true;
       }
     });
-    console.log(contracts);
     res.data.data.policies = res.data.data.policies.filter((i: any) => {
       if (contractedPolicies.includes(i.policyId)) {
         i.contracted = true;
@@ -129,20 +128,23 @@ export default function (props: contractProps) {
     });
     setContracts(contracts);
     res.data.data.policies.forEach((item: any) => {
-      console.log(item);
       const { policyMaps, bestPyramid, betterPyramids, nodesMap } =
         getBestTopology(item.fsmDescriptionInfo);
       item.policyMaps = policyMaps;
       item.bestPyramid = bestPyramid;
       item.betterPyramids = betterPyramids;
       item.nodesMap = nodesMap;
-      console.log(policyMaps, bestPyramid, betterPyramids);
     });
-    console.log(res.data.data.policies);
     setPolicies(res.data.data.policies);
   }
   useEffect(() => {
-    setCurrentPresentable(events[0]);
+    const isExist = events.some((item: any) => {
+      if(item.presentableId === currentPresentable.presentableId){
+        setCurrentPresentable(item);
+        return true
+      } 
+    });
+    !isExist && setCurrentPresentable(events[0]);
   }, [props.events]);
   useEffect(() => {
     currentPresentable && getDetail(currentPresentable.presentableId);
@@ -150,13 +152,12 @@ export default function (props: contractProps) {
 
   const userCancel = () => {
     props.contractFinished("", USER_CANCEL);
-    console.log("userCancel");
   };
-  function policySelect(policyId: number, clear?: boolean){
-    if(policyId) {
-      setSelectedPolicies([...selectedPolicies, policyId])
-    }else{
-      setSelectedPolicies([])
+  function policySelect(policyId: number, clear?: boolean) {
+    if (policyId) {
+      setSelectedPolicies([...selectedPolicies, policyId]);
+    } else {
+      setSelectedPolicies([]);
     }
   }
   const getAuth = async () => {
@@ -186,8 +187,8 @@ export default function (props: contractProps) {
         return true;
       }
     });
-    if(!isAuth){
-      props.updateEvents({...currentPresentable, contracts: res.data.data})
+    if (!isAuth) {
+      props.updateEvents({ ...currentPresentable, contracts: res.data.data });
     }
   };
   return (
@@ -231,40 +232,48 @@ export default function (props: contractProps) {
                             setCurrentPresentable(item);
                           }}
                           className={
-                            (currentPresentable === item ? "presentable-selected " : "") +
-                            " px-20 py-15 w-100x b-box x-auto  cur-pointer presentable-item select-none"
+                            (currentPresentable === item
+                              ? "presentable-selected "
+                              : "") +
+                            " px-20 py-15 w-100x b-box x-auto  cur-pointer presentable-item select-none flex-column"
                           }
                         >
                           <div
-                            className="presentable-name w-100x text-ellipsis"
+                            className="presentable-name w-100x text-ellipsis flex-1 flex-row align-center"
                             title={item.presentableName}
                           >
-                            {item.presentableName}
+                            <span>{item.presentableName}</span>
                           </div>
+                          {!item.contracts.length ? null : 
                           <div className="flex-row pt-10">
-                            {item.contracts.map((contract: any, index: number) => {
-                              return (
-                                <div
-                                  className={
-                                    "contract-tag flex-row align-center mr-5"
-                                  }
-                                  key={index}
-                                >
-                                  <div className="contract-name">
-                                    {contract.contractName}
-                                  </div>
+                            {item.contracts.map(
+                              (contract: any, index: number) => {
+                                return (
                                   <div
                                     className={
-                                      "contract-dot ml-6 " +
-                                      (contract.authStatus === 128
-                                        ? "bg-auth-none"
-                                        : "bg-auth")
+                                      "contract-tag flex-row align-center mr-5"
                                     }
-                                  ></div>
-                                </div>
-                              );
-                            })}
-                          </div>
+                                    key={index}
+                                  >
+                                    <div className="contract-name">
+                                      {contract.contractName}
+                                    </div>
+                                    <div
+                                      className={
+                                        "contract-dot ml-6 " +
+                                        (contract.authStatus === 128
+                                          ? "bg-auth-none"
+                                          : !window.isTest &&
+                                            contract.authStatus === 1
+                                          ? "bg-auth"
+                                          : "bg-auth-none")
+                                      }
+                                    ></div>
+                                  </div>
+                                );
+                              }
+                            )}
+                          </div>}
                         </div>
                       );
                     })
@@ -279,7 +288,13 @@ export default function (props: contractProps) {
                   </div>
                 ) : null}
                 {contracts.map((contract: any, index: number) => {
-                  return <Contract contract={contract} paymentFinish={paymentFinish} key={index}></Contract>;
+                  return (
+                    <Contract
+                      contract={contract}
+                      paymentFinish={paymentFinish}
+                      key={index}
+                    ></Contract>
+                  );
                 })}
                 {policies.map((policy: any, index: number) => {
                   return policy.contracted ? null : (
@@ -301,6 +316,7 @@ export default function (props: contractProps) {
           ) : (
             <div className="h-74 w-100x text-center">
               <Button
+                disabled={selectedPolicies.length === 0}
                 click={() => setIsModalVisible(true)}
                 className="w-300 h-38 fs-14 text-center"
               >

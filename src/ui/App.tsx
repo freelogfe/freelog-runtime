@@ -73,7 +73,6 @@ function App() {
       backToNode();
     } else {
       showUI();
-      console.log("showUI");
       setInited(true);
     }
   }

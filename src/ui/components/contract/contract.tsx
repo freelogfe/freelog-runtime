@@ -31,7 +31,6 @@ export default function (props: ItemProps) {
       argsMap.set(item.name, item);
     });
     setArgsMap(argsMap);
-    console.log(props.contract);
     let authClass = "bg-auth-end";
     let authStatus = "已终止";
     if (props.contract.status !== 1) {
@@ -49,14 +48,12 @@ export default function (props: ItemProps) {
     setAuthClass(authClass);
     props.contract.policyInfo.translateInfo.fsmInfos.some((item: any) => {
       if (item.stateInfo.origin === props.contract.fsmCurrentState) {
-        console.log(item);
         let tec = 0; // TransactionEventCount
         item.eventTranslateInfos.forEach((event: any) => {
           if (event.origin.name === "TransactionEvent") tec++;
           props.contract.policyInfo.translateInfo.fsmInfos.some(
             (state: any) => {
               if (state.stateInfo.origin === event.origin.state) {
-                console.log(item);
                 event.nextState = {
                   ...state,
                   ...props.contract.policyInfo.fsmDescriptionInfo[
@@ -77,7 +74,6 @@ export default function (props: ItemProps) {
             props.contract.fsmCurrentState
           ],
         };
-        console.log(currentSatus);
         // @ts-ignore
         setCurrentStatus(currentSatus);
         return true;
@@ -85,7 +81,6 @@ export default function (props: ItemProps) {
     });
   }, [props.contract]);
   function onChange(e: any) {
-    // console.log(e)
     setEventIndex(e.target.value);
   }
   function payEvent(e: any) {
@@ -131,7 +126,7 @@ export default function (props: ItemProps) {
       {/* 状态整体 */}
       <div className="status-card p-15 mt-15">
         <div className="flex-row">
-          <div className={"auth-status text-center " + authClass}>
+          <div className={"auth-status text-center select-none " + authClass}>
             {authStatus}
           </div>
           <div className="auth-time">

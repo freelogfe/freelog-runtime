@@ -68,7 +68,7 @@ export default function (props: ItemProps) {
       </div>
       {/* 下：tab */}
       <div className="flex-column px-20">
-        <Tabs defaultActiveKey="1" onChange={callback}>
+        <Tabs defaultActiveKey="1" onChange={callback} className="select-none">
           <TabPane tab="策略内容" key="1">
             <PolicyContent
               translateInfo={props.policy.translateInfo}

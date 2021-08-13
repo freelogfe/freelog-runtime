@@ -59,7 +59,6 @@ export default function (props: contractProps) {
     /**
      * 获取
      */
-    // console.log(Object.keys(con.data.data[0].policyInfo.fsmDescriptionInfo))
     const contracts = con.data.data.filter((item: any) => {
       return item.status === 0;
     });
@@ -67,13 +66,10 @@ export default function (props: contractProps) {
       return i.status === 1
     })
     res.data.data.policies.forEach((item: any) => {
-      console.log(item);
       const {policyMaps, bestPyramid, betterPyramids} = getBestTopology(item.fsmDescriptionInfo)
       item.policyMaps =  policyMaps;
       item.bestPyramid =  bestPyramid;
-      console.log(policyMaps, bestPyramid, betterPyramids)
     });
-    console.log(res.data.data.policies);
     setPolicies(res.data.data.policies);
   }
   useEffect(() => {
@@ -85,7 +81,6 @@ export default function (props: contractProps) {
 
   const userCancel = () => {
     props.contractFinished("", USER_CANCEL);
-    console.log("userCancel");
   };
   const getAuth = async () => {
     const userInfo: any = await getUserInfo();
