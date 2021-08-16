@@ -131,6 +131,9 @@ export async function getUserInfo() {
   userInfo = res.data.errCode === 0 ? res.data.data : null;
   return userInfo;
 }
+export  function getCurrentUser() {
+  return userInfo;
+}
 export async function setUserInfo(info: any) {
   userInfo = info;
 }

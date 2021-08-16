@@ -66,7 +66,7 @@ export function addAuth(
       return;
     }
     // TODO 根据 errCode 决定事件 外部函数判断，不写在里面
-    if (data.errCode === 3 && data.authCode === 502) {
+    if (data.errCode === 3 && data.authCode === 502 && false) {
       event = LOGIN;
     } else {
       event = CONTRACT;

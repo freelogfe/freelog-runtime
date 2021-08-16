@@ -12,7 +12,7 @@ import presentable from "../../services/api/modules/presentable";
 import Confirm from "./_components/confirm";
 
 import contract from "../../services/api/modules/contract";
-import { getUserInfo } from "../../platform/structure/utils";
+import { getCurrentUser } from "../../platform/structure/utils";
 import getBestTopology from "./topology/data";
 import { authcodes } from "../../bridge/authCode";
 /**
@@ -81,8 +81,9 @@ export default function (props: contractProps) {
   function showPolicy() { }
   async function getDetail(id?: string) {
     setSelectedPolicies([]);
-    const userInfo: any = await getUserInfo();
-    const con = await frequest(contract.getContracts, "", {
+    // userInfo 如果不存在就是未登录
+    const userInfo: any =  getCurrentUser();
+    const con =  userInfo && await frequest(contract.getContracts, "", {
       subjectIds: currentPresentable.presentableId,
       subjectType: 2,
       licenseeIdentityType: 3,
@@ -125,21 +126,23 @@ export default function (props: contractProps) {
       item.betterPyramids = betterPyramids;
       item.nodesMap = nodesMap;
     });
-    const contracts = con.data.data.filter((item: any) => {
-      if (item.status === 0) {
-        res.data.data.policies.some((i: any) => {
-          if (item.policyId === i.policyId) {
-            item.policyInfo = i
-            i.contracted = true;
-            return true
-          }
-        });
-        return true;
-      }
-    });
-    setContracts(contracts);
-
     setPolicies(res.data.data.policies);
+    if(con){
+      const contracts = con.data.data.filter((item: any) => {
+        if (item.status === 0) {
+          res.data.data.policies.some((i: any) => {
+            if (item.policyId === i.policyId) {
+              item.policyInfo = i
+              i.contracted = true;
+              return true
+            }
+          });
+          return true;
+        }
+      });
+      setContracts(contracts);
+    }
+    
   }
   useEffect(() => {
     const isExist = events.some((item: any) => {
@@ -165,6 +168,10 @@ export default function (props: contractProps) {
     }
   }
   const getAuth = async () => {
+    if(!getCurrentUser()){
+      
+      return 
+    }
     const subjects: any = [];
     policies.forEach((item: any) => {
       selectedPolicies.includes(item.policyId) &&
@@ -173,7 +180,7 @@ export default function (props: contractProps) {
           policyId: item.policyId,
         });
     });
-    const userInfo: any = await getUserInfo();
+    const userInfo: any =  getCurrentUser();
     const res = await frequest(contract.contracts, [], {
       subjects,
       subjectType: 2,
@@ -325,7 +332,7 @@ export default function (props: contractProps) {
                 click={() => setIsModalVisible(true)}
                 className="w-300 h-38 fs-14 text-center"
               >
-                立即签约
+                {getCurrentUser() ? '立即签约' : '登录后签约'}
               </Button>
             </div>
           )}
