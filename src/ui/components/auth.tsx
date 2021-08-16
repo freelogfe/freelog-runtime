@@ -15,6 +15,7 @@ import contract from "../../services/api/modules/contract";
 import { getCurrentUser } from "../../platform/structure/utils";
 import getBestTopology from "./topology/data";
 import { authcodes } from "../../bridge/authCode";
+import ActionButton from "antd/lib/modal/ActionButton";
 /**
  * 展品授权窗口：
  *     左：展品列表
@@ -142,7 +143,6 @@ export default function (props: contractProps) {
       });
       setContracts(contracts);
     }
-    
   }
   useEffect(() => {
     const isExist = events.some((item: any) => {
@@ -167,11 +167,15 @@ export default function (props: contractProps) {
       setSelectedPolicies([]);
     }
   }
-  const getAuth = async () => {
+  function act(){
     if(!getCurrentUser()){
-      
+
       return 
     }
+    setIsModalVisible(true)
+  }
+  const getAuth = async () => {
+    
     const subjects: any = [];
     policies.forEach((item: any) => {
       selectedPolicies.includes(item.policyId) &&
@@ -329,7 +333,7 @@ export default function (props: contractProps) {
             <div className="h-74 w-100x text-center">
               <Button
                 disabled={selectedPolicies.length === 0}
-                click={() => setIsModalVisible(true)}
+                click={act}
                 className="w-300 h-38 fs-14 text-center"
               >
                 {getCurrentUser() ? '立即签约' : '登录后签约'}
