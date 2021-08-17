@@ -1,5 +1,7 @@
 <template>
   <img alt="Vue logo" src="../assets/logo.png" />
+  <button @click="reload">reload</button>
+  <button @click="show">show window</button>
   <HelloWorld msg="Vue.js Demo" @close="close"> </HelloWorld>
 </template>
 
@@ -18,6 +20,14 @@ export default {
     console.log(this.$route);
   },
   methods: {
+    reload() {
+      window.data = '23223232323'
+      window.location.reload()
+    },
+    show(){
+      console.log(window.data)
+    },
+    
     close() {
       console.log('close');
     },

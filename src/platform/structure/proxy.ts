@@ -51,6 +51,7 @@ window.addEventListener(
   },
   true
 );
+ 
 export function setFetch() {
   const rawFetch = window.fetch;
   // @ts-ignore
@@ -275,9 +276,17 @@ export const createLocationProxy = function (name: string, sandbox: any) {
           return function () {};
         }
         if (["reload"].indexOf(property) > -1) {
+
           console.log(sandbox)
           // TODO 重新加载自身插件
-          return function () {};
+          return async function () {
+            await flatternWidgets.get(name).unmount()
+            console.log('reload')
+            setTimeout(()=>{
+              flatternWidgets.get(name).mount()
+            },200)
+            // await flatternWidgets.get(name).mount()
+          };
         }
         if (property === "toString") {
           return () => {
@@ -340,7 +349,8 @@ export const createDocumentProxy = function (
   // HTMLElement.prototype.parentNode = ()=>{
 
   // }
-
+  console.log('isShadow', isShadow, doc)
+  
   if (!isShadow) {
     // TODO  判断document与doc的原型是否都有该方法，有则bind
     // @ts-ignore
@@ -397,6 +407,7 @@ export const createDocumentProxy = function (
       rawDocument.getElementsByTagNameNS =
         getElementsByTagNameNS.bind(rawDocument);
       rawDocument.addEventListener = addEventListener.bind(rawDocument);
+      // TODO 这里不应该使用runtime-root， 不需要考虑，直接禁掉
       rawDocument.body.appendChild = appendChild.bind(
         document.getElementById("runtime-root")
       );

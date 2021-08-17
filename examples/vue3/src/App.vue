@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<style lang="less">
+<style >
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -20,13 +20,13 @@
 #nav {
   padding: 30px;
 
-  a {
+  /* a {
     font-weight: bold;
     color: #2c3e50;
 
     &.router-link-exact-active {
       color: #42b983;
     }
-  }
+  } */
 }
 </style>

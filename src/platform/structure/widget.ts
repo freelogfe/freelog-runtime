@@ -140,12 +140,12 @@ export function mountWidget(
   // addWidget(id2, app2);
   const _app = {
     ...app,
-    mount: () => {
-      app.mount();
+    mount: async () => {
+      await app.mount();
       addWidget(id, app);
     },
-    unmount: () => {
-      app.unmount();
+    unmount: async () => {
+      await app.unmount();
       deactiveWidget(id);
       setLocation();
     },
