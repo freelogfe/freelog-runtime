@@ -12,8 +12,12 @@ const layout = {
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
-
-export default function(props: any) {
+interface loginProps {
+  eventFinished: any;
+  setIsLoginVisible: any;
+  children?: any;
+}
+export default function(props: loginProps) {
   const onFinish = async (values: any) => {
     // loginName: "string",
     //   password: "string",
@@ -30,14 +34,13 @@ export default function(props: any) {
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleOk = () => {
-    setIsModalVisible(false);
+    props.setIsLoginVisible(false);
   };
 
   const handleCancel = () => {
-    setIsModalVisible(false);
+    props.setIsLoginVisible(false);
   };
   return (
     <Modal

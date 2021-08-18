@@ -10,7 +10,9 @@ import Policy from "./policy/policy";
 import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
 import Confirm from "./_components/confirm";
-
+import Login from "../components/login";
+import { setUserInfo } from "../../platform/structure/utils";
+import { loginCallback } from "../../platform/structure/event"
 import contract from "../../services/api/modules/contract";
 import { getCurrentUser } from "../../platform/structure/utils";
 import getBestTopology from "./topology/data";
@@ -71,6 +73,8 @@ export default function (props: contractProps) {
    *             
    */
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isLoginVisible, setIsLoginVisible] = useState(false);
+
   const [contracts, setContracts] = useState([]);
   const events = props.events || [];
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
@@ -78,6 +82,15 @@ export default function (props: contractProps) {
   const [selectedPolicies, setSelectedPolicies] = useState<Array<any>>([]);
   function paymentFinish() {
     getDetail();
+  }
+  function loginFinished(type: number, data?: any) {
+    setUserInfo(data);
+    loginCallback.forEach((func: any)=>{
+      func && func()
+    })
+    // TODO 重载插件需要把授权的也一并清除
+    console.log('login finish')
+    setIsLoginVisible(false)
   }
   function showPolicy() { }
   async function getDetail(id?: string) {
@@ -169,7 +182,7 @@ export default function (props: contractProps) {
   }
   function act(){
     if(!getCurrentUser()){
-
+      setIsLoginVisible(true)  
       return 
     }
     setIsModalVisible(true)
@@ -217,6 +230,8 @@ export default function (props: contractProps) {
           currentPresentable={currentPresentable}
         />
       )}
+      {isLoginVisible && <Login eventFinished={loginFinished} setIsLoginVisible={setIsLoginVisible}></Login>}
+
       <Modal
         title="展品授权"
         zIndex={1200}

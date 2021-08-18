@@ -1,8 +1,7 @@
 // import logo from './logo.svg';
 import "./App.scss";
 import { useEffect, useState } from "react";
-import { LOGIN, USER_CANCEL } from "../bridge/event";
-import Login from "./components/login";
+import { USER_CANCEL } from "../bridge/event";
 import Auth from "./components/auth";
 import {
   reisterUI,
@@ -12,12 +11,10 @@ import {
   updateLock,
   updateEvent,
 } from "../bridge/index";
-import { setUserInfo } from "../platform/structure/utils";
 
 function App() {
   const [events, setEvents] = useState([]);
   const [failedEvents, setFailedEvents] = useState([]);
-  const [loginEvent, setLoginEvent] = useState(null);
   const [inited, setInited] = useState(false);
   useEffect(() => {
     updateLock(false);
@@ -54,22 +51,16 @@ function App() {
     const eventMap = updateEvent(event)
     updateLock(true);
     const arr: any = [];
-    let login = null;
     eventMap.forEach((val, key) => {
-      if (key === LOGIN) {
-        login = val;
-      } else {
-        arr.push(val);
-      }
+      arr.push(val);
     });
-    setLoginEvent(login);
     const arr2: any = [];
     failedMap.forEach((val) => {
       arr2.push(val);
     });
     setFailedEvents(arr2);
     setEvents(arr);
-    if (!arr.length && !login) {
+    if (!arr.length) {
       backToNode();
     } else {
       showUI();
@@ -82,11 +73,7 @@ function App() {
   function updateUI() {
     updateEvents();
   }
-  function loginFinished(type: number, data?: any) {
-    setUserInfo(data);
-    // @ts-ignore
-    endEvent(loginEvent.eventId, type, data);
-  }
+  
   function contractFinished(eventId: any, type: number, data?: any) {
     if (type === USER_CANCEL && !eventId) {
       // TODO 通知所有 用户取消了
@@ -100,13 +87,9 @@ function App() {
     <div id="freelog-app" className="App flex-row w-100x h-100x over-h">
       <div className="flex-1 h-100x text-center">
         {inited ? (
-          !!loginEvent ? (
-            <Login eventFinished={loginFinished} events={events}></Login>
-          ) : (
             <Auth events={events} contractFinished={contractFinished} updateEvents={updateEvents}></Auth>
-          )
         ) : (
-          ""
+          null
         )}
       </div>
     </div>

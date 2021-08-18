@@ -276,15 +276,13 @@ export const createLocationProxy = function (name: string, sandbox: any) {
           return function () {};
         }
         if (["reload"].indexOf(property) > -1) {
-
-          console.log(sandbox)
           // TODO 重新加载自身插件
           return async function () {
             await flatternWidgets.get(name).unmount()
-            console.log('reload')
-            setTimeout(()=>{
-              flatternWidgets.get(name).mount()
-            },200)
+            // console.log('reload')
+            // setTimeout(()=>{
+            flatternWidgets.get(name).mount()
+            // },200)
             // await flatternWidgets.get(name).mount()
           };
         }
@@ -330,7 +328,7 @@ export const createDocumentProxy = function (
   proxy: any
 ) {
   const documentProxy = {};
-  var doc = widgetsConfig.get(name).container.firstChild;
+  var doc = widgetsConfig.get(name).container; //.firstChild;
   // var doc: any = rawDocument.getElementById(name);
   // for shadow dom
   let isShadow = false;
@@ -349,7 +347,8 @@ export const createDocumentProxy = function (
   // HTMLElement.prototype.parentNode = ()=>{
 
   // }
-  console.log('isShadow', isShadow, doc)
+  // TODO 有可能是 doc还没创建造成的
+  // console.log('isShadow', isShadow, doc)
   
   if (!isShadow) {
     // TODO  判断document与doc的原型是否都有该方法，有则bind
