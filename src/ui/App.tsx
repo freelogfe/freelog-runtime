@@ -19,6 +19,11 @@ function App() {
   useEffect(() => {
     updateLock(false);
   }, [events]);
+  function loginFinished(){
+    eventMap.clear()
+    failedMap.clear()
+    updateEvents()
+  }
   function backToNode() {
     // @ts-ignore
     const app = document.getElementById("runtime-root");
@@ -76,6 +81,7 @@ function App() {
   
   function contractFinished(eventId: any, type: number, data?: any) {
     if (type === USER_CANCEL && !eventId) {
+      endEvent(eventId, type, data);
       // TODO 通知所有 用户取消了
       backToNode();
       return;
@@ -87,7 +93,7 @@ function App() {
     <div id="freelog-app" className="App flex-row w-100x h-100x over-h">
       <div className="flex-1 h-100x text-center">
         {inited ? (
-            <Auth events={events} contractFinished={contractFinished} updateEvents={updateEvents}></Auth>
+            <Auth events={events} contractFinished={contractFinished} updateEvents={updateEvents} loginFinished={loginFinished}></Auth>
         ) : (
           null
         )}

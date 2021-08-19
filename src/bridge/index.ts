@@ -147,7 +147,7 @@ function removeEvent(eventId: string) {
   }
 }
 export function endEvent(eventId: string, type: number, data: any) {
-  if (eventMap.get(eventId)) {
+  // if (eventMap.get(eventId)) {
     // TODO 重复代码
     switch (type) {
       case SUCCESS:
@@ -164,11 +164,13 @@ export function endEvent(eventId: string, type: number, data: any) {
         removeEvent(eventId);
         break;
       case USER_CANCEL:
-        eventMap.get(eventId).callBacks.forEach((item: any) => {
-          item.reject(USER_CANCEL, data);
-        });
+        eventMap.forEach((event:any)=>{
+          event.callBacks.forEach((item: any) => {
+            item.reject(USER_CANCEL, data);
+          });
+        }) 
         removeEvent(eventId);
         break;
     }
-  }
+  // }
 }

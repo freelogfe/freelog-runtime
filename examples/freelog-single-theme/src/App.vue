@@ -18,7 +18,7 @@ export default {
       console.log(window.freelogApp);
       const presentableId = await window.freelogApp.getSelfId(window);
       const subData = await window.freelogApp.getSubDep(presentableId);
-      console.log(122222, subData)
+      console.log(122222, subData);
       subData.subDeps.some((sub, index) => {
         if (index === 1) return true;
         window.freelogApp.mountWidget(
@@ -37,6 +37,9 @@ export default {
     },
   },
   async mounted() {
+    window.freelogApp.onLogin(() => {
+      window.location.reload();
+    });
     !this.mount && this.getSub();
     this.mount = true;
   },

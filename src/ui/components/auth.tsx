@@ -1,7 +1,6 @@
 import { Modal } from "antd";
 import { SUCCESS, USER_CANCEL } from "../../bridge/event";
 import React, { useState, useEffect } from "react";
-import Presentables from "./presenbles/presentbles";
 import { LOGIN } from "../../bridge/event";
 import Button from "./_components/button";
 import "./auth.scss";
@@ -12,12 +11,10 @@ import presentable from "../../services/api/modules/presentable";
 import Confirm from "./_components/confirm";
 import Login from "../components/login";
 import { setUserInfo } from "../../platform/structure/utils";
-import { loginCallback } from "../../platform/structure/event"
+import { loginCallback } from "../../platform/structure/event";
 import contract from "../../services/api/modules/contract";
 import { getCurrentUser } from "../../platform/structure/utils";
 import getBestTopology from "./topology/data";
-import { authcodes } from "../../bridge/authCode";
-import ActionButton from "antd/lib/modal/ActionButton";
 /**
  * 展品授权窗口：
  *     左：展品列表
@@ -43,6 +40,7 @@ import ActionButton from "antd/lib/modal/ActionButton";
 interface contractProps {
   events: Array<any>;
   contractFinished(eventId: any, type: number, data?: any): any;
+  loginFinished: any;
   children?: any;
   updateEvents: any;
 }
@@ -85,26 +83,29 @@ export default function (props: contractProps) {
   }
   function loginFinished(type: number, data?: any) {
     setUserInfo(data);
-    loginCallback.forEach((func: any)=>{
-      func && func()
-    })
+    loginCallback.forEach((func: any) => {
+      func && func();
+    });
     // TODO 重载插件需要把授权的也一并清除
-    console.log('login finish')
-    setIsLoginVisible(false)
+    console.log("login finish");
+    props.loginFinished()
+    setIsLoginVisible(false);
   }
-  function showPolicy() { }
+  function showPolicy() {}
   async function getDetail(id?: string) {
     setSelectedPolicies([]);
     // userInfo 如果不存在就是未登录
-    const userInfo: any =  getCurrentUser();
-    const con =  userInfo && await frequest(contract.getContracts, "", {
-      subjectIds: currentPresentable.presentableId,
-      subjectType: 2,
-      licenseeIdentityType: 3,
-      licenseeId: userInfo.userId,
-      isLoadPolicyInfo: 1,
-      isTranslate: 1,
-    });
+    const userInfo: any = getCurrentUser();
+    const con =
+      userInfo &&
+      (await frequest(contract.getContracts, "", {
+        subjectIds: currentPresentable.presentableId,
+        subjectType: 2,
+        licenseeIdentityType: 3,
+        licenseeId: userInfo.userId,
+        isLoadPolicyInfo: 1,
+        isTranslate: 1,
+      }));
     if (!id) {
       const isAuth = con.data.data.some((item: any) => {
         if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
@@ -128,7 +129,7 @@ export default function (props: contractProps) {
     /**
      * 获取
      */
-    
+
     res.data.data.policies = res.data.data.policies.filter((i: any) => {
       return i.status === 1;
     });
@@ -141,14 +142,14 @@ export default function (props: contractProps) {
       item.nodesMap = nodesMap;
     });
     setPolicies(res.data.data.policies);
-    if(con){
+    if (con) {
       const contracts = con.data.data.filter((item: any) => {
         if (item.status === 0) {
           res.data.data.policies.some((i: any) => {
             if (item.policyId === i.policyId) {
-              item.policyInfo = i
+              item.policyInfo = i;
               i.contracted = true;
-              return true
+              return true;
             }
           });
           return true;
@@ -161,7 +162,7 @@ export default function (props: contractProps) {
     const isExist = events.some((item: any) => {
       if (item.presentableId === currentPresentable.presentableId) {
         setCurrentPresentable(item);
-        return true
+        return true;
       }
     });
     !isExist && setCurrentPresentable(events[0]);
@@ -180,15 +181,14 @@ export default function (props: contractProps) {
       setSelectedPolicies([]);
     }
   }
-  function act(){
-    if(!getCurrentUser()){
-      setIsLoginVisible(true)  
-      return 
+  function act() {
+    if (!getCurrentUser()) {
+      setIsLoginVisible(true);
+      return;
     }
-    setIsModalVisible(true)
+    setIsModalVisible(true);
   }
   const getAuth = async () => {
-    
     const subjects: any = [];
     policies.forEach((item: any) => {
       selectedPolicies.includes(item.policyId) &&
@@ -197,7 +197,7 @@ export default function (props: contractProps) {
           policyId: item.policyId,
         });
     });
-    const userInfo: any =  getCurrentUser();
+    const userInfo: any = getCurrentUser();
     const res = await frequest(contract.contracts, [], {
       subjects,
       subjectType: 2,
@@ -230,7 +230,12 @@ export default function (props: contractProps) {
           currentPresentable={currentPresentable}
         />
       )}
-      {isLoginVisible && <Login eventFinished={loginFinished} setIsLoginVisible={setIsLoginVisible}></Login>}
+      {isLoginVisible && (
+        <Login
+        loginFinished={loginFinished}
+          setIsLoginVisible={setIsLoginVisible}
+        ></Login>
+      )}
 
       <Modal
         title="展品授权"
@@ -254,59 +259,60 @@ export default function (props: contractProps) {
               <div className="flex-column w-344 h-100x  y-auto">
                 {events.length
                   ? events.map((item: any, index: number) => {
-                    if (item.event === LOGIN) return null;
-                    return (
-                      <div
-                        key={index}
-                        onClick={() => {
-                          setCurrentPresentable(item);
-                        }}
-                        className={
-                          (currentPresentable === item
-                            ? "presentable-selected "
-                            : "") +
-                          " px-20 py-15 w-100x b-box x-auto  cur-pointer presentable-item select-none flex-column"
-                        }
-                      >
+                      if (item.event === LOGIN) return null;
+                      return (
                         <div
-                          className="presentable-name w-100x text-ellipsis flex-1 flex-row align-center"
-                          title={item.presentableName}
+                          key={index}
+                          onClick={() => {
+                            setCurrentPresentable(item);
+                          }}
+                          className={
+                            (currentPresentable === item
+                              ? "presentable-selected "
+                              : "") +
+                            " px-20 py-15 w-100x b-box x-auto  cur-pointer presentable-item select-none flex-column"
+                          }
                         >
-                          <span>{item.presentableName}</span>
-                        </div>
-                        {!item.contracts.length ? null :
-                          <div className="flex-row pt-10">
-                            {item.contracts.map(
-                              (contract: any, index: number) => {
-                                return (
-                                  <div
-                                    className={
-                                      "contract-tag flex-row align-center mr-5"
-                                    }
-                                    key={index}
-                                  >
-                                    <div className="contract-name">
-                                      {contract.contractName}
-                                    </div>
+                          <div
+                            className="presentable-name w-100x text-ellipsis flex-1 flex-row align-center"
+                            title={item.presentableName}
+                          >
+                            <span>{item.presentableName}</span>
+                          </div>
+                          {!item.contracts.length ? null : (
+                            <div className="flex-row pt-10">
+                              {item.contracts.map(
+                                (contract: any, index: number) => {
+                                  return (
                                     <div
                                       className={
-                                        "contract-dot ml-6 " +
-                                        (contract.authStatus === 128
-                                          ? "bg-auth-none"
-                                          : !window.isTest &&
-                                            contract.authStatus === 1
+                                        "contract-tag flex-row align-center mr-5"
+                                      }
+                                      key={index}
+                                    >
+                                      <div className="contract-name">
+                                        {contract.contractName}
+                                      </div>
+                                      <div
+                                        className={
+                                          "contract-dot ml-6 " +
+                                          (contract.authStatus === 128
+                                            ? "bg-auth-none"
+                                            : !window.isTest &&
+                                              contract.authStatus === 1
                                             ? "bg-auth"
                                             : "bg-auth-none")
-                                      }
-                                    ></div>
-                                  </div>
-                                );
-                              }
-                            )}
-                          </div>}
-                      </div>
-                    );
-                  })
+                                        }
+                                      ></div>
+                                    </div>
+                                  );
+                                }
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })
                   : null}
                 {/* <Presentables></Presentables> */}
               </div>
@@ -351,7 +357,7 @@ export default function (props: contractProps) {
                 click={act}
                 className="w-300 h-38 fs-14 text-center"
               >
-                {getCurrentUser() ? '立即签约' : '请登录'}
+                {getCurrentUser() ? "立即签约" : "请登录"}
               </Button>
             </div>
           )}

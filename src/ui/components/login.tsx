@@ -1,24 +1,34 @@
-import { Form, Input,Modal, Button, Checkbox } from "antd";
+import { Form, Input, Modal, Checkbox } from "antd";
 import user from "../../services/api/modules/user";
 import frequest from "../../services/handler";
 import { SUCCESS } from "../../bridge/event";
-import { useState } from 'react';
+import Button from "./_components/button";
 
+import { useState } from "react";
+import "./login.scss";
 
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
 };
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
+
 interface loginProps {
-  eventFinished: any;
+  loginFinished: any;
   setIsLoginVisible: any;
   children?: any;
 }
-export default function(props: loginProps) {
-  const onFinish = async (values: any) => {
+export default function (props: loginProps) {
+  const [form] = Form.useForm();
+  const [disabled, setDisabled] = useState(true);
+
+  function onValuesChange(changedValues:any,allValues:any){
+    console.log(changedValues, allValues)
+    setDisabled(!allValues.loginName || !allValues.password)
+  }
+  
+  const onFinish = async () => {
+    console.log(form.getFieldsValue())
+    const values: any = form.getFieldsValue()
     // loginName: "string",
     //   password: "string",
     //   isRemember: "string",
@@ -27,7 +37,7 @@ export default function(props: loginProps) {
     values.isRemember = values.isRemember ? 1 : 0;
     const res = await frequest(user.login, "", values);
     if (res.data.errCode === 0) {
-      props.eventFinished(SUCCESS, res.data.data);
+      props.loginFinished(SUCCESS, res.data.data);
     }
   };
 
@@ -38,7 +48,7 @@ export default function(props: loginProps) {
   const handleOk = () => {
     props.setIsLoginVisible(false);
   };
-
+ 
   const handleCancel = () => {
     props.setIsLoginVisible(false);
   };
@@ -50,47 +60,57 @@ export default function(props: loginProps) {
       footer={null}
       visible={true}
       closable={false}
-      className="w-400 h-400"
+      className=""
       onOk={handleOk}
       onCancel={handleCancel}
-      getContainer={document.getElementById('runtime-root')}
+      maskClosable={false}
+      wrapClassName="freelog-login"
+      getContainer={document.getElementById("runtime-root")}
     >
-      <Form
-        {...layout}
-        name="basic"
-        className=""
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-      >
-        <Form.Item
-          label="用户名"
-          className="mr-40"
-          name="loginName"
-          rules={[{ required: true, message: "请输入用户名!" }]}
+      <div className="w-100x h-100x flex-column align-center">
+        <div className="login-title py-55">登录freelog</div>
+        <Form
+          {...layout}
+          onValuesChange={onValuesChange}
+          name="basic"
+          form={form}
+          className=""
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
         >
-          <Input />
-        </Form.Item>
+          <div className="login-label">用户名/手机号/邮箱</div>
+          <Form.Item
+            name="loginName"
+            rules={[{ required: true, message: "请输入用户名!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <div className="flex-row space-between login-label mt-10">
+            <div className="">密码</div>
+            <div className="login-forgot select-none cur-pointer">忘记密码？</div>
+          </div>
 
-        <Form.Item
-          label="密码"
-          className="mr-40"
-          name="password"
-          rules={[{ required: true, message: "请输入密码!" }]}
-        >
-          <Input.Password />
-        </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "请输入密码!" }]}
+          >
+            <Input.Password />
+          </Form.Item>
 
-        <Form.Item {...tailLayout} name="isRemember" valuePropName="checked" className="ml-40">
+          {/* <Form.Item {...tailLayout} name="isRemember" valuePropName="checked" className="ml-40">
           <Checkbox>记住我</Checkbox>
-        </Form.Item>
+        </Form.Item> */}
 
-        <Form.Item {...tailLayout} className="ml-40">
-          <Button type="primary" htmlType="submit">
-            登录
-          </Button>
-        </Form.Item>
-      </Form>
+          <Form.Item className="pt-30">
+            <Button className="py-9" click={onFinish} disabled={disabled}>登录</Button>
+          </Form.Item>
+        </Form>
+        <div className="flex-row  mt-30">
+          <span className="login-new">freelog新用户？</span>
+          <span className="regist-now">立即注册</span>
+        </div>
+      </div>
     </Modal>
   );
-};
+}
