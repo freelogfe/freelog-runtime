@@ -174,9 +174,14 @@ export default function (props: contractProps) {
   const userCancel = () => {
     props.contractFinished("", USER_CANCEL);
   };
-  function policySelect(policyId: number, clear?: boolean) {
+  function policySelect(policyId: number, checked?: boolean) {
     if (policyId) {
-      setSelectedPolicies([...selectedPolicies, policyId]);
+      if(checked){
+        setSelectedPolicies([...selectedPolicies, policyId]);
+
+      }else{
+        setSelectedPolicies([...selectedPolicies].filter((item:any)=> item !== policyId))
+      }
     } else {
       setSelectedPolicies([]);
     }
@@ -353,7 +358,7 @@ export default function (props: contractProps) {
           ) : (
             <div className="h-74 w-100x text-center">
               <Button
-                disabled={selectedPolicies.length === 0 && getCurrentUser()}
+                disabled={selectedPolicies.length === 0 }
                 click={act}
                 className="w-300 h-38 fs-14 text-center"
               >

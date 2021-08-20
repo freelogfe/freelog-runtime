@@ -22,7 +22,8 @@ export default function (props: ItemProps) {
   const [visible, setVisible] = useState(false);
   function callback(key: any) {}
   function onChange(e: any) {
-    props.policySelect(props.policy.policyId);
+    console.log(e)
+    props.policySelect(props.policy.policyId, e.target.checked);
   }
   async function confirm(e: any) {
     props.getAuth()
