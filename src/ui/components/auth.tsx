@@ -358,7 +358,7 @@ export default function (props: contractProps) {
           ) : (
             <div className="h-74 w-100x text-center">
               <Button
-                disabled={selectedPolicies.length === 0 }
+                disabled={selectedPolicies.length === 0 && getCurrentUser()}
                 click={act}
                 className="w-300 h-38 fs-14 text-center"
               >
