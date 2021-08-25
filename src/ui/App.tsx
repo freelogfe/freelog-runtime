@@ -2,7 +2,7 @@
 import "./App.scss";
 import { useEffect, useState } from "react";
 import { USER_CANCEL } from "../bridge/event";
-import Auth from "./components/auth";
+import Auth from "./pc/auth";
 import {
   reisterUI,
   eventMap,
@@ -90,14 +90,12 @@ function App() {
   }
   reisterUI(UI, updateUI);
   return (
-    <div id="freelog-app" className="App flex-row w-100x h-100x over-h">
-      <div className="flex-1 h-100x text-center">
+    <div id="freelog-app" className="w-100x h-100x over-h">
         {inited ? (
             <Auth events={events} contractFinished={contractFinished} updateEvents={updateEvents} loginFinished={loginFinished}></Auth>
         ) : (
           null
         )}
-      </div>
     </div>
   );
 }

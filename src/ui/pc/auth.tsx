@@ -9,7 +9,7 @@ import Policy from "./policy/policy";
 import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
 import Confirm from "./_components/confirm";
-import Login from "../components/login";
+import Login from "./login";
 import { setUserInfo } from "../../platform/structure/utils";
 import { loginCallback } from "../../platform/structure/event";
 import contract from "../../services/api/modules/contract";

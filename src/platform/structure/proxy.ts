@@ -480,6 +480,7 @@ export const createDocumentProxy = function (
         ) {
           return function () {
             if (["head", "html"].indexOf(arguments[0]) !== -1) {
+              // TODOjquery才需要此处放权
               // @ts-ignore
               return rawDocument[property](...arguments);
             } else {
