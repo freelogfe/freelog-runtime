@@ -173,7 +173,6 @@ const viewPortValue = {
 export function setViewport(keys: any) {
   // @ts-ignore
   const that = this;
-  console.log(widgetsConfig.get(that.name))
   // 如果是主题
   if (!widgetsConfig.get(that.name)?.isTheme) {
     return;
