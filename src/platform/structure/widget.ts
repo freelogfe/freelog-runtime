@@ -111,6 +111,7 @@ export function mountWidget(
   const widgetConfig = {
     container,
     name: id, //id
+    isTheme: data.isTheme,
     presentableId: data.presentableId,
     widgetName: !sub ? "freelogDev" : sub.name.replace('/','-'),
     parentNid: entry ? '' : data.entityNid,

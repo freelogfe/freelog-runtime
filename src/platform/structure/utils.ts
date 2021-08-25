@@ -7,6 +7,8 @@ import frequest from "../../services/handler";
 import user from "../../services/api/modules/user";
 
 import { addAuth } from "../../bridge/index";
+import { forEach } from "lodash";
+// todo 此文件的方法需要整理分离出freeelogApp下的和内部使用的
 export function getContainer(
   container: string | HTMLElement
 ): HTMLElement | null | undefined {
@@ -131,7 +133,7 @@ export async function getUserInfo() {
   userInfo = res.data.errCode === 0 ? res.data.data : null;
   return userInfo;
 }
-export  function getCurrentUser() {
+export function getCurrentUser() {
   return userInfo;
 }
 export async function setUserInfo(info: any) {
@@ -139,23 +141,61 @@ export async function setUserInfo(info: any) {
 }
 export function getStaticPath(path: string, type?: string) {
   if (!/^\//.test(path)) {
-    path = '/' + path
-  };
+    path = "/" + path;
+  }
   // @ts-ignore
   return widgetsConfig.get(this.name).entry + path;
 }
 export function getEntry(that: any) {
-  let baseURL = 'http://qi.freelog.com/v2/'
+  let baseURL = "http://qi.freelog.com/v2/";
   // TODO  判断不严谨，会有漏洞
-  if (window.location.href.indexOf('testfreelog') > -1) {
-    baseURL = 'http://qi.testfreelog.com/v2/'
+  if (window.location.href.indexOf("testfreelog") > -1) {
+    baseURL = "http://qi.testfreelog.com/v2/";
   }
   let url = baseURL + `auths/presentables/${that.presentableId}/fileStream?`;
-  let url2 = `parentNid=${that.parentNid}&subResourceIdOrName=${that.subResourceIdOrName
-    }`;
+  let url2 = `parentNid=${that.parentNid}&subResourceIdOrName=${that.subResourceIdOrName}`;
   if (that.parentNid) {
-    return url + url2 + '&subResourceFile='
+    return url + url2 + "&subResourceFile=";
   } else {
-    return url + 'subResourceFile='
+    return url + "subResourceFile=";
   }
+}
+const immutableKeys = ["width"];
+const viewPortValue = {
+  width: "device-width", // immutable
+  height: "device-height", // not supported in browser
+  "initial-scale": 1, // 0.0-10.0   available for theme
+  "maximum-scale": 1, // 0.0-10.0   available for theme
+  "minimum-scale": 1, // 0.0-10.0   available for theme
+  "user-scalable": "no", // available for theme
+  "viewport-fit": "auto", // not supported in browser
+};
+export function setViewport(keys: any) {
+  // @ts-ignore
+  const that = this;
+  console.log(widgetsConfig.get(that.name))
+  // 如果是主题
+  if (!widgetsConfig.get(that.name)?.isTheme) {
+    return;
+  }
+  Object.keys(keys).forEach((key: any) => {
+    if (viewPortValue.hasOwnProperty(key) && !immutableKeys.includes(key)) {
+      // TODO 开发体验最好做下验证值是否合法
+      // @ts-ignore
+      viewPortValue[key] = keys[key];
+    }
+  });
+  var doc = window.document;
+  var metaEl: any = doc.querySelector('meta[name="viewport"]');
+  let content = "";
+  Object.keys(viewPortValue).forEach((key: any) => {
+    if (viewPortValue.hasOwnProperty(key)) {
+      // @ts-ignore
+      content += key + "=" + viewPortValue[key] + ',';
+    }
+  });
+  metaEl.setAttribute(
+    "content",
+    content
+  );
 }
