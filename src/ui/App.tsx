@@ -2,7 +2,8 @@
 import "./App.scss";
 import { useEffect, useState } from "react";
 import { USER_CANCEL } from "../bridge/event";
-import Auth from "./pc/auth";
+import Pc from "./pc/auth";
+import Mobile from "./mobile/auth";
 import {
   reisterUI,
   eventMap,
@@ -19,7 +20,7 @@ function App() {
   useEffect(() => {
     updateLock(false);
   }, [events]);
-  function loginFinished(){
+  function loginFinished() {
     eventMap.clear()
     failedMap.clear()
     updateEvents()
@@ -52,7 +53,7 @@ function App() {
     document.getElementById("freelog-plugin-container").style.zIndex = 0;
   }
   // 遍历顺序是否永远一致
-  function updateEvents(event?:any) {
+  function updateEvents(event?: any) {
     const eventMap = updateEvent(event)
     updateLock(true);
     const arr: any = [];
@@ -78,7 +79,7 @@ function App() {
   function updateUI() {
     updateEvents();
   }
-  
+
   function contractFinished(eventId: any, type: number, data?: any) {
     if (type === USER_CANCEL && !eventId) {
       endEvent(eventId, type, data);
@@ -91,11 +92,12 @@ function App() {
   reisterUI(UI, updateUI);
   return (
     <div id="freelog-app" className="w-100x h-100x over-h">
-        {inited ? (
-            <Auth events={events} contractFinished={contractFinished} updateEvents={updateEvents} loginFinished={loginFinished}></Auth>
-        ) : (
-          null
-        )}
+      {inited ? (
+        !window.isMobile ? <Pc events={events} contractFinished={contractFinished} updateEvents={updateEvents} loginFinished={loginFinished}></Pc> :
+         <Mobile events={events}  contractFinished={contractFinished} updateEvents={updateEvents} loginFinished={loginFinished}></Mobile>
+      ) : (
+        null
+      )}
     </div>
   );
 }

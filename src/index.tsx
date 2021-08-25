@@ -8,7 +8,6 @@ import { isMobile } from "./utils/utils";
 import zhCN from "antd/lib/locale/zh_CN";
 import { ConfigProvider } from "antd";
 if (isMobile()) {
-  //@ts-ignore
   window.isMobile = true;
   // @ts-ignore
   document.querySelector("meta[name=viewport]").content =

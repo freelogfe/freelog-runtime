@@ -98,7 +98,7 @@ export default function frequest(
             widget: caller.name,
             errCode: response.data.errCode,
             authCode: response.data.data.authCode,
-            contracts: response.data.data.data.contracts,
+            contracts: response.data.data.data.contracts || [],
             policies: response.data.data.data.policies,
             presentableName,
             presentableId,
