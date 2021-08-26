@@ -14,6 +14,9 @@ import { loginCallback } from "../../platform/structure/event";
 import contract from "../../services/api/modules/contract";
 import { getCurrentUser } from "../../platform/structure/utils";
 import getBestTopology from "./topology/data";
+import { DatePicker } from 'antd-mobile';
+import { Button as Bt } from 'antd-mobile';
+
 /**
  * 展品授权窗口：
  *     左：展品列表
@@ -240,13 +243,13 @@ export default function (props: contractProps) {
           setIsLoginVisible={setIsLoginVisible}
         ></Login>
       )}
-
+      <div>4444<DatePicker/>33333<Bt>3333333</Bt></div>
       <Modal
         title="展品授权"
         zIndex={1200}
         centered
         footer={null}
-        visible={true}
+        visible={false}
         width={860}
         onCancel={userCancel}
         className="h-600"
