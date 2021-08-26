@@ -56,7 +56,7 @@ export default function (props: ItemProps) {
             <Button
               className="fs-13"
               click={() => {
-                props.policySelect(props.policy.policyId);
+                props.policySelect(props.policy.policyId, true, true);
                 setVisible(true);
               }}
             >

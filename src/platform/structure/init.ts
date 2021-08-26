@@ -38,15 +38,14 @@ export function initNode() {
     // TODO 深度克隆
     freelogApp.devData = {...devData};
     Object.freeze(freelogApp)
-    initLocation();
-
+    initLocation();   
+    await getUserInfo()
     // @ts-ignore
     const container = document.getElementById("freelog-plugin-container");
     if (devData.type === DEV_WIDGET) {
       freelogApp.mountWidget("", container, {presentableId: nodeInfo.nodeThemeId, isTheme: true,}, "", {shadowDom: false,scopedCss: true});
       return;
     }
-    await getUserInfo()
     // @ts-ignore
     const theme = await getSubDep.bind({ name: "freelog-" + nodeInfo.nodeThemeId, presentableId: nodeInfo.nodeThemeId })(nodeInfo.nodeThemeId);
     freelogApp.mountWidget(

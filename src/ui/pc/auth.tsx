@@ -174,11 +174,14 @@ export default function (props: contractProps) {
   const userCancel = () => {
     props.contractFinished("", USER_CANCEL);
   };
-  function policySelect(policyId: number, checked?: boolean) {
+  function policySelect(policyId: number, checked?: boolean, single?:boolean) {
     if (policyId) {
       if(checked){
-        setSelectedPolicies([...selectedPolicies, policyId]);
-
+        if(single){
+          setSelectedPolicies([policyId]);
+        }else{
+          setSelectedPolicies([...selectedPolicies, policyId]);
+        }
       }else{
         setSelectedPolicies([...selectedPolicies].filter((item:any)=> item !== policyId))
       }
