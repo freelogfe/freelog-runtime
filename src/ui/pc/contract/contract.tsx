@@ -34,7 +34,7 @@ export default function (props: ItemProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   useEffect(() => {
     const argsMap = new Map();
-    props.contract.fsmDeclarations.envArgs.forEach((item: any) => {
+    props.contract.fsmDeclarations.envArgs?.forEach((item: any) => {
       argsMap.set(item.name, item);
     });
     setArgsMap(argsMap);
