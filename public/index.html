@@ -60,7 +60,7 @@
     -->
   <title>freelog</title>
   <script>
-    function isMobile() {
+    function _isMobile() {
       var browser = {
         versions: (function () {
           var u = navigator.userAgent
@@ -95,7 +95,7 @@
         return false
       }
     }
-    if ('addEventListener' in document  && isMobile()) {
+    if ('addEventListener' in document  && _isMobile()) {
       document.addEventListener('DOMContentLoaded', function () {
         FastClick.attach(document.body);
       }, false);

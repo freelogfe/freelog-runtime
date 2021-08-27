@@ -104,7 +104,6 @@ export default function frequest(
             presentableId,
             info: response.data,
           });
-          console.log(response.data.data.contracts, response)
           resolve({
             data: {
               errCode: 3,
