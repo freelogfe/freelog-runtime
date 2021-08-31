@@ -5,10 +5,11 @@ import { useState, useEffect } from "react";
 import PolicyContent from "./_components/policyContent";
 import Button from "../_components/button";
 
-import { Tabs, Checkbox, Popconfirm } from "antd";
-import { Modal, WhiteSpace, WingBlank, Toast } from 'antd-mobile';
+import { Checkbox, } from "antd";
+import { Tabs, WhiteSpace, Badge } from 'antd-mobile';
+
+import { Modal, WingBlank, Toast } from 'antd-mobile';
 const alert = Modal.alert;
-const { TabPane } = Tabs;
 
 interface ItemProps {
   policy: any;
@@ -18,15 +19,20 @@ interface ItemProps {
   getAuth: any;
   children?: any;
 }
+const tabs = [
+  { title: <Badge>策略内容</Badge> },
+  { title: <Badge>状态机视图</Badge> },
+  { title: <Badge>策略代码</Badge> },
+];
 export default function (props: ItemProps) {
   const [visible, setVisible] = useState(false);
-  function callback(key: any) {}
+  function callback(key: any) { }
   function onChange(e: any) {
     console.log(e)
     props.policySelect(props.policy.policyId, e.target.checked);
   }
-  async function confirm() {
-    props.getAuth()
+  async function confirm(id: any) {
+    props.getAuth(id)
   }
 
   function cancel() {
@@ -40,37 +46,44 @@ export default function (props: ItemProps) {
           {props.policy.policyName}
         </div>
         {props.selectType ? (
-          
-            <Button
-              className="fs-13"
-              click={() => {
-                props.policySelect(props.policy.policyId, true, true);
-                 alert('签约', "确定使用此策略与资源签约？", [
+
+          <Button
+            className="fs-13"
+            click={() => {
+              props.policySelect(props.policy.policyId, true, true);
+              setTimeout(() => {
+                alert('签约', "确定使用此策略与资源签约？", [
                   { text: '取消', onPress: () => cancel() },
-                  { text: '确定', onPress: () => confirm() },
+                  { text: '确定', onPress: () => confirm(props.policy.policyId) },
                 ])
-              }}
-            >
-              签约
-            </Button>
-         ) : (
+              }, 1000)
+            }}
+          >
+            签约
+          </Button>
+        ) : (
           <Checkbox onChange={onChange}></Checkbox>
         )}
       </div>
       {/* 下：tab */}
       <div className="flex-column px-20">
-        <Tabs defaultActiveKey="1" onChange={callback} className="select-none">
-          <TabPane tab="策略内容" key="1">
+        <Tabs tabs={tabs}
+          initialPage={1}
+          onChange={(tab, index) => { console.log('onChange', index, tab); }}
+          onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
             <PolicyContent
               translateInfo={props.policy.translateInfo}
             ></PolicyContent>
-          </TabPane>
-          <TabPane tab="状态机视图" key="2">
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
             <PolicyGraph policy={props.policy}></PolicyGraph>
-          </TabPane>
-          <TabPane tab="策略代码" key="3">
+
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
             <PolicyCode policyText={props.policy.policyText}></PolicyCode>
-          </TabPane>
+          </div>
         </Tabs>
       </div>
     </div>

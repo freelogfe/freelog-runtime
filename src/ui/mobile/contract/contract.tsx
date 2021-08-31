@@ -6,9 +6,7 @@ import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import PolicyGraph from "../policy/_components/policyGraph";
 import PolicyCode from "../policy/_components/policyCode";
 import PolicyContent from "../policy/_components/policyContent";
-import { Tabs, Checkbox, Popconfirm } from "antd";
-const { TabPane } = Tabs;
-
+import { Tabs, WhiteSpace, Badge } from 'antd-mobile';
 var moment = require("moment");
 /**
  * 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
@@ -20,7 +18,12 @@ interface ItemProps {
   paymentFinish: any;
   [propName: string]: any;
 }
-
+const tabs = [
+  { title: <Badge >合约流转记录</Badge> },
+  { title: <Badge >策略内容</Badge> },
+  { title: <Badge >状态机视图</Badge> },
+  { title: <Badge >策略代码</Badge> },
+];
 export default function (props: ItemProps) {
   const [eventIndex, setEventIndex] = useState(-1);
   const [unfold, setUnFold] = useState(false);
@@ -129,8 +132,12 @@ export default function (props: ItemProps) {
         </div>
         {/* <div className="policy-button cur-pointer  shrink-0 select-none">策略内容</div> */}
       </div>
-      <Tabs defaultActiveKey="1" className="select-none">
-        <TabPane tab="合约流转记录" key="1">
+      <Tabs tabs={tabs}
+        initialPage={1}
+        onChange={(tab, index) => { console.log('onChange', index, tab); }}
+        onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
           {/* 状态整体 */}
           <div className="status-card p-15 mt-15">
             <div className="flex-row">
@@ -258,18 +265,18 @@ export default function (props: ItemProps) {
             合同编号 {props.contract.contractId} | 签约时间{" "}
             {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm")}
           </div>
-        </TabPane>
-        <TabPane tab="策略内容" key="2">
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
           <PolicyContent
             translateInfo={props.policy.translateInfo}
           ></PolicyContent>
-        </TabPane>
-        <TabPane tab="状态机视图" key="3">
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
           <PolicyGraph policy={props.policy}></PolicyGraph>
-        </TabPane>
-        <TabPane tab="策略代码" key="4">
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
           <PolicyCode policyText={props.policy.policyText}></PolicyCode>
-        </TabPane>
+        </div>
       </Tabs>
 
     </div>
