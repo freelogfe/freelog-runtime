@@ -6,7 +6,8 @@ import PolicyContent from "./_components/policyContent";
 import Button from "../_components/button";
 
 import { Tabs, Checkbox, Popconfirm } from "antd";
-
+import { Modal, WhiteSpace, WingBlank, Toast } from 'antd-mobile';
+const alert = Modal.alert;
 const { TabPane } = Tabs;
 
 interface ItemProps {
@@ -24,14 +25,12 @@ export default function (props: ItemProps) {
     console.log(e)
     props.policySelect(props.policy.policyId, e.target.checked);
   }
-  async function confirm(e: any) {
+  async function confirm() {
     props.getAuth()
-    setVisible(false);
   }
 
-  function cancel(e: any) {
+  function cancel() {
     props.policySelect();
-    setVisible(false);
   }
   return (
     <div className="flex-column policy-card">
@@ -41,28 +40,20 @@ export default function (props: ItemProps) {
           {props.policy.policyName}
         </div>
         {props.selectType ? (
-          <Popconfirm
-            title="确定使用此策略与资源签约？"
-            onConfirm={confirm}
-            onCancel={cancel}
-            zIndex={1202}
-            visible={visible}
-            // @ts-ignore
-            getPopupContainer={() => document.getElementById("runtime-root")}
-            okText="确定"
-            cancelText="取消"
-          >
+          
             <Button
               className="fs-13"
               click={() => {
-                props.policySelect(props.policy.policyId);
-                setVisible(true);
+                props.policySelect(props.policy.policyId, true, true);
+                 alert('签约', "确定使用此策略与资源签约？", [
+                  { text: '取消', onPress: () => cancel() },
+                  { text: '确定', onPress: () => confirm() },
+                ])
               }}
             >
               签约
             </Button>
-          </Popconfirm>
-        ) : (
+         ) : (
           <Checkbox onChange={onChange}></Checkbox>
         )}
       </div>

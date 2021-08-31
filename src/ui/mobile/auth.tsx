@@ -1,8 +1,6 @@
-import { Modal } from "antd";
 import { SUCCESS, USER_CANCEL } from "../../bridge/event";
 import React, { useState, useEffect } from "react";
 import { LOGIN } from "../../bridge/event";
-import Button from "./_components/button";
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
 import frequest from "../../services/handler";
@@ -14,30 +12,10 @@ import { loginCallback } from "../../platform/structure/event";
 import contract from "../../services/api/modules/contract";
 import { getCurrentUser } from "../../platform/structure/utils";
 import getBestTopology from "./topology/data";
-import { DatePicker } from 'antd-mobile';
-import { Button as Bt } from 'antd-mobile';
+import { Modal, Button, WhiteSpace, WingBlank, Toast } from 'antd-mobile';
+const alert = Modal.alert;
 
-/**
- * 展品授权窗口：
- *     左：展品列表
- *         上：展品名称
- *         下：已签约合同：绿色：已授权，黄色：未授权，红色：异常
- *     右：合约与策略列表：合约列表在上面，策略在下面
- *         合约：上：策略名称
- *               中： 上：策略内容：当前状态---->是否授权，当前时间--->状态内容，事件需要可点击
- *                    下：合约流转记录：可显示隐藏
- *               下：合约编号，签约时间
- *         策略：上：整行：名称 复选框（没有合约时，复选框变成签约按钮）
- *               中：tab页：策略内容，状态机视图，策略代码
- * 组件化：不过分考虑细腻度
- *     最外层：
- *         待获取授权展品组件
- *         合约组件：授权状态组件（全局），按钮组件（全局），流转记录组件（有可能需要放大，所以提出来）
- *         策略组件(策略组件需要放大或点击合约的策略内容单独显示)：状态机视图组件，策略内容组件，策略代码组件
- *
- * 最外面拦截到errCode === 30 时需要跳转登录
- *
- */
+ 
 
 interface contractProps {
   events: Array<any>;
@@ -93,7 +71,7 @@ export default function (props: contractProps) {
     props.loginFinished()
     setIsLoginVisible(false);
   }
-  function showPolicy() {}
+  function showPolicy() { }
   async function getDetail(id?: string) {
     setSelectedPolicies([]);
     // userInfo 如果不存在就是未登录
@@ -176,11 +154,14 @@ export default function (props: contractProps) {
   const userCancel = () => {
     props.contractFinished("", USER_CANCEL);
   };
-  function policySelect(policyId: number, checked?: boolean) {
+  function policySelect(policyId: number, checked?: boolean, single?:boolean) {
     if (policyId) {
       if(checked){
-        setSelectedPolicies([...selectedPolicies, policyId]);
-
+        if(single){
+          setSelectedPolicies([policyId]);
+        }else{
+          setSelectedPolicies([...selectedPolicies, policyId]);
+        }
       }else{
         setSelectedPolicies([...selectedPolicies].filter((item:any)=> item !== policyId))
       }
@@ -228,148 +209,33 @@ export default function (props: contractProps) {
   };
   return (
     <React.Fragment>
-      {isModalVisible && (
-        <Confirm
-          setIsModalVisible={setIsModalVisible}
-          isModalVisible={isModalVisible}
-          getAuth={getAuth}
-          policies={policies}
-          currentPresentable={currentPresentable}
-        />
-      )}
-      {isLoginVisible && (
-        <Login
-        loginFinished={loginFinished}
-          setIsLoginVisible={setIsLoginVisible}
-        ></Login>
-      )}
-      <div>4444<DatePicker/>33333<Bt>3333333</Bt></div>
-      <Modal
-        title="展品授权"
-        zIndex={1200}
-        centered
-        footer={null}
-        visible={false}
-        width={860}
-        onCancel={userCancel}
-        className="h-600"
-        keyboard={false}
-        maskClosable={false}
-        wrapClassName="freelog-contract-mobile"
-        getContainer={document.getElementById("runtime-root")}
-      >
-        <div className="w-100x h-574 flex-column">
-          {/* 左右 */}
-          <div className="w-100x flex-1 flex-row over-h">
-            <div className="w-100x h-100x  flex-row">
-              {/* 左：待授权展品列表 */}
-              <div className="flex-column w-344 h-100x  y-auto">
-                {events.length
-                  ? events.map((item: any, index: number) => {
-                      if (item.event === LOGIN) return null;
-                      return (
-                        <div
-                          key={index}
-                          onClick={() => {
-                            setCurrentPresentable(item);
-                          }}
-                          className={
-                            (currentPresentable === item
-                              ? "presentable-selected "
-                              : "") +
-                            " px-20 py-15 w-100x b-box x-auto  cur-pointer presentable-item select-none flex-column"
-                          }
-                        >
-                          <div
-                            className="presentable-name w-100x text-ellipsis flex-1 flex-row align-center"
-                            title={item.presentableName}
-                          >
-                            <span>{item.presentableName}</span>
-                          </div>
-                          {!item.contracts.length ? null : (
-                            <div className="flex-row pt-10">
-                              {item.contracts.map(
-                                (contract: any, index: number) => {
-                                  return (
-                                    <div
-                                      className={
-                                        "contract-tag flex-row align-center mr-5"
-                                      }
-                                      key={index}
-                                    >
-                                      <div className="contract-name">
-                                        {contract.contractName}
-                                      </div>
-                                      <div
-                                        className={
-                                          "contract-dot ml-6 " +
-                                          (contract.authStatus === 128
-                                            ? "bg-auth-none"
-                                            : !window.isTest &&
-                                              contract.authStatus === 1
-                                            ? "bg-auth"
-                                            : "bg-auth-none")
-                                        }
-                                      ></div>
-                                    </div>
-                                  );
-                                }
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })
-                  : null}
-                {/* <Presentables></Presentables> */}
-              </div>
-              {/* 右：策略或合约列表 */}
-              <div className="w-516 bg-content h-100x   y-auto px-20 pb-20">
-                {contracts.length && policies.length - contracts.length ? (
-                  <div className="policy-tip flex-row align-center mt-15 px-10">
-                    <div className="tip">最下方有可签约的策略</div>
-                  </div>
-                ) : null}
-                {contracts.map((contract: any, index: number) => {
-                  return (
-                    <Contract
-                      policy={contract.policyInfo}
-                      contract={contract}
-                      paymentFinish={paymentFinish}
-                      key={index}
-                    ></Contract>
-                  );
-                })}
-                {policies.map((policy: any, index: number) => {
-                  return policy.contracted ? null : (
-                    <Policy
-                      policy={policy}
-                      key={index}
-                      seq={index}
-                      getAuth={getAuth}
-                      policySelect={policySelect}
-                      selectType={contracts.length ? true : false}
-                    ></Policy>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-          {contracts.length ? (
-            ""
-          ) : (
-            <div className="h-74 w-100x text-center">
-              <Button
-                disabled={selectedPolicies.length === 0 && getCurrentUser()}
-                click={act}
-                className="w-300 h-38 fs-14 text-center"
-              >
-                {getCurrentUser() ? "立即签约" : "请登录"}
-              </Button>
-            </div>
-          )}
+      {contracts.length && policies.length - contracts.length ? (
+        <div className="policy-tip flex-row align-center mt-15 px-10">
+          <div className="tip">最下方有可签约的策略</div>
         </div>
-      </Modal>
+      ) : null}
+      {contracts.map((contract: any, index: number) => {
+        return (
+          <Contract
+            policy={contract.policyInfo}
+            contract={contract}
+            paymentFinish={paymentFinish}
+            key={index}
+          ></Contract>
+        );
+      })}
+      {policies.map((policy: any, index: number) => {
+        return policy.contracted ? null : (
+          <Policy
+            policy={policy}
+            key={index}
+            seq={index}
+            getAuth={getAuth}
+            policySelect={policySelect}
+            selectType={contracts.length ? true : true}
+          ></Policy>
+        );
+      })}
     </React.Fragment>
   );
 }
