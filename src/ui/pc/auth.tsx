@@ -228,7 +228,7 @@ export default function (props: contractProps) {
     }
   };
   return (
-    <React.Fragment>
+    <div className="runtime-pc" id="runtime-pc">
       {isModalVisible && (
         <Confirm
           setIsModalVisible={setIsModalVisible}
@@ -257,7 +257,7 @@ export default function (props: contractProps) {
         keyboard={false}
         maskClosable={false}
         wrapClassName="freelog-contract"
-        getContainer={document.getElementById("runtime-root")}
+        getContainer={document.getElementById("runtime-pc")}
       >
         <div className="w-100x h-574 flex-column">
           {/* 左右 */}
@@ -371,6 +371,6 @@ export default function (props: contractProps) {
           )}
         </div>
       </Modal>
-    </React.Fragment>
+    </div>
   );
 }

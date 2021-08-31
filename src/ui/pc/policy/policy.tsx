@@ -49,7 +49,7 @@ export default function (props: ItemProps) {
             zIndex={1202}
             visible={visible}
             // @ts-ignore
-            getPopupContainer={() => document.getElementById("runtime-root")}
+            getPopupContainer={() => document.getElementById("runtime-pc")}
             okText="确定"
             cancelText="取消"
           >

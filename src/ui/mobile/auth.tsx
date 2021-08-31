@@ -73,7 +73,6 @@ export default function (props: contractProps) {
   }
   function showPolicy() { }
   async function getDetail(id?: string) {
-    console.log(selectedPolicies)
     setSelectedPolicies([]);
     // userInfo 如果不存在就是未登录
     const userInfo: any = getCurrentUser();
@@ -149,7 +148,6 @@ export default function (props: contractProps) {
     !isExist && setCurrentPresentable(events[0]);
   }, [props.events]);
   useEffect(() => {
-    console.log(currentPresentable)
     currentPresentable && getDetail(currentPresentable.presentableId);
   }, [currentPresentable]);
 
@@ -165,19 +163,12 @@ export default function (props: contractProps) {
           setSelectedPolicies([...selectedPolicies, policyId]);
         }
       }else{
-        console.log(selectedPolicies)
-
         setSelectedPolicies([...selectedPolicies].filter((item:any)=> item !== policyId))
       }
     } else {
-      console.log(selectedPolicies)
-
       setSelectedPolicies([]);
     }
-  }
-  useEffect(() => {
-    console.log(selectedPolicies)
-  }, [selectedPolicies]);
+  } 
   function act() {
     if (!getCurrentUser()) {
       setIsLoginVisible(true);
@@ -186,7 +177,6 @@ export default function (props: contractProps) {
     setIsModalVisible(true);
   }
   const getAuth = async (id:any) => {
-    console.log(selectedPolicies)
     const subjects: any = [];
     policies.forEach((item: any) => {
       [...selectedPolicies,id].includes(item.policyId) &&
@@ -224,6 +214,7 @@ export default function (props: contractProps) {
           <div className="tip">最下方有可签约的策略</div>
         </div>
       ) : null}
+      <Button>sffsdfsd</Button>
       {contracts.map((contract: any, index: number) => {
         return (
           <Contract
