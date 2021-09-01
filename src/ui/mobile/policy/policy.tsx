@@ -50,7 +50,7 @@ export default function (props: ItemProps) {
             onClick={() => {
               props.policySelect(props.policy.policyId, true, true);
               setTimeout(() => {
-                alert("签约", "确定使用此策略与资源签约？", [
+                alert("签约","确定使用策略 " + props.policy.policyName + " 与资源签约？", [
                   { text: "取消", onPress: () => cancel() },
                   {
                     text: "确定",

@@ -85,7 +85,7 @@ export default function (props: PayProps) {
       onOk={handleOk}
       onCancel={handleCancel}
       wrapClassName="freelog-pay"
-      getContainer={document.getElementById("runtime-root")}
+      getContainer={document.getElementById("runtime-mobile")}
     >
       <div className="flex-column ">
          {/* 金额 */}
