@@ -102,7 +102,7 @@ export default function (props: ItemProps) {
     props.paymentFinish()
   }
   return (
-    <div className="contract-card px-20 py-15 mt-15 w-100x">
+    <div className="flex-column brs-10 b-1 mx-15 mt-15">
       {eventIndex > -1 && (
         <Pay
           contractId={props.contract.contractId}
