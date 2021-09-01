@@ -3,6 +3,8 @@
     height: 100vh;
     overflow: hidden;
     background: white;
+    @import './antd.scss';
+
     @import 'base/layout.scss';
     @import 'base/pmwh.scss';
     @import 'base/mouse.scss';

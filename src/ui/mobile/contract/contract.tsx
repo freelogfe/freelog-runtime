@@ -178,7 +178,7 @@ export default function (props: ItemProps) {
                         (event: any, index: number) => {
                           // origin.id  name
                           return (
-                            <div className="event-card p-10 mt-10 flex-column" key={index}>
+                            <div className={"event-card p-10 mt-10 flex-column " + (index !== eventIndex? '' : "event-selected")}  key={index}>
                               <Radio
                                 className=""
                                 value={index}
