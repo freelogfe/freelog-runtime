@@ -65,7 +65,7 @@ export default function (props: loginProps) {
       onCancel={handleCancel}
       maskClosable={false}
       wrapClassName="freelog-login"
-      getContainer={document.getElementById("runtime-root")}
+      getContainer={document.getElementById("runtime-pc")}
     >
       <div className="w-100x h-100x flex-column align-center">
         <div className="login-title py-55">登录freelog</div>

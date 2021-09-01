@@ -126,18 +126,18 @@ export default function (props: ItemProps) {
           setIsModalVisible={setIsModalVisible}
         ></Pay>
       )}
-      <div className="flex-row w-100x">
-        <div className="contract-name  text-ellipsis">
+      <div className="flex-row w-100x p-15">
+        <div className="flex-1 text-ellipsis fc-main fs-16 fw-bold lh-33">
           {props.contract.contractName}
         </div>
         {/* <div className="policy-button cur-pointer  shrink-0 select-none">策略内容</div> */}
       </div>
       <Tabs tabs={tabs}
-        initialPage={1}
+        initialPage={0}
         onChange={(tab, index) => { console.log('onChange', index, tab); }}
         onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
+        <div className="px-15">
           {/* 状态整体 */}
           <div className="status-card p-15 mt-15">
             <div className="flex-row">
@@ -266,15 +266,15 @@ export default function (props: ItemProps) {
             {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm")}
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
+        <div className="px-15">
           <PolicyContent
             translateInfo={props.policy.translateInfo}
           ></PolicyContent>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
+        <div className="px-15">
           <PolicyGraph policy={props.policy}></PolicyGraph>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
+        <div className="px-15">
           <PolicyCode policyText={props.policy.policyText}></PolicyCode>
         </div>
       </Tabs>
