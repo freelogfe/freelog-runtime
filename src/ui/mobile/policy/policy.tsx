@@ -37,7 +37,7 @@ export default function (props: ItemProps) {
     props.policySelect();
   }
   return (
-    <div className="flex-column brs-10 b-1 mx-15 mt-15">
+    <div className="flex-column brs-10 b-1 mx-10 mt-15">
       {/* 上：策略名称与操作 */}
       <div className="flex-row space-between px-15 py-15">
         <div className="flex-1 text-ellipsis fc-main fs-16 fw-bold">

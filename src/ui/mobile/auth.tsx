@@ -2,6 +2,7 @@ import { SUCCESS, USER_CANCEL } from "../../bridge/event";
 import React, { useState, useEffect } from "react";
 import { LOGIN } from "../../bridge/event";
 import "../../assets/mobile/index.scss";
+import "./auth.scss";
 
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
