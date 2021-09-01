@@ -2,6 +2,7 @@ import { Radio, Input, Space } from "antd";
 import { useState, useEffect } from "react";
 import Button from "../_components/button";
 import Pay from "../event/pay";
+import './contract.scss'
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import PolicyGraph from "../policy/_components/policyGraph";
 import PolicyCode from "../policy/_components/policyCode";
@@ -102,7 +103,7 @@ export default function (props: ItemProps) {
     props.paymentFinish()
   }
   return (
-    <div className="flex-column brs-10 b-1 mx-10 mt-15">
+    <div className="flex-column brs-10 b-1 mx-10 mt-15 pb-12 contract-card">
       {eventIndex > -1 && (
         <Pay
           contractId={props.contract.contractId}
@@ -126,7 +127,7 @@ export default function (props: ItemProps) {
           setIsModalVisible={setIsModalVisible}
         ></Pay>
       )}
-      <div className="flex-row w-100x p-15">
+      <div className="flex-row  p-15">
         <div className="flex-1 text-ellipsis fc-main fs-16 fw-bold lh-33">
           {props.contract.contractName}
         </div>
@@ -149,7 +150,7 @@ export default function (props: ItemProps) {
               </div>
             </div>
             <div className="flex-row py-10 space-between align-center">
-              <div>当前无授权，请选择执行事件</div>
+              <div className="contract-tip fs-12">当前无授权，请选择执行事件</div>
 
               {
                 // @ts-ignore
@@ -262,8 +263,9 @@ export default function (props: ItemProps) {
             </div>
           </div>
           <div className="contract-code pt-12">
-            合同编号 {props.contract.contractId} | 签约时间{" "}
-            {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm")}
+            <div>合同编号： {props.contract.contractId}</div>
+            <div>签约时间：
+              {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm")}</div>
           </div>
         </div>
         <div className="px-15">

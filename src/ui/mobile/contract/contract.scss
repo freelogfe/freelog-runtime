@@ -1,0 +1,100 @@
+#runtime-mobile  .contract-card {
+    background: #FFFFFF;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+    .contract-name {
+        font-size: 14px;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #333333;
+        line-height: 20px;
+    }
+    .contract-tip{
+        color: #7A869A;
+    }
+    .policy-button {
+        margin-left: 10px;
+        font-size: 12px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #2784FF;
+        line-height: 18px;
+    }
+
+    .status-card {
+        background: #FAFBFC;
+        border-radius: 6px;
+
+        .auth-status {
+            padding: 0 10px;
+            margin-right: 5px;
+            height: 20px;
+            background: #E9A923;
+            border-radius: 10px;
+            font-size: 11px;
+            font-family: PingFangSC-Medium, PingFang SC;
+            font-weight: 500;
+            color: #FFFFFF;
+            line-height: 16px;
+        }
+
+        .auth-time {
+            font-size: 12px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #222222;
+            line-height: 18px;
+        }
+
+        .event-card {
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+
+            .event {
+                font-size: 14px;
+                font-family: PingFangSC-Semibold, PingFang SC;
+                font-weight: 600;
+                color: #222222;
+                line-height: 20px;
+            }
+            .auth{
+               color: #42C28C;
+            }
+            .event-next {
+                font-size: 12px;
+                font-family: PingFangSC-Semibold, PingFang SC;
+                font-weight: 600;
+                color: #7A869A;
+                line-height: 20px;
+
+                .event-dot {
+                    width: 4px;
+                    height: 4px;
+                    background: #7A869A;
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
+
+    .fluent-record {
+        font-size: 12px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #7A869A;
+        line-height: 18px;
+    }
+
+    .contract-code {
+        font-size: 12px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #999999;
+        line-height: 18px;
+    }
+
+    .ant-radio-group {
+        width: 100%;
+    }
+}
