@@ -1,6 +1,8 @@
 import { SUCCESS, USER_CANCEL } from "../../bridge/event";
 import React, { useState, useEffect } from "react";
 import { LOGIN } from "../../bridge/event";
+import "../../assets/mobile/index.scss";
+
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
 import frequest from "../../services/handler";
@@ -12,10 +14,8 @@ import { loginCallback } from "../../platform/structure/event";
 import contract from "../../services/api/modules/contract";
 import { getCurrentUser } from "../../platform/structure/utils";
 import getBestTopology from "./topology/data";
-import { Modal, Button, WhiteSpace, WingBlank, Toast } from 'antd-mobile';
+import { Modal, Button, WhiteSpace, WingBlank, Toast } from "antd-mobile";
 const alert = Modal.alert;
-
- 
 
 interface contractProps {
   events: Array<any>;
@@ -68,10 +68,10 @@ export default function (props: contractProps) {
     });
     // TODO 重载插件需要把授权的也一并清除
     console.log("login finish");
-    props.loginFinished()
+    props.loginFinished();
     setIsLoginVisible(false);
   }
-  function showPolicy() { }
+  function showPolicy() {}
   async function getDetail(id?: string) {
     setSelectedPolicies([]);
     // userInfo 如果不存在就是未登录
@@ -154,21 +154,23 @@ export default function (props: contractProps) {
   const userCancel = () => {
     props.contractFinished("", USER_CANCEL);
   };
-  function policySelect(policyId: number, checked?: boolean, single?:boolean) {
+  function policySelect(policyId: number, checked?: boolean, single?: boolean) {
     if (policyId) {
-      if(checked){
-        if(single){
+      if (checked) {
+        if (single) {
           setSelectedPolicies([policyId]);
-        }else{
+        } else {
           setSelectedPolicies([...selectedPolicies, policyId]);
         }
-      }else{
-        setSelectedPolicies([...selectedPolicies].filter((item:any)=> item !== policyId))
+      } else {
+        setSelectedPolicies(
+          [...selectedPolicies].filter((item: any) => item !== policyId)
+        );
       }
     } else {
       setSelectedPolicies([]);
     }
-  } 
+  }
   function act() {
     if (!getCurrentUser()) {
       setIsLoginVisible(true);
@@ -176,10 +178,10 @@ export default function (props: contractProps) {
     }
     setIsModalVisible(true);
   }
-  const getAuth = async (id:any) => {
+  const getAuth = async (id: any) => {
     const subjects: any = [];
     policies.forEach((item: any) => {
-      [...selectedPolicies,id].includes(item.policyId) &&
+      [...selectedPolicies, id].includes(item.policyId) &&
         subjects.push({
           subjectId: currentPresentable.presentableId,
           policyId: item.policyId,
@@ -208,35 +210,44 @@ export default function (props: contractProps) {
     }
   };
   return (
-    <React.Fragment>
-      {contracts.length && policies.length - contracts.length ? (
-        <div className="policy-tip flex-row align-center mt-15 px-10">
-          <div className="tip">最下方有可签约的策略</div>
+    <div id="runtime-mobile">
+      <div className="flex-column w-100x h-100x over-h">
+        <div className="flex-column justify-center bb-1">
+          <div className="text-center mt-20 fs-16 fc-main fw-bold">签约</div>
+          <div className="p-absolute fs-16 mt-20 mr-15 rt-0 fc-blue cur-pointer">
+            关闭
+          </div>
+          <div className="text-center my-20 fs-20 fc-main fw-bold">
+            {currentPresentable.presentableName}
+          </div>
         </div>
-      ) : null}
-      <Button>sffsdfsd</Button>
-      {contracts.map((contract: any, index: number) => {
-        return (
-          <Contract
-            policy={contract.policyInfo}
-            contract={contract}
-            paymentFinish={paymentFinish}
-            key={index}
-          ></Contract>
-        );
-      })}
-      {policies.map((policy: any, index: number) => {
-        return policy.contracted ? null : (
-          <Policy
-            policy={policy}
-            key={index}
-            seq={index}
-            getAuth={getAuth}
-            policySelect={policySelect}
-            selectType={contracts.length ? true : true}
-          ></Policy>
-        );
-      })}
-    </React.Fragment>
+        <div className="flex-column flex-1 over-h">
+          <div className="w-100x h-100x y-auto pb-20">
+            {contracts.map((contract: any, index: number) => {
+              return (
+                <Contract
+                  policy={contract.policyInfo}
+                  contract={contract}
+                  paymentFinish={paymentFinish}
+                  key={index}
+                ></Contract>
+              );
+            })}
+            {policies.map((policy: any, index: number) => {
+              return policy.contracted ? null : (
+                <Policy
+                  policy={policy}
+                  key={index}
+                  seq={index}
+                  getAuth={getAuth}
+                  policySelect={policySelect}
+                  selectType={contracts.length ? true : true}
+                ></Policy>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
