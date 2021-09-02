@@ -5,9 +5,8 @@ import user from "../../../services/api/modules/user";
 import event from "../../../services/api/modules/event";
 import transaction from "../../../services/api/modules/transaction";
 import { Modal, List, Button, WhiteSpace, WingBlank } from "antd-mobile";
-
+import './pay.scss'
 import { getUserInfo } from "../../../platform/structure/utils";
-import { clearInterval } from "timers";
 
 interface PayProps {
   isModalVisible: boolean;
@@ -79,7 +78,6 @@ export default function (props: PayProps) {
   }
   return (
     <Modal
-      title="支付"
       popup
       visible={visible}
       maskClosable={false}
@@ -87,35 +85,34 @@ export default function (props: PayProps) {
       animationType="slide-up"
       wrapClassName="freelog-pay"
     >
-      <div className="flex-column ">
+      <div className="flex-column px-30">
         {/* 金额 */}
-        <div className="amount text-center my-40 px-80">
-          <span className="ml-30">
+        <div className="mt-30 mb-10">
+          <span className="amount">
             {props.transactionAmount}
             <span className="type ml-10">羽币</span>
           </span>
         </div>
-        <div className="flex-row px-80 over-h">
-          <div className="flex-column shrink-0">
-            <div className="left-item">标的物</div>
-            <div className="left-item">授权合约</div>
-            <div className="left-item">收款方</div>
-            <div className="left-item">支付方式</div>
-          </div>
-          <div className="flex-column flex-1">
-            <div className="right-item text-ellipsis">{props.subjectName}</div>
-            <div className="right-item text-ellipsis">{props.contractName}</div>
-            <div className="right-item text-ellipsis">{props.receiver}</div>
-            <div className="right-item text-ellipsis">
+        <div className="flex-column over-h">
+            <div className="title-item">标的物</div>
+            <div className="content-item text-ellipsis">{props.subjectName}</div>
+
+            <div className="title-item">授权合约</div>
+            <div className="content-item text-ellipsis">{props.contractName}</div>
+
+            <div className="title-item">收款方</div>
+            <div className="content-item text-ellipsis">{props.receiver}</div>
+
+            <div className="title-item">支付方式</div>
+            <div className="content-item">
               <span className="">羽币账户</span>
               <span className="balance">（余额{userAccount.balance}枚）</span>
             </div>
-          </div>
         </div>
-        <div className="forgot-p text-align-right px-80 mt-18 cur-pointer">
+        {/* <div className="forgot-p text-align-right px-80 mt-18 cur-pointer">
           忘记密码
-        </div>
-        <div className="px-80 pt-5">
+        </div> */}
+        {/* <div className="px-80 pt-5">
           <Input.Password
             size="large"
             onChange={(e) => {
@@ -125,14 +122,13 @@ export default function (props: PayProps) {
             value={password}
             placeholder="输入6位支付密码"
           />
-        </div>
-        <div className="mx-30 pt-20 mb-40">
+        </div> */}
+        <div className=" pt-35 mb-40">
           <Button
             type="primary"
             size="large"
-            className="mx-30"
+            className=""
             onClick={pay}
-            disabled={password.length !== 6 || loading}
           >
             {loading ? (
               <span>
@@ -140,7 +136,7 @@ export default function (props: PayProps) {
                 <Spin />
               </span>
             ) : (
-              "确认支付"
+              "立即支付"
             )}
           </Button>
         </div>
