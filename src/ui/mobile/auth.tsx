@@ -218,9 +218,33 @@ export default function (props: contractProps) {
           <div className="p-absolute fs-16 mt-20 mr-15 rt-0 fc-blue cur-pointer">
             关闭
           </div>
-          <div className="text-center my-20 fs-20 fc-main fw-bold">
+          <div className="text-center mt-20 fs-20 fc-main fw-bold">
             {currentPresentable.presentableName}
           </div>
+          {!currentPresentable.contracts.length ? null : (
+            <div className="flex-row pt-10 justify-center mt-8 mb-15">
+              {currentPresentable.contracts.map((contract: any, index: number) => {
+                return (
+                  <div
+                    className={"contract-tag flex-row align-center mr-5"}
+                    key={index}
+                  >
+                    <div className="contract-name">{contract.contractName}</div>
+                    <div
+                      className={
+                        "contract-dot ml-6 " +
+                        (contract.authStatus === 128
+                          ? "bg-auth-none"
+                          : !window.isTest && contract.authStatus === 1
+                          ? "bg-auth"
+                          : "bg-auth-none")
+                      }
+                    ></div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
         <div className="flex-column flex-1 over-h">
           <div className="w-100x h-100x y-auto pb-20">

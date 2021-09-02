@@ -90,7 +90,6 @@ export default function (props: ItemProps) {
     });
   }, [props.contract]);
   function onChange(e: any) {
-    console.log(e)
     setEventIndex(parseInt(e.target.value));
   }
   function payEvent() {
