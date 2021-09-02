@@ -7,6 +7,7 @@ import transaction from "../../../services/api/modules/transaction";
 import { Modal, List, Button, WhiteSpace, WingBlank } from "antd-mobile";
 import './pay.scss'
 import { getUserInfo } from "../../../platform/structure/utils";
+const prompt = Modal.prompt;
 
 interface PayProps {
   isModalVisible: boolean;
@@ -21,7 +22,6 @@ interface PayProps {
 }
 
 export default function (props: PayProps) {
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [userAccount, setUserAccount] = useState<any>({});
@@ -39,11 +39,10 @@ export default function (props: PayProps) {
     setUserAccount(res.data.data);
   }
   useEffect(() => {
-    setPassword("");
     setVisible(props.isModalVisible);
     props.isModalVisible && getAccount();
   }, [props.isModalVisible]);
-  async function pay() {
+  async function pay(password: any) {
     // TODO 防止多次点击
     if (loading) return;
     setLoading(true);
@@ -87,11 +86,12 @@ export default function (props: PayProps) {
     >
       <div className="flex-column px-30">
         {/* 金额 */}
-        <div className="mt-30 mb-10">
-          <span className="amount">
+        <div className=" mb-10 flex-row space-between">
+          <span className="amount mt-30">
             {props.transactionAmount}
             <span className="type ml-10">羽币</span>
           </span>
+          <span className="fs-28 mt-10" onClick={()=>{props.setIsModalVisible(false)}}>x</span>
         </div>
         <div className="flex-column over-h">
             <div className="title-item">标的物</div>
@@ -128,7 +128,15 @@ export default function (props: PayProps) {
             type="primary"
             size="large"
             className=""
-            onClick={pay}
+            onClick={() => prompt(
+              'Password',
+              'You can custom buttons',
+              [
+                { text: '取消' },
+                { text: '提交', onPress: password => pay(password) },
+              ],
+              'secure-text',
+            )}
           >
             {loading ? (
               <span>
