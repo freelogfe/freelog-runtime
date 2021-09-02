@@ -1,4 +1,4 @@
-#runtime-pc  .contract-card {
+#runtime-pc .contract-card {
     width: 476px;
     background: #FFFFFF;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
@@ -45,9 +45,13 @@
             color: #222222;
             line-height: 18px;
         }
-        .event-selected{
+
+        .event-selected {
             background: rgba(39, 132, 255, 0.08);
+            border: 1px solid rgba(39, 132, 255, 0.6) !important;
+
         }
+
         .event-card {
             border-radius: 4px;
             border: 1px solid rgba(0, 0, 0, 0.15);
@@ -59,9 +63,11 @@
                 color: #222222;
                 line-height: 20px;
             }
-            .auth{
-               color: #42C28C;
+
+            .auth {
+                color: #42C28C;
             }
+
             .event-next {
                 font-size: 12px;
                 font-family: PingFangSC-Semibold, PingFang SC;

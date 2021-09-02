@@ -1,10 +1,10 @@
-import { Modal, Input, Spin } from "antd";
-import Button from "../_components/button";
+import { Input, Spin } from "antd";
 import { useState, useEffect } from "react";
 import frequest from "../../../services/handler";
 import user from "../../../services/api/modules/user";
 import event from "../../../services/api/modules/event";
 import transaction from "../../../services/api/modules/transaction";
+import { Modal, List, Button, WhiteSpace, WingBlank } from "antd-mobile";
 
 import { getUserInfo } from "../../../platform/structure/utils";
 import { clearInterval } from "timers";
@@ -40,13 +40,13 @@ export default function (props: PayProps) {
     setUserAccount(res.data.data);
   }
   useEffect(() => {
-    setPassword("")
+    setPassword("");
     setVisible(props.isModalVisible);
     props.isModalVisible && getAccount();
   }, [props.isModalVisible]);
   async function pay() {
     // TODO 防止多次点击
-    if(loading) return 
+    if (loading) return;
     setLoading(true);
     const payResult = await frequest(event.pay, [props.contractId], {
       eventId: props.eventId,
@@ -54,19 +54,23 @@ export default function (props: PayProps) {
       transactionAmount: props.transactionAmount,
       password: password,
     });
-    console.log(payResult)
+    console.log(payResult);
     // TODO 查交易状态, flag应该设为状态，在关闭弹窗时清除
-    const flag = setInterval(async()=>{
-      const res:any = await frequest(transaction.getRecord, [payResult.data.data.transactionRecordId],'');
-      const status = res.data.data.status
-      console.log(res)
-      if([2,3,4].includes(status)){
-        props.paymentFinish(status)
-        setLoading(false)
-        window.clearInterval(flag)
+    const flag = setInterval(async () => {
+      const res: any = await frequest(
+        transaction.getRecord,
+        [payResult.data.data.transactionRecordId],
+        ""
+      );
+      const status = res.data.data.status;
+      console.log(res);
+      if ([2, 3, 4].includes(status)) {
+        props.paymentFinish(status);
+        setLoading(false);
+        window.clearInterval(flag);
       }
-    },1000)
-    
+    }, 1000);
+
     // setLoading(false);
     //   eventId: "string",  contractId
     //   accountId: "int",
@@ -76,19 +80,15 @@ export default function (props: PayProps) {
   return (
     <Modal
       title="支付"
-      zIndex={1201}
-      centered
-      footer={null}
+      popup
       visible={visible}
-      className="w-600 "
       maskClosable={false}
-      onOk={handleOk}
-      onCancel={handleCancel}
+      onClose={handleCancel}
+      animationType="slide-up"
       wrapClassName="freelog-pay"
-      getContainer={document.getElementById("runtime-mobile")}
     >
       <div className="flex-column ">
-         {/* 金额 */}
+        {/* 金额 */}
         <div className="amount text-center my-40 px-80">
           <span className="ml-30">
             {props.transactionAmount}
@@ -126,10 +126,22 @@ export default function (props: PayProps) {
             placeholder="输入6位支付密码"
           />
         </div>
-        <div className="px-80 pt-20">
-          <Button click={pay} disabled={password.length !== 6 || loading} className="py-9">
-            {loading? <span>支付中...<Spin /></span>: 
-            '确认支付'}
+        <div className="mx-30 pt-20 mb-40">
+          <Button
+            type="primary"
+            size="large"
+            className="mx-30"
+            onClick={pay}
+            disabled={password.length !== 6 || loading}
+          >
+            {loading ? (
+              <span>
+                支付中...
+                <Spin />
+              </span>
+            ) : (
+              "确认支付"
+            )}
           </Button>
         </div>
       </div>

@@ -7,12 +7,18 @@ import { run } from "./platform";
 import { isMobile } from "./utils/utils";
 import zhCN from "antd/lib/locale/zh_CN";
 import { ConfigProvider } from "antd";
+const pcId = 'pc-root'
+const mobileId = 'mobile-root'
+window.rootId = pcId
 if (isMobile()) {
   window.isMobile = true;
+  window.rootId = mobileId
   // @ts-ignore
   document.querySelector("meta[name=viewport]").content =
     "width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no";
 }
+// @ts-ignore
+document.getElementById(window.rootId).style.display = 'block';
 window.isTest = false;
 if (
   window.location.href
@@ -27,7 +33,7 @@ ReactDOM.render(
   <ConfigProvider locale={zhCN}>
     <App />
   </ConfigProvider>,
-  document.getElementById("ui-root")
+  document.getElementById(window.rootId)
 );
 
 // TODO 必须ui准备好了才能让里面的addAuth生效

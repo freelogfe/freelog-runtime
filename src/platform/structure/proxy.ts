@@ -408,10 +408,10 @@ export const createDocumentProxy = function (
       rawDocument.addEventListener = addEventListener.bind(rawDocument);
       // TODO 这里不应该使用runtime-root， 不需要考虑，直接禁掉
       rawDocument.body.appendChild = appendChild.bind(
-        document.getElementById("runtime-root")
+        document.getElementById(window.rootId)
       );
       rawDocument.body.removeChild = removeChild.bind(
-        document.getElementById("runtime-root")
+        document.getElementById(window.rootId)
       );
       rawDocument.querySelector = querySelector.bind(rawDocument);
       rawDocument.querySelector = querySelector.bind(rawDocument);

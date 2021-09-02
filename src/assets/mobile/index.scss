@@ -1,9 +1,9 @@
-#runtime-mobile {
+#mobile-root {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
     background: white;
-    @import './antd.scss';
+    // @import './antd.scss';
 
     @import 'base/layout.scss';
     @import 'base/pmwh.scss';

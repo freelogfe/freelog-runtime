@@ -41,7 +41,7 @@ export default function (props: ConfirmProps) {
       onOk={handleOk}
       onCancel={handleCancel}
       wrapClassName="freelog-confirm"
-      getContainer={document.getElementById('runtime-root')}
+      getContainer={document.getElementById(window.rootId)}
     >
       <div className="w-100x h-100x flex-column justify-center  pt-16">
         <div className="flex-row fc-grey mb-20 fs-14 justify-center">

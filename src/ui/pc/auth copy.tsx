@@ -119,7 +119,7 @@ export default function (props: contractProps) {
         keyboard={false}
         maskClosable={false}
         wrapClassName="freelog-contract"
-        getContainer={document.getElementById('runtime-root')}
+        getContainer={document.getElementById(window.rootId)}
       >
         <div className="w-100x h-500 flex-row">
           <div className="flex-column w-344 h-100x  y-auto">

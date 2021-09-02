@@ -1,13 +1,12 @@
 import { Radio, Input, Space } from "antd";
 import { useState, useEffect } from "react";
-import Button from "../_components/button";
 import Pay from "../event/pay";
-import './contract.scss'
+import "./contract.scss";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import PolicyGraph from "../policy/_components/policyGraph";
 import PolicyCode from "../policy/_components/policyCode";
 import PolicyContent from "../policy/_components/policyContent";
-import { Tabs, WhiteSpace, Badge } from 'antd-mobile';
+import { Tabs, WhiteSpace, Badge, Button } from "antd-mobile";
 var moment = require("moment");
 /**
  * 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
@@ -20,10 +19,10 @@ interface ItemProps {
   [propName: string]: any;
 }
 const tabs = [
-  { title: <Badge >合约流转记录</Badge> },
-  { title: <Badge >策略内容</Badge> },
-  { title: <Badge >状态机视图</Badge> },
-  { title: <Badge >策略代码</Badge> },
+  { title: <Badge>合约流转记录</Badge> },
+  { title: <Badge>策略内容</Badge> },
+  { title: <Badge>状态机视图</Badge> },
+  { title: <Badge>策略代码</Badge> },
 ];
 export default function (props: ItemProps) {
   const [eventIndex, setEventIndex] = useState(-1);
@@ -67,7 +66,7 @@ export default function (props: ItemProps) {
                 event.nextState = {
                   ...state,
                   ...props.contract.policyInfo.fsmDescriptionInfo[
-                  event.origin.state
+                    event.origin.state
                   ],
                 };
                 return true;
@@ -81,7 +80,7 @@ export default function (props: ItemProps) {
           status: props.contract.fsmCurrentState,
           ...item,
           ...props.contract.policyInfo.fsmDescriptionInfo[
-          props.contract.fsmCurrentState
+            props.contract.fsmCurrentState
           ],
         };
         // @ts-ignore
@@ -91,16 +90,17 @@ export default function (props: ItemProps) {
     });
   }, [props.contract]);
   function onChange(e: any) {
-    setEventIndex(e.target.value);
+    console.log(e)
+    setEventIndex(parseInt(e.target.value));
   }
-  function payEvent(e: any) {
+  function payEvent() {
     setIsModalVisible(true);
   }
   function paymentFinish(status: number) {
     if (status === 2) {
       setIsModalVisible(false);
     }
-    props.paymentFinish()
+    props.paymentFinish();
   }
   return (
     <div className="flex-column brs-10 b-1 mx-10 mt-15 pb-12 contract-card">
@@ -133,16 +133,23 @@ export default function (props: ItemProps) {
         </div>
         {/* <div className="policy-button cur-pointer  shrink-0 select-none">策略内容</div> */}
       </div>
-      <Tabs tabs={tabs}
+      <Tabs
+        tabs={tabs}
         initialPage={0}
-        onChange={(tab, index) => { console.log('onChange', index, tab); }}
-        onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
+        onChange={(tab, index) => {
+          console.log("onChange", index, tab);
+        }}
+        onTabClick={(tab, index) => {
+          console.log("onTabClick", index, tab);
+        }}
       >
         <div className="px-15">
           {/* 状态整体 */}
           <div className="status-card p-15 mt-15">
             <div className="flex-row">
-              <div className={"auth-status text-center select-none " + authClass}>
+              <div
+                className={"auth-status text-center select-none " + authClass}
+              >
                 {authStatus}
               </div>
               <div className="auth-time">
@@ -150,15 +157,21 @@ export default function (props: ItemProps) {
               </div>
             </div>
             <div className="flex-row py-10 space-between align-center">
-              <div className="contract-tip fs-12">当前无授权，请选择执行事件</div>
+              <div className="contract-tip fs-12">
+                当前无授权，请选择执行事件
+              </div>
 
               {
                 // @ts-ignore
                 currentStatus.tec > 1 && (
                   <Button
+                    type="primary"
+                    size="small"
                     className="fs-12"
                     disabled={eventIndex === -1}
-                    click={payEvent}
+                    onClick={() => {
+                      payEvent();
+                    }}
                   >
                     支付
                   </Button>
@@ -167,80 +180,94 @@ export default function (props: ItemProps) {
             </div>
             {/* 可选事件 */}
             <div>
-              <div className="flex-row">
-                <Radio.Group onChange={onChange} value={eventIndex}>
-                  <div className="flex-column">
-                    {
-                      // @ts-ignore
-                      currentStatus.eventTranslateInfos &&
+                <div className="flex-column">
+                  {
+                    // @ts-ignore
+                    currentStatus.eventTranslateInfos &&
                       // @ts-ignore
                       currentStatus.eventTranslateInfos.map(
                         (event: any, index: number) => {
                           // origin.id  name
                           return (
-                            <div className={"event-card p-10 mt-10 flex-column " + (index !== eventIndex? '' : "event-selected")}  key={index}>
-                              <Radio
-                                className=""
+                            <div
+                              className={
+                                "event-card p-10 mt-10 flex-row " +
+                                (index !== eventIndex ? "" : "event-selected")
+                              }
+                              key={index}
+                            >
+                              <input
+                                className="mt-4"
+                                type="radio"
+                                onChange={onChange}
+                                id={event.origin.id}
+                                name={props.contract.contractId}
                                 value={index}
                                 disabled={
                                   event.origin.name !== "TransactionEvent"
                                 }
-                              >
-                                <div className="flex-row event flex-wrap align-center">
-                                  <div className="mr-10 flex-row align-center">
+                              />
+                              <label htmlFor={event.origin.id}>
+                                <div className="flex-row event flex-wrap align-center pe-none">
+                                  <div className="mx-10 flex-row align-center">
                                     <span>{event.content}</span>
                                     <span className="auth ml-10">
-                                      {event.nextState && event.nextState.isAuth ? "获得授权" : ""}
+                                      {event.nextState && event.nextState.isAuth
+                                        ? "获得授权"
+                                        : ""}
                                     </span>
                                   </div>
                                   {
                                     // @ts-ignore
                                     currentStatus.tec === 1 &&
-                                    event.origin.name ===
-                                    "TransactionEvent" && (
-                                      <Button
-                                        disabled={index !== eventIndex}
-                                        className="fs-12"
-                                        click={payEvent}
-                                      >
-                                        支付
-                                      </Button>
-                                    )
+                                      event.origin.name ===
+                                        "TransactionEvent" && (
+                                        <Button
+                                          type="primary"
+                                          size="small"
+                                          disabled={index !== eventIndex}
+                                          className="fs-12"
+                                          onClick={() => {
+                                            payEvent();
+                                          }}
+                                        >
+                                          支付
+                                        </Button>
+                                      )
                                   }
                                 </div>
-                              </Radio>
-                              {/* 执行完成后下一个状态的所有事件 */}
-                              <div className="flex-column event-next pt-5 ml-25">
-                                {/** 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
-                               * event.origin.state
-                               */}
-                                <div className="event-next">
-                                  {event.nextState && event.nextState.isAuth
-                                    ? "获得授权后"
-                                    : "执行成功后:"}
+                                {/* 执行完成后下一个状态的所有事件 */}
+                                <div className="flex-column event-next pt-5 ml-12 pe-none">
+                                  {/** 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
+                                   * event.origin.state
+                                   */}
+                                  <div className="event-next">
+                                    {event.nextState && event.nextState.isAuth
+                                      ? "获得授权后"
+                                      : "执行成功后:"}
+                                  </div>
+                                  {event.nextState &&
+                                    event.nextState.eventTranslateInfos.map(
+                                      (nextEvent: any, index: number) => {
+                                        return (
+                                          <div
+                                            key={index}
+                                            className="flex-row align-center"
+                                          >
+                                            <div className="event-dot mr-5"></div>
+                                            <span>{nextEvent.content}</span>
+                                          </div>
+                                        );
+                                      }
+                                    )}
                                 </div>
-                                {event.nextState && event.nextState.eventTranslateInfos.map(
-                                  (nextEvent: any, index: number) => {
-                                    return (
-                                      <div
-                                        key={index}
-                                        className="flex-row align-center"
-                                      >
-                                        <div className="event-dot mr-5"></div>
-                                        <span>{nextEvent.content}</span>
-                                      </div>
-                                    );
-                                  }
-                                )}
-                              </div>
+                              </label>
                             </div>
                           );
                         }
                       )
-                    }
-                  </div>
-                </Radio.Group>
-              </div>
+                  }
+                </div>
             </div>
             <div className="fluent-record text-align-center cur-pointer select-none mt-20">
               {!unfold ? (
@@ -264,8 +291,10 @@ export default function (props: ItemProps) {
           </div>
           <div className="contract-code pt-12">
             <div>合同编号： {props.contract.contractId}</div>
-            <div>签约时间：
-              {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm")}</div>
+            <div>
+              签约时间：
+              {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm")}
+            </div>
           </div>
         </div>
         <div className="px-15">
@@ -280,7 +309,6 @@ export default function (props: ItemProps) {
           <PolicyCode policyText={props.policy.policyText}></PolicyCode>
         </div>
       </Tabs>
-
     </div>
   );
 }

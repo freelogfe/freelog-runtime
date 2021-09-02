@@ -211,7 +211,7 @@ export default function (props: contractProps) {
     }
   };
   return (
-    <div id="runtime-mobile">
+    <div id="runtime-mobile" className="w-100x h-100x over-h">
       <div className="flex-column w-100x h-100x over-h">
         <div className="flex-column justify-center bb-1">
           <div className="text-center mt-20 fs-16 fc-main fw-bold">签约</div>

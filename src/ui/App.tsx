@@ -27,7 +27,7 @@ function App() {
   }
   function backToNode() {
     // @ts-ignore
-    const app = document.getElementById("runtime-root");
+    const app = document.getElementById(window.rootId);
     // @ts-ignore
     app.style.zIndex = 0;
     // @ts-ignore
@@ -38,13 +38,13 @@ function App() {
   }
   function showUI() {
     // document.body.appendChild = document.body.appendChild.bind(
-    //   document.getElementById("runtime-root")
+    //   document.getElementById(window.rootId)
     // );
     // document.body.removeChild = document.body.removeChild.bind(
-    //   document.getElementById("runtime-root")
+    //   document.getElementById(window.rootId)
     // );
     // @ts-ignore
-    const app = document.getElementById("runtime-root");
+    const app = document.getElementById(window.rootId);
     // @ts-ignore
     app.style.zIndex = 1;
     // @ts-ignore
