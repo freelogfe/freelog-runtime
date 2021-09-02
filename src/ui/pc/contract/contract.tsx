@@ -64,7 +64,7 @@ export default function (props: ItemProps) {
                 event.nextState = {
                   ...state,
                   ...props.contract.policyInfo.fsmDescriptionInfo[
-                  event.origin.state
+                    event.origin.state
                   ],
                 };
                 return true;
@@ -78,7 +78,7 @@ export default function (props: ItemProps) {
           status: props.contract.fsmCurrentState,
           ...item,
           ...props.contract.policyInfo.fsmDescriptionInfo[
-          props.contract.fsmCurrentState
+            props.contract.fsmCurrentState
           ],
         };
         // @ts-ignore
@@ -97,7 +97,7 @@ export default function (props: ItemProps) {
     if (status === 2) {
       setIsModalVisible(false);
     }
-    props.paymentFinish()
+    props.paymentFinish();
   }
   return (
     <div className="contract-card px-20 py-15 mt-15 w-100x">
@@ -135,7 +135,9 @@ export default function (props: ItemProps) {
           {/* 状态整体 */}
           <div className="status-card p-15 mt-15">
             <div className="flex-row">
-              <div className={"auth-status text-center select-none " + authClass}>
+              <div
+                className={"auth-status text-center select-none " + authClass}
+              >
                 {authStatus}
               </div>
               <div className="auth-time">
@@ -166,70 +168,80 @@ export default function (props: ItemProps) {
                     {
                       // @ts-ignore
                       currentStatus.eventTranslateInfos &&
-                      // @ts-ignore
-                      currentStatus.eventTranslateInfos.map(
-                        (event: any, index: number) => {
-                          // origin.id  name
-                          return (
-                            <div className={"event-card p-10 mt-10 flex-column " + (index !== eventIndex? '' : "event-selected")}  key={index}>
-                              <Radio
-                                className=""
-                                value={index}
-                                disabled={
-                                  event.origin.name !== "TransactionEvent"
+                        // @ts-ignore
+                        currentStatus.eventTranslateInfos.map(
+                          (event: any, index: number) => {
+                            // origin.id  name
+                            return (
+                              <div
+                                className={
+                                  "event-card p-10 mt-10 flex-column " +
+                                  (index !== eventIndex ? "" : "event-selected")
                                 }
+                                key={index}
                               >
-                                <div className="flex-row event flex-wrap align-center">
-                                  <div className="mr-10 flex-row align-center">
-                                    <span>{event.content}</span>
-                                    <span className="auth ml-10">
-                                      {event.nextState && event.nextState.isAuth ? "获得授权" : ""}
-                                    </span>
+                                <Radio
+                                  className=""
+                                  value={index}
+                                  disabled={
+                                    event.origin.name !== "TransactionEvent"
+                                  }
+                                >
+                                  <div className="flex-row event flex-wrap align-center">
+                                    <div className="mr-10 flex-row align-center">
+                                      <span>{event.content}</span>
+                                      <span className="auth ml-10">
+                                        {event.nextState &&
+                                        event.nextState.isAuth
+                                          ? "获得授权"
+                                          : ""}
+                                      </span>
+                                    </div>
+                                    {
+                                      // @ts-ignore
+                                      currentStatus.tec === 1 &&
+                                        event.origin.name ===
+                                          "TransactionEvent" && (
+                                          <Button
+                                            disabled={index !== eventIndex}
+                                            className="fs-12"
+                                            click={payEvent}
+                                          >
+                                            支付
+                                          </Button>
+                                        )
+                                    }
                                   </div>
-                                  {
-                                    // @ts-ignore
-                                    currentStatus.tec === 1 &&
-                                    event.origin.name ===
-                                    "TransactionEvent" && (
-                                      <Button
-                                        disabled={index !== eventIndex}
-                                        className="fs-12"
-                                        click={payEvent}
-                                      >
-                                        支付
-                                      </Button>
-                                    )
-                                  }
-                                </div>
-                              </Radio>
-                              {/* 执行完成后下一个状态的所有事件 */}
-                              <div className="flex-column event-next pt-5 ml-25">
-                                {/** 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
-                               * event.origin.state
-                               */}
-                                <div className="event-next">
-                                  {event.nextState && event.nextState.isAuth
-                                    ? "获得授权后"
-                                    : "执行成功后:"}
-                                </div>
-                                {event.nextState && event.nextState.eventTranslateInfos.map(
-                                  (nextEvent: any, index: number) => {
-                                    return (
-                                      <div
-                                        key={index}
-                                        className="flex-row align-center"
-                                      >
-                                        <div className="event-dot mr-5"></div>
-                                        <span>{nextEvent.content}</span>
-                                      </div>
-                                    );
-                                  }
-                                )}
+                                  {/* 执行完成后下一个状态的所有事件 */}
+                                  <div className="flex-column event-next pt-5 ml-3">
+                                    {/** 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
+                                     * event.origin.state
+                                     */}
+                                    <div className="event-next">
+                                      {event.nextState && event.nextState.isAuth
+                                        ? "获得授权后"
+                                        : "执行成功后:"}
+                                    </div>
+                                    {event.nextState &&
+                                      event.nextState.eventTranslateInfos.map(
+                                        (nextEvent: any, index: number) => {
+                                          return (
+                                            <div
+                                              key={index}
+                                              className="flex-row align-center"
+                                            >
+                                              <div className="event-dot mr-5"></div>
+                                              <span>{nextEvent.content}</span>
+                                            </div>
+                                          );
+                                        }
+                                      )}
+                                  </div>
+                                </Radio>
                               </div>
-                            </div>
-                          );
-                        }
-                      )
+                            );
+                          }
+                        )
                     }
                   </div>
                 </Radio.Group>
@@ -272,7 +284,6 @@ export default function (props: ItemProps) {
           <PolicyCode policyText={props.policy.policyText}></PolicyCode>
         </TabPane>
       </Tabs>
-
     </div>
   );
 }
