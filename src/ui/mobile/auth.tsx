@@ -9,7 +9,6 @@ import Policy from "./policy/policy";
 import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
 import Confirm from "./_components/confirm";
-import Login from "./login";
 import { setUserInfo } from "../../platform/structure/utils";
 import { loginCallback } from "../../platform/structure/event";
 import contract from "../../services/api/modules/contract";
@@ -263,11 +262,10 @@ export default function (props: contractProps) {
                 >
                   <div className="flex-1 flex-column over-h">
                     <div
-                      className="presentable-name w-100x text-ellipsis"
+                      className="presentable-name text-ellipsis flex-1 flex-row align-center"
                       title={item.presentableName}
                     >
-                      {item.presentableName +
-                        "item.presentableNameitem.presentableNameitem.presentableName"}
+                     <span className="text-ellipsis">{item.presentableName}</span> 
                     </div>
                     {!item.contracts.length ? null : (
                       <div className="flex-row pt-10">
@@ -309,7 +307,7 @@ export default function (props: contractProps) {
         <div className="flex-column justify-center bb-1">
           <div className="text-center mt-20 fs-16 fc-main fw-bold">签约</div>
           <div className="p-absolute fs-16 mt-20 mr-15 rt-0 fc-blue cur-pointer" onClick={()=>closeCurrent()}>
-            关闭
+            {events.length === 1? '退出': '关闭'}
           </div>
           <div className="text-center my-20 fs-20 fc-main fw-bold">
             {currentPresentable.presentableName}
@@ -361,6 +359,7 @@ export default function (props: contractProps) {
                   policy={policy}
                   key={index}
                   seq={index}
+                  loginFinished={loginFinished}
                   getAuth={getAuth}
                   policySelect={policySelect}
                   selectType={contracts.length ? true : true}

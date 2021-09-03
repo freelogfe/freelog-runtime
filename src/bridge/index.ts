@@ -136,8 +136,12 @@ export function updateEvent(event:any) {
   eventMap.set(event.eventId, event)
   return eventMap
 }
-function removeEvent(eventId: string) {
-  eventMap.delete(eventId);
+function removeEvent(eventId?: string) {
+  if(eventId){
+    eventMap.delete(eventId);
+  }else{
+    eventMap.clear()
+  }
   if (locked) {
     setTimeout(() => {
       updateUI && updateUI();
@@ -161,6 +165,7 @@ export function endEvent(eventId: string, type: number, data: any) {
         eventMap.get(eventId).callBacks.forEach((item: any) => {
           item.reject(FAILED, data);
         });
+        presentableQueue.delete(eventId);
         removeEvent(eventId);
         break;
       case USER_CANCEL:
@@ -169,7 +174,9 @@ export function endEvent(eventId: string, type: number, data: any) {
             item.reject(USER_CANCEL, data);
           });
         }) 
-        removeEvent(eventId);
+        presentableQueue.clear();
+        removeEvent();
+        console.log(presentableQueue)
         break;
     }
   // }

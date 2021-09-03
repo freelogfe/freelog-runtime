@@ -129,8 +129,8 @@ export default function (props: PayProps) {
             size="large"
             className=""
             onClick={() => prompt(
-              'Password',
-              'You can custom buttons',
+              '输入密码',
+              '',
               [
                 { text: '取消' },
                 { text: '提交', onPress: password => pay(password) },
