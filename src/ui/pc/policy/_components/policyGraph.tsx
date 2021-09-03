@@ -183,7 +183,7 @@ export default function (props: GraphProps) {
   useEffect(() => {
     const graph = new Graph({
       // @ts-ignore
-      container: document.getElementById("x6-container"),
+      container: document.getElementById(props.policy.policyId),
       width: 800,
       height: 600,
       // frozen: true,
@@ -198,7 +198,7 @@ export default function (props: GraphProps) {
 
   return (
     <div className="w-100x h-100x x-auto y-auto ">
-      <div id="x6-container" className="  w-100x  x-auto y-auto"></div>
+      <div id={props.policy.policyId} className="  w-100x  x-auto y-auto"></div>
     </div>
   );
 }

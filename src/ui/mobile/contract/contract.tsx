@@ -92,7 +92,8 @@ export default function (props: ItemProps) {
   function onChange(e: any) {
     setEventIndex(parseInt(e.target.value));
   }
-  function payEvent() {
+  function payEvent(index?: number) {
+    typeof(index) !="undefined" && setEventIndex(index)
     setIsModalVisible(true);
   }
   function paymentFinish(status: number) {
@@ -196,8 +197,10 @@ export default function (props: ItemProps) {
                               key={index}
                             >
                               <input
-                                className="mt-4"
+                               // @ts-ignore
+                                className={currentStatus.tec === 1? "mt-8" : "mt-4"}
                                 type="radio"
+                                checked={index === eventIndex}
                                 onChange={onChange}
                                 id={event.origin.id}
                                 name={props.contract.contractId}
@@ -207,10 +210,10 @@ export default function (props: ItemProps) {
                                 }
                               />
                               <label htmlFor={event.origin.id}>
-                                <div className="flex-row event flex-wrap align-center pe-none">
-                                  <div className="mx-10 flex-row align-center">
-                                    <span>{event.content}</span>
-                                    <span className="auth ml-10">
+                                <div className="flex-row event flex-wrap align-center  justify-end">
+                                  <div className="mx-10 flex-row align-center pe-none flex-wrap flex-1">
+                                    <span className="mr-10 shrink-0">{event.content}</span>
+                                    <span className="auth shrink-0">
                                       {event.nextState && event.nextState.isAuth
                                         ? "获得授权"
                                         : ""}
@@ -224,10 +227,10 @@ export default function (props: ItemProps) {
                                         <Button
                                           type="primary"
                                           size="small"
-                                          disabled={index !== eventIndex}
-                                          className="fs-12"
+                                          // disabled={index !== eventIndex}
+                                          className="fs-12  shrink-0 "
                                           onClick={() => {
-                                            payEvent();
+                                            payEvent(index);
                                           }}
                                         >
                                           支付

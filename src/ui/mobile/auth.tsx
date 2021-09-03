@@ -51,7 +51,7 @@ export default function (props: contractProps) {
    *     执行事件：
    *             
    */
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isListVisible, setIsListVisible] = useState(false);
   const [isLoginVisible, setIsLoginVisible] = useState(false);
 
   const [contracts, setContracts] = useState([]);
@@ -59,6 +59,21 @@ export default function (props: contractProps) {
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
   const [policies, setPolicies] = useState([]);
   const [selectedPolicies, setSelectedPolicies] = useState<Array<any>>([]);
+  function closeCurrent(){
+    if(events.length === 1){
+      // 如果只有一个，提示确定放弃签约
+      alert("提示","当前展品未获得授权，确定退出？", [
+        { text: "取消", onPress: () => {} },
+        {
+          text: "确定",
+          onPress: () => userCancel(),
+        },
+      ]);
+    }else{
+      // 否则弹出展品列表
+      setIsListVisible(true)
+    }
+  } 
   function paymentFinish() {
     getDetail();
   }
@@ -177,7 +192,6 @@ export default function (props: contractProps) {
       setIsLoginVisible(true);
       return;
     }
-    setIsModalVisible(true);
   }
   const getAuth = async (id: any) => {
     const subjects: any = [];
@@ -199,7 +213,6 @@ export default function (props: contractProps) {
     if (res.data.isAuth) {
       // `付款到${seller}${amount}块钱就可以达到${status}状态`
     }
-    setIsModalVisible(false);
     const isAuth = res.data.data.some((item: any) => {
       if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
         props.contractFinished(currentPresentable.eventId, SUCCESS);
@@ -212,37 +225,121 @@ export default function (props: contractProps) {
   };
   return (
     <div id="runtime-mobile" className="w-100x h-100x over-h">
+      <Modal
+        popup
+        visible={isListVisible}
+        maskClosable={false}
+        animationType="slide"
+        wrapClassName="presentable-list"
+      >
+        <div className="flex-row space-between px-15 py-20 list-title">
+          <div className="list-title-name">展品列表</div>
+          <div className="list-exit" onClick={()=>{
+             alert("提示","当前还有展品未获得授权，确定退出？", [
+              { text: "取消", onPress: () => {} },
+              {
+                text: "确定",
+                onPress: () => userCancel(),
+              },
+            ]);
+          }}>退出</div>
+        </div>
+        {events.length
+          ? events.map((item: any, index: number) => {
+              if (item.event === LOGIN) return null;
+              return (
+                <div
+                  key={index}
+                  onClick={() => {
+                    setIsListVisible(false)
+                    setCurrentPresentable(item);
+                  }}
+                  className={
+                    (currentPresentable === item
+                      ? "presentable-selected "
+                      : "") +
+                    " px-15 py-15 presentable-item  flex-row space-between algin-center"
+                  }
+                >
+                  <div className="flex-1 flex-column over-h">
+                    <div
+                      className="presentable-name w-100x text-ellipsis"
+                      title={item.presentableName}
+                    >
+                      {item.presentableName +
+                        "item.presentableNameitem.presentableNameitem.presentableName"}
+                    </div>
+                    {!item.contracts.length ? null : (
+                      <div className="flex-row pt-10">
+                        {item.contracts.map((contract: any, index: number) => {
+                          return (
+                            <div
+                              className={
+                                "contract-tag flex-row align-center mr-5"
+                              }
+                              key={index}
+                            >
+                              <div className="contract-name">
+                                {contract.contractName}
+                              </div>
+                              <div
+                                className={
+                                  "contract-dot ml-6 " +
+                                  (contract.authStatus === 128
+                                    ? "bg-auth-none"
+                                    : !window.isTest &&
+                                      contract.authStatus === 1
+                                    ? "bg-auth"
+                                    : "bg-auth-none")
+                                }
+                              ></div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                  <div className="shrink-0 text-center pl-10 fs-24">&gt;</div>
+                </div>
+              );
+            })
+          : null}
+      </Modal>
       <div className="flex-column w-100x h-100x over-h">
         <div className="flex-column justify-center bb-1">
           <div className="text-center mt-20 fs-16 fc-main fw-bold">签约</div>
-          <div className="p-absolute fs-16 mt-20 mr-15 rt-0 fc-blue cur-pointer">
+          <div className="p-absolute fs-16 mt-20 mr-15 rt-0 fc-blue cur-pointer" onClick={()=>closeCurrent()}>
             关闭
           </div>
-          <div className="text-center mt-20 fs-20 fc-main fw-bold">
+          <div className="text-center my-20 fs-20 fc-main fw-bold">
             {currentPresentable.presentableName}
           </div>
           {!currentPresentable.contracts.length ? null : (
-            <div className="flex-row pt-10 justify-center mt-8 mb-15">
-              {currentPresentable.contracts.map((contract: any, index: number) => {
-                return (
-                  <div
-                    className={"contract-tag flex-row align-center mr-5"}
-                    key={index}
-                  >
-                    <div className="contract-name">{contract.contractName}</div>
+            <div className="flex-row justify-center mb-15">
+              {currentPresentable.contracts.map(
+                (contract: any, index: number) => {
+                  return (
                     <div
-                      className={
-                        "contract-dot ml-6 " +
-                        (contract.authStatus === 128
-                          ? "bg-auth-none"
-                          : !window.isTest && contract.authStatus === 1
-                          ? "bg-auth"
-                          : "bg-auth-none")
-                      }
-                    ></div>
-                  </div>
-                );
-              })}
+                      className={"contract-tag flex-row align-center mr-5"}
+                      key={index}
+                    >
+                      <div className="contract-name">
+                        {contract.contractName}
+                      </div>
+                      <div
+                        className={
+                          "contract-dot ml-6 " +
+                          (contract.authStatus === 128
+                            ? "bg-auth-none"
+                            : !window.isTest && contract.authStatus === 1
+                            ? "bg-auth"
+                            : "bg-auth-none")
+                        }
+                      ></div>
+                    </div>
+                  );
+                }
+              )}
             </div>
           )}
         </div>
