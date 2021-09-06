@@ -91,7 +91,7 @@ function createElement(
       shadow.innerHTML = innerHTML;
     }
   }
-  appElement.setAttribute('style', 'width: 100%; height: 100%;')
+  appElement.setAttribute('style', 'width: 100%; height: 100%;,position: relative;z-index:1;')
   if (scopedCSS) {
     const attr = appElement.getAttribute(css.FreelogCSSRewriteAttr);
     if (!attr) {

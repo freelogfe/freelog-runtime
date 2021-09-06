@@ -24,7 +24,6 @@ const RouteExample = () => {
 export default function App() {
   return (
     <div className="app-main w-100x h-100x over-h">
-      <img src="./logo.svg"></img>
       <RouteExample />
     </div>
   );
