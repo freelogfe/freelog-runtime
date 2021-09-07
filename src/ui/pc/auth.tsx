@@ -225,11 +225,9 @@ export default function (props: contractProps) {
           zIndex: 9999
         });
         setTimeout(() => {
+          modal.destroy();
           props.contractFinished(currentPresentable.eventId, SUCCESS);
-          setTimeout(() => {
-            modal.destroy();
-          }, 1000);
-        }, 1000);
+        }, 2000);
         
         return true;
       }
@@ -241,8 +239,8 @@ export default function (props: contractProps) {
         zIndex: 9999
       });
       setTimeout(() => {
-        props.updateEvents({ ...currentPresentable, contracts: res.data.data });
         modal.destroy();
+        props.updateEvents({ ...currentPresentable, contracts: res.data.data });
       }, 2000);
       
     }

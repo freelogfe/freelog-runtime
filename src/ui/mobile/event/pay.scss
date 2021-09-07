@@ -3,12 +3,14 @@
         text-align: left !important;
         border-radius: 10px 10px 0px 0px;
     }
+
     .amount {
         font-size: 50px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #222222;
         line-height: 56px;
+
         .type {
             font-size: 14px;
             font-family: PingFangSC-Regular, PingFang SC;
@@ -55,5 +57,51 @@
         font-size: 14px !important;
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400 !important;
+    }
+}
+
+#mobile-root .input-password {
+    .am-modal-content {
+        padding: 0 !important;
+    }
+
+    .am-modal-body {
+        padding: 0 30px 0 30px !important;
+    }
+
+    .am-modal-header {
+        padding: 0 !important;
+    }
+
+    .am-modal-title {
+        font-size: 16px;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #222222;
+        padding: 30px 0 40px 0;
+    }
+
+    input {
+        width: 40px;
+        height: 48px;
+        caret-color: transparent;
+        overflow: hidden;
+        box-sizing: border-box;
+        padding: 4px 10px 7px 10px  !important;
+        font-size: 42px;
+        background: #FFFFFF;
+        border-radius: 4px;
+        border: 1px solid #D4D4D4;
+        &:focus{
+            border: 1px solid #2784FF !important;
+        }
+    }
+
+    .password-forget {
+        padding-top: 30px;
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #999999;
     }
 }

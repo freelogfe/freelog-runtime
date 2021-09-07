@@ -216,7 +216,7 @@ export default function (props: contractProps) {
         Toast.success("获得授权", 2);
         setTimeout(() => {
           props.contractFinished(currentPresentable.eventId, SUCCESS);
-        }, 1500);
+        }, 2000);
         return true;
       }
     });
@@ -224,7 +224,7 @@ export default function (props: contractProps) {
       Toast.success("签约成功", 2);
       setTimeout(() => {
         props.updateEvents({ ...currentPresentable, contracts: res.data.data });
-      }, 1500);
+      }, 2000);
      }
   };
   return (

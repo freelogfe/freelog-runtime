@@ -24,6 +24,7 @@ interface PayProps {
 export default function (props: PayProps) {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [passwords, setPasswords] = useState<any>([]);
   const [userAccount, setUserAccount] = useState<any>({});
   const handleOk = () => {
     props.setIsModalVisible(false);
@@ -85,7 +86,7 @@ export default function (props: PayProps) {
   return (
     <Modal
       popup
-      visible={visible}
+      visible={props.isModalVisible}
       maskClosable={false}
       onClose={handleCancel}
       animationType="slide-up"
@@ -137,22 +138,53 @@ export default function (props: PayProps) {
             placeholder="输入6位支付密码"
           />
         </div> */}
+        <Modal
+          visible={visible}
+          transparent
+          maskClosable={false}
+          title="输入支付密码"
+          className="w-325 h-220 input-password"
+        >
+          <div
+            className="p-absolute fs-20 rt-0 pr-15 pt-5"
+            onClick={() => setVisible(false)}
+          >
+            x
+          </div>
+          <div className="flex-row space-between">
+            {[0,0,0,0,0,0].map((index:any)=>{
+             return  <input
+              type="password"
+              maxLength={1}
+              minLength={1}
+              onKeyDown={(e:any) => {
+                const p = [...passwords]
+                p[index] = e.target.value
+                setPasswords(p);
+              }}
+            />
+            })}
+             
+          </div>
+          <div className="flex-row space-around password-forget">忘记密码</div>
+        </Modal>
         <div className=" pt-35 mb-40">
           <Button
             type="primary"
             size="large"
             className=""
-            onClick={() =>
-              prompt(
-                "输入密码",
-                "",
-                [
-                  { text: "取消" },
-                  { text: "提交", onPress: (password) => pay(password) },
-                ],
-                "secure-text"
-              )
-            }
+            onClick={() => {
+              setVisible(true);
+              // prompt(
+              //   "输入密码",
+              //   "",
+              //   [
+              //     { text: "取消" },
+              //     { text: "提交", onPress: (password) => pay(password) },
+              //   ],
+              //   "secure-text"
+              // );
+            }}
           >
             {loading ? (
               <span>
