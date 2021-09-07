@@ -22,6 +22,7 @@ interface PayProps {
 }
 
 export default function (props: PayProps) {
+  const [focus, setFocus] = useState(0);
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [passwords, setPasswords] = useState<any>(['', '', '', '', '', '']);
@@ -36,6 +37,13 @@ export default function (props: PayProps) {
   const handleOk = () => {
     props.setIsModalVisible(false);
   };
+  useEffect(()=>{
+    if(visible) {
+      // @ts-ignore
+      input0.current.focus()
+      setPasswords(['', '', '', '', '', ''])
+    }
+  },[visible])
   const handleCancel = () => {
     props.setIsModalVisible(false);
   };
@@ -172,25 +180,33 @@ export default function (props: PayProps) {
                 onChange={(e: any) => {
                   console.log(e)
                 }}
-                onKeyUp={(e: any) => {
-
+                onClick={(e: any) => {
+                  // @ts-ignore
+                  inputs[focus].current.focus()
                 }}
                 onKeyDown={(e: any) => {
+                  
                   console.log(e, 'keydown')
                   const p = [...passwords]
                   if (e.keyCode === 8 && index > 0 && !parseInt(p[index])) {
-
                     // @ts-ignore
-                    inputs[index - 1] && inputs[index - 1].current.focus()
-
+                    if(inputs[index - 1]){
+                      // @ts-ignore
+                     inputs[index - 1].current.focus()
+                      setFocus(index - 1)
+                    } 
                     p[index - 1] = ''
                     setPasswords(p);
                     return
                   }
                   if (parseInt(e.key)) {
                     p[index] = e.key
-                    // @ts-ignore
-                    inputs[index + 1] && inputs[index + 1].current.focus()
+                    
+                    if(inputs[index + 1]){
+                      // @ts-ignore
+                     inputs[index + 1].current.focus()
+                      setFocus(index + 1)
+                    } 
                     if (index === 5) {
                       const password = p.join('')
                       pay(password)
@@ -213,6 +229,7 @@ export default function (props: PayProps) {
             className=""
             onClick={() => {
               setVisible(true);
+              
               // prompt(
               //   "输入密码",
               //   "",
