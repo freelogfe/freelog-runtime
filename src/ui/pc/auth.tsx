@@ -219,12 +219,32 @@ export default function (props: contractProps) {
     setIsModalVisible(false);
     const isAuth = res.data.data.some((item: any) => {
       if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
-        props.contractFinished(currentPresentable.eventId, SUCCESS);
+        const modal = Modal.success({
+          title: '提示',
+          content: '获得授权',
+          zIndex: 9999
+        });
+        setTimeout(() => {
+          props.contractFinished(currentPresentable.eventId, SUCCESS);
+          setTimeout(() => {
+            modal.destroy();
+          }, 1000);
+        }, 1000);
+        
         return true;
       }
     });
     if (!isAuth) {
-      props.updateEvents({ ...currentPresentable, contracts: res.data.data });
+      const modal = Modal.success({
+        title: '提示',
+        content: '签约成功',
+        zIndex: 9999
+      });
+      setTimeout(() => {
+        props.updateEvents({ ...currentPresentable, contracts: res.data.data });
+        modal.destroy();
+      }, 2000);
+      
     }
   };
   return (

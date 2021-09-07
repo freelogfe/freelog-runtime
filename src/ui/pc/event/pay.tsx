@@ -31,7 +31,8 @@ export default function (props: PayProps) {
     props.setIsModalVisible(false);
   };
   const handleCancel = () => {
-    props.setIsModalVisible(false);
+    // TODO 提示支付中
+    !loading && props.setIsModalVisible(false);
   };
   async function getAccount() {
     // @ts-ignore
@@ -56,6 +57,20 @@ export default function (props: PayProps) {
       password: password,
     });
     console.log(payResult)
+    if(payResult.data.errCode !== 0){
+      Modal.error({
+        title: '支付失败',
+        content: payResult.data.msg,
+        zIndex: 9999
+      });
+      setLoading(false)
+      return
+    }
+    const modal = Modal.success({
+      title: '支付成功',
+      content: payResult.data.msg,
+      zIndex: 9999
+    });
     // TODO 查交易状态, flag应该设为状态，在关闭弹窗时清除
     const flag = setInterval(async()=>{
       const res:any = await frequest(transaction.getRecord, [payResult.data.data.transactionRecordId],'');
@@ -64,9 +79,10 @@ export default function (props: PayProps) {
       if([2,3,4].includes(status)){
         props.paymentFinish(status)
         setLoading(false)
+        modal.destroy()
         window.clearInterval(flag)
       }
-    },1000)
+    },2000)
     
     // setLoading(false);
     //   eventId: "string",  contractId

@@ -20,7 +20,7 @@ export async function mount(props = {}) {
   const { container } = props;
   ReactDOM.render(
       <App />,
-    document.getElementById('root')
+      container ? container.querySelector('#root') : document.querySelector('#root')
   );
 }
 

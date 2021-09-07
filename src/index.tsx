@@ -30,6 +30,10 @@ if (
   window.isTest = true;
 }
 document.domain = "testfreelog.com"
+// @ts-ignore
+console.log(window.__REACT_ERROR_OVERLAY_GLOBAL_HOOK__)
+// @ts-ignore
+  console.log(window.parent.__REACT_ERROR_OVERLAY_GLOBAL_HOOK__)
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>
     <App />

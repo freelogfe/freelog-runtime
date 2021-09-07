@@ -58,21 +58,21 @@ export default function (props: contractProps) {
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
   const [policies, setPolicies] = useState([]);
   const [selectedPolicies, setSelectedPolicies] = useState<Array<any>>([]);
-  function closeCurrent(){
-    if(events.length === 1){
+  function closeCurrent() {
+    if (events.length === 1) {
       // 如果只有一个，提示确定放弃签约
-      alert("提示","当前展品未获得授权，确定退出？", [
+      alert("提示", "当前展品未获得授权，确定退出？", [
         { text: "取消", onPress: () => {} },
         {
           text: "确定",
           onPress: () => userCancel(),
         },
       ]);
-    }else{
+    } else {
       // 否则弹出展品列表
-      setIsListVisible(true)
+      setIsListVisible(true);
     }
-  } 
+  }
   function paymentFinish() {
     getDetail();
   }
@@ -210,17 +210,22 @@ export default function (props: contractProps) {
       isWaitInitial: 1,
     });
     if (res.data.isAuth) {
-      // `付款到${seller}${amount}块钱就可以达到${status}状态`
     }
     const isAuth = res.data.data.some((item: any) => {
       if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
-        props.contractFinished(currentPresentable.eventId, SUCCESS);
+        Toast.success("获得授权", 2);
+        setTimeout(() => {
+          props.contractFinished(currentPresentable.eventId, SUCCESS);
+        }, 1500);
         return true;
       }
     });
     if (!isAuth) {
-      props.updateEvents({ ...currentPresentable, contracts: res.data.data });
-    }
+      Toast.success("签约成功", 2);
+      setTimeout(() => {
+        props.updateEvents({ ...currentPresentable, contracts: res.data.data });
+      }, 1500);
+     }
   };
   return (
     <div id="runtime-mobile" className="w-100x h-100x over-h">
@@ -233,15 +238,20 @@ export default function (props: contractProps) {
       >
         <div className="flex-row space-between px-15 py-20 list-title">
           <div className="list-title-name">展品列表</div>
-          <div className="list-exit" onClick={()=>{
-             alert("提示","当前还有展品未获得授权，确定退出？", [
-              { text: "取消", onPress: () => {} },
-              {
-                text: "确定",
-                onPress: () => userCancel(),
-              },
-            ]);
-          }}>退出</div>
+          <div
+            className="list-exit"
+            onClick={() => {
+              alert("提示", "当前还有展品未获得授权，确定退出？", [
+                { text: "取消", onPress: () => {} },
+                {
+                  text: "确定",
+                  onPress: () => userCancel(),
+                },
+              ]);
+            }}
+          >
+            退出
+          </div>
         </div>
         {events.length
           ? events.map((item: any, index: number) => {
@@ -250,7 +260,7 @@ export default function (props: contractProps) {
                 <div
                   key={index}
                   onClick={() => {
-                    setIsListVisible(false)
+                    setIsListVisible(false);
                     setCurrentPresentable(item);
                   }}
                   className={
@@ -265,7 +275,9 @@ export default function (props: contractProps) {
                       className="presentable-name text-ellipsis flex-1 flex-row align-center"
                       title={item.presentableName}
                     >
-                     <span className="text-ellipsis">{item.presentableName}</span> 
+                      <span className="text-ellipsis">
+                        {item.presentableName}
+                      </span>
                     </div>
                     {!item.contracts.length ? null : (
                       <div className="flex-row pt-10">
@@ -306,8 +318,11 @@ export default function (props: contractProps) {
       <div className="flex-column w-100x h-100x over-h">
         <div className="flex-column justify-center bb-1">
           <div className="text-center mt-20 fs-16 fc-main fw-bold">签约</div>
-          <div className="p-absolute fs-16 mt-20 mr-15 rt-0 fc-blue cur-pointer" onClick={()=>closeCurrent()}>
-            {events.length === 1? '退出': '关闭'}
+          <div
+            className="p-absolute fs-16 mt-20 mr-15 rt-0 fc-blue cur-pointer"
+            onClick={() => closeCurrent()}
+          >
+            {events.length === 1 ? "退出" : "关闭"}
           </div>
           <div className="text-center my-20 fs-20 fc-main fw-bold">
             {currentPresentable.presentableName}
