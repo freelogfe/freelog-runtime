@@ -1,5 +1,5 @@
 import { Input, Spin } from "antd";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import frequest from "../../../services/handler";
 import user from "../../../services/api/modules/user";
 import event from "../../../services/api/modules/event";
@@ -24,8 +24,15 @@ interface PayProps {
 export default function (props: PayProps) {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [passwords, setPasswords] = useState<any>([]);
+  const [passwords, setPasswords] = useState<any>(['', '', '', '', '', '']);
   const [userAccount, setUserAccount] = useState<any>({});
+  const input1 = useRef(null);
+  const input2 = useRef(null);
+  const input3 = useRef(null);
+  const input4 = useRef(null);
+  const input5 = useRef(null);
+  const input0 = useRef(null);
+  const inputs = [input0, input1, input2, input3, input4, input5]
   const handleOk = () => {
     props.setIsModalVisible(false);
   };
@@ -43,7 +50,7 @@ export default function (props: PayProps) {
     setVisible(props.isModalVisible);
     props.isModalVisible && getAccount();
   }, [props.isModalVisible]);
-  async function pay(password: any) {
+  const pay = async function (password: any) {
     // TODO 防止多次点击
     if (loading) return;
     setLoading(true);
@@ -57,6 +64,8 @@ export default function (props: PayProps) {
       Toast.fail(payResult.data.msg, 2);
       setTimeout(() => {
         setLoading(false);
+        // @ts-ignore
+        input5.current.focus()
       }, 2000);
       return;
     }
@@ -143,7 +152,7 @@ export default function (props: PayProps) {
           transparent
           maskClosable={false}
           title="输入支付密码"
-          className="w-325 h-220 input-password"
+          className="w-325  input-password"
         >
           <div
             className="p-absolute fs-20 rt-0 pr-15 pt-5"
@@ -152,21 +161,50 @@ export default function (props: PayProps) {
             x
           </div>
           <div className="flex-row space-between">
-            {[0,0,0,0,0,0].map((index:any)=>{
-             return  <input
-              type="password"
-              maxLength={1}
-              minLength={1}
-              onKeyDown={(e:any) => {
-                const p = [...passwords]
-                p[index] = e.target.value
-                setPasswords(p);
-              }}
-            />
+            {[0, 0, 0, 0, 0, 0].map((item: any, index: any) => {
+              return <input
+                type="password"
+                maxLength={1}
+                minLength={1}
+                key={index}
+                ref={inputs[index]}
+                value={passwords[index]}
+                onChange={(e: any) => {
+                  console.log(e)
+                }}
+                onKeyUp={(e: any) => {
+
+                }}
+                onKeyDown={(e: any) => {
+                  console.log(e, 'keydown')
+                  const p = [...passwords]
+                  if (e.keyCode === 8 && index > 0 && !parseInt(p[index])) {
+
+                    // @ts-ignore
+                    inputs[index - 1] && inputs[index - 1].current.focus()
+
+                    p[index - 1] = ''
+                    setPasswords(p);
+                    return
+                  }
+                  if (parseInt(e.key)) {
+                    p[index] = e.key
+                    // @ts-ignore
+                    inputs[index + 1] && inputs[index + 1].current.focus()
+                    if (index === 5) {
+                      const password = p.join('')
+                      pay(password)
+                    }
+                  } else {
+                    p[index] = ''
+                  }
+                  setPasswords(p);
+                }}
+              />
             })}
-             
+
           </div>
-          <div className="flex-row space-around password-forget">忘记密码</div>
+          <div className="flex-row space-around password-forget pb-30">忘记密码</div>
         </Modal>
         <div className=" pt-35 mb-40">
           <Button
