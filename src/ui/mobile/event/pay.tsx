@@ -212,8 +212,9 @@ export default function (props: PayProps) {
                     inputs[focus].current.focus();
                   }}
                   onKeyDown={(e: any) => {
+                    console.log(e)
                     const p = [...passwords];
-                    if (e.keyCode === 8 && index > 0 && !parseInt(p[index])) {
+                    if ([46,8].includes(e.keyCode) && index > 0 && !parseInt(p[index])) {
                       // @ts-ignore
                       if (inputs[index - 1]) {
                         // @ts-ignore
