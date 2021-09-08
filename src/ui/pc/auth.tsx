@@ -87,9 +87,9 @@ export default function (props: contractProps) {
       func && func();
     });
     // TODO 重载插件需要把授权的也一并清除
-    console.log("login finish");
-    props.loginFinished()
     setIsLoginVisible(false);
+
+    props.loginFinished()
   }
   function showPolicy() {}
   async function getDetail(id?: string) {

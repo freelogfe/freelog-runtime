@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { LOGIN } from "../../bridge/event";
 import "../../assets/mobile/index.scss";
 import "./auth.scss";
+import Login from "./user/login";
 
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
@@ -62,7 +63,7 @@ export default function (props: contractProps) {
     if (events.length === 1) {
       // 如果只有一个，提示确定放弃签约
       alert("提示", "当前展品未获得授权，确定退出？", [
-        { text: "取消", onPress: () => {} },
+        { text: "取消", onPress: () => { } },
         {
           text: "确定",
           onPress: () => userCancel(),
@@ -83,10 +84,11 @@ export default function (props: contractProps) {
     });
     // TODO 重载插件需要把授权的也一并清除
     console.log("login finish");
-    props.loginFinished();
     setIsLoginVisible(false);
+
+    props.loginFinished();
   }
-  function showPolicy() {}
+  function showPolicy() { }
   async function getDetail(id?: string) {
     setSelectedPolicies([]);
     // userInfo 如果不存在就是未登录
@@ -225,36 +227,38 @@ export default function (props: contractProps) {
       setTimeout(() => {
         props.updateEvents({ ...currentPresentable, contracts: res.data.data });
       }, 2000);
-     }
+    }
   };
   return (
     <div id="runtime-mobile" className="w-100x h-100x over-h">
-      <Modal
-        popup
-        visible={isListVisible}
-        maskClosable={false}
-        animationType="slide"
-        wrapClassName="presentable-list"
-      >
-        <div className="flex-row space-between px-15 py-20 list-title">
-          <div className="list-title-name">展品列表</div>
-          <div
-            className="list-exit"
-            onClick={() => {
-              alert("提示", "当前还有展品未获得授权，确定退出？", [
-                { text: "取消", onPress: () => {} },
-                {
-                  text: "确定",
-                  onPress: () => userCancel(),
-                },
-              ]);
-            }}
-          >
-            退出
+      <Login loginFinished={loginFinished}
+        isLoginVisible={isLoginVisible} />
+        <Modal
+          popup
+          visible={isListVisible}
+          maskClosable={false}
+          animationType="slide"
+          wrapClassName="presentable-list"
+        >
+          <div className="flex-row space-between px-15 py-20 list-title">
+            <div className="list-title-name">展品列表</div>
+            <div
+              className="list-exit"
+              onClick={() => {
+                alert("提示", "当前还有展品未获得授权，确定退出？", [
+                  { text: "取消", onPress: () => { } },
+                  {
+                    text: "确定",
+                    onPress: () => userCancel(),
+                  },
+                ]);
+              }}
+            >
+              退出
+            </div>
           </div>
-        </div>
-        {events.length
-          ? events.map((item: any, index: number) => {
+          {events.length
+            ? events.map((item: any, index: number) => {
               if (item.event === LOGIN) return null;
               return (
                 <div
@@ -299,8 +303,8 @@ export default function (props: contractProps) {
                                     ? "bg-auth-none"
                                     : !window.isTest &&
                                       contract.authStatus === 1
-                                    ? "bg-auth"
-                                    : "bg-auth-none")
+                                      ? "bg-auth"
+                                      : "bg-auth-none")
                                 }
                               ></div>
                             </div>
@@ -313,77 +317,78 @@ export default function (props: contractProps) {
                 </div>
               );
             })
-          : null}
-      </Modal>
-      <div className="flex-column w-100x h-100x over-h">
-        <div className="flex-column justify-center bb-1">
-          <div className="text-center mt-20 fs-16 fc-main fw-bold">签约</div>
-          <div
-            className="p-absolute fs-16 mt-20 mr-15 rt-0 fc-blue cur-pointer"
-            onClick={() => closeCurrent()}
-          >
-            {events.length === 1 ? "退出" : "关闭"}
-          </div>
-          <div className="text-center my-20 fs-20 fc-main fw-bold">
-            {currentPresentable.presentableName}
-          </div>
-          {!currentPresentable.contracts.length ? null : (
-            <div className="flex-row justify-center mb-15">
-              {currentPresentable.contracts.map(
-                (contract: any, index: number) => {
-                  return (
-                    <div
-                      className={"contract-tag flex-row align-center mr-5"}
-                      key={index}
-                    >
-                      <div className="contract-name">
-                        {contract.contractName}
-                      </div>
-                      <div
-                        className={
-                          "contract-dot ml-6 " +
-                          (contract.authStatus === 128
-                            ? "bg-auth-none"
-                            : !window.isTest && contract.authStatus === 1
-                            ? "bg-auth"
-                            : "bg-auth-none")
-                        }
-                      ></div>
-                    </div>
-                  );
-                }
-              )}
+            : null}
+        </Modal>
+        <div className="flex-column w-100x h-100x over-h">
+          <div className="flex-column justify-center bb-1">
+            <div className="text-center mt-20 fs-16 fc-main fw-bold">签约</div>
+            <div
+              className="p-absolute fs-16 mt-20 mr-15 rt-0 fc-blue cur-pointer"
+              onClick={() => closeCurrent()}
+            >
+              {events.length === 1 ? "退出" : "关闭"}
             </div>
-          )}
-        </div>
-        <div className="flex-column flex-1 over-h">
-          <div className="w-100x h-100x y-auto pb-20">
-            {contracts.map((contract: any, index: number) => {
-              return (
-                <Contract
-                  policy={contract.policyInfo}
-                  contract={contract}
-                  paymentFinish={paymentFinish}
-                  key={index}
-                ></Contract>
-              );
-            })}
-            {policies.map((policy: any, index: number) => {
-              return policy.contracted ? null : (
-                <Policy
-                  policy={policy}
-                  key={index}
-                  seq={index}
-                  loginFinished={loginFinished}
-                  getAuth={getAuth}
-                  policySelect={policySelect}
-                  selectType={contracts.length ? true : true}
-                ></Policy>
-              );
-            })}
+            <div className="text-center my-20 fs-20 fc-main fw-bold">
+              {currentPresentable.presentableName}
+            </div>
+            {!currentPresentable.contracts.length ? null : (
+              <div className="flex-row justify-center mb-15">
+                {currentPresentable.contracts.map(
+                  (contract: any, index: number) => {
+                    return (
+                      <div
+                        className={"contract-tag flex-row align-center mr-5"}
+                        key={index}
+                      >
+                        <div className="contract-name">
+                          {contract.contractName}
+                        </div>
+                        <div
+                          className={
+                            "contract-dot ml-6 " +
+                            (contract.authStatus === 128
+                              ? "bg-auth-none"
+                              : !window.isTest && contract.authStatus === 1
+                                ? "bg-auth"
+                                : "bg-auth-none")
+                          }
+                        ></div>
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+            )}
+          </div>
+          <div className="flex-column flex-1 over-h">
+            <div className="w-100x h-100x y-auto pb-20">
+              {contracts.map((contract: any, index: number) => {
+                return (
+                  <Contract
+                    policy={contract.policyInfo}
+                    contract={contract}
+                    paymentFinish={paymentFinish}
+                    key={index}
+                  ></Contract>
+                );
+              })}
+              {policies.map((policy: any, index: number) => {
+                return policy.contracted ? null : (
+                  <Policy
+                    policy={policy}
+                    key={index}
+                    seq={index}
+                    loginFinished={loginFinished}
+                    setIsLoginVisible={setIsLoginVisible}
+                    getAuth={getAuth}
+                    policySelect={policySelect}
+                    selectType={contracts.length ? true : true}
+                  ></Policy>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
     </div>
-  );
+      );
 }

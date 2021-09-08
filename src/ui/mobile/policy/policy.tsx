@@ -19,6 +19,7 @@ interface ItemProps {
   policySelect: any;
   seq: number;
   loginFinished: any;
+  setIsLoginVisible: any;
   getAuth: any;
   children?: any;
 }
@@ -72,6 +73,8 @@ export default function (props: ItemProps) {
             size="small"
             onClick={() => {
               if(!getCurrentUser()){
+                props.setIsLoginVisible(true)
+                return
                 prompt(
                   '登录',
                   '',
