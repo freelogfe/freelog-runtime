@@ -214,7 +214,7 @@ export default function (props: PayProps) {
                   onKeyDown={(e: any) => {
                     console.log(e)
                     const p = [...passwords];
-                    if ([46,8].includes(e.keyCode) && index > 0 && !parseInt(p[index])) {
+                    if ([46,8].includes(e.keyCode) && index > 0 && isNaN(parseInt(p[index]))) {
                       // @ts-ignore
                       if (inputs[index - 1]) {
                         // @ts-ignore
@@ -225,7 +225,7 @@ export default function (props: PayProps) {
                       setPasswords(p);
                       return;
                     }
-                    if (parseInt(e.key)) {
+                    if (!isNaN(parseInt(e.key))) {
                       p[index] = e.key;
 
                       if (inputs[index + 1]) {
