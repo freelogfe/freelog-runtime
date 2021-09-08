@@ -60,6 +60,57 @@
     }
 }
 
+#mobile-root .pay-tip {
+    .am-modal-content {
+        padding: 0 !important;
+    }
+
+    .am-modal-body {
+        padding: 0 30px 0 30px !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .am-modal-header {
+        padding: 0 !important;
+    }
+
+    .paying {
+        .loading {
+            border: none !important;
+            font-size: 20px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #2784FF;
+
+            &::before {
+                border: none !important;
+            }
+        }
+
+        .success {
+            i {
+                color: #44C28C;
+                font-size: 24px;
+            }
+
+            font-size: 16px;
+            font-family: PingFangSC-Regular,
+            PingFang SC;
+            font-weight: 400;
+            color: #222222;
+        }
+
+        .proccessing {
+            font-size: 20px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #222222;
+        }
+    }
+}
+
 #mobile-root .input-password {
     .am-modal-content {
         padding: 0 !important;
@@ -87,12 +138,13 @@
         caret-color: transparent;
         overflow: hidden;
         box-sizing: border-box;
-        padding: 4px 10px 7px 10px  !important;
+        padding: 4px 10px 7px 10px !important;
         font-size: 42px;
         background: #FFFFFF;
         border-radius: 4px;
         border: 1px solid #D4D4D4;
-        &:focus{
+
+        &:focus {
             border: 1px solid #2784FF !important;
         }
     }
