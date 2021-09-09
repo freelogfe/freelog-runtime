@@ -6,8 +6,6 @@ import { Tabs, Badge, Modal, Button, Toast } from "antd-mobile";
 import { useState } from "react";
 import "./login.scss";
 
- 
-
 interface loginProps {
   loginFinished: any;
   visible: boolean;
@@ -39,6 +37,7 @@ export default function (props: loginProps) {
       setLogging(false);
       props.loginFinished(SUCCESS, res.data.data);
     } else {
+      setLogging(false);
       Toast.fail(res.data.msg, 2);
     }
   };
@@ -91,14 +90,15 @@ export default function (props: loginProps) {
           </div>
         </div>
 
-        <div
-          className="text-center login-forgot mb-50"
-          
-        >
-          <Button type="ghost" inline size="small" onClick={() => props.setModalType(3)}>
-          忘记密码
+        <div className="text-center login-forgot mb-50">
+          <Button
+            type="ghost"
+            inline
+            size="small"
+            onClick={() => props.setModalType(3)}
+          >
+            忘记密码
           </Button>
-          
         </div>
       </div>
     </Modal>

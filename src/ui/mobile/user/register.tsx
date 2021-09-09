@@ -67,9 +67,9 @@ export default function (props: loginProps) {
       ...obj,
     };
     setErrorTip({
-        ...errorTip,
-        ...obj,
-      });
+      ...errorTip,
+      ...obj,
+    });
     const values = {
       username,
       password,
@@ -77,7 +77,7 @@ export default function (props: loginProps) {
       [type]: value,
       loginName: registerType === 1 ? phone : email,
     };
-    registerType === 1 ? (delete errors.email) : (delete errors.phone);
+    registerType === 1 ? delete errors.email : delete errors.phone;
     const flag1 = Object.keys(errors).some((key: any) => {
       if (errors[key]) {
         return true;
@@ -117,6 +117,8 @@ export default function (props: loginProps) {
     //     "loginName":"18923803593",
     //     "authCodeType":"register"
     // }
+    setAuthCodeLoading(true);
+    setCountDown(60);
     const authCodeRes = await frequest(user.getAuthCode, "", {
       loginName: registerType === 1 ? phone : email,
       authCodeType: "register",
@@ -129,6 +131,7 @@ export default function (props: loginProps) {
         ...errorTip,
         ...obj,
       });
+      setAuthCodeLoading(false)
     }
   };
   const onFinish = async () => {
@@ -150,7 +153,7 @@ export default function (props: loginProps) {
       setLoading(false);
     } else {
       Toast.fail(res.data.msg, 2);
-      if (res.data.msg.indexOf("验证码") === 0 ) {
+      if (res.data.msg.indexOf("验证码") === 0) {
         const obj: any = { authCode: res.data.msg };
         setErrorTip({
           ...errorTip,
@@ -184,7 +187,7 @@ export default function (props: loginProps) {
               checked={registerType === 1}
               value="1"
               onChange={(e) => {
-                phone && verify('phone', phone)
+                phone && verify("phone", phone);
                 setRegisterType(parseInt(e.target.value));
               }}
             />{" "}
@@ -201,7 +204,7 @@ export default function (props: loginProps) {
               className="mr-4"
               checked={registerType === 2}
               onChange={(e) => {
-                email && verify('email', email)
+                email && verify("email", email);
                 setRegisterType(parseInt(e.target.value));
               }}
               value="2"
@@ -266,11 +269,11 @@ export default function (props: loginProps) {
                   setAuthCode(e.target.value);
                 }}
               />
-              
+
               <Button
                 loading={loading}
                 type="primary"
-                className="flex-1 shrink-0 fs-16"
+                className="flex-1 shrink-0 fs-16 shrink-0"
                 disabled={
                   authCodeLoading ||
                   (registerType === 1
@@ -279,15 +282,9 @@ export default function (props: loginProps) {
                 }
                 onClick={() => {
                   getAuthCode();
-                  setAuthCodeLoading(true);
-                  setCountDown(60);
                 }}
               >
-                {authCodeLoading ? (
-                  <span>{countDown}s</span>
-                ) : (
-                  "获取验证码"
-                )}
+                {authCodeLoading ? <span>{countDown}s</span> : "获取验证码"}
               </Button>
             </div>
             {errorTip.authCode !== "" ? (

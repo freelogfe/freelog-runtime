@@ -115,11 +115,9 @@ export default function (props: loginProps) {
       window.clearInterval(timer);
     };
   }, [authCodeLoading]);
-  const getAuthCode = async () => {
-    // {
-    //     "loginName":"18923803593",
-    //     "authCodeType":"forgot"
-    // }
+  const getAuthCode = async () => {  
+    setAuthCodeLoading(true);
+    setCountDown(60);
     const authCodeRes = await frequest(user.getAuthCode, "", {
       loginName: registerType === 1 ? phone : email,
       authCodeType: "resetPassword",
@@ -132,6 +130,7 @@ export default function (props: loginProps) {
         ...errorTip,
         ...obj,
       });
+      setAuthCodeLoading(false);
     }
   };
   const onFinish = async () => {
@@ -145,6 +144,7 @@ export default function (props: loginProps) {
     //   isRemember: "string",
     //   returnUrl: "string",
     //   jwtType: "string",
+    
     const res = await frequest(
       user.postResetPassword,
       [registerType === 1 ? phone : email],
@@ -277,8 +277,6 @@ export default function (props: loginProps) {
                 }
                 onClick={() => {
                   getAuthCode();
-                  setAuthCodeLoading(true);
-                  setCountDown(60);
                 }}
               >
                 {authCodeLoading ? <span>{countDown}s</span> : "获取验证码"}
