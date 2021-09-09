@@ -5,14 +5,16 @@ export type User = {
   login: any;
   loginOut: any;
   getCurrent: any;
-  getAccount:any
+  getAccount:any;
+  getAuthCode: any;
+  postRegister:any
 };
 
-const user = {
+const user:User = {
   login: {
     url: `passport/login`,
     method: "post",
-    params: {
+    dataModel: {
       loginName: "string",
       password: "string",
       isRemember: "string",
@@ -34,39 +36,27 @@ const user = {
   getAccount:{
     url: `accounts/individualAccounts/${placeHolder}`,
     method: "get",
+  },
+  postRegister:{
+    url: `users`,
+    method: "post",
+    dataModel: {
+      loginName: "string",
+      password: "string",
+      username: "string",
+      authCode: "string",
+    }
+  },
+  getAuthCode:{
+    url: `messages/send`,
+    method: "post",
+    dataModel: {
+      loginName: "string",
+      authCodeType: "string",
+    }
   }
 };
 
-// user.getUserInfos = {  passport/logout?returnUrl={returnUrl}
-//     url: '/api/userinfos',
-//     method: 'GET',
-// }
-
-// user.searchUser = {
-//     url: '/api/userinfos/detail',
-//     method: 'GET',
-// }
-
-// user.queryCurrent = {
-//     url: '/api/users/current',
-//     method: 'GET',
-// }
-
-// user.login = {
-//     url: '/v1/passport/login',
-//     method: 'POST',
-//     dataModel: {
-//         loginName: 'string',
-//         password: 'string',
-//         mobile: 'string',
-//         jwtType: 'string',
-//         captcha: 'string',
-//     }
-// }
-
-// user.loginOut = {
-//     url: `/api/passport/logout`,
-//     method: 'get',
-// }
+ 
 
 export default user;

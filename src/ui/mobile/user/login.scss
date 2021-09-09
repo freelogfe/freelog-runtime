@@ -5,6 +5,7 @@
         font-weight: 400;
         color: #666666;
     }
+
     .logo {
         color: #2c2c2c;
         font-size: 52px;
@@ -20,20 +21,37 @@
             border: 1px solid #d4d4d4;
             margin-bottom: 15px;
         }
-        .registry{
+
+        .registry {
             background-color: #EDF6FF;
 
             color: #2784FF;
         }
-        .am-button-active{
-            background-color: #b3cde7; 
+
+        .am-button-active {
+            background-color: #b3cde7;
         }
     }
-    .login-forgot{
+
+    .login-forgot {
         font-size: 14px;
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
         color: #2784FF;
-        justify-self: end; 
+        justify-self: end;
+        .am-button-active {
+            color: #b3cde7 !important;
+        }
+        a {
+            font-size: 14px !important;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400 !important;
+            color: #2784FF;
+            
+            &::before {
+                padding: 0 !important;
+                border: none !important;
+            }
+        }
     }
 }

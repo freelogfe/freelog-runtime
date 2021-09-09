@@ -54,8 +54,8 @@ export function compareObjects(origin: any, data: any, diff = false) {
 export function isMobile() {
   var browser = {
     versions: (function () {
-      var u = navigator.userAgent
-        // app = navigator.appVersion;
+      var u = navigator.userAgent;
+      // app = navigator.appVersion;
       return {
         //移动终端浏览器版本信息
         trident: u.indexOf("Trident") > -1, //IE内核
@@ -81,8 +81,36 @@ export function isMobile() {
     browser.versions.iPhone ||
     browser.versions.iPad
   ) {
-      return true
-   } else {
-    return false
+    return true;
+  } else {
+    return false;
   }
+}
+export function checkPhone(phone: string) {
+  if (!/^1(3|4|5|6|7|8|9)\d{9}$/.test(phone)) {
+    return false;
+  }
+  return true;
+}
+export function checkEmail(email: string) {
+  const reg =
+    /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/gi;
+  if (!reg.test(email)) {
+    return false;
+  }
+  return true;
+}
+export function checkPassword(password: string){
+  const reg = /^(?=.*[0-9])(?=.*[a-zA-Z])(.{6,24})$/;
+  if (!reg.test(password)) {
+    return false;
+  }
+  return true;
+}
+export function checkUsername(username: string){
+  const reg =  /^(?!-)[A-Za-z0-9-]{1,30}(?<!-)$/;
+  if (!reg.test(username)) {
+    return false;
+  }
+  return true;
 }
