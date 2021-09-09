@@ -235,8 +235,8 @@ export default function (props: contractProps) {
     <div id="runtime-mobile" className="w-100x h-100x over-h">
       {modalType === 1 ? (
         <Login loginFinished={loginFinished} visible={modalType === 1} setModalType={setModalType}/>
-      ) : modalType === 0 ? (
-        <Register visible={modalType === 0} setModalType={setModalType}/>
+      ) : modalType === 2 ? (
+        <Register visible={modalType === 2} setModalType={setModalType}/>
       ) : modalType === 3 ? (
         <Forgot visible={modalType === 3} setModalType={setModalType}/>
       ) : null}

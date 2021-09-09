@@ -66,7 +66,10 @@ export default function (props: loginProps) {
       ...errorTip,
       ...obj,
     };
-    setErrorTip(errors);
+    setErrorTip({
+        ...errorTip,
+        ...obj,
+      });
     const values = {
       username,
       password,
@@ -74,6 +77,7 @@ export default function (props: loginProps) {
       [type]: value,
       loginName: registerType === 1 ? phone : email,
     };
+    registerType === 1 ? (delete errors.email) : (delete errors.phone);
     const flag1 = Object.keys(errors).some((key: any) => {
       if (errors[key]) {
         return true;
@@ -142,11 +146,11 @@ export default function (props: loginProps) {
     //   jwtType: "string",
     const res = await frequest(user.postRegister, "", values);
     if (res.data.errCode === 0) {
-        setSuccess(true)
+      setSuccess(true);
       setLoading(false);
     } else {
       Toast.fail(res.data.msg, 2);
-      if (res.data.msg.startWith("验证码")) {
+      if (res.data.msg.indexOf("验证码") === 0 ) {
         const obj: any = { authCode: res.data.msg };
         setErrorTip({
           ...errorTip,
@@ -180,6 +184,7 @@ export default function (props: loginProps) {
               checked={registerType === 1}
               value="1"
               onChange={(e) => {
+                phone && verify('phone', phone)
                 setRegisterType(parseInt(e.target.value));
               }}
             />{" "}
@@ -196,6 +201,7 @@ export default function (props: loginProps) {
               className="mr-4"
               checked={registerType === 2}
               onChange={(e) => {
+                email && verify('email', email)
                 setRegisterType(parseInt(e.target.value));
               }}
               value="2"
@@ -260,6 +266,7 @@ export default function (props: loginProps) {
                   setAuthCode(e.target.value);
                 }}
               />
+              
               <Button
                 loading={loading}
                 type="primary"
@@ -277,12 +284,15 @@ export default function (props: loginProps) {
                 }}
               >
                 {authCodeLoading ? (
-                  <span>获取验证码 {countDown}s</span>
+                  <span>{countDown}s</span>
                 ) : (
                   "获取验证码"
                 )}
               </Button>
             </div>
+            {errorTip.authCode !== "" ? (
+              <div className="error-tip self-start">{errorTip.authCode}</div>
+            ) : null}
             <input
               type="password"
               value={password}
@@ -352,7 +362,7 @@ export default function (props: loginProps) {
                 inline
                 size="small"
                 onClick={() => {
-                    setSuccess(false)
+                  setSuccess(false);
                   props.setModalType(1);
                 }}
               >

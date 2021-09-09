@@ -7,7 +7,8 @@ export type User = {
   getCurrent: any;
   getAccount:any;
   getAuthCode: any;
-  postRegister:any
+  postRegister:any;
+  postResetPassword: any;
 };
 
 const user:User = {
@@ -53,6 +54,14 @@ const user:User = {
     dataModel: {
       loginName: "string",
       authCodeType: "string",
+    }
+  },
+  postResetPassword:{
+    url: `users/${placeHolder}/resetPassword`,
+    method: "put",
+    dataModel: {
+      password: "string",
+      authCode: "string",
     }
   }
 };
