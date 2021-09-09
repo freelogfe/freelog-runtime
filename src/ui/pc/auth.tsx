@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Modal, notification } from "antd";
 import { SUCCESS, USER_CANCEL } from "../../bridge/event";
 import React, { useState, useEffect } from "react";
 import { LOGIN } from "../../bridge/event";
@@ -239,7 +239,7 @@ export default function (props: contractProps) {
         zIndex: 9999
       });
       setTimeout(() => {
-        modal.destroy();
+        modal && modal.destroy();
         props.updateEvents({ ...currentPresentable, contracts: res.data.data });
       }, 2000);
       

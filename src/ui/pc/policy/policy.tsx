@@ -1,7 +1,7 @@
 import PolicyGraph from "./_components/policyGraph";
 import PolicyCode from "./_components/policyCode";
 import "./policy.scss";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import PolicyContent from "./_components/policyContent";
 import Button from "../_components/button";

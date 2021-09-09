@@ -1,4 +1,4 @@
-import { Form, Input, Modal, Checkbox } from "antd";
+import { Form, Input, Modal, Spin  } from "antd";
 import user from "../../services/api/modules/user";
 import frequest from "../../services/handler";
 import { SUCCESS } from "../../bridge/event";
@@ -20,13 +20,14 @@ interface loginProps {
 export default function (props: loginProps) {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState(true);
-
+  const [loading, setLoading] = useState(false);
   function onValuesChange(changedValues:any,allValues:any){
     console.log(changedValues, allValues)
     setDisabled(!allValues.loginName || !allValues.password)
   }
   
   const onFinish = async () => {
+    setLoading(true)
     console.log(form.getFieldsValue())
     const values: any = form.getFieldsValue()
     // loginName: "string",
@@ -37,7 +38,18 @@ export default function (props: loginProps) {
     values.isRemember = values.isRemember ? 1 : 0;
     const res = await frequest(user.login, "", values);
     if (res.data.errCode === 0) {
+      setLoading(false)
       props.loginFinished(SUCCESS, res.data.data);
+    }else{
+     const modal =  Modal.error({
+        title: '登录失败',
+        content: res.data.msg,
+        zIndex: 9999
+      });
+      setTimeout(() => {
+        setLoading(false)
+        modal && modal.destroy();
+      }, 2000);
     }
   };
 
@@ -59,7 +71,7 @@ export default function (props: loginProps) {
       centered
       footer={null}
       visible={true}
-      closable={false}
+      closable={true}
       className=""
       onOk={handleOk}
       onCancel={handleCancel}
@@ -103,12 +115,12 @@ export default function (props: loginProps) {
         </Form.Item> */}
 
           <Form.Item className="pt-30">
-            <Button className="py-9" click={onFinish} disabled={disabled}>登录</Button>
+            <Button className="py-9" click={onFinish} disabled={disabled || loading}> {loading? '登录中...' : '登录'}</Button>
           </Form.Item>
         </Form>
         <div className="flex-row  mt-30">
           <span className="login-new">freelog新用户？</span>
-          <span className="regist-now">立即注册</span>
+          <span className="regist-now cur-pointer">立即注册</span>
         </div>
       </div>
     </Modal>

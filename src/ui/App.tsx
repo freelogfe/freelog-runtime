@@ -91,7 +91,7 @@ function App() {
   }
   reisterUI(UI, updateUI);
   return (
-    <div id="freelog-app" className="w-100x h-100x over-h">
+    <div id="freelog-app" className="w-100x h-100x ">
       {inited ? (
         !window.isMobile ? <Pc events={events} contractFinished={contractFinished} updateEvents={updateEvents} loginFinished={loginFinished}></Pc> :
          <Mobile events={events}  contractFinished={contractFinished} updateEvents={updateEvents} loginFinished={loginFinished}></Mobile>
