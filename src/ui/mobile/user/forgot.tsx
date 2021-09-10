@@ -202,8 +202,8 @@ export default function (props: loginProps) {
       className="w-100x h-100x"
       wrapClassName="user-forgot"
     >
-      <div className="w-100x h-100x flex-column align-center">
-        <div className="flex-1 w-100x flex-column align-center">
+      <div className="w-100x h-100x flex-column align-center y-auto">
+        <div className="flex-1 w-100x flex-column align-center shrink-0">
           <div className="forgot-title  mt-30 mb-40 flex-row px-30 self-start">
             重置密码
           </div>
@@ -348,7 +348,7 @@ export default function (props: loginProps) {
           </div>
         </div>
 
-        <div className="flex-row justify-center align-center forgot-bottom mb-40">
+        <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
           <Button
             type="ghost"
             inline
