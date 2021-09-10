@@ -27,7 +27,7 @@ export default function (props: loginProps) {
   });
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [typeError, setTypeError] = useState(false);
+  const [count, setCount] = useState(3);
   const [available, setAvailable] = useState(false);
   const [countDown, setCountDown] = useState(60);
   const [authCode, setAuthCode] = useState("");
@@ -65,7 +65,7 @@ export default function (props: loginProps) {
       if (type === "password") {
         if (password2) {
           obj.password2 = password2 !== value ? "两次密码不一致" : "";
-        }  
+        }
       }
       if (type === "password2" && password) {
         obj[type] = password !== value ? "两次密码不一致" : "";
@@ -115,7 +115,7 @@ export default function (props: loginProps) {
       window.clearInterval(timer);
     };
   }, [authCodeLoading]);
-  const getAuthCode = async () => {  
+  const getAuthCode = async () => {
     setAuthCodeLoading(true);
     setCountDown(60);
     const authCodeRes = await frequest(user.getAuthCode, "", {
@@ -133,6 +133,25 @@ export default function (props: loginProps) {
       setAuthCodeLoading(false);
     }
   };
+  useEffect(() => {
+    if (!success) {
+      return
+    };
+    const timer = window.setInterval(() => {
+      setCount((prevTime) => {
+        if (prevTime <= 0) {
+          window.clearInterval(timer);
+          setSuccess(false);
+          return 3;
+        }
+        return prevTime - 1;
+      }); // <-- Change this line!
+    }, 1000);
+    return () => {
+      props.setModalType(1);
+      window.clearInterval(timer);
+    };
+  }, [success]);
   const onFinish = async () => {
     setLoading(true);
     const values: any = {
@@ -144,7 +163,7 @@ export default function (props: loginProps) {
     //   isRemember: "string",
     //   returnUrl: "string",
     //   jwtType: "string",
-    
+
     const res = await frequest(
       user.postResetPassword,
       [registerType === 1 ? phone : email],
@@ -153,6 +172,7 @@ export default function (props: loginProps) {
     if (res.data.errCode === 0) {
       setSuccess(true);
       setLoading(false);
+      setCount(3);
     } else {
       Toast.fail(res.data.msg, 2);
       if (res.data.msg.indexOf("未找到有效用户") === 0) {
@@ -163,7 +183,7 @@ export default function (props: loginProps) {
         });
       }
       if (res.data.msg.indexOf("验证码") === 0) {
-        const obj: any = { loginName: res.data.msg };
+        const obj: any = { authCode: res.data.msg };
         setErrorTip({
           ...errorTip,
           ...obj,
@@ -370,7 +390,7 @@ export default function (props: loginProps) {
             <i className="iconfont ">&#xe62d;</i>
             <span className=" success mb-60 mt-4">重置密码成功</span>
             <div className="flex-row justify-center align-center">
-              <span className="count-back">3s后返回登陆页；</span>
+              <span className="count-back">{count}s后返回登陆页；</span>
               <Button
                 type="ghost"
                 inline
