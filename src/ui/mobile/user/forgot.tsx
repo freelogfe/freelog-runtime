@@ -135,8 +135,8 @@ export default function (props: loginProps) {
   };
   useEffect(() => {
     if (!success) {
-      return
-    };
+      return;
+    }
     const timer = window.setInterval(() => {
       setCount((prevTime) => {
         if (prevTime <= 0) {
@@ -275,32 +275,37 @@ export default function (props: loginProps) {
               </div>
             ) : null}
             <div className="flex-row mb-5 mt-15">
-              <input
-                type="text"
-                value={authCode}
-                className="mr-10"
-                placeholder="验证码"
-                onChange={(e) => {
-                  verify("authCode", e.target.value);
-                  setAuthCode(e.target.value);
-                }}
-              />
-              <Button
-                loading={loading}
-                type="primary"
-                className="flex-1 shrink-0 fs-16"
-                disabled={
-                  authCodeLoading ||
-                  (registerType === 1
-                    ? !phone || errorTip.phone
-                    : !email || errorTip.email)
-                }
-                onClick={() => {
-                  getAuthCode();
-                }}
-              >
-                {authCodeLoading ? <span>{countDown}s</span> : "获取验证码"}
-              </Button>
+              <div className="pr-10 flex-1 auth-code">
+                <input
+                  type="text"
+                  value={authCode}
+                  className="w-100x"
+                  placeholder="验证码"
+                  onChange={(e) => {
+                    verify("authCode", e.target.value);
+                    setAuthCode(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="shrink-0 fs-16  w-100">
+                <Button
+                  loading={loading}
+                  type="primary"
+                  className="fs-16"
+                  disabled={
+                    authCodeLoading ||
+                    (registerType === 1
+                      ? !phone || errorTip.phone
+                      : !email || errorTip.email)
+                  }
+                  onClick={() => {
+                    getAuthCode();
+                  }}
+                >
+                  {authCodeLoading ? <span>{countDown}s</span> : "获取验证码"}
+                </Button>
+              </div>
+               
             </div>
             {errorTip.authCode !== "" ? (
               <div className="error-tip self-start">{errorTip.authCode}</div>

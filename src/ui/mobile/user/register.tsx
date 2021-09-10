@@ -29,6 +29,7 @@ export default function (props: loginProps) {
   const [loading, setLoading] = useState(false);
   const [available, setAvailable] = useState(false);
   const [countDown, setCountDown] = useState(60);
+  const [count, setCount] = useState(3);
   const [authCode, setAuthCode] = useState("");
   const [authCodeLoading, setAuthCodeLoading] = useState(false);
   const [username, setUsername] = useState("");
@@ -112,6 +113,25 @@ export default function (props: loginProps) {
       window.clearInterval(timer);
     };
   }, [authCodeLoading]);
+  useEffect(() => {
+    if (!success) {
+      return;
+    }
+    const timer = window.setInterval(() => {
+      setCount((prevTime) => {
+        if (prevTime <= 0) {
+          window.clearInterval(timer);
+          setSuccess(false);
+          return 3;
+        }
+        return prevTime - 1;
+      }); // <-- Change this line!
+    }, 1000);
+    return () => {
+      props.setModalType(1);
+      window.clearInterval(timer);
+    };
+  }, [success]);
   const getAuthCode = async () => {
     // {
     //     "loginName":"18923803593",
@@ -123,7 +143,7 @@ export default function (props: loginProps) {
       loginName: registerType === 1 ? phone : email,
       authCodeType: "register",
     });
-    if (authCodeRes.errCode !== 0) {
+    if (authCodeRes.data.errCode !== 0) {
       const obj: any = {};
       obj[registerType === 1 ? "phone" : "email"] = authCodeRes.data.msg;
 
@@ -131,7 +151,7 @@ export default function (props: loginProps) {
         ...errorTip,
         ...obj,
       });
-      setAuthCodeLoading(false)
+      setAuthCodeLoading(false);
     }
   };
   const onFinish = async () => {
@@ -258,34 +278,37 @@ export default function (props: loginProps) {
                 {errorTip[registerType === 1 ? "phone" : "email"]}
               </div>
             ) : null}
-            <div className="flex-row mb-5 mt-15">
-              <input
-                type="text"
-                value={authCode}
-                className="mr-10"
-                placeholder="验证码"
-                onChange={(e) => {
-                  verify("authCode", e.target.value);
-                  setAuthCode(e.target.value);
-                }}
-              />
-
-              <Button
-                loading={loading}
-                type="primary"
-                className="flex-1 shrink-0 fs-16 shrink-0"
-                disabled={
-                  authCodeLoading ||
-                  (registerType === 1
-                    ? !phone || errorTip.phone
-                    : !email || errorTip.email)
-                }
-                onClick={() => {
-                  getAuthCode();
-                }}
-              >
-                {authCodeLoading ? <span>{countDown}s</span> : "获取验证码"}
-              </Button>
+            <div className="flex-row mb-5 mt-15 space-between">
+              <div className="pr-10 flex-1 auth-code">
+                <input
+                  type="text"
+                  value={authCode}
+                  className=""
+                  placeholder="验证码"
+                  onChange={(e) => {
+                    verify("authCode", e.target.value);
+                    setAuthCode(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="shrink-0 fs-16  w-100">
+                <Button
+                  loading={loading}
+                  type="primary"
+                  className="fs-16"
+                  disabled={
+                    authCodeLoading ||
+                    (registerType === 1
+                      ? !phone || errorTip.phone
+                      : !email || errorTip.email)
+                  }
+                  onClick={() => {
+                    getAuthCode();
+                  }}
+                >
+                  {authCodeLoading ? <span>{countDown}s</span> : "获取验证码"}
+                </Button>
+              </div>
             </div>
             {errorTip.authCode !== "" ? (
               <div className="error-tip self-start">{errorTip.authCode}</div>
@@ -353,7 +376,7 @@ export default function (props: loginProps) {
             <i className="iconfont ">&#xe62d;</i>
             <span className=" success mb-60 mt-4">注册成功</span>
             <div className="flex-row justify-center align-center">
-              <span className="count-back">3s后返回登陆页；</span>
+              <span className="count-back">{count}s后返回登陆页；</span>
               <Button
                 type="ghost"
                 inline
