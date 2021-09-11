@@ -12,6 +12,7 @@
     "@babel/core": "7.12.3",
     "@babel/plugin-syntax-jsx": "^7.12.13",
     "@babel/runtime": "^7.10.5",
+    "@freelog/tools-lib": "^0.1.28",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "@svgr/webpack": "5.5.0",
     "@testing-library/jest-dom": "^5.11.4",

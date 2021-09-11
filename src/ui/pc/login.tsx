@@ -100,7 +100,9 @@ export default function (props: loginProps) {
           </Form.Item>
           <div className="flex-row space-between login-label mt-10">
             <div className="">密码</div>
-            <div className="login-forgot select-none cur-pointer">忘记密码？</div>
+            <div className="login-forgot select-none cur-pointer" onClick={()=>{
+              window.open('http://user.testfreelog.com/retrieve')
+            }}>忘记密码？</div>
           </div>
 
           <Form.Item
@@ -120,7 +122,9 @@ export default function (props: loginProps) {
         </Form>
         <div className="flex-row  mt-30">
           <span className="login-new">freelog新用户？</span>
-          <span className="regist-now cur-pointer">立即注册</span>
+          <span className="regist-now cur-pointer" onClick={()=>{
+            window.open('http://user.testfreelog.com/logon')
+          }}>立即注册</span>
         </div>
       </div>
     </Modal>

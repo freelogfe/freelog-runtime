@@ -49,7 +49,11 @@
             font-weight: 400;
             color: #EE4040;
         }
-
+        .auth-code{
+            input{
+                width: 100%;
+            }
+        }
         .registry {
             background-color: #EDF6FF;
 

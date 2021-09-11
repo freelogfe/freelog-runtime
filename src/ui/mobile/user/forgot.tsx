@@ -27,7 +27,7 @@ export default function (props: loginProps) {
   });
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [typeError, setTypeError] = useState(false);
+  const [count, setCount] = useState(3);
   const [available, setAvailable] = useState(false);
   const [countDown, setCountDown] = useState(60);
   const [authCode, setAuthCode] = useState("");
@@ -65,7 +65,7 @@ export default function (props: loginProps) {
       if (type === "password") {
         if (password2) {
           obj.password2 = password2 !== value ? "两次密码不一致" : "";
-        }  
+        }
       }
       if (type === "password2" && password) {
         obj[type] = password !== value ? "两次密码不一致" : "";
@@ -115,7 +115,7 @@ export default function (props: loginProps) {
       window.clearInterval(timer);
     };
   }, [authCodeLoading]);
-  const getAuthCode = async () => {  
+  const getAuthCode = async () => {
     setAuthCodeLoading(true);
     setCountDown(60);
     const authCodeRes = await frequest(user.getAuthCode, "", {
@@ -133,6 +133,25 @@ export default function (props: loginProps) {
       setAuthCodeLoading(false);
     }
   };
+  useEffect(() => {
+    if (!success) {
+      return;
+    }
+    const timer = window.setInterval(() => {
+      setCount((prevTime) => {
+        if (prevTime <= 0) {
+          window.clearInterval(timer);
+          setSuccess(false);
+          return 3;
+        }
+        return prevTime - 1;
+      }); // <-- Change this line!
+    }, 1000);
+    return () => {
+      props.setModalType(1);
+      window.clearInterval(timer);
+    };
+  }, [success]);
   const onFinish = async () => {
     setLoading(true);
     const values: any = {
@@ -144,7 +163,7 @@ export default function (props: loginProps) {
     //   isRemember: "string",
     //   returnUrl: "string",
     //   jwtType: "string",
-    
+
     const res = await frequest(
       user.postResetPassword,
       [registerType === 1 ? phone : email],
@@ -153,6 +172,7 @@ export default function (props: loginProps) {
     if (res.data.errCode === 0) {
       setSuccess(true);
       setLoading(false);
+      setCount(3);
     } else {
       Toast.fail(res.data.msg, 2);
       if (res.data.msg.indexOf("未找到有效用户") === 0) {
@@ -163,7 +183,7 @@ export default function (props: loginProps) {
         });
       }
       if (res.data.msg.indexOf("验证码") === 0) {
-        const obj: any = { loginName: res.data.msg };
+        const obj: any = { authCode: res.data.msg };
         setErrorTip({
           ...errorTip,
           ...obj,
@@ -182,8 +202,8 @@ export default function (props: loginProps) {
       className="w-100x h-100x"
       wrapClassName="user-forgot"
     >
-      <div className="w-100x h-100x flex-column align-center">
-        <div className="flex-1 w-100x flex-column align-center">
+      <div className="w-100x h-100x flex-column align-center y-auto">
+        <div className="flex-1 w-100x flex-column align-center shrink-0">
           <div className="forgot-title  mt-30 mb-40 flex-row px-30 self-start">
             重置密码
           </div>
@@ -255,32 +275,37 @@ export default function (props: loginProps) {
               </div>
             ) : null}
             <div className="flex-row mb-5 mt-15">
-              <input
-                type="text"
-                value={authCode}
-                className="mr-10"
-                placeholder="验证码"
-                onChange={(e) => {
-                  verify("authCode", e.target.value);
-                  setAuthCode(e.target.value);
-                }}
-              />
-              <Button
-                loading={loading}
-                type="primary"
-                className="flex-1 shrink-0 fs-16"
-                disabled={
-                  authCodeLoading ||
-                  (registerType === 1
-                    ? !phone || errorTip.phone
-                    : !email || errorTip.email)
-                }
-                onClick={() => {
-                  getAuthCode();
-                }}
-              >
-                {authCodeLoading ? <span>{countDown}s</span> : "获取验证码"}
-              </Button>
+              <div className="pr-10 flex-1 auth-code">
+                <input
+                  type="text"
+                  value={authCode}
+                  className="w-100x"
+                  placeholder="验证码"
+                  onChange={(e) => {
+                    verify("authCode", e.target.value);
+                    setAuthCode(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="shrink-0 fs-16  w-100">
+                <Button
+                  loading={loading}
+                  type="primary"
+                  className="fs-16"
+                  disabled={
+                    authCodeLoading ||
+                    (registerType === 1
+                      ? !phone || errorTip.phone
+                      : !email || errorTip.email)
+                  }
+                  onClick={() => {
+                    getAuthCode();
+                  }}
+                >
+                  {authCodeLoading ? <span>{countDown}s</span> : "获取验证码"}
+                </Button>
+              </div>
+               
             </div>
             {errorTip.authCode !== "" ? (
               <div className="error-tip self-start">{errorTip.authCode}</div>
@@ -323,7 +348,7 @@ export default function (props: loginProps) {
           </div>
         </div>
 
-        <div className="flex-row justify-center align-center forgot-bottom mb-40">
+        <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
           <Button
             type="ghost"
             inline
@@ -370,7 +395,7 @@ export default function (props: loginProps) {
             <i className="iconfont ">&#xe62d;</i>
             <span className=" success mb-60 mt-4">重置密码成功</span>
             <div className="flex-row justify-center align-center">
-              <span className="count-back">3s后返回登陆页；</span>
+              <span className="count-back">{count}s后返回登陆页；</span>
               <Button
                 type="ghost"
                 inline

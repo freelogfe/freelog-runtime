@@ -226,9 +226,10 @@ export default function (props: contractProps) {
         });
         setTimeout(() => {
           modal.destroy();
+        }, 1500);
+        setTimeout(() => {
           props.contractFinished(currentPresentable.eventId, SUCCESS);
         }, 2000);
-        
         return true;
       }
     });
