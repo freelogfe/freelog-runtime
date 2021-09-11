@@ -4,6 +4,7 @@ export default function (props) {
   const [novels, setNovels] = useState([]);
 
   useEffect(async() => {
+    console.log(props.history)
     const res = await window.freelogApp.getPresentables({ resourceType: 'novel'})
     console.log(res)
     setNovels(res.data.data.dataList)

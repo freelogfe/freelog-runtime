@@ -261,6 +261,11 @@ export const createLocationProxy = function (name: string, sandbox: any) {
          TODO reload 是重新加载插件
      */
     set: (target: any, p: PropertyKey, value: any): boolean => {
+      if(p === 'hash'){
+        const _history = createHistoryProxy(name, sandbox)
+        // @ts-ignore
+        _history.pushState('', '', value)
+      }
       return true;
     },
     get: function get(target: any, property: string) {
