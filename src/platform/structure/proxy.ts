@@ -131,7 +131,6 @@ export function setLocation() {
 export const locationCenter: any = {
   set: function (name: string, attr: any) {
     var loc = locations.get(name) || {};
-    console.log(name, attr, loc)
     if (attr.pathname && attr.pathname.indexOf(rawLocation.host) > -1) {
       // for vue3
       attr.pathname = attr.pathname
@@ -139,7 +138,6 @@ export const locationCenter: any = {
         .replace(rawLocation.host, "")
         .replace("//", "");
     }
-    console.log(loc, attr)
     locations.set(name, {
       ...loc,
       ...attr,
@@ -172,7 +170,6 @@ export const saveSandBox = function (name: string, sandBox: any) {
 };
 export const createHistoryProxy = function (name: string, sandbox: any) {
   function patch() {
-    console.log(arguments)
     let hash = "";
     let routerType = HISTORY
     // TODO 解析query参数  search
@@ -293,7 +290,6 @@ export const createLocationProxy = function (name: string, sandbox: any) {
           // TODO 重新加载自身插件
           return async function () {
             await flatternWidgets.get(name).unmount()
-            // console.log('reload')
             // setTimeout(()=>{
             flatternWidgets.get(name).mount()
             // },200)
@@ -362,7 +358,6 @@ export const createDocumentProxy = function (
 
   // }
   // TODO 有可能是 doc还没创建造成的
-  // console.log('isShadow', isShadow, doc)
   
   if (!isShadow) {
     // TODO  判断document与doc的原型是否都有该方法，有则bind
