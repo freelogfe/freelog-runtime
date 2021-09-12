@@ -5,6 +5,7 @@ import { getInfoById } from "./api";
 import { widgetsConfig, sandBoxs } from "./widget";
 import frequest from "../../services/handler";
 import user from "../../services/api/modules/user";
+import node from "../../services/api/modules/node";
 
 import { addAuth } from "../../bridge/index";
 import { forEach } from "lodash";
@@ -197,4 +198,30 @@ export function setViewport(keys: any) {
     "content",
     content
   );
+}
+
+export async function createUserData(userNodeData: any) {
+  const nodeId = window.freelogApp.nodeInfo.nodeId
+  const res = await frequest(node.postUserData, "", {
+    nodeId,
+    userNodeData
+  });
+  return res;
+}
+
+export async function updateUserData(removeFields:any, appendOrReplaceObject: any) {
+  const nodeId = window.freelogApp.nodeInfo.nodeId
+  const res = await frequest(node.putUserData, [nodeId], {
+    removeFields,
+    appendOrReplaceObject
+  });
+  return res;
+}
+
+export async function getUserData(fields:any) {
+  const nodeId = window.freelogApp.nodeInfo.nodeId
+  const res = await frequest(node.getUserData, [nodeId], {
+    fields
+  });
+  return res;
 }

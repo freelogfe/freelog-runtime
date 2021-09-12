@@ -4,7 +4,7 @@ import { placeHolder } from '../../base'
 
 export type Node = {
     getInfoById: any;
-    getInfoByNameOrDomain: any; 
+    getInfoByNameOrDomain: any;
     postUserData: any;
     putUserData: any;
     getUserData: any;
@@ -13,7 +13,7 @@ export type Node = {
 const node: Node = {
     getInfoById: {
         url: `nodes/${placeHolder}`,
-        method: 'GET' 
+        method: 'GET'
     },
     // presentableId, result|info|resourceInfo|fileStream
     getInfoByNameOrDomain: {
@@ -21,23 +21,38 @@ const node: Node = {
         method: 'GET',
         dataModel: {
             nodeName: 'string',
-            nodeDomain: 'string' 
+            nodeDomain: 'string'
         }
     },
     // storages/buckets/.UserNodeData/objects   post
     postUserData: {
-        url: `storages/buckets/.UserNodeData/objects/${placeHolder}`,
-        method: 'POST' 
+        url: `storages/buckets/.UserNodeData/objects`,
+        method: 'POST',
+        dataModel: {
+            nodeId: 'int',
+            nodeDomain: "string",
+            userNodeData: "object"
+        }
     },
     // storages/buckets/.UserNodeData/objects/{nodeId}  PUT
     putUserData: {
         url: `storages/buckets/.UserNodeData/objects/${placeHolder}`,
-        method: 'PUT' 
+        method: 'PUT',
+        dataModel: {
+            "removeFields": ["name", "meta"],
+            "appendOrReplaceObject": {
+                "total": "如果没有此属性,则新增",
+                "age": "如果存在此属性,则修改值"
+            }
+        }
     },
     // storages/buckets/.UserNodeData/objects/{objectIdOrNodeId}/customPick  GET
     getUserData: {
-        url: `storages/buckets/.UserNodeData/objects/${placeHolder}`,
-        method: 'GET' 
+        url: `storages/buckets/.UserNodeData/objects/${placeHolder}/customPick`,
+        method: 'GET',
+        dataModel: {
+            fields: "string"
+        }
     }
 }
 export default node
