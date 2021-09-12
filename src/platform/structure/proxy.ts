@@ -32,10 +32,12 @@ import { baseUrl } from "../../services/base";
 import { DEV_WIDGET } from "./dev";
 
 const rawDocument = document;
-
+const HISTORY = 'history'
+const HASH = 'hash'
 // const rawHistory = window["history"];
 const rawLocation = window["location"];
 const rawLocalStorage = window["localStorage"];
+// widgetName  {routerType: 'history' || 'hash'}
 const locations = new Map();
 window.addEventListener(
   "popstate",
@@ -129,6 +131,7 @@ export function setLocation() {
 export const locationCenter: any = {
   set: function (name: string, attr: any) {
     var loc = locations.get(name) || {};
+    console.log(name, attr, loc)
     if (attr.pathname && attr.pathname.indexOf(rawLocation.host) > -1) {
       // for vue3
       attr.pathname = attr.pathname
@@ -136,6 +139,7 @@ export const locationCenter: any = {
         .replace(rawLocation.host, "")
         .replace("//", "");
     }
+    console.log(loc, attr)
     locations.set(name, {
       ...loc,
       ...attr,
@@ -168,16 +172,21 @@ export const saveSandBox = function (name: string, sandBox: any) {
 };
 export const createHistoryProxy = function (name: string, sandbox: any) {
   function patch() {
+    console.log(arguments)
     let hash = "";
+    let routerType = HISTORY
+    // TODO 解析query参数  search
+    let href = arguments[2];
     if (arguments[2] && arguments[2].indexOf("#") > -1) {
+      href = href.substring(1)
+      routerType = HASH
       hash = arguments[2];
       // console.warn("hash route is not suggested!");
       // return;
     }
-    // TODO 解析query参数  search
-    let href = arguments[2];
+    
     let [pathname, search] = href.split("?");
-    locationCenter.set(name, { pathname, href, search, hash });
+    locationCenter.set(name, { pathname, href, search, hash, routerType });
   }
   function pushPatch() {
     // @ts-ignore
