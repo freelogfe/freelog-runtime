@@ -137,10 +137,8 @@ export default function (props: ItemProps) {
         tabs={tabs}
         initialPage={0}
         onChange={(tab, index) => {
-          console.log("onChange", index, tab);
         }}
         onTabClick={(tab, index) => {
-          console.log("onTabClick", index, tab);
         }}
       >
         <div className="px-15">

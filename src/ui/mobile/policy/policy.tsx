@@ -32,7 +32,6 @@ export default function (props: ItemProps) {
   const [visible, setVisible] = useState(false);
   function callback(key: any) {}
   function onChange(e: any) {
-    console.log(e);
     props.policySelect(props.policy.policyId, e.target.checked);
   }
   async function confirm(id: any) {
@@ -109,10 +108,8 @@ export default function (props: ItemProps) {
           tabs={tabs}
           initialPage={0}
           onChange={(tab, index) => {
-            console.log("onChange", index, tab);
           }}
           onTabClick={(tab, index) => {
-            console.log("onTabClick", index, tab);
           }}
         >
           <div className="px-15">

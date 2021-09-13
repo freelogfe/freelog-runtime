@@ -138,6 +138,5 @@ export function getPolicyMaps(policy: any): any {
   policyPyramid.forEach((item: any) => {
     maxWidth = item.length > maxWidth ? item.length : maxWidth;
   });
-  console.log(policyPyramid);
   return { policyMaps, policyPyramid: { policyPyramid, maxWidth } };
 }

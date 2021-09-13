@@ -81,7 +81,6 @@ export default function (props: PayProps) {
       }, 2000);
       return;
     }
-    console.log(payResult);
     setTipType(2);
     // Toast.success(payResult.data.msg, 2);
     // TODO 查交易状态, flag应该设为状态，在关闭弹窗时清除
@@ -92,7 +91,6 @@ export default function (props: PayProps) {
         ""
       );
       const status = res.data.data.status;
-      console.log(res);
       if ([2, 3, 4].includes(status)) {
         setInputVisible(false);
         setLoading(false);
@@ -205,7 +203,6 @@ export default function (props: PayProps) {
                   ref={inputs[index]}
                   value={passwords[index]}
                   onChange={(e: any) => {
-                    // console.log(e)
                   }}
                   onClick={(e: any) => {
                     // @ts-ignore

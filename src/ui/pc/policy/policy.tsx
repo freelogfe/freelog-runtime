@@ -22,7 +22,6 @@ export default function (props: ItemProps) {
   const [visible, setVisible] = useState(false);
   function callback(key: any) {}
   function onChange(e: any) {
-    console.log(e)
     props.policySelect(props.policy.policyId, e.target.checked);
   }
   async function confirm(e: any) {

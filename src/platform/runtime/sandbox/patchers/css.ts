@@ -114,7 +114,6 @@ export class ScopedCSS {
     let { cssText } = rule;
     // url("/
     cssText = cssText.replace(/url\(\"\//ig,'url("' +  widgetsConfig.get(this.appName).entry + '/');
-    console.log(cssText, widgetsConfig.get(this.appName).entry)
     return cssText;
   }
   // handle case:

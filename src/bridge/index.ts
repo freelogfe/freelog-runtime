@@ -176,7 +176,6 @@ export function endEvent(eventId: string, type: number, data: any) {
         }) 
         presentableQueue.clear();
         removeEvent();
-        console.log(presentableQueue)
         break;
     }
   // }

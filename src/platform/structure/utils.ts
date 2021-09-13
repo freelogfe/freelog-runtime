@@ -221,14 +221,10 @@ export async function updateUserData(data: any) {
   const name = this.name
   let config = widgetsConfig.get(name);
   let widgetId = btoa(encodeURI(config.resourceName))
-  console.log(widgetId)
   if(name === FREELOG_DEV){
     widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME
   }
   const nodeId = window.freelogApp.nodeInfo.nodeId
-  console.log(widgetId, {
-    [widgetId]: data
-  })
   // TODO 用户如果两台设备更新数据，可以做一个保存请求的数据对比最新的数据，如果不同，提示给插件（或者传递参数强制更新）
   const res = await frequest(node.putUserData, [nodeId], {
     appendOrReplaceObject: {
@@ -247,7 +243,6 @@ export async function getUserData() {
     widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME
   }
   const nodeId = window.freelogApp.nodeInfo.nodeId
-  console.log(name, sandBoxs.get(name))
   const res = await frequest(node.getUserData, [nodeId], "");
   const userData = res.data[widgetId] || {}
   return userData;

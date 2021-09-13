@@ -17,7 +17,6 @@ if (isMobile()) {
   document.querySelector("meta[name=viewport]").content =
     "width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no";
 }
-console.log('1234234234234234234234')
 // @ts-ignore
 document.getElementById(window.rootId).style.display = 'block';
 window.isTest = false;
@@ -30,10 +29,6 @@ if (
   window.isTest = true;
 }
 document.domain = "testfreelog.com"
-// @ts-ignore
-console.log(window.__REACT_ERROR_OVERLAY_GLOBAL_HOOK__)
-// @ts-ignore
-  console.log(window.parent.__REACT_ERROR_OVERLAY_GLOBAL_HOOK__)
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>
     <App />

@@ -56,7 +56,6 @@ export default function (props: PayProps) {
       transactionAmount: props.transactionAmount,
       password: password,
     });
-    console.log(payResult)
     if(payResult.data.errCode !== 0){
       Modal.error({
         title: '支付失败',
@@ -75,7 +74,6 @@ export default function (props: PayProps) {
     const flag = setInterval(async()=>{
       const res:any = await frequest(transaction.getRecord, [payResult.data.data.transactionRecordId],'');
       const status = res.data.data.status
-      console.log(res)
       if([2,3,4].includes(status)){
         props.paymentFinish(status)
         setLoading(false)

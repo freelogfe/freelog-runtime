@@ -22,13 +22,11 @@ export default function (props: loginProps) {
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   function onValuesChange(changedValues:any,allValues:any){
-    console.log(changedValues, allValues)
     setDisabled(!allValues.loginName || !allValues.password)
   }
   
   const onFinish = async () => {
     setLoading(true)
-    console.log(form.getFieldsValue())
     const values: any = form.getFieldsValue()
     // loginName: "string",
     //   password: "string",
@@ -54,7 +52,6 @@ export default function (props: loginProps) {
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
   };
 
   const handleOk = () => {

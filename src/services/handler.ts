@@ -44,7 +44,6 @@ export default function frequest(
   } else {
     api.data = data;
   }
-  console.log(data ,2222);
   // delete extra keys
   ["url", "before", "after"].forEach((item) => {
     delete api[item];
