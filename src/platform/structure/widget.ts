@@ -100,6 +100,7 @@ export function mountWidget(
       subDependId: sub.presentableId || "",
       resourceInfo: {
         resourceId: sub.id,
+        resourceName: sub.resourceName
       },
     };
   }
@@ -115,6 +116,7 @@ export function mountWidget(
     presentableId: data.presentableId,
     widgetName: !sub ? FREELOG_DEV : sub.name.replace('/','-'),
     parentNid: entry ? '' : data.entityNid,
+    resourceName:  entry ? FREELOG_DEV : data.resourceInfo.resourceName,
     subResourceIdOrName: entry ? '' :  data.resourceInfo.resourceId,
     resourceId: !sub ? FREELOG_DEV : data.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
     entry:
@@ -123,7 +125,6 @@ export function mountWidget(
     isDev: !!entry,
   };
   addWidgetConfig(id, widgetConfig);
-  console.log(widgetConfig)
   // TODO 所有插件加载用promise all
   // @ts-ignore
   const app = loadMicroApp(widgetConfig, {

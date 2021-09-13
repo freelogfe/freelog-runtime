@@ -54,6 +54,7 @@ export function initNode() {
       {
         presentableId: theme.data.presentableId,
         entityNid: "",
+        resourceName:  theme.data.resourceInfo.resourceName,
         subDependId: theme.data.presentableId,
         resourceInfo: { resourceId: theme.data.resourceInfo.resourceId },
         isTheme: true,

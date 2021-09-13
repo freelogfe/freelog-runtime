@@ -220,9 +220,10 @@ export async function updateUserData(data: any) {
   // @ts-ignore
   const name = this.name
   let config = widgetsConfig.get(name);
-  let widgetId = config.resourceId
+  let widgetId = btoa(encodeURI(config.resourceName))
+  console.log(widgetId)
   if(name === FREELOG_DEV){
-    widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCEID
+    widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME
   }
   const nodeId = window.freelogApp.nodeInfo.nodeId
   console.log(widgetId, {
@@ -241,9 +242,9 @@ export async function getUserData() {
   // @ts-ignore
   const name = this.name
   let config = widgetsConfig.get(name);
-  let widgetId = config.resourceId
+  let widgetId = btoa(encodeURI(config.resourceName))
   if(name === FREELOG_DEV){
-    widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCEID
+    widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME
   }
   const nodeId = window.freelogApp.nodeInfo.nodeId
   console.log(name, sandBoxs.get(name))

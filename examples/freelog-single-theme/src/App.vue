@@ -29,6 +29,7 @@ export default {
             presentableId: presentableId,
             entityNid: subData.entityNid,
             subDependId: sub.id,
+            resourceName:  theme.data.resourceInfo.name,
             resourceInfo: { resourceId: sub.id },
           },
           ""
