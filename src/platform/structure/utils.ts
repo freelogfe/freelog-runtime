@@ -6,9 +6,10 @@ import { widgetsConfig, sandBoxs } from "./widget";
 import frequest from "../../services/handler";
 import user from "../../services/api/modules/user";
 import node from "../../services/api/modules/node";
-
+import { FREELOG_DEV } from './widget'
 import { addAuth } from "../../bridge/index";
 import { forEach } from "lodash";
+import { SandBox } from '../runtime/interfaces';
 // todo 此文件的方法需要整理分离出freeelogApp下的和内部使用的
 export function getContainer(
   container: string | HTMLElement
@@ -200,28 +201,53 @@ export function setViewport(keys: any) {
   );
 }
 
-export async function createUserData(userNodeData: any) {
-  const nodeId = window.freelogApp.nodeInfo.nodeId
-  const res = await frequest(node.postUserData, "", {
-    nodeId,
-    userNodeData
-  });
-  return res;
-}
+/**
+ * 
+ * 
+ *  
+ */
+// export async function createUserData(userNodeData: any) {
+//   const nodeId = window.freelogApp.nodeInfo.nodeId
+//   const res = await frequest(node.postUserData, "", {
+//     nodeId,
+//     userNodeData
+//   });
+//   return res;
+// }
 
-export async function updateUserData(removeFields:any, appendOrReplaceObject: any) {
+export async function updateUserData(data: any) {
+  // TODO 必须验证格式正确
+  // @ts-ignore
+  const name = this.name
+  let config = widgetsConfig.get(name);
+  let widgetId = config.resourceId
+  if(name === FREELOG_DEV){
+    widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCEID
+  }
   const nodeId = window.freelogApp.nodeInfo.nodeId
+  console.log(widgetId, {
+    [widgetId]: data
+  })
+  // TODO 用户如果两台设备更新数据，可以做一个保存请求的数据对比最新的数据，如果不同，提示给插件（或者传递参数强制更新）
   const res = await frequest(node.putUserData, [nodeId], {
-    removeFields,
-    appendOrReplaceObject
+    appendOrReplaceObject: {
+      [widgetId]: data
+    }
   });
   return res;
 }
 
-export async function getUserData(fields:any) {
+export async function getUserData() {
+  // @ts-ignore
+  const name = this.name
+  let config = widgetsConfig.get(name);
+  let widgetId = config.resourceId
+  if(name === FREELOG_DEV){
+    widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCEID
+  }
   const nodeId = window.freelogApp.nodeInfo.nodeId
-  const res = await frequest(node.getUserData, [nodeId], {
-    fields
-  });
-  return res;
+  console.log(name, sandBoxs.get(name))
+  const res = await frequest(node.getUserData, [nodeId], "");
+  const userData = res.data[widgetId] || {}
+  return userData;
 }

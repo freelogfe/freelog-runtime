@@ -2,14 +2,15 @@ import React, {useEffect, useState} from "react";
 import styles from "./home.module.scss";
 export default function (props) {
   const [novels, setNovels] = useState([]);
-
+ 
   useEffect(async() => {
     console.log(props.history)
     const res = await window.freelogApp.getPresentables({ resourceType: 'novel'})
-    console.log(res)
+    const userData2 = await window.freelogApp.updateUserData({a: 1})
+    const userData = await window.freelogApp.getUserData()
+    console.log(userData)
     setNovels(res.data.data.dataList)
   }, []);
-
   return (
     <div className={styles.homePage + " flex-column w-100x h-100x over-h"}>
       <div className={styles.header + " fs-40 mb-30 fw-bold p-20 bs-normal"}>

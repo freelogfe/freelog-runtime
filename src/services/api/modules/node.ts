@@ -39,11 +39,8 @@ const node: Node = {
         url: `storages/buckets/.UserNodeData/objects/${placeHolder}`,
         method: 'PUT',
         dataModel: {
-            "removeFields": ["name", "meta"],
-            "appendOrReplaceObject": {
-                "total": "如果没有此属性,则新增",
-                "age": "如果存在此属性,则修改值"
-            }
+            removeFields:"",
+            appendOrReplaceObject:""
         }
     },
     // storages/buckets/.UserNodeData/objects/{objectIdOrNodeId}/customPick  GET

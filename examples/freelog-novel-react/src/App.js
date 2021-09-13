@@ -7,7 +7,7 @@ import "./App.scss";
   
 import Home from "./pages/Home";
 const Book = lazy(() => import("./pages/book/book"));
-
+window.FREELOG_RESOURCEID = '33323234234234sdf23'
 const RouteExample = () => {
   return (
     <Router basename={window.__POWERED_BY_FREELOG__ ? "/" : "/"}>

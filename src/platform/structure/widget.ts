@@ -21,7 +21,7 @@ import { setLocation } from "./proxy";
 import { DEV_TYPE_REPLACE, DEV_WIDGET } from "./dev";
 import { getSubDep, getEntry } from "./utils";
 import presentable from '../../services/api/modules/presentable';
-
+export const FREELOG_DEV = 'freelogDev'
 export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
 export const activeWidgets = new Map<any, any>();
@@ -103,7 +103,7 @@ export function mountWidget(
       },
     };
   }
-  let id = !sub ? "freelogDev" : "freelog-" + data.resourceInfo.resourceId;
+  let id = !sub ? FREELOG_DEV : "freelog-" + data.resourceInfo.resourceId;
   if (sub && flatternWidgets.has(sub.id)) {
     id = "freelog-" + sub.id + "-" + (count + 1);
   }
@@ -113,10 +113,10 @@ export function mountWidget(
     name: id, //id
     isTheme: data.isTheme,
     presentableId: data.presentableId,
-    widgetName: !sub ? "freelogDev" : sub.name.replace('/','-'),
+    widgetName: !sub ? FREELOG_DEV : sub.name.replace('/','-'),
     parentNid: entry ? '' : data.entityNid,
     subResourceIdOrName: entry ? '' :  data.resourceInfo.resourceId,
-    resourceId: !sub ? "freelogDev" : data.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
+    resourceId: !sub ? FREELOG_DEV : data.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
     entry:
       entry || getEntry({presentableId: data.presentableId, parentNid: data.entityNid, subResourceIdOrName: data.resourceInfo.resourceId }),
       // `${baseUrl}widgets/${sub.name.replace('/','-')}?entityNid=${data.entityNid}&presentableId=${data.presentableId}&subDependId=${data.subDependId}&resourceId=${data.resourceInfo.resourceId}`,
