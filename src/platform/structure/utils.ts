@@ -8,8 +8,7 @@ import user from "../../services/api/modules/user";
 import node from "../../services/api/modules/node";
 import { FREELOG_DEV } from './widget'
 import { addAuth } from "../../bridge/index";
-import { forEach } from "lodash";
-import { SandBox } from '../runtime/interfaces';
+
 // todo 此文件的方法需要整理分离出freeelogApp下的和内部使用的
 export function getContainer(
   container: string | HTMLElement

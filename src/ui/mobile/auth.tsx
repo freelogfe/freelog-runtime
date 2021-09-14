@@ -189,13 +189,7 @@ export default function (props: contractProps) {
     } else {
       setSelectedPolicies([]);
     }
-  }
-  function act() {
-    if (!getCurrentUser()) {
-      setModalType(1);
-      return;
-    }
-  }
+  } 
   const getAuth = async (id: any) => {
     const subjects: any = [];
     policies.forEach((item: any) => {
@@ -238,7 +232,7 @@ export default function (props: contractProps) {
       ) : modalType === 2 ? (
         <Register visible={modalType === 2} setModalType={setModalType}/>
       ) : modalType === 3 ? (
-        <Forgot visible={modalType === 3} setModalType={setModalType}/>
+        <Forgot type="login" visible={modalType === 3} setModalType={setModalType}/>
       ) : null}
       <Modal
         popup

@@ -34,10 +34,10 @@ export default function (props: loginProps) {
     values.isRemember = values.isRemember ? 1 : 0;
     const res = await frequest(user.login, "", values);
     if (res.data.errCode === 0) {
-      setLogging(false);
+      setTimeout(() => setLogging(false), 1000);
       props.loginFinished(SUCCESS, res.data.data);
     } else {
-      setLogging(false);
+      setTimeout(() => setLogging(false), 2000);
       Toast.fail(res.data.msg, 2);
     }
   };
@@ -51,6 +51,19 @@ export default function (props: loginProps) {
       className="w-100x h-100x"
       wrapClassName="user-login"
     >
+      <Modal
+        visible={logging}
+        transparent
+        maskClosable={false}
+        title=""
+        className="w-325 h-220 modal-tip"
+      >
+        <div className=" bg-white">
+          <Button loading className="loading">
+            登陆中
+          </Button>
+        </div>
+      </Modal>
       <div className="w-100x h-100x flex-column align-center">
         <div className="flex-1 w-100x flex-column align-center">
           <i className="iconfont  mt-50 mb-20 logo">&#xe614;</i>
@@ -84,7 +97,7 @@ export default function (props: loginProps) {
             >
               {logging ? "登陆中" : "登 录"}
             </Button>
-            <Button className="registry" onClick={() => props.setModalType(2)}>
+            <Button className="registry" onClick={() => {!logging &&  props.setModalType(2)}}>
               注 册
             </Button>
           </div>
@@ -95,7 +108,7 @@ export default function (props: loginProps) {
             type="ghost"
             inline
             size="small"
-            onClick={() => props.setModalType(3)}
+            onClick={() => { !logging && props.setModalType(3)}}
           >
             忘记密码
           </Button>

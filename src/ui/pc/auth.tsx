@@ -241,6 +241,8 @@ export default function (props: contractProps) {
       });
       setTimeout(() => {
         modal && modal.destroy();
+      }, 1500);
+      setTimeout(() => {
         props.updateEvents({ ...currentPresentable, contracts: res.data.data });
       }, 2000);
       

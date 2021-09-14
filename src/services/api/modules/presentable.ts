@@ -18,6 +18,13 @@ const presentable: Presentable = {
   getPresentableDetail: {
     url: `presentables/${placeHolder}`,
     method: "GET",
+    dataModel: {
+      projection:  "string",
+      isLoadVersionProperty: "string",
+      isLoadPolicyInfo: "string",
+      isLoadCustomPropertyDescriptors: "string",
+      isTranslate: "string"
+    }
   },
   getPagingPresentables: {
     url: "presentables",

@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
  
 
 import "./App.scss";

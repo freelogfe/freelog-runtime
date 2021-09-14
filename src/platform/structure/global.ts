@@ -23,7 +23,9 @@ import {
     getResourceInfoById,
     getResourceInfoByName,
     getSubResourceInfoById,
-    getSubResourceInfoByName
+    getSubResourceInfoByName,
+    getResourceInfoByVersion,
+    getPresentableDetailById
 } from './api'
 let devData = ''
 export const freelogApp = {
@@ -58,5 +60,7 @@ export const freelogApp = {
     getCurrentUser,
     setViewport, 
     updateUserData, 
-    getUserData
+    getUserData,
+    getResourceInfoByVersion,
+    getPresentableDetailById
 }

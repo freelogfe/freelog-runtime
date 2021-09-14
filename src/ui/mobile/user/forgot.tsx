@@ -1,20 +1,16 @@
 import user from "../../../services/api/modules/user";
 import frequest from "../../../services/handler";
-import {
-  checkPhone,
-  checkEmail,
-  checkPassword,
-  checkUsername,
-} from "../../../utils/utils";
-import { Tabs, Badge, Modal, Button, Toast } from "antd-mobile";
+import { checkPhone, checkEmail, checkPassword } from "../../../utils/utils";
+import { Modal, Button, Toast } from "antd-mobile";
 
 import { useState, useEffect } from "react";
 import "./forgot.scss";
-import Password from "antd/lib/input/Password";
-
+const LOGIN = "login";
+const PAY = "pay";
 interface loginProps {
   visible: boolean;
   setModalType: any;
+  type: "login" | "pay";
   children?: any;
 }
 export default function (props: loginProps) {
@@ -32,6 +28,7 @@ export default function (props: loginProps) {
   const [countDown, setCountDown] = useState(60);
   const [authCode, setAuthCode] = useState("");
   const [authCodeLoading, setAuthCodeLoading] = useState(false);
+  const [loginPassword, setLoginPassword] = useState("");
   // loginName: phone | email
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -120,7 +117,8 @@ export default function (props: loginProps) {
     setCountDown(60);
     const authCodeRes = await frequest(user.getAuthCode, "", {
       loginName: registerType === 1 ? phone : email,
-      authCodeType: "resetPassword",
+      authCodeType:
+        props.type === PAY ? "updateTransactionAccountPwd" : "resetPassword",
     });
     if (authCodeRes.data.errCode !== 0) {
       const obj: any = {};
@@ -154,21 +152,33 @@ export default function (props: loginProps) {
   }, [success]);
   const onFinish = async () => {
     setLoading(true);
-    const values: any = {
-      password,
-      authCode,
-    };
+
     //   username: "string",
     //   password: "string",
     //   isRemember: "string",
     //   returnUrl: "string",
     //   jwtType: "string",
+    let res;
+    if (props.type === LOGIN) {
+      const values: any = {
+        password,
+        authCode,
+      };
+      res = await frequest(
+        user.putResetPassword,
+        [registerType === 1 ? phone : email],
+        values
+      );
+    } else {
+      const values: any = {
+        password,
+        authCode,
+        loginPassword,
+        messageAddress: registerType === 1 ? phone : email,
+      };
+      res = await frequest(user.putResetPayPassword, "", values);
+    }
 
-    const res = await frequest(
-      user.postResetPassword,
-      [registerType === 1 ? phone : email],
-      values
-    );
     if (res.data.errCode === 0) {
       setSuccess(true);
       setLoading(false);
@@ -205,7 +215,7 @@ export default function (props: loginProps) {
       <div className="w-100x h-100x flex-column align-center y-auto">
         <div className="flex-1 w-100x flex-column align-center shrink-0">
           <div className="forgot-title  mt-30 mb-40 flex-row px-30 self-start">
-            重置密码
+            {props.type === LOGIN ? "重置登录密码" : "重置支付密码"}
           </div>
           <div className="forgot-type mb-20  flex-row px-30 self-start align-center">
             <input
@@ -305,7 +315,6 @@ export default function (props: loginProps) {
                   {authCodeLoading ? <span>{countDown}s</span> : "获取验证码"}
                 </Button>
               </div>
-               
             </div>
             {errorTip.authCode !== "" ? (
               <div className="error-tip self-start">{errorTip.authCode}</div>
@@ -348,35 +357,37 @@ export default function (props: loginProps) {
           </div>
         </div>
 
-        <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
-          <Button
-            type="ghost"
-            inline
-            size="small"
-            className="mr-12"
-            onClick={() => props.setModalType(1)}
-          >
-            返回登录页
-          </Button>
-          <Button
-            type="ghost"
-            inline
-            className="ml-12"
-            size="small"
-            onClick={() => props.setModalType(2)}
-          >
-            注册新账号
-          </Button>
-        </div>
+        {props.type === LOGIN ? (
+          <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
+            <Button
+              type="ghost"
+              inline
+              size="small"
+              className="mr-12"
+              onClick={() => props.setModalType(1)}
+            >
+              返回登录页
+            </Button>
+            <Button
+              type="ghost"
+              inline
+              className="ml-12"
+              size="small"
+              onClick={() => props.setModalType(2)}
+            >
+              注册新账号
+            </Button>
+          </div>
+        ) : null}
       </div>
       <Modal
         visible={loading}
         transparent
         maskClosable={false}
         title=""
-        className="w-325 h-220 forgot-tip"
+        className="w-325 h-220 modal-tip"
       >
-        <div className="paying bg-white">
+        <div className=" bg-white">
           <Button loading className="loading">
             重置中
           </Button>
@@ -393,20 +404,24 @@ export default function (props: loginProps) {
         <div className="w-100x h-100 flex-column justify-center">
           <div className="flex-column align-center ">
             <i className="iconfont ">&#xe62d;</i>
-            <span className=" success mb-60 mt-4">重置密码成功</span>
+            <span className=" success mb-60 mt-4">
+              {props.type === LOGIN ? "登录密码重置成功" : "支付密码重置成功"}
+            </span>
             <div className="flex-row justify-center align-center">
-              <span className="count-back">{count}s后返回登陆页；</span>
-              <Button
-                type="ghost"
-                inline
-                size="small"
-                onClick={() => {
-                  setSuccess(false);
-                  props.setModalType(1);
-                }}
-              >
-                立即登陆
-              </Button>
+              <span className="count-back">{count}{props.type === LOGIN ? count + 's后返回登陆页' : '正在返回支付订单页' + count + 's…'}</span>
+              {props.type === LOGIN ? (
+                <Button
+                  type="ghost"
+                  inline
+                  size="small"
+                  onClick={() => {
+                    setSuccess(false);
+                    props.setModalType(1);
+                  }}
+                >
+                  立即登陆
+                </Button>
+              ) : null}
             </div>
           </div>
         </div>

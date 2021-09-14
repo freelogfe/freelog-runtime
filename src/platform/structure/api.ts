@@ -65,8 +65,9 @@
  *          
  */
 import frequest from "../../services/handler";
-import presentable from "../../services/api/modules/presentable";
+import presentable from '../../services/api/modules/presentable';
 import node from "../../services/api/modules/node";
+import resource from "../../services/api/modules/resource";
 let isTest = false;
 if (
   window.location.href
@@ -454,14 +455,25 @@ export async function getSubFileStreamByName(
   );
 }
 
-// user data
-export async function getUserData() {
+export async function getResourceInfoByVersion(
+  resourceId: string,
+  version: string,
+  projection: string = ""
+) {
   // @ts-ignore
-  return frequest(node.getUserData, [nodeId], { fields: this.name });
+  return frequest(
+    resource.getResourceInfoByVersion,
+    [resourceId, version, projection],
+    ''
+  );
 }
-
-// user data
-export async function saveUserData() {
+export async function getPresentableDetailById(
+  presentableId: string, query: any
+) {
   // @ts-ignore
-  return frequest(node.putUserData, [nodeId], { fields: this.name });
+  return frequest(
+    presentable.getPresentableDetail,
+    [presentableId],
+    query
+  );
 }

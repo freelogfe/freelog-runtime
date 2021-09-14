@@ -355,9 +355,9 @@ export default function (props: loginProps) {
         transparent
         maskClosable={false}
         title=""
-        className="w-325 h-220 register-tip"
+        className="w-325 h-220 modal-tip"
       >
-        <div className="paying bg-white">
+        <div className=" bg-white">
           <Button loading className="loading">
             注册中
           </Button>

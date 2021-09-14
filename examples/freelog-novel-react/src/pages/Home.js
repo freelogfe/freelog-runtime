@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./home.module.scss";
 export default function (props) {
   const [novels, setNovels] = useState([]);
- 
-  useEffect(async() => {
+
+  useEffect(async () => {
     console.log(props.history)
-    const res = await window.freelogApp.getPresentables({ resourceType: 'novel'})
-    const userData2 = await window.freelogApp.updateUserData({a: 1})
+    const res = await window.freelogApp.getPresentables({ resourceType: 'novel' })
+    const userData2 = await window.freelogApp.updateUserData({ a: 1 })
     const userData = await window.freelogApp.getUserData()
-    console.log(userData)
     setNovels(res.data.data.dataList)
   }, []);
   return (
@@ -23,7 +22,7 @@ export default function (props) {
           return (
             <div
               key={index}
-              onClick={()=> { props.history.push("/book/" + item.presentableId)}}
+              onClick={() => { props.history.push("/book/" + item.presentableId) }}
 
               className={
                 (index % 2 === 0 ? "ml-25" : " mr-25") +

@@ -1,17 +1,17 @@
-
 import { placeHolder } from "../../base";
 
 export type User = {
   login: any;
   loginOut: any;
   getCurrent: any;
-  getAccount:any;
+  getAccount: any;
   getAuthCode: any;
-  postRegister:any;
-  postResetPassword: any;
+  postRegister: any;
+  putResetPassword: any;
+  putResetPayPassword: any;
 };
 
-const user:User = {
+const user: User = {
   login: {
     url: `passport/login`,
     method: "post",
@@ -34,11 +34,11 @@ const user:User = {
     url: `users/current`,
     method: "get",
   },
-  getAccount:{
+  getAccount: {
     url: `accounts/individualAccounts/${placeHolder}`,
     method: "get",
   },
-  postRegister:{
+  postRegister: {
     url: `users`,
     method: "post",
     dataModel: {
@@ -46,26 +46,34 @@ const user:User = {
       password: "string",
       username: "string",
       authCode: "string",
-    }
+    },
   },
-  getAuthCode:{
+  getAuthCode: {
     url: `messages/send`,
     method: "post",
     dataModel: {
       loginName: "string",
       authCodeType: "string",
-    }
+    },
   },
-  postResetPassword:{
+  putResetPassword: {
     url: `users/${placeHolder}/resetPassword`,
     method: "put",
     dataModel: {
       password: "string",
       authCode: "string",
-    }
-  }
+    },
+  },
+  putResetPayPassword: {
+    url: `accounts/individualAccounts/resetPassword`,
+    method: "put",
+    dataModel: {
+      loginPassword: "string",
+      password: "string",
+      authCode: "string",
+      messageAddress: "string",
+    },
+  },
 };
-
- 
 
 export default user;

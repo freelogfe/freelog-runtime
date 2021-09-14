@@ -93,22 +93,7 @@
 #mobile-root {
 
     .register-success,
-    .register-tip {
-        .am-modal-content {
-            padding: 0 !important;
-        }
-
-        .am-modal-body {
-            padding: 0 30px 0 30px !important;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .am-modal-header {
-            padding: 0 !important;
-        }
-    }
+   
 
     .register-success {
         i {
@@ -154,22 +139,6 @@
         }
     }
 
-    .register-tip {
-
-
-        .paying {
-            .loading {
-                border: none !important;
-                font-size: 20px;
-                font-family: PingFangSC-Regular, PingFang SC;
-                font-weight: 400;
-                color: #2784FF;
-
-                &::before {
-                    border: none !important;
-                }
-            }
-        }
-    }
+     
 
 }
