@@ -5,15 +5,15 @@ import { Modal, Button, Toast } from "antd-mobile";
 
 import { useState, useEffect } from "react";
 import "./forgot.scss";
-const LOGIN = "login";
-const PAY = "pay";
-interface loginProps {
+export const LOGIN_PASSWORD = "login";
+export const PAY_PASSWORD = "pay";
+interface ForgotProps {
   visible: boolean;
   setModalType: any;
   type: "login" | "pay";
   children?: any;
 }
-export default function (props: loginProps) {
+export default function (props: ForgotProps) {
   const [errorTip, setErrorTip] = useState<any>({
     phone: "",
     email: "",
@@ -21,6 +21,8 @@ export default function (props: loginProps) {
     password: "",
     password2: "",
   });
+  // 1 验证登录密码   2 验证码   3 password
+  const [step, setStep] = useState(1);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(3);
@@ -118,7 +120,7 @@ export default function (props: loginProps) {
     const authCodeRes = await frequest(user.getAuthCode, "", {
       loginName: registerType === 1 ? phone : email,
       authCodeType:
-        props.type === PAY ? "updateTransactionAccountPwd" : "resetPassword",
+        props.type === PAY_PASSWORD ? "updateTransactionAccountPwd" : "resetPassword",
     });
     if (authCodeRes.data.errCode !== 0) {
       const obj: any = {};
@@ -131,6 +133,13 @@ export default function (props: loginProps) {
       setAuthCodeLoading(false);
     }
   };
+  useEffect(() => {
+    if (props.type === LOGIN_PASSWORD) {
+      setStep(2)
+    }else{
+      setStep(1)
+    }
+  }, []);
   useEffect(() => {
     if (!success) {
       return;
@@ -159,7 +168,7 @@ export default function (props: loginProps) {
     //   returnUrl: "string",
     //   jwtType: "string",
     let res;
-    if (props.type === LOGIN) {
+    if (props.type === LOGIN_PASSWORD) {
       const values: any = {
         password,
         authCode,
@@ -212,138 +221,26 @@ export default function (props: loginProps) {
       className="w-100x h-100x"
       wrapClassName="user-forgot"
     >
-      <div className="w-100x h-100x flex-column align-center y-auto">
-        <div className="flex-1 w-100x flex-column align-center shrink-0">
-          <div className="forgot-title  mt-30 mb-40 flex-row px-30 self-start">
-            {props.type === LOGIN ? "重置登录密码" : "重置支付密码"}
-          </div>
-          <div className="forgot-type mb-20  flex-row px-30 self-start align-center">
-            <input
-              type="radio"
-              id="phone-type"
-              name="forgot-type"
-              className="mr-4"
-              checked={registerType === 1}
-              value="1"
-              onChange={(e) => {
-                phone && verify("phone", phone);
-                setRegisterType(parseInt(e.target.value));
-              }}
-            />{" "}
-            <label
-              htmlFor="phone-type"
-              className={registerType === 1 ? "selected mr-20" : " mr-20"}
-            >
-              手机号注册
-            </label>
-            <input
-              type="radio"
-              id="mail-type"
-              name="forgot-type"
-              className="mr-4"
-              checked={registerType === 2}
-              onChange={(e) => {
-                email && verify("email", email);
-                setRegisterType(parseInt(e.target.value));
-              }}
-              value="2"
-            />{" "}
-            <label
-              htmlFor="mail-type"
-              className={registerType === 2 ? "selected" : ""}
-            >
-              邮箱注册
-            </label>
-          </div>
-          <div className="forgot-container flex-column justify-center px-30">
-            {registerType === 1 ? (
-              <input
-                type="text"
-                value={phone}
-                className="w-100x  mb-5 mt-15"
-                placeholder={"手机号"}
-                onChange={(e) => {
-                  verify("phone", e.target.value);
-                  setPhone(e.target.value);
-                }}
-              />
-            ) : (
-              <input
-                type="text"
-                value={email}
-                className="w-100x  mb-5 mt-15"
-                placeholder={"邮箱地址"}
-                onChange={(e) => {
-                  verify("email", e.target.value);
-                  setEmail(e.target.value);
-                }}
-              />
-            )}
-            {errorTip[registerType === 1 ? "phone" : "email"] !== "" ? (
-              <div className="error-tip self-start">
-                {errorTip[registerType === 1 ? "phone" : "email"]}
-              </div>
-            ) : null}
-            <div className="flex-row mb-5 mt-15">
-              <div className="pr-10 flex-1 auth-code">
-                <input
-                  type="text"
-                  value={authCode}
-                  className="w-100x"
-                  placeholder="验证码"
-                  onChange={(e) => {
-                    verify("authCode", e.target.value);
-                    setAuthCode(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="shrink-0 fs-16  w-100">
-                <Button
-                  loading={loading}
-                  type="primary"
-                  className="fs-16"
-                  disabled={
-                    authCodeLoading ||
-                    (registerType === 1
-                      ? !phone || errorTip.phone
-                      : !email || errorTip.email)
-                  }
-                  onClick={() => {
-                    getAuthCode();
-                  }}
-                >
-                  {authCodeLoading ? <span>{countDown}s</span> : "获取验证码"}
-                </Button>
-              </div>
+      {step === 1 ? (
+        <div className="w-100x h-100x flex-column align-center y-auto">
+          <div className="mt-40 mb-40 flex-column px-30 self-start">
+            <div className="forgot-title self-start">登录密码验证</div>
+            <div className="forgot-tip self-start text-align-left mt-10">
+              设置新的支付密码前，首先需要进行登陆密码的验证
             </div>
-            {errorTip.authCode !== "" ? (
-              <div className="error-tip self-start">{errorTip.authCode}</div>
-            ) : null}
+          </div>
+          <div className="forgot-container flex-column justify-center px-30 mt-118">
             <input
               type="password"
-              value={password}
-              className="w-100x  mt-15 mb-5"
+              value={loginPassword}
+              className="w-100x   mb-5 common-input"
               placeholder="输入新密码"
               onChange={(e) => {
-                verify("password", e.target.value);
-                setPassword(e.target.value);
+                setLoginPassword(e.target.value);
               }}
             />
             {errorTip.password !== "" ? (
               <div className="error-tip  self-start">{errorTip.password}</div>
-            ) : null}
-            <input
-              type="password"
-              value={password2}
-              className="w-100x  mt-15 mb-5"
-              placeholder="再次输入新密码"
-              onChange={(e) => {
-                verify("password2", e.target.value);
-                setPassword2(e.target.value);
-              }}
-            />
-            {errorTip.password2 !== "" ? (
-              <div className="error-tip  self-start">{errorTip.password2}</div>
             ) : null}
             <Button
               loading={loading}
@@ -356,30 +253,214 @@ export default function (props: loginProps) {
             </Button>
           </div>
         </div>
-
-        {props.type === LOGIN ? (
-          <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
-            <Button
-              type="ghost"
-              inline
-              size="small"
-              className="mr-12"
-              onClick={() => props.setModalType(1)}
-            >
-              返回登录页
-            </Button>
-            <Button
-              type="ghost"
-              inline
-              className="ml-12"
-              size="small"
-              onClick={() => props.setModalType(2)}
-            >
-              注册新账号
-            </Button>
+      ) : step === 2 ? (
+        <div className="w-100x h-100x flex-column align-center y-auto">
+          <div className="flex-1 w-100x flex-column align-center shrink-0">
+            <div className="forgot-title  mt-40 mb-87 flex-column px-30 self-start">
+              <div className="forgot-title self-start">
+                {props.type === LOGIN_PASSWORD ? "身份验证" : "身份验证"}
+              </div>
+              <div className="forgot-tip self-start text-align-left mt-10">
+                {props.type === LOGIN_PASSWORD
+                  ? "为了您的登录安全，需要验证手机或邮箱，验证成功后即可设置新的登录密码"
+                  : "为了您的支付安全，请进行双重验证，验证成功后即可设置新的支付密码"}
+              </div>
+            </div>
+            <div className="forgot-type mb-20  flex-row px-30 self-start align-center">
+              <input
+                type="radio"
+                id="phone-type"
+                name="forgot-type"
+                className="mr-4 common-input"
+                checked={registerType === 1}
+                value="1"
+                onChange={(e) => {
+                  phone && verify("phone", phone);
+                  setRegisterType(parseInt(e.target.value));
+                }}
+              />{" "}
+              <label
+                htmlFor="phone-type"
+                className={registerType === 1 ? "selected mr-20" : " mr-20"}
+              >
+                手机号注册
+              </label>
+              <input
+                type="radio"
+                id="mail-type"
+                name="forgot-type"
+                className="mr-4 common-input"
+                checked={registerType === 2}
+                onChange={(e) => {
+                  email && verify("email", email);
+                  setRegisterType(parseInt(e.target.value));
+                }}
+                value="2"
+              />{" "}
+              <label
+                htmlFor="mail-type"
+                className={registerType === 2 ? "selected" : ""}
+              >
+                邮箱注册
+              </label>
+            </div>
+            <div className="forgot-container flex-column justify-center px-30">
+              {registerType === 1 ? (
+                <input
+                  type="text"
+                  value={phone}
+                  className="w-100x  mb-5 mt-15 common-input"
+                  placeholder={"手机号"}
+                  onChange={(e) => {
+                    verify("phone", e.target.value);
+                    setPhone(e.target.value);
+                  }}
+                />
+              ) : (
+                <input
+                  type="text"
+                  value={email}
+                  className="w-100x  mb-5 mt-15 common-input"
+                  placeholder={"邮箱地址"}
+                  onChange={(e) => {
+                    verify("email", e.target.value);
+                    setEmail(e.target.value);
+                  }}
+                />
+              )}
+              {errorTip[registerType === 1 ? "phone" : "email"] !== "" ? (
+                <div className="error-tip self-start">
+                  {errorTip[registerType === 1 ? "phone" : "email"]}
+                </div>
+              ) : null}
+              <div className="flex-row mb-5 mt-15">
+                <div className="pr-10 flex-1 auth-code">
+                  <input
+                    type="text"
+                    value={authCode}
+                    className="w-100x common-input"
+                    placeholder="验证码"
+                    onChange={(e) => {
+                      verify("authCode", e.target.value);
+                      setAuthCode(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="shrink-0 fs-16  w-100">
+                  <Button
+                    loading={loading}
+                    type="primary"
+                    className="fs-16"
+                    disabled={
+                      authCodeLoading ||
+                      (registerType === 1
+                        ? !phone || errorTip.phone
+                        : !email || errorTip.email)
+                    }
+                    onClick={() => {
+                      getAuthCode();
+                    }}
+                  >
+                    {authCodeLoading ? <span>{countDown}s</span> : "获取验证码"}
+                  </Button>
+                </div>
+              </div>
+              {errorTip.authCode !== "" ? (
+                <div className="error-tip self-start">{errorTip.authCode}</div>
+              ) : null}
+              <Button
+                loading={loading}
+                type="primary"
+                className="mt-15"
+                onClick={onFinish}
+                disabled={!available}
+              >
+                {loading ? "验证中" : "下一步"}
+              </Button>
+            </div>
           </div>
-        ) : null}
-      </div>
+        </div>
+      ) : step === 3 ? (
+        <div className="w-100x h-100x flex-column align-center y-auto">
+          <div className="flex-1 w-100x flex-column align-center shrink-0">
+            <div className="forgot-title  mt-40  mb-87 flex-column px-30 self-start">
+              <div className="forgot-title self-start">
+                {props.type === LOGIN_PASSWORD ? "重置登录密码" : "重置支付密码"}
+              </div>
+              <div className="forgot-tip self-start text-align-left mt-10">
+                {props.type === LOGIN_PASSWORD
+                  ? "现在您可以设置新的登录密码"
+                  : "现在您可以设置新的支付密码，重置成功后即可进行支付服务"}
+              </div>
+            </div>
+            <div className="forgot-container flex-column justify-center px-30">
+              {errorTip.authCode !== "" ? (
+                <div className="error-tip self-start">{errorTip.authCode}</div>
+              ) : null}
+              <input
+                type="password"
+                value={password}
+                className="w-100x  mt-15 mb-5 common-input"
+                placeholder="输入新密码"
+                onChange={(e) => {
+                  verify("password", e.target.value);
+                  setPassword(e.target.value);
+                }}
+              />
+              {errorTip.password !== "" ? (
+                <div className="error-tip  self-start">{errorTip.password}</div>
+              ) : null}
+              <input
+                type="password"
+                value={password2}
+                className="w-100x  mt-15 mb-5 common-input"
+                placeholder="再次输入新密码"
+                onChange={(e) => {
+                  verify("password2", e.target.value);
+                  setPassword2(e.target.value);
+                }}
+              />
+              {errorTip.password2 !== "" ? (
+                <div className="error-tip  self-start">
+                  {errorTip.password2}
+                </div>
+              ) : null}
+              <Button
+                loading={loading}
+                type="primary"
+                className="mt-15"
+                onClick={onFinish}
+                disabled={!available}
+              >
+                {loading ?  (props.type === LOGIN_PASSWORD ? "重置登录密码中..." : "重置支付密码中...") : (props.type === LOGIN_PASSWORD ? "重置登录密码" : "重置支付密码")}
+              </Button>
+            </div>
+          </div>
+
+          {props.type === LOGIN_PASSWORD ? (
+            <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
+              <Button
+                type="ghost"
+                inline
+                size="small"
+                className="mr-12"
+                onClick={() => props.setModalType(1)}
+              >
+                返回登录页
+              </Button>
+              <Button
+                type="ghost"
+                inline
+                className="ml-12"
+                size="small"
+                onClick={() => props.setModalType(2)}
+              >
+                注册新账号
+              </Button>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
       <Modal
         visible={loading}
         transparent
@@ -405,11 +486,16 @@ export default function (props: loginProps) {
           <div className="flex-column align-center ">
             <i className="iconfont ">&#xe62d;</i>
             <span className=" success mb-60 mt-4">
-              {props.type === LOGIN ? "登录密码重置成功" : "支付密码重置成功"}
+              {props.type === LOGIN_PASSWORD ? "登录密码重置成功" : "支付密码重置成功"}
             </span>
             <div className="flex-row justify-center align-center">
-              <span className="count-back">{count}{props.type === LOGIN ? count + 's后返回登陆页' : '正在返回支付订单页' + count + 's…'}</span>
-              {props.type === LOGIN ? (
+              <span className="count-back">
+                {count}
+                {props.type === LOGIN_PASSWORD
+                  ? count + "s后返回登陆页"
+                  : "正在返回支付订单页" + count + "s…"}
+              </span>
+              {props.type === LOGIN_PASSWORD ? (
                 <Button
                   type="ghost"
                   inline

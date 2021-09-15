@@ -4,20 +4,20 @@ import { LOGIN } from "../../bridge/event";
 import "../../assets/mobile/index.scss";
 import "./auth.scss";
 import Login from "./user/login";
-import Forgot from "./user/forgot";
+import Forgot, {LOGIN_PASSWORD, PAY_PASSWORD} from "./user/forgot";
+
 import Register from "./user/register";
 
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
 import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
-import Confirm from "./_components/confirm";
 import { setUserInfo } from "../../platform/structure/utils";
 import { loginCallback } from "../../platform/structure/event";
 import contract from "../../services/api/modules/contract";
 import { getCurrentUser } from "../../platform/structure/utils";
 import getBestTopology from "./topology/data";
-import { Modal, Button, WhiteSpace, WingBlank, Toast } from "antd-mobile";
+import { Modal, Toast } from "antd-mobile";
 const alert = Modal.alert;
 
 interface contractProps {
@@ -54,7 +54,7 @@ export default function (props: contractProps) {
    *             
    */
   const [isListVisible, setIsListVisible] = useState(false);
-  // 1 登陆  2 注册   3 忘记密码
+  // 1 登陆  2 注册   3 忘记登录密码  4 忘记支付密码
   const [modalType, setModalType] = useState(0);
 
   const [contracts, setContracts] = useState([]);
@@ -90,7 +90,7 @@ export default function (props: contractProps) {
 
     props.loginFinished();
   }
-  function showPolicy() {}
+ 
   async function getDetail(id?: string) {
     setSelectedPolicies([]);
     // userInfo 如果不存在就是未登录
@@ -232,7 +232,9 @@ export default function (props: contractProps) {
       ) : modalType === 2 ? (
         <Register visible={modalType === 2} setModalType={setModalType}/>
       ) : modalType === 3 ? (
-        <Forgot type="login" visible={modalType === 3} setModalType={setModalType}/>
+        <Forgot type={LOGIN_PASSWORD} visible={modalType === 3} setModalType={setModalType}/>
+      ) : modalType === 4 ? (
+        <Forgot type={PAY_PASSWORD} visible={modalType === 4} setModalType={setModalType}/>
       ) : null}
       <Modal
         popup
@@ -369,6 +371,7 @@ export default function (props: contractProps) {
                   policy={contract.policyInfo}
                   contract={contract}
                   paymentFinish={paymentFinish}
+                  setModalType={setModalType}
                   key={index}
                 ></Contract>
               );

@@ -74,6 +74,7 @@ export default function (props: loginProps) {
           <div className="login-container flex-column justify-center">
             <input
               type="text"
+              className="w-100x common-input  mb-15"
               value={loginName}
               placeholder="用户名/手机号/邮箱"
               onChange={(e) => {
@@ -82,6 +83,7 @@ export default function (props: loginProps) {
             />
             <input
               type="password"
+              className="w-100x common-input mb-15"
               value={password}
               placeholder="密码"
               onChange={(e) => {

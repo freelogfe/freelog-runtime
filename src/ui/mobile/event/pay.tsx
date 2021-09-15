@@ -17,6 +17,7 @@ interface PayProps {
   receiver: string;
   contractName: string;
   transactionAmount?: number;
+  setModalType: any;
   eventId: any;
   paymentFinish: any;
 }
@@ -37,9 +38,7 @@ export default function (props: PayProps) {
   const input5 = useRef(null);
   const input0 = useRef(null);
   const inputs = [input0, input1, input2, input3, input4, input5];
-  const handleOk = () => {
-    props.setIsModalVisible(false);
-  };
+  
   useEffect(() => {
     if (inputVisible) {
       // @ts-ignore
@@ -243,7 +242,9 @@ export default function (props: PayProps) {
               );
             })}
           </div>
-          <div className="flex-row space-around password-forget pb-30">
+          <div className="flex-row space-around password-forget pb-30" onClick={()=>{
+             props.setModalType(4)
+          }}>
             忘记密码
           </div>
         </Modal>

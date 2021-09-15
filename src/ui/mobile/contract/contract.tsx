@@ -16,6 +16,7 @@ interface ItemProps {
   contract: any;
   children?: any;
   paymentFinish: any;
+  setModalType: any;
   [propName: string]: any;
 }
 const tabs = [
@@ -108,6 +109,7 @@ export default function (props: ItemProps) {
         <Pay
           contractId={props.contract.contractId}
           subjectName={props.contract.subjectName}
+          setModalType={props.setModalType}
           contractName={props.contract.contractName}
           paymentFinish={paymentFinish}
           // @ts-ignore

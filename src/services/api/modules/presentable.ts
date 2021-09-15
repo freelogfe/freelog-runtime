@@ -23,7 +23,9 @@ const presentable: Presentable = {
       isLoadVersionProperty: "string",
       isLoadPolicyInfo: "string",
       isLoadCustomPropertyDescriptors: "string",
-      isTranslate: "string"
+      isTranslate: "string",
+      isLoadResourceDetailInfo: "string",
+      isLoadResourceVersionInfo: "string"
     }
   },
   getPagingPresentables: {

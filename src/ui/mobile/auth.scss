@@ -15,7 +15,14 @@
 
 
   }
-
+  .common-input {
+    padding: 2px 10px;
+    height: 48px;
+    box-sizing: border-box;
+    background: #ffffff;
+    border-radius: 4px;
+    border: 1px solid #d4d4d4;
+  }
   .modal-tip {
     .am-modal-content {
       padding: 0 !important;

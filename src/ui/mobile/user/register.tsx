@@ -239,7 +239,7 @@ export default function (props: loginProps) {
           <div className="register-container flex-column justify-center px-30">
             <input
               type="text"
-              className="w-100x mb-5"
+              className="w-100x mb-5 common-input"
               value={username}
               placeholder="用户名"
               onChange={(e) => {
@@ -254,7 +254,7 @@ export default function (props: loginProps) {
               <input
                 type="text"
                 value={phone}
-                className="w-100x  mb-5 mt-15"
+                className="w-100x  mb-5 mt-15 common-input"
                 placeholder={"手机号"}
                 onChange={(e) => {
                   verify("phone", e.target.value);
@@ -265,7 +265,7 @@ export default function (props: loginProps) {
               <input
                 type="text"
                 value={email}
-                className="w-100x  mb-5 mt-15"
+                className="w-100x  mb-5 mt-15 common-input"
                 placeholder={"邮箱地址"}
                 onChange={(e) => {
                   verify("email", e.target.value);
@@ -283,7 +283,7 @@ export default function (props: loginProps) {
                 <input
                   type="text"
                   value={authCode}
-                  className=""
+                  className="common-input"
                   placeholder="验证码"
                   onChange={(e) => {
                     verify("authCode", e.target.value);
@@ -316,7 +316,7 @@ export default function (props: loginProps) {
             <input
               type="password"
               value={password}
-              className="w-100x  mt-15 mb-5"
+              className="w-100x  mt-15 mb-5 common-input"
               placeholder="密码"
               onChange={(e) => {
                 verify("password", e.target.value);
