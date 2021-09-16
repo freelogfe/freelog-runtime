@@ -13,4 +13,4 @@ deploy:
   target-branch: gh-pages # 集成发布到gh-pages上
   keep_history: true
   on:
-    branch: master
+    branch: master 
