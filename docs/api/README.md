@@ -10,10 +10,16 @@
 
 ```ts
 
+  
+```
+```ts
+ **用法**
+  const path = await window.freelogApp.getStaticPath(path);
+
   **参数说明**
-  (
-    path: 以/开头的正常路径
-  )
+    (
+      path: 以/开头的正常路径
+    )
 ```
 
 ## mountWidget
@@ -23,19 +29,19 @@
 ```ts
 
   **参数说明**
-  (
-    sub: 自身依赖中的subDeps中一员,
-    container: 所需要将此插件挂载到哪个div下面,
-    data: { // 自身数据，以便查找到对应资源，后续后端支持解压访问后会大改
-      //@ts-ignore
-      presentableId: presentableId,
-      entityNid: subData.entityNid,
-      subDependId: sub.id,
-      resourceInfo: { resourceId: sub.id },
-    },
-    entry?: string,
-    config?: any
-  )
+    (
+      sub: 自身依赖中的subDeps中一员,
+      container: 所需要将此插件挂载到哪个div下面,
+      data: { // 自身数据，以便查找到对应资源，后续后端支持解压访问后会大改
+        //@ts-ignore
+        presentableId: presentableId,
+        entityNid: subData.entityNid,
+        subDependId: sub.id,
+        resourceInfo: { resourceId: sub.id },
+      },
+      entry?: string,
+      config?: any
+    )
 ```
 
 ```ts
@@ -66,32 +72,23 @@ subData.subDeps.some((sub, index) => {
 ```ts
 
   **参数说明**
-  query:{
-    skip: "string", // 从第几个开始
-    limit: "string", // 取多少个
-    resourceType: "string", // 资源类型
-    omitResourceType: "string", // 过滤资源类型
-    tags: "string", // 展品和资源标签，多个使用","隔开
-    projection: "string",
-    keywords: "string",
-    isLoadVersionProperty: "string", // 是否加载版本
-  }
+    query:{
+      skip: "string", // 从第几个开始
+      limit: "string", // 取多少个
+      resourceType: "string", // 资源类型
+      omitResourceType: "string", // 过滤资源类型
+      tags: "string", // 展品和资源标签，多个使用","隔开
+      projection: "string",
+      keywords: "string",
+      isLoadVersionProperty: "string", // 是否加载版本
+    }
 ```
 
 ```ts
-   window.freelogApp.getPresentablesPaging(query).then((res)=>{
+   **用法**
+   const res = await window.freelogApp.getPresentablesPaging(query).then((res)=>{
 
    })
-   query:{
-    skip: "string", // 从第几个开始
-    limit: "string", // 取多少个
-    resourceType: "string", // 资源类型
-    omitResourceType: "string", // 过滤资源类型
-    tags: "string", // 展品和资源标签，多个使用","隔开
-    projection: "string",
-    keywords: "string",
-    isLoadVersionProperty: "string", // 是否加载版本
-  }
 ```
 
 ## getPresentablesSearch
@@ -100,23 +97,38 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
   **参数说明**
-
-  query:{
-    presentableIds: "string", // 展品ids 多个使用","隔开
-    resourceIds: "string", // 资源ids
-    resourceNames: "string", // 资源名称s
-  }
+    query:{
+      presentableIds: "string", // 展品ids 多个使用","隔开
+      resourceIds: "string", // 资源ids
+      resourceNames: "string", // 资源名称s
+    }
 ```
 
 ```ts
- window.freelogApp.getPresentablesSearch(query).then((res)=>{
+ **用法**
+
+ const res = await window.freelogApp.getPresentablesSearch(query).then((res)=>{
+ })
+```
+## getPresentableDetailById
+
+**用途：获取展品详情**
+ ```ts
+  **参数说明**
+    query:{
+        projection:  "string", // 需要指定哪些字段
+        isLoadVersionProperty: 0 | 1, // 是否需要展品版本属性
+        isLoadCustomPropertyDescriptors: 0 | 1, // 是否加载自定义属性信息
+        isLoadResourceDetailInfo: 0 | 1, // 是否加载资源详细信息(额外查询了资源的封面,标签,简介等)
+        isLoadResourceVersionInfo: 0 | 1, // 	是否加载资源版本信息(额外查询了资源版本的描述,创建日期,更新日期等)
+    }
+```
+
+```ts
+ **用法**
+ const res = await window.freelogApp.getPresentableDetailById(query).then((res)=>{
 
  })
-  query:{
-    presentableIds: "string", // 展品ids 多个使用","隔开
-    resourceIds: "string", // 资源ids
-    resourceNames: "string", // 资源名称s
-  }
 ```
 
 ## getInfoById
@@ -124,10 +136,9 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品信息**
 
 ```ts
-  window.freelogApp.getInfoById(presentableId)
+  const res = await window.freelogApp.getInfoById(presentableId)
 
   **参数说明**
-
     presentableIds: "string", // 展品id
 
 ```
@@ -137,7 +148,7 @@ subData.subDeps.some((sub, index) => {
 **用途：根据资源 id 或名称查找展品信息**
 
 ```ts
-  window.freelogApp.getInfoByName(resourceIdOrName)
+  const res = await window.freelogApp.getInfoByName(resourceIdOrName)
 
   **参数说明**
 
@@ -163,7 +174,7 @@ subData.subDeps.some((sub, index) => {
 **用途：根据资源 id 或名称查找展品标准授权响应结果**
 
 ```ts
-  window.freelogApp.getResultByName(resourceIdOrName)
+  const res = await window.freelogApp.getResultByName(resourceIdOrName)
 
   **参数说明**
 
@@ -176,7 +187,7 @@ subData.subDeps.some((sub, index) => {
 **用途：获取展品资源文件**
 
 ```ts
-  window.freelogApp.getFileStreamById(
+  const res = await window.freelogApp.getFileStreamById(
     presentableId: string | number,
     returnUrl?: boolean,
     config?: any
@@ -195,7 +206,7 @@ subData.subDeps.some((sub, index) => {
 **用途：根据资源 id 或名称获取展品资源文件**
 
 ```ts
-  window.freelogApp.getFileStreamByName(
+  const res = await window.freelogApp.getFileStreamByName(
     resourceIdOrName, 
     returnUrl, 
     config
@@ -214,7 +225,7 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品子依赖资源信息**
 
 ```ts
-  window.freelogApp.getSubInfoById(
+  const res = await window.freelogApp.getSubInfoById(
       presentableId: string | number,
       parentNid: string,
       subResourceIdOrName: string
@@ -233,7 +244,7 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品子依赖资源信息**
 
 ```ts
-  window.freelogApp.getSubInfoByName(
+  const res = await window.freelogApp.getSubInfoByName(
       resourceIdOrName: string | number,
       parentNid: string,
       subResourceIdOrName: string
@@ -252,7 +263,7 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品子依赖标准授权响应结果**
 
 ```ts
-  window.freelogApp.getSubResultById(
+  const res = await window.freelogApp.getSubResultById(
       presentableId: string,
       parentNid: string, 
       subResourceIdOrName: string
@@ -271,7 +282,7 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品子依赖标准授权响应结果**
 
 ```ts
-  window.freelogApp.getSubResultByName(
+  const res = await window.freelogApp.getSubResultByName(
       resourceIdOrName: string | number,
       parentNid: string,
       subResourceIdOrName: string)
@@ -289,7 +300,7 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品子依赖资源文件**
 
 ```ts
-  window.freelogApp.getSubFileStreamById(
+  const res = await window.freelogApp.getSubFileStreamById(
     presentableId: string ,
     parentNid: string,
     subResourceIdOrName: string,
@@ -312,7 +323,7 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品信息**
 
 ```ts
-  window.freelogApp.getSubFileStreamByName(
+  const res = await window.freelogApp.getSubFileStreamByName(
     resourceIdOrName: string | number,
     parentNid: string,
     subResourceIdOrName: string,
@@ -335,7 +346,7 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品资源信息**
 
 ```ts
-  window.freelogApp.getResourceInfoById(presentableId)
+  const res = await window.freelogApp.getResourceInfoById(presentableId)
 
   **参数说明**
 
@@ -348,7 +359,7 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品资源信息**
 
 ```ts
-  window.freelogApp.getResourceInfoByName(resourceIdOrName)
+  const res = await window.freelogApp.getResourceInfoByName(resourceIdOrName)
 
   **参数说明**
 
@@ -361,7 +372,7 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品的子资源信息**
 
 ```ts
-  window.freelogApp.getInfoById(
+ const res = await window.freelogApp.getInfoById(
     presentableId: string | number, 
     parentNid: string, 
     subResourceIdOrName: string
@@ -380,7 +391,7 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品信息**
 
 ```ts
-  window.freelogApp.getInfoById(
+  const res = await window.freelogApp.getInfoById(
     resourceIdOrName: string | number,
     parentNid: string,
     subResourceIdOrName: string
@@ -397,6 +408,9 @@ subData.subDeps.some((sub, index) => {
 ## devData
 
 **普通对象非函数：获取当前 dev 数据（url 数据）**
+```ts
+ const data =  window.freelogApp.devData 
+```
 
 ## autoMoutSubWdigets
   
@@ -412,7 +426,7 @@ subData.subDeps.some((sub, index) => {
 ## getSelfId
 
 ```ts
- window.freelogApp.getSelfId() 
+ const selfId = await window.freelogApp.getSelfId() 
 
 ``` 
 
@@ -420,11 +434,11 @@ subData.subDeps.some((sub, index) => {
  
 ```ts
 
- **获取自身依赖***
+ **获取自身依赖**
  /**
   * {presentableId: 自身展品id}
  */
- window.freelogApp.getSubDep(presentableId) 
+ const res = await window.freelogApp.getSubDep(presentableId) 
 
  **返回值**
   {
@@ -449,16 +463,55 @@ window.freelogApp.callAuth()
 **用途：对未授权展品添加授权**
 
 ```ts
-window.freelogApp.addAuth() 
-/**
- * addAuth 参数
- * {
- *  presentableId: string,
+window.freelogApp.addAuth(data) 
+ 
+ **参数说明**
+   {
+    presentableId: string,
     resolve: Function,  // 授权成功回调
     reject: Function,  // 授权失败回调
     options?: {
     immediate: boolean  // 是否立即弹出授权窗口
     }
-* }
-*/
+  }
+ 
+```
+## onLogin
+
+**监听用户登录**
+
+```ts
+// callback 成功后回调， 后期可能要改resolve和reject
+window.freelogApp.onLogin(callback) 
+ 
+```
+## getCurrentUser
+
+**获取当前登录的用户信息**
+
+```ts
+
+ const loginUser = await window.freelogApp.getCurrentUser() 
+ 
+```
+
+## getUserData
+
+**获取当前登录的用户在当前插件保存的数据**
+
+```ts
+
+ const userData = await window.freelogApp.getUserData() 
+ 
+```
+## updateUserData
+
+**获取当前登录的用户在当前插件保存的数据**
+
+```ts
+
+ const userData = await window.freelogApp.updateUserData(data)
+ 
+ **参数说明**
+   data 为任意对象，后期改为键值对形式
 ```

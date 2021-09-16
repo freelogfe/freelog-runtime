@@ -1,3 +1,5 @@
+const { AutoComplete } = require("antd");
+
 module.exports = {
     title: 'freelog-docs',
     description: 'freelog 开发者文档',
@@ -12,14 +14,15 @@ module.exports = {
     themeConfig: {
         logo: '/logo.svg',
         sidebarDepth: 2,
-        sidebar: {
-            '/guide/': [
-                '', 
-            ],
-            '/api/': [
-                '', 
-            ]
-        }, 
+        sidebar: "auto",
+        //  {
+        //     '/': [
+        //         '', 
+        //     ],
+        //     '/api/': [
+        //         '', 
+        //     ]
+        // }, 
         // [{
         //         title: 'guide', // 必要的
         //         path: '/guide/', // 可选的, 标题的跳转链接，应为绝对路径且必须存在
@@ -36,10 +39,6 @@ module.exports = {
         nav: [{
                 text: '首页',
                 link: '/'
-            },
-            {
-                text: '指南',
-                link: '/guide/'
             },
             {
                 text: 'API',
