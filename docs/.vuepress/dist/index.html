@@ -8,7 +8,7 @@
     <link rel="icon" href="/freelog-runtime/freelog.ico">
     <meta name="description" content="freelog 开发者文档">
     
-    <link rel="preload" href="/freelog-runtime/assets/css/0.styles.1b5b480a.css" as="style"><link rel="preload" href="/freelog-runtime/assets/js/app.24153c1c.js" as="script"><link rel="preload" href="/freelog-runtime/assets/js/2.b24e057d.js" as="script"><link rel="preload" href="/freelog-runtime/assets/js/7.235d16f8.js" as="script"><link rel="prefetch" href="/freelog-runtime/assets/js/3.8e1af9e1.js"><link rel="prefetch" href="/freelog-runtime/assets/js/4.2dcc8728.js"><link rel="prefetch" href="/freelog-runtime/assets/js/5.b450b3e6.js"><link rel="prefetch" href="/freelog-runtime/assets/js/6.f0aa50fb.js"><link rel="prefetch" href="/freelog-runtime/assets/js/8.c3a39824.js"><link rel="prefetch" href="/freelog-runtime/assets/js/9.40425a6c.js">
+    <link rel="preload" href="/freelog-runtime/assets/css/0.styles.1b5b480a.css" as="style"><link rel="preload" href="/freelog-runtime/assets/js/app.46f4fb23.js" as="script"><link rel="preload" href="/freelog-runtime/assets/js/2.b24e057d.js" as="script"><link rel="preload" href="/freelog-runtime/assets/js/7.9aad121d.js" as="script"><link rel="prefetch" href="/freelog-runtime/assets/js/3.8e1af9e1.js"><link rel="prefetch" href="/freelog-runtime/assets/js/4.2dcc8728.js"><link rel="prefetch" href="/freelog-runtime/assets/js/5.b450b3e6.js"><link rel="prefetch" href="/freelog-runtime/assets/js/6.f0aa50fb.js"><link rel="prefetch" href="/freelog-runtime/assets/js/8.3eeaedb2.js"><link rel="prefetch" href="/freelog-runtime/assets/js/9.40425a6c.js">
     <link rel="stylesheet" href="/freelog-runtime/assets/css/0.styles.1b5b480a.css">
   </head>
   <body>
@@ -416,9 +416,10 @@ widgets<span class="token punctuation">.</span><span class="token function">some
     resourceIds<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 资源ids</span>
     resourceNames<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 资源名称s</span>
   <span class="token punctuation">}</span>
-</code></pre></div><h3 id="获取展品详情"><a href="#获取展品详情" class="header-anchor">#</a> 获取展品详情</h3> <div class="language-ts extra-class"><pre class="language-ts"><code> <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span>  window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getPresentableDetailById</span><span class="token punctuation">(</span>query<span class="token punctuation">)</span> 
+</code></pre></div><h3 id="获取展品详情"><a href="#获取展品详情" class="header-anchor">#</a> 获取展品详情</h3> <div class="language-ts extra-class"><pre class="language-ts"><code> <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span>  window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getPresentableDetailById</span><span class="token punctuation">(</span>presentableId<span class="token punctuation">,</span> query<span class="token punctuation">)</span> 
 
  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+  presentableId<span class="token operator">:</span> 展品id，
   query<span class="token operator">:</span><span class="token punctuation">{</span>
       projection<span class="token operator">:</span>  <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 需要指定哪些字段</span>
       isLoadVersionProperty<span class="token operator">:</span> <span class="token number">0</span> <span class="token operator">|</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token comment">// 是否需要展品版本属性</span>
@@ -532,6 +533,6 @@ window<span class="token punctuation">.</span><span class="token constant">FREEL
 <span class="token comment">// 获取用户数据</span>
 <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getUserData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre></div><h2 id="打包上传"><a href="#打包上传" class="header-anchor">#</a> 打包上传</h2> <p><strong>正常 build 后，将打包后的所有文件压缩为一个 zip 文件（无根目录），作为主题 theme 或插件 widget 类型上传为资源</strong></p></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
-    <script src="/freelog-runtime/assets/js/app.24153c1c.js" defer></script><script src="/freelog-runtime/assets/js/2.b24e057d.js" defer></script><script src="/freelog-runtime/assets/js/7.235d16f8.js" defer></script>
+    <script src="/freelog-runtime/assets/js/app.46f4fb23.js" defer></script><script src="/freelog-runtime/assets/js/2.b24e057d.js" defer></script><script src="/freelog-runtime/assets/js/7.9aad121d.js" defer></script>
   </body>
 </html>
