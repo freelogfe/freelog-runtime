@@ -365,14 +365,39 @@ if (!window.__POWERED_BY_FREELOG__) {
 }
 ```
 
-**webpack 配置**
+**create react app 创建项目的配置**
 
-```
- // 通过npm run eject, 释放出webpack配置，修改webpack.config.js
- // output处添加三个属性，name为package.json的name
- library: `${name}-[name]`,
- libraryTarget: 'umd',
- jsonpFunction: `webpackJsonp_${name}`,
+```ts
+ **通过npm run eject, 释放出webpack配置**
+
+  ***webpack 配置***
+  /**
+    *
+    * 修改webpack.config.js
+    * output处添加三个属性，name为package.json的name
+    */
+      library: `${name}-[name]`,
+      libraryTarget: 'umd',
+      jsonpFunction: `webpackJsonp_${name}`,
+  /**
+    * 修改webpackDevServer.config.js
+    * 添加跨域headers
+    */
+    port: '7102', // 端口自行定
+    headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+
+  ***热更新配置***
+  /**
+    * 修改env.js
+    * 添加websocket所需的
+    */
+    if (NODE_ENV === 'development') {
+      process.env.WDS_SOCKET_HOST = 'localhost'
+      process.env.WDS_SOCKET_PATH = 'localhost:7102'
+      process.env.WDS_SOCKET_PORT = '7102'
+    }
 
 ```
 
@@ -403,6 +428,10 @@ const render = ($) => {
   };
 })(window);
 ```
+### 路由支持
+
+**仅支持history路由或不由运行时管的abstract路由，hash路由还有问题需要改进**
+ 
 
 ### 配置总结
 
@@ -492,9 +521,7 @@ widgets.some((widget, index) => {
 **分页列表**
 
 ```ts
-   const res = await window.freelogApp.getPresentablesPaging(query).then((res)=>{
-
-   })
+   const res = await window.freelogApp.getPresentablesPaging(query)
    query:{
     skip: "string", // 从第几个开始
     limit: "string", // 取多少个
@@ -521,10 +548,11 @@ widgets.some((widget, index) => {
 ```
 
 ### 获取展品详情
-```ts
- const res = await  window.freelogApp.getPresentableDetailById(query).then((res)=>{
 
- })
+```ts
+ const res = await  window.freelogApp.getPresentableDetailById(query) 
+
+ **参数说明**
   query:{
       projection:  "string", // 需要指定哪些字段
       isLoadVersionProperty: 0 | 1, // 是否需要展品版本属性
@@ -623,13 +651,13 @@ window.freelogApp.callAuth();
 解决方案：
 
 1. 大图片与大字体处理方式：
-   
-   大图片：放在不需要webpack打包的public目录下，通过 **window.freelogApp.getStaticPath(path)** 获取正确地址，
-           其中path为以/开头的正常开发时的路径。
 
-   大字体：（暂未实现）如果路径写在css中则无需刻意放在public目录下，如果使用js去赋值，则同图片一样处理。
+   大图片：放在不需要 webpack 打包的 public 目录下，通过 **window.freelogApp.getStaticPath(path)** 获取正确地址，
+   其中 path 为以/开头的正常开发时的路径。
 
-2. 小文件处理方式：借助 webpack 的 url-loader 将字体文件和图片打包成 base64（适用于字体文件和图片体积小的项目） 
+   大字体：（暂未实现）如果路径写在 css 中则无需刻意放在 public 目录下，如果使用 js 去赋值，则同图片一样处理。
+
+2. 小文件处理方式：借助 webpack 的 url-loader 将字体文件和图片打包成 base64（适用于字体文件和图片体积小的项目）
 
 ```js
 module.exports = {
@@ -681,32 +709,43 @@ module.exports = {
   },
 };
 ```
+
 ## 重载插件
+
 ```js
- // 后期增加重载失败
- window.location.reload()
+// 目前重载后挂载在window的数据没变，后期增加参数可选是否保留，以及返回重载失败可由插件决定是否刷新页面、同时需要主题授权
+window.location.reload();
 ```
+
 ## 获取当前登录用户信息
+
 ```js
- const res = await  window.freelogApp.getCurrentUser()
+const res = await window.freelogApp.getCurrentUser();
 ```
+
 ## 监听用户登录事件
+
 ```js
- // 后期会改成成功回调与失败回调
- window.freelogApp.onLogin(callback)
+// callback: 登录成功的回调，登录失败不会回调
+window.freelogApp.onLogin(callback);
 ```
 
 ## 用户数据
+
 ```js
- // 更新用户数据   data 为任意对象，后期改为键值对形式
- const res = await window.freelogApp.updateUserData(data)
- // 获取用户数据
- const res = await window.freelogApp.getUserData()
+// 开发者模式需要注意在入口文件加载页面加上主题或插件本身的资源名称,例如：
+window.FREELOG_RESOURCENAME = Freelog/dev-docs
+
+// 更新用户数据   data 为任意对象，后期改为键值对形式
+const res = await window.freelogApp.updateUserData(data);
+// 获取用户数据
+const res = await window.freelogApp.getUserData();
 ```
+
 ## 打包上传
 
-**正常build后，将打包后的所有文件压缩为一个zip文件（无根目录），作为theme或widget类型上传为资源**
+**正常 build 后，将打包后的所有文件压缩为一个 zip 文件（无根目录），作为主题 theme 或插件 widget 类型上传为资源**
 
 <!-- ## 模板下载 -->
-  
+
 <!-- [vue模板](http://freelog-docs.testfreelog.com/$freelog-60a614de12ac83003f09d975=/dev/guide)  -->

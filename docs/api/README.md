@@ -471,7 +471,7 @@ window.freelogApp.addAuth(data)
     resolve: Function,  // 授权成功回调
     reject: Function,  // 授权失败回调
     options?: {
-    immediate: boolean  // 是否立即弹出授权窗口
+      immediate: boolean  // 是否立即弹出授权窗口
     }
   }
  
@@ -481,7 +481,7 @@ window.freelogApp.addAuth(data)
 **监听用户登录**
 
 ```ts
-// callback 成功后回调， 后期可能要改resolve和reject
+// callback: 登录成功的回调，登录失败不会回调
 window.freelogApp.onLogin(callback) 
  
 ```
