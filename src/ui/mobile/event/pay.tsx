@@ -245,7 +245,7 @@ export default function (props: PayProps) {
           <div className="flex-row space-around password-forget pb-30" onClick={()=>{
              props.setModalType(4)
           }}>
-            忘记密码
+            忘记支付密码
           </div>
         </Modal>
         <div className=" pt-35 mb-40">

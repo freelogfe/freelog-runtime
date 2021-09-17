@@ -115,6 +115,7 @@ subData.subDeps.some((sub, index) => {
 **用途：获取展品详情**
  ```ts
   **参数说明**
+   presentableId: 展品id，
     query:{
         projection:  "string", // 需要指定哪些字段
         isLoadVersionProperty: 0 | 1, // 是否需要展品版本属性
@@ -126,7 +127,7 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
  **用法**
- const res = await window.freelogApp.getPresentableDetailById(query).then((res)=>{
+ const res = await window.freelogApp.getPresentableDetailById(presentableId, query).then((res)=>{
 
  })
 ```

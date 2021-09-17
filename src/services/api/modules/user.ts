@@ -67,7 +67,7 @@ const user: User = {
   },
   verifyAuthCode: {
     url: `messages/verify`,
-    method: "post",
+    method: "get",
     dataModel: {
       authCode: "string",
       address: "string",

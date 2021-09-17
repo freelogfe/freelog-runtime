@@ -107,6 +107,13 @@ export function checkPassword(password: string){
   }
   return true;
 }
+export function checkPayPassword(password: string){
+  const reg = /^\d{6}$/;
+  if (!reg.test(password)) {
+    return false;
+  }
+  return true;
+}
 export function checkUsername(username: string){
   const reg =  /^(?!-)[A-Za-z0-9-]{1,30}(?<!-)$/;
   if (!reg.test(username)) {

@@ -1,6 +1,6 @@
 import user from "../../../services/api/modules/user";
 import frequest from "../../../services/handler";
-import { checkPhone, checkEmail, checkPassword } from "../../../utils/utils";
+import { checkPhone, checkEmail, checkPassword, checkPayPassword } from "../../../utils/utils";
 import { Modal, Button, Toast } from "antd-mobile";
 
 import { useState, useEffect } from "react";
@@ -37,9 +37,15 @@ export default function(props: ForgotProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-
+ 
   // 1 phone    2 email
   const [registerType, setRegisterType] = useState(1);
+  function passwordCheck(value:any){
+    if(props.type === PAY_PASSWORD){
+      return checkPayPassword(value)
+    }
+    return checkPassword(value)
+  }
   const verify = (type: any, value: any) => {
     value = value ? value : "";
     const obj: any = {
@@ -58,8 +64,8 @@ export default function(props: ForgotProps) {
       obj[type] = value ? "" : "请输入验证码";
     }
     if (["password", "password2"].includes(type)) {
-      if (value && !checkPassword(value)) {
-        obj[type] = "密码长度必须为6-24个字符，必须包含数字和字母";
+      if (value && !passwordCheck(value)) {
+        obj[type] = props.type === PAY_PASSWORD? "密码只能是6位纯数字" : "密码长度必须为6-24个字符，必须包含数字和字母";
       } else {
         obj[type] = value ? "" : "请输入密码";
       }
@@ -161,7 +167,7 @@ export default function(props: ForgotProps) {
       }); // <-- Change this line!
     }, 1000);
     return () => {
-      props.setModalType(1);
+      props.type === PAY_PASSWORD? props.setModalType(0) : props.setModalType(1);
       window.clearInterval(timer);
     };
   }, [success]);
@@ -201,7 +207,7 @@ export default function(props: ForgotProps) {
           : "updateTransactionAccountPwd",
       address: registerType === 1 ? phone : email,
     };
-    res = await frequest(user.putResetPayPassword, "", values);
+    res = await frequest(user.verifyAuthCode, "", values);
     if (res.data.errCode === 0) {
       setLoading(false);
       setStep(3);
@@ -298,7 +304,7 @@ export default function(props: ForgotProps) {
               type="primary"
               className="mt-15"
               onClick={loginVerify}
-              disabled={!available}
+              disabled={loading || errorTip.loginPassword}
             >
               {loading ? "验证中" : "下一步"}
             </Button>
@@ -399,11 +405,10 @@ export default function(props: ForgotProps) {
                 </div>
                 <div className="shrink-0 fs-16  w-100">
                   <Button
-                    loading={loading}
                     type="primary"
                     className="fs-16"
                     disabled={
-                      authCodeLoading ||
+                      authCodeLoading || loading ||
                       (registerType === 1
                         ? !phone || errorTip.phone
                         : !email || errorTip.email)
@@ -424,7 +429,10 @@ export default function(props: ForgotProps) {
                 type="primary"
                 className="mt-15"
                 onClick={authCodeVerify}
-                disabled={!available}
+                disabled={loading || !authCode ||
+                  (registerType === 1
+                    ? !phone || errorTip.phone
+                    : !email || errorTip.email)}
               >
                 {loading ? "验证中" : "下一步"}
               </Button>
@@ -455,6 +463,7 @@ export default function(props: ForgotProps) {
                 value={password}
                 className="w-100x  mt-15 mb-5 common-input"
                 placeholder="输入新密码"
+                maxLength={props.type === PAY_PASSWORD? 6: 24}
                 onChange={(e) => {
                   verify("password", e.target.value);
                   setPassword(e.target.value);
@@ -466,6 +475,7 @@ export default function(props: ForgotProps) {
               <input
                 type="password"
                 value={password2}
+                maxLength={props.type === PAY_PASSWORD? 6: 24}
                 className="w-100x  mt-15 mb-5 common-input"
                 placeholder="再次输入新密码"
                 onChange={(e) => {
@@ -551,7 +561,6 @@ export default function(props: ForgotProps) {
             </span>
             <div className="flex-row justify-center align-center">
               <span className="count-back">
-                {count}
                 {props.type === LOGIN_PASSWORD
                   ? count + "s后返回登陆页"
                   : "正在返回支付订单页" + count + "s…"}
