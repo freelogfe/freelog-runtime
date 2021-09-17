@@ -13,13 +13,14 @@ interface ForgotProps {
   type: "login" | "pay";
   children?: any;
 }
-export default function (props: ForgotProps) {
+export default function(props: ForgotProps) {
   const [errorTip, setErrorTip] = useState<any>({
     phone: "",
     email: "",
     authCode: "",
     password: "",
     password2: "",
+    loginPassword: "",
   });
   // 1 验证登录密码   2 验证码   3 password
   const [step, setStep] = useState(1);
@@ -44,6 +45,9 @@ export default function (props: ForgotProps) {
     const obj: any = {
       [type]: "",
     };
+    if (type === "loginPassword") {
+      obj[type] = value ? "" : "请输入密码";
+    }
     if (type === "phone" && !checkPhone(value)) {
       obj[type] = value ? "手机号格式不正确" : "请输入手机号";
     }
@@ -120,7 +124,9 @@ export default function (props: ForgotProps) {
     const authCodeRes = await frequest(user.getAuthCode, "", {
       loginName: registerType === 1 ? phone : email,
       authCodeType:
-        props.type === PAY_PASSWORD ? "updateTransactionAccountPwd" : "resetPassword",
+        props.type === PAY_PASSWORD
+          ? "updateTransactionAccountPwd"
+          : "resetPassword",
     });
     if (authCodeRes.data.errCode !== 0) {
       const obj: any = {};
@@ -135,9 +141,9 @@ export default function (props: ForgotProps) {
   };
   useEffect(() => {
     if (props.type === LOGIN_PASSWORD) {
-      setStep(2)
-    }else{
-      setStep(1)
+      setStep(2);
+    } else {
+      setStep(1);
     }
   }, []);
   useEffect(() => {
@@ -159,14 +165,58 @@ export default function (props: ForgotProps) {
       window.clearInterval(timer);
     };
   }, [success]);
+  const loginVerify = async () => {
+    setLoading(true);
+    let res;
+    const values: any = {
+      password: loginPassword, 
+    };
+    res = await frequest(user.loginVerify, "", values);
+    if (res.data.errCode === 0 && res.data.data.isVerifySuccessful) {
+      const obj: any = { loginPassword: '' };
+      setErrorTip({
+        ...errorTip,
+        ...obj,
+      });
+      setLoading(false);
+      setStep(2);
+    } else {
+      Toast.fail(res.data.msg, 2);
+      const obj: any = { loginPassword: res.data.msg };
+      setErrorTip({
+        ...errorTip,
+        ...obj,
+      });
+      setTimeout(() => setLoading(false), 2000);
+    }
+  };
+  const authCodeVerify = async () => {
+    setLoading(true);
+    let res;
+    const values: any = {
+      authCode,
+      authCodeType:
+        props.type === LOGIN_PASSWORD
+          ? "resetPassword"
+          : "updateTransactionAccountPwd",
+      address: registerType === 1 ? phone : email,
+    };
+    res = await frequest(user.putResetPayPassword, "", values);
+    if (res.data.errCode === 0) {
+      setLoading(false);
+      setStep(3);
+    } else {
+      Toast.fail(res.data.msg, 2);
+      const obj: any = { authCode: res.data.msg };
+      setErrorTip({
+        ...errorTip,
+        ...obj,
+      });
+      setTimeout(() => setLoading(false), 2000);
+    }
+  };
   const onFinish = async () => {
     setLoading(true);
-
-    //   username: "string",
-    //   password: "string",
-    //   isRemember: "string",
-    //   returnUrl: "string",
-    //   jwtType: "string",
     let res;
     if (props.type === LOGIN_PASSWORD) {
       const values: any = {
@@ -236,6 +286,7 @@ export default function (props: ForgotProps) {
               className="w-100x   mb-5 common-input"
               placeholder="输入新密码"
               onChange={(e) => {
+                verify('loginPassword', loginPassword)
                 setLoginPassword(e.target.value);
               }}
             />
@@ -246,7 +297,7 @@ export default function (props: ForgotProps) {
               loading={loading}
               type="primary"
               className="mt-15"
-              onClick={onFinish}
+              onClick={loginVerify}
               disabled={!available}
             >
               {loading ? "验证中" : "下一步"}
@@ -275,7 +326,7 @@ export default function (props: ForgotProps) {
                 checked={registerType === 1}
                 value="1"
                 onChange={(e) => {
-                  phone && verify("phone", phone);
+                  verify("phone", phone);
                   setRegisterType(parseInt(e.target.value));
                 }}
               />{" "}
@@ -283,7 +334,7 @@ export default function (props: ForgotProps) {
                 htmlFor="phone-type"
                 className={registerType === 1 ? "selected mr-20" : " mr-20"}
               >
-                手机号注册
+                手机号验证
               </label>
               <input
                 type="radio"
@@ -292,7 +343,7 @@ export default function (props: ForgotProps) {
                 className="mr-4 common-input"
                 checked={registerType === 2}
                 onChange={(e) => {
-                  email && verify("email", email);
+                  verify("email", email);
                   setRegisterType(parseInt(e.target.value));
                 }}
                 value="2"
@@ -301,7 +352,7 @@ export default function (props: ForgotProps) {
                 htmlFor="mail-type"
                 className={registerType === 2 ? "selected" : ""}
               >
-                邮箱注册
+                邮箱验证
               </label>
             </div>
             <div className="forgot-container flex-column justify-center px-30">
@@ -372,7 +423,7 @@ export default function (props: ForgotProps) {
                 loading={loading}
                 type="primary"
                 className="mt-15"
-                onClick={onFinish}
+                onClick={authCodeVerify}
                 disabled={!available}
               >
                 {loading ? "验证中" : "下一步"}
@@ -385,7 +436,9 @@ export default function (props: ForgotProps) {
           <div className="flex-1 w-100x flex-column align-center shrink-0">
             <div className="forgot-title  mt-40  mb-87 flex-column px-30 self-start">
               <div className="forgot-title self-start">
-                {props.type === LOGIN_PASSWORD ? "重置登录密码" : "重置支付密码"}
+                {props.type === LOGIN_PASSWORD
+                  ? "重置登录密码"
+                  : "重置支付密码"}
               </div>
               <div className="forgot-tip self-start text-align-left mt-10">
                 {props.type === LOGIN_PASSWORD
@@ -432,7 +485,13 @@ export default function (props: ForgotProps) {
                 onClick={onFinish}
                 disabled={!available}
               >
-                {loading ?  (props.type === LOGIN_PASSWORD ? "重置登录密码中..." : "重置支付密码中...") : (props.type === LOGIN_PASSWORD ? "重置登录密码" : "重置支付密码")}
+                {loading
+                  ? props.type === LOGIN_PASSWORD
+                    ? "重置登录密码中..."
+                    : "重置支付密码中..."
+                  : props.type === LOGIN_PASSWORD
+                  ? "重置登录密码"
+                  : "重置支付密码"}
               </Button>
             </div>
           </div>
@@ -462,7 +521,7 @@ export default function (props: ForgotProps) {
         </div>
       ) : null}
       <Modal
-        visible={loading}
+        visible={loading && step === 3}
         transparent
         maskClosable={false}
         title=""
@@ -486,7 +545,9 @@ export default function (props: ForgotProps) {
           <div className="flex-column align-center ">
             <i className="iconfont ">&#xe62d;</i>
             <span className=" success mb-60 mt-4">
-              {props.type === LOGIN_PASSWORD ? "登录密码重置成功" : "支付密码重置成功"}
+              {props.type === LOGIN_PASSWORD
+                ? "登录密码重置成功"
+                : "支付密码重置成功"}
             </span>
             <div className="flex-row justify-center align-center">
               <span className="count-back">

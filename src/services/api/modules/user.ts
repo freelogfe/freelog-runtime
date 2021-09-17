@@ -9,6 +9,8 @@ export type User = {
   postRegister: any;
   putResetPassword: any;
   putResetPayPassword: any;
+  verifyAuthCode: any;
+  loginVerify: any;
 };
 
 const user: User = {
@@ -21,6 +23,13 @@ const user: User = {
       isRemember: "string",
       returnUrl: "string",
       jwtType: "string",
+    },
+  },
+  loginVerify: {
+    url: `users/verifyLoginPassword`,
+    method: "get",
+    dataModel: {
+      password: "string",
     },
   },
   loginOut: {
@@ -54,6 +63,15 @@ const user: User = {
     dataModel: {
       loginName: "string",
       authCodeType: "string",
+    },
+  },
+  verifyAuthCode: {
+    url: `messages/verify`,
+    method: "post",
+    dataModel: {
+      authCode: "string",
+      address: "string",
+      authCodeType: "string"
     },
   },
   putResetPassword: {
