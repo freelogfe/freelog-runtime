@@ -5,6 +5,7 @@ export type Contract = {
   getContracts: any;
   contract: any;
   contracts: any;
+  getTransitionRecords: any;
 };
 
 const contract: Contract = {
@@ -55,6 +56,14 @@ const contract: Contract = {
       licenseeId: "string",
       licenseeIdentityType: "int",
       isWaitInitial: "int"
+    },
+  },
+  getTransitionRecords: {
+    url: `contracts/${placeHolder}/transitionRecords`,
+    method: "GET",
+    dataModel: {
+      skip: 'int',
+      limit: 'int'
     },
   }
 };
