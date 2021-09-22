@@ -120,15 +120,18 @@ export default function(props: ItemProps) {
       return;
     }
     res.data.data.dataList.forEach((record:any)=>{
+      let recordContent:any;  
       props.contract.policyInfo.translateInfo.fsmInfos.some((item: any) => {
-
         // next 
         if (item.stateInfo.origin === record.fromState) {
-          let recordContent:any;  
-          recordContent = {...item}
-          recordContent.eventTranslateInfos.some((event: any) => {
+          item.eventTranslateInfos.some((event: any) => {
             if( event.origin.state === record.toState){
-              
+              recordContent = {
+                ...event,
+                ...props.contract.policyInfo.fsmDescriptionInfo[
+                  event.origin.state
+                ]
+              }
               return true
             }
             return props.contract.policyInfo.translateInfo.fsmInfos.some(
