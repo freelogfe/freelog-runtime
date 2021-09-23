@@ -297,10 +297,10 @@ export default function(props: ItemProps) {
                                   event.origin.name !== "TransactionEvent"
                                 }
                               >
-                                <div className="flex-row event flex-wrap align-center">
+                                <div className="flex-row event  align-center space-between">
                                   <div className="mr-10 flex-row align-center">
                                     <span>{event.content}</span>
-                                    <span className="auth ml-10">
+                                    <span className="auth ml-10 shrink-0">
                                       {event.nextState &&
                                       event.nextState.commonAuth
                                         ? "获得授权"
@@ -313,7 +313,7 @@ export default function(props: ItemProps) {
                                       "TransactionEvent" && (
                                       <Button
                                         disabled={index !== eventIndex}
-                                        className="fs-12"
+                                        className="fs-12 shrink-0"
                                         click={payEvent}
                                       >
                                         支付
@@ -392,17 +392,17 @@ export default function(props: ItemProps) {
                                 }
                                 key={index}
                               >
-                                <div className="flex-row event flex-wrap align-center space-between">
+                                <div className="flex-row event  align-center space-between">
                                   <div className="mr-10 flex-row align-center">
                                     <span>{event.content}</span>
-                                    <span className="auth ml-10">
+                                    <span className="auth ml-10 shrink-0">
                                       {event.nextState &&
                                       event.nextState.commonAuth
                                         ? "获得授权"
                                         : ""}
                                     </span>
                                   </div>
-                                  {event._finished ?<div className="event-finished-des mr-10">已执行</div> : null}
+                                  {event._finished ?<div className="event-finished-des mr-10 shrink-0">已执行</div> : null}
                                 </div>
                                 {/* 执行完成后下一个状态的所有事件 */}
                                 <div className="flex-column event-next pt-5 ml-3">

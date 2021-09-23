@@ -366,7 +366,7 @@ export default function(props: ItemProps) {
                           />
                           <label htmlFor={event.origin.id}>
                             <div className="flex-row event flex-wrap align-center  justify-end">
-                              <div className="mx-10 flex-row align-center pe-none flex-wrap flex-1">
+                              <div className="mx-10 flex-row align-center pe-none  flex-1">
                                 <span className="mr-10 ">{event.content}</span>
                                 <span className="auth shrink-0">
                                   {event.nextState && event.nextState.isAuth
@@ -461,14 +461,14 @@ export default function(props: ItemProps) {
                                   "event-card p-10 mt-10 flex-column " +
                                   (event._finished
                                     ? "event-finished"
-                                    : "f23232332")
+                                    : "")
                                 }
                                 key={index}
                               >
-                                <div className="flex-row event flex-wrap align-center space-between">
+                                <div className="flex-row event  align-center space-between">
                                   <div className="mr-10 flex-row align-center">
                                     <span>{event.content}</span>
-                                    <span className="auth ml-10">
+                                    <span className="auth ml-10 shrink-0">
                                       {event.nextState &&
                                       event.nextState.commonAuth
                                         ? "获得授权"
@@ -476,7 +476,7 @@ export default function(props: ItemProps) {
                                     </span>
                                   </div>
                                   {event._finished ? (
-                                    <div className="event-finished-des mr-10">
+                                    <div className="event-finished-des mr-10 shrink-0">
                                       已执行
                                     </div>
                                   ) : null}
