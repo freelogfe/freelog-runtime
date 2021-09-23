@@ -711,27 +711,30 @@ module.exports = {
 };
 ```
 
-## 重载插件
+### 重载插件
 
 ```js
 // 目前重载后挂载在window的数据没变，后期增加参数可选是否保留，以及返回重载失败可由插件决定是否刷新页面、同时需要主题授权
 window.location.reload();
 ```
+### 插件通信
 
-## 获取当前登录用户信息
+  **完善中**
+
+### 获取当前登录用户信息
 
 ```js
 const res = await window.freelogApp.getCurrentUser();
 ```
 
-## 监听用户登录事件
+### 监听用户登录事件
 
 ```js
 // callback: 登录成功的回调，登录失败不会回调
 window.freelogApp.onLogin(callback);
 ```
 
-## 用户数据
+### 用户数据
 
 ```js
 // 开发者模式需要注意在入口文件加载页面加上主题或插件本身的资源名称,例如：
@@ -750,3 +753,9 @@ const res = await window.freelogApp.getUserData();
 <!-- ## 模板下载 -->
 
 <!-- [vue模板](http://freelog-docs.testfreelog.com/$freelog-60a614de12ac83003f09d975=/dev/guide)  -->
+
+## 移动端适配
+   
+   **目前仅支持最新的问题最少的最好的viewport兼容方案**
+
+   **推荐使用 postcss-px-to-viewport 插件, 各框架具体使用方法请百度**
