@@ -150,8 +150,20 @@
         }
     }
 
+    .password-error-input {
+        input {
+            border: 1px solid #EE4040 !important;
+        }
+    }
+
+    .password-error {
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #EE4040;
+    }
+
     .password-forget {
-        padding-top: 30px;
         font-size: 14px;
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;

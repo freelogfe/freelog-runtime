@@ -22,13 +22,12 @@ interface PayProps {
   paymentFinish: any;
 }
 
-export default function (props: PayProps) {
+export default function(props: PayProps) {
   const [focus, setFocus] = useState(0);
   const [loading, setLoading] = useState(false);
   const [inputVisible, setInputVisible] = useState(false);
   // 1: 支付中  2: 支付成功  3: 密码错误   4: 支付失败：需要考虑网络超时
   const [tipType, setTipType] = useState(0);
-  const [tip, setTip] = useState(false);
   const [passwords, setPasswords] = useState<any>(["", "", "", "", "", ""]);
   const [userAccount, setUserAccount] = useState<any>({});
   const input1 = useRef(null);
@@ -38,7 +37,7 @@ export default function (props: PayProps) {
   const input5 = useRef(null);
   const input0 = useRef(null);
   const inputs = [input0, input1, input2, input3, input4, input5];
-  
+
   useEffect(() => {
     if (inputVisible) {
       // @ts-ignore
@@ -59,7 +58,7 @@ export default function (props: PayProps) {
   useEffect(() => {
     props.isModalVisible && getAccount();
   }, [props.isModalVisible]);
-  const pay = async function (password: any) {
+  const pay = async function(password: any) {
     // TODO 防止多次点击
     if (loading) return;
     setTipType(1);
@@ -72,12 +71,22 @@ export default function (props: PayProps) {
     });
     // 这里考虑支付超时
     if (payResult.data.errCode !== 0) {
+      if (payResult.data.data && payResult.data.data.code === "E1010") {
+        setTimeout(() => {
+          setTipType(3);
+          setPasswords(["", "", "", "", "", ""]);
+          setLoading(false);
+          // @ts-ignore
+          input0.current.focus();
+        }, 1000);
+        return;
+      }
       Toast.fail(payResult.data.msg, 2);
       setTimeout(() => {
         setLoading(false);
         // @ts-ignore
         input5.current.focus();
-      }, 2000);
+      }, 1000);
       return;
     }
     setTipType(2);
@@ -154,7 +163,7 @@ export default function (props: PayProps) {
           />
         </div> */}
         <Modal
-          visible={loading && tipType > 0}
+          visible={loading && tipType < 3}
           transparent
           maskClosable={false}
           title=""
@@ -166,7 +175,7 @@ export default function (props: PayProps) {
                 支付中
               </Button>
             </div>
-          ) : (
+          ) : tipType === 2 ? (
             <div className="paying w-100x h-100x flex-column justify-center">
               <div className="pb-15 success flex-row align-center justify-center">
                 <i className="iconfont mr-10">&#xe62d;</i>
@@ -176,7 +185,7 @@ export default function (props: PayProps) {
                 系统处理中请稍后...
               </Button>
             </div>
-          )}
+          ) : null}
         </Modal>
         <Modal
           visible={inputVisible}
@@ -191,7 +200,12 @@ export default function (props: PayProps) {
           >
             <i className="iconfont fs-11">&#xe637;</i>
           </div>
-          <div className="flex-row space-between">
+          <div
+            className={
+              "flex-row space-between " +
+              (tipType === 3 ? "password-error-input" : "")
+            }
+          >
             {[0, 0, 0, 0, 0, 0].map((item: any, index: any) => {
               return (
                 <input
@@ -201,16 +215,20 @@ export default function (props: PayProps) {
                   key={index}
                   ref={inputs[index]}
                   value={passwords[index]}
-                  onChange={(e: any) => {
-                  }}
+                  onChange={(e: any) => {}}
                   onClick={(e: any) => {
                     // @ts-ignore
                     inputs[focus].current.focus();
                   }}
                   onKeyDown={(e: any) => {
+                    setTipType(0);
                     // alert(e.keyCode)
                     const p = [...passwords];
-                    if ([46,8, 229].includes(e.keyCode) && index > 0 && isNaN(parseInt(p[index]))) {
+                    if (
+                      [46, 8, 229].includes(e.keyCode) &&
+                      index > 0 &&
+                      isNaN(parseInt(p[index]))
+                    ) {
                       // @ts-ignore
                       if (inputs[index - 1]) {
                         // @ts-ignore
@@ -242,9 +260,17 @@ export default function (props: PayProps) {
               );
             })}
           </div>
-          <div className="flex-row space-around password-forget pb-30" onClick={()=>{
-             props.setModalType(4)
-          }}>
+          {tipType === 3 ? (
+            <div className="password-error text-align-left mt-5">
+              支付密码错误，请重新输入
+            </div>
+          ) : null}
+          <div
+            className="flex-row space-around password-forget py-30"
+            onClick={() => {
+              props.setModalType(4);
+            }}
+          >
             忘记支付密码
           </div>
         </Modal>
