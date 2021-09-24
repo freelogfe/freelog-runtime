@@ -86,7 +86,7 @@ export default function(props: PayProps) {
         setLoading(false);
         // @ts-ignore
         input5.current.focus();
-      }, 1000);
+      }, 2000);
       return;
     }
     setTipType(2);
