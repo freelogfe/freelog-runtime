@@ -127,7 +127,11 @@ export default function (props: PayProps) {
             </div>
           </div>
         </div>
-        <div className="forgot-p text-align-right px-80 mt-18 cur-pointer">
+        <div className="forgot-p text-align-right px-80 mt-18 cur-pointer" onClick={
+          ()=>{
+            window.open('http://user.testfreelog.com/retrievePayPassword')
+          }
+        }>
           忘记密码
         </div>
         <div className="px-80 pt-5">
