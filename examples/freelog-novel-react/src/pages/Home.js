@@ -4,10 +4,8 @@ export default function (props) {
   const [novels, setNovels] = useState([]);
 
   useEffect(async () => {
-    console.log(props.history)
+    props.history.push('/')
     const res = await window.freelogApp.getPresentables({ resourceType: 'novel' })
-    const userData2 = await window.freelogApp.updateUserData({ a: 1 })
-    const userData = await window.freelogApp.getUserData()
     setNovels(res.data.data.dataList)
   }, []);
   return (

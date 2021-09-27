@@ -16,6 +16,7 @@ import {
   freelogLocalStorage,
   saveSandBox,
   getPublicPath,
+  freelogAddEventListener
 } from "../../structure/proxy";
 /**
  * fastest(at most time) unique array method
@@ -286,6 +287,9 @@ export default class ProxySandbox implements SandBox {
         // proxy.hasOwnProperty would invoke getter firstly, then its value represented as rawWindow.hasOwnProperty
         if (p === "hasOwnProperty") {
           return hasOwnProperty;
+        }
+        if(p === "addEventListener"){
+          return freelogAddEventListener
         }
         if (p === "freelogApp") {
           freelogAppProxy =

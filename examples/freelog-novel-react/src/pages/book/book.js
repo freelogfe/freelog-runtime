@@ -60,7 +60,9 @@ function Book(props) {
       <div className="bg-white bb-1 px-20 py-15 flex-row shrink-0">
         <div
           onClick={() => {
-            props.history.push("/");
+            props.history.goBack();
+
+            //props.history.push("/");
           }}
           onTouchStart={()=>{
             console.log(23232)

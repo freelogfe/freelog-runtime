@@ -28,7 +28,6 @@ import {
   setHistory,
   getHistory,
 } from "./history";
-import { baseUrl } from "../../services/base";
 import { DEV_WIDGET } from "./dev";
 
 const rawDocument = document;
@@ -39,10 +38,12 @@ const rawLocation = window["location"];
 const rawLocalStorage = window["localStorage"];
 // widgetName  {routerType: 'history' || 'hash'}
 const locations = new Map();
+var freelogPopstate = new PopStateEvent('freelog-popstate');
 window.addEventListener(
   "popstate",
   function (event) {
     initLocation();
+    window.dispatchEvent(freelogPopstate)
   },
   true
 );
@@ -53,7 +54,14 @@ window.addEventListener(
   },
   true
 );
- 
+export function freelogAddEventListener() {
+   if(arguments[0] === 'popstate'){
+     window.addEventListener('freelog-popstate', arguments[1])
+     return 
+   }
+   // @ts-ignore
+   window.addEventListener(...arguments)
+}
 export function setFetch() {
   const rawFetch = window.fetch;
   // @ts-ignore
@@ -200,6 +208,7 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     if (history) {
       // @ts-ignore
       patch(...history);
+      window.dispatchEvent(freelogPopstate)
     }
     // else if(count == -1){
     //   window.history.go(-1)
@@ -210,6 +219,7 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     if (history) {
       // @ts-ignore
       patch(...history);
+      window.dispatchEvent(freelogPopstate)
     }
   }
   function forward() {
@@ -217,6 +227,7 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     if (history) {
       // @ts-ignore
       patch(...history);
+      window.dispatchEvent(freelogPopstate)
     }
   }
   const state = getHistory(name).histories[getHistory(name).position]
