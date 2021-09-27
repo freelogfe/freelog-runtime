@@ -740,10 +740,10 @@ window.freelogApp.onLogin(callback);
 // 开发者模式需要注意在入口文件加载页面加上主题或插件本身的资源名称,例如：
 window.FREELOG_RESOURCENAME = Freelog/dev-docs
 
-// 更新用户数据   data 为任意对象，后期改为键值对形式
-const res = await window.freelogApp.updateUserData(data);
+// 更新用户数据   data 为任意对象，
+const res = await window.freelogApp.setUserData(key, data);
 // 获取用户数据
-const res = await window.freelogApp.getUserData();
+const res = await window.freelogApp.getUserData(key);
 ```
 
 ## 打包上传

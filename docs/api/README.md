@@ -496,23 +496,21 @@ window.freelogApp.onLogin(callback)
  
 ```
 
+## setUserData
+
+**获取当前登录的用户在当前插件保存的数据**
+
+```ts
+
+ const res = await window.freelogApp.setUserData(key, data) 
+ 
+```
 ## getUserData
 
 **获取当前登录的用户在当前插件保存的数据**
 
 ```ts
 
- const userData = await window.freelogApp.getUserData() 
+ const userData = await window.freelogApp.getUserData(key)
  
-```
-## updateUserData
-
-**获取当前登录的用户在当前插件保存的数据**
-
-```ts
-
- const userData = await window.freelogApp.updateUserData(data)
- 
- **参数说明**
-   data 为任意对象，后期改为键值对形式
 ```

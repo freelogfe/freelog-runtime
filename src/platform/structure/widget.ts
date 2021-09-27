@@ -16,18 +16,16 @@
  */
 
 import { loadMicroApp } from "../runtime";
-import { baseUrl } from "../../services/base";
 import { setLocation } from "./proxy";
 import { DEV_TYPE_REPLACE, DEV_WIDGET } from "./dev";
 import { getSubDep, getEntry } from "./utils";
-import presentable from '../../services/api/modules/presentable';
 export const FREELOG_DEV = 'freelogDev'
 export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
 export const activeWidgets = new Map<any, any>();
 export const childrenWidgets = new Map<any, any>();
 export const sandBoxs = new Map<any, any>(); // 沙盒不交给plugin, 因为plugin是插件可以用的
-
+export const widgetUserData = new Map<any, any>();
 // TODO plugin type
 export function addWidget(key: string, plugin: any) {
   if (activeWidgets.has(key)) {

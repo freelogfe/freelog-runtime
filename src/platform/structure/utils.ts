@@ -2,7 +2,7 @@
 
 import { baseUrl } from "../../services/base";
 import { getInfoById } from "./api";
-import { widgetsConfig, sandBoxs } from "./widget";
+import { widgetsConfig, widgetUserData, sandBoxs } from "./widget";
 import frequest from "../../services/handler";
 import user from "../../services/api/modules/user";
 import node from "../../services/api/modules/node";
@@ -214,11 +214,13 @@ export function setViewport(keys: any) {
 //   return res;
 // }
 
-export async function updateUserData(data: any) {
+export async function setUserData(key:string, data: any) {
   // TODO 必须验证格式正确
   // @ts-ignore
   const name = this.name
+  let userData = widgetUserData.get(name) || {};
   let config = widgetsConfig.get(name);
+  userData[key] = data
   let widgetId = btoa(encodeURI(config.resourceName))
   if(name === FREELOG_DEV){
     widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME
@@ -227,15 +229,19 @@ export async function updateUserData(data: any) {
   // TODO 用户如果两台设备更新数据，可以做一个保存请求的数据对比最新的数据，如果不同，提示给插件（或者传递参数强制更新）
   const res = await frequest(node.putUserData, [nodeId], {
     appendOrReplaceObject: {
-      [widgetId]: data
+      [widgetId]: userData
     }
   });
   return res;
 }
 
-export async function getUserData() {
+export async function getUserData(key: string) {
   // @ts-ignore
   const name = this.name
+  let userData = widgetUserData.get(name);
+  if(userData){
+    return userData[key]
+  }
   let config = widgetsConfig.get(name);
   let widgetId = btoa(encodeURI(config.resourceName))
   if(name === FREELOG_DEV){
@@ -243,6 +249,7 @@ export async function getUserData() {
   }
   const nodeId = window.freelogApp.nodeInfo.nodeId
   const res = await frequest(node.getUserData, [nodeId], "");
-  const userData = res.data[widgetId] || {}
-  return userData;
+  userData = res.data[widgetId] || {}
+  widgetUserData.set(name, userData)
+  return userData[key];
 }
