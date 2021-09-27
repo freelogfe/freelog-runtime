@@ -19,7 +19,6 @@ export function setHistory(key: string, history: any, isReplace?: boolean) {
     obj.length = obj.histories.length;
     obj.position = obj.histories.length - 1
   }
-  console.log(obj)
   widgetHistories.set(key, obj)
 }
 export function getHistory(key: string) {
@@ -62,7 +61,6 @@ export function historyGo(key: string, count: number) {
     histories: [],
     position: 0,
   };
-  console.log(obj)
   if (
     obj.length > 0 &&
     obj.position > 0 &&
