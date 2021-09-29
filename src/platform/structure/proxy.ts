@@ -39,9 +39,32 @@ const rawLocalStorage = window["localStorage"];
 // widgetName  {routerType: 'history' || 'hash'}
 const locations = new Map();
 var freelogPopstate = new PopStateEvent('freelog-popstate');
+// for history back and forword 
+let state = 0
+let moveLock = false
 window.addEventListener(
   "popstate",
   function (event) {
+    let estate = event.state
+    if (!estate) estate = 0
+    if (estate < state) {
+      moveLock = true
+      // this is back,  make all of locations position++ 
+      locations.forEach((value, key) => {
+        historyBack(key)
+      });
+    } else if (estate > state) {
+      moveLock = true
+      // this is forword make all of locations position--
+      locations.forEach((value, key) => {
+        historyForward(key)
+      });
+    }
+    setTimeout(() => {
+      moveLock = false
+    }, 0)
+    console.log(event, state, estate)
+    state = estate
     initLocation();
     window.dispatchEvent(freelogPopstate)
   },
@@ -55,12 +78,12 @@ window.addEventListener(
   true
 );
 export function freelogAddEventListener() {
-   if(arguments[0] === 'popstate'){
-     window.addEventListener('freelog-popstate', arguments[1])
-     return 
-   }
-   // @ts-ignore
-   window.addEventListener(...arguments)
+  if (arguments[0] === 'popstate') {
+    window.addEventListener('freelog-popstate', arguments[1])
+    return
+  }
+  // @ts-ignore
+  window.addEventListener(...arguments)
 }
 export function setFetch() {
   const rawFetch = window.fetch;
@@ -112,6 +135,7 @@ export function setLocation() {
     }
     hash += "$" + key + "=" + value.href || "";
   });
+  console.log('setLocation')
   if (window.freelogApp.devData.type === DEV_WIDGET) {
     let devUrl = rawLocation.search.split("$_")[0];
     if (!devUrl.endsWith("/")) {
@@ -123,7 +147,9 @@ export function setLocation() {
       "$_" +
       hash.replace("?", "_") +
       rawLocation.hash;
-    window.history.pushState("", "", url);
+      console.log(url, rawLocation.href)
+    if (url === rawLocation.href) return
+    window.history.pushState(state++, "", url);
   } else {
     const url =
       rawLocation.origin +
@@ -131,9 +157,10 @@ export function setLocation() {
       hash.replace("?", "_") +
       rawLocation.hash +
       rawLocation.search;
-    window.history.pushState("", "", url);
+    if (url === rawLocation.href) return
+    window.history.pushState(state++, "", url);
   }
-  // rawLocation.hash = hash;
+  // rawLocation.hash = hash; state++
 }
 // TODO pathname  search 需要不可变
 export const locationCenter: any = {
@@ -159,11 +186,11 @@ export const locationCenter: any = {
 };
 export function freelogLocalStorage(id: string) {
   return {
-    clear: function (name: string) {},
+    clear: function (name: string) { },
     getItem: function (name: string) {
       return rawLocalStorage.getItem(id + name);
     },
-    key: function (name: string) {},
+    key: function (name: string) { },
     removeItem: function (name: string) {
       rawLocalStorage.removeItem(id + name);
     },
@@ -189,16 +216,18 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
       // console.warn("hash route is not suggested!");
       // return;
     }
-    
+
     let [pathname, search] = href.split("?");
     locationCenter.set(name, { pathname, href, search, hash, routerType });
   }
   function pushPatch() {
+    if (moveLock) return
     // @ts-ignore
     patch(...arguments);
     setHistory(name, arguments);
   }
   function replacePatch() {
+    console.log('replacePatch')
     // @ts-ignore
     patch(...arguments);
     setHistory(name, arguments, true);
@@ -278,7 +307,7 @@ export const createLocationProxy = function (name: string, sandbox: any) {
          TODO reload 是重新加载插件
      */
     set: (target: any, p: PropertyKey, value: any): boolean => {
-      if(p === 'hash'){
+      if (p === 'hash') {
         const _history = createHistoryProxy(name, sandbox)
         // @ts-ignore
         _history.pushState('', '', value)
@@ -295,7 +324,7 @@ export const createLocationProxy = function (name: string, sandbox: any) {
         return "";
       } else {
         if (["replace"].indexOf(property) > -1) {
-          return function () {};
+          return function () { };
         }
         if (["reload"].indexOf(property) > -1) {
           // TODO 重新加载自身插件
@@ -369,7 +398,7 @@ export const createDocumentProxy = function (
 
   // }
   // TODO 有可能是 doc还没创建造成的
-  
+
   if (!isShadow) {
     // TODO  判断document与doc的原型是否都有该方法，有则bind
     // @ts-ignore
@@ -510,9 +539,9 @@ export const createDocumentProxy = function (
               // @ts-ignore
               return rootDoc[property]
                 ? // @ts-ignore
-                  rootDoc[property](...arguments)
+                rootDoc[property](...arguments)
                 : // @ts-ignore
-                  appDiv[property](...arguments);
+                appDiv[property](...arguments);
             }
           };
         }
