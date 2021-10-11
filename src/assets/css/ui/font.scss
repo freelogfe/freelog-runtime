@@ -44,7 +44,18 @@
 .fc-black{
   color: #333333;
 }
- 
+.fc-success {
+  color: $success;
+}
+
+.fc-warn {
+  color: $warn;
+}
+
+.fc-error {
+  color: $error;
+}
+
 $weight-regular: 400;
 
 $weight-medium: 500;

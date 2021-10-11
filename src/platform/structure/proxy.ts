@@ -229,7 +229,6 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     setHistory(name, arguments);
   }
   function replacePatch() {
-    console.log('replacePatch')
     // @ts-ignore
     patch(...arguments);
     setHistory(name, arguments, true);

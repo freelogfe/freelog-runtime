@@ -10,7 +10,6 @@ import PolicyContent from "../policy/_components/policyContent";
 import frequest from "../../../services/handler";
 import contract from "../../../services/api/modules/contract";
 import { Tabs } from "antd";
-import event from "../../../services/api/modules/event";
 const { TabPane } = Tabs;
 
 var moment = require("moment");
@@ -246,7 +245,7 @@ export default function(props: ItemProps) {
       <Tabs defaultActiveKey="1" className="select-none">
         <TabPane tab="合约流转记录" key="1">
           {/* 状态整体 */}
-          <div className="status-card p-15 mt-15">
+          <div className="status-card p-15 ">
             <div className="flex-row">
               <div
                 className={"auth-status text-center select-none " + authClass}

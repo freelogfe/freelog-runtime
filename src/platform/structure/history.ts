@@ -35,7 +35,6 @@ export function historyBack(key: string) {
     histories: [],
     position: 0,
   };
-  console.log(obj)
   if (obj.length > 0 && obj.position > 0) {
     obj.position = obj.position - 1;
     return obj.histories[obj.position];
@@ -49,7 +48,6 @@ export function historyForward(key: string) {
     histories: [],
     position: 0,
   };
-  console.log(obj)
   if (obj.length > 0  && obj.position < obj.length - 1) {
     obj.position = obj.position + 1;
     return obj.histories[obj.position];
@@ -63,7 +61,6 @@ export function historyGo(key: string, count: number) {
     histories: [],
     position: 0,
   };
-  console.log(obj)
   if (
     obj.length > 0 &&
     obj.position > 0 &&

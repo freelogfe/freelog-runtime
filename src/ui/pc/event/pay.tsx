@@ -8,7 +8,7 @@ import event from "../../../services/api/modules/event";
 import transaction from "../../../services/api/modules/transaction";
 
 import { getUserInfo } from "../../../platform/structure/utils";
-import { clearInterval } from "timers";
+import Tip from "../_components/tip";
 
 interface PayProps {
   isModalVisible: boolean;
@@ -26,6 +26,12 @@ export default function (props: PayProps) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [isTipVisible, setIsTipVisible] = useState(false);
+  const [tipConfig, setTipConfig] = useState({
+    content: "签约成功",
+    type: "success",
+    mask: false
+  });
   const [userAccount, setUserAccount] = useState<any>({});
   const handleOk = () => {
     props.setIsModalVisible(false);
@@ -56,28 +62,30 @@ export default function (props: PayProps) {
       transactionAmount: props.transactionAmount,
       password: password,
     });
+    setIsTipVisible(true)
     if(payResult.data.errCode !== 0){
-      Modal.error({
-        title: '支付失败',
+      setTipConfig({
         content: payResult.data.msg,
-        zIndex: 9999
+        type: 'error',
+        mask: false
       });
       setLoading(false)
       return
     }
-    const modal = Modal.success({
-      title: '支付成功',
-      content: payResult.data.msg,
-      zIndex: 9999
+    
+    setTipConfig({
+      content:  '支付成功, 系统处理中...',
+      type: 'success',
+      mask: true
     });
     // TODO 查交易状态, flag应该设为状态，在关闭弹窗时清除
     const flag = setInterval(async()=>{
       const res:any = await frequest(transaction.getRecord, [payResult.data.data.transactionRecordId],'');
       const status = res.data.data.status
       if([2,3,4].includes(status)){
-        props.paymentFinish(status)
         setLoading(false)
-        modal.destroy()
+        setIsTipVisible(false)
+        setTimeout(()=>props.paymentFinish(status), 100)
         window.clearInterval(flag)
       }
     },2000)
@@ -102,6 +110,11 @@ export default function (props: PayProps) {
       wrapClassName="freelog-pay"
       getContainer={document.getElementById("runtime-pc")}
     >
+      <Tip
+        {...tipConfig}
+        isModalVisible={isTipVisible}
+        setIsModalVisible={setIsTipVisible}
+      />
       <div className="flex-column ">
          {/* 金额 */}
         <div className="amount text-center my-40 px-80">

@@ -15,6 +15,7 @@ import { loginCallback } from "../../platform/structure/event";
 import contract from "../../services/api/modules/contract";
 import { getCurrentUser } from "../../platform/structure/utils";
 import getBestTopology from "./topology/data";
+import Tip from "./_components/tip";
 /**
  * 展品授权窗口：
  *     左：展品列表
@@ -44,7 +45,7 @@ interface contractProps {
   children?: any;
   updateEvents: any;
 }
-export default function (props: contractProps) {
+export default function(props: contractProps) {
   /**
    * 对象形式authDatas：
    *   key: subjectId
@@ -72,7 +73,11 @@ export default function (props: contractProps) {
    */
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isLoginVisible, setIsLoginVisible] = useState(false);
-
+  const [isTipVisible, setIsTipVisible] = useState(false);
+  const [tipConfig, setTipConfig] = useState({
+    content: "签约成功",
+    type: "success",
+  });
   const [contracts, setContracts] = useState([]);
   const events = props.events || [];
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
@@ -89,9 +94,8 @@ export default function (props: contractProps) {
     // TODO 重载插件需要把授权的也一并清除
     setIsLoginVisible(false);
 
-    props.loginFinished()
+    props.loginFinished();
   }
-  function showPolicy() {}
   async function getDetail(id?: string) {
     setSelectedPolicies([]);
     // userInfo 如果不存在就是未登录
@@ -134,8 +138,12 @@ export default function (props: contractProps) {
       return i.status === 1;
     });
     res.data.data.policies.forEach((item: any) => {
-      const { policyMaps, bestPyramid, betterPyramids, nodesMap } =
-        getBestTopology(item.fsmDescriptionInfo);
+      const {
+        policyMaps,
+        bestPyramid,
+        betterPyramids,
+        nodesMap,
+      } = getBestTopology(item.fsmDescriptionInfo);
       item.policyMaps = policyMaps;
       item.bestPyramid = bestPyramid;
       item.betterPyramids = betterPyramids;
@@ -174,16 +182,18 @@ export default function (props: contractProps) {
   const userCancel = () => {
     props.contractFinished("", USER_CANCEL);
   };
-  function policySelect(policyId: number, checked?: boolean, single?:boolean) {
+  function policySelect(policyId: number, checked?: boolean, single?: boolean) {
     if (policyId) {
-      if(checked){
-        if(single){
+      if (checked) {
+        if (single) {
           setSelectedPolicies([policyId]);
-        }else{
+        } else {
           setSelectedPolicies([...selectedPolicies, policyId]);
         }
-      }else{
-        setSelectedPolicies([...selectedPolicies].filter((item:any)=> item !== policyId))
+      } else {
+        setSelectedPolicies(
+          [...selectedPolicies].filter((item: any) => item !== policyId)
+        );
       }
     } else {
       setSelectedPolicies([]);
@@ -219,33 +229,32 @@ export default function (props: contractProps) {
     setIsModalVisible(false);
     const isAuth = res.data.data.some((item: any) => {
       if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
-        const modal = Modal.success({
-          title: '提示',
-          content: '获得授权',
-          zIndex: 9999
+        setIsTipVisible(true);
+        setTipConfig({
+          content: "获得授权",
+          type: "success",
         });
         setTimeout(() => {
-          modal.destroy();
+          setIsTipVisible(false);
         }, 1500);
         setTimeout(() => {
           props.contractFinished(currentPresentable.eventId, SUCCESS);
-        }, 2000);
+        }, 1600);
         return true;
       }
     });
-    if (!isAuth) {
-      const modal = Modal.success({
-        title: '提示',
-        content: '签约成功',
-        zIndex: 9999
+    if (!isAuth) { 
+      setIsTipVisible(true);
+      setTipConfig({
+        content: "签约成功",
+        type: "success",
       });
       setTimeout(() => {
-        modal && modal.destroy();
-      }, 1500);
+        setIsTipVisible(false);
+      }, 1500); 
       setTimeout(() => {
         props.updateEvents({ ...currentPresentable, contracts: res.data.data });
-      }, 2000);
-      
+      }, 1600);
     }
   };
   return (
@@ -261,11 +270,16 @@ export default function (props: contractProps) {
       )}
       {isLoginVisible && (
         <Login
-        loginFinished={loginFinished}
+          loginFinished={loginFinished}
           setIsLoginVisible={setIsLoginVisible}
         ></Login>
       )}
-
+      <Tip
+        content={tipConfig.content}
+        isModalVisible={isTipVisible}
+        type={tipConfig.type}
+        setIsModalVisible={setIsTipVisible}
+      />
       <Modal
         title="展品授权"
         zIndex={1200}
