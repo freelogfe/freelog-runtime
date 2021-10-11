@@ -119,7 +119,6 @@ export function mountWidget(
     resourceId: !sub ? FREELOG_DEV : data.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
     entry:
       entry || getEntry({presentableId: data.presentableId, parentNid: data.entityNid, subResourceIdOrName: data.resourceInfo.resourceId }),
-      // `${baseUrl}widgets/${sub.name.replace('/','-')}?entityNid=${data.entityNid}&presentableId=${data.presentableId}&subDependId=${data.subDependId}&resourceId=${data.resourceInfo.resourceId}`,
     isDev: !!entry,
   };
   addWidgetConfig(id, widgetConfig);

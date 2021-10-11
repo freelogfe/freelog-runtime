@@ -27,7 +27,7 @@ export default {
             id: widget.resourceInfo.resourceId,
             presentableId: widget.presentableId,
             name: widget.presentableName,
-            resourceName:  theme.data.resourceInfo.name,
+            resourceName:  widget.resourceInfo.name,
             resourceId: widget.resourceInfo.resourceId,
           },
           document.getElementById("freelog-single")

@@ -24,14 +24,13 @@
 
   **参数说明**
   (
-    sub: 自身依赖中的subDeps中一员,
-    container: 所需要将此插件挂载到哪个div下面,
-    data: { // 自身数据，以便查找到对应资源，后续后端支持解压访问后会大改
-      //@ts-ignore
-      presentableId: presentableId,
-      entityNid: subData.entityNid,
+    sub: // 自身依赖中的subDeps中一员,
+    container: // 挂载插件容器，需要将此插件挂载到哪个div下面,
+    data: { 
+      presentableId: presentableId, // 最外层展品id（如果子插件加载自身依赖的子插件，也需要这个展品id）
+      entityNid: subData.entityNid, // 自身起始链路id，用于判定权限
       subDependId: sub.id,
-      resourceInfo: { resourceId: sub.id },
+      resourceInfo: { resourceId: sub.id }, // 资源id，用于定位资源
     },
     entry?: string,
     config?: any
