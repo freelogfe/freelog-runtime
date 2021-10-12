@@ -92,8 +92,11 @@ export function mountWidget(
   isTheme?: boolean
 ): any {
   // @ts-ignore
-  console.log(this.name)
-
+  const that = this
+  let configData = config
+  if(!that || !that.name){
+    
+  }
   // TODO 为了安全，得验证是否是插件使用还是运行时使用mountWidget
   let commonData: any;
   let entry = ""
@@ -162,8 +165,8 @@ export function mountWidget(
   // @ts-ignore
   const app = loadMicroApp(widgetConfig, {
     sandbox: {
-      strictStyleIsolation: config ? !!config.shadowDom : false,
-      experimentalStyleIsolation: config ? !!config.scopedCss : true,
+      strictStyleIsolation: configData ? !!configData.shadowDom : false,
+      experimentalStyleIsolation: configData ? !!configData.scopedCss : true,
     },
   });
   // const id2 = createId(sub.id + 1)
