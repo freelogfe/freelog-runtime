@@ -121,10 +121,11 @@ export function mountWidget(
       subDependId: widget.presentableId || "",
       resourceInfo: {
         resourceId: widget.id,
-        resourceName: widget.resourceName,
+        resourceName: widget.name,
       },
     };
   }
+  console.log(widget)
   // TODO freelog-需要用常量
   let widgetId = "freelog-" + commonData.resourceInfo.resourceId;
   // @ts-ignore
@@ -146,7 +147,7 @@ export function mountWidget(
     name: widgetId, //id
     isTheme: !!isTheme,
     presentableId: commonData.presentableId,
-    widgetName: widget.name.replace("/", "-"),
+    widgetName: commonData.resourceInfo.resourceName.replace("/", "-"),
     parentNid: commonData.entityNid,
     resourceName: commonData.resourceInfo.resourceName,
     subResourceIdOrName: commonData.resourceInfo.resourceId,
