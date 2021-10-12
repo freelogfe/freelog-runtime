@@ -68,10 +68,10 @@ export function removeSandBox(key: string) {
 }
 const count = 0;
 let firstDev = false;
-// 可供插件自己加载子插件  sub需要验证格式
+// 可供插件自己加载子插件  widget需要验证格式
 /**
  *
- * @param sub         插件数据
+ * @param widget      插件数据
  * @param container   挂载容器
  * @param commonData  最外层展品数据（子孙插件都需要用）
  * @param config      配置数据
@@ -86,22 +86,23 @@ export function mountWidget(
   container: any,
   topPresentableData: any,
   config?: any,
-  dev?: boolean
+  isTheme?: boolean
 ): any {
   // if (entry && /\/$/.test(entry)) {
   //   entry = entry.substr(0, entry.length - 1);
   // }
   let commonData: any;
+  let entry = ""
   if (!topPresentableData) {
     commonData = {
       id: widget.resourceInfo.resourceId,
-      name: widget.resourceInfo.name,
+      name: widget.resourceInfo.name || widget.resourceInfo.resourceName,
       presentableId: widget.presentableId || "",
       entityNid: "",
       subDependId: widget.presentableId || "",
       resourceInfo: {
         resourceId: widget.resourceInfo.resourceId,
-        resourceName: widget.resourceInfo.name,
+        resourceName: widget.resourceInfo.name || widget.resourceInfo.resourceName,
       },
     };
   } else {
@@ -117,10 +118,11 @@ export function mountWidget(
       },
     };
   }
-
+  // TODO freelog-需要用常量
+  let id = "freelog-" + commonData.resourceInfo.resourceId;
   // @ts-ignore
   const devData = window.freelogApp.devData;
-  if (devData && !entry) {
+  if (devData) {
     if (devData.type === DEV_TYPE_REPLACE) {
       entry = devData.params[commonData.id] || "";
     }
@@ -129,26 +131,22 @@ export function mountWidget(
       firstDev = true;
     }
   }
-   
-  let id = !sub
-    ? FREELOG_DEV
-    : "freelog-" + commonData.resourceInfo.resourceId;
-  if (sub && flatternWidgets.has(sub.id)) {
-    id = "freelog-" + sub.id + "-" + (count + 1);
+  // TODO  一个插件只许出现一次是不对的，所以这里要注意， count也是不合理的
+  if (flatternWidgets.has(widget.id)) {
+    id = "freelog-" + widget.id + "-" + (count + 1);
   }
-  //  TODO 用了太多重复判断，要抽取,当entry存在时该行不出现sub data
   const widgetConfig = {
     container,
     name: id, //id
-    isTheme: commonData.isTheme,
+    isTheme: !!isTheme,
     presentableId: commonData.presentableId,
-    widgetName: !sub ? FREELOG_DEV : sub.name.replace("/", "-"),
+    widgetName: !widget ? FREELOG_DEV : widget.name.replace("/", "-"),
     parentNid: entry ? "" : commonData.entityNid,
     resourceName: entry
       ? FREELOG_DEV
       : commonData.resourceInfo.resourceName,
     subResourceIdOrName: entry ? "" : commonData.resourceInfo.resourceId,
-    resourceId: !sub ? FREELOG_DEV : commonData.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
+    resourceId: !widget ? FREELOG_DEV : commonData.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
     entry:
       entry ||
       getEntry({

@@ -17,6 +17,7 @@ export function dev():any{
     if(params.dev.toLowerCase() === 'replace'){
         return {type: DEV_TYPE_REPLACE, params}
     }else{
+        // TODO $_是路由前缀，这里有错误，需要引用常量
         params.dev =  params.dev.split('$_')[0]
     }
     return {type: DEV_WIDGET, params}
