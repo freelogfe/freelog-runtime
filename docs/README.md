@@ -1,4 +1,3 @@
-# 草稿，仅供内部使用
 
 ## 介绍
 
@@ -759,3 +758,81 @@ const res = await window.freelogApp.getUserData(key);
    **目前仅支持最新的问题最少的最好的viewport兼容方案**
 
    **推荐使用 postcss-px-to-viewport 插件, 各框架具体使用方法请百度**
+
+## 加载子插件
+
+### 加载自身依赖的插件
+
+```ts
+
+  **参数说明**
+  (
+    sub: // 自身依赖中的subDeps中一员,
+    container: // 挂载插件容器，需要将此插件挂载到哪个div下面,
+    data: {
+      presentableId: presentableId, // 最外层展品id（如果子插件加载自身依赖的子插件，也需要这个展品id）
+      entityNid: subData.entityNid, // 自身起始链路id，用于判定权限
+      subDependId: sub.id,
+      resourceInfo: { resourceId: sub.id }, // 资源id，用于定位资源
+    },
+    entry?: string,
+    config?: any
+  )
+```
+
+```ts
+ **用法**
+const presentableId = await window.freelogApp.getSelfId(window);
+const subData = await window.freelogApp.getSubDep(presentableId);
+subData.subDeps.some((sub, index) => {
+  if (index === 1) return true;
+  window.freelogApp.mountWidget(
+    sub,
+    document.getElementById("freelog-single"),
+    {
+      //@ts-ignore
+      presentableId: presentableId,
+      entityNid: subData.entityNid,
+      subDependId: sub.id,
+      resourceInfo: { resourceId: sub.id },
+    },
+    ""
+  );
+});
+```
+
+### 加载展品插件
+
+```ts
+
+  **参数说明**
+  (
+    data: {
+      id: widget.resourceInfo.resourceId, // 展品对应的资源id
+      presentableId: widget.presentableId, // 展品id
+      name: widget.presentableName,   // 展品名称
+      resourceName:  widget.resourceInfo.name, // 资源名称
+    },
+    container: // 挂载插件容器，需要将此插件挂载到哪个div下面,
+  )
+```
+
+```ts
+ **用法**
+ const res = await window.freelogApp.getPresentables({
+    resourceType: "widget",
+  });
+  const widgets = res.data.data.dataList;
+  widgets.some((widget, index) => {
+    // if (index === 1) return true;
+    window.freelogApp.mountWidget(
+      {
+        id: widget.resourceInfo.resourceId,
+        presentableId: widget.presentableId,
+        name: widget.presentableName,
+        resourceName:  widget.resourceInfo.name,
+      },
+      document.getElementById("freelog-single")
+    );
+  });
+```
