@@ -143,7 +143,7 @@ export function mountWidget(
     isTheme: !!isTheme,
     presentableId: commonData.presentableId,
     widgetName: widget.name.replace("/", "-"),
-    parentNid: entry ? "" : commonData.entityNid,
+    parentNid: commonData.entityNid,
     resourceName: commonData.resourceInfo.resourceName,
     subResourceIdOrName: commonData.resourceInfo.resourceId,
     resourceId: commonData.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
