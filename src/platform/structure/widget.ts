@@ -106,7 +106,6 @@ export function mountWidget(
       name: widget.resourceInfo.name || widget.resourceInfo.resourceName,
       presentableId: widget.presentableId || "",
       entityNid: "",
-      subDependId: widget.presentableId || "",
       resourceInfo: {
         resourceId: widget.resourceInfo.resourceId,
         resourceName: widget.resourceInfo.name || widget.resourceInfo.resourceName,
@@ -115,17 +114,16 @@ export function mountWidget(
   } else {
     commonData = {
       id: widget.id,
-      name: widget.resourceName,
+      name: widget.name,
       presentableId: topPresentableData.data.presentableId || "",
       entityNid: topPresentableData.entityNid,
-      subDependId: widget.presentableId || "",
       resourceInfo: {
         resourceId: widget.id,
         resourceName: widget.name,
       },
     };
   }
-  console.log(widget)
+  console.log(widget, topPresentableData)
   // TODO freelog-需要用常量
   let widgetId = "freelog-" + commonData.resourceInfo.resourceId;
   // @ts-ignore
