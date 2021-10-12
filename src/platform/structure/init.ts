@@ -54,6 +54,7 @@ export function initNode() {
       container,
       "",
       { shadowDom: false, scopedCss: true },
+      0,
       true
     );
     // new Promise<void>((resolve) => {

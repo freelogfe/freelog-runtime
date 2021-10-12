@@ -86,6 +86,7 @@ export function mountWidget(
   container: any,
   topPresentableData: any,
   config?: any,
+  seq: number,
   isTheme?: boolean
 ): any {
   // if (entry && /\/$/.test(entry)) {
@@ -119,7 +120,7 @@ export function mountWidget(
     };
   }
   // TODO freelog-需要用常量
-  let id = "freelog-" + commonData.resourceInfo.resourceId;
+  let widgetId = "freelog-" + commonData.resourceInfo.resourceId;
   // @ts-ignore
   const devData = window.freelogApp.devData;
   if (devData) {
@@ -131,22 +132,21 @@ export function mountWidget(
       firstDev = true;
     }
   }
-  // TODO  一个插件只许出现一次是不对的，所以这里要注意， count也是不合理的
-  if (flatternWidgets.has(widget.id)) {
-    id = "freelog-" + widget.id + "-" + (count + 1);
+  if (seq) {
+    widgetId = "freelog-" + widget.id + seq;
   }
   const widgetConfig = {
     container,
-    name: id, //id
+    name: widgetId, //id
     isTheme: !!isTheme,
     presentableId: commonData.presentableId,
-    widgetName: !widget ? FREELOG_DEV : widget.name.replace("/", "-"),
+    widgetName: widget.name.replace("/", "-"),
     parentNid: entry ? "" : commonData.entityNid,
     resourceName: entry
       ? FREELOG_DEV
       : commonData.resourceInfo.resourceName,
     subResourceIdOrName: entry ? "" : commonData.resourceInfo.resourceId,
-    resourceId: !widget ? FREELOG_DEV : commonData.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
+    resourceId: commonData.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
     entry:
       entry ||
       getEntry({
@@ -156,7 +156,7 @@ export function mountWidget(
       }),
     isDev: !!entry,
   };
-  addWidgetConfig(id, widgetConfig);
+  addWidgetConfig(widgetId, widgetConfig);
   // TODO 所有插件加载用promise all
   // @ts-ignore
   const app = loadMicroApp(widgetConfig, {
@@ -176,15 +176,15 @@ export function mountWidget(
     ...app,
     mount: async () => {
       await app.mount();
-      addWidget(id, app);
+      addWidget(widgetId, app);
     },
     unmount: async () => {
       await app.unmount();
-      deactiveWidget(id);
+      deactiveWidget(widgetId);
       setLocation();
     },
   };
-  addWidget(id, _app);
+  addWidget(widgetId, _app);
   // TODO 拦截mount做处理
   return _app;
 }
