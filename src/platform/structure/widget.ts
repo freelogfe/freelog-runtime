@@ -91,9 +91,10 @@ export function mountWidget(
   seq: number,
   isTheme?: boolean
 ): any {
-  // if (entry && /\/$/.test(entry)) {
-  //   entry = entry.substr(0, entry.length - 1);
-  // }
+  // @ts-ignore
+  console.log(this.name)
+
+  // TODO 为了安全，得验证是否是插件使用还是运行时使用mountWidget
   let commonData: any;
   let entry = ""
   if (!topPresentableData) {
