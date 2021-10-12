@@ -75,7 +75,9 @@ let firstDev = false;
  * @param container   挂载容器
  * @param commonData  最外层展品数据（子孙插件都需要用）
  * @param config      配置数据
- * @param entry       dev模式使用入口
+ * @param seq         一个节点内可以使用多个插件，但需要传递序号，
+ * TODO 如果需要支持不同插件下使用同一个插件，需要将展品id也加上
+ * 
  * @returns
  * 情况1.加载展品插件  topPresentableData只能为""或null值
  * 情况2.加载子插件  topPresenbleData必须传
@@ -85,7 +87,7 @@ export function mountWidget(
   widget: any,
   container: any,
   topPresentableData: any,
-  config?: any,
+  config: any,
   seq: number,
   isTheme?: boolean
 ): any {
@@ -132,7 +134,7 @@ export function mountWidget(
       firstDev = true;
     }
   }
-  if (seq) {
+  if (seq + "") {
     widgetId = "freelog-" + widget.id + seq;
   }
   const widgetConfig = {
