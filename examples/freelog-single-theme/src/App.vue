@@ -24,16 +24,24 @@ export default {
         window.freelogApp.mountWidget(
           sub,
           document.getElementById("freelog-single"),
-          {
-            //@ts-ignore
-            presentableId: presentableId,
-            entityNid: subData.entityNid,
-            subDependId: sub.id,
-            resourceName:  theme.data.resourceInfo.name,
-            resourceInfo: { resourceId: sub.id },
-          },
+          subData,
           ""
         );
+        // window.freelogApp.mountWidget(
+        //   sub,
+        //   document.getElementById("freelog-single"),
+        //   {
+        //     //@ts-ignore
+        //     presentableId: presentableId,
+        //     entityNid: subData.entityNid,
+        //     subDependId: sub.id,
+        //     resourceInfo: {
+        //       resourceId: sub.id,
+        //       // resourceName: sub.resourceInfo.name,
+        //     },
+        //   },
+        //   ""
+        // );
       });
     },
   },

@@ -19,7 +19,7 @@ import { loadMicroApp } from "../runtime";
 import { setLocation } from "./proxy";
 import { DEV_TYPE_REPLACE, DEV_WIDGET } from "./dev";
 import { getSubDep, getEntry } from "./utils";
-export const FREELOG_DEV = "freelogDev";
+export const FREELOG_DEV = 'freelogDev'
 export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
 export const activeWidgets = new Map<any, any>();
@@ -70,69 +70,51 @@ const count = 0;
 let firstDev = false;
 // 可供插件自己加载子插件  sub需要验证格式
 /**
- *
+ * 
  * @param sub         插件数据
  * @param container   挂载容器
- * @param commonData  最外层展品数据（子孙插件都需要用）
- * @param config      配置数据
+ * @param topPresenbleData  最外层展品数据（子孙插件都需要用）
+ * @param config      配置数据 
  * @param entry       dev模式使用入口
- * @returns
- * 情况1.加载展品插件  topPresentableData只能为""或null值
+ * @returns 
+ * 情况1.加载展品插件  topPresenbleData只能为""或null值
  * 情况2.加载子插件  topPresenbleData必须传
- * 情况3.dev开发模式， 
+ * 情况3.开发模式
  */
 export function mountWidget(
-  widget: any,
+  sub: any,
   container: any,
-  topPresentableData: any,
-  config?: any,
-  dev?: boolean
+  data: any,
+  entry?: string,
+  config?: any
 ): any {
-  // if (entry && /\/$/.test(entry)) {
-  //   entry = entry.substr(0, entry.length - 1);
-  // }
-  let commonData: any;
-  if (!topPresentableData) {
-    commonData = {
-      id: widget.resourceInfo.resourceId,
-      name: widget.resourceInfo.name,
-      presentableId: widget.presentableId || "",
-      entityNid: "",
-      subDependId: widget.presentableId || "",
-      resourceInfo: {
-        resourceId: widget.resourceInfo.resourceId,
-        resourceName: widget.resourceInfo.name,
-      },
-    };
-  } else {
-    commonData = {
-      id: widget.id,
-      name: widget.resourceName,
-      presentableId: topPresentableData.data.presentableId || "",
-      entityNid: topPresentableData.entityNid,
-      subDependId: widget.presentableId || "",
-      resourceInfo: {
-        resourceId: widget.id,
-        resourceName: widget.resourceName,
-      },
-    };
-  }
-
+  if(entry && /\/$/.test(entry)){
+		entry = entry.substr(0, entry.length - 1)
+	};
+	 
   // @ts-ignore
   const devData = window.freelogApp.devData;
   if (devData && !entry) {
     if (devData.type === DEV_TYPE_REPLACE) {
-      entry = devData.params[commonData.id] || "";
+      entry = devData.params[sub.id] || "";
     }
     if (devData.type === DEV_WIDGET && !firstDev) {
       entry = devData.params.dev;
       firstDev = true;
     }
   }
-   
-  let id = !sub
-    ? FREELOG_DEV
-    : "freelog-" + commonData.resourceInfo.resourceId;
+  if (!data && sub) {
+    data = {
+      presentableId: sub.presentableId || "",
+      entityNid: "",
+      subDependId: sub.presentableId || "",
+      resourceInfo: {
+        resourceId: sub.id,
+        resourceName: sub.resourceName
+      },
+    };
+  }
+  let id = !sub ? FREELOG_DEV : "freelog-" + data.resourceInfo.resourceId;
   if (sub && flatternWidgets.has(sub.id)) {
     id = "freelog-" + sub.id + "-" + (count + 1);
   }
@@ -140,22 +122,15 @@ export function mountWidget(
   const widgetConfig = {
     container,
     name: id, //id
-    isTheme: commonData.isTheme,
-    presentableId: commonData.presentableId,
-    widgetName: !sub ? FREELOG_DEV : sub.name.replace("/", "-"),
-    parentNid: entry ? "" : commonData.entityNid,
-    resourceName: entry
-      ? FREELOG_DEV
-      : commonData.resourceInfo.resourceName,
-    subResourceIdOrName: entry ? "" : commonData.resourceInfo.resourceId,
-    resourceId: !sub ? FREELOG_DEV : commonData.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
+    isTheme: data.isTheme,
+    presentableId: data.presentableId,
+    widgetName: !sub ? FREELOG_DEV : sub.name.replace('/','-'),
+    parentNid: entry ? '' : data.entityNid,
+    resourceName:  entry ? FREELOG_DEV : data.resourceInfo.resourceName,
+    subResourceIdOrName: entry ? '' :  data.resourceInfo.resourceId,
+    resourceId: !sub ? FREELOG_DEV : data.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
     entry:
-      entry ||
-      getEntry({
-        presentableId: commonData.presentableId,
-        parentNid: commonData.entityNid,
-        subResourceIdOrName: commonData.resourceInfo.resourceId,
-      }),
+      entry || getEntry({presentableId: data.presentableId, parentNid: data.entityNid, subResourceIdOrName: data.resourceInfo.resourceId }),
     isDev: !!entry,
   };
   addWidgetConfig(id, widgetConfig);
@@ -192,8 +167,9 @@ export function mountWidget(
 }
 // 固定id 的加载子插件，仅支持加载一次
 export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
-  const parentGlobal = sandBoxs.get("freelog-" + parent.data.presentableId)
-    .proxy;
+  const parentGlobal = sandBoxs.get(
+    "freelog-" + parent.data.presentableId
+  ).proxy;
   // @ts-ignore
   // theme.subDeps.push({id:"60068f63973b31003a4fbf2a",name:"chtes/pubu",type:"resource",resourceType:"widget"})
   const promises: Promise<any>[] = [];

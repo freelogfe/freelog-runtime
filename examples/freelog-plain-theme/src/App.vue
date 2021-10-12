@@ -23,15 +23,19 @@ export default {
       widgets.some((widget, index) => {
         if (index === 1) return true;
         window.freelogApp.mountWidget(
-          {
-            id: widget.resourceInfo.resourceId,
-            presentableId: widget.presentableId,
-            name: widget.presentableName,
-            resourceName:  widget.resourceInfo.name,
-            resourceId: widget.resourceInfo.resourceId,
-          },
+          widget,
           document.getElementById("freelog-single")
         );
+        // window.freelogApp.mountWidget(
+        //   {
+        //     presentableId: widget.presentableId,
+        //     name: widget.presentableName,
+        //     resourceId: widget.resourceInfo.resourceId,
+        //     resourceName:  widget.resourceInfo.name,
+        //     // resourceId: widget.resourceInfo.resourceId,
+        //   },
+        //   document.getElementById("freelog-single")
+        // );
       });
     },
   },
