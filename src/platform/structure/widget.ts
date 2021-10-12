@@ -142,10 +142,8 @@ export function mountWidget(
     presentableId: commonData.presentableId,
     widgetName: widget.name.replace("/", "-"),
     parentNid: entry ? "" : commonData.entityNid,
-    resourceName: entry
-      ? FREELOG_DEV
-      : commonData.resourceInfo.resourceName,
-    subResourceIdOrName: entry ? "" : commonData.resourceInfo.resourceId,
+    resourceName: commonData.resourceInfo.resourceName,
+    subResourceIdOrName: commonData.resourceInfo.resourceId,
     resourceId: commonData.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
     entry:
       entry ||
