@@ -96,6 +96,11 @@ export async function getSelfId() {
   // @ts-ignore
   return widgetsConfig.get(this.name)?.presentableId;
 }
+ 
+export async function getSelfConfig() {
+  // @ts-ignore
+  return {...widgetsConfig.get(this.name)?.config};
+}
 // TODO if error
 export async function getSubDep(presentableId: any) {
   let isTheme = false
