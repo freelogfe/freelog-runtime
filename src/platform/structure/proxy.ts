@@ -33,7 +33,7 @@ import { DEV_WIDGET } from "./dev";
 const rawDocument = document;
 const HISTORY = 'history'
 const HASH = 'hash'
-// const rawHistory = window["history"];
+const rawHistory = window["history"];
 const rawLocation = window["location"];
 const rawLocalStorage = window["localStorage"];
 // widgetName  {routerType: 'history' || 'hash'}
@@ -206,6 +206,8 @@ export const saveSandBox = function (name: string, sandBox: any) {
   addSandBox(name, sandBox);
 };
 export const createHistoryProxy = function (name: string, sandbox: any) {
+  const widgetConfig = widgetsConfig.get(name);
+
   function patch() {
     let hash = "";
     let routerType = HISTORY
@@ -234,6 +236,10 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     setHistory(name, arguments, true);
   }
   function go(count: number) {
+    console.log(widgetConfig.config)
+    if(widgetConfig.config.historyFB){
+      return rawHistory.go(count)
+    }
     const history = historyGo(name, count);
     if (history) {
       // @ts-ignore
@@ -245,6 +251,9 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     // }
   }
   function back() {
+    if(widgetConfig.config.historyFB){
+      return rawHistory.back()
+    }
     const history = historyBack(name);
     if (history) {
       // @ts-ignore
@@ -253,6 +262,9 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     }
   }
   function forward() {
+    if(widgetConfig.config.historyFB){
+      return rawHistory.forward()
+    }
     const history = historyForward(name);
     if (history) {
       // @ts-ignore

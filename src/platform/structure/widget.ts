@@ -93,13 +93,13 @@ export function mountWidget(
   seq: number,
   isTheme?: boolean
 ): any {
-  console.log(widget)
   // @ts-ignore
   const that = this;
   let configData = config;
   // TODO 为了安全，得验证是否是插件使用还是运行时使用mountWidget
   if (that && that.name) {
     isTheme = false;
+    defaultWidgetConfigData.historyFB = false
   }
   config = {
     ...defaultWidgetConfigData,
@@ -184,13 +184,6 @@ export function mountWidget(
       experimentalStyleIsolation: configData ? !!configData.scopedCss : true,
     },
   });
-  // const id2 = createId(sub.id + 1)
-  // const app2 = loadMicroApp({
-  //     container: widgetContainer2,
-  //     name: id2,
-  //     entry: '//localhost:7103'
-  // }, { sandbox: { strictStyleIsolation: true, experimentalStyleIsolation: true } },);
-  // addWidget(id2, app2);
   const _app = {
     ...app,
     mount: async () => {
@@ -216,37 +209,6 @@ export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
   const promises: Promise<any>[] = [];
   // @ts-ignore
   parent.subDeps.forEach((sub) => {
-    // 检测主题内部有没有这个插件，没有则不走这不
-    // const tags = document.getElementsByName(sub.tagName)
-    // if(!tags.length){
-    //   return
-    // }
-    // {"id":"60068f63973b31003a4fbf2a","name":"chtes/pubu","type":"resource","resourceType":"image"}
-    // let url = resolveUrl(
-    //   `${baseUrl}auths/presentables/${parent.entityNid}/fileStream`,
-    //   {
-    //     parentNid: parent.data.presentableId,
-    //     subResourceIdOrName: sub.id,
-    //   }
-    // );
-    // let isTest = false;
-    // if (
-    //   window.location.href
-    //     .replace("http://", "")
-    //     .replace("https://", "")
-    //     .indexOf("t.") === 0
-    // ) {
-    //   isTest = true;
-    // }
-    // if (isTest)
-    //   resolveUrl(
-    //     `${baseUrl}auths/testResources/${parent.entityNid}/fileStream`,
-    //     {
-    //       parentNid: parent.data.presentableId,
-    //       subEntityIdOrName: sub.id,
-    //     }
-    //   );
-
     switch (sub.resourceType) {
       case "widget":
         const subContainer = parentGlobal.document.getElementById(
