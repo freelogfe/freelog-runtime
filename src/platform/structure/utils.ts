@@ -92,16 +92,17 @@ export function resolveUrl(path: string, params?: any): string {
   }
   return `${baseUrl}${path}?${queryStringArr.join("&")}`;
 }
+// TODO 这个根本不需要
 export async function getSelfId() {
   // @ts-ignore
   return widgetsConfig.get(this.name)?.presentableId;
 }
  
 export async function getSelfConfig() {
-  // @ts-ignore
+  // @ts-ignore  由于config只有一层，所以用...就够了
   return {...widgetsConfig.get(this.name)?.config};
 }
-// TODO if error
+// TODO if error  这里不需要参数，除了运行时自行调用，需要抽离出来不与插件调用混在一起
 export async function getSubDep(presentableId: any) {
   let isTheme = false
   // @ts-ignore
@@ -110,6 +111,8 @@ export async function getSubDep(presentableId: any) {
   if (!widgetSandBox) {
     isTheme = true
     widgetSandBox = { name: "freelog-" + presentableId, presentableId };
+  }else {
+    presentableId = widgetsConfig.get(that.name).presentableId
   }
   // @ts-ignore
   let info = await getInfoById.bind(widgetSandBox)(presentableId);
