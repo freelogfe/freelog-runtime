@@ -151,18 +151,7 @@ export function mountWidget(
   if (seq + "") {
     widgetId = "freelog-" + widget.id + seq;
   }
-  console.log(
-    config,
-    widget,
-    topPresentableData,
-    commonData,
-    entry,
-    getEntry({
-      presentableId: commonData.presentableId,
-      parentNid: commonData.entityNid,
-      subResourceIdOrName: commonData.resourceInfo.resourceId,
-    })
-  );
+  
 
   const widgetConfig = {
     container,

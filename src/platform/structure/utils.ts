@@ -98,14 +98,16 @@ export async function getSelfId() {
 }
 // TODO if error
 export async function getSubDep(presentableId: any) {
+  let isTheme = false
   // @ts-ignore
   let that = sandBoxs.get(this.name);
   if (!that) {
+    isTheme = true
     that = { name: "freelog-" + presentableId, presentableId };
   }
   // @ts-ignore
   let info = await getInfoById.bind(that)(presentableId);
-  if (info.data && info.data.errCode === 3) {// 只有主题才需要权限验证
+  if (info.data && info.data.errCode === 3 && isTheme) {// 只有主题才需要权限验证
     await new Promise((resolve, reject) => {
       addAuth.bind(that)(presentableId, resolve, reject, { immediate: true });
     });
@@ -117,6 +119,10 @@ export async function getSubDep(presentableId: any) {
     }
 
     info = await getInfoById.bind(that)(presentableId);
+  }
+  // TODO 报错要明确
+  if(!info.data){
+    return info
   }
   const [subDeps, entityNid, config] = [
     info.headers["freelog-sub-dependencies"],
