@@ -105,7 +105,7 @@ export async function getSubDep(presentableId: any) {
   }
   // @ts-ignore
   let info = await getInfoById.bind(that)(presentableId);
-  if (info.data.errCode) {
+  if (info.data && info.data.errCode === 3) {// 只有主题才需要权限验证
     await new Promise((resolve, reject) => {
       addAuth.bind(that)(presentableId, resolve, reject, { immediate: true });
     });
@@ -115,14 +115,18 @@ export async function getSubDep(presentableId: any) {
         addAuth.bind(that)(presentableId, resolve, reject, { immediate: true });
       });
     }
+
     info = await getInfoById.bind(that)(presentableId);
   }
-  const [subDeps, entityNid] = [
+  const [subDeps, entityNid, config] = [
     info.headers["freelog-sub-dependencies"],
     info.headers["freelog-entity-nid"],
+    info.headers["freelog-resource-property"],
   ];
   return {
     subDeps: subDeps ? JSON.parse(decodeURIComponent(subDeps)) : [],
+    headers: info.headers,
+    properties: config ? JSON.parse(decodeURIComponent(config)) : {},
     entityNid,
     data: info.data.data,
   };

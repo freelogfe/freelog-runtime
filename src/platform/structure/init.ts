@@ -1,5 +1,7 @@
 import frequest from "../../services/handler";
 import node from "../../services/api/modules/node";
+import presentable from '../../services/api/modules/presentable';
+
 import { getSubDep, getUserInfo } from "./utils";
 import { freelogApp } from "./global";
 import { init } from "./api";
@@ -7,6 +9,7 @@ import { dev, DEV_WIDGET } from "./dev";
 import { LOGIN } from '../../bridge/event'
 import { addAuth } from '../../bridge/index'
 import { pathATag, initLocation } from './proxy'
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 // @ts-ignore  TODO 需要控制不可改变
 window.freelogApp = freelogApp;
 
@@ -46,14 +49,21 @@ export function initNode() {
     // if (devData.type === DEV_WIDGET) {
     //   freelogApp.mountWidget("", container, {presentableId: nodeInfo.nodeThemeId, isTheme: true,}, "", {shadowDom: false,scopedCss: true});
     //   return;
-    // }
+    // frequest(
+    //   presentable.getPresentableDetail,
+    //   [presentableId],
+    //   query
+    // ) 
+    // }  
     // @ts-ignore
     const theme = await getSubDep.bind({ name: "freelog-" + nodeInfo.nodeThemeId, presentableId: nodeInfo.nodeThemeId })(nodeInfo.nodeThemeId);
+    // @ts-ignore
+    console.log(theme.headers)
     freelogApp.mountWidget(
       theme.data,
       container,
       "",
-      { shadowDom: false, scopedCss: true },
+      { shadowDom: false, scopedCss: true, ...theme.properties },
       0,
       true
     );
