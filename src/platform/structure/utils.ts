@@ -100,25 +100,26 @@ export async function getSelfId() {
 export async function getSubDep(presentableId: any) {
   let isTheme = false
   // @ts-ignore
-  let that = sandBoxs.get(this.name);
-  if (!that) {
+  const that = this || {}
+  let widgetSandBox = sandBoxs.get(that.name);
+  if (!widgetSandBox) {
     isTheme = true
-    that = { name: "freelog-" + presentableId, presentableId };
+    widgetSandBox = { name: "freelog-" + presentableId, presentableId };
   }
   // @ts-ignore
-  let info = await getInfoById.bind(that)(presentableId);
+  let info = await getInfoById.bind(widgetSandBox)(presentableId);
   if (info.data && info.data.errCode === 3 && isTheme) {// 只有主题才需要权限验证
     await new Promise((resolve, reject) => {
-      addAuth.bind(that)(presentableId, resolve, reject, { immediate: true });
+      addAuth.bind(widgetSandBox)(presentableId, resolve, reject, { immediate: true });
     });
-    info = await getInfoById.bind(that)(presentableId);
+    info = await getInfoById.bind(widgetSandBox)(presentableId);
     if (info.data.errCode) {
       await new Promise((resolve, reject) => {
-        addAuth.bind(that)(presentableId, resolve, reject, { immediate: true });
+        addAuth.bind(widgetSandBox)(presentableId, resolve, reject, { immediate: true });
       });
     }
 
-    info = await getInfoById.bind(that)(presentableId);
+    info = await getInfoById.bind(widgetSandBox)(presentableId);
   }
   // TODO 报错要明确
   if(!info.data){
