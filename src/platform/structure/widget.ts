@@ -93,6 +93,7 @@ export function mountWidget(
   seq: number,
   isTheme?: boolean
 ): any {
+  console.log(widget)
   // @ts-ignore
   const that = this;
   let configData = config;
@@ -102,6 +103,7 @@ export function mountWidget(
   }
   config = {
     ...defaultWidgetConfigData,
+    ...(widget.versionProperty || {}),// versionProperty 展品里面的，可以freeze widget数据，防止加载时篡改
     ...config
   }
   if(!isTheme){

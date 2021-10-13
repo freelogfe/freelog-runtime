@@ -17,6 +17,7 @@ export default {
     async getSub() {
       const res = await window.freelogApp.getPresentables({
         resourceType: "widget",
+        isLoadVersionProperty: 1
       });
       console.log(res)
       const widgets = res.data.data.dataList;
@@ -24,7 +25,7 @@ export default {
         if (index === 1) return true;
         window.freelogApp.mountWidget(
           widget,
-          document.getElementById("freelog-single")
+          document.getElementById("freelog-single"),
         );
         // window.freelogApp.mountWidget(
         //   {
