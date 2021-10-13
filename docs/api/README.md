@@ -25,43 +25,33 @@
 ## mountWidget
 
 **用途：加载插件**
-
-### 加载自身依赖的插件
-
 ```ts
 
   **参数说明**
   (
-    sub: // 自身依赖中的subDeps中一员,
-    container: // 挂载插件容器，需要将此插件挂载到哪个div下面,
-    data: {
-      presentableId: presentableId, // 最外层展品id（如果子插件加载自身依赖的子插件，也需要这个展品id）
-      entityNid: subData.entityNid, // 自身起始链路id，用于判定权限
-      subDependId: sub.id,
-      resourceInfo: { resourceId: sub.id }, // 资源id，用于定位资源
-    },
-    entry?: string,
-    config?: any
+    widget,      // 插件数据
+    container,   // 挂载容器
+    commonData,  // 最外层展品数据（子孙插件都需要用）孙插件暂未完善
+    config,      // 配置数据
+    seq,         // 一个节点内可以使用多个插件，但需要传递序号，
   )
 ```
 
+### 加载自身依赖的插件
+
+
+
 ```ts
  **用法**
-const presentableId = await window.freelogApp.getSelfId(window);
-const subData = await window.freelogApp.getSubDep(presentableId);
+const subData = await window.freelogApp.getSubDep();
 subData.subDeps.some((sub, index) => {
   if (index === 1) return true;
   window.freelogApp.mountWidget(
     sub,
     document.getElementById("freelog-single"),
-    {
-      //@ts-ignore
-      presentableId: presentableId,
-      entityNid: subData.entityNid,
-      subDependId: sub.id,
-      resourceInfo: { resourceId: sub.id },
-    },
-    ""
+    subData, // 父数据
+    config: {}, // 子插件配置数据，需要另外获取资源上的配置数据（待提供方法）
+    seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号
   );
 });
 ```
@@ -69,35 +59,18 @@ subData.subDeps.some((sub, index) => {
 ### 加载展品插件
 
 ```ts
-
-  **参数说明**
-  (
-    data: {
-      id: widget.resourceInfo.resourceId, // 展品对应的资源id
-      presentableId: widget.presentableId, // 展品id
-      name: widget.presentableName,   // 展品名称
-      resourceName:  widget.resourceInfo.name, // 资源名称
-    },
-    container: // 挂载插件容器，需要将此插件挂载到哪个div下面,
-  )
-```
-
-```ts
  **用法**
  const res = await window.freelogApp.getPresentables({
     resourceType: "widget",
+    isLoadVersionProperty: 1
   });
+  console.log(res)
   const widgets = res.data.data.dataList;
   widgets.some((widget, index) => {
-    // if (index === 1) return true;
+    if (index === 1) return true;
     window.freelogApp.mountWidget(
-      {
-        id: widget.resourceInfo.resourceId,
-        presentableId: widget.presentableId,
-        name: widget.presentableName,
-        resourceName:  widget.resourceInfo.name,
-      },
-      document.getElementById("freelog-single")
+      widget,
+      document.getElementById("freelog-single"),
     );
   });
 ```
@@ -470,15 +443,23 @@ subData.subDeps.some((sub, index) => {
 
 ``` 
 
+## getSelfConfig
+
+```ts
+
+ **获取自身配置数据**
+
+ const widgetConfig = await window.freelogApp.getSelfConfig() 
+
+``` 
+
 ## getSubDep
  
 ```ts
 
  **获取自身依赖**
- /**
-  * {presentableId: 自身展品id}
- */
- const res = await window.freelogApp.getSubDep(presentableId) 
+ 
+ const res = await window.freelogApp.getSubDep() 
 
  **返回值**
   {
