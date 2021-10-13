@@ -385,7 +385,7 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品的子资源信息**
 
 ```ts
- const res = await window.freelogApp.getInfoById(
+ const res = await window.freelogApp.getSubResourceInfoById(
     presentableId: string | number, 
     parentNid: string, 
     subResourceIdOrName: string
@@ -404,7 +404,7 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品信息**
 
 ```ts
-  const res = await window.freelogApp.getInfoById(
+  const res = await window.freelogApp.getSubResourceInfoByName(
     resourceIdOrName: string | number,
     parentNid: string,
     subResourceIdOrName: string
