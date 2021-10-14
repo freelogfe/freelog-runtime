@@ -135,12 +135,11 @@ table {
 }
 
 @font-face {
-	font-family: 'freelog';
-	/* Project id 1522685 */
-	src: url('//at.alicdn.com/t/font_1522685_iozsvr0xly.woff2?t=1628495625664') format('woff2'),
-		url('//at.alicdn.com/t/font_1522685_iozsvr0xly.woff?t=1628495625664') format('woff'),
-		url('//at.alicdn.com/t/font_1522685_iozsvr0xly.ttf?t=1628495625664') format('truetype');
-}
+	font-family: 'freelog';  /* Project id 1522685 */
+	src: url('//at.alicdn.com/t/font_1522685_jcgmo30dh8j.woff2?t=1634204578444') format('woff2'),
+		 url('//at.alicdn.com/t/font_1522685_jcgmo30dh8j.woff?t=1634204578444') format('woff'),
+		 url('//at.alicdn.com/t/font_1522685_jcgmo30dh8j.ttf?t=1634204578444') format('truetype');
+  }
 
 .iconfont {
 	font-family: "freelog" !important;

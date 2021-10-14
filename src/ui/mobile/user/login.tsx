@@ -65,8 +65,11 @@ export default function (props: loginProps) {
         </div>
       </Modal>
       <div className="w-100x h-100x flex-column align-center">
+        <i className="iconfont login-back" onClick={()=>{
+          props.setModalType(0)
+        }}>&#xe6ff;</i>
         <div className="flex-1 w-100x flex-column align-center">
-          <i className="iconfont  mt-50 mb-20 logo">&#xe614;</i>
+          <i className="iconfont  mt-50 mb-20 logo" >&#xe614;</i>
 
           <div className="login-title mb-46 flex-row justify-center">
             免费专业的资源发行和运营平台

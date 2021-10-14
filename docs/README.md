@@ -37,7 +37,7 @@ bootstrap: 加载未运行，目前不建议进行
 
 mount: 放置插件启动代码
 
-unmount: 将所有实例置位null，回收内存
+unmount: 将所有实例置为null，回收内存
 ```
 
 ### webpack 通用配置
