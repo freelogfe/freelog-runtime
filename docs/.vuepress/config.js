@@ -4,7 +4,7 @@ module.exports = {
     title: 'docs',
     description: 'freelog 开发者文档',
     port: 8081,
-    base: '/freelog-runtime/',
+    base: '/',
     head: [
         ['link', {
             rel: 'icon',
