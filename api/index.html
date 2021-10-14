@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>freelogApp | docs</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/freelog-runtime/freelog.ico">
+    <meta name="description" content="freelog 开发者文档">
+    
+    <link rel="preload" href="/freelog-runtime/assets/css/0.styles.1b5b480a.css" as="style"><link rel="preload" href="/freelog-runtime/assets/js/app.97b599e4.js" as="script"><link rel="preload" href="/freelog-runtime/assets/js/2.b24e057d.js" as="script"><link rel="preload" href="/freelog-runtime/assets/js/8.38a0aee0.js" as="script"><link rel="prefetch" href="/freelog-runtime/assets/js/3.8e1af9e1.js"><link rel="prefetch" href="/freelog-runtime/assets/js/4.2dcc8728.js"><link rel="prefetch" href="/freelog-runtime/assets/js/5.b450b3e6.js"><link rel="prefetch" href="/freelog-runtime/assets/js/6.f0aa50fb.js"><link rel="prefetch" href="/freelog-runtime/assets/js/7.03a5609f.js"><link rel="prefetch" href="/freelog-runtime/assets/js/9.40425a6c.js">
+    <link rel="stylesheet" href="/freelog-runtime/assets/css/0.styles.1b5b480a.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/freelog-runtime/" class="home-link router-link-active"><img src="/freelog-runtime/logo.svg" alt="docs" class="logo"> <span class="site-name can-hide">docs</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/freelog-runtime/" class="nav-link">
+  指南
+</a></div><div class="nav-item"><a href="/freelog-runtime/api/" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  API
+</a></div><div class="nav-item"><a href="/freelog-runtime/faq/" class="nav-link">
+  FAQ
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/freelog-runtime/" class="nav-link">
+  指南
+</a></div><div class="nav-item"><a href="/freelog-runtime/api/" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  API
+</a></div><div class="nav-item"><a href="/freelog-runtime/faq/" class="nav-link">
+  FAQ
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>freelogApp</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/freelog-runtime/api/#getstaticpath" class="sidebar-link">getStaticPath</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#mountwidget" class="sidebar-link">mountWidget</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/freelog-runtime/api/#加载自身依赖的插件" class="sidebar-link">加载自身依赖的插件</a></li><li class="sidebar-sub-header"><a href="/freelog-runtime/api/#加载展品插件" class="sidebar-link">加载展品插件</a></li></ul></li><li><a href="/freelog-runtime/api/#getpresentablespaging" class="sidebar-link">getPresentablesPaging</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getpresentablessearch" class="sidebar-link">getPresentablesSearch</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getpresentabledetailbyid" class="sidebar-link">getPresentableDetailById</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getinfobyid" class="sidebar-link">getInfoById</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getinfobyname" class="sidebar-link">getInfoByName</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getresultbyid" class="sidebar-link">getResultById</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getresultbyname" class="sidebar-link">getResultByName</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getfilestreambyid" class="sidebar-link">getFileStreamById</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getfilestreambyname" class="sidebar-link">getFileStreamByName</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getsubinfobyid" class="sidebar-link">getSubInfoById</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getsubinfobyname" class="sidebar-link">getSubInfoByName</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getsubresultbyid" class="sidebar-link">getSubResultById</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getsubresultbyname" class="sidebar-link">getSubResultByName</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getsubfilestreambyid" class="sidebar-link">getSubFileStreamById</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getsubfilestreambyname" class="sidebar-link">getSubFileStreamByName</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getresourceinfobyid" class="sidebar-link">getResourceInfoById</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getresourceinfobyname" class="sidebar-link">getResourceInfoByName</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getsubresourceinfobyid" class="sidebar-link">getSubResourceInfoById</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getsubresourceinfobyname" class="sidebar-link">getSubResourceInfoByName</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#devdata" class="sidebar-link">devData</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#automoutsubwdigets" class="sidebar-link">autoMoutSubWdigets</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getselfid" class="sidebar-link">getSelfId</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getselfconfig" class="sidebar-link">getSelfConfig</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getsubdep" class="sidebar-link">getSubDep</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#callauth" class="sidebar-link">callAuth</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#addauth" class="sidebar-link">addAuth</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#onlogin" class="sidebar-link">onLogin</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getcurrentuser" class="sidebar-link">getCurrentUser</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#setuserdata" class="sidebar-link">setUserData</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/freelog-runtime/api/#getuserdata" class="sidebar-link">getUserData</a><ul class="sidebar-sub-headers"></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="freelogapp"><a href="#freelogapp" class="header-anchor">#</a> freelogApp</h1> <p><strong>下面所有接口都挂在 window.freelogApp 对象上</strong></p> <p><strong>接口返回值先自行看，后面再整理</strong></p> <h2 id="getstaticpath"><a href="#getstaticpath" class="header-anchor">#</a> getStaticPath</h2> <p><strong>用途：获取图片字体等静态资源的正确路径</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>
+  
+</code></pre></div><div class="language-ts extra-class"><pre class="language-ts"><code> <span class="token operator">**</span>用法<span class="token operator">**</span>
+  <span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getStaticPath</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+    <span class="token punctuation">(</span>
+      path<span class="token operator">:</span> 以<span class="token operator">/</span>开头的正常路径
+    <span class="token punctuation">)</span>
+</code></pre></div><h2 id="mountwidget"><a href="#mountwidget" class="header-anchor">#</a> mountWidget</h2> <p><strong>用途：加载插件</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+  <span class="token punctuation">(</span>
+    widget<span class="token punctuation">,</span>      <span class="token comment">// 插件数据</span>
+    container<span class="token punctuation">,</span>   <span class="token comment">// 挂载容器</span>
+    commonData<span class="token punctuation">,</span>  <span class="token comment">// 最外层展品数据（子孙插件都需要用）孙插件暂未完善</span>
+    config<span class="token punctuation">,</span>      <span class="token comment">// 配置数据</span>
+    seq<span class="token punctuation">,</span>         <span class="token comment">// 一个节点内可以使用多个插件，但需要传递序号，</span>
+  <span class="token punctuation">)</span>
+</code></pre></div><h3 id="加载自身依赖的插件"><a href="#加载自身依赖的插件" class="header-anchor">#</a> 加载自身依赖的插件</h3> <div class="language-ts extra-class"><pre class="language-ts"><code> <span class="token operator">**</span>用法<span class="token operator">**</span>
+<span class="token keyword">const</span> subData <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getSubDep</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+subData<span class="token punctuation">.</span>subDeps<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span><span class="token punctuation">(</span>sub<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>index <span class="token operator">===</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">mountWidget</span><span class="token punctuation">(</span>
+    sub<span class="token punctuation">,</span>
+    document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;freelog-single&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    subData<span class="token punctuation">,</span> <span class="token comment">// 父数据</span>
+    config<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token comment">// 子插件配置数据，需要另外获取资源上的配置数据（待提供方法）</span>
+    seq<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token comment">// 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="加载展品插件"><a href="#加载展品插件" class="header-anchor">#</a> 加载展品插件</h3> <div class="language-ts extra-class"><pre class="language-ts"><code> <span class="token operator">**</span>用法<span class="token operator">**</span>
+ <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getPresentables</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    resourceType<span class="token operator">:</span> <span class="token string">&quot;widget&quot;</span><span class="token punctuation">,</span>
+    isLoadVersionProperty<span class="token operator">:</span> <span class="token number">1</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span>
+  <span class="token keyword">const</span> widgets <span class="token operator">=</span> res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>data<span class="token punctuation">.</span>dataList<span class="token punctuation">;</span>
+  widgets<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span><span class="token punctuation">(</span>widget<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>index <span class="token operator">===</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">mountWidget</span><span class="token punctuation">(</span>
+      widget<span class="token punctuation">,</span>
+      document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;freelog-single&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h2 id="getpresentablespaging"><a href="#getpresentablespaging" class="header-anchor">#</a> getPresentablesPaging</h2> <p><strong>用途：分页获取展品</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+    query<span class="token operator">:</span><span class="token punctuation">{</span>
+      skip<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 从第几个开始</span>
+      limit<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 取多少个</span>
+      resourceType<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 资源类型</span>
+      omitResourceType<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 过滤资源类型</span>
+      tags<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 展品和资源标签，多个使用&quot;,&quot;隔开</span>
+      projection<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span>
+      keywords<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span>
+      isLoadVersionProperty<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 是否加载版本</span>
+    <span class="token punctuation">}</span>
+</code></pre></div><div class="language-ts extra-class"><pre class="language-ts"><code>   <span class="token operator">**</span>用法<span class="token operator">**</span>
+   <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getPresentablesPaging</span><span class="token punctuation">(</span>query<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token punctuation">{</span>
+
+   <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><h2 id="getpresentablessearch"><a href="#getpresentablessearch" class="header-anchor">#</a> getPresentablesSearch</h2> <p><strong>用途：查找展品</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+    query<span class="token operator">:</span><span class="token punctuation">{</span>
+      presentableIds<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 展品ids 多个使用&quot;,&quot;隔开</span>
+      resourceIds<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 资源ids</span>
+      resourceNames<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 资源名称s</span>
+    <span class="token punctuation">}</span>
+</code></pre></div><div class="language-ts extra-class"><pre class="language-ts"><code> <span class="token operator">**</span>用法<span class="token operator">**</span>
+
+ <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getPresentablesSearch</span><span class="token punctuation">(</span>query<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token punctuation">{</span>
+ <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><h2 id="getpresentabledetailbyid"><a href="#getpresentabledetailbyid" class="header-anchor">#</a> getPresentableDetailById</h2> <p><strong>用途：获取展品详情</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code> <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+  presentableId<span class="token operator">:</span> 展品id，
+   query<span class="token operator">:</span><span class="token punctuation">{</span>
+       projection<span class="token operator">:</span>  <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 需要指定哪些字段</span>
+       isLoadVersionProperty<span class="token operator">:</span> <span class="token number">0</span> <span class="token operator">|</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token comment">// 是否需要展品版本属性</span>
+       isLoadCustomPropertyDescriptors<span class="token operator">:</span> <span class="token number">0</span> <span class="token operator">|</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token comment">// 是否加载自定义属性信息</span>
+       isLoadResourceDetailInfo<span class="token operator">:</span> <span class="token number">0</span> <span class="token operator">|</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token comment">// 是否加载资源详细信息(额外查询了资源的封面,标签,简介等)</span>
+       isLoadResourceVersionInfo<span class="token operator">:</span> <span class="token number">0</span> <span class="token operator">|</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token comment">// 	是否加载资源版本信息(额外查询了资源版本的描述,创建日期,更新日期等)</span>
+   <span class="token punctuation">}</span>
+</code></pre></div><div class="language-ts extra-class"><pre class="language-ts"><code> <span class="token operator">**</span>用法<span class="token operator">**</span>
+ <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getPresentableDetailById</span><span class="token punctuation">(</span>presentableId<span class="token punctuation">,</span> query<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token punctuation">{</span>
+
+ <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><h2 id="getinfobyid"><a href="#getinfobyid" class="header-anchor">#</a> getInfoById</h2> <p><strong>用途：查找展品信息</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getInfoById</span><span class="token punctuation">(</span>presentableId<span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+    presentableIds<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 展品id</span>
+
+</code></pre></div><h2 id="getinfobyname"><a href="#getinfobyname" class="header-anchor">#</a> getInfoByName</h2> <p><strong>用途：根据资源 id 或名称查找展品信息</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getInfoByName</span><span class="token punctuation">(</span>resourceIdOrName<span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+
+    resourceIdOrName<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 资源id或名称</span>
+
+</code></pre></div><h2 id="getresultbyid"><a href="#getresultbyid" class="header-anchor">#</a> getResultById</h2> <p><strong>用途：查找展品标准授权响应结果</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getResultById</span><span class="token punctuation">(</span>presentableId<span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+
+    presentableIds<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 展品id</span>
+
+</code></pre></div><h2 id="getresultbyname"><a href="#getresultbyname" class="header-anchor">#</a> getResultByName</h2> <p><strong>用途：根据资源 id 或名称查找展品标准授权响应结果</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getResultByName</span><span class="token punctuation">(</span>resourceIdOrName<span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+
+    resourceIdOrName<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 资源id或名称</span>
+
+</code></pre></div><h2 id="getfilestreambyid"><a href="#getfilestreambyid" class="header-anchor">#</a> getFileStreamById</h2> <p><strong>用途：获取展品资源文件</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getFileStreamById</span><span class="token punctuation">(</span>
+    presentableId<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">number</span><span class="token punctuation">,</span>
+    returnUrl<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">,</span>
+    config<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">any</span>
+  <span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+
+    presentableId<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>  <span class="token comment">// 展品id</span>
+    returnUrl<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">,</span> <span class="token comment">// 是否只返回url， 例如img标签图片只需要url</span>
+    config<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">any</span> <span class="token comment">// axios的config 目前仅支持&quot;onUploadProgress&quot;, &quot;onDownloadProgress&quot;, &quot;responseType&quot;</span>
+
+</code></pre></div><h2 id="getfilestreambyname"><a href="#getfilestreambyname" class="header-anchor">#</a> getFileStreamByName</h2> <p><strong>用途：根据资源 id 或名称获取展品资源文件</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getFileStreamByName</span><span class="token punctuation">(</span>
+    resourceIdOrName<span class="token punctuation">,</span> 
+    returnUrl<span class="token punctuation">,</span> 
+    config
+  <span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+
+    presentableId<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>  <span class="token comment">// 展品id</span>
+    returnUrl<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">,</span> <span class="token comment">// 是否只返回url， 例如img标签图片只需要url</span>
+    config<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">any</span> <span class="token comment">// axios的config 目前仅支持&quot;onUploadProgress&quot;, &quot;onDownloadProgress&quot;, &quot;responseType&quot;</span>
+
+</code></pre></div><h2 id="getsubinfobyid"><a href="#getsubinfobyid" class="header-anchor">#</a> getSubInfoById</h2> <p><strong>用途：查找展品子依赖资源信息</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getSubInfoById</span><span class="token punctuation">(</span>
+      presentableId<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">number</span><span class="token punctuation">,</span>
+      parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+      subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span>
+  <span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+
+    presentableId<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+    parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>  <span class="token comment">// 自身链路id</span>
+    subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span>   <span class="token comment">// 子资源id或名称</span>
+
+</code></pre></div><h2 id="getsubinfobyname"><a href="#getsubinfobyname" class="header-anchor">#</a> getSubInfoByName</h2> <p><strong>用途：查找展品子依赖资源信息</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getSubInfoByName</span><span class="token punctuation">(</span>
+      resourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">number</span><span class="token punctuation">,</span>
+      parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+      subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span>
+  <span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+
+    resourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token comment">// 展品自身的资源名称或id</span>
+    parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>  <span class="token comment">// 自身链路id</span>
+    subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span>   <span class="token comment">// 子资源id或名称</span>
+
+</code></pre></div><h2 id="getsubresultbyid"><a href="#getsubresultbyid" class="header-anchor">#</a> getSubResultById</h2> <p><strong>用途：查找展品子依赖标准授权响应结果</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getSubResultById</span><span class="token punctuation">(</span>
+      presentableId<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+      parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> 
+      subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span>
+  <span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+
+    presentableId<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+    parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>  <span class="token comment">// 自身链路id</span>
+    subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span>   <span class="token comment">// 子资源id或名称</span>
+
+</code></pre></div><h2 id="getsubresultbyname"><a href="#getsubresultbyname" class="header-anchor">#</a> getSubResultByName</h2> <p><strong>用途：查找展品子依赖标准授权响应结果</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getSubResultByName</span><span class="token punctuation">(</span>
+      resourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">number</span><span class="token punctuation">,</span>
+      parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+      subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+
+    resourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token comment">// 展品自身的资源名称或id</span>
+    parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>  <span class="token comment">// 自身链路id</span>
+    subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span>   <span class="token comment">// 子资源id或名称</span>
+
+</code></pre></div><h2 id="getsubfilestreambyid"><a href="#getsubfilestreambyid" class="header-anchor">#</a> getSubFileStreamById</h2> <p><strong>用途：查找展品子依赖资源文件</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getSubFileStreamById</span><span class="token punctuation">(</span>
+    presentableId<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">,</span>
+    parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+    subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+    returnUrl<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">,</span>
+    config<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">any</span>
+  <span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+
+    presentableId<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">,</span> <span class="token comment">// 自身展品id</span>
+    parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>    <span class="token comment">// 自身链路id</span>
+    subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token comment">// 子依赖资源id或名称</span>
+    returnUrl<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">,</span> <span class="token comment">// 是否只返回url， 例如img标签图片只需要url</span>
+    config<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">any</span> <span class="token comment">// axios的config 目前仅支持&quot;onUploadProgress&quot;, &quot;onDownloadProgress&quot;, &quot;responseType&quot;</span>
+
+</code></pre></div><h2 id="getsubfilestreambyname"><a href="#getsubfilestreambyname" class="header-anchor">#</a> getSubFileStreamByName</h2> <p><strong>用途：查找展品信息</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getSubFileStreamByName</span><span class="token punctuation">(</span>
+    resourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">number</span><span class="token punctuation">,</span>
+    parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+    subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+    returnUrl<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">,</span>
+    config<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">any</span>
+  <span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+
+    resourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">,</span> <span class="token comment">// 自身资源id或名称</span>
+    parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>    <span class="token comment">// 自身链路id</span>
+    subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token comment">// 子依赖资源id或名称</span>
+    returnUrl<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">,</span> <span class="token comment">// 是否只返回url， 例如img标签图片只需要url</span>
+    config<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">any</span> <span class="token comment">// axios的config 目前仅支持&quot;onUploadProgress&quot;, &quot;onDownloadProgress&quot;, &quot;responseType&quot;</span>
+
+</code></pre></div><h2 id="getresourceinfobyid"><a href="#getresourceinfobyid" class="header-anchor">#</a> getResourceInfoById</h2> <p><strong>用途：查找展品资源信息</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getResourceInfoById</span><span class="token punctuation">(</span>presentableId<span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+
+    presentableIds<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 展品id</span>
+
+</code></pre></div><h2 id="getresourceinfobyname"><a href="#getresourceinfobyname" class="header-anchor">#</a> getResourceInfoByName</h2> <p><strong>用途：查找展品资源信息</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getResourceInfoByName</span><span class="token punctuation">(</span>resourceIdOrName<span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+
+    resourceIdOrName<span class="token operator">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 展品资源id或名称</span>
+
+</code></pre></div><h2 id="getsubresourceinfobyid"><a href="#getsubresourceinfobyid" class="header-anchor">#</a> getSubResourceInfoById</h2> <p><strong>用途：查找展品的子资源信息</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code> <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getSubResourceInfoById</span><span class="token punctuation">(</span>
+    presentableId<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">number</span><span class="token punctuation">,</span> 
+    parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> 
+    subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span>
+  <span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+
+    presentableId<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token comment">// 展品id</span>
+    parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>  <span class="token comment">// 自身链路id</span>
+    subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token comment">// 子资源id或名称</span>
+
+</code></pre></div><h2 id="getsubresourceinfobyname"><a href="#getsubresourceinfobyname" class="header-anchor">#</a> getSubResourceInfoByName</h2> <p><strong>用途：查找展品信息</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getSubResourceInfoByName</span><span class="token punctuation">(</span>
+    resourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">number</span><span class="token punctuation">,</span>
+    parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+    subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span>
+  <span class="token punctuation">)</span>
+
+  <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+
+    resourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">number</span><span class="token punctuation">,</span> <span class="token comment">// 自身资源id或名称</span>
+    parentNid<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token comment">// 自身链路id</span>
+    subResourceIdOrName<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token comment">// 子资源id或名称</span>
+
+</code></pre></div><h2 id="devdata"><a href="#devdata" class="header-anchor">#</a> devData</h2> <p><strong>普通对象非函数：获取当前 dev 数据（url 数据）</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code> <span class="token keyword">const</span> data <span class="token operator">=</span>  window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span>devData 
+</code></pre></div><h2 id="automoutsubwdigets"><a href="#automoutsubwdigets" class="header-anchor">#</a> autoMoutSubWdigets</h2> <p><strong>用途：自动加载自身的子插件</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token comment">// 目前存在问题</span>
+  window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">autoMoutSubWdigets</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span>
+  config<span class="token operator">:</span> 
+</code></pre></div><h2 id="getselfid"><a href="#getselfid" class="header-anchor">#</a> getSelfId</h2> <div class="language-ts extra-class"><pre class="language-ts"><code> <span class="token keyword">const</span> selfId <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getSelfId</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+
+</code></pre></div><h2 id="getselfconfig"><a href="#getselfconfig" class="header-anchor">#</a> getSelfConfig</h2> <div class="language-ts extra-class"><pre class="language-ts"><code>
+ <span class="token operator">**</span>获取自身配置数据<span class="token operator">**</span>
+
+ <span class="token keyword">const</span> widgetConfig <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getSelfConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+
+</code></pre></div><h2 id="getsubdep"><a href="#getsubdep" class="header-anchor">#</a> getSubDep</h2> <div class="language-ts extra-class"><pre class="language-ts"><code>
+ <span class="token operator">**</span>获取自身依赖<span class="token operator">**</span>
+ 
+ <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getSubDep</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+
+ <span class="token operator">**</span>返回值<span class="token operator">**</span>
+  <span class="token punctuation">{</span>
+    subDeps<span class="token operator">:</span>  <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// 子依赖数组</span>
+    entityNid<span class="token punctuation">,</span>  <span class="token comment">// 自身链路id</span>
+    data<span class="token operator">:</span> data<span class="token punctuation">,</span> <span class="token comment">// 自身信息</span>
+  <span class="token punctuation">}</span>
+</code></pre></div><h2 id="callauth"><a href="#callauth" class="header-anchor">#</a> callAuth</h2> <p><strong>用途：呼出授权</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token comment">// 当addAuth多个未授权展品且没有立刻呼出（或者存在未授权展品且已经addAuth 但用户关闭了，插件想要用户签约时）可以通过callAuth()唤出</span>
+window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">callAuth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+</code></pre></div><h2 id="addauth"><a href="#addauth" class="header-anchor">#</a> addAuth</h2> <p><strong>用途：对未授权展品添加授权</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">addAuth</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span> 
+ 
+ <span class="token operator">**</span>参数说明<span class="token operator">**</span>
+   <span class="token punctuation">{</span>
+    presentableId<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+    resolve<span class="token operator">:</span> <span class="token builtin">Function</span><span class="token punctuation">,</span>  <span class="token comment">// 授权成功回调</span>
+    reject<span class="token operator">:</span> <span class="token builtin">Function</span><span class="token punctuation">,</span>  <span class="token comment">// 授权失败回调</span>
+    options<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      immediate<span class="token operator">:</span> <span class="token builtin">boolean</span>  <span class="token comment">// 是否立即弹出授权窗口</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+ 
+</code></pre></div><h2 id="onlogin"><a href="#onlogin" class="header-anchor">#</a> onLogin</h2> <p><strong>监听用户登录</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token comment">// callback: 登录成功的回调，登录失败不会回调</span>
+window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">onLogin</span><span class="token punctuation">(</span>callback<span class="token punctuation">)</span> 
+ 
+</code></pre></div><h2 id="getcurrentuser"><a href="#getcurrentuser" class="header-anchor">#</a> getCurrentUser</h2> <p><strong>获取当前登录的用户信息</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>
+ <span class="token keyword">const</span> loginUser <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getCurrentUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+ 
+</code></pre></div><h2 id="setuserdata"><a href="#setuserdata" class="header-anchor">#</a> setUserData</h2> <p><strong>获取当前登录的用户在当前插件保存的数据</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>
+ <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">setUserData</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> data<span class="token punctuation">)</span> 
+ 
+</code></pre></div><h2 id="getuserdata"><a href="#getuserdata" class="header-anchor">#</a> getUserData</h2> <p><strong>获取当前登录的用户在当前插件保存的数据</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>
+ <span class="token keyword">const</span> userData <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getUserData</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span>
+ 
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/freelog-runtime/assets/js/app.97b599e4.js" defer></script><script src="/freelog-runtime/assets/js/2.b24e057d.js" defer></script><script src="/freelog-runtime/assets/js/8.38a0aee0.js" defer></script>
+  </body>
+</html>
