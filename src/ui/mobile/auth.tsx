@@ -26,6 +26,8 @@ interface contractProps {
   loginFinished: any;
   children?: any;
   updateEvents: any;
+  isLogin?: boolean;
+  isAuths?: boolean
 }
 export default function (props: contractProps) {
   /**
@@ -169,7 +171,11 @@ export default function (props: contractProps) {
   useEffect(() => {
     currentPresentable && getDetail(currentPresentable.presentableId);
   }, [currentPresentable]);
+  useEffect(() => {
+    props.isLogin && setModalType(1)
 
+  }, [props.isLogin]);
+  
   const userCancel = () => {
     props.contractFinished("", USER_CANCEL);
   };
@@ -322,7 +328,7 @@ export default function (props: contractProps) {
             })
           : null}
       </Modal>
-      <div className="flex-column w-100x h-100x over-h">
+      {props.isAuths ? <div className="flex-column w-100x h-100x over-h">
         <div className="flex-column justify-center bb-1">
           <div className="text-center mt-20 fs-16 fc-main fw-bold">签约</div>
           <div
@@ -392,7 +398,7 @@ export default function (props: contractProps) {
             })}
           </div>
         </div>
-      </div>
+      </div> : null}
     </div>
   );
 }

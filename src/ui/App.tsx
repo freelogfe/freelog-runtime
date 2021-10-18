@@ -3,6 +3,7 @@ import "./App.scss";
 import { useEffect, useState } from "react";
 import { USER_CANCEL } from "../bridge/event";
 import Pc from "./pc/auth";
+import Login from "./pc/login";
 import Mobile from "./mobile/auth";
 import {
   reisterUI,
@@ -17,13 +18,14 @@ function App() {
   const [events, setEvents] = useState([]);
   const [failedEvents, setFailedEvents] = useState([]);
   const [inited, setInited] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
     updateLock(false);
   }, [events]);
   function loginFinished() {
-    eventMap.clear()
-    failedMap.clear()
-    updateEvents()
+    eventMap.clear();
+    failedMap.clear();
+    updateEvents();
   }
   function backToNode() {
     // @ts-ignore
@@ -54,7 +56,7 @@ function App() {
   }
   // 遍历顺序是否永远一致
   function updateEvents(event?: any) {
-    const eventMap = updateEvent(event)
+    const eventMap = updateEvent(event);
     updateLock(true);
     const arr: any = [];
     eventMap.forEach((val, key) => {
@@ -79,6 +81,10 @@ function App() {
   function updateUI() {
     updateEvents();
   }
+  function login() {
+    showUI()
+    setIsLogin(true);
+  }
 
   function contractFinished(eventId: any, type: number, data?: any) {
     if (type === USER_CANCEL && !eventId) {
@@ -89,15 +95,30 @@ function App() {
     }
     endEvent(eventId, type, data);
   }
-  reisterUI(UI, updateUI);
+  reisterUI(UI, updateUI, login);
   return (
     <div id="freelog-app" className="w-100x h-100x ">
-      {inited ? (
-        !window.isMobile ? <Pc events={events} contractFinished={contractFinished} updateEvents={updateEvents} loginFinished={loginFinished}></Pc> :
-         <Mobile events={events}  contractFinished={contractFinished} updateEvents={updateEvents} loginFinished={loginFinished}></Mobile>
-      ) : (
-        null
-      )}
+      {inited || isLogin ? (
+        !window.isMobile ? (
+          <Pc
+            events={events}
+            isAuths={inited}
+            isLogin={isLogin}
+            contractFinished={contractFinished}
+            updateEvents={updateEvents}
+            loginFinished={loginFinished}
+          ></Pc>
+        ) : (
+          <Mobile
+            events={events}
+            isAuths={inited}
+            isLogin={isLogin}
+            contractFinished={contractFinished}
+            updateEvents={updateEvents}
+            loginFinished={loginFinished}
+          ></Mobile>
+        )
+      ) : null}
     </div>
   );
 }

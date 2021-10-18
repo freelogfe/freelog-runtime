@@ -1,4 +1,3 @@
-
 ## 介绍
 
 ### 概念
@@ -427,10 +426,10 @@ const render = ($) => {
   };
 })(window);
 ```
+
 ### 路由支持
 
-**仅支持history路由或不由运行时管的abstract路由，hash路由还有问题需要改进**
- 
+**仅支持 history 路由或不由运行时管的 abstract 路由，hash 路由还有问题需要改进**
 
 ### 配置总结
 
@@ -469,7 +468,7 @@ const render = ($) => {
 替换指定子插件
 
 ```ts
-`http://t.snnaenu.testfreelog.com/?dev=replace&${widgetId}=http:localhost:7101`;
+`http://t.snnaenu.testfreelog.com/?dev=replace&${widgetId}=http://localhost:7101`;
 ```
 
 ### 加载子依赖插件
@@ -478,7 +477,7 @@ const render = ($) => {
 const subData = await window.freelogApp.getSubDep();
 subData.subDeps.some((sub, index) => {
   if (index === 1) return true;
-  window.freelogApp.mountWidget(
+  let widgetController = window.freelogApp.mountWidget(
     sub,
     document.getElementById("freelog-single"),
     subData,
@@ -487,6 +486,7 @@ subData.subDeps.some((sub, index) => {
   );
 });
 ```
+
 ### 加载孙插件（完善中）
 
 ### 加载展品插件
@@ -494,25 +494,77 @@ subData.subDeps.some((sub, index) => {
 ```ts
 const res = await window.freelogApp.getPresentables({
   resourceType: "widget",
-  isLoadVersionProperty: 1
+  isLoadVersionProperty: 1,
 });
-console.log(res)
 const widgets = res.data.data.dataList;
 widgets.some((widget, index) => {
   if (index === 1) return true;
-  window.freelogApp.mountWidget(
+  let widgetController = window.freelogApp.mountWidget(
     widget,
-    document.getElementById("freelog-single"),
+    document.getElementById("freelog-single")
   );
 });
 ```
-### 获取插件自身配置数据
+
+### 加载孙插件（完善中）
+
+### 控制插件
 
 ```ts
 
- const widgetConfig = await window.freelogApp.getSelfConfig() 
+ let widgetController = window.freelogApp.mountWidget
 
-``` 
+ widgetController: {
+    mount
+    unmount
+    update
+    getStatus
+    loadPromise
+    bootstrapPromise
+    mountPromise
+    unmountPromise
+ }
+
+ // 使用说明 
+  unmount() 返回一个promise，当插件卸载成功后resolve。promise可能会抛出异常，需进行处理。
+
+  mount() 返回一个promise，当插件加载成功后resolve。promise可能会抛出异常，需进行处理。
+
+  getStatus() 返回一个字符串代表插件的状态。所有状态如下：
+      NOT_BOOTSTRAPPED: 未初始化
+      BOOTSTRAPPING: 初始化中
+      NOT_MOUNTED: 完成初始化，未挂载
+      MOUNTED: 激活状态，且已挂载至DOM
+      UNMOUNTING: 卸载中
+      SKIP_BECAUSE_BROKEN: 在初始化、挂载、卸载或更新时发生异常。其他插件可能会被正常使用，但当前插件会被跳过。
+
+  loadPromise() 返回一个promise，当插件被装载(loaded)后resolve。
+
+  bootstrapPromise() 返回一个promise，当插件初始化后resolve。
+
+  mountPromise() 返回一个promise，当插件加载后resolve。通常用于检测插件生成的DOM是否已经挂载。
+
+  unmountPromise() 返回一个promise，当插件卸载后resolve。
+
+```
+
+### 配置插件配置数据
+
+```ts
+
+  // 通过资源或展品的meta属性配置指定key作为配置数据, 目前运行时占用的key如下
+
+  hbfOnlyToTheme: true // 历史记录整体前进后退是否只给主题权限
+  historyFB: true, // 历史记录整体前进后退是否有权限
+
+```
+
+### 获取插件自身配置数据
+
+```ts
+const widgetConfig = await window.freelogApp.getSelfConfig();
+```
+
 ### 获取展品
 
 **分页列表**
@@ -547,7 +599,7 @@ widgets.some((widget, index) => {
 ### 获取展品详情
 
 ```ts
- const res = await  window.freelogApp.getPresentableDetailById(presentableId, query) 
+ const res = await  window.freelogApp.getPresentableDetailById(presentableId, query)
 
  **参数说明**
   presentableId: 展品id，
@@ -606,14 +658,12 @@ if (ch.data.errCode) {
   // 提交给运行时处理
   /**
    * addAuth 参数
-   * {
-   *  presentableId: string,
+      presentableId: string,
       resolve: Function,  // 授权成功回调
       reject: Function,  // 授权失败回调
       options?: {
         immediate: boolean  // 是否立即弹出授权窗口
-      }
-   * }
+      }  
   */
   ch = await new Promise((resolve, rej) => {
     window.freelogApp.addAuth(
@@ -636,6 +686,12 @@ if (ch.data.errCode) {
 ```ts
 // 当addAuth多个未授权展品且没有立刻呼出（或者存在未授权展品且已经addAuth 但用户关闭了，插件想要用户签约时）可以通过callAuth()唤出
 window.freelogApp.callAuth();
+```
+
+### 唤起登录
+```ts
+
+ window.freelogApp.callLogin()
 ```
 
 ### 静态文件处理
@@ -714,9 +770,10 @@ module.exports = {
 // 目前重载后挂载在window的数据没变，后期增加参数可选是否保留，以及返回重载失败可由插件决定是否刷新页面、同时需要主题授权
 window.location.reload();
 ```
+
 ### 插件通信
 
-  **完善中**
+**完善中**
 
 ### 获取当前登录用户信息
 
@@ -735,7 +792,7 @@ window.freelogApp.onLogin(callback);
 
 ```js
 // 开发者模式需要注意在入口文件加载页面加上主题或插件本身的资源名称,例如：
-window.FREELOG_RESOURCENAME = Freelog/dev-docs
+window.FREELOG_RESOURCENAME = Freelog / dev - docs;
 
 // 更新用户数据   data 为任意对象，
 const res = await window.freelogApp.setUserData(key, data);
@@ -752,9 +809,7 @@ const res = await window.freelogApp.getUserData(key);
 <!-- [vue模板](http://freelog-docs.testfreelog.com/$freelog-60a614de12ac83003f09d975=/dev/guide)  -->
 
 ## 移动端适配
-   
-   **目前仅支持最新的问题最少的最好的viewport兼容方案**
 
-   **推荐使用 postcss-px-to-viewport 插件, 各框架具体使用方法请百度**
+**目前仅支持最新的问题最少的最好的 viewport 兼容方案**
 
-
+**推荐使用 postcss-px-to-viewport 插件, 各框架具体使用方法请百度**

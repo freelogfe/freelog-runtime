@@ -44,6 +44,8 @@ interface contractProps {
   loginFinished: any;
   children?: any;
   updateEvents: any;
+  isLogin?: boolean;
+  isAuths?: boolean
 }
 export default function(props: contractProps) {
   /**
@@ -268,7 +270,7 @@ export default function(props: contractProps) {
           currentPresentable={currentPresentable}
         />
       )}
-      {isLoginVisible && (
+      {(props.isLogin || isLoginVisible) && (
         <Login
           loginFinished={loginFinished}
           setIsLoginVisible={setIsLoginVisible}
@@ -285,7 +287,7 @@ export default function(props: contractProps) {
         zIndex={1200}
         centered
         footer={null}
-        visible={true}
+        visible={props.isAuths}
         width={860}
         onCancel={userCancel}
         className="h-600"

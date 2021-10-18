@@ -2,6 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "qiankun": "2.4.0",
   "devDependencies": {
     "@types/lodash": "^4.14.168",
     "custom-event": "^1.0.1",

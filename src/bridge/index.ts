@@ -25,9 +25,11 @@ export const eventMap = new Map<any, any>(); // 数组
 export const failedMap = new Map<any, any>();
 let UI: any = null;
 let updateUI: any = null;
-export function reisterUI(ui: any, update: any) {
+let loginUI:any = null
+export function reisterUI(ui: any, update: any, login:any) {
   UI = ui;
   updateUI = update;
+  loginUI = login
 }
 let locked = false;
 export function updateLock(status: boolean) {
@@ -179,4 +181,8 @@ export function endEvent(eventId: string, type: number, data: any) {
         break;
     }
   // }
+}
+
+export function goLogin() {
+  loginUI && loginUI()
 }

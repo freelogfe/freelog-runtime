@@ -184,18 +184,29 @@ export function mountWidget(
       experimentalStyleIsolation: configData ? !!configData.scopedCss : true,
     },
   });
+  // TODO 增加是否保留数据
   const _app = {
     ...app,
-    mount: async () => {
-      await app.mount();
-      addWidget(widgetId, app);
+    mount: (resolve?:any, reject?:any) => {
+      app.mount().then(()=>{
+        addWidget(widgetId, app);
+        // TODO 验证是否是函数
+        resolve && resolve()
+      },()=>{
+        reject()
+      });
     },
-    unmount: async () => {
-      await app.unmount();
-      deactiveWidget(widgetId);
-      setLocation();
+    unmount: (resolve?:any, reject?:any) => {
+      app.unmount().then(()=>{
+        deactiveWidget(widgetId);
+        setLocation();
+        // TODO 验证是否是函数
+        resolve && resolve()
+      },()=>{
+        reject()
+      });
     },
-  };
+  }; 
   addWidget(widgetId, _app);
   // TODO 拦截mount做处理
   return _app;

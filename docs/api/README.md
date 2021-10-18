@@ -487,15 +487,12 @@ window.freelogApp.callAuth()
 window.freelogApp.addAuth(data) 
  
  **参数说明**
-   {
     presentableId: string,
     resolve: Function,  // 授权成功回调
     reject: Function,  // 授权失败回调
     options?: {
       immediate: boolean  // 是否立即弹出授权窗口
-    }
-  }
- 
+    } 
 ```
 ## onLogin
 

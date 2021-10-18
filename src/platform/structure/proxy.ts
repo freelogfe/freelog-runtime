@@ -340,11 +340,20 @@ export const createLocationProxy = function (name: string, sandbox: any) {
           return function () { };
         }
         if (["reload"].indexOf(property) > -1) {
-          // TODO 重新加载自身插件
-          return async function () {
-            await flatternWidgets.get(name).unmount()
+          // TODO 增加是否保留数据
+          return async function (reject:any, isSaveData: boolean) {
+            flatternWidgets.get(name).unmount(()=>{
+              flatternWidgets.get(name).mount()
+            },()=>{
+              // 失败了再试一次
+              flatternWidgets.get(name).unmount(()=>{
+                flatternWidgets.get(name).mount()
+              },()=>{
+                reject && reject()
+              })
+            })
             // setTimeout(()=>{
-            flatternWidgets.get(name).mount()
+            
             // },200)
             // await flatternWidgets.get(name).mount()
           };
