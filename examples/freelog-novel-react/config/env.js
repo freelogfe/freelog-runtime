@@ -41,8 +41,8 @@ dotenvFiles.forEach(dotenvFile => {
 });
 if (NODE_ENV === 'development') {
   process.env.WDS_SOCKET_HOST = 'localhost'
-  process.env.WDS_SOCKET_PATH = 'localhost:8088'
-  process.env.WDS_SOCKET_PORT = '8088'
+  process.env.WDS_SOCKET_PATH = 'localhost:8081'
+  process.env.WDS_SOCKET_PORT = '8081'
 }
 // We support resolving modules according to `NODE_PATH`.
 // This lets you use absolute paths in imports inside large monorepos:

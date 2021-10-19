@@ -1,5 +1,5 @@
 import { Modal, notification } from "antd";
-import { SUCCESS, USER_CANCEL } from "../../bridge/event";
+import { SUCCESS, USER_CANCEL, FAILED } from "../../bridge/event";
 import React, { useState, useEffect } from "react";
 import { LOGIN } from "../../bridge/event";
 import Button from "./_components/button";
@@ -89,14 +89,18 @@ export default function(props: contractProps) {
     getDetail();
   }
   function loginFinished(type: number, data?: any) {
-    setUserInfo(data);
-    loginCallback.forEach((func: any) => {
-      func && func();
-    });
+    if (type === SUCCESS) {
+      setUserInfo(data);
+      loginCallback.forEach((func: any) => {
+        func && func();
+      });
+    }
+    if (type === USER_CANCEL) {
+      
+    }
     // TODO 重载插件需要把授权的也一并清除
     setIsLoginVisible(false);
-
-    props.loginFinished();
+    props.loginFinished(type);
   }
   async function getDetail(id?: string) {
     setSelectedPolicies([]);
@@ -180,7 +184,10 @@ export default function(props: contractProps) {
   useEffect(() => {
     currentPresentable && getDetail(currentPresentable.presentableId);
   }, [currentPresentable]);
-
+  useEffect(() => {
+    props.isLogin && setIsLoginVisible(true)
+  }, [props.isLogin]);
+   
   const userCancel = () => {
     props.contractFinished("", USER_CANCEL);
   };
@@ -270,7 +277,7 @@ export default function(props: contractProps) {
           currentPresentable={currentPresentable}
         />
       )}
-      {(props.isLogin || isLoginVisible) && (
+      {(isLoginVisible) && (
         <Login
           loginFinished={loginFinished}
           setIsLoginVisible={setIsLoginVisible}

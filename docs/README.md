@@ -526,9 +526,9 @@ widgets.some((widget, index) => {
  }
 
  // 使用说明 
-  unmount() 返回一个promise，当插件卸载成功后resolve。promise可能会抛出异常，需进行处理。
+  unmount(resolve,reject) 卸载插件，当插件卸载成功后resolve，出现异常reject。
 
-  mount() 返回一个promise，当插件加载成功后resolve。promise可能会抛出异常，需进行处理。
+  mount(resolve,reject)  重新插件，当插件卸载成功后resolve，出现异常reject。
 
   getStatus() 返回一个字符串代表插件的状态。所有状态如下：
       NOT_BOOTSTRAPPED: 未初始化

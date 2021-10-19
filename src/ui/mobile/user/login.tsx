@@ -1,6 +1,6 @@
 import user from "../../../services/api/modules/user";
 import frequest from "../../../services/handler";
-import { SUCCESS } from "../../../bridge/event";
+import { SUCCESS, USER_CANCEL, FAILED } from "../../../bridge/event";
 import { Tabs, Badge, Modal, Button, Toast } from "antd-mobile";
 
 import { useState } from "react";
@@ -66,7 +66,7 @@ export default function (props: loginProps) {
       </Modal>
       <div className="w-100x h-100x flex-column align-center">
         <i className="iconfont login-back" onClick={()=>{
-          props.setModalType(0)
+          props.loginFinished(USER_CANCEL);
         }}>&#xe6ff;</i>
         <div className="flex-1 w-100x flex-column align-center">
           <i className="iconfont  mt-50 mb-20 logo" >&#xe614;</i>

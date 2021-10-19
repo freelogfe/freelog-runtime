@@ -95,7 +95,7 @@ export function setFetch() {
     if (url.indexOf("freelog.com") > -1) {
       return rawFetch(url, { ...options, credentials: "include" });
     } else {
-      return rawFetch(url, options);
+      return rawFetch(url, {mode: 'cors',...options});
     }
   };
 }

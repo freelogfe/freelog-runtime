@@ -1,10 +1,10 @@
-import { SUCCESS, USER_CANCEL } from "../../bridge/event";
+import { SUCCESS, USER_CANCEL, FAILED } from "../../bridge/event";
 import React, { useState, useEffect } from "react";
 import { LOGIN } from "../../bridge/event";
 import "../../assets/mobile/index.scss";
 import "./auth.scss";
 import Login from "./user/login";
-import Forgot, {LOGIN_PASSWORD, PAY_PASSWORD} from "./user/forgot";
+import Forgot, { LOGIN_PASSWORD, PAY_PASSWORD } from "./user/forgot";
 
 import Register from "./user/register";
 
@@ -18,6 +18,7 @@ import contract from "../../services/api/modules/contract";
 import { getCurrentUser } from "../../platform/structure/utils";
 import getBestTopology from "./topology/data";
 import { Modal, Toast } from "antd-mobile";
+
 const alert = Modal.alert;
 
 interface contractProps {
@@ -27,9 +28,9 @@ interface contractProps {
   children?: any;
   updateEvents: any;
   isLogin?: boolean;
-  isAuths?: boolean
+  isAuths?: boolean;
 }
-export default function (props: contractProps) {
+export default function(props: contractProps) {
   /**
    * 对象形式authDatas：
    *   key: subjectId
@@ -82,17 +83,22 @@ export default function (props: contractProps) {
   function paymentFinish() {
     getDetail();
   }
+  // 0 成功  1 失败  2 用户取消
   function loginFinished(type: number, data?: any) {
-    setUserInfo(data);
-    loginCallback.forEach((func: any) => {
-      func && func();
-    });
+    if (type === SUCCESS) {
+      setUserInfo(data);
+      loginCallback.forEach((func: any) => {
+        func && func();
+      });
+    }
+    if (type === USER_CANCEL) {
+      
+    }
     // TODO 重载插件需要把授权的也一并清除
     setModalType(0);
-
-    props.loginFinished();
+    props.loginFinished(type);
   }
- 
+
   async function getDetail(id?: string) {
     setSelectedPolicies([]);
     // userInfo 如果不存在就是未登录
@@ -135,8 +141,12 @@ export default function (props: contractProps) {
       return i.status === 1;
     });
     res.data.data.policies.forEach((item: any) => {
-      const { policyMaps, bestPyramid, betterPyramids, nodesMap } =
-        getBestTopology(item.fsmDescriptionInfo);
+      const {
+        policyMaps,
+        bestPyramid,
+        betterPyramids,
+        nodesMap,
+      } = getBestTopology(item.fsmDescriptionInfo);
       item.policyMaps = policyMaps;
       item.bestPyramid = bestPyramid;
       item.betterPyramids = betterPyramids;
@@ -172,10 +182,9 @@ export default function (props: contractProps) {
     currentPresentable && getDetail(currentPresentable.presentableId);
   }, [currentPresentable]);
   useEffect(() => {
-    props.isLogin && setModalType(1)
-
+    props.isLogin && setModalType(1);
   }, [props.isLogin]);
-  
+
   const userCancel = () => {
     props.contractFinished("", USER_CANCEL);
   };
@@ -195,7 +204,7 @@ export default function (props: contractProps) {
     } else {
       setSelectedPolicies([]);
     }
-  } 
+  }
   const getAuth = async (id: any) => {
     const subjects: any = [];
     policies.forEach((item: any) => {
@@ -234,13 +243,25 @@ export default function (props: contractProps) {
   return (
     <div id="runtime-mobile" className="w-100x h-100x over-h">
       {modalType === 1 ? (
-        <Login loginFinished={loginFinished} visible={modalType === 1} setModalType={setModalType}/>
+        <Login
+          loginFinished={loginFinished}
+          visible={modalType === 1}
+          setModalType={setModalType}
+        />
       ) : modalType === 2 ? (
-        <Register visible={modalType === 2} setModalType={setModalType}/>
+        <Register visible={modalType === 2} setModalType={setModalType} />
       ) : modalType === 3 ? (
-        <Forgot type={LOGIN_PASSWORD} visible={modalType === 3} setModalType={setModalType}/>
+        <Forgot
+          type={LOGIN_PASSWORD}
+          visible={modalType === 3}
+          setModalType={setModalType}
+        />
       ) : modalType === 4 ? (
-        <Forgot type={PAY_PASSWORD} visible={modalType === 4} setModalType={setModalType}/>
+        <Forgot
+          type={PAY_PASSWORD}
+          visible={modalType === 4}
+          setModalType={setModalType}
+        />
       ) : null}
       <Modal
         popup
@@ -328,77 +349,79 @@ export default function (props: contractProps) {
             })
           : null}
       </Modal>
-      {props.isAuths ? <div className="flex-column w-100x h-100x over-h">
-        <div className="flex-column justify-center bb-1">
-          <div className="text-center mt-20 fs-16 fc-main fw-bold">签约</div>
-          <div
-            className="p-absolute fs-16 mt-20 mr-15 rt-0 fc-blue cur-pointer"
-            onClick={() => closeCurrent()}
-          >
-            {events.length === 1 ? "退出" : "关闭"}
-          </div>
-          <div className="text-center my-20 fs-20 fc-main fw-bold">
-            {currentPresentable.presentableName}
-          </div>
-          {!currentPresentable.contracts.length ? null : (
-            <div className="flex-row justify-center mb-15">
-              {currentPresentable.contracts.map(
-                (contract: any, index: number) => {
-                  return (
-                    <div
-                      className={"contract-tag flex-row align-center mr-5"}
-                      key={index}
-                    >
-                      <div className="contract-name">
-                        {contract.contractName}
-                      </div>
-                      <div
-                        className={
-                          "contract-dot ml-6 " +
-                          (contract.authStatus === 128
-                            ? "bg-auth-none"
-                            : !window.isTest && contract.authStatus === 1
-                            ? "bg-auth"
-                            : "bg-auth-none")
-                        }
-                      ></div>
-                    </div>
-                  );
-                }
-              )}
+      {props.isAuths ? (
+        <div className="flex-column w-100x h-100x over-h">
+          <div className="flex-column justify-center bb-1">
+            <div className="text-center mt-20 fs-16 fc-main fw-bold">签约</div>
+            <div
+              className="p-absolute fs-16 mt-20 mr-15 rt-0 fc-blue cur-pointer"
+              onClick={() => closeCurrent()}
+            >
+              {events.length === 1 ? "退出" : "关闭"}
             </div>
-          )}
-        </div>
-        <div className="flex-column flex-1 over-h">
-          <div className="w-100x h-100x y-auto pb-20">
-            {contracts.map((contract: any, index: number) => {
-              return (
-                <Contract
-                  policy={contract.policyInfo}
-                  contract={contract}
-                  paymentFinish={paymentFinish}
-                  setModalType={setModalType}
-                  key={index}
-                ></Contract>
-              );
-            })}
-            {policies.map((policy: any, index: number) => {
-              return policy.contracted ? null : (
-                <Policy
-                  policy={policy}
-                  key={index}
-                  seq={index}
-                  loginFinished={loginFinished}
-                  setModalType={setModalType}
-                  getAuth={getAuth}
-                  policySelect={policySelect}
-                  selectType={contracts.length ? true : true}
-                ></Policy>
-              );
-            })}
+            <div className="text-center my-20 fs-20 fc-main fw-bold">
+              {currentPresentable.presentableName}
+            </div>
+            {!currentPresentable.contracts.length ? null : (
+              <div className="flex-row justify-center mb-15">
+                {currentPresentable.contracts.map(
+                  (contract: any, index: number) => {
+                    return (
+                      <div
+                        className={"contract-tag flex-row align-center mr-5"}
+                        key={index}
+                      >
+                        <div className="contract-name">
+                          {contract.contractName}
+                        </div>
+                        <div
+                          className={
+                            "contract-dot ml-6 " +
+                            (contract.authStatus === 128
+                              ? "bg-auth-none"
+                              : !window.isTest && contract.authStatus === 1
+                              ? "bg-auth"
+                              : "bg-auth-none")
+                          }
+                        ></div>
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+            )}
+          </div>
+          <div className="flex-column flex-1 over-h">
+            <div className="w-100x h-100x y-auto pb-20">
+              {contracts.map((contract: any, index: number) => {
+                return (
+                  <Contract
+                    policy={contract.policyInfo}
+                    contract={contract}
+                    paymentFinish={paymentFinish}
+                    setModalType={setModalType}
+                    key={index}
+                  ></Contract>
+                );
+              })}
+              {policies.map((policy: any, index: number) => {
+                return policy.contracted ? null : (
+                  <Policy
+                    policy={policy}
+                    key={index}
+                    seq={index}
+                    loginFinished={loginFinished}
+                    setModalType={setModalType}
+                    getAuth={getAuth}
+                    policySelect={policySelect}
+                    selectType={contracts.length ? true : true}
+                  ></Policy>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div> : null}
+      ) : null}
     </div>
   );
 }

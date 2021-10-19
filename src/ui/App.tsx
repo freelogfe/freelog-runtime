@@ -1,9 +1,8 @@
 // import logo from './logo.svg';
 import "./App.scss";
 import { useEffect, useState } from "react";
-import { USER_CANCEL } from "../bridge/event";
+import { SUCCESS, USER_CANCEL, FAILED } from "../bridge/event";
 import Pc from "./pc/auth";
-import Login from "./pc/login";
 import Mobile from "./mobile/auth";
 import {
   reisterUI,
@@ -22,10 +21,16 @@ function App() {
   useEffect(() => {
     updateLock(false);
   }, [events]);
-  function loginFinished() {
-    eventMap.clear();
-    failedMap.clear();
-    updateEvents();
+  function loginFinished(type: any) {
+    if(type === SUCCESS){
+      eventMap.clear();
+      failedMap.clear();
+      updateEvents();
+    }
+    setIsLogin(false)
+    if(!inited){
+      backToNode() 
+    }
   }
   function backToNode() {
     // @ts-ignore
@@ -82,6 +87,7 @@ function App() {
     updateEvents();
   }
   function login() {
+    debugger
     showUI()
     setIsLogin(true);
   }
@@ -95,6 +101,7 @@ function App() {
     }
     endEvent(eventId, type, data);
   }
+  
   reisterUI(UI, updateUI, login);
   return (
     <div id="freelog-app" className="w-100x h-100x ">

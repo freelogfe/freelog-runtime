@@ -97,12 +97,14 @@ module.exports = function (proxy, allowedHost) {
       index: paths.publicUrlOrPath,
     },
     public: allowedHost,
-    port: '7102',
+    port: '8081',
     clientLogLevel: 'warning',
     disableHostCheck: true,
     compress: true,
     headers: {
       'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': '*',
+      "Access-Control-Allow-Credentials": "true"
     },
     overlay: { warnings: false, errors: true },
   

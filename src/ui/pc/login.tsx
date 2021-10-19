@@ -1,7 +1,7 @@
 import { Form, Input, Modal, Spin  } from "antd";
 import user from "../../services/api/modules/user";
 import frequest from "../../services/handler";
-import { SUCCESS } from "../../bridge/event";
+import { SUCCESS, USER_CANCEL } from "../../bridge/event";
 import Button from "./_components/button";
 
 import { useState } from "react";
@@ -59,7 +59,7 @@ export default function (props: loginProps) {
   };
  
   const handleCancel = () => {
-    props.setIsLoginVisible(false);
+    props.loginFinished(USER_CANCEL);
   };
   return (
     <Modal
