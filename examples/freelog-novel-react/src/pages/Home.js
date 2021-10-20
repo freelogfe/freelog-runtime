@@ -7,7 +7,7 @@ export default function (props) {
     props.history.push('/')
     const res = await window.freelogApp.getPresentables({ resourceType: 'novel' })
     setNovels(res.data.data.dataList)
-    setTimeout(()=>window.freelogApp.callLogin(),0)
+    // setTimeout(()=>window.freelogApp.callLogin(),0)
   }, []);
   return (
     <div className={styles.homePage + " flex-column w-100x h-100x over-h"}>
@@ -35,7 +35,7 @@ export default function (props) {
             </div>
           );
         })}
-        <div className="fc-less w-100x mb-20 mt-10 text-center fs-30 f-italic self-start">到底啦....</div>
+        <div className="fc-less w-100x mb-20 mt-10 text-center fs-30 f-italic self-start">到底 啦....</div>
       </div>
     </div>
   );

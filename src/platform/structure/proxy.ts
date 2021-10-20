@@ -400,7 +400,8 @@ export const createDocumentProxy = function (
   proxy: any
 ) {
   const documentProxy = {};
-  var doc = widgetsConfig.get(name).container; //.firstChild;
+  // TODO  firstChild还没创建,这里需要改，加载后才能
+  var doc = widgetsConfig.get(name).container.firstChild || widgetsConfig.get(name).container;
   // var doc: any = rawDocument.getElementById(name);
   // for shadow dom
   let isShadow = false;
@@ -419,7 +420,7 @@ export const createDocumentProxy = function (
   // HTMLElement.prototype.parentNode = ()=>{
 
   // }
-  // TODO 有可能是 doc还没创建造成的
+  
 
   if (!isShadow) {
     // TODO  判断document与doc的原型是否都有该方法，有则bind

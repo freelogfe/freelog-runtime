@@ -62,7 +62,7 @@ export function initNode() {
       container,
       "",
       { shadowDom: false, scopedCss: true, ...theme.properties },
-      0,
+      null,
       true
     );
     // new Promise<void>((resolve) => {

@@ -424,9 +424,9 @@ export default function(props: ItemProps) {
             </div>
             {/* 流转记录 */}
             {unfold &&
-              records.map((item: any) => {
+              records.map((item: any,index: number) => {
                 return (
-                  <div className="status-card  mt-15 contract-records">
+                  <div className="status-card  mt-15 contract-records" key={index}>
                     <div className="flex-row">
                       <div
                         className={

@@ -90,7 +90,7 @@ export function mountWidget(
   container: any,
   topPresentableData: any,
   config: any,
-  seq: number,
+  seq?: number | null | undefined,
   isTheme?: boolean
 ): any {
   // @ts-ignore
@@ -150,11 +150,9 @@ export function mountWidget(
       firstDev = true;
     }
   }
-  if (seq + "") {
-    widgetId = "freelog-" + widget.id + seq;
+  if (seq || seq === 0) {
+    widgetId = "freelog-" + commonData.id + seq;
   }
-  
-
   const widgetConfig = {
     container,
     name: widgetId, //id
