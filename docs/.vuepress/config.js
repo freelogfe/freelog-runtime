@@ -1,4 +1,3 @@
-const { AutoComplete } = require("antd");
 
 module.exports = {
     title: 'docs',

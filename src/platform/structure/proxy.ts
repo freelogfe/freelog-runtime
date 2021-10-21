@@ -65,7 +65,6 @@ window.addEventListener(
     setTimeout(() => {
       moveLock = false
     }, 0)
-    console.log(event, state, estate)
     state = estate
     initLocation();
     window.dispatchEvent(freelogPopstate)
@@ -137,7 +136,6 @@ export function setLocation() {
     }
     hash += "$" + key + "=" + value.href || "";
   });
-  console.log('setLocation')
   if (window.freelogApp.devData.type === DEV_WIDGET) {
     let devUrl = rawLocation.search.split("$_")[0];
     if (!devUrl.endsWith("/")) {
@@ -149,7 +147,6 @@ export function setLocation() {
       "$_" +
       hash.replace("?", "_") +
       rawLocation.hash;
-      console.log(url, rawLocation.href)
     if (url === rawLocation.href) return
     window.history.pushState(state++, "", url);
   } else {
@@ -181,7 +178,6 @@ export const locationCenter: any = {
     });
     setLocation();
   },
-
   get: function (name: string): string {
     return locations.get(name);
   },
@@ -211,16 +207,15 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
   function patch() {
     let hash = "";
     let routerType = HISTORY
-    // TODO 解析query参数  search
-    let href = arguments[2];
+    // TODO 解析query参数  search   vue3会把origin也传过来
+    let href = arguments[2].replace(rawLocation.origin,'');
     if (arguments[2] && arguments[2].indexOf("#") > -1) {
       href = href.substring(1)
       routerType = HASH
-      hash = arguments[2];
+      hash = arguments[2].replace(rawLocation.origin,'');
       // console.warn("hash route is not suggested!");
       // return;
     }
-
     let [pathname, search] = href.split("?");
     locationCenter.set(name, { pathname, href, search, hash, routerType });
   }
@@ -236,7 +231,6 @@ export const createHistoryProxy = function (name: string, sandbox: any) {
     setHistory(name, arguments, true);
   }
   function go(count: number) {
-    console.log(widgetConfig.config)
     if(widgetConfig.config.historyFB){
       return rawHistory.go(count)
     }

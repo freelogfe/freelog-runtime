@@ -7,12 +7,13 @@ export default function (props) {
     props.history.push('/')
     const res = await window.freelogApp.getPresentables({ resourceType: 'novel' })
     setNovels(res.data.data.dataList)
+    console.log(22223232323)
     // setTimeout(()=>window.freelogApp.callLogin(),0)
   }, []);
   return (
     <div className={styles.homePage + " flex-column w-100x h-100x over-h"}>
       <div className={styles.header + " fs-40 mb-30 fw-bold p-20 bs-normal"}>
-        全部小说
+        全部 小说
       </div>
       <div
         className="flex-row flex-wrap flex-1 w-100x y-auto space-between"
@@ -35,7 +36,7 @@ export default function (props) {
             </div>
           );
         })}
-        <div className="fc-less w-100x mb-20 mt-10 text-center fs-30 f-italic self-start">到底 啦....</div>
+        <div className="fc-less w-100x mb-20 mt-10 text-center fs-30 f-italic self-start">到底啦....</div>
       </div>
     </div>
   );
