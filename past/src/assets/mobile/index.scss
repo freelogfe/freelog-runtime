@@ -1,0 +1,19 @@
+#mobile-root {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: white;
+    // @import './antd.scss';
+
+    @import 'base/layout.scss';
+    @import 'base/pmwh.scss';
+    @import 'base/mouse.scss';
+    @import 'ui/color.scss';
+    @import 'ui/font-size.scss';
+    @import 'ui/common.scss';
+    @import 'ui/box.scss';
+    @import 'ui/font.scss';
+    @import 'ui/background.scss';
+
+    @import 'ui/animation.scss';
+}
