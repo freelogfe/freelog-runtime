@@ -460,7 +460,7 @@ const render = ($) => {
 在节点 url 的http://t.snnaenu.testfreelog.com/后面加上
 
 ```ts
-"http://t.snnaenu.testfreelog.com/?dev=http:localhost:7101";
+"http://t.snnaenu.testfreelog.com/?dev=http//:localhost:7101";
 ```
 
 此时插件是作为节点主题（即入口）使用
