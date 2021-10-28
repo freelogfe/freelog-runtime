@@ -47,7 +47,6 @@ export async function unmount(props:any) {
 if (!window.__POWERED_BY_FREELOG__) {
   bootstrap().then(mount);
 }
-// TODO 必须ui准备好了才能让里面的addAuth生效
 // setTimeout(()=>{run();},0)
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
