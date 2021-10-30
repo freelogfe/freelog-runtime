@@ -10,6 +10,8 @@ const {
   endEvent,
   updateLock,
   updateEvent,
+  lowerUI,
+  upperUI
 } = window.freelogAuth;
 const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
 
@@ -29,54 +31,28 @@ function App() {
     }
     setIsLogin(false)
     if (!inited) {
-      backToNode()
+      lowerUI()
     }
   }
-  function backToNode() {
-    // @ts-ignore
-    const app = document.getElementById(window.rootId);
-    // @ts-ignore
-    app.style.zIndex = 0;
-    // @ts-ignore
-    app.style.opacity = 0;
-    // @ts-ignore
-    document.getElementById("freelog-plugin-container").style.zIndex = 1;
-    setInited(false);
-  }
-  function showUI() {
-    // document.body.appendChild = document.body.appendChild.bind(
-    //   document.getElementById(window.rootId)
-    // );
-    // document.body.removeChild = document.body.removeChild.bind(
-    //   document.getElementById(window.rootId)
-    // );
-    // @ts-ignore
-    const app = document.getElementById(window.rootId);
-    // @ts-ignore
-    app.style.zIndex = 1;
-    // @ts-ignore
-    app.style.opacity = 1;
-    // @ts-ignore
-    document.getElementById("freelog-plugin-container").style.zIndex = 0;
-  }
+   
   // 遍历顺序是否永远一致
   function updateEvents(event?: any) {
     const eventMap = updateEvent(event);
     updateLock(true);
     const arr: any = [];
-    eventMap.forEach((val, key) => {
+    eventMap.forEach((val:any) => {
       arr.push(val);
     });
     const arr2: any = [];
-    failedMap.forEach((val) => {
+    failedMap.forEach((val:any) => {
       arr2.push(val);
     });
     setFailedEvents(arr2);
     setEvents(arr);
     if (!arr.length) {
-      backToNode();
+      lowerUI();
     } else {
-      showUI();
+      upperUI();
       setInited(true);
     }
   }
@@ -88,7 +64,7 @@ function App() {
   }
   function login() {
     debugger
-    showUI()
+    upperUI()
     setIsLogin(true);
   }
 
@@ -96,7 +72,7 @@ function App() {
     if (type === USER_CANCEL && !eventId) {
       endEvent(eventId, type, data);
       // TODO 通知所有 用户取消了
-      backToNode();
+      lowerUI();
       return;
     }
     endEvent(eventId, type, data);
