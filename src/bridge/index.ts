@@ -122,7 +122,7 @@ export function addAuth(
 }
 export function callAuth() {
   if (!uiInited) {
-    UI && UI();
+    UI && upperUI() &&  UI();
   } else {
     if (locked) {
       setTimeout(() => {
@@ -185,4 +185,37 @@ export function endEvent(eventId: string, type: number, data: any) {
 
 export function goLogin() {
   loginUI && loginUI()
+}
+
+export function upperUI() {
+   // @ts-ignore
+   const app = document.getElementById("ui-root");
+   // @ts-ignore
+   app.style.zIndex = 1;
+   // @ts-ignore
+   app.style.opacity = 1;
+   // @ts-ignore
+   document.getElementById("freelog-plugin-container").style.zIndex = 0;
+}
+export function lowerUI() {
+   // @ts-ignore
+   const app = document.getElementById("ui-root");
+   // @ts-ignore
+   app.style.zIndex = 0;
+   // @ts-ignore
+   app.style.opacity = 0;
+   // @ts-ignore
+   document.getElementById("freelog-plugin-container").style.zIndex = 1;
+}
+
+export const loginCallback:any = []
+// 登录和切换用户需要触发
+export async function onLogin(
+  callback: any 
+) {
+  if(typeof callback === 'function'){
+    loginCallback.push(callback)
+  } else{
+    console.error('onLogin error: ' , callback, ' is not a function!')
+  }
 }

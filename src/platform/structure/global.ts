@@ -2,8 +2,7 @@ import {
     mountWidget, autoMoutSubWdigets
 } from './widget'
 import { getSelfConfig, setUserData, getUserData, getSubDep, getSelfId, getStaticPath, getCurrentUser, setViewport, callLogin } from './utils'
-import { onLogin } from './event'
-import { callAuth, addAuth } from '../../bridge/index'
+import { callAuth, addAuth, onLogin } from '../../bridge/index'
 import { freelogAuth } from './freelogAuth'
 import {
     getPresentables,

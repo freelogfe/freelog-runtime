@@ -6,10 +6,11 @@ import {
     endEvent,
     updateLock,
     updateEvent,
-} from '../../bridge/index'
-import {
+    lowerUI,
+    upperUI,
     loginCallback
-} from './event'
+} from '../../bridge/index'
+ 
 import { SUCCESS, FAILED, USER_CANCEL } from '../../bridge/event'
 
 export const freelogAuth = {
@@ -19,6 +20,8 @@ export const freelogAuth = {
     endEvent,
     updateLock,
     updateEvent,
+    lowerUI,
+    upperUI,
     resultType: {
         SUCCESS, FAILED, USER_CANCEL
     },
