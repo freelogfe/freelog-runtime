@@ -16,12 +16,9 @@ if (
 ) {
   window.isTest = true;
 }
-document.domain = "testfreelog.com"
 ReactDOM.render(
-  <ConfigProvider locale={zhCN}>
-    <App />
-  </ConfigProvider>,
-  document.getElementById(window.rootId)
+  <App />,
+   document.querySelector('#root')
 );
 
 export async function bootstrap() {

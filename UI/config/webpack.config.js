@@ -131,22 +131,22 @@ module.exports = function (webpackEnv) {
               },
               stage: 3,
             }),
-            require('postcss-px-to-viewport')( {
-              unitToConvert: 'px', // 要转化的单位
-              viewportWidth: 375, // UI设计稿的宽度
-              unitPrecision: 5,  // 转换后的精度，即小数点位数
-              propList: ['*'],   // 指定转换的css属性的单位，*代表全部css属性的单位都进行转换
-              viewportUnit: 'vw', // 指定需要转换成的视窗单位，默认vw
-              fontViewportUnit: 'vw', // 指定字体需要转换成的视窗单位，默认vw
-              selectorBlackList: [], // 指定不转换为视窗单位的类名，
-              minPixelValue: 1, // 默认值1，小于或等于1px则不进行转换
-              mediaQuery: false, // 是否在媒体查询的css代码中也进行转换，默认false
-              replace: true,    // 是否转换后直接更换属性值
-              exclude: [/node_modules\\antd$/,/src\\assets\\css/,/src\\ui\\pc/],     // 设置忽略文件，用正则做目录名匹配
-              landscape: false, // 是否处理横屏情况
-              landscapeUnit: 'vw',  // 横屏时使用的单位
-              landscapeWidth: 568  // 用于横向定向的视口宽度。
-          }),
+          //   require('postcss-px-to-viewport')( {
+          //     unitToConvert: 'px', // 要转化的单位
+          //     viewportWidth: 375, // UI设计稿的宽度
+          //     unitPrecision: 5,  // 转换后的精度，即小数点位数
+          //     propList: ['*'],   // 指定转换的css属性的单位，*代表全部css属性的单位都进行转换
+          //     viewportUnit: 'vw', // 指定需要转换成的视窗单位，默认vw
+          //     fontViewportUnit: 'vw', // 指定字体需要转换成的视窗单位，默认vw
+          //     selectorBlackList: [], // 指定不转换为视窗单位的类名，
+          //     minPixelValue: 1, // 默认值1，小于或等于1px则不进行转换
+          //     mediaQuery: false, // 是否在媒体查询的css代码中也进行转换，默认false
+          //     replace: true,    // 是否转换后直接更换属性值
+          //     exclude: [/node_modules\\antd$/,/src\\assets\\css/,/src\\ui\\pc/],     // 设置忽略文件，用正则做目录名匹配
+          //     landscape: false, // 是否处理横屏情况
+          //     landscapeUnit: 'vw',  // 横屏时使用的单位
+          //     landscapeWidth: 568  // 用于横向定向的视口宽度。
+          // }),
             // Adds PostCSS Normalize as the reset css with default options,
             // so that it honors browserslist config in package.json
             // which in turn let's users customize the target behavior as per their needs.
@@ -187,31 +187,44 @@ module.exports = function (webpackEnv) {
       : isEnvDevelopment && 'cheap-module-source-map',
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
-    entry:
-      isEnvDevelopment && !shouldUseReactRefresh
-        ? [
-            // Include an alternative client for WebpackDevServer. A client's job is to
-            // connect to WebpackDevServer by a socket and get notified about changes.
-            // When you save a file, the client will either apply hot updates (in case
-            // of CSS changes), or refresh the page (in case of JS changes). When you
-            // make a syntax error, this client will display a syntax error overlay.
-            // Note: instead of the default WebpackDevServer client, we use a custom one
-            // to bring better experience for Create React App users. You can replace
-            // the line below with these two lines if you prefer the stock client:
-            //
-            // require.resolve('webpack-dev-server/client') + '?/',
-            // require.resolve('webpack/hot/dev-server'),
-            //
-            // When using the experimental react-refresh integration,
-            // the webpack plugin takes care of injecting the dev client for us.
-            webpackDevClientEntry,
-            // Finally, this is your app's code:
-            paths.appIndexJs,
-            // We include the app code last so that if there is a runtime error during
-            // initialization, it doesn't blow up the WebpackDevServer client, and
-            // changing JS code would still trigger a refresh.
-          ]
-        : paths.appIndexJs,
+    entry: {
+      pc: [
+        isEnvDevelopment &&
+        require.resolve('react-dev-utils/webpackHotDevClient'),
+        paths.appIndexJs,
+      ].filter(Boolean),
+      mobile: [
+        isEnvDevelopment &&
+        require.resolve('react-dev-utils/webpackHotDevClient'),
+        paths.mobileJs,
+      ].filter(Boolean)
+    },
+    // entry:
+    //   isEnvDevelopment && !shouldUseReactRefresh
+    //     ? [
+    //         // Include an alternative client for WebpackDevServer. A client's job is to
+    //         // connect to WebpackDevServer by a socket and get notified about changes.
+    //         // When you save a file, the client will either apply hot updates (in case
+    //         // of CSS changes), or refresh the page (in case of JS changes). When you
+    //         // make a syntax error, this client will display a syntax error overlay.
+    //         // Note: instead of the default WebpackDevServer client, we use a custom one
+    //         // to bring better experience for Create React App users. You can replace
+    //         // the line below with these two lines if you prefer the stock client:
+    //         //
+    //         // require.resolve('webpack-dev-server/client') + '?/',
+    //         // require.resolve('webpack/hot/dev-server'),
+    //         //
+    //         // When using the experimental react-refresh integration,
+    //         // the webpack plugin takes care of injecting the dev client for us.
+    //         webpackDevClientEntry,
+    //         // Finally, this is your app's code:
+    //         paths.appIndexJs,
+    //         paths.mobileJs,
+    //         // We include the app code last so that if there is a runtime error during
+    //         // initialization, it doesn't blow up the WebpackDevServer client, and
+    //         // changing JS code would still trigger a refresh.
+    //       ]
+    //     : {pc: paths.appIndexJs, mobile: paths.mobileJs},
     output: {
       // The build folder.
       path: isEnvProduction ? paths.appBuild : undefined,
@@ -587,6 +600,34 @@ module.exports = function (webpackEnv) {
           {
             inject: true,
             template: paths.appHtml,
+            chunks: ['pc']
+          },
+          isEnvProduction
+            ? {
+                minify: {
+                  removeComments: true,
+                  collapseWhitespace: true,
+                  removeRedundantAttributes: true,
+                  useShortDoctype: true,
+                  removeEmptyAttributes: true,
+                  removeStyleLinkTypeAttributes: true,
+                  keepClosingSlash: true,
+                  minifyJS: true,
+                  minifyCSS: true,
+                  minifyURLs: true,
+                },
+              }
+            : undefined
+        )
+      ),
+      new HtmlWebpackPlugin(
+        Object.assign(
+          {},
+          {
+            inject: true,
+            filename: 'mobile.html',
+            template: paths.appHtml,
+            chunks: ['mobile']
           },
           isEnvProduction
             ? {
@@ -675,13 +716,15 @@ module.exports = function (webpackEnv) {
             manifest[file.name] = file.path;
             return manifest;
           }, seed);
-          const entrypointFiles = entrypoints.main.filter(
+          const entrypointFiles = entrypoints.pc.filter(
             fileName => !fileName.endsWith('.map')
           );
-
+          const entrypointFiles2 = entrypoints.mobile.filter(
+            fileName => !fileName.endsWith('.map')
+          );
           return {
             files: manifestFiles,
-            entrypoints: entrypointFiles,
+            entrypoints: [...entrypointFiles, ...entrypointFiles2],
           };
         },
       }),
