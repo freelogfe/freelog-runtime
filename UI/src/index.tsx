@@ -19,7 +19,6 @@ if (
 export async function bootstrap() {
   console.log('[react17] react app bootstraped');
 }
-//     </React.StrictMode>,
 
 export async function mount(props:any = {}) {
   const { container } = props;

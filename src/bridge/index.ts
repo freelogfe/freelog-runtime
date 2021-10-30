@@ -122,7 +122,7 @@ export function addAuth(
 }
 export function callAuth() {
   if (!uiInited) {
-    UI && upperUI() &&  UI();
+    UI &&  UI();
   } else {
     if (locked) {
       setTimeout(() => {

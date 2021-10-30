@@ -5,4 +5,5 @@ interface Window {
     userInfo: any;
     rootId: string;
     freelogAuth: any;
+    __POWERED_BY_FREELOG__: any;
 }
