@@ -201,7 +201,7 @@ export default class ProxySandbox implements SandBox {
     var _this = this;
     const proxy = new Proxy(fakeWindow, {
       set: (target: FakeWindow, p: PropertyKey, value: any): boolean => {
-        if (p === "freelogApp") return false;
+        if (p === "freelogApp" || p ===  "freelogAuth") return false;
         if (this.sandboxRunning) {
           // We must kept its description while the property existed in rawWindow before
           if (!target.hasOwnProperty(p) && rawWindow.hasOwnProperty(p)) {
@@ -243,6 +243,7 @@ export default class ProxySandbox implements SandBox {
       },
 
       get(target: FakeWindow, p: PropertyKey): any {
+        if (p ===  "freelogAuth") return false;
         if (p === Symbol.unscopables) return unscopables;
         if (p === "__INJECTED_PUBLIC_PATH_BY_FREELOG__") {
           return getPublicPath(name);

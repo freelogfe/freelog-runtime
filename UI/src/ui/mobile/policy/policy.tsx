@@ -1,17 +1,18 @@
 import PolicyGraph from "./_components/policyGraph";
 import PolicyCode from "./_components/policyCode";
 import { useState } from "react";
-import { SUCCESS } from "../../../bridge/event";
 
 import PolicyContent from "./_components/policyContent";
-import { getCurrentUser } from "../../../platform/structure/utils";
 import user from "../../../services/api/modules/user";
 import frequest from "../../../services/handler";
 import { Checkbox } from "antd";
 import { Tabs, Badge, Modal, Button } from "antd-mobile";
+const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
 
 const alert = Modal.alert;
-
+const {
+  getCurrentUser, 
+} = window.freelogAuth;
 interface ItemProps {
   policy: any;
   selectType: boolean;

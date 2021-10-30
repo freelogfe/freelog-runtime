@@ -6,9 +6,10 @@ import event from "../../../services/api/modules/event";
 import transaction from "../../../services/api/modules/transaction";
 import { Modal, List, Button, WhiteSpace, Toast } from "antd-mobile";
 import "./pay.scss";
-import { getUserInfo } from "../../../platform/structure/utils";
 const prompt = Modal.prompt;
-
+const {
+  getUserInfo, 
+} = window.freelogAuth;
 interface PayProps {
   isModalVisible: boolean;
   setIsModalVisible: any;

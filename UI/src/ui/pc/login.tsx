@@ -1,11 +1,11 @@
 import { Form, Input, Modal, Spin  } from "antd";
 import user from "../../services/api/modules/user";
 import frequest from "../../services/handler";
-import { SUCCESS, USER_CANCEL } from "../../bridge/event";
 import Button from "./_components/button";
 
 import { useState } from "react";
 import "./login.scss";
+const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
 
 const layout = {
   labelCol: { span: 8 },

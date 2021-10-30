@@ -1,7 +1,5 @@
 import { Modal, notification } from "antd";
-import { SUCCESS, USER_CANCEL, FAILED } from "../../bridge/event";
 import React, { useState, useEffect } from "react";
-import { LOGIN } from "../../bridge/event";
 import Button from "./_components/button";
 import "./auth.scss";
 import Contract from "./contract/contract";
@@ -10,12 +8,15 @@ import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
 import Confirm from "./_components/confirm";
 import Login from "./login";
-import { setUserInfo } from "../../platform/structure/utils";
-import { loginCallback } from "../../platform/structure/event";
 import contract from "../../services/api/modules/contract";
-import { getCurrentUser } from "../../platform/structure/utils";
 import getBestTopology from "./topology/data";
 import Tip from "./_components/tip";
+const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
+const {
+  setUserInfo,
+  loginCallback,
+  getCurrentUser, 
+} = window.freelogAuth;
 /**
  * 展品授权窗口：
  *     左：展品列表
@@ -311,7 +312,6 @@ export default function(props: contractProps) {
               <div className="flex-column w-344 h-100x  y-auto">
                 {events.length
                   ? events.map((item: any, index: number) => {
-                      if (item.event === LOGIN) return null;
                       return (
                         <div
                           key={index}

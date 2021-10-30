@@ -4,6 +4,7 @@ import {
 import { getSelfConfig, setUserData, getUserData, getSubDep, getSelfId, getStaticPath, getCurrentUser, setViewport, callLogin } from './utils'
 import { onLogin } from './event'
 import { callAuth, addAuth } from '../../bridge/index'
+import { freelogAuth } from './freelogAuth'
 import {
     getPresentables,
     getPresentablesPaging,
@@ -64,5 +65,6 @@ export const freelogApp = {
     getUserData,
     getResourceInfoByVersion,
     getPresentableDetailById,
-    getSelfConfig
+    getSelfConfig,
+    freelogAuth
 }

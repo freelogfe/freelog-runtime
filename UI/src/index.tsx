@@ -4,9 +4,7 @@ import ReactDOM from "react-dom";
 import App from "./ui/App";
 import './public-path';
 import reportWebVitals from "./reportWebVitals";
-import zhCN from "antd/lib/locale/zh_CN";
-import { ConfigProvider } from "antd";
- 
+
 window.isTest = false;
 if (
   window.location.href
@@ -16,10 +14,7 @@ if (
 ) {
   window.isTest = true;
 }
-ReactDOM.render(
-  <App />,
-   document.querySelector('#root')
-);
+
 
 export async function bootstrap() {
   console.log('[react17] react app bootstraped');

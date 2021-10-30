@@ -1,7 +1,6 @@
 import axios from "./request";
 import { placeHolder, baseConfig } from "./base";
 import { compareObjects } from "../utils/utils";
-import { setPresentableQueue } from "../bridge/index";
 /**
  *
  * @param action api namespace.apiName
@@ -15,8 +14,6 @@ export default function frequest(
   returnUrl?: boolean,
   config?: any
 ): any {
-  // @ts-ignore
-  const caller = this;
   let api = Object.assign({}, action);
   // type Api2 = Exclude<Api, 'url' | 'before' | 'after'>
   let url = api.url;
@@ -77,46 +74,7 @@ export default function frequest(
          *  303 标的物未签约
          *  502 未登陆的用户
          */
-        api.after && api.after(response);
-        //最外面拦截到errCode === 30 时需要跳转登录    
-       
-        // if(response.data.errCode === 30){
-        //   // TODO 需要登录的也是未授权
-        // }
-        // TODO 仅授权失败
-        if (
-          response.data.errCode &&
-          response.data.errCode === 3 &&
-          caller &&
-          (caller.presentableId || caller.resourceIdOrName)
-        ) {
-          const presentableId = response.headers["freelog-presentable-id"];
-          const presentableName = decodeURI(
-            response.headers["freelog-presentable-name"]
-          );
-          setPresentableQueue(presentableId, {
-            widget: caller.name,
-            errCode: response.data.errCode,
-            authCode: response.data.data.authCode,
-            contracts: response.data.data.data.contracts || [],
-            policies: response.data.data.data.policies,
-            presentableName,
-            presentableId,
-            info: response.data,
-          });
-          resolve({
-            data: {
-              errCode: 3,
-              authCode: response.data.errCode,
-              presentableName,
-              presentableId,
-              errorMsg: response.data.data.errorMsg,
-            },
-          });
-          return;
-        } else {
-          resolve(response);
-        }
+        api.after && api.after(response);       
       })
       .catch((error) => {
         // 防止error为空

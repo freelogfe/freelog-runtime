@@ -1,6 +1,4 @@
-import { SUCCESS, USER_CANCEL, FAILED } from "../../bridge/event";
 import React, { useState, useEffect } from "react";
-import { LOGIN } from "../../bridge/event";
 import "../../assets/mobile/index.scss";
 import "./auth.scss";
 import Login from "./user/login";
@@ -12,13 +10,15 @@ import Contract from "./contract/contract";
 import Policy from "./policy/policy";
 import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
-import { setUserInfo } from "../../platform/structure/utils";
-import { loginCallback } from "../../platform/structure/event";
 import contract from "../../services/api/modules/contract";
-import { getCurrentUser } from "../../platform/structure/utils";
 import getBestTopology from "./topology/data";
 import { Modal, Toast } from "antd-mobile";
-
+const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
+const {
+  setUserInfo,
+  loginCallback,
+  getCurrentUser, 
+} = window.freelogAuth;
 const alert = Modal.alert;
 
 interface contractProps {
@@ -289,7 +289,6 @@ export default function(props: contractProps) {
         </div>
         {events.length
           ? events.map((item: any, index: number) => {
-              if (item.event === LOGIN) return null;
               return (
                 <div
                   key={index}

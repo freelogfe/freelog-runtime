@@ -7,9 +7,10 @@ import user from "../../../services/api/modules/user";
 import event from "../../../services/api/modules/event";
 import transaction from "../../../services/api/modules/transaction";
 
-import { getUserInfo } from "../../../platform/structure/utils";
 import Tip from "../_components/tip";
-
+const {
+  getUserInfo, 
+} = window.freelogAuth;
 interface PayProps {
   isModalVisible: boolean;
   setIsModalVisible: any;
