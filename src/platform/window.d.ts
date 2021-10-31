@@ -4,4 +4,5 @@ interface Window {
     isTest: boolean;
     userInfo: any;
     rootId: string;
+    freelogAuth: any;
 }

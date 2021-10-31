@@ -98,6 +98,9 @@ export function setFetch() {
     }
   };
 }
+export function getFreelogAuth(name: string) {
+  return widgetsConfig.get(name).isUI
+}
 export function initLocation() {
   if (rawLocation.href.includes("$freelog")) {
     var loc = rawLocation.href.split("freelog.com/")[1].split("$");

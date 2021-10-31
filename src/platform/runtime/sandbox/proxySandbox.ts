@@ -16,7 +16,8 @@ import {
   freelogLocalStorage,
   saveSandBox,
   getPublicPath,
-  freelogAddEventListener
+  freelogAddEventListener,
+  getFreelogAuth
 } from "../../structure/proxy";
 /**
  * fastest(at most time) unique array method
@@ -243,7 +244,12 @@ export default class ProxySandbox implements SandBox {
       },
 
       get(target: FakeWindow, p: PropertyKey): any {
-        if (p ===  "freelogAuth") return false;
+        if (p ===  "freelogAuth") {
+          if(getFreelogAuth(name)){
+            return rawWindow.freelogAuth
+          }
+          return false
+        };
         if (p === Symbol.unscopables) return unscopables;
         if (p === "__INJECTED_PUBLIC_PATH_BY_FREELOG__") {
           return getPublicPath(name);

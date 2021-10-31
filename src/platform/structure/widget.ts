@@ -67,7 +67,6 @@ export function addSandBox(key: string, sandbox: any) {
 export function removeSandBox(key: string) {
   sandBoxs.has(key) && sandBoxs.delete(key);
 }
-const count = 0;
 let firstDev = false;
 let hbfOnlyToTheme = true // 保存是否前进后退只给主题
 // 可供插件自己加载子插件  widget需要验证格式
@@ -91,7 +90,8 @@ export function mountWidget(
   topPresentableData: any,
   config: any,
   seq?: number | null | undefined,
-  isTheme?: boolean
+  isTheme?: boolean,
+  isUI?: boolean
 ): any {
   // @ts-ignore
   const that = this;
@@ -99,6 +99,7 @@ export function mountWidget(
   // TODO 为了安全，得验证是否是插件使用还是运行时使用mountWidget
   if (that && that.name) {
     isTheme = false;
+    isUI = false;
     defaultWidgetConfigData.historyFB = false
   }
   config = {
@@ -157,6 +158,7 @@ export function mountWidget(
     container,
     name: widgetId, //id
     isTheme: !!isTheme,
+    isUI: !!isUI,
     presentableId: commonData.presentableId, // 展品id为空的都是插件依赖的插件
     widgetName: commonData.resourceInfo.resourceName.replace("/", "-"),
     parentNid: commonData.entityNid,
