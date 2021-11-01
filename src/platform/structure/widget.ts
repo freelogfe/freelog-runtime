@@ -69,6 +69,53 @@ export function removeSandBox(key: string) {
 }
 let firstDev = false;
 let hbfOnlyToTheme = true // 保存是否前进后退只给主题
+export function mountUI(
+  name: string,
+  container: any,
+  entry: string,
+  config?: any,
+): any {
+  const widgetConfig = {
+    container,
+    name, //id
+    entry, 
+    isUI: true,
+    config, // 主题插件配置数据
+  };
+  addWidgetConfig(name, widgetConfig);
+  const app = loadMicroApp(widgetConfig, {
+    sandbox: {
+      strictStyleIsolation: config ? !!config.shadowDom : false,
+      experimentalStyleIsolation: config ? !!config.scopedCss : true,
+    },
+  });
+  // TODO 增加是否保留数据
+  const _app = {
+    ...app,
+    mount: (resolve?:any, reject?:any) => {
+      app.mount().then(()=>{
+        addWidget(name, app);
+        // TODO 验证是否是函数
+        resolve && resolve()
+      },()=>{
+        reject()
+      });
+    },
+    unmount: (resolve?:any, reject?:any) => {
+      app.unmount().then(()=>{
+        deactiveWidget(name);
+        setLocation();
+        // TODO 验证是否是函数
+        resolve && resolve()
+      },()=>{
+        reject()
+      });
+    },
+  }; 
+  addWidget(name, _app);
+  // TODO 拦截mount做处理
+  return _app;
+}
 // 可供插件自己加载子插件  widget需要验证格式
 /**
  *
@@ -91,7 +138,6 @@ export function mountWidget(
   config: any,
   seq?: number | null | undefined,
   isTheme?: boolean,
-  isUI?: boolean
 ): any {
   // @ts-ignore
   const that = this;
@@ -99,7 +145,6 @@ export function mountWidget(
   // TODO 为了安全，得验证是否是插件使用还是运行时使用mountWidget
   if (that && that.name) {
     isTheme = false;
-    isUI = false;
     defaultWidgetConfigData.historyFB = false
   }
   config = {
@@ -158,7 +203,6 @@ export function mountWidget(
     container,
     name: widgetId, //id
     isTheme: !!isTheme,
-    isUI: !!isUI,
     presentableId: commonData.presentableId, // 展品id为空的都是插件依赖的插件
     widgetName: commonData.resourceInfo.resourceName.replace("/", "-"),
     parentNid: commonData.entityNid,
@@ -174,6 +218,7 @@ export function mountWidget(
       }),
     isDev: !!entry,
     config, // 主题插件配置数据
+    isUI: false
   };
   addWidgetConfig(widgetId, widgetConfig);
   // TODO 所有插件加载用promise all

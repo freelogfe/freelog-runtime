@@ -19,7 +19,6 @@ export async function bootstrap() {
   console.log('[react17] react app bootstraped');
 }
 //     </React.StrictMode>,
-
 export async function mount(props:any = {}) {
   const { container } = props;
   ReactDOM.render(
@@ -36,6 +35,7 @@ export async function unmount(props:any) {
 }
 
 if (!window.__POWERED_BY_FREELOG__) {
+  console.log(22)
   bootstrap().then(mount);
 }
 // TODO 必须ui准备好了才能让里面的addAuth生效

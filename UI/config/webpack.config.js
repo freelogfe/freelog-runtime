@@ -142,7 +142,8 @@ module.exports = function (webpackEnv) {
               minPixelValue: 1, // 默认值1，小于或等于1px则不进行转换
               mediaQuery: false, // 是否在媒体查询的css代码中也进行转换，默认false
               replace: true,    // 是否转换后直接更换属性值
-              include: [/node_modules\\antd-mobile$/,/src\\assets\\css\\mobile/,/src\\ui\\mobile/],
+              // include: [/node_modules\\antd-mobile$/,/src\\assets\\css\\mobile/,/src\\ui\\mobile/],
+              exclude: [/node_modules\\antd$/,/src\\assets\\css/,/src\\ui\\pc/],
               landscape: false, // 是否处理横屏情况
               landscapeUnit: 'vw',  // 横屏时使用的单位
               landscapeWidth: 568  // 用于横向定向的视口宽度。
@@ -338,9 +339,10 @@ module.exports = function (webpackEnv) {
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
       // https://github.com/facebook/create-react-app/issues/5358
-      runtimeChunk: {
-        name: entrypoint => `runtime-${entrypoint.name}`,
-      },
+      runtimeChunk: 'single',
+      // runtimeChunk: {
+      //   name: entrypoint => `runtime-${entrypoint.name}`,
+      // },
     },
     resolve: {
       // This allows you to set a fallback for where webpack should look for modules.

@@ -268,7 +268,7 @@ export default function(props: contractProps) {
     }
   };
   return (
-    <div className="runtime-pc" id="runtime-pc">
+    <div className="runtime-pc bg-white" id="runtime-pc">
       {isModalVisible && (
         <Confirm
           setIsModalVisible={setIsModalVisible}

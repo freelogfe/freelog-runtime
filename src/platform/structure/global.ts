@@ -3,7 +3,6 @@ import {
 } from './widget'
 import { getSelfConfig, setUserData, getUserData, getSubDep, getSelfId, getStaticPath, getCurrentUser, setViewport, callLogin } from './utils'
 import { callAuth, addAuth, onLogin } from '../../bridge/index'
-import { freelogAuth } from './freelogAuth'
 import {
     getPresentables,
     getPresentablesPaging,
@@ -28,7 +27,7 @@ import {
     getPresentableDetailById
 } from './api'
 let devData = ''
-export const freelogApp = {
+export const freelogApp:any = {
     mountWidget,
     getPresentables,
     getPresentablesPaging,
@@ -64,6 +63,5 @@ export const freelogApp = {
     getUserData,
     getResourceInfoByVersion,
     getPresentableDetailById,
-    getSelfConfig,
-    freelogAuth
+    getSelfConfig
 }

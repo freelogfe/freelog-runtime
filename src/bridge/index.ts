@@ -1,28 +1,11 @@
 import { SUCCESS, FAILED, USER_CANCEL } from "./event";
 import { LOGIN, CONTRACT } from "./event";
-/**
- * 架构设计目的：
- *     1.有利于更快进行业务细分实现和技术实现
- *     2.便于维护和管理
- *           UI可以插件化（模块化）
- *           例如交给无权限修改运行时的开发人员开发UI，所有UI插件队列由权限人员管理
- * 插件平台： 提供api给插件连接注册中心调取UI（是否弹出UI由注册中心判断决定）
- * 数据接口中心： 涉及授权的只要请求过，加入到注册中心的 已授权队列或未授权队列
- * 注册中心： UI事件种类： 1.登录   2.授权  3.其余ui（后续考虑）
- *           数据结构：已授权队列，未授权队列，处理失败队列（该队列保留处理时的数据），
- *                    插件唤起UI事件队列（必须处理完）
- *           处理方式：插件唤起Ui，如果在未授权队列里面有，才调用Ui部分
- * UI(s)： 所有UI注册到中心，用于注册中心唤起UI
- *         目前分类：登录UI， 授权UI
- *         展望：例如游戏over想要接着玩时 得看广告，那就有官方的广告UI
- * 目前不打算做的：Ui插件化
- * 目前还需要改的地方：已授权队列，UI部分，合约事件部分
- * 工作量安排：3日（以往工作经验1日，原因是对后端表关系与接口数据结构不是参与者）
- * 文档编写工作量安排：3日
- */
+ 
+
 export const presentableQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
 export const failedMap = new Map<any, any>();
+const rawDocument = document
 let UI: any = null;
 let updateUI: any = null;
 let loginUI:any = null
@@ -186,26 +169,23 @@ export function endEvent(eventId: string, type: number, data: any) {
 export function goLogin() {
   loginUI && loginUI()
 }
-
+const uiRoot = rawDocument.getElementById("ui-root")
+const widgetContainer = rawDocument.getElementById("freelog-plugin-container")
 export function upperUI() {
    // @ts-ignore
-   const app = document.getElementById("ui-root");
+   uiRoot.style.zIndex = 1;
    // @ts-ignore
-   app.style.zIndex = 1;
+   uiRoot.style.opacity = 1;
    // @ts-ignore
-   app.style.opacity = 1;
-   // @ts-ignore
-   document.getElementById("freelog-plugin-container").style.zIndex = 0;
+   widgetContainer.style.zIndex = 0;
 }
 export function lowerUI() {
    // @ts-ignore
-   const app = document.getElementById("ui-root");
+   uiRoot.style.zIndex = 0;
    // @ts-ignore
-   app.style.zIndex = 0;
+   uiRoot.style.opacity = 0;
    // @ts-ignore
-   app.style.opacity = 0;
-   // @ts-ignore
-   document.getElementById("freelog-plugin-container").style.zIndex = 1;
+   widgetContainer.style.zIndex = 1;
 }
 
 export const loginCallback:any = []

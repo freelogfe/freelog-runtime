@@ -1,5 +1,4 @@
 // @ts-ignore
-import React from "react";
 import ReactDOM from "react-dom";
 import App from "./ui/App";
 import './public-path';
@@ -14,10 +13,10 @@ if (
 ) {
   window.isTest = true;
 }
-
+ 
 
 export async function bootstrap() {
-  console.log('[react17] react app bootstraped');
+  console.log('[freelog-ui] freelog-ui bootstraped');
 }
 
 export async function mount(props:any = {}) {
@@ -34,8 +33,8 @@ export async function unmount(props:any) {
     container ? container.querySelector('#root') : document.getElementById('root'),
   );
 }
-
 if (!window.__POWERED_BY_FREELOG__) {
+  console.log(222)
   bootstrap().then(mount);
 }
 // TODO 必须ui准备好了才能让里面的addAuth生效
