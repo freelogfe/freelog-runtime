@@ -5,7 +5,9 @@
   "qiankun": "2.4.0",
   "devDependencies": {
     "@types/lodash": "^4.14.168",
-    "custom-event": "^1.0.1"
+    "custom-event": "^1.0.1",
+    "customize-cra": "^1.0.0",
+    "react-app-rewired": "^2.1.8"
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
