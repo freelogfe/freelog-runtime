@@ -26,6 +26,7 @@ export default function (props: loginProps) {
   }
   
   const onFinish = async () => {
+    debugger
     setLoading(true)
     const values: any = form.getFieldsValue()
     // loginName: "string",
@@ -35,6 +36,7 @@ export default function (props: loginProps) {
     //   jwtType: "string",
     values.isRemember = values.isRemember ? 1 : 0;
     const res = await frequest(user.login, "", values);
+    console.log(res, 22222)
     if (res.data.errCode === 0) {
       setLoading(false)
       props.loginFinished(SUCCESS, res.data.data);

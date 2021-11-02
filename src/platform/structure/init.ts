@@ -3,12 +3,19 @@ import node from "../../services/api/modules/node";
 
 import { getSubDep, getUserInfo, isMobile } from "./utils";
 import { freelogApp } from "./global";
-import { freelogAuth } from './freelogAuth'
+import { freelogAuth } from "./freelogAuth";
 import { init } from "./api";
 import { dev } from "./dev";
 import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
-const uiPath = import.meta.env.DEV ? isMobile()? "http://localhost:8881": "http://localhost:8880" : "/ui";
+// @ts-ignore
+const uiPath = import.meta.env.DEV
+  ? isMobile()
+    ? "http://localhost:8881"
+    : "http://localhost:8880"
+  : isMobile()
+  ? "/mobile"
+  : "/pc";
 let isTest = false;
 if (
   window.location.href
@@ -18,7 +25,7 @@ if (
 ) {
   isTest = true;
 }
-window.isTest = isTest
+window.isTest = isTest;
 // @ts-ignore  TODO 需要控制不可改变
 window.freelogApp = freelogApp;
 window.freelogAuth = freelogAuth;
@@ -38,12 +45,10 @@ export function initNode() {
         freelogApp.devData = devData;
         Object.freeze(freelogApp);
         initLocation();
-        mountUI(
-          "freelog-ui",
-          document.getElementById("ui-root"),
-          uiPath,
-          { shadowDom: false, scopedCss: false  }
-        ).mountPromise.then(async (res: any) => {
+        mountUI("freelog-ui", document.getElementById("ui-root"), uiPath, {
+          shadowDom: false,
+          scopedCss: false,
+        }).mountPromise.then(async (res: any) => {
           // TODO 如果没有主题，需要提醒先签约主题才行，意味着开发主题需要先建一个节点和主题并签约
           const theme = await getSubDep(nodeInfo.nodeThemeId);
           const container = document.getElementById("freelog-plugin-container");

@@ -52,12 +52,14 @@ window.addEventListener(
     if (estate < state) {
       moveLock = true
       // this is back,  make all of locations position++ 
+      // @ts-ignore
       locations.forEach((value, key) => {
         historyBack(key)
       });
     } else if (estate > state) {
       moveLock = true
       // this is forword make all of locations position--
+      // @ts-ignore
       locations.forEach((value, key) => {
         historyForward(key)
       });
@@ -187,10 +189,12 @@ export const locationCenter: any = {
 };
 export function freelogLocalStorage(id: string) {
   return {
+    // @ts-ignore
     clear: function (name: string) { },
     getItem: function (name: string) {
       return rawLocalStorage.getItem(id + name);
     },
+    // @ts-ignore
     key: function (name: string) { },
     removeItem: function (name: string) {
       rawLocalStorage.removeItem(id + name);
@@ -204,7 +208,7 @@ export function freelogLocalStorage(id: string) {
 export const saveSandBox = function (name: string, sandBox: any) {
   addSandBox(name, sandBox);
 };
-export const createHistoryProxy = function (name: string, sandbox: any) {
+export const createHistoryProxy = function (name: string) {
   const widgetConfig = widgetsConfig.get(name);
 
   function patch() {
@@ -316,14 +320,16 @@ export const createLocationProxy = function (name: string, sandbox: any) {
         a标签的href需要拦截，// TODO 如果以http开头则不拦截
          TODO reload 是重新加载插件
      */
+    // @ts-ignore
     set: (target: any, p: PropertyKey, value: any): boolean => {
       if (p === 'hash') {
-        const _history = createHistoryProxy(name, sandbox)
+        const _history = createHistoryProxy(name)
         // @ts-ignore
         _history.pushState('', '', value)
       }
       return true;
     },
+    // @ts-ignore
     get: function get(target: any, property: string) {
       if (["href", "pathname", "hash", "search"].indexOf(property) > -1) {
         if (locationCenter.get(name)) {
@@ -338,7 +344,7 @@ export const createLocationProxy = function (name: string, sandbox: any) {
         }
         if (["reload"].indexOf(property) > -1) {
           // TODO 增加是否保留数据
-          return async function (reject:any, isSaveData: boolean) {
+          return async function (reject:any) {
             flatternWidgets.get(name).unmount(()=>{
               flatternWidgets.get(name).mount()
             },()=>{
@@ -348,11 +354,7 @@ export const createLocationProxy = function (name: string, sandbox: any) {
               },()=>{
                 reject && reject()
               })
-            })
-            // setTimeout(()=>{
-            
-            // },200)
-            // await flatternWidgets.get(name).mount()
+            }) 
           };
         }
         if (property === "toString") {
@@ -393,6 +395,7 @@ const removeChild = rawDocument.body.removeChild;
 const addEventListener = rawDocument.addEventListener;
 export const createDocumentProxy = function (
   name: string,
+  // @ts-ignore
   sandbox: any,
   proxy: any
 ) {
@@ -496,6 +499,7 @@ export const createDocumentProxy = function (
        3.根节点下没有的方法
        4.属性（包括原型）方法：替换this为根节点
     */
+   // @ts-ignore
     get: function get(docTarget: any, property: string) {
       let appDiv: any = null;
       // @ts-ignore
@@ -594,11 +598,10 @@ export const createDocumentProxy = function (
     },
   });
 };
-export const createWidgetProxy = function (name: string, sandbox: any) {
+export const createWidgetProxy = function (name: string) {
   const proxyWidget = {};
   return new Proxy(proxyWidget, {
-    /*
-     */
+    // @ts-ignore
     get: function get(childWidgets: any, property: string) {
       if (property === "getAll") {
         return function () {
@@ -622,21 +625,12 @@ export function getPublicPath(name: string) {
     return config.entry;
   }
   return config.entry + "/";
-  // return config.entry + "/";
-  // if (config.isDev) {
-  //   if (/\/$/.test(config.entry)) {
-  //     return config.entry;
-  //   }
-  //   return config.entry + "/";
-  // }
-  // // const route = name.split("-")[1];
-  // return `${baseUrl}widgets/${config.widgetName}/`;
 }
+// @ts-ignore
 export const createFreelogAppProxy = function (name: string, sandbox: any) {
   const freelogAppProxy = {};
   return new Proxy(freelogAppProxy, {
-    /*
-     */
+    // @ts-ignore
     get: function get(app: any, p: string) {
       const pro = window.freelogApp[p];
       if (typeof pro === "function") {
@@ -651,10 +645,11 @@ export const createFreelogAppProxy = function (name: string, sandbox: any) {
 };
 
 export function pathATag() {
-  document.addEventListener("click", (e) => {
-    // @ts-ignore
+
+  document.addEventListener("click", (e:any) => {
     if (e.target.nodeName === "A") {
       return false;
     }
+    return true
   });
 }

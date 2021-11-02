@@ -25,18 +25,16 @@ function App() {
   }, [events]);
   function loginFinished(type: any) {
     if (type === SUCCESS) {
+      setIsLogin(false)
       eventMap.clear();
       failedMap.clear();
       updateEvents();
-    }
-    setIsLogin(false)
-    if (!inited) {
-      lowerUI()
-    }
+    } 
   }
    
   // 遍历顺序是否永远一致
   function updateEvents(event?: any) {
+    setInited(false);
     const eventMap = updateEvent(event);
     updateLock(true);
     const arr: any = [];
@@ -63,7 +61,6 @@ function App() {
     updateEvents();
   }
   function login() {
-    debugger
     upperUI()
     setIsLogin(true);
   }

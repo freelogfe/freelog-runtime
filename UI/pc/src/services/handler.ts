@@ -74,7 +74,8 @@ export default function frequest(
          *  303 标的物未签约
          *  502 未登陆的用户
          */
-        api.after && api.after(response);       
+        api.after && api.after(response);   
+        resolve(response)    
       })
       .catch((error) => {
         // 防止error为空

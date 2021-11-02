@@ -99,6 +99,7 @@ export default function(props: contractProps) {
     if (type === USER_CANCEL) {
       
     }
+    console.log('auth')
     // TODO 重载插件需要把授权的也一并清除
     setIsLoginVisible(false);
     props.loginFinished(type);

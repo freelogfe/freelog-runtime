@@ -1,4 +1,4 @@
-#mobile-root .user-register {
+.user-register {
 
     .register-title {
         font-size: 40px;
@@ -39,11 +39,13 @@
             font-weight: 400;
             color: #EE4040;
         }
-        .auth-code{
-            input{
+
+        .auth-code {
+            input {
                 width: 100%;
             }
         }
+
         .registry {
             background-color: #EDF6FF;
 
@@ -80,55 +82,50 @@
     }
 }
 
-#mobile-root {
 
-    .register-success,
-   
 
-    .register-success {
-        i {
-            font-size: 100px;
-            color: #44C28C;
-        }
 
-        .success {
-            font-size: 24px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
-            color: #000000;
-        }
-
-        .count-back {
-            font-size: 14px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
-            color: #999999;
-        }
-
-        .back-login {
-            font-size: 14px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
-            color: #2784FF;
-        }
-        .am-button-active {
-            color: #b3cde7 !important;
-        }
-
-        a {
-            font-size: 14px !important;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400 !important;
-            color: #2784FF;
-            padding: 0 !important;
-
-            &::before {
-                padding: 0 !important;
-                border: none !important;
-            }
-        }
+.register-success {
+    i {
+        font-size: 100px;
+        color: #44C28C;
     }
 
-     
+    .success {
+        font-size: 24px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #000000;
+    }
 
+    .count-back {
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #999999;
+    }
+
+    .back-login {
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #2784FF;
+    }
+
+    .am-button-active {
+        color: #b3cde7 !important;
+    }
+
+    a {
+        font-size: 14px !important;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400 !important;
+        color: #2784FF;
+        padding: 0 !important;
+
+        &::before {
+            padding: 0 !important;
+            border: none !important;
+        }
+    }
 }

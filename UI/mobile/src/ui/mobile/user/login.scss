@@ -1,4 +1,4 @@
-#mobile-root .user-login {
+.user-login {
     .login-title {
         font-size: 18px;
         font-family: PingFangSC-Regular, PingFang SC;
@@ -10,16 +10,18 @@
         color: #2c2c2c;
         font-size: 52px;
     }
-    .login-back{
+
+    .login-back {
         position: absolute;
         left: 20px;
         top: 15px;
         font-size: 20px;
         z-index: 13333;
     }
+
     .login-container {
         width: calc(100% - 60px);
-       
+
 
         .registry {
             background-color: #EDF6FF;
@@ -38,15 +40,17 @@
         font-weight: 400;
         color: #2784FF;
         justify-self: end;
+
         .am-button-active {
             color: #b3cde7 !important;
         }
+
         a {
             font-size: 14px !important;
             font-family: PingFangSC-Regular, PingFang SC;
             font-weight: 400 !important;
             color: #2784FF;
-            
+
             &::before {
                 padding: 0 !important;
                 border: none !important;

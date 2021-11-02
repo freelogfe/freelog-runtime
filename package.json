@@ -16,8 +16,6 @@
   "dependencies": {
     "moment": "^2.29.1",
     "lodash": "^4.17.21",
-    "single-spa": "^5.9.1",
-    "axios": "^0.21.1",
-    "import-html-entry": "^1.9.0"
+     "axios": "^0.21.1"
   }
 }
