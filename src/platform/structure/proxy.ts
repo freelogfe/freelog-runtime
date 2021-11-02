@@ -312,7 +312,7 @@ export const createHistoryProxy = function (name: string) {
   });
    */
 };
-export const createLocationProxy = function (name: string, sandbox: any) {
+export const createLocationProxy = function (name: string) {
   const locationProxy = {};
 
   return new Proxy(locationProxy, {

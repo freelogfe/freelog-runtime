@@ -3,7 +3,6 @@
  * @since 2020-4-19
  */
 
-import { threadId } from "node:worker_threads";
 import { widgetsConfig } from "../../../structure/widget"
 // https://developer.mozilla.org/en-US/docs/Web/API/CSSRule
 enum RuleType {

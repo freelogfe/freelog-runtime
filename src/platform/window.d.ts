@@ -6,4 +6,5 @@ interface Window {
     rootId: string;
     baseURL: string;
     freelogAuth: any;
+    global: any;
 }

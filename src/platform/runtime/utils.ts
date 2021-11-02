@@ -152,7 +152,7 @@ export function getXPathForElement(el: Node, document: Document): string | void 
   let xpath = '';
   let pos;
   let tmpEle;
-  let element = el;
+  let element:any = el;
 
   while (element !== document.documentElement) {
     pos = 0;

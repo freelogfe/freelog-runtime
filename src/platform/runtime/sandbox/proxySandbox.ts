@@ -309,17 +309,17 @@ export default class ProxySandbox implements SandBox {
         // mark the symbol to document while accessing as document.createElement could know is invoked by which sandbox for dynamic append patcher
         if (p === "history") {
           // TODO 如果是单应用模式（提升性能）则不用代理
-          proxyHis = proxyHis || createHistoryProxy(name, _this);
+          proxyHis = proxyHis || createHistoryProxy(name);
           return proxyHis;
         }
         if (p === "childWidgets") {
-          proxyWidget = proxyWidget || createWidgetProxy(name, _this);
+          proxyWidget = proxyWidget || createWidgetProxy(name);
         }
         if (p === "location") {
           // TODO 如果是单应用模式（提升性能）则不用代理, 可以设置location.href的使用权限
           // TODO reload相当于重载应用，想办法把主应用的对应操控函数弄过来，发布订阅模式
           // TODO replace与reload、toString方法无法访问
-          proxyLoc = proxyLoc || createLocationProxy(name, _this);
+          proxyLoc = proxyLoc || createLocationProxy(name);
           return proxyLoc;
         }
         // TODO test localstorage
