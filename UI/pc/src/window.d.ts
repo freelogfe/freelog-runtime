@@ -4,7 +4,6 @@ interface Window {
     isTest: boolean;
     userInfo: any;
     baseURL: string;
-    rootId: string;
     freelogAuth: any;
     __POWERED_BY_FREELOG__: any;
 }
