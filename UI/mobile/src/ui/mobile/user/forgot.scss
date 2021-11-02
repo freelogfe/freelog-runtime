@@ -1,0 +1,164 @@
+#mobile-root .user-forgot {
+
+    .forgot-title {
+        font-size: 40px;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #222222;
+    }
+
+    .forgot-tip {
+        font-size: 16px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #999999;
+    }
+
+    .logo {
+        color: #2c2c2c;
+        font-size: 52px;
+    }
+
+    .forgot-type {
+        input {
+            width: 16px;
+            height: 16px;
+        }
+
+        label {
+            font-size: 16px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #666666;
+        }
+
+        .selected {
+            color: #2784FF;
+        }
+    }
+
+    .forgot-container {
+        width: calc(100% - 60px);
+
+
+        .error-tip {
+            font-size: 14px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #EE4040;
+        }
+
+        .am-button-active {
+            background-color: #b3cde7;
+        }
+    }
+
+    .forgot-bottom {
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #666666;
+
+        .am-button-active {
+            color: #b3cde7 !important;
+        }
+
+        a {
+            font-size: 14px !important;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400 !important;
+            color: #2784FF;
+            padding: 0 !important;
+
+            &::before {
+                padding: 0 !important;
+                border: none !important;
+            }
+        }
+    }
+}
+
+#mobile-root {
+
+    .forgot-success,
+    .forgot-tip {
+        .am-modal-content {
+            padding: 0 !important;
+        }
+
+        .am-modal-body {
+            padding: 0 30px 0 30px !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .am-modal-header {
+            padding: 0 !important;
+        }
+    }
+
+    .forgot-success {
+        i {
+            font-size: 100px;
+            color: #44C28C;
+        }
+
+        .success {
+            font-size: 24px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #000000;
+        }
+
+        .count-back {
+            font-size: 14px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #999999;
+        }
+
+        .back-login {
+            font-size: 14px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #2784FF;
+        }
+
+        .am-button-active {
+            color: #b3cde7 !important;
+        }
+
+        a {
+            font-size: 14px !important;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400 !important;
+            color: #2784FF;
+            padding: 0 !important;
+
+            &::before {
+                padding: 0 !important;
+                border: none !important;
+            }
+        }
+    }
+
+    .forgot-tip {
+
+
+        .paying {
+            .loading {
+                border: none !important;
+                font-size: 20px;
+                font-family: PingFangSC-Regular, PingFang SC;
+                font-weight: 400;
+                color: #2784FF;
+
+                &::before {
+                    border: none !important;
+                }
+            }
+        }
+    }
+
+}

@@ -1,15 +1,24 @@
 import frequest from "../../services/handler";
 import node from "../../services/api/modules/node";
 
-import { getSubDep, getUserInfo } from "./utils";
+import { getSubDep, getUserInfo, isMobile } from "./utils";
 import { freelogApp } from "./global";
 import { freelogAuth } from './freelogAuth'
 import { init } from "./api";
 import { dev } from "./dev";
 import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
-const uiPath = import.meta.env.DEV ? "http://localhost:8880" : "/ui";
-
+const uiPath = import.meta.env.DEV ? isMobile()? "http://localhost:8881": "http://localhost:8880" : "/ui";
+let isTest = false;
+if (
+  window.location.href
+    .replace("http://", "")
+    .replace("https://", "")
+    .indexOf("t.") === 0
+) {
+  isTest = true;
+}
+window.isTest = isTest
 // @ts-ignore  TODO 需要控制不可改变
 window.freelogApp = freelogApp;
 window.freelogAuth = freelogAuth;
