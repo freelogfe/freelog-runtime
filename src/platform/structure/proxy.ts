@@ -401,7 +401,7 @@ export const createDocumentProxy = function (
 ) {
   const documentProxy = {};
   // TODO  firstChild还没创建,这里需要改，加载后才能
-  var doc = widgetsConfig.get(name).container// .firstChild || widgetsConfig.get(name).container;
+  var doc = widgetsConfig.get(name).container.firstChild //  || widgetsConfig.get(name).container;
   // var doc: any = rawDocument.getElementById(name);
   // for shadow dom
   let isShadow = false;
