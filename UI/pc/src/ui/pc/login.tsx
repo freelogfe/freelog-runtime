@@ -26,7 +26,6 @@ export default function (props: loginProps) {
   }
   
   const onFinish = async () => {
-    debugger
     setLoading(true)
     const values: any = form.getFieldsValue()
     // loginName: "string",
@@ -76,7 +75,6 @@ export default function (props: loginProps) {
       onCancel={handleCancel}
       maskClosable={false}
       wrapClassName="freelog-login"
-      getContainer={document.getElementById("runtime-pc")}
     >
       <div className="w-100x h-100x flex-column align-center">
         <div className="login-title py-55">登录freelog</div>

@@ -109,7 +109,6 @@ export default function (props: PayProps) {
       onOk={handleOk}
       onCancel={handleCancel}
       wrapClassName="freelog-pay"
-      getContainer={document.getElementById("runtime-pc")}
     >
       <Tip
         {...tipConfig}

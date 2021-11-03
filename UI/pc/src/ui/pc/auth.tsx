@@ -303,7 +303,6 @@ export default function(props: contractProps) {
         keyboard={false}
         maskClosable={false}
         wrapClassName="freelog-contract"
-        getContainer={document.getElementById("runtime-pc")}
       >
         <div className="w-100x h-574 flex-column">
           {/* 左右 */}

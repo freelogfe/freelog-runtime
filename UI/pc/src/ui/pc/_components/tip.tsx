@@ -34,7 +34,6 @@ export default function(props: ConfirmProps) {
         props.setIsModalVisible(false);
       }}
       wrapClassName="freelog-pc-tip"
-      getContainer={document.getElementById("runtime-pc")}
     >
       <div className="w-100x h-100x flex-column align-center">
         {props.type === "success" ? (
