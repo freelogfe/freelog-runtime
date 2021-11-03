@@ -411,3 +411,17 @@ export async function getPresentableDetailById(
     query
   );
 }
+
+export async function getPresentableSignCount(
+  presentableId: string 
+) {
+  // @ts-ignore
+  return frequest(
+    presentable.getPresentableSignCount,
+    "",
+    {
+      subjectId: presentableId,
+      subjectType: 2
+    }
+  );
+}

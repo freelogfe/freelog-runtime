@@ -10,7 +10,8 @@ export type Presentable = {
   getTestPagingData: any;
   getTestByPresentableId: any;
   getTestByResourceIdOrName: any;
-  getPresentableDetail: any
+  getPresentableDetail: any;
+  getPresentableSignCount: any;
 };
 
 const presentable: Presentable = {
@@ -93,5 +94,13 @@ const presentable: Presentable = {
     url: `auths/testResources/nodes/${placeHolder}/${placeHolder}/${placeHolder}`,
     method: "GET",
   },
+  getPresentableSignCount: {
+    url: `contracts/subjects/signCount`,
+    method: "GET",
+    dataModel: {
+      subjectIds: "string",
+      subjectType: "string" 
+    },
+  }
 };
 export default presentable;

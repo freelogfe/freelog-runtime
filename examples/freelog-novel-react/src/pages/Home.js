@@ -13,7 +13,7 @@ export default function (props) {
   return (
     <div className={styles.homePage + " flex-column w-100x h-100x over-h"}>
       <div className={styles.header + " fs-40 mb-30 fw-bold p-20 bs-normal"}>
-        全部 小说
+        全部小说
       </div>
       <div
         className="flex-row flex-wrap flex-1 w-100x y-auto space-between"

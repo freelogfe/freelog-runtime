@@ -97,7 +97,7 @@ module.exports = function (proxy, allowedHost) {
       index: paths.publicUrlOrPath,
     },
     public: allowedHost,
-    port: '8081',
+    port: process.env.port,
     clientLogLevel: 'warning',
     disableHostCheck: true,
     compress: true,
