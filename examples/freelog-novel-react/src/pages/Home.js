@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./home.module.scss";
+import Sliders from './slider'
 export default function (props) {
   const [novels, setNovels] = useState([]);
   
@@ -7,13 +8,13 @@ export default function (props) {
     props.history.push('/')
     const res = await window.freelogApp.getPresentables({ resourceType: 'novel' })
     setNovels(res.data.data.dataList)
-    console.log(22223232323)
     // setTimeout(()=>window.freelogApp.callLogin(),0)
   }, []);
   return (
     <div className={styles.homePage + " flex-column w-100x h-100x over-h"}>
       <div className={styles.header + " fs-40 mb-30 fw-bold p-20 bs-normal"}>
         全部小说
+        <Sliders/>
       </div>
       <div
         className="flex-row flex-wrap flex-1 w-100x y-auto space-between"

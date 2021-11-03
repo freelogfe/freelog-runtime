@@ -393,6 +393,7 @@ const getElementById = rawDocument.getElementById;
 const appendChild = rawDocument.body.appendChild;
 const removeChild = rawDocument.body.removeChild;
 const addEventListener = rawDocument.addEventListener;
+const removeEventListener = rawDocument.addEventListener;
 export const createDocumentProxy = function (
   name: string,
   // @ts-ignore
@@ -440,6 +441,8 @@ export const createDocumentProxy = function (
       rootDoc.getElementsByTagNameNS.bind(rootDoc);
     rawDocument.querySelectorAll = rootDoc.querySelectorAll.bind(rootDoc);
     rawDocument.addEventListener = rootDoc.addEventListener.bind(rootDoc);
+    rawDocument.removeEventListener = rootDoc.removeEventListener.bind(rootDoc);
+
     rawDocument.body.appendChild = rootDoc.appendChild.bind(rootDoc);
     rawDocument.body.removeChild = rootDoc.removeChild.bind(rootDoc);
     rawDocument.querySelector = function () {
@@ -478,6 +481,8 @@ export const createDocumentProxy = function (
       rawDocument.getElementsByTagNameNS =
         getElementsByTagNameNS.bind(rawDocument);
       rawDocument.addEventListener = addEventListener.bind(rawDocument);
+      rawDocument.removeEventListener = removeEventListener.bind(rawDocument);
+
       // TODO 这里不应该使用runtime-root， 不需要考虑，直接禁掉
       rawDocument.body.appendChild = appendChild.bind(
         rawDocument.body
@@ -515,8 +520,16 @@ export const createDocumentProxy = function (
       if (property === "createElement") {
         return rawDocument.createElement.bind(rawDocument);
       }
+      if (property === "addEventListener") {
+        console.log(232234234234234423)
+        return rootDoc.addEventListener.bind(rootDoc);
+      }
+      if (property === "removeEventListener") {
+        console.log(11222232234234234234423)
+        return rootDoc.removeEventListener.bind(rootDoc);
+      }
       // @ts-ignore
-      rawDocument.addEventListener = rootDoc.addEventListener.bind(rootDoc);
+      // rawDocument.addEventListener = rootDoc.addEventListener.bind(rootDoc);
       // @ts-ignore
       // rootDoc.body = appDiv;
       // @ts-ignore
