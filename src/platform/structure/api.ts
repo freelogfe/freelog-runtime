@@ -420,7 +420,7 @@ export async function getPresentableSignCount(
     presentable.getPresentableSignCount,
     "",
     {
-      subjectId: presentableId,
+      subjectIds: presentableId,
       subjectType: 2
     }
   );
