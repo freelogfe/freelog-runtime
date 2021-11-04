@@ -8,12 +8,13 @@ import { init } from "./api";
 import { dev } from "./dev";
 import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
+const mobile = !isMobile
 // @ts-ignore
 const uiPath = import.meta.env.DEV
-  ? isMobile()
+  ? mobile
     ? "http://localhost:8881"
     : "http://localhost:8880"
-  : isMobile()
+  : mobile
   ? "/mobile"
   : "/pc";
 let isTest = false;
@@ -25,6 +26,7 @@ if (
 ) {
   isTest = true;
 }
+!mobile && document.querySelector('meta[name="viewport"]')?.setAttribute('content', "width=device-width, initial-scale=1.0") 
 window.isTest = isTest;
 // @ts-ignore  TODO 需要控制不可改变
 window.freelogApp = freelogApp;
