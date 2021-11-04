@@ -230,11 +230,11 @@ export function mountWidget(
     },
   });
   // TODO 增加是否保留数据
-  const _app = {
+  const freelog_app = {
     ...app,
     mount: (resolve?:any, reject?:any) => {
       app.mount().then(()=>{
-        addWidget(widgetId, app);
+        addWidget(widgetId, freelog_app);
         // TODO 验证是否是函数
         resolve && resolve()
       },()=>{
@@ -252,9 +252,8 @@ export function mountWidget(
       });
     },
   }; 
-  addWidget(widgetId, _app);
-  // TODO 拦截mount做处理
-  return _app;
+  addWidget(widgetId, freelog_app);
+  return freelog_app;
 }
 // 固定id 的加载子插件，仅支持加载一次
 export function mountSubWidgets(parent: any, config?: any, resolve?: any) {

@@ -344,7 +344,7 @@ export const createLocationProxy = function (name: string) {
         }
         if (["reload"].indexOf(property) > -1) {
           // TODO 增加是否保留数据
-          return async function (reject:any) {
+          return async function (reject:any) { 
             flatternWidgets.get(name).unmount(()=>{
               flatternWidgets.get(name).mount()
             },()=>{

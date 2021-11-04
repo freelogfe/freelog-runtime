@@ -6,9 +6,12 @@ export default function (props) {
   
   useEffect(async () => {
     props.history.push('/')
+    fetch('https://image.freelog.com/preview-image/4a8d29ad5aab14df3747ada5c3d680da1a6029f0.jpg',{mode: 'cors'}).then(res=>{
+        console.log(res,222222222344)
+      })
     const res = await window.freelogApp.getPresentables({ resourceType: 'novel' })
     setNovels(res.data.data.dataList)
-    // setTimeout(()=>window.freelogApp.callLogin(),0)
+    
   }, []);
   return (
     <div className={styles.homePage + " flex-column w-100x h-100x over-h"}>
