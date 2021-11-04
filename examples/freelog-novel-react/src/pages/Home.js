@@ -3,21 +3,40 @@ import styles from "./home.module.scss";
 import Sliders from './slider'
 export default function (props) {
   const [novels, setNovels] = useState([]);
-  
+  const [img, setImg] = useState('');
   useEffect(async () => {
     props.history.push('/')
-    fetch('https://image.freelog.com/preview-image/4a8d29ad5aab14df3747ada5c3d680da1a6029f0.jpg',{mode: 'cors'}).then(res=>{
-        console.log(res,222222222344)
-      })
+    // function blobToBase64(blob) {
+    //   return new Promise((resolve, reject) => {
+    //     const fileReader = new FileReader();
+    //     fileReader.onload = (e) => {
+    //       resolve(e.target.result);
+    //     };
+    //     // readAsDataURL
+    //     fileReader.readAsDataURL(blob);
+    //     fileReader.onerror = () => {
+    //       reject(new Error('blobToBase64 error'));
+    //     };
+    //   });
+    // }
+    // fetch('https://image.freelog.com/preview-image/4a8d29ad5aab14df3747ada5c3d680da1a6029f0.jpg', {}).then(res => {
+    //     res.blob().then(b => {
+    //     console.log(b)
+    //     blobToBase64(b).then(img=>{
+    //       setImg(img)
+    //     })
+        
+    //   })
+    // })
     const res = await window.freelogApp.getPresentables({ resourceType: 'novel' })
     setNovels(res.data.data.dataList)
-    
+
   }, []);
   return (
     <div className={styles.homePage + " flex-column w-100x h-100x over-h"}>
       <div className={styles.header + " fs-40 mb-30 fw-bold p-20 bs-normal"}>
-        全部小说
-        <Sliders/>
+        全部小说<img src={img} />
+        <Sliders />
       </div>
       <div
         className="flex-row flex-wrap flex-1 w-100x y-auto space-between"

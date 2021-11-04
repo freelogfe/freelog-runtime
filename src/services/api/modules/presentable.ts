@@ -12,6 +12,7 @@ export type Presentable = {
   getTestByResourceIdOrName: any;
   getPresentableDetail: any;
   getPresentableSignCount: any;
+  getPresentablesAuth: any;
 };
 
 const presentable: Presentable = {
@@ -100,6 +101,15 @@ const presentable: Presentable = {
     dataModel: {
       subjectIds: "string",
       subjectType: "string" 
+    },
+  },
+  getPresentablesAuth: {
+    url: `auths/presentables/nodes/${placeHolder}/batchAuth/result`,
+    method: "GET",
+    dataModel: {
+      nodeId: "string",
+      authType: "string",
+      presentableIds: "string"
     },
   }
 };

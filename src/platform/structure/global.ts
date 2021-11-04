@@ -25,7 +25,8 @@ import {
     getSubResourceInfoByName,
     getResourceInfoByVersion,
     getPresentableDetailById,
-    getPresentableSignCount
+    getPresentableSignCount,
+    getPresentablesAuth
 } from './api'
 let devData = ''
 export const freelogApp:any = {
@@ -65,5 +66,6 @@ export const freelogApp:any = {
     getResourceInfoByVersion,
     getPresentableDetailById,
     getPresentableSignCount,
-    getSelfConfig
+    getSelfConfig,
+    getPresentablesAuth
 }

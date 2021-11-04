@@ -425,3 +425,16 @@ export async function getPresentableSignCount(
     }
   );
 }
+export async function getPresentablesAuth(
+   presentableIds: string 
+) {
+  // @ts-ignore
+  return frequest(
+    presentable.getPresentablesAuth,
+    [nodeId],
+    {
+      authType: 4,
+      presentableIds
+    }
+  );
+}
