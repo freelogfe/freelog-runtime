@@ -111,7 +111,7 @@ export async function getSubDep(presentableId: any) {
   let widgetSandBox = sandBoxs.get(that.name);
   if (!widgetSandBox) {
     isTheme = true
-    widgetSandBox = { name: "freelog-" + presentableId, presentableId };
+    widgetSandBox = { name: "freelog-" + presentableId, presentableId, isTheme };
   }else {
     presentableId = widgetsConfig.get(that.name).presentableId
   }

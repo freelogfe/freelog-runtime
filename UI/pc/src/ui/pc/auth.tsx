@@ -292,25 +292,29 @@ export default function(props: contractProps) {
         setIsModalVisible={setIsTipVisible}
       />
       <Modal
-        title="展品授权"
         zIndex={1200}
         centered
         footer={null}
         visible={props.isAuths}
-        width={860}
         onCancel={userCancel}
         className="h-600"
+        width={currentPresentable.isTheme? 600 : 860}
         keyboard={false}
         maskClosable={false}
         wrapClassName="freelog-contract"
       >
+        <div className="flex-column py-20 align-center">
+          <div className="auth-title pb-15">{currentPresentable.isTheme? '节点授权':'展品授权'}</div>
+          <div className="auth-des">当前节点主题未开放授权，继续浏览请选择策略签约并获取授权</div>
+        </div>
         <div className="w-100x h-574 flex-column">
           {/* 左右 */}
           <div className="w-100x flex-1 flex-row over-h">
             <div className="w-100x h-100x  flex-row">
               {/* 左：待授权展品列表 */}
-              <div className="flex-column w-344 h-100x  y-auto">
-                {events.length
+              {!currentPresentable.isTheme && 
+                  <div className="flex-column w-344 h-100x  y-auto">
+                {events.length 
                   ? events.map((item: any, index: number) => {
                       return (
                         <div
@@ -368,8 +372,9 @@ export default function(props: contractProps) {
                   : null}
                 {/* <Presentables></Presentables> */}
               </div>
+}
               {/* 右：策略或合约列表 */}
-              <div className="w-516 bg-content h-100x   y-auto px-20 pb-20">
+              <div className={!currentPresentable.isTheme? 'w-516 ' : 'w-600' +  " bg-content h-100x   y-auto px-20 pb-20"}>
                 {contracts.length && policies.length - contracts.length ? (
                   <div className="policy-tip flex-row align-center mt-15 px-10">
                     <div className="tip">最下方有可签约的策略</div>
@@ -403,13 +408,14 @@ export default function(props: contractProps) {
           {contracts.length ? (
             ""
           ) : (
-            <div className="h-74 w-100x text-center">
+            <div className="h-74 w-100x flex-row justify-center align-center">
+              <span className="please-login mr-20">进行签约及授权管理，请先登录</span>
               <Button
                 disabled={selectedPolicies.length === 0 && getCurrentUser()}
                 click={act}
-                className="w-300 h-38 fs-14 text-center"
+                className="px-20 h-38 fs-14 text-center"
               >
-                {getCurrentUser() ? "立即签约" : "请登录"}
+                {getCurrentUser() ? "立即签约" : "立即登陆"}
               </Button>
             </div>
           )}
