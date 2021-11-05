@@ -145,6 +145,7 @@ export default function(props: contractProps) {
     }
   }
   useEffect(() => {
+    setThemeCancel(false)
     const isExist = events.some((item: any) => {
       if (item.presentableId === currentPresentable.presentableId) {
         setCurrentPresentable(item);

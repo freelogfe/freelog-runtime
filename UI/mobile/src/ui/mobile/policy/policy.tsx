@@ -67,8 +67,9 @@ export default function (props: ItemProps) {
                 ]);
               }, 0);
             }}
+            disabled={!getCurrentUser()}
           >
-            {getCurrentUser() ? "签约" : "请登录"}
+            签约
           </Button>
         ) : (
           <Checkbox onChange={onChange}></Checkbox>

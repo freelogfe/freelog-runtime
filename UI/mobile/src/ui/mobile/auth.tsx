@@ -12,13 +12,9 @@ import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
 import contract from "../../services/api/modules/contract";
 import getBestTopology from "./topology/data";
-import { Modal, Toast } from "antd-mobile";
+import { Modal, Toast, Button } from "antd-mobile";
 const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
-const {
-  setUserInfo,
-  loginCallback,
-  getCurrentUser, 
-} = window.freelogAuth;
+const { setUserInfo, loginCallback, getCurrentUser } = window.freelogAuth;
 const alert = Modal.alert;
 
 interface contractProps {
@@ -30,7 +26,7 @@ interface contractProps {
   isLogin?: boolean;
   isAuths?: boolean;
 }
-export default function(props: contractProps) {
+export default function (props: contractProps) {
   /**
    * 对象形式authDatas：
    *   key: subjectId
@@ -65,6 +61,8 @@ export default function(props: contractProps) {
   const [currentPresentable, setCurrentPresentable] = useState(events[0]);
   const [policies, setPolicies] = useState([]);
   const [selectedPolicies, setSelectedPolicies] = useState<Array<any>>([]);
+  const [themeCancel, setThemeCancel] = useState(false);
+
   function closeCurrent() {
     if (events.length === 1) {
       // 如果只有一个，提示确定放弃签约
@@ -92,7 +90,6 @@ export default function(props: contractProps) {
       });
     }
     if (type === USER_CANCEL) {
-      
     }
     // TODO 重载插件需要把授权的也一并清除
     setModalType(0);
@@ -141,12 +138,8 @@ export default function(props: contractProps) {
       return i.status === 1;
     });
     res.data.data.policies.forEach((item: any) => {
-      const {
-        policyMaps,
-        bestPyramid,
-        betterPyramids,
-        nodesMap,
-      } = getBestTopology(item.fsmDescriptionInfo);
+      const { policyMaps, bestPyramid, betterPyramids, nodesMap } =
+        getBestTopology(item.fsmDescriptionInfo);
       item.policyMaps = policyMaps;
       item.bestPyramid = bestPyramid;
       item.betterPyramids = betterPyramids;
@@ -170,6 +163,7 @@ export default function(props: contractProps) {
     }
   }
   useEffect(() => {
+    setThemeCancel(false);
     const isExist = events.some((item: any) => {
       if (item.presentableId === currentPresentable.presentableId) {
         setCurrentPresentable(item);
@@ -186,7 +180,11 @@ export default function(props: contractProps) {
   }, [props.isLogin]);
 
   const userCancel = () => {
-    props.contractFinished("", USER_CANCEL);
+    if (currentPresentable.isTheme) {
+      setThemeCancel(true);
+    } else {
+      props.contractFinished("", USER_CANCEL);
+    }
   };
   function policySelect(policyId: number, checked?: boolean, single?: boolean) {
     if (policyId) {
@@ -241,186 +239,242 @@ export default function(props: contractProps) {
     }
   };
   return (
-    <div id="runtime-mobile" className="w-100x h-100x over-h">
-      {modalType === 1 ? (
-        <Login
-          loginFinished={loginFinished}
-          visible={modalType === 1}
-          setModalType={setModalType}
-        />
-      ) : modalType === 2 ? (
-        <Register visible={modalType === 2} setModalType={setModalType} />
-      ) : modalType === 3 ? (
-        <Forgot
-          type={LOGIN_PASSWORD}
-          visible={modalType === 3}
-          setModalType={setModalType}
-        />
-      ) : modalType === 4 ? (
-        <Forgot
-          type={PAY_PASSWORD}
-          visible={modalType === 4}
-          setModalType={setModalType}
-        />
-      ) : null}
-      <Modal
-        popup
-        visible={isListVisible}
-        maskClosable={false}
-        animationType="slide"
-        wrapClassName="presentable-list"
-      >
-        <div className="flex-row space-between px-15 py-20 list-title">
-          <div className="list-title-name">展品列表</div>
-          <div
-            className="list-exit"
-            onClick={() => {
-              alert("提示", "当前还有展品未获得授权，确定退出？", [
-                { text: "取消", onPress: () => {} },
-                {
-                  text: "确定",
-                  onPress: () => userCancel(),
-                },
-              ]);
-            }}
-          >
-            退出
+    <>
+      {themeCancel ? (
+        <div className=" h-100x text-center ">
+          <div className="theme-tip mb-15 text-center">
+            当前节点主题未开放授权
           </div>
+          <div className="theme-tip mb-30 text-center">
+            继续浏览请签约并获取授权
+          </div>
+          <Button
+            onClick={() => {
+              setThemeCancel(false);
+            }}
+            type="primary"
+            size="small"
+            className="theme-tip-button text-center"
+          >
+            签约
+          </Button>
         </div>
-        {events.length
-          ? events.map((item: any, index: number) => {
-              return (
-                <div
-                  key={index}
-                  onClick={() => {
-                    setIsListVisible(false);
-                    setCurrentPresentable(item);
-                  }}
-                  className={
-                    (currentPresentable === item
-                      ? "presentable-selected "
-                      : "") +
-                    " px-15 py-15 presentable-item  flex-row space-between algin-center"
-                  }
-                >
-                  <div className="flex-1 flex-column over-h">
+      ) : (
+        <div id="runtime-mobile" className="w-100x h-100x over-h">
+          {modalType === 1 ? (
+            <Login
+              loginFinished={loginFinished}
+              visible={modalType === 1}
+              setModalType={setModalType}
+            />
+          ) : modalType === 2 ? (
+            <Register visible={modalType === 2} setModalType={setModalType} />
+          ) : modalType === 3 ? (
+            <Forgot
+              type={LOGIN_PASSWORD}
+              visible={modalType === 3}
+              setModalType={setModalType}
+            />
+          ) : modalType === 4 ? (
+            <Forgot
+              type={PAY_PASSWORD}
+              visible={modalType === 4}
+              setModalType={setModalType}
+            />
+          ) : null}
+          <Modal
+            popup
+            visible={isListVisible}
+            maskClosable={false}
+            animationType="slide"
+            wrapClassName="presentable-list"
+          >
+            <div className="flex-row space-between px-15 py-20 list-title">
+              <div className="list-title-name">展品列表</div>
+              <div
+                className="list-exit"
+                onClick={() => {
+                  alert("提示", "当前还有展品未获得授权，确定退出？", [
+                    { text: "取消", onPress: () => {} },
+                    {
+                      text: "确定",
+                      onPress: () => userCancel(),
+                    },
+                  ]);
+                }}
+              >
+                退出
+              </div>
+            </div>
+            {events.length
+              ? events.map((item: any, index: number) => {
+                  return (
                     <div
-                      className="presentable-name text-ellipsis flex-1 flex-row align-center"
-                      title={item.presentableName}
+                      key={index}
+                      onClick={() => {
+                        setIsListVisible(false);
+                        setCurrentPresentable(item);
+                      }}
+                      className={
+                        (currentPresentable === item
+                          ? "presentable-selected "
+                          : "") +
+                        " px-15 py-15 presentable-item  flex-row space-between algin-center"
+                      }
                     >
-                      <span className="text-ellipsis">
-                        {item.presentableName}
-                      </span>
+                      <div className="flex-1 flex-column over-h">
+                        <div
+                          className="presentable-name text-ellipsis flex-1 flex-row align-center"
+                          title={item.presentableName}
+                        >
+                          <span className="text-ellipsis">
+                            {item.presentableName}
+                          </span>
+                        </div>
+                        {!item.contracts.length ? null : (
+                          <div className="flex-row pt-10">
+                            {item.contracts.map(
+                              (contract: any, index: number) => {
+                                return (
+                                  <div
+                                    className={
+                                      "contract-tag flex-row align-center mr-5"
+                                    }
+                                    key={index}
+                                  >
+                                    <div className="contract-name">
+                                      {contract.contractName}
+                                    </div>
+                                    <div
+                                      className={
+                                        "contract-dot ml-6 " +
+                                        (contract.authStatus === 128
+                                          ? "bg-auth-none"
+                                          : !window.isTest &&
+                                            contract.authStatus === 1
+                                          ? "bg-auth"
+                                          : "bg-auth-none")
+                                      }
+                                    ></div>
+                                  </div>
+                                );
+                              }
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      <div className="shrink-0 text-center pl-10 fs-24">
+                        &gt;
+                      </div>
                     </div>
-                    {!item.contracts.length ? null : (
-                      <div className="flex-row pt-10">
-                        {item.contracts.map((contract: any, index: number) => {
-                          return (
+                  );
+                })
+              : null}
+          </Modal>
+          {props.isAuths ? (
+            <div className="flex-column w-100x h-100x over-h">
+              <div className="flex-column justify-center bb-1">
+                <div className="text-center mt-20 fs-16 fc-main fw-bold">
+                  签约
+                </div>
+                <div
+                  className="p-absolute fs-16 mt-20 mr-15 rt-0 fc-blue cur-pointer"
+                  onClick={() => closeCurrent()}
+                >
+                  {events.length === 1 ? "退出" : "关闭"}
+                </div>
+                <div className="text-center mt-20 mb-10 fs-20 fc-main fw-bold">
+                  {currentPresentable.presentableName}
+                </div>
+                <div className="auth-des  text-center">
+                  当前节点主题未开放授权，
+                </div>
+                <div className="auth-des mb-20 text-center">
+                  继续浏览请选择策略签约并获取授权
+                </div>
+                {!currentPresentable.contracts.length ? null : (
+                  <div className="flex-row justify-center mb-15">
+                    {currentPresentable.contracts.map(
+                      (contract: any, index: number) => {
+                        return (
+                          <div
+                            className={
+                              "contract-tag flex-row align-center mr-5"
+                            }
+                            key={index}
+                          >
+                            <div className="contract-name">
+                              {contract.contractName}
+                            </div>
                             <div
                               className={
-                                "contract-tag flex-row align-center mr-5"
+                                "contract-dot ml-6 " +
+                                (contract.authStatus === 128
+                                  ? "bg-auth-none"
+                                  : !window.isTest && contract.authStatus === 1
+                                  ? "bg-auth"
+                                  : "bg-auth-none")
                               }
-                              key={index}
-                            >
-                              <div className="contract-name">
-                                {contract.contractName}
-                              </div>
-                              <div
-                                className={
-                                  "contract-dot ml-6 " +
-                                  (contract.authStatus === 128
-                                    ? "bg-auth-none"
-                                    : !window.isTest &&
-                                      contract.authStatus === 1
-                                    ? "bg-auth"
-                                    : "bg-auth-none")
-                                }
-                              ></div>
-                            </div>
-                          );
-                        })}
-                      </div>
+                            ></div>
+                          </div>
+                        );
+                      }
                     )}
                   </div>
-                  <div className="shrink-0 text-center pl-10 fs-24">&gt;</div>
-                </div>
-              );
-            })
-          : null}
-      </Modal>
-      {props.isAuths ? (
-        <div className="flex-column w-100x h-100x over-h">
-          <div className="flex-column justify-center bb-1">
-            <div className="text-center mt-20 fs-16 fc-main fw-bold">签约</div>
-            <div
-              className="p-absolute fs-16 mt-20 mr-15 rt-0 fc-blue cur-pointer"
-              onClick={() => closeCurrent()}
-            >
-              {events.length === 1 ? "退出" : "关闭"}
-            </div>
-            <div className="text-center my-20 fs-20 fc-main fw-bold">
-              {currentPresentable.presentableName}
-            </div>
-            {!currentPresentable.contracts.length ? null : (
-              <div className="flex-row justify-center mb-15">
-                {currentPresentable.contracts.map(
-                  (contract: any, index: number) => {
-                    return (
-                      <div
-                        className={"contract-tag flex-row align-center mr-5"}
-                        key={index}
-                      >
-                        <div className="contract-name">
-                          {contract.contractName}
-                        </div>
-                        <div
-                          className={
-                            "contract-dot ml-6 " +
-                            (contract.authStatus === 128
-                              ? "bg-auth-none"
-                              : !window.isTest && contract.authStatus === 1
-                              ? "bg-auth"
-                              : "bg-auth-none")
-                          }
-                        ></div>
-                      </div>
-                    );
-                  }
                 )}
               </div>
-            )}
-          </div>
-          <div className="flex-column flex-1 over-h">
-            <div className="w-100x h-100x y-auto pb-20">
-              {contracts.map((contract: any, index: number) => {
-                return (
-                  <Contract
-                    policy={contract.policyInfo}
-                    contract={contract}
-                    paymentFinish={paymentFinish}
-                    setModalType={setModalType}
-                    key={index}
-                  ></Contract>
-                );
-              })}
-              {policies.map((policy: any, index: number) => {
-                return policy.contracted ? null : (
-                  <Policy
-                    policy={policy}
-                    key={index}
-                    seq={index}
-                    loginFinished={loginFinished}
-                    setModalType={setModalType}
-                    getAuth={getAuth}
-                    policySelect={policySelect}
-                    selectType={contracts.length ? true : true}
-                  ></Policy>
-                );
-              })}
+              <div className="flex-column flex-1 over-h">
+                <div className="w-100x h-100x y-auto pb-20">
+                  {contracts.map((contract: any, index: number) => {
+                    return (
+                      <Contract
+                        policy={contract.policyInfo}
+                        contract={contract}
+                        paymentFinish={paymentFinish}
+                        setModalType={setModalType}
+                        key={index}
+                      ></Contract>
+                    );
+                  })}
+                  {policies.map((policy: any, index: number) => {
+                    return policy.contracted ? null : (
+                      <Policy
+                        policy={policy}
+                        key={index}
+                        seq={index}
+                        loginFinished={loginFinished}
+                        setModalType={setModalType}
+                        getAuth={getAuth}
+                        policySelect={policySelect}
+                        selectType={contracts.length ? true : true}
+                      ></Policy>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {getCurrentUser() ? null : (
+                <div className="h-74 w-100x flex-row justify-center align-center bt-1">
+                  <span className="please-login mr-20">
+                    进行签约及授权管理，请先登录
+                  </span>
+                  <Button
+                    onClick={() => {
+                      setModalType(1);
+                    }}
+                    type="primary"
+                    size="small"
+                    className=" text-center"
+                  >
+                    登陆
+                  </Button>
+                  
+                </div>
+              )}
             </div>
-          </div>
+          ) : null}
         </div>
-      ) : null}
-    </div>
+      )}
+    </>
   );
 }
