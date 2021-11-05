@@ -288,7 +288,7 @@ export default function(props: contractProps) {
             footer={null}
             visible={props.isAuths}
             onCancel={userCancel}
-            className={currentPresentable.isTheme ? "theme-height" : "h-600"}
+            className={currentPresentable.isTheme ? "theme-height" : "h-620"}
             width={currentPresentable.isTheme ? 600 : 860}
             keyboard={false}
             maskClosable={false}
@@ -304,7 +304,7 @@ export default function(props: contractProps) {
                 </div>
               ) : null}
             </div>
-            <div className="w-100x  flex-column">
+            <div className={currentPresentable.isTheme ? " w-100x  flex-column " : "w-100x h-551 flex-column"}>
               {/* 左右 */}
               <div className="w-100x flex-1 flex-row over-h">
                 <div className="w-100x h-100x  flex-row">
