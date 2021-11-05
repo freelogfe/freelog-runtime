@@ -386,12 +386,12 @@ export default function (props: contractProps) {
                 <div className="text-center mt-20 mb-10 fs-20 fc-main fw-bold">
                   {currentPresentable.presentableName}
                 </div>
-                <div className="auth-des  text-center">
+               {currentPresentable.isTheme? <><div className="auth-des  text-center">
                   当前节点主题未开放授权，
                 </div>
                 <div className="auth-des mb-20 text-center">
                   继续浏览请选择策略签约并获取授权
-                </div>
+                </div></> : null}
                 {!currentPresentable.contracts.length ? null : (
                   <div className="flex-row justify-center mb-15">
                     {currentPresentable.contracts.map(
