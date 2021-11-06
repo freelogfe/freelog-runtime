@@ -513,7 +513,6 @@ widgets.some((widget, index) => {
 });
 ```
 
-### 加载孙插件（完善中）
 
 ### 控制插件
 
@@ -601,7 +600,7 @@ export async function mount(props) {
 ### 插件之间通信方式二：配置数据中传递config
 ```ts
 
-**在config中传递数据或方法提供给子插件访问**
+**在config中传递数据或方法提供给子插件访问，同时子插件可以通过调用方法传递数据给父插件**
 
   window.freelogApp.mountWidget(
     sub,
@@ -612,7 +611,7 @@ export async function mount(props) {
   );
  
 ```
-### 插件之间通信方式三：注册监听与发布
+### 插件之间通信方式三：插件对外发布api
 ```ts
 
 // 后期实现通过
