@@ -8,7 +8,7 @@ import { init } from "./api";
 import { dev } from "./dev";
 import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
-const mobile = !isMobile
+const mobile = isMobile()
 // @ts-ignore
 const uiPath = import.meta.env.DEV
   ? mobile

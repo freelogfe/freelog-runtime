@@ -9,7 +9,9 @@ import Button from "../_components/button";
 import { Tabs, Checkbox, Popconfirm } from "antd";
 
 const { TabPane } = Tabs;
-
+const {
+  getCurrentUser, 
+} = window.freelogAuth;
 interface ItemProps {
   policy: any;
   selectType: boolean;
@@ -34,7 +36,7 @@ export default function (props: ItemProps) {
     setVisible(false);
   }
   return (
-    <div className="flex-column policy-card">
+    <div className="flex-column policy-card w-100x">
       {/* 上：策略名称与操作 */}
       <div className="flex-row space-between px-20 py-15">
         <div className="flex-1 policy-name  text-ellipsis">
@@ -63,7 +65,7 @@ export default function (props: ItemProps) {
             </Button>
           </Popconfirm>
         ) : (
-          <Checkbox onChange={onChange}></Checkbox>
+          <Checkbox onChange={onChange} disabled={!getCurrentUser()}></Checkbox>
         )}
       </div>
       {/* 下：tab */}
