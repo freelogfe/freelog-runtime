@@ -572,6 +572,57 @@ widgets.some((widget, index) => {
 const widgetConfig = await window.freelogApp.getSelfConfig();
 ```
 
+### 插件通信方式一：全局通信
+```ts
+
+**在入口处通过props修改与监听全局数据**
+
+function storeTest(props) {
+  props.onGlobalStateChange &&
+    props.onGlobalStateChange(
+      (value, prev) =>
+        console.log(`[onGlobalStateChange - ${props.name}]:`, value, prev),
+      true
+    );
+  props.setGlobalState &&
+    props.setGlobalState({
+      ignore: props.name,
+      user: {
+        name: props.name,
+      },
+    });
+}
+export async function mount(props) {
+  console.log("[vue] props from main framework", props);
+  storeTest(props);
+  render(props);
+}
+```
+### 插件之间通信方式二：配置数据中传递config
+```ts
+
+**在config中传递数据或方法提供给子插件访问**
+
+  window.freelogApp.mountWidget(
+    sub,
+    document.getElementById("freelog-single"),
+    subData,
+    config: {}, // 子插件配置数据，需要另外获取资源上的配置数据（待提供方法）
+    seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号
+  );
+ 
+```
+### 插件之间通信方式三：注册监听与发布
+```ts
+
+// 后期实现通过
+// freelogApp.registerApi(eventName,callBack,auth)
+// eventName: '事件名称：插件唯一识别+自定义api名称'
+// callBack: 当其余插件freelogApp.dispatch这个事件时，调用此函数（此函数相当于是插件对外发布的api）
+// auth: 权限级别，例如是否只允许父插件调用
+ 
+```
+
 ### 获取展品
 
 **分页列表**
