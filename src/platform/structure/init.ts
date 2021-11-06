@@ -28,7 +28,6 @@ if (
 }
 !mobile && document.querySelector('meta[name="viewport"]')?.setAttribute('content', "width=device-width, initial-scale=1.0") 
 window.isTest = isTest;
-// @ts-ignore  TODO 需要控制不可改变
 window.freelogApp = freelogApp;
 window.freelogAuth = freelogAuth;
 export function initNode() {
