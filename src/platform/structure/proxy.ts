@@ -42,8 +42,7 @@ var freelogPopstate = new PopStateEvent('freelog-popstate');
 // for history back and forword 
 let state = 0
 let moveLock = false
-// TODO 问题记录：插件使用后退前进 无法与浏览器同步，因为会影响到其余插件的路由，但可以给主题开放整体前进后退的权限
-// 节点只有一个主题作为应用时这个需求是肯定需要的
+
 window.addEventListener(
   "popstate",
   function (event) {
