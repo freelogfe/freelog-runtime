@@ -289,28 +289,6 @@ export const createHistoryProxy = function (name: string) {
     forward: forward, //window.history.forward.bind(window.history)
   };
   return historyProxy;
-  /*return new Proxy(historyProxy, {
-   
-    
-    get: function get(HisTarget: any, property: string) {
-      if (property === "pushState" || property === "replaceState") {
-        return function () {
-          // if (arguments[2] && arguments[2].indexOf("#") > -1) {
-          //   console.warn("hash route is not supported!");
-          //   // return;
-          // }
-          // TODO 解析query参数  search
-          let href = arguments[2];
-          let [pathname, search] = href.split("?");
-          locationCenter.set(name, { pathname, href, search, hash: href });
-        };
-      } else {
-        // @ts-ignore
-        return rawHistory[property];
-      }
-    },
-  });
-   */
 };
 export const createLocationProxy = function (name: string) {
   const locationProxy = {};
@@ -383,7 +361,7 @@ rawDocument.write = () => {
 rawDocument.writeln = () => {
   console.warn("please be careful");
 };
-// 需要改的几个属性 body  fonts ParentNode cookie domain designMode title
+// TODO 实际是无用的代码，不需要的
 const getElementsByClassName = rawDocument.getElementsByClassName;
 const getElementsByTagName = rawDocument.getElementsByTagName;
 const getElementsByTagNameNS = rawDocument.getElementsByTagNameNS;
@@ -394,6 +372,7 @@ const appendChild = rawDocument.body.appendChild;
 const removeChild = rawDocument.body.removeChild;
 const addEventListener = rawDocument.addEventListener;
 const removeEventListener = rawDocument.addEventListener;
+// document的代理
 export const createDocumentProxy = function (
   name: string,
   // @ts-ignore
@@ -424,7 +403,6 @@ export const createDocumentProxy = function (
   
 
   if (!isShadow) {
-    // TODO  判断document与doc的原型是否都有该方法，有则bind
     // @ts-ignore
     rawDocument.getElementsByClassName =
       rootDoc.getElementsByClassName.bind(doc);
@@ -473,6 +451,7 @@ export const createDocumentProxy = function (
       }
       return null;
     };
+    // TODO 在主应用里可以每次使用时都bind一下（rawDocument)
     setTimeout(() => {
       rawDocument.getElementsByClassName =
         getElementsByClassName.bind(rawDocument);
@@ -521,11 +500,9 @@ export const createDocumentProxy = function (
         return rawDocument.createElement.bind(rawDocument);
       }
       if (property === "addEventListener") {
-        console.log(232234234234234423)
         return rootDoc.addEventListener.bind(rootDoc);
       }
       if (property === "removeEventListener") {
-        console.log(11222232234234234234423)
         return rootDoc.removeEventListener.bind(rootDoc);
       }
       // @ts-ignore
