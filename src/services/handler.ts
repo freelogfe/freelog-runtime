@@ -73,16 +73,7 @@ export default function frequest(
   return new Promise((resolve, reject) => {
     axios(url, _api)
       .then(async (response) => {
-         /** 301 合同未获得授权
-         *  303 标的物未签约
-         *  502 未登陆的用户
-         */
         api.after && api.after(response);
-        //最外面拦截到errCode === 30 时需要跳转登录    
-       
-        // if(response.data.errCode === 30){
-        //   // TODO 需要登录的也是未授权
-        // }
         // TODO 仅授权失败
         if (
           response.data.errCode &&
@@ -90,6 +81,8 @@ export default function frequest(
           caller &&
           (caller.presentableId || caller.resourceIdOrName)
         ) {
+          // freelog-entity-nid,freelog-test-resource-id,freelog-test-resource-name,
+          // freelog-sub-dependencies,freelog-resource-type,freelog-entity-property
           const presentableId = response.headers["freelog-presentable-id"];
           const presentableName = decodeURI(
             response.headers["freelog-presentable-name"]

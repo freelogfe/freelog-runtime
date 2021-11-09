@@ -68,17 +68,17 @@ export function removeSandBox(key: string) {
   sandBoxs.has(key) && sandBoxs.delete(key);
 }
 let firstDev = false;
-let hbfOnlyToTheme = true // 保存是否前进后退只给主题
+let hbfOnlyToTheme = true; // 保存是否前进后退只给主题
 export function mountUI(
   name: string,
   container: any,
   entry: string,
-  config?: any,
+  config?: any
 ): any {
   const widgetConfig = {
     container,
     name, //id
-    entry, 
+    entry,
     isUI: true,
     config, // 主题插件配置数据
   };
@@ -92,26 +92,32 @@ export function mountUI(
   // TODO 增加是否保留数据
   const _app = {
     ...app,
-    mount: (resolve?:any, reject?:any) => {
-      app.mount().then(()=>{
-        addWidget(name, app);
-        // TODO 验证是否是函数
-        resolve && resolve()
-      },()=>{
-        reject()
-      });
+    mount: (resolve?: any, reject?: any) => {
+      app.mount().then(
+        () => {
+          addWidget(name, app);
+          // TODO 验证是否是函数
+          resolve && resolve();
+        },
+        () => {
+          reject();
+        }
+      );
     },
-    unmount: (resolve?:any, reject?:any) => {
-      app.unmount().then(()=>{
-        deactiveWidget(name);
-        setLocation();
-        // TODO 验证是否是函数
-        resolve && resolve()
-      },()=>{
-        reject()
-      });
+    unmount: (resolve?: any, reject?: any) => {
+      app.unmount().then(
+        () => {
+          deactiveWidget(name);
+          setLocation();
+          // TODO 验证是否是函数
+          resolve && resolve();
+        },
+        () => {
+          reject();
+        }
+      );
     },
-  }; 
+  };
   addWidget(name, _app);
   // TODO 拦截mount做处理
   return _app;
@@ -137,25 +143,167 @@ export function mountWidget(
   topPresentableData: any,
   config: any,
   seq?: number | null | undefined,
-  isTheme?: boolean,
+  isTheme?: boolean
 ): any {
+  if (!window.isTest) {
+    mountNormalWidget(
+      widget,
+      container,
+      topPresentableData,
+      config,
+      seq,
+      isTheme
+    );
+  } else {
+    console.log(widget, topPresentableData);
+    // @ts-ignore
+    const that = this;
+    let configData = config;
+    // TODO 为了安全，得验证是否是插件使用还是运行时使用mountWidget
+    if (that && that.name) {
+      isTheme = false;
+      defaultWidgetConfigData.historyFB = false;
+    }
+    config = {
+      ...defaultWidgetConfigData,
+      ...(widget.versionProperty || {}), // versionProperty 展品里面的，可以freeze widget数据，防止加载时篡改
+      ...config,
+    };
+    if (!isTheme) {
+      config.historyFB = hbfOnlyToTheme ? false : config.historyFB;
+    } else {
+      hbfOnlyToTheme = config.hbfOnlyToTheme;
+    }
+    let commonData: any;
+    let entry = "";
+    
+    if (!topPresentableData) {
+      commonData = {
+        id: widget.testResourceId,
+        name: widget.testResourceName,
+        presentableId: widget.testResourceId,
+        entityNid: "",
+        resourceInfo: {
+          resourceId: widget.testResourceId,
+          resourceName: widget.testResourceName,
+        },
+      };
+    } else {
+      commonData = {
+        id: widget.id,
+        name: widget.name,
+        presentableId: topPresentableData.data.testResourceId,
+        entityNid: topPresentableData.entityNid,
+        resourceInfo: {
+          resourceId: widget.id,
+          resourceName: widget.name,
+        },
+      };
+    }
+    // TODO freelog-需要用常量
+    let widgetId = "freelog-" + commonData.resourceInfo.resourceId;
+    // @ts-ignore
+    const devData = window.freelogApp.devData;
+    if (devData) {
+      if (devData.type === DEV_TYPE_REPLACE) {
+        entry = devData.params[commonData.id] || "";
+      }
+      if (devData.type === DEV_WIDGET && !firstDev) {
+        entry = devData.params.dev;
+        firstDev = true;
+      }
+    }
+    if (seq || seq === 0) {
+      widgetId = "freelog-" + commonData.id + seq;
+    }
+    const widgetConfig = {
+      container,
+      name: widgetId, //id
+      isTheme: !!isTheme,
+      presentableId: commonData.presentableId, // 展品id为空的都是插件依赖的插件
+      widgetName: commonData.resourceInfo.resourceName.replace("/", "-"),
+      parentNid: commonData.entityNid,
+      resourceName: commonData.resourceInfo.resourceName,
+      subResourceIdOrName: commonData.resourceInfo.resourceId,
+      resourceId: commonData.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
+      entry:
+        entry ||
+        getEntry({
+          presentableId: commonData.presentableId,
+          parentNid: commonData.entityNid,
+          subResourceIdOrName: commonData.resourceInfo.resourceId,
+        }),
+      isDev: !!entry,
+      config, // 主题插件配置数据
+      isUI: false,
+    };
+    addWidgetConfig(widgetId, widgetConfig);
+    // TODO 所有插件加载用promise all
+    // @ts-ignore
+    const app = loadMicroApp(widgetConfig, {
+      sandbox: {
+        strictStyleIsolation: configData ? !!configData.shadowDom : false,
+        experimentalStyleIsolation: configData ? !!configData.scopedCss : true,
+      },
+    });
+    // TODO 增加是否保留数据
+    const freelog_app = {
+      ...app,
+      mount: (resolve?: any, reject?: any) => {
+        app.mount().then(
+          () => {
+            addWidget(widgetId, freelog_app);
+            // TODO 验证是否是函数
+            resolve && resolve();
+          },
+          () => {
+            reject();
+          }
+        );
+      },
+      unmount: (resolve?: any, reject?: any) => {
+        app.unmount().then(
+          () => {
+            deactiveWidget(widgetId);
+            setLocation();
+            // TODO 验证是否是函数
+            resolve && resolve();
+          },
+          () => {
+            reject();
+          }
+        );
+      },
+    };
+    addWidget(widgetId, freelog_app);
+    return freelog_app;
+  }
+}
+function mountNormalWidget(
+  widget: any,
+  container: any,
+  topPresentableData: any,
+  config: any,
+  seq?: number | null | undefined,
+  isTheme?: boolean
+) {
   // @ts-ignore
   const that = this;
   let configData = config;
   // TODO 为了安全，得验证是否是插件使用还是运行时使用mountWidget
   if (that && that.name) {
     isTheme = false;
-    defaultWidgetConfigData.historyFB = false
+    defaultWidgetConfigData.historyFB = false;
   }
   config = {
     ...defaultWidgetConfigData,
-    ...(widget.versionProperty || {}),// versionProperty 展品里面的，可以freeze widget数据，防止加载时篡改
-    ...config
-  }
-  if(!isTheme){
-    config.historyFB = hbfOnlyToTheme? false : config.historyFB 
-  }else{
-    hbfOnlyToTheme = config.hbfOnlyToTheme
+    ...(widget.versionProperty || {}), // versionProperty 展品里面的，可以freeze widget数据，防止加载时篡改
+    ...config,
+  };
+  if (!isTheme) {
+    config.historyFB = hbfOnlyToTheme ? false : config.historyFB;
+  } else {
+    hbfOnlyToTheme = config.hbfOnlyToTheme;
   }
   let commonData: any;
   let entry = "";
@@ -218,7 +366,7 @@ export function mountWidget(
       }),
     isDev: !!entry,
     config, // 主题插件配置数据
-    isUI: false
+    isUI: false,
   };
   addWidgetConfig(widgetId, widgetConfig);
   // TODO 所有插件加载用promise all
@@ -232,33 +380,40 @@ export function mountWidget(
   // TODO 增加是否保留数据
   const freelog_app = {
     ...app,
-    mount: (resolve?:any, reject?:any) => {
-      app.mount().then(()=>{
-        addWidget(widgetId, freelog_app);
-        // TODO 验证是否是函数
-        resolve && resolve()
-      },()=>{
-        reject()
-      });
+    mount: (resolve?: any, reject?: any) => {
+      app.mount().then(
+        () => {
+          addWidget(widgetId, freelog_app);
+          // TODO 验证是否是函数
+          resolve && resolve();
+        },
+        () => {
+          reject();
+        }
+      );
     },
-    unmount: (resolve?:any, reject?:any) => {
-      app.unmount().then(()=>{
-        deactiveWidget(widgetId);
-        setLocation();
-        // TODO 验证是否是函数
-        resolve && resolve()
-      },()=>{
-        reject()
-      });
+    unmount: (resolve?: any, reject?: any) => {
+      app.unmount().then(
+        () => {
+          deactiveWidget(widgetId);
+          setLocation();
+          // TODO 验证是否是函数
+          resolve && resolve();
+        },
+        () => {
+          reject();
+        }
+      );
     },
-  }; 
+  };
   addWidget(widgetId, freelog_app);
   return freelog_app;
 }
 // 固定id 的加载子插件，仅支持加载一次
 export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
-  const parentGlobal = sandBoxs.get("freelog-" + parent.data.presentableId)
-    .proxy;
+  const parentGlobal = sandBoxs.get(
+    "freelog-" + parent.data.presentableId
+  ).proxy;
   // @ts-ignore
   // theme.subDeps.push({id:"60068f63973b31003a4fbf2a",name:"chtes/pubu",type:"resource",resourceType:"widget"})
   const promises: Promise<any>[] = [];

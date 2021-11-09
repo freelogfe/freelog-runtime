@@ -2,14 +2,13 @@
 
 import { baseUrl } from "../../services/base";
 import { getInfoById } from "./api";
-import { widgetsConfig, widgetUserData, sandBoxs } from "./widget";
+import { widgetsConfig, widgetUserData, sandBoxs, FREELOG_DEV } from "./widget";
 import frequest from "../../services/handler";
 import user from "../../services/api/modules/user";
 import node from "../../services/api/modules/node";
-import { FREELOG_DEV } from './widget'
 import { addAuth, goLogin } from "../../bridge/index";
 
-// todo 此文件的方法需要整理分离出freeelogApp下的和内部使用的
+// TODO  此文件的方法需要整理分离出freeelogApp下的和内部使用的
 export function getContainer(
   container: string | HTMLElement
 ): HTMLElement | null | undefined {
@@ -97,47 +96,58 @@ export async function getSelfId() {
   // @ts-ignore
   return widgetsConfig.get(this.name)?.presentableId;
 }
- 
+
 export async function getSelfConfig() {
   // @ts-ignore  由于config只有一层，所以用...就够了
-  return {...widgetsConfig.get(this.name)?.config};
+  return { ...widgetsConfig.get(this.name)?.config };
 }
 // TODO if error  这里不需要参数，除了运行时自行调用，需要抽离出来不与插件调用混在一起
 // TODO 紧急，增加方法加载子依赖传递资源id，通过资源id查询到孙依赖插件
 export async function getSubDep(presentableId: any) {
-  let isTheme = false
+  let isTheme = false;
   // @ts-ignore
-  const that = this || {}
+  const that = this || {};
   let widgetSandBox = sandBoxs.get(that.name);
   if (!widgetSandBox) {
-    isTheme = true
-    widgetSandBox = { name: "freelog-" + presentableId, presentableId, isTheme };
-  }else {
-    presentableId = widgetsConfig.get(that.name).presentableId
+    isTheme = true;
+    widgetSandBox = {
+      name: "freelog-" + presentableId,
+      presentableId,
+      isTheme,
+    };
+  } else {
+    presentableId = widgetsConfig.get(that.name).presentableId;
   }
   // @ts-ignore
   let info = await getInfoById.bind(widgetSandBox)(presentableId);
-  if (info.data && info.data.errCode === 3 && isTheme) {// 只有主题才需要权限验证
+  if (info.data && info.data.errCode === 3 && isTheme) {
+    // 只有主题才需要权限验证
     await new Promise((resolve, reject) => {
-      addAuth.bind(widgetSandBox)(presentableId, resolve, reject, { immediate: true });
+      addAuth.bind(widgetSandBox)(presentableId, resolve, reject, {
+        immediate: true,
+      });
     });
     info = await getInfoById.bind(widgetSandBox)(presentableId);
     if (info.data.errCode) {
       await new Promise((resolve, reject) => {
-        addAuth.bind(widgetSandBox)(presentableId, resolve, reject, { immediate: true });
+        addAuth.bind(widgetSandBox)(presentableId, resolve, reject, {
+          immediate: true,
+        });
       });
     }
 
     info = await getInfoById.bind(widgetSandBox)(presentableId);
   }
   // TODO 报错要明确
-  if(!info.data){
-    return info
+  if (!info.data) {
+    return info;
   }
   const [subDeps, entityNid, config] = [
     info.headers["freelog-sub-dependencies"],
     info.headers["freelog-entity-nid"],
-    info.headers["freelog-resource-property"],
+    window.isTest
+      ? info.headers["freelog-entity-property"]
+      : info.headers["freelog-resource-property"],
   ];
   return {
     subDeps: subDeps ? JSON.parse(decodeURIComponent(subDeps)) : [],
@@ -173,12 +183,16 @@ export function getEntry(that: any) {
   if (window.location.href.indexOf("testfreelog") > -1) {
     baseURL = "http://qi.testfreelog.com/v2/";
   }
-  let url = baseURL + `auths/presentables/${that.presentableId}/fileStream?`;
-  let url2 = `parentNid=${that.parentNid}&subResourceIdOrName=${that.subResourceIdOrName}`;
+  let url =
+    baseURL +
+    `auths/${window.isTest ? "testResources" : "presentables"}/${
+      that.presentableId
+    }/fileStream?`;
+  let url2 = `parentNid=${that.parentNid}&${window.isTest? 'subEntityIdOrName' : 'subResourceIdOrName'}=${that.subResourceIdOrName}`;
   if (that.parentNid) {
-    return url + url2 + "&subResourceFile=";
+    return url + url2 + (window.isTest? "&subEntityFile=" : "&subResourceFile=");
   } else {
-    return url + "subResourceFile=";
+    return url + (window.isTest? "&subEntityFile=" : "&subResourceFile=");
   }
 }
 const immutableKeys = ["width"];
@@ -211,19 +225,16 @@ export function setViewport(keys: any) {
   Object.keys(viewPortValue).forEach((key: any) => {
     if (viewPortValue.hasOwnProperty(key)) {
       // @ts-ignore
-      content += key + "=" + viewPortValue[key] + ',';
+      content += key + "=" + viewPortValue[key] + ",";
     }
   });
-  metaEl.setAttribute(
-    "content",
-    content
-  );
+  metaEl.setAttribute("content", content);
 }
 
 /**
- * 
- * 
- *  
+ *
+ *
+ *
  */
 // export async function createUserData(userNodeData: any) {
 //   const nodeId = window.freelogApp.nodeInfo.nodeId
@@ -234,56 +245,56 @@ export function setViewport(keys: any) {
 //   return res;
 // }
 
-export async function setUserData(key:string, data: any) {
+export async function setUserData(key: string, data: any) {
   // TODO 必须验证格式正确
   // @ts-ignore
-  const name = this.name
+  const name = this.name;
   let userData = widgetUserData.get(name) || {};
   let config = widgetsConfig.get(name);
-  userData[key] = data
-  let widgetId = btoa(encodeURI(config.resourceName))
-  if(name === FREELOG_DEV){
-    widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME
+  userData[key] = data;
+  let widgetId = btoa(encodeURI(config.resourceName));
+  if (name === FREELOG_DEV) {
+    widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
   }
-  const nodeId = window.freelogApp.nodeInfo.nodeId
+  const nodeId = window.freelogApp.nodeInfo.nodeId;
   // TODO 用户如果两台设备更新数据，可以做一个保存请求的数据对比最新的数据，如果不同，提示给插件（或者传递参数强制更新）
   const res = await frequest(node.putUserData, [nodeId], {
     appendOrReplaceObject: {
-      [widgetId]: userData
-    }
+      [widgetId]: userData,
+    },
   });
   return res;
 }
 
 export async function getUserData(key: string) {
   // @ts-ignore
-  const name = this.name
+  const name = this.name;
   let userData = widgetUserData.get(name);
-  if(userData){
-    return userData[key]
+  if (userData) {
+    return userData[key];
   }
   let config = widgetsConfig.get(name);
-  let widgetId = btoa(encodeURI(config.resourceName))
-  if(name === FREELOG_DEV){
-    widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME
+  let widgetId = btoa(encodeURI(config.resourceName));
+  if (name === FREELOG_DEV) {
+    widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
   }
-  const nodeId = window.freelogApp.nodeInfo.nodeId
+  const nodeId = window.freelogApp.nodeInfo.nodeId;
   const res = await frequest(node.getUserData, [nodeId], "");
-  userData = res.data[widgetId] || {}
-  widgetUserData.set(name, userData)
+  userData = res.data[widgetId] || {};
+  widgetUserData.set(name, userData);
   return userData[key];
 }
 
-export function callLogin(){
-  if(!userInfo){
-    goLogin()
+export function callLogin() {
+  if (!userInfo) {
+    goLogin();
   }
 }
 
-export function  isMobile() {
+export function isMobile() {
   var browser = {
     versions: (function () {
-      var u = navigator.userAgent
+      var u = navigator.userAgent;
       // app = navigator.appVersion;
       return {
         //移动终端浏览器版本信息
@@ -310,8 +321,8 @@ export function  isMobile() {
     browser.versions.iPhone ||
     browser.versions.iPad
   ) {
-    return true
+    return true;
   } else {
-    return false
+    return false;
   }
 }
