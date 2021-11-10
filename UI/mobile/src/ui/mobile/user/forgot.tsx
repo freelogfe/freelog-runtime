@@ -299,7 +299,7 @@ export default function(props: ForgotProps) {
               type="password"
               value={loginPassword}
               className="w-100x   mb-5 common-input"
-              placeholder="输入新密码"
+              placeholder="输入登录密码"
               onChange={(e) => {
                 verify('loginPassword', loginPassword)
                 setLoginPassword(e.target.value);
@@ -370,7 +370,7 @@ export default function(props: ForgotProps) {
                 邮箱验证
               </label>
             </div>
-            <div className="forgot-container flex-column justify-center px-30">
+            <div className="forgot-container flex-column justify-center px-30 w-100x">
               {registerType === 1 ? (
                 <input
                   type="text"
@@ -399,7 +399,7 @@ export default function(props: ForgotProps) {
                   {errorTip[registerType === 1 ? "phone" : "email"]}
                 </div>
               ) : null}
-              <div className="flex-row mb-5 mt-15">
+              <div className="flex-row mb-5 mt-15 space-between">
                 <div className="pr-10 flex-1 auth-code">
                   <input
                     type="text"
@@ -412,10 +412,10 @@ export default function(props: ForgotProps) {
                     }}
                   />
                 </div>
-                <div className="shrink-0 fs-16  w-100">
+                <div className="shrink-0 fs-16  w-120 flex-row justify-end">
                   <Button
                     color="primary"
-                    className="fs-16"
+                    className="fs-16 h-100x w-120"
                     disabled={
                       authCodeLoading || loading ||
                       (registerType === 1
