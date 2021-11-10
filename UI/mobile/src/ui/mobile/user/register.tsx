@@ -6,7 +6,7 @@ import {
   checkPassword,
   checkUsername,
 } from "../../../utils/utils";
-import { Tabs, Badge, Modal, Button, Toast } from "antd-mobile";
+import {  Popup, Button, Toast } from "antd-mobile";
 
 import { useState, useEffect } from "react";
 import "./register.scss";
@@ -172,7 +172,11 @@ export default function (props: loginProps) {
       setSuccess(true);
       setLoading(false);
     } else {
-      Toast.fail(res.data.msg, 2);
+      Toast.show({
+        icon: "fail",
+        content: res.data.msg,
+        duration: 2000,
+      });
       if (res.data.msg.indexOf("验证码") === 0) {
         const obj: any = { authCode: res.data.msg };
         setErrorTip({
@@ -185,13 +189,10 @@ export default function (props: loginProps) {
   };
 
   return (
-    <Modal
-      popup
+    <Popup
       visible={props.visible}
-      maskClosable={false}
-      animationType="slide"
-      className="w-100x h-100x"
-      wrapClassName="user-register"
+      position="top"
+      bodyClassName="user-register w-100x h-100x"
     >
       <div className="w-100x h-100x flex-column align-center">
         <div className="flex-1 w-100x flex-column align-center">
@@ -294,7 +295,7 @@ export default function (props: loginProps) {
               <div className="shrink-0 fs-16  w-100">
                 <Button
                   loading={loading}
-                  type="primary"
+                  color="primary"
                   className="fs-16"
                   disabled={
                     authCodeLoading ||
@@ -328,7 +329,7 @@ export default function (props: loginProps) {
             ) : null}
             <Button
               loading={loading}
-              type="primary"
+              color="primary"
               className="mt-15"
               onClick={onFinish}
               disabled={!available}
@@ -341,8 +342,7 @@ export default function (props: loginProps) {
         <div className="flex-row justify-center align-center register-bottom mb-50">
           已有账号？
           <Button
-            type="ghost"
-            inline
+            color="default"
             size="small"
             onClick={() => props.setModalType(1)}
           >
@@ -350,26 +350,21 @@ export default function (props: loginProps) {
           </Button>
         </div>
       </div>
-      <Modal
+      <Popup
         visible={loading}
-        transparent
-        maskClosable={false}
-        title=""
-        className="w-325 h-220 modal-tip"
+        position="top"
+        bodyClassName="w-325 h-220 modal-tip"
       >
         <div className=" bg-white">
           <Button loading className="loading">
             注册中
           </Button>
         </div>
-      </Modal>
-      <Modal
-        popup
+      </Popup>
+      <Popup
         visible={success}
-        maskClosable={false}
-        animationType="slide"
-        className="w-100x h-100x"
-        wrapClassName="register-success"
+        position="top"
+        bodyClassName="w-100x h-100x register-success"
       >
         <div className="w-100x h-100 flex-column justify-center">
           <div className="flex-column align-center ">
@@ -378,8 +373,7 @@ export default function (props: loginProps) {
             <div className="flex-row justify-center align-center">
               <span className="count-back">{count}s后返回登陆页；</span>
               <Button
-                type="ghost"
-                inline
+                color="default"
                 size="small"
                 onClick={() => {
                   setSuccess(false);
@@ -391,7 +385,7 @@ export default function (props: loginProps) {
             </div>
           </div>
         </div>
-      </Modal>
-    </Modal>
+      </Popup>
+    </Popup>
   );
 }

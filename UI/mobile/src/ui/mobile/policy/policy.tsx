@@ -5,14 +5,10 @@ import { useState } from "react";
 import PolicyContent from "./_components/policyContent";
 import user from "../../../services/api/modules/user";
 import frequest from "../../../services/handler";
-import { Checkbox } from "antd";
-import { Tabs, Badge, Modal, Button } from "antd-mobile";
+import { Tabs, Badge, Dialog, Button, Checkbox } from "antd-mobile";
 const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
 
-const alert = Modal.alert;
-const {
-  getCurrentUser, 
-} = window.freelogAuth;
+const { getCurrentUser } = window.freelogAuth;
 interface ItemProps {
   policy: any;
   selectType: boolean;
@@ -39,7 +35,7 @@ export default function (props: ItemProps) {
   function cancel() {
     props.policySelect();
   }
-  
+
   return (
     <div className="flex-column brs-10 b-1 mx-10 mt-15">
       {/* 上：策略名称与操作 */}
@@ -49,22 +45,23 @@ export default function (props: ItemProps) {
         </div>
         {props.selectType ? (
           <Button
-            type="primary"
+            color="primary"
             size="small"
             onClick={() => {
-              if(!getCurrentUser()){
-                props.setModalType(1)
-                return
+              if (!getCurrentUser()) {
+                props.setModalType(1);
+                return;
               }
               props.policySelect(props.policy.policyId, true, true);
               setTimeout(() => {
-                alert("签约","确定使用策略 " + props.policy.policyName + " 与资源签约？", [
-                  { text: "取消", onPress: () => cancel() },
-                  {
-                    text: "确定",
-                    onPress: () => confirm(props.policy.policyId),
+                Dialog.confirm({
+                  content:
+                    "确定使用策略 " + props.policy.policyName + " 与资源签约？",
+                  onConfirm: async () => {
+                    confirm(props.policy.policyId);
                   },
-                ]);
+                  onCancel: () => cancel(),
+                });
               }, 0);
             }}
             disabled={!getCurrentUser()}
@@ -77,25 +74,25 @@ export default function (props: ItemProps) {
       </div>
       {/* 下：tab */}
       <div className="flex-column">
-        <Tabs
-          tabs={tabs}
-          initialPage={0}
-          onChange={(tab, index) => {
-          }}
-          onTabClick={(tab, index) => {
-          }}
-        >
-          <div className="px-15">
-            <PolicyContent
-              translateInfo={props.policy.translateInfo}
-            ></PolicyContent>
-          </div>
-          <div>
-            <PolicyGraph policy={props.policy}></PolicyGraph>
-          </div>
-          <div className="px-15">
-            <PolicyCode policyText={props.policy.policyText}></PolicyCode>
-          </div>
+        <Tabs defaultActiveKey="policy">
+          <Tabs.TabPane title="策略内容" key="policy">
+            <div className="px-15">
+              <PolicyContent
+                translateInfo={props.policy.translateInfo}
+              ></PolicyContent>
+            </div>
+          </Tabs.TabPane>
+
+          <Tabs.TabPane title="状态机视图" key="statusDAG">
+            <div className="px-15">
+              <PolicyGraph policy={props.policy}></PolicyGraph>
+            </div>
+          </Tabs.TabPane>
+          <Tabs.TabPane title="策略代码" key="policyCode">
+            <div className="px-15">
+              <PolicyCode policyText={props.policy.policyText}></PolicyCode>
+            </div>
+          </Tabs.TabPane>
         </Tabs>
       </div>
     </div>

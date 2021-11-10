@@ -1,7 +1,7 @@
 import user from "../../../services/api/modules/user";
 import frequest from "../../../services/handler";
 import { checkPhone, checkEmail, checkPassword, checkPayPassword } from "../../../utils/utils";
-import { Modal, Button, Toast } from "antd-mobile";
+import { Popup, Button, Toast } from "antd-mobile";
 
 import { useState, useEffect } from "react";
 import "./forgot.scss";
@@ -187,7 +187,11 @@ export default function(props: ForgotProps) {
       setLoading(false);
       setStep(2);
     } else {
-      Toast.fail(res.data.msg, 2);
+      Toast.show({
+        icon: "fail",
+        content: res.data.msg,
+        duration: 2000,
+      });
       const obj: any = { loginPassword: res.data.msg };
       setErrorTip({
         ...errorTip,
@@ -212,7 +216,11 @@ export default function(props: ForgotProps) {
       setLoading(false);
       setStep(3);
     } else {
-      Toast.fail(res.data.msg, 2);
+      Toast.show({
+        icon: "fail",
+        content: res.data.msg,
+        duration: 2000,
+      });
       const obj: any = { authCode: res.data.msg };
       setErrorTip({
         ...errorTip,
@@ -249,7 +257,11 @@ export default function(props: ForgotProps) {
       setLoading(false);
       setCount(3);
     } else {
-      Toast.fail(res.data.msg, 2);
+      Toast.show({
+        icon: "fail",
+        content: res.data.msg,
+        duration: 2000,
+      });
       if (res.data.msg.indexOf("未找到有效用户") === 0) {
         const obj: any = { loginName: res.data.msg };
         setErrorTip({
@@ -269,13 +281,10 @@ export default function(props: ForgotProps) {
   };
 
   return (
-    <Modal
-      popup
+    <Popup
       visible={props.visible}
-      maskClosable={false}
-      animationType="slide"
-      className="w-100x h-100x"
-      wrapClassName="user-forgot"
+      position="top"
+      bodyClassName="user-forgot w-100x h-100x"
     >
       {step === 1 ? (
         <div className="w-100x h-100x flex-column align-center y-auto">
@@ -301,7 +310,7 @@ export default function(props: ForgotProps) {
             ) : null}
             <Button
               loading={loading}
-              type="primary"
+              color="primary"
               className="mt-15"
               onClick={loginVerify}
               disabled={loading || errorTip.loginPassword}
@@ -405,7 +414,7 @@ export default function(props: ForgotProps) {
                 </div>
                 <div className="shrink-0 fs-16  w-100">
                   <Button
-                    type="primary"
+                    color="primary"
                     className="fs-16"
                     disabled={
                       authCodeLoading || loading ||
@@ -426,7 +435,7 @@ export default function(props: ForgotProps) {
               ) : null}
               <Button
                 loading={loading}
-                type="primary"
+                color="primary"
                 className="mt-15"
                 onClick={authCodeVerify}
                 disabled={loading || !authCode ||
@@ -490,7 +499,7 @@ export default function(props: ForgotProps) {
               ) : null}
               <Button
                 loading={loading}
-                type="primary"
+                color="primary"
                 className="mt-15"
                 onClick={onFinish}
                 disabled={!available}
@@ -509,8 +518,7 @@ export default function(props: ForgotProps) {
           {props.type === LOGIN_PASSWORD ? (
             <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
               <Button
-                type="ghost"
-                inline
+                color='default'
                 size="small"
                 className="mr-12"
                 onClick={() => props.setModalType(1)}
@@ -518,8 +526,7 @@ export default function(props: ForgotProps) {
                 返回登录页
               </Button>
               <Button
-                type="ghost"
-                inline
+                color='default'
                 className="ml-12"
                 size="small"
                 onClick={() => props.setModalType(2)}
@@ -530,26 +537,22 @@ export default function(props: ForgotProps) {
           ) : null}
         </div>
       ) : null}
-      <Modal
+      <Popup
         visible={loading && step === 3}
-        transparent
-        maskClosable={false}
-        title=""
-        className="w-325 h-220 modal-tip"
+        position="top"
+        bodyClassName="w-325 h-220 modal-tip"
+        className=""
       >
         <div className=" bg-white">
           <Button loading className="loading">
             重置中
           </Button>
         </div>
-      </Modal>
-      <Modal
-        popup
+      </Popup>
+      <Popup     
         visible={success}
-        maskClosable={false}
-        animationType="slide"
-        className="w-100x h-100x"
-        wrapClassName="forgot-success"
+        position="top"
+        bodyClassName="forgot-success w-100x h-100x"
       >
         <div className="w-100x h-100 flex-column justify-center">
           <div className="flex-column align-center ">
@@ -567,8 +570,7 @@ export default function(props: ForgotProps) {
               </span>
               {props.type === LOGIN_PASSWORD ? (
                 <Button
-                  type="ghost"
-                  inline
+                  color="default"
                   size="small"
                   onClick={() => {
                     setSuccess(false);
@@ -581,7 +583,7 @@ export default function(props: ForgotProps) {
             </div>
           </div>
         </div>
-      </Modal>
-    </Modal>
+      </Popup>
+    </Popup>
   );
 }

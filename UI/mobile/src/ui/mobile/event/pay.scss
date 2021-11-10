@@ -112,19 +112,13 @@
 }
 
  .input-password {
-    .am-modal-content {
-        padding: 0 !important;
-    }
-
-    .am-modal-body {
-        padding: 0 30px 0 30px !important;
-    }
-
-    .am-modal-header {
-        padding: 0 !important;
-    }
-
-    .am-modal-title {
+     .adm-popup-body{
+       margin: 22px;
+       bottom: 30%;
+       width: 330px !important;
+       border-radius: 4px !important;
+     }
+    .pay-title {
         font-size: 16px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;

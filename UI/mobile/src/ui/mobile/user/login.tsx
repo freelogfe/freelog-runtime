@@ -1,6 +1,6 @@
 import user from "../../../services/api/modules/user";
 import frequest from "../../../services/handler";
-import { Tabs, Badge, Modal, Button, Toast } from "antd-mobile";
+import { Tabs, Badge, Popup, Button, Toast } from "antd-mobile";
 
 import { useState } from "react";
 import "./login.scss";
@@ -38,32 +38,32 @@ export default function (props: loginProps) {
       props.loginFinished(SUCCESS, res.data.data);
     } else {
       setTimeout(() => setLogging(false), 2000);
-      Toast.fail(res.data.msg, 2);
-    }
+      Toast.show({
+        icon: "fail",
+        content: res.data.msg,
+        duration: 2000,
+      });
+     }
   };
 
   return (
-    <Modal
-      popup
+    <Popup
       visible={props.visible}
-      maskClosable={false}
-      animationType="slide"
-      className="w-100x h-100x"
-      wrapClassName="user-login"
+      position="top"
+      bodyClassName="user-login w-100x h-100x"
+      
     >
-      <Modal
+      <Popup
         visible={logging}
-        transparent
-        maskClosable={false}
-        title=""
-        className="w-325 h-220 modal-tip"
+        position="top"
+        bodyClassName="w-325 h-220 modal-tip"
       >
         <div className=" bg-white">
           <Button loading className="loading">
             登陆中
           </Button>
         </div>
-      </Modal>
+      </Popup>
       <div className="w-100x h-100x flex-column align-center">
         <i className="iconfont login-back" onClick={()=>{
           props.loginFinished(USER_CANCEL);
@@ -95,7 +95,7 @@ export default function (props: loginProps) {
             />
             <Button
               loading={logging}
-              type="primary"
+              color="primary"
               className="mb-15"
               onClick={onFinish}
               disabled={!loginName || !password}
@@ -110,8 +110,7 @@ export default function (props: loginProps) {
 
         <div className="text-center login-forgot mb-50">
           <Button
-            type="ghost"
-            inline
+            color="default"
             size="small"
             onClick={() => { !logging && props.setModalType(3)}}
           >
@@ -119,6 +118,6 @@ export default function (props: loginProps) {
           </Button>
         </div>
       </div>
-    </Modal>
+    </Popup>
   );
 }

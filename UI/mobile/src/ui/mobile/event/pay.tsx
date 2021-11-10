@@ -1,15 +1,11 @@
-import { Input, Spin } from "antd";
 import { useState, useEffect, useRef } from "react";
 import frequest from "../../../services/handler";
 import user from "../../../services/api/modules/user";
 import event from "../../../services/api/modules/event";
 import transaction from "../../../services/api/modules/transaction";
-import { Modal, List, Button, WhiteSpace, Toast } from "antd-mobile";
+import { Dialog, Popup, Button, Toast } from "antd-mobile";
 import "./pay.scss";
-const prompt = Modal.prompt;
-const {
-  getUserInfo, 
-} = window.freelogAuth;
+const { getUserInfo } = window.freelogAuth;
 interface PayProps {
   isModalVisible: boolean;
   setIsModalVisible: any;
@@ -23,7 +19,7 @@ interface PayProps {
   paymentFinish: any;
 }
 
-export default function(props: PayProps) {
+export default function (props: PayProps) {
   const [focus, setFocus] = useState(0);
   const [loading, setLoading] = useState(false);
   const [inputVisible, setInputVisible] = useState(false);
@@ -41,9 +37,11 @@ export default function(props: PayProps) {
 
   useEffect(() => {
     if (inputVisible) {
-      // @ts-ignore
-      input0.current.focus();
       setPasswords(["", "", "", "", "", ""]);
+      setTimeout(() => {
+        // @ts-ignore
+        input0.current.focus();
+      }, 100);
     }
   }, [inputVisible]);
   const handleCancel = () => {
@@ -59,7 +57,7 @@ export default function(props: PayProps) {
   useEffect(() => {
     props.isModalVisible && getAccount();
   }, [props.isModalVisible]);
-  const pay = async function(password: any) {
+  const pay = async function (password: any) {
     // TODO 防止多次点击
     if (loading) return;
     setTipType(1);
@@ -82,7 +80,11 @@ export default function(props: PayProps) {
         }, 1000);
         return;
       }
-      Toast.fail(payResult.data.msg, 2);
+      Toast.show({
+        icon: "fail",
+        content: payResult.data.msg,
+        duration: 2000,
+      });
       setTimeout(() => {
         setLoading(false);
         // @ts-ignore
@@ -91,7 +93,6 @@ export default function(props: PayProps) {
       return;
     }
     setTipType(2);
-    // Toast.success(payResult.data.msg, 2);
     // TODO 查交易状态, flag应该设为状态，在关闭弹窗时清除
     const flag = setInterval(async () => {
       const res: any = await frequest(
@@ -109,13 +110,10 @@ export default function(props: PayProps) {
     }, 2000);
   };
   return (
-    <Modal
-      popup
+    <Popup
+      position="bottom"
+      bodyClassName="freelog-pay w-100x"
       visible={props.isModalVisible}
-      maskClosable={false}
-      onClose={handleCancel}
-      animationType="slide-up"
-      wrapClassName="freelog-pay"
     >
       <div className="flex-column px-30">
         {/* 金额 */}
@@ -163,13 +161,7 @@ export default function(props: PayProps) {
             placeholder="输入6位支付密码"
           />
         </div> */}
-        <Modal
-          visible={loading && tipType < 3}
-          transparent
-          maskClosable={false}
-          title=""
-          className="w-325 h-220 pay-tip"
-        >
+        <Popup visible={loading && tipType < 3} className="w-325 h-220 pay-tip">
           {tipType === 1 ? (
             <div className="paying bg-white">
               <Button loading className="loading">
@@ -187,117 +179,111 @@ export default function(props: PayProps) {
               </Button>
             </div>
           ) : null}
-        </Modal>
-        <Modal
-          visible={inputVisible}
-          transparent
-          maskClosable={false}
-          title="输入支付密码"
-          className="w-325  input-password"
+        </Popup>
+       {inputVisible?
+        <Popup
+          position="bottom"
+          bodyClassName=""
+          visible={true}
+          className="input-password text-center"
         >
-          <div
-            className="p-absolute  rt-0 pr-24 pt-20"
-            onClick={() => setInputVisible(false)}
-          >
-            <i className="iconfont fs-11">&#xe637;</i>
-          </div>
-          <div
-            className={
-              "flex-row space-between " +
-              (tipType === 3 ? "password-error-input" : "")
-            }
-          >
-            {[0, 0, 0, 0, 0, 0].map((item: any, index: any) => {
-              return (
-                <input
-                  type="password"
-                  maxLength={1}
-                  minLength={1}
-                  key={index}
-                  ref={inputs[index]}
-                  value={passwords[index]}
-                  onChange={(e: any) => {}}
-                  onClick={(e: any) => {
-                    // @ts-ignore
-                    inputs[focus].current.focus();
-                  }}
-                  onKeyDown={(e: any) => {
-                    setTipType(0);
-                    // alert(e.keyCode)
-                    const p = [...passwords];
-                    if (
-                      [46, 8, 229].includes(e.keyCode) &&
-                      index > 0 &&
-                      isNaN(parseInt(p[index]))
-                    ) {
-                      // @ts-ignore
-                      if (inputs[index - 1]) {
-                        // @ts-ignore
-                        inputs[index - 1].current.focus();
-                        setFocus(index - 1);
-                      }
-                      p[index - 1] = "";
-                      setPasswords(p);
-                      return;
-                    }
-                    if (!isNaN(parseInt(e.key))) {
-                      p[index] = e.key;
-
-                      if (inputs[index + 1]) {
-                        // @ts-ignore
-                        inputs[index + 1].current.focus();
-                        setFocus(index + 1);
-                      }
-                      if (index === 5) {
-                        const password = p.join("");
-                        pay(password);
-                      }
-                    } else {
-                      p[index] = "";
-                    }
-                    setPasswords(p);
-                  }}
-                />
-              );
-            })}
-          </div>
-          {tipType === 3 ? (
-            <div className="password-error text-align-left mt-5">
-              支付密码错误，请重新输入
+          <div className="password-container w-100x bg-white brs-4 px-25">
+            <div className="pay-title text-center">输入支付密码</div>
+            <div
+              className="p-absolute  rt-0 pr-24 pt-20"
+              onClick={() => setInputVisible(false)}
+            >
+              <i className="iconfont fs-11">&#xe637;</i>
             </div>
-          ) : null}
-          <div
-            className="flex-row space-around password-forget py-30"
-            onClick={() => {
-              props.setModalType(4);
-            }}
-          >
-            忘记支付密码
+            <div
+              className={
+                "flex-row space-between " +
+                (tipType === 3 ? "password-error-input" : "")
+              }
+            >
+              {[0, 0, 0, 0, 0, 0].map((item: any, index: any) => {
+                return (
+                  <input
+                    type="password"
+                    maxLength={1}
+                    minLength={1}
+                    key={index}
+                    ref={inputs[index]}
+                    value={passwords[index]}
+                    onChange={(e: any) => {}}
+                    onClick={(e: any) => {
+                      // @ts-ignore
+                      inputs[focus].current.focus();
+                    }}
+                    onKeyDown={(e: any) => {
+                      setTipType(0);
+                      // alert(e.keyCode)
+                      const p = [...passwords];
+                      if (
+                        [46, 8, 229].includes(e.keyCode) &&
+                        index > 0 &&
+                        isNaN(parseInt(p[index]))
+                      ) {
+                        // @ts-ignore
+                        if (inputs[index - 1]) {
+                          // @ts-ignore
+                          inputs[index - 1].current.focus();
+                          setFocus(index - 1);
+                        }
+                        p[index - 1] = "";
+                        setPasswords(p);
+                        return;
+                      }
+                      if (!isNaN(parseInt(e.key))) {
+                        p[index] = e.key;
+
+                        if (inputs[index + 1]) {
+                          // @ts-ignore
+                          inputs[index + 1].current.focus();
+                          setFocus(index + 1);
+                        }
+                        if (index === 5) {
+                          const password = p.join("");
+                          pay(password);
+                        }
+                      } else {
+                        p[index] = "";
+                      }
+                      setPasswords(p);
+                    }}
+                  />
+                );
+              })}
+            </div>
+            {tipType === 3 ? (
+              <div className="password-error text-align-left mt-5">
+                支付密码错误，请重新输入
+              </div>
+            ) : null}
+            <div
+              className="flex-row space-around password-forget py-30"
+              onClick={() => {
+                props.setModalType(4);
+              }}
+            >
+              忘记支付密码
+            </div>
           </div>
-        </Modal>
-        <div className=" pt-35 mb-40">
+        </Popup>
+        :null}
+        <div className=" pt-35 mb-40 text-center">
           <Button
-            type="primary"
+            color="primary"
             size="large"
-            className=""
+            className="w-100x"
             onClick={() => {
               setInputVisible(true);
-
-              // prompt(
-              //   "输入密码",
-              //   "",
-              //   [
-              //     { text: "取消" },
-              //     { text: "提交", onPress: (password) => pay(password) },
-              //   ],
-              //   "secure-text"
-              // );
             }}
           >
             {loading ? (
               <span>
                 支付中...
-                <Spin />
+                {/* <Spin /> */}
               </span>
             ) : (
               "立即支付"
@@ -305,6 +291,6 @@ export default function(props: PayProps) {
           </Button>
         </div>
       </div>
-    </Modal>
+    </Popup>
   );
 }

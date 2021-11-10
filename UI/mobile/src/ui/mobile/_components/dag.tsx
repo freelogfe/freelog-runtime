@@ -1,5 +1,3 @@
-import { Modal } from "antd";
-import Button from "./button";
 import { Graph } from "@antv/x6";
 import React, { useState, useEffect } from "react";
 

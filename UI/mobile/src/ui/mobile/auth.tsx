@@ -12,10 +12,10 @@ import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
 import contract from "../../services/api/modules/contract";
 import getBestTopology from "./topology/data";
-import { Modal, Toast, Button } from "antd-mobile";
+import { Dialog, Popup, Button } from "antd-mobile"; // Toast, Button
 const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
 const { setUserInfo, loginCallback, getCurrentUser } = window.freelogAuth;
-const alert = Modal.alert;
+// const alert = Modal.alert;
 
 interface contractProps {
   events: Array<any>;
@@ -27,31 +27,6 @@ interface contractProps {
   isAuths?: boolean;
 }
 export default function (props: contractProps) {
-  /**
-   * 对象形式authDatas：
-   *   key: subjectId
-   *   value: { policies: {policyId: }, contracts: {contractId: }，}
-   * 在合约里面通过策略拿翻译
-   * 流程：
-   *     未授权过来需要整合数据
-  *       widget: caller.name,
-          errCode: response.data.errCode,
-          authCode: response.data.data.authCode,
-          contracts: response.data.data.data.contracts,
-          policies: response.data.data.data.policies,
-          presentableName,
-          presentableId,
-          info: response.data,
-   *     点击展品：
-   *         1.如果有合约则请求合约
-   *         2.请求策略
-   *     签约：
-   *         签约后判断有无授权：
-   *             1.授权：直接清除events
-   *             2.未授权：更新events对应的数据
-   *     执行事件：
-   *             
-   */
   const [isListVisible, setIsListVisible] = useState(false);
   // 1 登陆  2 注册   3 忘记登录密码  4 忘记支付密码
   const [modalType, setModalType] = useState(0);
@@ -65,14 +40,12 @@ export default function (props: contractProps) {
 
   function closeCurrent() {
     if (events.length === 1) {
-      // 如果只有一个，提示确定放弃签约
-      alert("提示", "当前展品未获得授权，确定退出？", [
-        { text: "取消", onPress: () => {} },
-        {
-          text: "确定",
-          onPress: () => userCancel(),
+      Dialog.confirm({
+        content: "当前还有展品未获得授权，确定退出？",
+        onConfirm: async () => {
+          userCancel();
         },
-      ]);
+      }); 
     } else {
       // 否则弹出展品列表
       setIsListVisible(true);
@@ -224,7 +197,7 @@ export default function (props: contractProps) {
     }
     const isAuth = res.data.data.some((item: any) => {
       if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
-        Toast.success("获得授权", 2);
+        // Toast.success("获得授权", 2);
         setTimeout(() => {
           props.contractFinished(currentPresentable.eventId, SUCCESS);
         }, 2000);
@@ -232,7 +205,7 @@ export default function (props: contractProps) {
       }
     });
     if (!isAuth) {
-      Toast.success("签约成功", 2);
+      // Toast.success("签约成功", 2);
       setTimeout(() => {
         props.updateEvents({ ...currentPresentable, contracts: res.data.data });
       }, 2000);
@@ -249,10 +222,11 @@ export default function (props: contractProps) {
             继续浏览请签约并获取授权
           </div>
           <Button
+
+            color='primary'
             onClick={() => {
               setThemeCancel(false);
             }}
-            type="primary"
             size="small"
             className="theme-tip-button text-center"
           >
@@ -282,25 +256,22 @@ export default function (props: contractProps) {
               setModalType={setModalType}
             />
           ) : null}
-          <Modal
-            popup
+          <Popup
             visible={isListVisible}
-            maskClosable={false}
-            animationType="slide"
-            wrapClassName="presentable-list"
+            position="left"
+            bodyClassName="presentable-list w-100x h-100x"
           >
             <div className="flex-row space-between px-15 py-20 list-title">
               <div className="list-title-name">展品列表</div>
               <div
                 className="list-exit"
                 onClick={() => {
-                  alert("提示", "当前还有展品未获得授权，确定退出？", [
-                    { text: "取消", onPress: () => {} },
-                    {
-                      text: "确定",
-                      onPress: () => userCancel(),
+                  Dialog.confirm({
+                    content: "当前还有展品未获得授权，确定退出？",
+                    onConfirm: async () => {
+                      userCancel();
                     },
-                  ]);
+                  });
                 }}
               >
                 退出
@@ -370,7 +341,7 @@ export default function (props: contractProps) {
                   );
                 })
               : null}
-          </Modal>
+          </Popup>
           {props.isAuths ? (
             <div className="flex-column w-100x h-100x over-h">
               <div className="flex-column justify-center bb-1">
@@ -386,12 +357,16 @@ export default function (props: contractProps) {
                 <div className="text-center mt-20 mb-10 fs-20 fc-main fw-bold">
                   {currentPresentable.presentableName}
                 </div>
-               {currentPresentable.isTheme? <><div className="auth-des  text-center">
-                  当前节点主题未开放授权，
-                </div>
-                <div className="auth-des mb-20 text-center">
-                  继续浏览请选择策略签约并获取授权
-                </div></> : null}
+                {currentPresentable.isTheme ? (
+                  <>
+                    <div className="auth-des  text-center">
+                      当前节点主题未开放授权，
+                    </div>
+                    <div className="auth-des mb-20 text-center">
+                      继续浏览请选择策略签约并获取授权
+                    </div>
+                  </>
+                ) : null}
                 {!currentPresentable.contracts.length ? null : (
                   <div className="flex-row justify-center mb-15">
                     {currentPresentable.contracts.map(
@@ -462,13 +437,12 @@ export default function (props: contractProps) {
                     onClick={() => {
                       setModalType(1);
                     }}
-                    type="primary"
+                    color='primary'
                     size="small"
                     className=" text-center"
                   >
                     登陆
                   </Button>
-                  
                 </div>
               )}
             </div>
