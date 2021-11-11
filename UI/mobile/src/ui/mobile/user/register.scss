@@ -67,13 +67,13 @@
             color: #b3cde7 !important;
         }
 
-        a {
+        button {
             font-size: 14px !important;
             font-family: PingFangSC-Regular, PingFang SC;
             font-weight: 400 !important;
             color: #2784FF;
             padding: 0 !important;
-
+            border: 0 !important;
             &::before {
                 padding: 0 !important;
                 border: none !important;
@@ -116,13 +116,13 @@
         color: #b3cde7 !important;
     }
 
-    a {
+    button {
         font-size: 14px !important;
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400 !important;
         color: #2784FF;
         padding: 0 !important;
-
+        border: 0 !important;
         &::before {
             padding: 0 !important;
             border: none !important;

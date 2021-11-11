@@ -63,13 +63,13 @@
              color: #b3cde7 !important;
          }
 
-         a {
+         button {
              font-size: 14px !important;
              font-family: PingFangSC-Regular, PingFang SC;
              font-weight: 400 !important;
              color: #2784FF;
              padding: 0 !important;
-
+             border: 0 !important;
              &::before {
                  padding: 0 !important;
                  border: none !important;
@@ -78,25 +78,6 @@
      }
  }
 
-
-
- .forgot-success,
- .forgot-tip {
-     .am-modal-content {
-         padding: 0 !important;
-     }
-
-     .am-modal-body {
-         padding: 0 30px 0 30px !important;
-         display: flex;
-         flex-direction: column;
-         justify-content: center;
-     }
-
-     .am-modal-header {
-         padding: 0 !important;
-     }
- }
 
  .forgot-success {
      i {
@@ -129,7 +110,7 @@
          color: #b3cde7 !important;
      }
 
-     a {
+     button {
          font-size: 14px !important;
          font-family: PingFangSC-Regular, PingFang SC;
          font-weight: 400 !important;
@@ -144,8 +125,6 @@
  }
 
  .forgot-tip {
-
-
      .paying {
          .loading {
              border: none !important;

@@ -463,7 +463,7 @@ export default function(props: ForgotProps) {
                   : "现在您可以设置新的支付密码，重置成功后即可进行支付服务"}
               </div>
             </div>
-            <div className="forgot-container flex-column justify-center px-30">
+            <div className="forgot-container flex-column justify-center px-30 w-100x">
               {errorTip.authCode !== "" ? (
                 <div className="error-tip self-start">{errorTip.authCode}</div>
               ) : null}

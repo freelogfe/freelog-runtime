@@ -6,7 +6,7 @@ import {
   checkPassword,
   checkUsername,
 } from "../../../utils/utils";
-import {  Popup, Button, Toast } from "antd-mobile";
+import { Popup, Button, Toast } from "antd-mobile";
 
 import { useState, useEffect } from "react";
 import "./register.scss";
@@ -199,7 +199,7 @@ export default function (props: loginProps) {
           <div className="register-title mb-38 mt-45 flex-row px-30 self-start">
             注册
           </div>
-          <div className="register-type mb-30  flex-row px-30 self-start align-center">
+          <div className="register-type mb-30  flex-row px-30 self-start align-center w-100x">
             <input
               type="radio"
               id="phone-type"
@@ -237,7 +237,7 @@ export default function (props: loginProps) {
               邮箱注册
             </label>
           </div>
-          <div className="register-container flex-column justify-center px-30">
+          <div className="register-container flex-column justify-center px-30 w-100x">
             <input
               type="text"
               className="w-100x mb-5 common-input"
@@ -292,13 +292,14 @@ export default function (props: loginProps) {
                   }}
                 />
               </div>
-              <div className="shrink-0 fs-16  w-100">
+
+              <div className="shrink-0 fs-16  w-120 flex-row justify-end">
                 <Button
-                  loading={loading}
                   color="primary"
-                  className="fs-16"
+                  className="fs-16 h-100x w-120"
                   disabled={
                     authCodeLoading ||
+                    loading ||
                     (registerType === 1
                       ? !phone || errorTip.phone
                       : !email || errorTip.email)
