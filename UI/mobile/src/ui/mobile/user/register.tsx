@@ -79,16 +79,9 @@ export default function (props: loginProps) {
       loginName: registerType === 1 ? phone : email,
     };
     registerType === 1 ? delete errors.email : delete errors.phone;
-    const flag1 = Object.keys(errors).some((key: any) => {
-      if (errors[key]) {
-        return true;
-      }
-    });
-    const flag2 = Object.keys(values).some((key: any) => {
-      if (!values[key]) {
-        return true;
-      }
-    });
+    const flag1 = Object.keys(errors).some((key: any) => errors[key])
+      
+    const flag2 = Object.keys(values).some((key: any) => !values[key]);
     setAvailable(!(flag1 || flag2));
   };
   useEffect(() => {

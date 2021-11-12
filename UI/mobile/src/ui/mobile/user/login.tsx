@@ -1,10 +1,10 @@
 import user from "../../../services/api/modules/user";
 import frequest from "../../../services/handler";
-import { Tabs, Badge, Popup, Button, Toast } from "antd-mobile";
+import {  Popup, Button, Toast } from "antd-mobile";
 
 import { useState } from "react";
 import "./login.scss";
-const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
+const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 
 interface loginProps {
   loginFinished: any;
