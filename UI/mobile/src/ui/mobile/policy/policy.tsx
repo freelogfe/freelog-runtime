@@ -1,12 +1,9 @@
 import PolicyGraph from "./_components/policyGraph";
 import PolicyCode from "./_components/policyCode";
-import { useState } from "react";
-
+ 
 import PolicyContent from "./_components/policyContent";
-import user from "../../../services/api/modules/user";
-import frequest from "../../../services/handler";
+import './policy.scss'
 import { Tabs, Badge, Dialog, Button, Checkbox } from "antd-mobile";
-const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
 
 const { getCurrentUser } = window.freelogAuth;
 interface ItemProps {
@@ -37,7 +34,7 @@ export default function (props: ItemProps) {
   }
 
   return (
-    <div className="flex-column brs-10 b-1 mx-10 mt-15">
+    <div className="flex-column brs-10 b-1 mx-10 mt-15 freelog-policy-card">
       {/* 上：策略名称与操作 */}
       <div className="flex-row space-between px-15 py-15">
         <div className="flex-1 text-ellipsis fc-main fs-16 fw-bold">
@@ -61,6 +58,7 @@ export default function (props: ItemProps) {
                     confirm(props.policy.policyId);
                   },
                   onCancel: () => cancel(),
+                  bodyClassName: 'fs-24'
                 });
               }, 0);
             }}

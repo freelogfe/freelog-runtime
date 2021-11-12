@@ -3,7 +3,7 @@ import frequest from "../../../services/handler";
 import user from "../../../services/api/modules/user";
 import event from "../../../services/api/modules/event";
 import transaction from "../../../services/api/modules/transaction";
-import { Popup, Button, Toast } from "antd-mobile";
+import { Popup, Button, Toast, Loading } from "antd-mobile";
 import "./pay.scss";
 const { getUserInfo } = window.freelogAuth;
 interface PayProps {
@@ -161,116 +161,119 @@ export default function (props: PayProps) {
             placeholder="输入6位支付密码"
           />
         </div> */}
-        <Popup visible={loading && tipType < 3} className="w-325 h-220 pay-tip">
+        {loading && tipType < 3 ? <Popup
+          visible={true}
+          className="w-325 h-220 pay-tip"
+        >
           {tipType === 1 ? (
-            <div className="paying bg-white">
-              <Button loading className="loading">
-                支付中
-              </Button>
+            <div className="paying bg-white w-100x h-100x brs-4 flex-column justify-center align-center">
+              <div className="loading">
+                支付中<Loading />
+              </div>
             </div>
-          ) : tipType === 2 ? (
-            <div className="paying w-100x h-100x flex-column justify-center">
+          ) : tipType === 2? (
+            <div className="paying w-100x h-100x flex-column brs-4  justify-center align-center">
               <div className="pb-15 success flex-row align-center justify-center">
                 <i className="iconfont mr-10">&#xe62d;</i>
                 <span className="mr-10">支付成功</span>
               </div>
-              <Button loading className="loading  pt-15 proccessing">
-                系统处理中请稍后...
-              </Button>
+              <div className="loading flew-row align-center  pt-15 proccessing">
+                系统处理中请稍后<Loading />
+              </div>
             </div>
           ) : null}
-        </Popup>
-       {inputVisible?
-        <Popup
-          position="bottom"
-          bodyClassName=""
-          visible={true}
-          className="input-password text-center"
-        >
-          <div className="password-container w-100x bg-white brs-4 px-25">
-            <div className="pay-title text-center">输入支付密码</div>
-            <div
-              className="p-absolute  rt-0 pr-24 pt-20"
-              onClick={() => setInputVisible(false)}
-            >
-              <i className="iconfont fs-11">&#xe637;</i>
-            </div>
-            <div
-              className={
-                "flex-row space-between " +
-                (tipType === 3 ? "password-error-input" : "")
-              }
-            >
-              {[0, 0, 0, 0, 0, 0].map((item: any, index: any) => {
-                return (
-                  <input
-                    type="password"
-                    maxLength={1}
-                    minLength={1}
-                    key={index}
-                    ref={inputs[index]}
-                    value={passwords[index]}
-                    onChange={(e: any) => {}}
-                    onClick={(e: any) => {
-                      // @ts-ignore
-                      inputs[focus].current.focus();
-                    }}
-                    onKeyDown={(e: any) => {
-                      setTipType(0);
-                      // alert(e.keyCode)
-                      const p = [...passwords];
-                      if (
-                        [46, 8, 229].includes(e.keyCode) &&
-                        index > 0 &&
-                        isNaN(parseInt(p[index]))
-                      ) {
-                        // @ts-ignore
-                        if (inputs[index - 1]) {
-                          // @ts-ignore
-                          inputs[index - 1].current.focus();
-                          setFocus(index - 1);
-                        }
-                        p[index - 1] = "";
-                        setPasswords(p);
-                        return;
-                      }
-                      if (!isNaN(parseInt(e.key))) {
-                        p[index] = e.key;
-
-                        if (inputs[index + 1]) {
-                          // @ts-ignore
-                          inputs[index + 1].current.focus();
-                          setFocus(index + 1);
-                        }
-                        if (index === 5) {
-                          const password = p.join("");
-                          pay(password);
-                        }
-                      } else {
-                        p[index] = "";
-                      }
-                      setPasswords(p);
-                    }}
-                  />
-                );
-              })}
-            </div>
-            {tipType === 3 ? (
-              <div className="password-error text-align-left mt-5">
-                支付密码错误，请重新输入
+        </Popup> : null }
+        {inputVisible ? (
+          <Popup
+            position="bottom"
+            bodyClassName=""
+            visible={true}
+            className="input-password text-center"
+          >
+            <div className="password-container w-100x bg-white brs-4 px-25">
+              <div className="pay-title text-center">输入支付密码</div>
+              <div
+                className="p-absolute  rt-0 pr-24 pt-20"
+                onClick={() => setInputVisible(false)}
+              >
+                <i className="iconfont fs-11">&#xe637;</i>
               </div>
-            ) : null}
-            <div
-              className="flex-row space-around password-forget py-30"
-              onClick={() => {
-                props.setModalType(4);
-              }}
-            >
-              忘记支付密码
+              <div
+                className={
+                  "flex-row space-between " +
+                  (tipType === 3 ? "password-error-input" : "")
+                }
+              >
+                {[0, 0, 0, 0, 0, 0].map((item: any, index: any) => {
+                  return (
+                    <input
+                      type="password"
+                      maxLength={1}
+                      minLength={1}
+                      key={index}
+                      ref={inputs[index]}
+                      value={passwords[index]}
+                      onChange={(e: any) => {}}
+                      onClick={(e: any) => {
+                        // @ts-ignore
+                        inputs[focus].current.focus();
+                      }}
+                      onKeyDown={(e: any) => {
+                        setTipType(0);
+                        // alert(e.keyCode)
+                        const p = [...passwords];
+                        if (
+                          [46, 8, 229].includes(e.keyCode) &&
+                          index > 0 &&
+                          isNaN(parseInt(p[index]))
+                        ) {
+                          // @ts-ignore
+                          if (inputs[index - 1]) {
+                            // @ts-ignore
+                            inputs[index - 1].current.focus();
+                            setFocus(index - 1);
+                          }
+                          p[index - 1] = "";
+                          setPasswords(p);
+                          return;
+                        }
+                        if (!isNaN(parseInt(e.key))) {
+                          p[index] = e.key;
+
+                          if (inputs[index + 1]) {
+                            // @ts-ignore
+                            inputs[index + 1].current.focus();
+                            setFocus(index + 1);
+                          }
+                          if (index === 5) {
+                            const password = p.join("");
+                            pay(password);
+                          }
+                        } else {
+                          p[index] = "";
+                        }
+                        setPasswords(p);
+                      }}
+                    />
+                  );
+                })}
+              </div>
+              {tipType === 3 ? (
+                <div className="password-error text-align-left mt-5">
+                  支付密码错误，请重新输入
+                </div>
+              ) : null}
+              <div
+                className="flex-row space-around password-forget py-30"
+                onClick={() => {
+                  props.setModalType(4);
+                }}
+              >
+                忘记支付密码
+              </div>
             </div>
-          </div>
-        </Popup>
-        :null}
+          </Popup>
+        ) : null}
         <div className=" pt-35 mb-40 text-center">
           <Button
             color="primary"
