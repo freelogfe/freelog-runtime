@@ -1,13 +1,11 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <component :is="comp" v-bind='compProps'></component>
+    <component :is="comp" v-bind="compProps"></component>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import HelloWorld from '@/components/HelloWorld.vue' // @ is an alias to /src
 /**
  * 组件是最低级别，不再有子组件，接收传递过来的props
  *   {
@@ -16,7 +14,7 @@ import HelloWorld from '@/components/HelloWorld.vue' // @ is an alias to /src
  *     props: {
  *       css: {
  *         classNames: [],
- *         styles: [] 
+ *         styles: []
  *       },
  *       normalProps: {
  *         
@@ -29,15 +27,19 @@ import HelloWorld from '@/components/HelloWorld.vue' // @ is an alias to /src
 export default defineComponent({
   name: 'Home',
   components: {
-    HelloWorld
   },
-  data () {
+  data() {
     return {
-      comp: 'HelloWorld',
+      comp: '',
       compProps: {
         msg: 'Welcome to Your Vue.js + TypeScript App'
       }
     }
+  },
+  mounted() {
+    // eslint-disable-next-line
+    const configData:any = this.$route.meta.configData
+    this.comp = configData.name 
   }
 })
 </script>

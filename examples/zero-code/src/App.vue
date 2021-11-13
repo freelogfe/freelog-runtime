@@ -1,16 +1,12 @@
 <template>
-  <router-view v-if="!!loading" />
+  <router-view />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import HelloWorld from '@/components/HelloWorld.vue' // @ is an alias to /src
-import Container from '@/components/Container.vue' // @ is an alias to /src
-
+import { defineComponent, getCurrentInstance } from 'vue'
 export default defineComponent({
   name: 'Home',
   components: {
-    HelloWorld
   },
   data() {
     return {
@@ -42,6 +38,8 @@ export default defineComponent({
                 {
                   type: 'component', // 此时container根据用户选的自由名称自动生成的容器
                   name: 'freelog-home',
+                  routePath: 'home',
+                  routeName: 'freelog-home',
                   children: [
                     {
                       type: 'component',
@@ -51,7 +49,9 @@ export default defineComponent({
                 },
                 {
                   type: 'component',
-                  name: 'freelog-about'
+                  name: 'freelog-about',
+                  routePath: 'about',
+                  routeName: 'freelog-about'
                 }
               ]
             }
@@ -62,26 +62,22 @@ export default defineComponent({
   },
   mounted() {
     const data = this.getData()
-    const routes:any = []
+    const routes: any = []
+    const vue: any = getCurrentInstance()?.proxy
+    console.log(vue)
     data.forEach((item: any) => {
       routes.push({
-        path: '/',
-        name: 'Home',
-        component: Container
-      })
-      item.children.forEach((el:any) => {
-        if(el.type === 'routerView'){
-          routes[0].children = [{
-            path: '/',
-            name: 'Home',
-            component: Container,
-            meta: {}
-          }]
+        path: '/freelog',
+        name: 'freelog',
+        component: vue.$app.component('freelog-container'),
+        meta: {
+          configData: item
         }
-      });
+      })
     })
-
+    this.$router.addRoute(routes[0])
     this.loading = false
+    this.$router.push('/freelog')
   }
 })
 </script>
