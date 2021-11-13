@@ -14,9 +14,13 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Component from '@/components/component.vue' // @ is an alias to /src
 
 /**
+ * container要分两个，一个影子容器，一个真的容器，或者说模式
+ * 步骤：不考虑拖拽，直接选择组件，在容器内对组件进行调整
+ *    选择容器，容器具有排版定义，
+ *    在容器中添加组件，组件顺序可以调整，position可以改变
+ *    对组件功能进行配置，例如控制某个其余组件
  * 负责循环传递组件配置给子组件，同时路由也在这里写。
  {
           type: 'container',
