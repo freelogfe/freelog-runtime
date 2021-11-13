@@ -21,7 +21,7 @@ import HelloWorld from '@/components/HelloWorld.vue' // @ is an alias to /src
  *       normalProps: {
  *         
  *       },
- *       events: {
+ *       events: {// 事件应该支持例如容器内数据变化，按钮禁用
  *       }
  *     }
  *   },
