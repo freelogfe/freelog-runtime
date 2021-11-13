@@ -1,10 +1,15 @@
 <template>
   <div class="container">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <template v-for="item in children">
-      <freelog-component v-if="item.type === 'component'" :key="item"></freelog-component>
+    <template v-for="(item,index) in children">
+      <freelog-component
+        v-if="item.type === 'component'"
+        :key="index"
+        :name="item.name"
+        v-bind="item.config"
+      ></freelog-component>
       <router-view v-if="item.type === 'routerView'" :key="item"></router-view>
-   </template>
+    </template>
   </div>
 </template>
 <script lang="ts">
@@ -16,7 +21,7 @@ import Component from '@/components/component.vue' // @ is an alias to /src
  {
           type: 'container',
           name: 'freelog-container',
-          props: {
+          config: {
             css: {
               classNames: [],
               styles: []
@@ -59,32 +64,35 @@ export default defineComponent({
   name: 'Home',
   components: {
   },
+  props: {
+    configData: new Array<any>()
+  },
   data() {
     return {
-      children: []
+      children: new Array<any>()
     }
   },
   mounted() {
-    console.log(this.$route)
-    const configData: any = this.$route.meta.configData
-    const routes: any = []
-    this.children = configData.children
-    console.log(configData.children)
-    configData.children.forEach((el: any) => {
-      if (el.type === 'routerView') {
-        el.children.forEach((r: any) => {
-          this.$router.addRoute(this.$route.name || '', {
-            path: '/freelog/' + r.routePath,
-            name: r.routeName,
-            component: Component,
-            meta: {
-              configData: r
-            }
-          })
-        })
-      }
-    })
-    this.$router.push('/freelog/home')
+    console.log(this.$route, this.configData)
+    const configData: any = this.configData
+    // const routes: any = []
+    this.children = this.configData
+    // console.log(configData.children, 222)
+    // configData.children.forEach((el: any) => {
+    //   if (el.type === 'routerView') {
+    //     el.children.forEach((r: any) => {
+    //       this.$router.addRoute(this.$route.name || '', {
+    //         path: '/freelog/' + r.routePath,
+    //         name: r.routeName,
+    //         component: Component,
+    //         meta: {
+    //           configData: r
+    //         }
+    //       })
+    //     })
+    //   }
+    // })
+    console.log(this.children)
   }
 })
 </script>

@@ -8,7 +8,7 @@ import Container from './components/container.vue'
 import Component from './components/component.vue'
 import Home from './views/Home.vue'
 import About from './views/About.vue'
-
+import './assets/css/index.scss'
 const app = createApp(App).use(Vant).use(store).use(router)
 app.component('freelog-container', Container)
 app.component('freelog-component', Component)
