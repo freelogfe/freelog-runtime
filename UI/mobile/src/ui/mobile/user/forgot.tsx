@@ -1,6 +1,11 @@
 import user from "../../../services/api/modules/user";
 import frequest from "../../../services/handler";
-import { checkPhone, checkEmail, checkPassword, checkPayPassword } from "../../../utils/utils";
+import {
+  checkPhone,
+  checkEmail,
+  checkPassword,
+  checkPayPassword,
+} from "../../../utils/utils";
 import { Popup, Button, Toast } from "antd-mobile";
 
 import { useState, useEffect } from "react";
@@ -13,7 +18,7 @@ interface ForgotProps {
   type: "login" | "pay";
   children?: any;
 }
-export default function(props: ForgotProps) {
+export default function (props: ForgotProps) {
   const [errorTip, setErrorTip] = useState<any>({
     phone: "",
     email: "",
@@ -37,14 +42,14 @@ export default function(props: ForgotProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
- 
+
   // 1 phone    2 email
   const [registerType, setRegisterType] = useState(1);
-  function passwordCheck(value:any){
-    if(props.type === PAY_PASSWORD){
-      return checkPayPassword(value)
+  function passwordCheck(value: any) {
+    if (props.type === PAY_PASSWORD) {
+      return checkPayPassword(value);
     }
-    return checkPassword(value)
+    return checkPassword(value);
   }
   const verify = (type: any, value: any) => {
     value = value ? value : "";
@@ -65,7 +70,10 @@ export default function(props: ForgotProps) {
     }
     if (["password", "password2"].includes(type)) {
       if (value && !passwordCheck(value)) {
-        obj[type] = props.type === PAY_PASSWORD? "密码只能是6位纯数字" : "密码长度必须为6-24个字符，必须包含数字和字母";
+        obj[type] =
+          props.type === PAY_PASSWORD
+            ? "密码只能是6位纯数字"
+            : "密码长度必须为6-24个字符，必须包含数字和字母";
       } else {
         obj[type] = value ? "" : "请输入密码";
       }
@@ -167,7 +175,9 @@ export default function(props: ForgotProps) {
       }); // <-- Change this line!
     }, 1000);
     return () => {
-      props.type === PAY_PASSWORD? props.setModalType(0) : props.setModalType(1);
+      props.type === PAY_PASSWORD
+        ? props.setModalType(0)
+        : props.setModalType(1);
       window.clearInterval(timer);
     };
   }, [success]);
@@ -175,11 +185,11 @@ export default function(props: ForgotProps) {
     setLoading(true);
     let res;
     const values: any = {
-      password: loginPassword, 
+      password: loginPassword,
     };
     res = await frequest(user.loginVerify, "", values);
     if (res.data.errCode === 0 && res.data.data.isVerifySuccessful) {
-      const obj: any = { loginPassword: '' };
+      const obj: any = { loginPassword: "" };
       setErrorTip({
         ...errorTip,
         ...obj,
@@ -297,14 +307,14 @@ export default function(props: ForgotProps) {
               设置新的支付密码前，首先需要进行登陆密码的验证
             </div>
           </div>
-          <div className="forgot-container flex-column justify-center px-30 mt-118">
+          <div className="forgot-container flex-column px-30 mt-118 flex-1">
             <input
               type="password"
               value={loginPassword}
               className="w-100x   mb-5 common-input"
               placeholder="输入登录密码"
               onChange={(e) => {
-                verify('loginPassword', loginPassword)
+                verify("loginPassword", loginPassword);
                 setLoginPassword(e.target.value);
               }}
             />
@@ -321,26 +331,17 @@ export default function(props: ForgotProps) {
               {loading ? "验证中" : "下一步"}
             </Button>
           </div>
-          {props.type === LOGIN_PASSWORD ? (
-            <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
-              <Button
-                color='default'
-                size="small"
-                className="mr-12"
-                onClick={() => props.setModalType(1)}
-              >
-                返回登录页
-              </Button>
-              <Button
-                color='default'
-                className="ml-12"
-                size="small"
-                onClick={() => props.setModalType(2)}
-              >
-                注册新账号
-              </Button>
-            </div>
-          ) : null}
+          <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
+            <div className="forgot-tip">已想起密码，</div>
+            <Button
+              color="default"
+              className=""
+              size="small"
+              onClick={() => props.setModalType(0)}
+            >
+              返回继续支付
+            </Button>
+          </div>
         </div>
       ) : step === 2 ? (
         <div className="w-100x h-100x flex-column align-center y-auto">
@@ -440,7 +441,8 @@ export default function(props: ForgotProps) {
                     color="primary"
                     className="fs-16 h-100x w-120"
                     disabled={
-                      authCodeLoading || loading ||
+                      authCodeLoading ||
+                      loading ||
                       (registerType === 1
                         ? !phone || errorTip.phone
                         : !email || errorTip.email)
@@ -461,10 +463,13 @@ export default function(props: ForgotProps) {
                 color="primary"
                 className="mt-15"
                 onClick={authCodeVerify}
-                disabled={loading || !authCode ||
+                disabled={
+                  loading ||
+                  !authCode ||
                   (registerType === 1
                     ? !phone || errorTip.phone
-                    : !email || errorTip.email)}
+                    : !email || errorTip.email)
+                }
               >
                 {loading ? "验证中" : "下一步"}
               </Button>
@@ -473,7 +478,7 @@ export default function(props: ForgotProps) {
           {props.type === LOGIN_PASSWORD ? (
             <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
               <Button
-                color='default'
+                color="default"
                 size="small"
                 className="mr-12"
                 onClick={() => props.setModalType(1)}
@@ -481,7 +486,7 @@ export default function(props: ForgotProps) {
                 返回登录页
               </Button>
               <Button
-                color='default'
+                color="default"
                 className="ml-12"
                 size="small"
                 onClick={() => props.setModalType(2)}
@@ -489,7 +494,19 @@ export default function(props: ForgotProps) {
                 注册新账号
               </Button>
             </div>
-          ) : null}
+          ) : (
+            <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
+              <div className="forgot-tip">已想起密码，</div>
+              <Button
+                color="default"
+                className=""
+                size="small"
+                onClick={() => props.setModalType(0)}
+              >
+                返回继续支付
+              </Button>
+            </div>
+          )}
         </div>
       ) : step === 3 ? (
         <div className="w-100x h-100x flex-column align-center y-auto">
@@ -515,7 +532,7 @@ export default function(props: ForgotProps) {
                 value={password}
                 className="w-100x  mt-15 mb-5 common-input"
                 placeholder="输入新密码"
-                maxLength={props.type === PAY_PASSWORD? 6: 24}
+                maxLength={props.type === PAY_PASSWORD ? 6 : 24}
                 onChange={(e) => {
                   verify("password", e.target.value);
                   setPassword(e.target.value);
@@ -527,7 +544,7 @@ export default function(props: ForgotProps) {
               <input
                 type="password"
                 value={password2}
-                maxLength={props.type === PAY_PASSWORD? 6: 24}
+                maxLength={props.type === PAY_PASSWORD ? 6 : 24}
                 className="w-100x  mt-15 mb-5 common-input"
                 placeholder="再次输入新密码"
                 onChange={(e) => {
@@ -561,7 +578,7 @@ export default function(props: ForgotProps) {
           {props.type === LOGIN_PASSWORD ? (
             <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
               <Button
-                color='default'
+                color="default"
                 size="small"
                 className="mr-12"
                 onClick={() => props.setModalType(1)}
@@ -569,7 +586,7 @@ export default function(props: ForgotProps) {
                 返回登录页
               </Button>
               <Button
-                color='default'
+                color="default"
                 className="ml-12"
                 size="small"
                 onClick={() => props.setModalType(2)}
@@ -577,7 +594,19 @@ export default function(props: ForgotProps) {
                 注册新账号
               </Button>
             </div>
-          ) : null}
+          ) : (
+            <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
+              <div className="forgot-tip">已想起密码，</div>
+              <Button
+                color="default"
+                className=""
+                size="small"
+                onClick={() => props.setModalType(0)}
+              >
+                返回继续支付
+              </Button>
+            </div>
+          )}
         </div>
       ) : null}
       <Popup
@@ -592,7 +621,7 @@ export default function(props: ForgotProps) {
           </Button>
         </div>
       </Popup>
-      <Popup     
+      <Popup
         visible={success}
         position="top"
         bodyClassName="forgot-success w-100x h-100x"

@@ -67,7 +67,7 @@ export default function (props: loginProps) {
       <div className="w-100x h-100x flex-column align-center">
         <i className="iconfont login-back" onClick={()=>{
           props.loginFinished(USER_CANCEL);
-        }}>&#xe6ff;</i>
+        }}>&#xe637;</i>
         <div className="flex-1 w-100x flex-column align-center">
           <i className="iconfont  mt-50 mb-20 logo" >&#xe614;</i>
 
