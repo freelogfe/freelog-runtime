@@ -12,7 +12,7 @@ import frequest from "../../services/handler";
 import presentable from "../../services/api/modules/presentable";
 import contract from "../../services/api/modules/contract";
 import getBestTopology from "./topology/data";
-import { Dialog, Popup, Button } from "antd-mobile"; // Toast, Button
+import { Dialog, Popup, Button, Toast } from "antd-mobile"; // Toast, Button
 const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
 const { setUserInfo, loginCallback, getCurrentUser } = window.freelogAuth;
 // const alert = Modal.alert;
@@ -197,18 +197,26 @@ export default function (props: contractProps) {
     }
     const isAuth = res.data.data.some((item: any) => {
       if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
-        // Toast.success("获得授权", 2);
+        Toast.show({
+          icon: "success",
+          content: "获得授权",
+          duration: 1500
+        });
         setTimeout(() => {
           props.contractFinished(currentPresentable.eventId, SUCCESS);
-        }, 2000);
+        }, 1600);
         return true;
       }
     });
     if (!isAuth) {
-      // Toast.success("签约成功", 2);
+      Toast.show({
+        icon: "success",
+        content: "签约成功",
+        duration: 1500
+      });
       setTimeout(() => {
         props.updateEvents({ ...currentPresentable, contracts: res.data.data });
-      }, 2000);
+      }, 1600);
     }
   };
   return (
