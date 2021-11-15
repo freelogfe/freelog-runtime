@@ -47,12 +47,11 @@ export default function (props: ItemProps) {
             title="确定使用此策略与资源签约？"
             onConfirm={confirm}
             onCancel={cancel}
-            zIndex={1202}
             visible={visible}
-            // @ts-ignore
-            getPopupContainer={() => document.getElementById("runtime-pc")}
             okText="确定"
             cancelText="取消"
+            // @ts-ignore
+            zIndex={1400}
           >
             <Button
               className="fs-13"

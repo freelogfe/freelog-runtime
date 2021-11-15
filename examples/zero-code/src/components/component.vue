@@ -5,14 +5,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
+import { defineComponent, PropType } from 'vue'
+interface ObjectAny {
+  text: string;
+  [str: string]: any;
+}
 export default defineComponent({
   name: 'Home',
   components: {
   },
   props: {
-    normalProps: Array,
+    normalProps: {
+      type: Object as PropType<ObjectAny>,
+      // 请务必使用箭头函数
+      default: () => ({
+        text: 'Arrow Function Expression'
+      })
+    },
     name: String
   },
   data() {
