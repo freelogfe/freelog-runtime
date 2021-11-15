@@ -71,25 +71,27 @@ export default function (props: PayProps) {
     // 这里考虑支付超时
     if (payResult.data.errCode !== 0) {
       if (payResult.data.data && payResult.data.data.code === "E1010") {
+        setTipType(3);
+        setPasswords(["", "", "", "", "", ""]);
+        setLoading(false);
         setTimeout(() => {
-          setTipType(3);
-          setPasswords(["", "", "", "", "", ""]);
-          setLoading(false);
           // @ts-ignore
           input0.current.focus();
-        }, 1000);
+        }, 100);
         return;
       }
       Toast.show({
         icon: "fail",
         content: payResult.data.msg,
-        duration: 2000,
+        duration: 1600,
       });
       setTimeout(() => {
         setLoading(false);
-        // @ts-ignore
-        input5.current.focus();
-      }, 2000);
+        setTimeout(() => {
+          // @ts-ignore
+          input5.current.focus();
+        }, 100);
+      }, 1500);
       return;
     }
     setTipType(2);
@@ -161,28 +163,29 @@ export default function (props: PayProps) {
             placeholder="输入6位支付密码"
           />
         </div> */}
-        {loading && tipType < 3 ? <Popup
-          visible={true}
-          className="w-325 h-220 pay-tip"
-        >
-          {tipType === 1 ? (
-            <div className="paying bg-white w-100x h-100x brs-4 flex-column justify-center align-center">
-              <div className="loading">
-                支付中<Loading />
+        {loading && tipType < 3 ? (
+          <Popup visible={true} className="w-325 h-220 pay-tip">
+            {tipType === 1 ? (
+              <div className="paying bg-white w-100x h-100x brs-4 flex-column justify-center align-center">
+                <div className="loading">
+                  支付中
+                  <Loading />
+                </div>
               </div>
-            </div>
-          ) : tipType === 2? (
-            <div className="paying w-100x h-100x flex-column brs-4  justify-center align-center">
-              <div className="pb-15 success flex-row align-center justify-center">
-                <i className="iconfont mr-10">&#xe62d;</i>
-                <span className="mr-10">支付成功</span>
+            ) : tipType === 2 ? (
+              <div className="paying w-100x h-100x flex-column brs-4  justify-center align-center">
+                <div className="pb-15 success flex-row align-center justify-center">
+                  <i className="iconfont mr-10">&#xe62d;</i>
+                  <span className="mr-10">支付成功</span>
+                </div>
+                <div className="loading flew-row align-center  pt-15 proccessing">
+                  系统处理中请稍后
+                  <Loading />
+                </div>
               </div>
-              <div className="loading flew-row align-center  pt-15 proccessing">
-                系统处理中请稍后<Loading />
-              </div>
-            </div>
-          ) : null}
-        </Popup> : null }
+            ) : null}
+          </Popup>
+        ) : null}
         {inputVisible ? (
           <Popup
             position="bottom"
@@ -190,7 +193,7 @@ export default function (props: PayProps) {
             visible={true}
             className="input-password text-center"
           >
-            <div className="password-container w-100x bg-white brs-4 px-25">
+            <div className="password-container w-100x bg-white brs-4 px-25 h-100x">
               <div className="pay-title text-center">输入支付密码</div>
               <div
                 className="p-absolute  rt-0 pr-24 pt-20"
@@ -264,7 +267,7 @@ export default function (props: PayProps) {
                 </div>
               ) : null}
               <div
-                className="flex-row space-around password-forget py-30"
+                className="flex-row space-around password-forget py-10 w-100x"
                 onClick={() => {
                   props.setModalType(4);
                 }}

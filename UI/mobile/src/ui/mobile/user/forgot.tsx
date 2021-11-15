@@ -286,6 +286,9 @@ export default function(props: ForgotProps) {
       position="top"
       bodyClassName="user-forgot w-100x h-100x"
     >
+      {/* <i className="iconfont forgot-back" onClick={()=>{
+          props.setModalType(0);
+        }}>&#xe6ff;</i> */}
       {step === 1 ? (
         <div className="w-100x h-100x flex-column align-center y-auto">
           <div className="mt-40 mb-40 flex-column px-30 self-start">
@@ -318,6 +321,26 @@ export default function(props: ForgotProps) {
               {loading ? "验证中" : "下一步"}
             </Button>
           </div>
+          {props.type === LOGIN_PASSWORD ? (
+            <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
+              <Button
+                color='default'
+                size="small"
+                className="mr-12"
+                onClick={() => props.setModalType(1)}
+              >
+                返回登录页
+              </Button>
+              <Button
+                color='default'
+                className="ml-12"
+                size="small"
+                onClick={() => props.setModalType(2)}
+              >
+                注册新账号
+              </Button>
+            </div>
+          ) : null}
         </div>
       ) : step === 2 ? (
         <div className="w-100x h-100x flex-column align-center y-auto">
@@ -447,6 +470,26 @@ export default function(props: ForgotProps) {
               </Button>
             </div>
           </div>
+          {props.type === LOGIN_PASSWORD ? (
+            <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
+              <Button
+                color='default'
+                size="small"
+                className="mr-12"
+                onClick={() => props.setModalType(1)}
+              >
+                返回登录页
+              </Button>
+              <Button
+                color='default'
+                className="ml-12"
+                size="small"
+                onClick={() => props.setModalType(2)}
+              >
+                注册新账号
+              </Button>
+            </div>
+          ) : null}
         </div>
       ) : step === 3 ? (
         <div className="w-100x h-100x flex-column align-center y-auto">

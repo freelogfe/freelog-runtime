@@ -60,14 +60,15 @@
 
  .pay-tip {
      z-index: 3000;
-    .adm-popup-body {
-        margin: 22px;
-        bottom: 30%;
-        height: 220px;
-        width: 330px !important;
-        border-radius: 4px !important;
-    }
-     
+
+     .adm-popup-body {
+         margin: 22px;
+         bottom: 30%;
+         height: 220px;
+         width: 330px !important;
+         border-radius: 4px !important;
+     }
+
 
      .paying {
          .loading {
@@ -109,6 +110,7 @@
          margin: 22px;
          bottom: 30%;
          width: 330px !important;
+         height: 228px !important;
          border-radius: 4px !important;
      }
 
@@ -152,6 +154,9 @@
      }
 
      .password-forget {
+         position: absolute !important;
+         bottom: 20px;
+         left: 0;
          font-size: 14px;
          font-family: PingFangSC-Regular, PingFang SC;
          font-weight: 400;
