@@ -108,12 +108,12 @@
  .input-password {
      .adm-popup-body {
          margin: 22px;
-         bottom: 30%;
+         top: 30%;
+         background-color: transparent !important;
          width: 330px !important;
-         height: 228px !important;
          border-radius: 4px !important;
      }
-
+ 
      .pay-title {
          font-size: 16px;
          font-family: PingFangSC-Semibold, PingFang SC;
@@ -154,9 +154,6 @@
      }
 
      .password-forget {
-         position: absolute !important;
-         bottom: 20px;
-         left: 0;
          font-size: 14px;
          font-family: PingFangSC-Regular, PingFang SC;
          font-weight: 400;

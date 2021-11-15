@@ -193,7 +193,7 @@ export default function (props: PayProps) {
             visible={true}
             className="input-password text-center"
           >
-            <div className="password-container w-100x bg-white brs-4 px-25 h-100x">
+            <div className="password-container w-100x bg-white brs-4 px-25 flex-column">
               <div className="pay-title text-center">输入支付密码</div>
               <div
                 className="p-absolute  rt-0 pr-24 pt-20"
@@ -267,7 +267,7 @@ export default function (props: PayProps) {
                 </div>
               ) : null}
               <div
-                className="flex-row space-around password-forget py-10 w-100x"
+                className="flex-row space-around password-forget py-30 w-100x"
                 onClick={() => {
                   props.setModalType(4);
                 }}
