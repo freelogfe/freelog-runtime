@@ -367,18 +367,11 @@ rawDocument.writeln = () => {
   console.warn("please be careful");
 };
 const querySelector = rawDocument.querySelector;
+
 // document的代理
-export const createDocumentProxy = function (
-  name: string,
-  // @ts-ignore
-  sandbox: any,
-  proxy: any
-) {
+export const createDocumentProxy = function (name: string) {
   // TODO  firstChild还没创建,这里需要改，加载后才能
   var doc = widgetsConfig.get(name).container.firstChild; //  || widgetsConfig.get(name).container;
-  setTimeout(() => {
-    rawDocument.title = window.freelogApp.nodeInfo.nodeName;
-  }, 0);
   let rootDoc: any = doc;
   rawDocument.getElementsByClassName = rootDoc.getElementsByClassName.bind(doc);
   rawDocument.getElementsByTagName = (tag: string) => {
@@ -424,7 +417,7 @@ export const createDocumentProxy = function (
       }
     }
     return null;
-  };  
+  };
   return rawDocument;
 };
 export const createWidgetProxy = function (name: string) {

@@ -337,7 +337,7 @@ export default class ProxySandbox implements SandBox {
 
           switch (p) {
             case "document":
-              proxyDoc = createDocumentProxy(name, _this, proxy);
+              proxyDoc = createDocumentProxy(name);
               return proxyDoc;
             case "eval":
               // eslint-disable-next-line no-eval

@@ -40,6 +40,13 @@ export function initNode() {
         const nodeInfo = nodeData.data;
         freelogApp.nodeInfo = nodeInfo;
         document.title = nodeInfo.nodeName;
+        Object.defineProperty(document, 'title', {
+          set(msg) {
+          },
+          get() {
+            return document.title;
+          },
+        });
         init();
         const devData = dev();
         Object.freeze(devData);

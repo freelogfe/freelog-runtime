@@ -1,7 +1,7 @@
 // @ts-ignore
 import ReactDOM from "react-dom";
 import App from "./ui/App";
-import './public-path';
+import "./public-path";
 import reportWebVitals from "./reportWebVitals";
 
 window.isTest = false;
@@ -13,28 +13,33 @@ if (
 ) {
   window.isTest = true;
 }
- 
 
+
+document.title = '2222';
 export async function bootstrap() {
-  console.log('[freelog-ui] freelog-ui bootstraped');
+  console.log("[freelog-ui] freelog-ui bootstraped");
 }
 
-export async function mount(props:any = {}) {
+export async function mount(props: any = {}) {
   const { container } = props;
   ReactDOM.render(
-      <App />,
-      container ? container.querySelector('#root') : document.querySelector('#root')
+    <App />,
+    container
+      ? container.querySelector("#root")
+      : document.querySelector("#root")
   );
 }
 
-export async function unmount(props:any) {
+export async function unmount(props: any) {
   const { container } = props;
   ReactDOM.unmountComponentAtNode(
-    container ? container.querySelector('#root') : document.getElementById('root'),
+    container
+      ? container.querySelector("#root")
+      : document.getElementById("root")
   );
 }
 if (!window.__POWERED_BY_FREELOG__) {
-  console.log(222)
+  console.log(222);
   bootstrap().then(mount);
 }
 // TODO 必须ui准备好了才能让里面的addAuth生效
