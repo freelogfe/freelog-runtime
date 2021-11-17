@@ -14,7 +14,7 @@ export function getContainer(
 ): HTMLElement | null | undefined {
   // @ts-ignore
   return typeof container === "string"
-    ? document.querySelector("#" + container)
+    ? document.querySelector.bind(document)("#" + container)
     : container;
 }
 
@@ -24,7 +24,7 @@ export function createContainer(
 ): HTMLElement {
   const father =
     typeof container === "string"
-      ? document.querySelector("#" + container)
+      ? document.querySelector.bind(document)("#" + container)
       : container;
   // @ts-ignore
   if (father?.querySelector("#" + id)) return father?.querySelector("#" + id);
@@ -50,7 +50,7 @@ export function deleteContainer(
 export function createId(subId: string, count?: number): any {
   let id = count ? "freelog-" + subId + "-" + count : "freelog-" + subId;
   // @ts-ignore
-  return document.querySelector("#" + id) ? createId(subId, ++count) : id;
+  return document.querySelector.bind(document)("#" + id) ? createId(subId, ++count) : id;
 }
 
 export function createScript(url: string): Promise<any> {
@@ -62,7 +62,7 @@ export function createScript(url: string): Promise<any> {
     // script.async = true
     script.defer = true;
     // @ts-ignore
-    document.getElementsByTagName("head").item(0).appendChild(script);
+    document.getElementsByTagName.bind(document)("head").item(0).appendChild(script);
   });
 }
 
@@ -75,7 +75,7 @@ export function createCssLink(href: string, type?: string): Promise<any> {
     link.onload = resolve;
     link.onerror = reject;
     // @ts-ignore
-    document.getElementsByTagName("head").item(0).appendChild(link);
+    document.getElementsByTagName.bind(document)("head").item(0).appendChild(link);
   });
 }
 //

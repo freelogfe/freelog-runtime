@@ -26,7 +26,7 @@ if (
 ) {
   isTest = true;
 }
-!mobile && document.querySelector('meta[name="viewport"]')?.setAttribute('content', "width=device-width, initial-scale=1.0") 
+!mobile && document.querySelector.bind(document)('meta[name="viewport"]')?.setAttribute('content', "width=device-width, initial-scale=1.0") 
 window.isTest = isTest;
 window.freelogApp = freelogApp;
 window.freelogAuth = freelogAuth;
@@ -46,7 +46,7 @@ export function initNode() {
         freelogApp.devData = devData;
         Object.freeze(freelogApp);
         initLocation();
-        const container = document.getElementById("freelog-plugin-container");
+        const container = document.getElementById.bind(document)("freelog-plugin-container");
         if(window.isTest){
           const theme = await getSubDep(nodeInfo.nodeTestThemeId);
           freelogApp.mountWidget(
@@ -60,7 +60,7 @@ export function initNode() {
           resolve && resolve()
           return 
         }
-        mountUI("freelog-ui", document.getElementById("ui-root"), uiPath, {
+        mountUI("freelog-ui", document.getElementById.bind(document)("ui-root"), uiPath, {
           shadowDom: false,
           scopedCss: false,
         }).mountPromise.then(async () => {

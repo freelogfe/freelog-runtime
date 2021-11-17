@@ -419,7 +419,6 @@ export const createDocumentProxy = function (
     rawDocument.querySelectorAll = rootDoc.querySelectorAll.bind(rootDoc);
     rawDocument.addEventListener = rootDoc.addEventListener.bind(rootDoc);
     rawDocument.removeEventListener = rootDoc.removeEventListener.bind(rootDoc);
-
     rawDocument.body.appendChild = rootDoc.appendChild.bind(rootDoc);
     rawDocument.body.removeChild = rootDoc.removeChild.bind(rootDoc);
     rawDocument.querySelector = function () {
@@ -451,29 +450,30 @@ export const createDocumentProxy = function (
       return null;
     };
     // TODO 在主应用里可以每次使用时都bind一下（rawDocument)
-    setTimeout(() => {
-      rawDocument.getElementsByClassName =
-        getElementsByClassName.bind(rawDocument);
-      rawDocument.querySelectorAll = querySelectorAll.bind(rawDocument);
-      rawDocument.getElementsByTagName = getElementsByTagName.bind(rawDocument);
-      rawDocument.getElementsByTagNameNS =
-        getElementsByTagNameNS.bind(rawDocument);
-      rawDocument.addEventListener = addEventListener.bind(rawDocument);
-      rawDocument.removeEventListener = removeEventListener.bind(rawDocument);
+    // setTimeout(() => {
+    //   rawDocument.getElementsByClassName =
+    //     getElementsByClassName.bind(rawDocument);
+    //   rawDocument.querySelectorAll = querySelectorAll.bind(rawDocument);
+    //   rawDocument.getElementsByTagName = getElementsByTagName.bind(rawDocument);
+    //   rawDocument.getElementsByTagNameNS =
+    //     getElementsByTagNameNS.bind(rawDocument);
+    //   rawDocument.addEventListener = addEventListener.bind(rawDocument);
+    //   rawDocument.removeEventListener = removeEventListener.bind(rawDocument);
 
-      // TODO 这里不应该使用runtime-root， 不需要考虑，直接禁掉
-      rawDocument.body.appendChild = appendChild.bind(
-        rawDocument.body
-      );
-      rawDocument.body.removeChild = removeChild.bind(
-        rawDocument.body
-      );
-      rawDocument.querySelector = querySelector.bind(rawDocument);
-      rawDocument.querySelector = querySelector.bind(rawDocument);
-      rawDocument.getElementById = getElementById.bind(rawDocument);
-    }, 0);
+    //   // TODO 这里不应该使用runtime-root， 不需要考虑，直接禁掉
+    //   rawDocument.body.appendChild = appendChild.bind(
+    //     rawDocument.body
+    //   );
+    //   rawDocument.body.removeChild = removeChild.bind(
+    //     rawDocument.body
+    //   );
+    //   rawDocument.querySelector = querySelector.bind(rawDocument);
+    //   rawDocument.querySelector = querySelector.bind(rawDocument);
+    //   rawDocument.getElementById = getElementById.bind(rawDocument);
+    // }, 0);
     return rawDocument;
   }
+  // 以下代码作废，因为react有恶心的判断document，无法使用proxy代理document
   return new Proxy(documentProxy, {
     /* 分类 
          例如 addEventListener
@@ -635,7 +635,7 @@ export const createFreelogAppProxy = function (name: string, sandbox: any) {
 
 export function pathATag() {
 
-  document.addEventListener("click", (e:any) => {
+  document.addEventListener.bind(document)("click", (e:any) => {
     if (e.target.nodeName === "A") {
       return false;
     }

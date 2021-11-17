@@ -121,7 +121,7 @@ function getAppWrapperGetter(
       if (strictStyleIsolation) throw new Error('[freelog]: strictStyleIsolation can not be used with legacy render!');
       if (scopedCSS) throw new Error('[freelog]: experimentalStyleIsolation can not be used with legacy render!');
 
-      const appWrapper = document.getElementById(getWrapperId(appInstanceId));
+      const appWrapper = document.getElementById.bind(document)(getWrapperId(appInstanceId));
       assertElementExist(
         appWrapper,
         `[freelog] Wrapper element for ${appName} with instance ${appInstanceId} is not existed!`,

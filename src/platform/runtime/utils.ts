@@ -181,5 +181,5 @@ export function getXPathForElement(el: Node, document: Document): string | void 
 }
 
 export function getContainer(container: string | HTMLElement): HTMLElement | null {
-  return typeof container === 'string' ? document.querySelector(container) : container;
+  return typeof container === 'string' ? document.querySelector.bind(document)(container) : container;
 }
