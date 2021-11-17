@@ -45,6 +45,7 @@ export function initNode() {
         Object.freeze(devData);
         freelogApp.devData = devData;
         Object.freeze(freelogApp);
+        Object.freeze(freelogApp.nodeInfo);
         initLocation();
         const container = document.getElementById.bind(document)("freelog-plugin-container");
         if(window.isTest){

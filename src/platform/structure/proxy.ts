@@ -31,44 +31,44 @@ import {
 import { DEV_WIDGET } from "./dev";
 
 const rawDocument = document;
-const HISTORY = 'history'
-const HASH = 'hash'
+const HISTORY = "history";
+const HASH = "hash";
 const rawHistory = window["history"];
 const rawLocation = window["location"];
 const rawLocalStorage = window["localStorage"];
 // widgetName  {routerType: 'history' || 'hash'}
 const locations = new Map();
-var freelogPopstate = new PopStateEvent('freelog-popstate');
-// for history back and forword 
-let state = 0
-let moveLock = false
+var freelogPopstate = new PopStateEvent("freelog-popstate");
+// for history back and forword
+let state = 0;
+let moveLock = false;
 
 window.addEventListener(
   "popstate",
   function (event) {
-    let estate = event.state
-    if (!estate) estate = 0
+    let estate = event.state;
+    if (!estate) estate = 0;
     if (estate < state) {
-      moveLock = true
-      // this is back,  make all of locations position++ 
+      moveLock = true;
+      // this is back,  make all of locations position++
       // @ts-ignore
       locations.forEach((value, key) => {
-        historyBack(key)
+        historyBack(key);
       });
     } else if (estate > state) {
-      moveLock = true
+      moveLock = true;
       // this is forword make all of locations position--
       // @ts-ignore
       locations.forEach((value, key) => {
-        historyForward(key)
+        historyForward(key);
       });
     }
     setTimeout(() => {
-      moveLock = false
-    }, 0)
-    state = estate
+      moveLock = false;
+    }, 0);
+    state = estate;
     initLocation();
-    window.dispatchEvent(freelogPopstate)
+    window.dispatchEvent(freelogPopstate);
   },
   true
 );
@@ -80,12 +80,12 @@ window.addEventListener(
   true
 );
 export function freelogAddEventListener() {
-  if (arguments[0] === 'popstate') {
-    window.addEventListener('freelog-popstate', arguments[1])
-    return
+  if (arguments[0] === "popstate") {
+    window.addEventListener("freelog-popstate", arguments[1]);
+    return;
   }
   // @ts-ignore
-  window.addEventListener(...arguments)
+  window.addEventListener(...arguments);
 }
 export function setFetch() {
   const rawFetch = window.fetch;
@@ -95,12 +95,12 @@ export function setFetch() {
     if (url.indexOf("freelog.com") > -1) {
       return rawFetch(url, { ...options, credentials: "include" });
     } else {
-      return rawFetch(url, {mode: 'cors',...options});
+      return rawFetch(url, { mode: "cors", ...options });
     }
   };
 }
 export function getFreelogAuth(name: string) {
-  return widgetsConfig.get(name).isUI
+  return widgetsConfig.get(name).isUI;
 }
 export function initLocation() {
   if (rawLocation.href.includes("$freelog")) {
@@ -151,7 +151,7 @@ export function setLocation() {
       "$_" +
       hash.replace("?", "_") +
       rawLocation.hash;
-    if (url === rawLocation.href) return
+    if (url === rawLocation.href) return;
     window.history.pushState(state++, "", url);
   } else {
     const url =
@@ -160,7 +160,7 @@ export function setLocation() {
       hash.replace("?", "_") +
       rawLocation.hash +
       rawLocation.search;
-    if (url === rawLocation.href) return
+    if (url === rawLocation.href) return;
     window.history.pushState(state++, "", url);
   }
   // rawLocation.hash = hash; state++
@@ -189,12 +189,12 @@ export const locationCenter: any = {
 export function freelogLocalStorage(id: string) {
   return {
     // @ts-ignore
-    clear: function (name: string) { },
+    clear: function (name: string) {},
     getItem: function (name: string) {
       return rawLocalStorage.getItem(id + name);
     },
     // @ts-ignore
-    key: function (name: string) { },
+    key: function (name: string) {},
     removeItem: function (name: string) {
       rawLocalStorage.removeItem(id + name);
     },
@@ -212,13 +212,13 @@ export const createHistoryProxy = function (name: string) {
 
   function patch() {
     let hash = "";
-    let routerType = HISTORY
+    let routerType = HISTORY;
     // TODO 解析query参数  search   vue3会把origin也传过来
-    let href = arguments[2].replace(rawLocation.origin,'');
+    let href = arguments[2].replace(rawLocation.origin, "");
     if (arguments[2] && arguments[2].indexOf("#") > -1) {
-      href = href.substring(1)
-      routerType = HASH
-      hash = arguments[2].replace(rawLocation.origin,'');
+      href = href.substring(1);
+      routerType = HASH;
+      hash = arguments[2].replace(rawLocation.origin, "");
       // console.warn("hash route is not suggested!");
       // return;
     }
@@ -226,7 +226,7 @@ export const createHistoryProxy = function (name: string) {
     locationCenter.set(name, { pathname, href, search, hash, routerType });
   }
   function pushPatch() {
-    if (moveLock) return
+    if (moveLock) return;
     // @ts-ignore
     patch(...arguments);
     setHistory(name, arguments);
@@ -237,39 +237,39 @@ export const createHistoryProxy = function (name: string) {
     setHistory(name, arguments, true);
   }
   function go(count: number) {
-    if(widgetConfig.config.historyFB){
-      return rawHistory.go(count)
+    if (widgetConfig.config.historyFB) {
+      return rawHistory.go(count);
     }
     const history = historyGo(name, count);
     if (history) {
       // @ts-ignore
       patch(...history);
-      window.dispatchEvent(freelogPopstate)
+      window.dispatchEvent(freelogPopstate);
     }
     // else if(count == -1){
     //   window.history.go(-1)
     // }
   }
   function back() {
-    if(widgetConfig.config.historyFB){
-      return rawHistory.back()
+    if (widgetConfig.config.historyFB) {
+      return rawHistory.back();
     }
     const history = historyBack(name);
     if (history) {
       // @ts-ignore
       patch(...history);
-      window.dispatchEvent(freelogPopstate)
+      window.dispatchEvent(freelogPopstate);
     }
   }
   function forward() {
-    if(widgetConfig.config.historyFB){
-      return rawHistory.forward()
+    if (widgetConfig.config.historyFB) {
+      return rawHistory.forward();
     }
     const history = historyForward(name);
     if (history) {
       // @ts-ignore
       patch(...history);
-      window.dispatchEvent(freelogPopstate)
+      window.dispatchEvent(freelogPopstate);
     }
   }
   const state = getHistory(name).histories[getHistory(name).position]
@@ -299,10 +299,10 @@ export const createLocationProxy = function (name: string) {
      */
     // @ts-ignore
     set: (target: any, p: PropertyKey, value: any): boolean => {
-      if (p === 'hash') {
-        const _history = createHistoryProxy(name)
+      if (p === "hash") {
+        const _history = createHistoryProxy(name);
         // @ts-ignore
-        _history.pushState('', '', value)
+        _history.pushState("", "", value);
       }
       return true;
     },
@@ -317,21 +317,27 @@ export const createLocationProxy = function (name: string) {
         return "";
       } else {
         if (["replace"].indexOf(property) > -1) {
-          return function () { };
+          return function () {};
         }
         if (["reload"].indexOf(property) > -1) {
           // TODO 增加是否保留数据
-          return async function (reject:any) { 
-            flatternWidgets.get(name).unmount(()=>{
-              flatternWidgets.get(name).mount()
-            },()=>{
-              // 失败了再试一次
-              flatternWidgets.get(name).unmount(()=>{
-                flatternWidgets.get(name).mount()
-              },()=>{
-                reject && reject()
-              })
-            }) 
+          return async function (reject: any) {
+            flatternWidgets.get(name).unmount(
+              () => {
+                flatternWidgets.get(name).mount();
+              },
+              () => {
+                // 失败了再试一次
+                flatternWidgets.get(name).unmount(
+                  () => {
+                    flatternWidgets.get(name).mount();
+                  },
+                  () => {
+                    reject && reject();
+                  }
+                );
+              }
+            );
           };
         }
         if (property === "toString") {
@@ -360,17 +366,7 @@ rawDocument.write = () => {
 rawDocument.writeln = () => {
   console.warn("please be careful");
 };
-// TODO 实际是无用的代码，不需要的
-const getElementsByClassName = rawDocument.getElementsByClassName;
-const getElementsByTagName = rawDocument.getElementsByTagName;
-const getElementsByTagNameNS = rawDocument.getElementsByTagNameNS;
 const querySelector = rawDocument.querySelector;
-const querySelectorAll = rawDocument.querySelectorAll;
-const getElementById = rawDocument.getElementById;
-const appendChild = rawDocument.body.appendChild;
-const removeChild = rawDocument.body.removeChild;
-const addEventListener = rawDocument.addEventListener;
-const removeEventListener = rawDocument.addEventListener;
 // document的代理
 export const createDocumentProxy = function (
   name: string,
@@ -378,214 +374,58 @@ export const createDocumentProxy = function (
   sandbox: any,
   proxy: any
 ) {
-  const documentProxy = {};
   // TODO  firstChild还没创建,这里需要改，加载后才能
-  var doc = widgetsConfig.get(name).container.firstChild //  || widgetsConfig.get(name).container;
-  // var doc: any = rawDocument.getElementById(name);
-  // for shadow dom
-  let isShadow = false;
-  // @ts-ignore
-  if (doc.shadowRoot) {
-    isShadow = true;
-    doc = doc.shadowRoot;
-  }
-  if (!doc) return rawDocument;
+  var doc = widgetsConfig.get(name).container.firstChild; //  || widgetsConfig.get(name).container;
+  setTimeout(() => {
+    rawDocument.title = window.freelogApp.nodeInfo.nodeName;
+  }, 0);
   let rootDoc: any = doc;
-  // // @ts-ignore
-  // var a = doc.children || [];
-  // for (var i = 0; i < a.length; i++) {
-  //   if (a.item(i).tagName === "DIV") rootDoc = a.item(i);
-  // }
-  // HTMLElement.prototype.parentNode = ()=>{
-
-  // }
-  
-
-  if (!isShadow) {
+  rawDocument.getElementsByClassName = rootDoc.getElementsByClassName.bind(doc);
+  rawDocument.getElementsByTagName = (tag: string) => {
+    if (tag === "head") {
+      return [rawDocument.head];
+    }
+    if (tag === "body") {
+      return [rootDoc];
+    }
+    return rootDoc.getElementsByTagName(tag);
+  };
+  rawDocument.getElementsByTagNameNS =
+    rootDoc.getElementsByTagNameNS.bind(rootDoc);
+  rawDocument.querySelectorAll = rootDoc.querySelectorAll.bind(rootDoc);
+  rawDocument.addEventListener = rootDoc.addEventListener.bind(rootDoc);
+  rawDocument.removeEventListener = rootDoc.removeEventListener.bind(rootDoc);
+  rawDocument.body.appendChild = rootDoc.appendChild.bind(rootDoc);
+  rawDocument.body.removeChild = rootDoc.removeChild.bind(rootDoc);
+  rawDocument.querySelector = function () {
+    if (["head", "html"].indexOf(arguments[0]) !== -1) {
+      if (arguments[0] === "head") return rawDocument.head;
+      // @ts-ignore
+      if (arguments[0] === "html") {
+        // @ts-ignore
+        return querySelector.bind(document)(...arguments);
+      }
+    } else {
+      if (["body"].indexOf(arguments[0]) !== -1) {
+        return rootDoc;
+      }
+      // @ts-ignore
+      return rootDoc.querySelector(...arguments);
+    }
+  };
+  rawDocument.getElementById = function (id: string) {
     // @ts-ignore
-    rawDocument.getElementsByClassName =
-      rootDoc.getElementsByClassName.bind(doc);
-    rawDocument.getElementsByTagName = (tag: string) => {
-      if (tag === "head") {
-        return [rawDocument.head];
-      }
-      if (tag === "body") {
-        return [rootDoc];
-      }
-      return rootDoc.getElementsByTagName(tag);
-    };
-    rawDocument.getElementsByTagNameNS =
-      rootDoc.getElementsByTagNameNS.bind(rootDoc);
-    rawDocument.querySelectorAll = rootDoc.querySelectorAll.bind(rootDoc);
-    rawDocument.addEventListener = rootDoc.addEventListener.bind(rootDoc);
-    rawDocument.removeEventListener = rootDoc.removeEventListener.bind(rootDoc);
-    rawDocument.body.appendChild = rootDoc.appendChild.bind(rootDoc);
-    rawDocument.body.removeChild = rootDoc.removeChild.bind(rootDoc);
-    rawDocument.querySelector = function () {
-      if (["head", "html"].indexOf(arguments[0]) !== -1) {
-        if (arguments[0] === "head") return rawDocument.head;
-        // @ts-ignore
-        if (arguments[0] === "html") {
-          // @ts-ignore
-          return querySelector.bind(document)(...arguments);
-        }
-      } else {
-        if (["body"].indexOf(arguments[0]) !== -1) {
-          return rootDoc;
-        }
-        // @ts-ignore
-        return rootDoc.querySelector(...arguments);
-      }
-    };
-    rawDocument.getElementById = function (id: string) {
-      // @ts-ignore
-      let children = rootDoc.getElementsByTagName("*");
-      if (children) {
-        for (let i = 0; i < children.length; i++) {
-          if (children.item(i).getAttribute("id") === id) {
-            return children.item(i);
-          }
+    let children = rootDoc.getElementsByTagName("*");
+    if (children) {
+      for (let i = 0; i < children.length; i++) {
+        if (children.item(i).getAttribute("id") === id) {
+          return children.item(i);
         }
       }
-      return null;
-    };
-    // TODO 在主应用里可以每次使用时都bind一下（rawDocument)
-    // setTimeout(() => {
-    //   rawDocument.getElementsByClassName =
-    //     getElementsByClassName.bind(rawDocument);
-    //   rawDocument.querySelectorAll = querySelectorAll.bind(rawDocument);
-    //   rawDocument.getElementsByTagName = getElementsByTagName.bind(rawDocument);
-    //   rawDocument.getElementsByTagNameNS =
-    //     getElementsByTagNameNS.bind(rawDocument);
-    //   rawDocument.addEventListener = addEventListener.bind(rawDocument);
-    //   rawDocument.removeEventListener = removeEventListener.bind(rawDocument);
-
-    //   // TODO 这里不应该使用runtime-root， 不需要考虑，直接禁掉
-    //   rawDocument.body.appendChild = appendChild.bind(
-    //     rawDocument.body
-    //   );
-    //   rawDocument.body.removeChild = removeChild.bind(
-    //     rawDocument.body
-    //   );
-    //   rawDocument.querySelector = querySelector.bind(rawDocument);
-    //   rawDocument.querySelector = querySelector.bind(rawDocument);
-    //   rawDocument.getElementById = getElementById.bind(rawDocument);
-    // }, 0);
-    return rawDocument;
-  }
-  // 以下代码作废，因为react有恶心的判断document，无法使用proxy代理document
-  return new Proxy(documentProxy, {
-    /* 分类 
-         例如 addEventListener
-       2.zonejs需要用的全局取值的方法（出问题再解决问题）
-         例如 'querySelector', 'getElementsByTagName'
-       3.根节点下没有的方法
-       4.属性（包括原型）方法：替换this为根节点
-    */
-   // @ts-ignore
-    get: function get(docTarget: any, property: string) {
-      let appDiv: any = null;
-      // @ts-ignore
-      var a = doc.children || [];
-      for (var i = 0; i < a.length; i++) {
-        if (a.item(i).tagName === "DIV") appDiv = a.item(i);
-      }
-      if (property === "location") {
-        // TODO varify
-        return proxy.location;
-      }
-
-      if (property === "createElement") {
-        return rawDocument.createElement.bind(rawDocument);
-      }
-      if (property === "addEventListener") {
-        return rootDoc.addEventListener.bind(rootDoc);
-      }
-      if (property === "removeEventListener") {
-        return rootDoc.removeEventListener.bind(rootDoc);
-      }
-      // @ts-ignore
-      // rawDocument.addEventListener = rootDoc.addEventListener.bind(rootDoc);
-      // @ts-ignore
-      // rootDoc.body = appDiv;
-      // @ts-ignore
-      // rootDoc.body.appendChild = rootDoc.appendChild.bind(rootDoc);
-      if (property === "head") {
-        // return {
-        //   // @ts-ignore
-        //   appendChild: function () {
-        //     // @ts-ignore
-        //     rawDocument[property].appendChild(...arguments);
-        //   },
-        //   ...rawDocument[property]
-        // };
-        return rawDocument[property];
-      }
-      // return rootDoc
-      // if (property  === 'addEventListener') debugger
-      // @ts-ignore
-      if (
-        (rootDoc[property] || appDiv[property]) &&
-        ["querySelector", "getElementsByTagName"].indexOf(property) === -1
-      ) {
-        if (property === "nodeType") return rawDocument.nodeType;
-        // @ts-ignore
-        if (typeof rootDoc[property] === "function")
-          return rootDoc[property].bind(rootDoc);
-        if (typeof appDiv[property] === "function")
-          return appDiv[property].bind(appDiv);
-        // @ts-ignore
-        return rootDoc[property] || appDiv[property];
-      } else {
-        if (
-          ["querySelector", "getElementsByTagName"].indexOf(property) !== -1
-        ) {
-          return function () {
-            if (["head", "html"].indexOf(arguments[0]) !== -1) {
-              // TODOjquery才需要此处放权
-              // @ts-ignore
-              return rawDocument[property](...arguments);
-            } else {
-              if (["body"].indexOf(arguments[0]) !== -1) {
-                return appDiv;
-              }
-              // @ts-ignore
-              return rootDoc[property]
-                ? // @ts-ignore
-                rootDoc[property](...arguments)
-                : // @ts-ignore
-                appDiv[property](...arguments);
-            }
-          };
-        }
-        if (property === "getElementById") {
-          if (rootDoc.getElementById) {
-            return rootDoc.getElementById.bind(rootDoc);
-          }
-          return function (id: string) {
-            // @ts-ignore
-            let children = rootDoc.getElementsByTagName("*");
-            if (children) {
-              for (let i = 0; i < children.length; i++) {
-                if (children.item(i).getAttribute("id") === id) {
-                  return children.item(i);
-                }
-              }
-            }
-            return null;
-          };
-        }
-
-        // @ts-ignore
-        if (typeof rawDocument[property] === "function") {
-          // @ts-ignore
-          return rawDocument[property].bind(rawDocument);
-        }
-        // @ts-ignore
-        return rawDocument[property];
-      }
-    },
-  });
+    }
+    return null;
+  };  
+  return rawDocument;
 };
 export const createWidgetProxy = function (name: string) {
   const proxyWidget = {};
@@ -634,11 +474,10 @@ export const createFreelogAppProxy = function (name: string, sandbox: any) {
 };
 
 export function pathATag() {
-
-  document.addEventListener.bind(document)("click", (e:any) => {
+  document.addEventListener.bind(document)("click", (e: any) => {
     if (e.target.nodeName === "A") {
       return false;
     }
-    return true
+    return true;
   });
 }

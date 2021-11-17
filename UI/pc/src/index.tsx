@@ -13,7 +13,7 @@ if (
 ) {
   window.isTest = true;
 }
- 
+document.title = '22222'
 
 export async function bootstrap() {
   console.log('[freelog-ui] freelog-ui bootstraped');
