@@ -561,3 +561,13 @@ window.freelogApp.onLogin(callback)
  const userData = await window.freelogApp.getUserData(key)
  
 ```
+### callLogin 
+```ts
+ **唤起登录**
+ window.freelogApp.callLogin()
+```
+### callLoginOut 
+```ts
+ **唤起退出登录**
+ window.freelogApp.callLoginOut()
+```

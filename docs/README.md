@@ -779,7 +779,11 @@ window.freelogApp.callAuth();
 
  window.freelogApp.callLogin()
 ```
+### 唤起退出登录
+```ts
 
+ window.freelogApp.callLoginOut()
+```
 ### 静态文件处理
 
 **打包之后 css 中的字体文件和图片加载 404**

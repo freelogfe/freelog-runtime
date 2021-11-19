@@ -14,7 +14,7 @@ const {
   updateLock,
   updateEvent,
   lowerUI,
-  upperUI
+  upperUI,
 } = window.freelogAuth;
 const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
 
@@ -28,28 +28,28 @@ function App() {
   }, [events]);
   function loginFinished(type: any) {
     if (type === SUCCESS) {
-      setIsLogin(false)
+      setIsLogin(false);
       eventMap.clear();
       failedMap.clear();
       updateEvents();
     }
-    
+
     if (!inited) {
-      lowerUI()
+      lowerUI();
     }
   }
-   
+
   // 遍历顺序是否永远一致
   function updateEvents(event?: any) {
     setInited(false);
     const eventMap = updateEvent(event);
     updateLock(true);
     const arr: any = [];
-    eventMap.forEach((val:any) => {
+    eventMap.forEach((val: any) => {
       arr.push(val);
     });
     const arr2: any = [];
-    failedMap.forEach((val:any) => {
+    failedMap.forEach((val: any) => {
       arr2.push(val);
     });
     setFailedEvents(arr2);
@@ -68,7 +68,7 @@ function App() {
     updateEvents();
   }
   function login() {
-    upperUI()
+    upperUI();
     setIsLogin(true);
   }
 
@@ -81,28 +81,27 @@ function App() {
     }
     endEvent(eventId, type, data);
   }
-  function longinOut(){
-    upperUI()
+  function longinOut() {
+    upperUI();
     Dialog.confirm({
-        content: "确定退出登录？页面会被刷新",
-        onConfirm: async () => {
-          await frequest(user.loginOut,'','').then((res)=>{
-            if(res.data.errCode === 0){
-              window.freelogAuth.reload()
-            }
-          })
-        },
-        onCancel: ()=>{
-          lowerUI()
-        }
-      }); 
+      content: "确定退出登录？页面会被刷新",
+      onConfirm: async () => {
+        await frequest(user.loginOut, "", "").then((res: any) => {
+          if (res.data.errCode === 0) {
+            window.freelogAuth.reload();
+          }
+        });
+      },
+      onCancel: () => {
+        lowerUI();
+      },
+    });
   }
   reisterUI(UI, updateUI, login, longinOut);
   return (
     <div id="freelog-app" className="w-100x h-100x ">
-       {inited || isLogin ? (
+      {inited || isLogin ? (
         <div className="w-100x h-100x bg-white">
-    
           <Mobile
             events={events}
             isAuths={inited}
@@ -111,7 +110,7 @@ function App() {
             updateEvents={updateEvents}
             loginFinished={loginFinished}
           ></Mobile>
-          </div>
+        </div>
       ) : null}
     </div>
   );

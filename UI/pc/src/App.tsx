@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Pc from "./views/auth";
 import frequest from "@/services/handler";
 import { Modal } from "antd";
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 import user from "@/services/api/modules/user";
 const {
@@ -16,7 +16,7 @@ const {
   updateLock,
   updateEvent,
   lowerUI,
-  upperUI
+  upperUI,
 } = window.freelogAuth;
 const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
 
@@ -30,24 +30,24 @@ function App() {
   }, [events]);
   function loginFinished(type: any) {
     if (type === SUCCESS) {
-      setIsLogin(false)
+      setIsLogin(false);
       eventMap.clear();
       failedMap.clear();
       updateEvents();
-    } 
+    }
   }
-   
+
   // 遍历顺序是否永远一致
   function updateEvents(event?: any) {
     setInited(false);
     const eventMap = updateEvent(event);
     updateLock(true);
     const arr: any = [];
-    eventMap.forEach((val:any) => {
+    eventMap.forEach((val: any) => {
       arr.push(val);
     });
     const arr2: any = [];
-    failedMap.forEach((val:any) => {
+    failedMap.forEach((val: any) => {
       arr2.push(val);
     });
     setFailedEvents(arr2);
@@ -66,7 +66,7 @@ function App() {
     updateEvents();
   }
   function login() {
-    upperUI()
+    upperUI();
     setIsLogin(true);
   }
 
@@ -80,42 +80,41 @@ function App() {
     endEvent(eventId, type, data);
   }
 
-   function longinOut(){
-     console.log(234234234234234)
-    upperUI()
-      Modal.confirm({
-        title: '确认退出登录？',
-        icon: <ExclamationCircleOutlined />,
-        content: '退出后页面会被刷新',
-        okText: '确认',
-        cancelText: '取消',
-        style: {
-                top: '30%'
-              },
-        onOk: async () => {
-          await frequest(user.loginOut,'','').then((res)=>{
-            if(res.data.errCode === 0){
-              window.freelogAuth.reload()
-            }
-          })
-        },
-        onCancel: ()=>{
-          lowerUI()
-        }
-      });
+  function longinOut() {
+    upperUI();
+    Modal.confirm({
+      title: "确认退出登录？",
+      icon: <ExclamationCircleOutlined />,
+      content: "退出后页面会被刷新",
+      okText: "确认",
+      cancelText: "取消",
+      style: {
+        top: "30%",
+      },
+      onOk: async () => {
+        await frequest(user.loginOut, "", "").then((res:any) => {
+          if (res.data.errCode === 0) {
+            window.freelogAuth.reload();
+          }
+        });
+      },
+      onCancel: () => {
+        lowerUI();
+      },
+    });
   }
   reisterUI(UI, updateUI, login, longinOut);
   return (
     <div id="freelog-app" className="w-100x h-100x ">
       {inited || isLogin ? (
-          <Pc
-            events={events}
-            isAuths={inited}
-            isLogin={isLogin}
-            contractFinished={contractFinished}
-            updateEvents={updateEvents}
-            loginFinished={loginFinished}
-          ></Pc>
+        <Pc
+          events={events}
+          isAuths={inited}
+          isLogin={isLogin}
+          contractFinished={contractFinished}
+          updateEvents={updateEvents}
+          loginFinished={loginFinished}
+        ></Pc>
       ) : null}
     </div>
   );
