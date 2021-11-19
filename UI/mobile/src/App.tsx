@@ -3,6 +3,9 @@ import "./App.scss";
 
 import { useEffect, useState } from "react";
 import Mobile from "./views/auth";
+import { Dialog } from "antd-mobile"; // Toast, Button
+import frequest from "@/services/handler";
+import user from "@/services/api/modules/user";
 const {
   reisterUI,
   eventMap,
@@ -78,12 +81,28 @@ function App() {
     }
     endEvent(eventId, type, data);
   }
-
-  reisterUI(UI, updateUI, login);
+  function longinOut(){
+    upperUI()
+    Dialog.confirm({
+        content: "确定退出登录？页面会被刷新",
+        onConfirm: async () => {
+          await frequest(user.loginOut,'','').then((res)=>{
+            if(res.data.errCode === 0){
+              window.freelogAuth.reload()
+            }
+          })
+        },
+        onCancel: ()=>{
+          lowerUI()
+        }
+      }); 
+  }
+  reisterUI(UI, updateUI, login, longinOut);
   return (
     <div id="freelog-app" className="w-100x h-100x ">
-      {inited || isLogin ? (
-        
+       {inited || isLogin ? (
+        <div className="w-100x h-100x bg-white">
+    
           <Mobile
             events={events}
             isAuths={inited}
@@ -92,6 +111,7 @@ function App() {
             updateEvents={updateEvents}
             loginFinished={loginFinished}
           ></Mobile>
+          </div>
       ) : null}
     </div>
   );

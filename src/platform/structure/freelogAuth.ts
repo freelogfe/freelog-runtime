@@ -8,7 +8,8 @@ import {
     updateEvent,
     lowerUI,
     upperUI,
-    loginCallback
+    loginCallback,
+    reload
 } from '../../bridge/index'
  
 import { SUCCESS, FAILED, USER_CANCEL } from '../../bridge/event'
@@ -28,5 +29,6 @@ export const freelogAuth = {
     loginCallback,  
     setUserInfo,
     getCurrentUser,
-    getUserInfo
+    getUserInfo,
+    reload
 }

@@ -8,10 +8,12 @@ const rawDocument = document;
 let UI: any = null;
 let updateUI: any = null;
 let loginUI: any = null;
-export function reisterUI(ui: any, update: any, login: any) {
+let loginOutUI: any = null;
+export function reisterUI(ui: any, update: any, login: any, loginOut: any) {
   UI = ui;
   updateUI = update;
   loginUI = login;
+  loginOutUI = loginOut;
 }
 let locked = false;
 export function updateLock(status: boolean) {
@@ -145,21 +147,24 @@ export function endEvent(eventId: string, type: number, data: any) {
 export function goLogin() {
   loginUI && loginUI();
 }
+export function goLoginOut() {
+  loginOutUI && loginOutUI();
+}
 const uiRoot = rawDocument.getElementById("ui-root");
 const widgetContainer = rawDocument.getElementById("freelog-plugin-container");
 export function upperUI() {
   // @ts-ignore
   uiRoot.style.zIndex = 1;
-  // @ts-ignore
-  uiRoot.style.opacity = 1;
+  // // @ts-ignore
+  // uiRoot.style.opacity = 1;
   // @ts-ignore
   widgetContainer.style.zIndex = 0;
 }
 export function lowerUI() {
   // @ts-ignore
   uiRoot.style.zIndex = 0;
-  // @ts-ignore
-  uiRoot.style.opacity = 0;
+  // // @ts-ignore
+  // uiRoot.style.opacity = 0;
   // @ts-ignore
   widgetContainer.style.zIndex = 1;
 }
@@ -172,4 +177,7 @@ export async function onLogin(callback: any) {
   } else {
     console.error("onLogin error: ", callback, " is not a function!");
   }
+}
+export function reload(){
+  window.location.reload()
 }

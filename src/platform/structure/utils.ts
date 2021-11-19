@@ -6,7 +6,7 @@ import { widgetsConfig, widgetUserData, sandBoxs, FREELOG_DEV } from "./widget";
 import frequest from "../../services/handler";
 import user from "../../services/api/modules/user";
 import node from "../../services/api/modules/node";
-import { addAuth, goLogin } from "../../bridge/index";
+import { addAuth, goLogin, goLoginOut } from "../../bridge/index";
 
 // TODO  此文件的方法需要整理分离出freeelogApp下的和内部使用的
 export function getContainer(
@@ -288,6 +288,11 @@ export async function getUserData(key: string) {
 export function callLogin() {
   if (!userInfo) {
     goLogin();
+  }
+}
+export function callLoginOut() {
+  if (userInfo) {
+    goLoginOut();
   }
 }
 

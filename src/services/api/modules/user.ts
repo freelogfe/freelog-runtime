@@ -34,7 +34,7 @@ const user: User = {
   },
   loginOut: {
     url: `passport/logout`,
-    method: "post",
+    method: "get",
     params: {
       returnUrl: "string",
     },

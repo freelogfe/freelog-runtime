@@ -3,6 +3,11 @@ import "./App.scss";
 
 import { useEffect, useState } from "react";
 import Pc from "./views/auth";
+import frequest from "@/services/handler";
+import { Modal } from "antd";
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
+import user from "@/services/api/modules/user";
 const {
   reisterUI,
   eventMap,
@@ -75,7 +80,31 @@ function App() {
     endEvent(eventId, type, data);
   }
 
-  reisterUI(UI, updateUI, login);
+   function longinOut(){
+     console.log(234234234234234)
+    upperUI()
+      Modal.confirm({
+        title: '确认退出登录？',
+        icon: <ExclamationCircleOutlined />,
+        content: '退出后页面会被刷新',
+        okText: '确认',
+        cancelText: '取消',
+        style: {
+                top: '30%'
+              },
+        onOk: async () => {
+          await frequest(user.loginOut,'','').then((res)=>{
+            if(res.data.errCode === 0){
+              window.freelogAuth.reload()
+            }
+          })
+        },
+        onCancel: ()=>{
+          lowerUI()
+        }
+      });
+  }
+  reisterUI(UI, updateUI, login, longinOut);
   return (
     <div id="freelog-app" className="w-100x h-100x ">
       {inited || isLogin ? (

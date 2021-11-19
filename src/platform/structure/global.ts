@@ -1,7 +1,7 @@
 import {
     mountWidget, autoMoutSubWdigets
 } from './widget'
-import { getSelfConfig, setUserData, getUserData, getSubDep, getSelfId, getStaticPath, getCurrentUser, setViewport, callLogin } from './utils'
+import { getSelfConfig, setUserData, getUserData, getSubDep, getSelfId, getStaticPath, getCurrentUser, setViewport, callLogin, callLoginOut } from './utils'
 import { callAuth, addAuth, onLogin } from '../../bridge/index'
 import {
     getPresentables,
@@ -59,6 +59,7 @@ export const freelogApp:any = {
     addAuth,
     onLogin,
     callLogin,
+    callLoginOut,
     getCurrentUser,
     setViewport, 
     setUserData, 
