@@ -33,6 +33,8 @@ const moduleFileExtensions = [
   'web.tsx',
   'tsx',
   'json',
+  'scss',
+  'css',
   'web.jsx',
   'jsx',
 ];

@@ -1,6 +1,6 @@
 import { Form, Input, Modal, Spin  } from "antd";
-import user from "../../services/api/modules/user";
-import frequest from "../../services/handler";
+import user from "@/services/api/modules/user";
+import frequest from "@/services/handler";
 import Button from "./_components/button";
 
 import { useState } from "react";

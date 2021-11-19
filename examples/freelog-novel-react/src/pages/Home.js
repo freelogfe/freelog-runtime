@@ -6,6 +6,9 @@ export default function (props) {
   const [img, setImg] = useState('');
   useEffect(async () => {
     props.history.push('/')
+    // setTimeout(() => {
+    //       window.freelogApp.callLogin()
+    // }, 500);
     // function blobToBase64(blob) {
     //   return new Promise((resolve, reject) => {
     //     const fileReader = new FileReader();
@@ -30,7 +33,6 @@ export default function (props) {
     // })
     const res = await window.freelogApp.getPresentables({ resourceType: 'novel' })
     setNovels(res.data.data.dataList)
-
   }, []);
   return (
     <div className={styles.homePage + " flex-column w-100x h-100x over-h"}>

@@ -16,12 +16,20 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "typeRoots": ["typings", "node_modules/@types"],
+    "typeRoots": [
+      "typings",
+      "node_modules/@types"
+    ],
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": [
+        "*"
+      ]
+    }
   },
   "include": [
     "src"
-  ] 
+  ]
 }

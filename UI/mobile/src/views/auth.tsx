@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../assets/mobile/index.scss";
+import "@/assets/mobile/index.scss";
 import "./auth.scss";
 import Login from "./user/login";
 import Forgot, { LOGIN_PASSWORD, PAY_PASSWORD } from "./user/forgot";
@@ -8,9 +8,9 @@ import Register from "./user/register";
 
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
-import frequest from "../../services/handler";
-import presentable from "../../services/api/modules/presentable";
-import contract from "../../services/api/modules/contract";
+import frequest from "@/services/handler";
+import presentable from "@/services/api/modules/presentable";
+import contract from "@/services/api/modules/contract";
 import getBestTopology from "./topology/data";
 import { Dialog, Popup, Button, Toast } from "antd-mobile"; // Toast, Button
 const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;

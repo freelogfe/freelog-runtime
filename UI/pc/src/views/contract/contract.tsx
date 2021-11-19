@@ -7,8 +7,8 @@ import "./contract.scss";
 import PolicyGraph from "../policy/_components/policyGraph";
 import PolicyCode from "../policy/_components/policyCode";
 import PolicyContent from "../policy/_components/policyContent";
-import frequest from "../../../services/handler";
-import contract from "../../../services/api/modules/contract";
+import frequest from "@/services/handler";
+import contract from "@/services/api/modules/contract";
 import { Tabs } from "antd";
 const { TabPane } = Tabs;
 

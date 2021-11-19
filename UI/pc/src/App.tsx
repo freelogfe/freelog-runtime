@@ -2,7 +2,7 @@
 import "./App.scss";
 
 import { useEffect, useState } from "react";
-import Pc from "./pc/auth";
+import Pc from "./views/auth";
 const {
   reisterUI,
   eventMap,

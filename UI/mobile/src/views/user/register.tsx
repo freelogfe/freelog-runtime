@@ -1,11 +1,11 @@
-import user from "../../../services/api/modules/user";
-import frequest from "../../../services/handler";
+import user from "@/services/api/modules/user";
+import frequest from "@/services/handler";
 import {
   checkPhone,
   checkEmail,
   checkPassword,
   checkUsername,
-} from "../../../utils/utils";
+} from "@/utils/utils";
 import { Popup, Button, Toast } from "antd-mobile";
 
 import { useState, useEffect } from "react";

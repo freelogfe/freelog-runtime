@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import frequest from "../../../services/handler";
-import user from "../../../services/api/modules/user";
-import event from "../../../services/api/modules/event";
-import transaction from "../../../services/api/modules/transaction";
+import frequest from "@/services/handler";
+import user from "@/services/api/modules/user";
+import event from "@/services/api/modules/event";
+import transaction from "@/services/api/modules/transaction";
 import { Popup, Button, Toast, Loading } from "antd-mobile";
 import "./pay.scss";
 const { getUserInfo } = window.freelogAuth;

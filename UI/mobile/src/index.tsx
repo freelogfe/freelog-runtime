@@ -1,6 +1,6 @@
 // @ts-ignore
 import ReactDOM from "react-dom";
-import App from "./ui/App";
+import App from "./App";
 import "./public-path";
 import reportWebVitals from "./reportWebVitals";
 
@@ -15,7 +15,6 @@ if (
 }
 
 
-document.title = '2222';
 export async function bootstrap() {
   console.log("[freelog-ui] freelog-ui bootstraped");
 }

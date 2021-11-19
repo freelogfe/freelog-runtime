@@ -2,10 +2,10 @@ import { Modal, Input, Spin } from "antd";
 import Button from "../_components/button";
 import "./pay.scss";
 import { useState, useEffect } from "react";
-import frequest from "../../../services/handler";
-import user from "../../../services/api/modules/user";
-import event from "../../../services/api/modules/event";
-import transaction from "../../../services/api/modules/transaction";
+import frequest from "@/services/handler";
+import user from "@/services/api/modules/user";
+import event from "@/services/api/modules/event";
+import transaction from "@/services/api/modules/transaction";
 
 import Tip from "../_components/tip";
 const {

@@ -1,6 +1,6 @@
 // @ts-ignore
 import ReactDOM from "react-dom";
-import App from "./ui/App";
+import App from "./App";
 import './public-path';
 import reportWebVitals from "./reportWebVitals";
 

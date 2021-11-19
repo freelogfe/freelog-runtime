@@ -4,11 +4,11 @@ import Button from "./_components/button";
 import "./auth.scss";
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
-import frequest from "../../services/handler";
-import presentable from "../../services/api/modules/presentable";
+import frequest from "@/services/handler";
+import presentable from "@/services/api/modules/presentable";
 import Confirm from "./_components/confirm";
 import Login from "./login";
-import contract from "../../services/api/modules/contract";
+import contract from "@/services/api/modules/contract";
 import getBestTopology from "./topology/data";
 import Tip from "./_components/tip";
 const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
@@ -282,7 +282,8 @@ export default function(props: contractProps) {
             type={tipConfig.type}
             setIsModalVisible={setIsTipVisible}
           />
-          <Modal
+          {props.isAuths &&
+           <Modal
             zIndex={1200}
             centered
             footer={null}
@@ -429,7 +430,7 @@ export default function(props: contractProps) {
                 </div>
               )}
             </div>
-          </Modal>
+          </Modal>}
         </div>
       )}
     </>

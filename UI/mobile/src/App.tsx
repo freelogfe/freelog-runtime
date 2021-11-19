@@ -2,7 +2,7 @@
 import "./App.scss";
 
 import { useEffect, useState } from "react";
-import Mobile from "./mobile/auth";
+import Mobile from "./views/auth";
 const {
   reisterUI,
   eventMap,

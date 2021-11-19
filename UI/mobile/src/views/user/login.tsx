@@ -1,5 +1,5 @@
-import user from "../../../services/api/modules/user";
-import frequest from "../../../services/handler";
+import user from "@/services/api/modules/user";
+import frequest from "@/services/handler";
 import {  Popup, Button, Toast } from "antd-mobile";
 
 import { useState } from "react";
