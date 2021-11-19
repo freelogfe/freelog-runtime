@@ -66,7 +66,6 @@ export default function frequest(
     }
     return _api.baseURL + url + query;
   }
-  console.log(url, _api)
   // show msg
   return new Promise((resolve, reject) => {
     axios(url, _api)
