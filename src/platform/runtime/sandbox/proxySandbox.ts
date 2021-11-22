@@ -17,7 +17,8 @@ import {
   saveSandBox,
   getPublicPath,
   freelogAddEventListener,
-  getFreelogAuth
+  getFreelogAuth,
+  ajaxProxy,
 } from "../../structure/proxy";
 /**
  * fastest(at most time) unique array method
@@ -202,7 +203,7 @@ export default class ProxySandbox implements SandBox {
     var _this = this;
     const proxy = new Proxy(fakeWindow, {
       set: (target: FakeWindow, p: PropertyKey, value: any): boolean => {
-        if (p === "freelogApp" || p ===  "freelogAuth") return false;
+        if (p === "freelogApp" || p === "freelogAuth") return false;
         if (this.sandboxRunning) {
           // We must kept its description while the property existed in rawWindow before
           if (!target.hasOwnProperty(p) && rawWindow.hasOwnProperty(p)) {
@@ -244,12 +245,15 @@ export default class ProxySandbox implements SandBox {
       },
 
       get(target: FakeWindow, p: PropertyKey): any {
-        if (p ===  "freelogAuth") {
-          if(getFreelogAuth(name)){
-            return rawWindow.freelogAuth
+        if (typeof p === "string" && ["fetch", "XMLHttpRequest"].includes(p)) {
+          return ajaxProxy(p, name);
+        }
+        if (p === "freelogAuth") {
+          if (getFreelogAuth(name)) {
+            return rawWindow.freelogAuth;
           }
-          return false
-        };
+          return false;
+        }
         if (p === Symbol.unscopables) return unscopables;
         if (p === "__INJECTED_PUBLIC_PATH_BY_FREELOG__") {
           return getPublicPath(name);
@@ -257,7 +261,10 @@ export default class ProxySandbox implements SandBox {
         if (p === "fetch") {
           return function (url: string, options: any) {
             if (url.indexOf("i18n-ts") > -1) {
-              return rawWindow.fetch(url, {...options, credentials: 'include'} );
+              return rawWindow.fetch(url, {
+                ...options,
+                credentials: "include",
+              });
             }
             // if(url.indexOf("freelog.com") > -1){
             //   const patchUrl = getPublicPath(name) + url.split("freelog.com/")[1];
@@ -295,8 +302,8 @@ export default class ProxySandbox implements SandBox {
         if (p === "hasOwnProperty") {
           return hasOwnProperty;
         }
-        if(p === "addEventListener"){
-          return freelogAddEventListener
+        if (p === "addEventListener") {
+          return freelogAddEventListener;
         }
         if (p === "freelogApp") {
           freelogAppProxy =

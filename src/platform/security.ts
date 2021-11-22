@@ -7,7 +7,6 @@ export function hookAJAX() {
   // @ts-ignore
   var customizeOpen = function (method, url, async, user, password) {
     // do something
-    //   this.nativeOpen(method, url, async, user, password);
   };
   // @ts-ignore
   XMLHttpRequest.prototype.open = customizeOpen;
@@ -15,7 +14,6 @@ export function hookAJAX() {
 
 /**
  *全局拦截Image的图片请求添加token
- *
  */
  export function hookImg() {
   const property = Object.getOwnPropertyDescriptor(Image.prototype, "src");

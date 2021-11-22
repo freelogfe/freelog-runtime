@@ -29,7 +29,6 @@ import {
   getHistory,
 } from "./history";
 import { DEV_WIDGET } from "./dev";
-export const rawFetch = window.fetch;
 const rawDocument = document;
 const HISTORY = "history";
 const HASH = "hash";
@@ -87,21 +86,55 @@ export function freelogAddEventListener() {
   // @ts-ignore
   window.addEventListener(...arguments);
 }
-/**
- * 
- */
-const whiteList = ['https://image.freelog.com','https://image.testfreelog.com']
-export function setFetch() {
+// TODO 如果授权UI插件想要请求之外的接口，可以通过freelogAuths放进去
+export const rawFetch = window.fetch;
+export const nativeOpen = XMLHttpRequest.prototype.open;
+const whiteList = [
+  "https://image.freelog.com",
+  "https://image.testfreelog.com",
+];
+const forbiddenList = [
+  "http://qi.testfreelog.com",
+  "http://qi.freelog.com",
+  "https://api.freelog.com",
+  "https://api.testfreelog.com",
+];
+const authWhiteList = [
+  "http://qi.testfreelog.com",
+  "http://qi.freelog.com",
+  "https://api.freelog.com",
+  "https://api.testfreelog.com",
+]
+// TODO 将fetch和XMLHttpRequest放到沙盒里处理
+export function ajaxProxy(type: string, name: string) {
   // @ts-ignore
-  window.fetch = function (url: string, options: any, widgetWindow: any) {
-    options = options || {};
-    const base = url.split('.com')[0] + '.com'
-    if (url.indexOf("freelog.com") > -1 && !whiteList.includes(base)) {
-      return  Promise.reject('can not request data from freelog.com directly!') // rawFetch(url, { ...options, credentials: "include" });
-    } else {
-      return rawFetch(url, { ...options });
-    }
-  }; 
+  if(type === 'fetch'){
+    return function (url: string, options: any, widgetWindow: any) {
+      options = options || {};
+      const base = url.split(".com")[0] + ".com";
+      if (forbiddenList.includes(base) || !whiteList.includes(base)) {
+        return Promise.reject("can not request data from freelog.com directly!"); // rawFetch(url, { ...options, credentials: "include" });
+      } else {
+        return rawFetch(url, { ...options });
+      }
+    };
+  }
+  if(type === 'XMLHttpRequest'){
+    var customizeOpen = function (method:any, url:any, async:any, user:any, password:any) {
+      // @ts-ignore
+      console.log(this, "this is xmlhttprequest");
+      const base = url.split(".com")[0] + ".com";
+      if (!forbiddenList.includes(base) || whiteList.includes(base) || (getFreelogAuth(name) && authWhiteList.includes(base))) {
+        // @ts-ignore
+        nativeOpen.bind(this)(method, url, async, user, password);
+      }
+      // TODO 使用假错误正常返回
+      return 'can not request data from freelog.com directly!'
+    };
+    // @ts-ignore
+    XMLHttpRequest.prototype.open = customizeOpen;
+    return XMLHttpRequest
+  }
 }
 export function getFreelogAuth(name: string) {
   return widgetsConfig.get(name).isUI;
