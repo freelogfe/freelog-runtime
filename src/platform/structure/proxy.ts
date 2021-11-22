@@ -133,8 +133,6 @@ export function ajaxProxy(type: string, name: string) {
       user: any,
       password: any
     ) {
-      // @ts-ignore
-      console.log(this, "this is xmlhttprequest");
       const base = url.split(".com")[0] + ".com";
       if (
         !forbiddenList.includes(base) ||
