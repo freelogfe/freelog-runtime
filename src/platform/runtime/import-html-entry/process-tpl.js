@@ -40,7 +40,6 @@ function getEntirePath(path, baseURI) {
     if(path.startsWith('/')) path = path.replace('/', '') 
 	const url = baseURI + path
 	return url
-
 	// return new URL(path, baseURI).toString();
 }
 
