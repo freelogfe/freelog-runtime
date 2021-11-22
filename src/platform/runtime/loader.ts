@@ -262,6 +262,10 @@ export async function loadApp<T extends ObjectType>(
   const { singular = false, sandbox = true, excludeAssetFilter, ...importEntryOpts } = configuration;
 
   // get the entry html content and script executor
+  // TODO  解决目前首次访问需要等待太长问题：
+  // 在这里使用web webwork 同时执行加载UI与主题所需要的逻辑，加载完成后再依次执行mount
+  // 预计提升速度1秒
+  // 甚至可以延伸到主题加载多个子插件，大大提升速度
   const { template, execScripts, assetPublicPath } = await importEntry(entry, importEntryOpts);
 
   // as single-spa load and bootstrap new app parallel with other apps unmounting
