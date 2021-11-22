@@ -155,11 +155,6 @@ export default function (props: loginProps) {
       password,
       authCode,
     };
-    //   username: "string",
-    //   password: "string",
-    //   isRemember: "string",
-    //   returnUrl: "string",
-    //   jwtType: "string",
     const res = await frequest(user.postRegister, "", values);
     if (res.data.errCode === 0) {
       setSuccess(true);

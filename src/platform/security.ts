@@ -1,3 +1,6 @@
+/**
+ * 目标：防止插件通过非运行时的途径调用接口
+ */
 export function hookAJAX() {
   // @ts-ignore
   XMLHttpRequest.prototype.nativeOpen = XMLHttpRequest.prototype.open;

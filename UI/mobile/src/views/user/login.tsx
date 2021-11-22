@@ -13,10 +13,7 @@ interface loginProps {
   children?: any;
 }
 export default function (props: loginProps) {
-  const [errorTip, setErrorTip] = useState<any>({
-    loginName: "",
-    password: "",
-  });
+ 
   const [logging, setLogging] = useState(false);
   const [loginName, setLoginName] = useState("");
   const [password, setPassword] = useState("");

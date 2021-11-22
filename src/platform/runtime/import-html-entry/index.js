@@ -13,15 +13,23 @@ import {
 	readResAsString,
 	requestIdleCallback,
 } from './utils';
-import { setFetch } from '../../structure/proxy'
-setFetch()
+import { rawFetch } from '../../structure/proxy'
 const styleCache = {};
 const scriptCache = {};
 const embedHTMLCache = {};
 if (!window.fetch) {
 	throw new Error('[import-html-entry] Here is no "fetch" on the window env, you need to polyfill it');
 }
-const defaultFetch = window.fetch.bind(window);
+function freelogFetch(url, options) {
+	options = options || {};
+	if (url.indexOf("freelog.com") > -1) {
+		return rawFetch(url, { ...options, credentials: "include" });
+	} else {
+		return rawFetch(url, { ...options });
+	}
+};
+const defaultFetch = freelogFetch.bind(window);
+
 function defaultGetTemplate(tpl) {
 	return tpl;
 }
@@ -36,11 +44,11 @@ function defaultGetTemplate(tpl) {
 function getEmbedHTML(template, styles, opts = {}, baseURI) {
 	const { fetch = defaultFetch } = opts;
 	let embedHTML = template;
-    // if(/\/\/$/.test(baseURI)){
+	// if(/\/\/$/.test(baseURI)){
 	// 	baseURI = baseURI.substr(0, baseURI.length - 1)
 	// }
 	// if(!/\/$/.test(baseURI)){
- 	// 	baseURI =  baseURI + '/'
+	// 	baseURI =  baseURI + '/'
 	// }
 	return getExternalStyleSheets(styles, fetch)
 		.then(styleSheets => {

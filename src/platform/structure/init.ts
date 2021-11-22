@@ -6,7 +6,7 @@ import { freelogApp } from "./global";
 import { freelogAuth } from "./freelogAuth";
 import { init } from "./api";
 import { dev } from "./dev";
-import { pathATag, initLocation } from "./proxy";
+import { pathATag, initLocation, setFetch } from "./proxy";
 import { mountUI } from "./widget";
 const mobile = isMobile()
 // @ts-ignore
@@ -30,8 +30,10 @@ if (
 window.isTest = isTest;
 window.freelogApp = freelogApp;
 window.freelogAuth = freelogAuth;
+ 
 export function initNode() {
-  pathATag();
+  setFetch()
+  pathATag()
   return new Promise<void>(async (resolve) => {
     let nodeDomain = getDomain(window.location.host);
     Promise.all([requestNodeInfo(nodeDomain), getUserInfo()]).then(

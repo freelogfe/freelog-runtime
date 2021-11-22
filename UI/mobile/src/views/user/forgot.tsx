@@ -99,14 +99,10 @@ export default function (props: ForgotProps) {
       loginName: registerType === 1 ? phone : email,
     };
     const flag1 = Object.keys(errors).some((key: any) => {
-      if (errors[key]) {
-        return true;
-      }
+      return errors[key]
     });
     const flag2 = Object.keys(values).some((key: any) => {
-      if (!values[key]) {
-        return true;
-      }
+      return !values[key]
     });
     setAvailable(!(flag1 || flag2));
   };

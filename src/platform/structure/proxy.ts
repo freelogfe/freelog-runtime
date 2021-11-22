@@ -29,7 +29,7 @@ import {
   getHistory,
 } from "./history";
 import { DEV_WIDGET } from "./dev";
-
+export const rawFetch = window.fetch;
 const rawDocument = document;
 const HISTORY = "history";
 const HASH = "hash";
@@ -87,17 +87,21 @@ export function freelogAddEventListener() {
   // @ts-ignore
   window.addEventListener(...arguments);
 }
+/**
+ * 
+ */
+const whiteList = ['https://image.freelog.com','https://image.testfreelog.com']
 export function setFetch() {
-  const rawFetch = window.fetch;
   // @ts-ignore
-  window.fetch = function (url: string, options: any) {
+  window.fetch = function (url: string, options: any, widgetWindow: any) {
     options = options || {};
-    if (url.indexOf("freelog.com") > -1) {
-      return rawFetch(url, { ...options, credentials: "include" });
+    const base = url.split('.com')[0] + '.com'
+    if (url.indexOf("freelog.com") > -1 && !whiteList.includes(base)) {
+      return  Promise.reject('can not request data from freelog.com directly!') // rawFetch(url, { ...options, credentials: "include" });
     } else {
-      return rawFetch(url, { mode: "cors", ...options });
+      return rawFetch(url, { ...options });
     }
-  };
+  }; 
 }
 export function getFreelogAuth(name: string) {
   return widgetsConfig.get(name).isUI;
