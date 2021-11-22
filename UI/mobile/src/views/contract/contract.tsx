@@ -218,7 +218,7 @@ export default function (props: ItemProps) {
   }
   return (
     <div className="flex-column brs-10 b-1 mx-10 mt-15 pb-12 contract-card">
-      {eventIndex > -1 && (
+      {eventIndex > -1 && isModalVisible && (
         <Pay
           contractId={props.contract.contractId}
           subjectName={props.contract.subjectName}
