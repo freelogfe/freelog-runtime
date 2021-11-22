@@ -16,7 +16,6 @@ if (
 
 
 export async function bootstrap() {
-  console.log("[freelog-ui] freelog-ui bootstraped");
 }
 
 export async function mount(props: any = {}) {
@@ -38,7 +37,6 @@ export async function unmount(props: any) {
   );
 }
 if (!window.__POWERED_BY_FREELOG__) {
-  console.log(222);
   bootstrap().then(mount);
 }
 // TODO 必须ui准备好了才能让里面的addAuth生效

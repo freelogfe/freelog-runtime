@@ -155,7 +155,6 @@ export function mountWidget(
       isTheme
     );
   } else {
-    console.log(widget, topPresentableData);
     // @ts-ignore
     const that = this;
     let configData = config;

@@ -104,10 +104,12 @@ export default function (props: PayProps) {
       );
       const status = res.data.data.status;
       if ([2, 3, 4].includes(status)) {
-        setInputVisible(false);
-        setLoading(false);
-        window.clearInterval(flag);
-        props.paymentFinish(status);
+        window.clearInterval(flag)
+        setInputVisible(false)
+        setLoading(false)
+        setTimeout(()=>{
+          props.paymentFinish(status)
+        },10)
       }
     }, 2000);
   };

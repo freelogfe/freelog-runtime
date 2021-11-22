@@ -209,6 +209,10 @@ export default function (props: ItemProps) {
   function paymentFinish(status: number) {
     if (status === 2) {
       setIsModalVisible(false);
+      setTimeout(()=>{
+        props.paymentFinish();
+      },10)
+      return
     }
     props.paymentFinish();
   }

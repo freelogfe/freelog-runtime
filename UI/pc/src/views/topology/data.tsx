@@ -67,7 +67,6 @@ function getPyramid(policy: any): any {
   const pyramid: any = []
   function findNextLevel(level: number) {
     const currentLevel = pyramid[level] || []
-    // console.log('currentLevel', currentLevel, pyramid[level - 1])
     // 遍历上层的所有节点
     pyramid[level - 1].forEach((pre: any) => {
       // 拿出节点信息 
@@ -80,7 +79,6 @@ function getPyramid(policy: any): any {
         from: []
       };
       pre.transitions.forEach((next: any, index: number) => {
-        // if(next.toState === 'g') console.log(nodeData)
         // 拿出节点信息
         const toNodeData = nodesMap.get(next.toState) || {
           row: 0,
@@ -280,7 +278,6 @@ export default function getBestTopology(data: any): any {
   let betterPyramids: any = {};
   // bestPyramid betterPyramids
   const { policyPyramid, maxWidth } = getPyramid(data);
-  // console.log(nodesMap, policyPyramid)
   // return
   /**
    * 每一层所有组合方式，与其余层所有组合方式再组合
@@ -295,7 +292,6 @@ export default function getBestTopology(data: any): any {
     // 每一层没有重复组合的
     allLevel.push(norepeat(fullSort(arr)));
   });
-  // console.log('allLevel', allLevel);
   let count = 0
   // 从每一层取一个  深度优先
   function compose(nextLevel: any, index: number, _pyramid: any) {
@@ -327,7 +323,6 @@ export default function getBestTopology(data: any): any {
   }
   // 从第一层开始
   compose(allLevel[0], 0, []);
-  // console.log('zero', count)
   const policyMaps = getRouteMaps(data)
   bestPyramid.maxWidth = maxWidth
   return { policyMaps, bestPyramid, betterPyramids, nodesMap };

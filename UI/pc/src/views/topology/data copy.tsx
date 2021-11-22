@@ -236,7 +236,6 @@ export default function getBestTopology(data: any): any {
   // bestPyramid betterPyramids
   const { policyMaps, policyPyramidData } = getPyramid(data);
   const { policyPyramid, maxWidth } = policyPyramidData;
-  console.log(nodes, policyPyramid)
 
   /**
    * 每一层所有组合方式，与其余层所有组合方式再组合
@@ -251,7 +250,6 @@ export default function getBestTopology(data: any): any {
     // 每一层没有重复组合的
     allLevel.push(norepeat(fullSort(arr)));
   });
-  console.log('allLevel', allLevel);
   let count = 0
   // 从每一层取一个  深度优先
   function compose(nextLevel: any, index: number, _pyramid: any) {
@@ -283,7 +281,6 @@ export default function getBestTopology(data: any): any {
   }
   // 从第一层开始
   compose(allLevel[0], 0, []);
-  console.log('zero', count)
 
   return { policyMaps, bestPyramid, betterPyramids };
 }
