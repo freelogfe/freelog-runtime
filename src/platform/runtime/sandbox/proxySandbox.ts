@@ -17,7 +17,7 @@ import {
   saveSandBox,
   getPublicPath,
   freelogAddEventListener,
-  getFreelogAuth,
+  isFreelogAuth,
   ajaxProxy,
 } from "../../structure/proxy";
 /**
@@ -249,7 +249,7 @@ export default class ProxySandbox implements SandBox {
           return ajaxProxy(p, name);
         }
         if (p === "freelogAuth") {
-          if (getFreelogAuth(name)) {
+          if (isFreelogAuth(name)) {
             return rawWindow.freelogAuth;
           }
           return false;

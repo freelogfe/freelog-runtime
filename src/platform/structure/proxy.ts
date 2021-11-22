@@ -104,39 +104,55 @@ const authWhiteList = [
   "http://qi.freelog.com",
   "https://api.freelog.com",
   "https://api.testfreelog.com",
-]
+];
 // TODO 将fetch和XMLHttpRequest放到沙盒里处理
 export function ajaxProxy(type: string, name: string) {
   // @ts-ignore
-  if(type === 'fetch'){
+  if (type === "fetch") {
     return function (url: string, options: any, widgetWindow: any) {
       options = options || {};
       const base = url.split(".com")[0] + ".com";
-      if (forbiddenList.includes(base) || !whiteList.includes(base)) {
-        return Promise.reject("can not request data from freelog.com directly!"); // rawFetch(url, { ...options, credentials: "include" });
-      } else {
+      if (
+        !forbiddenList.includes(base) ||
+        whiteList.includes(base) ||
+        (isFreelogAuth(name) && authWhiteList.includes(base))
+      ) {
         return rawFetch(url, { ...options });
+      } else {
+        return Promise.reject(
+          "can not request data from freelog.com directly!"
+        ); // rawFetch(url, { ...options, credentials: "include" });
       }
     };
   }
-  if(type === 'XMLHttpRequest'){
-    var customizeOpen = function (method:any, url:any, async:any, user:any, password:any) {
+  if (type === "XMLHttpRequest") {
+    var customizeOpen = function (
+      method: any,
+      url: any,
+      async: any,
+      user: any,
+      password: any
+    ) {
       // @ts-ignore
       console.log(this, "this is xmlhttprequest");
       const base = url.split(".com")[0] + ".com";
-      if (!forbiddenList.includes(base) || whiteList.includes(base) || (getFreelogAuth(name) && authWhiteList.includes(base))) {
+      if (
+        !forbiddenList.includes(base) ||
+        whiteList.includes(base) ||
+        (isFreelogAuth(name) && authWhiteList.includes(base))
+      ) {
         // @ts-ignore
         nativeOpen.bind(this)(method, url, async, user, password);
       }
       // TODO 使用假错误正常返回
-      return 'can not request data from freelog.com directly!'
+      return "can not request data from freelog.com directly!";
     };
     // @ts-ignore
     XMLHttpRequest.prototype.open = customizeOpen;
-    return XMLHttpRequest
+    return XMLHttpRequest;
   }
 }
-export function getFreelogAuth(name: string) {
+export function isFreelogAuth(name: string) {
   return widgetsConfig.get(name).isUI;
 }
 export function initLocation() {
