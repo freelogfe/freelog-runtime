@@ -273,6 +273,9 @@ export default function importHTML(url, opts = {}) {
 		getPublicPath = opts.getPublicPath || opts.getDomain || defaultGetPublicPath;
 		getTemplate = opts.getTemplate || defaultGetTemplate;
 	}
+	if(/\/$/.test(url)){
+		url = url.substr(0, url.length - 1)
+	}
 	return embedHTMLCache[url] || (embedHTMLCache[url] = fetch(url + '/index.html')
 		.then(response => readResAsString(response, autoDecodeResponse))
 		.then(html => {
