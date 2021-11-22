@@ -188,7 +188,7 @@ export default function (props: PayProps) {
             ) : null}
           </Popup>
         ) : null}
-        {inputVisible ? (
+        {inputVisible && tipType !== 2 ? (
           <Popup
             position="bottom"
             bodyClassName=""
