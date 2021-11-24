@@ -8,9 +8,7 @@ import event from "@/services/api/modules/event";
 import transaction from "@/services/api/modules/transaction";
 
 import Tip from "../_components/tip";
-const {
-  getUserInfo, 
-} = window.freelogAuth;
+const { getUserInfo } = window.freelogAuth;
 interface PayProps {
   isModalVisible: boolean;
   setIsModalVisible: any;
@@ -23,7 +21,7 @@ interface PayProps {
   paymentFinish: any;
 }
 
-export default function (props: PayProps) {
+export default function Pay(props: PayProps) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -31,7 +29,7 @@ export default function (props: PayProps) {
   const [tipConfig, setTipConfig] = useState({
     content: "签约成功",
     type: "success",
-    mask: false
+    mask: false,
   });
   const [userAccount, setUserAccount] = useState<any>({});
   const handleOk = () => {
@@ -49,13 +47,13 @@ export default function (props: PayProps) {
     setUserAccount(res.data.data);
   }
   useEffect(() => {
-    setPassword("")
+    setPassword("");
     setVisible(props.isModalVisible);
     props.isModalVisible && getAccount();
   }, [props.isModalVisible]);
   async function pay() {
     // TODO 防止多次点击
-    if(loading) return 
+    if (loading) return;
     setLoading(true);
     const payResult = await frequest(event.pay, [props.contractId], {
       eventId: props.eventId,
@@ -63,34 +61,38 @@ export default function (props: PayProps) {
       transactionAmount: props.transactionAmount,
       password: password,
     });
-    setIsTipVisible(true)
-    if(payResult.data.errCode !== 0){
+    setIsTipVisible(true);
+    if (payResult.data.errCode !== 0) {
       setTipConfig({
         content: payResult.data.msg,
-        type: 'error',
-        mask: false
+        type: "error",
+        mask: false,
       });
-      setLoading(false)
-      return
+      setLoading(false);
+      return;
     }
-    
+
     setTipConfig({
-      content:  '支付成功, 系统处理中...',
-      type: 'success',
-      mask: true
+      content: "支付成功, 系统处理中...",
+      type: "success",
+      mask: true,
     });
     // TODO 查交易状态, flag应该设为状态，在关闭弹窗时清除
-    const flag = setInterval(async()=>{
-      const res:any = await frequest(transaction.getRecord, [payResult.data.data.transactionRecordId],'');
-      const status = res.data.data.status
-      if([2,3,4].includes(status)){
-        setLoading(false)
-        setIsTipVisible(false)
-        setTimeout(()=>props.paymentFinish(status), 100)
-        window.clearInterval(flag)
+    const flag = setInterval(async () => {
+      const res: any = await frequest(
+        transaction.getRecord,
+        [payResult.data.data.transactionRecordId],
+        ""
+      );
+      const status = res.data.data.status;
+      if ([2, 3, 4].includes(status)) {
+        setLoading(false);
+        setIsTipVisible(false);
+        setTimeout(() => props.paymentFinish(status), 100);
+        window.clearInterval(flag);
       }
-    },2000)
-    
+    }, 2000);
+
     // setLoading(false);
     //   eventId: "string",  contractId
     //   accountId: "int",
@@ -116,7 +118,7 @@ export default function (props: PayProps) {
         setIsModalVisible={setIsTipVisible}
       />
       <div className="flex-column ">
-         {/* 金额 */}
+        {/* 金额 */}
         <div className="amount text-center my-40 px-80">
           <span className="ml-30">
             {props.transactionAmount}
@@ -140,11 +142,12 @@ export default function (props: PayProps) {
             </div>
           </div>
         </div>
-        <div className="forgot-p text-align-right px-80 mt-18 cur-pointer" onClick={
-          ()=>{
-            window.open('http://user.testfreelog.com/retrievePayPassword')
-          }
-        }>
+        <div
+          className="forgot-p text-align-right px-80 mt-18 cur-pointer"
+          onClick={() => {
+            window.open("http://user.testfreelog.com/retrievePayPassword");
+          }}
+        >
           忘记密码
         </div>
         <div className="px-80 pt-5">
@@ -159,9 +162,19 @@ export default function (props: PayProps) {
           />
         </div>
         <div className="px-80 pt-20">
-          <Button click={pay} disabled={password.length !== 6 || loading} className="py-9">
-            {loading? <span>支付中...<Spin /></span>: 
-            '确认支付'}
+          <Button
+            click={pay}
+            disabled={password.length !== 6 || loading}
+            className="py-9"
+          >
+            {loading ? (
+              <span>
+                支付中...
+                <Spin />
+              </span>
+            ) : (
+              "确认支付"
+            )}
           </Button>
         </div>
       </div>

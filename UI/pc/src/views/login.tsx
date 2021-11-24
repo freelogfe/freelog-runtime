@@ -1,11 +1,11 @@
-import { Form, Input, Modal, Spin  } from "antd";
+import { Form, Input, Modal  } from "antd";
 import user from "@/services/api/modules/user";
 import frequest from "@/services/handler";
 import Button from "./_components/button";
 
 import { useState } from "react";
 import "./login.scss";
-const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
+const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 
 const layout = {
   labelCol: { span: 8 },
@@ -17,7 +17,7 @@ interface loginProps {
   setIsLoginVisible: any;
   children?: any;
 }
-export default function (props: loginProps) {
+export default function Login(props: loginProps) {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);

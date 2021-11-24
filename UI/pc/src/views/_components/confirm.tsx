@@ -10,7 +10,7 @@ interface ConfirmProps {
   setIsModalVisible: any;
 }
 
-export default function (props: ConfirmProps) {
+export default function Confirm(props: ConfirmProps) {
   const handleOk = () => {
     props.setIsModalVisible(false);
   };

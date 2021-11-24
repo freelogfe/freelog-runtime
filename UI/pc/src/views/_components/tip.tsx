@@ -1,7 +1,6 @@
 import { Modal } from "antd";
 import "./tip.scss";
-import React, { useState, useEffect } from "react";
-import { duration } from "moment";
+import { useEffect } from "react";
 
 interface ConfirmProps {
   isModalVisible: boolean;
@@ -12,7 +11,7 @@ interface ConfirmProps {
   duration?: number;
 }
 
-export default function(props: ConfirmProps) {
+export default function Tip(props: ConfirmProps) {
   useEffect(() => {
     if (props.isModalVisible) {
       if (props.duration && props.duration > 0) {

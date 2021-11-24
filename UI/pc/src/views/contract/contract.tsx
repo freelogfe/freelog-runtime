@@ -24,7 +24,7 @@ interface ItemProps {
   [propName: string]: any;
 }
 
-export default function(props: ItemProps) {
+export default function Contract(props: ItemProps) {
   const [eventIndex, setEventIndex] = useState(-1);
   const [unfold, setUnFold] = useState(false);
   const [records, setRecords] = useState<any>([]);
@@ -79,6 +79,7 @@ export default function(props: ItemProps) {
                 };
                 return true;
               }
+              return false;
             }
           );
         });
@@ -99,6 +100,7 @@ export default function(props: ItemProps) {
         setCurrentStatus(currentSatus);
         return true;
       }
+      return false;
     });
   }, [props.contract]);
   async function getRecords() {
@@ -165,14 +167,13 @@ export default function(props: ItemProps) {
                   };
                   return true;
                 }
+                return false;
               }
             );
             events.push(event);
           });
           const stateInfo =
-            props.contract.policyInfo.fsmDescriptionInfo[
-              record.fromState
-            ];
+            props.contract.policyInfo.fsmDescriptionInfo[record.fromState];
 
           stateInfo.commonAuth = window.isTest
             ? stateInfo.isTestAuth
@@ -193,6 +194,7 @@ export default function(props: ItemProps) {
           });
           return true;
         }
+        return false;
       });
     });
     setTotalItem(res.data.data.totalItem);
@@ -358,7 +360,10 @@ export default function(props: ItemProps) {
             {unfold &&
               records.map((item: any, index: number) => {
                 return (
-                  <div className="status-card  mt-15 contract-records" key={index}>
+                  <div
+                    className="status-card  mt-15 contract-records"
+                    key={index}
+                  >
                     <div className="flex-row">
                       <div
                         className={
@@ -373,7 +378,11 @@ export default function(props: ItemProps) {
                       </div>
                     </div>
                     <div className="flex-row py-10 space-between align-center">
-                      <div>{item.commonAuth ? '获得授权': '当前无授权，请选择执行事件'}</div>
+                      <div>
+                        {item.commonAuth
+                          ? "获得授权"
+                          : "当前无授权，请选择执行事件"}
+                      </div>
                     </div>
                     {/* 可选事件 */}
                     <div className="flex-row">
@@ -387,7 +396,9 @@ export default function(props: ItemProps) {
                               <div
                                 className={
                                   "event-card p-10 mt-10 flex-column " +
-                                  (event._finished ? "event-finished" : "f23232332")
+                                  (event._finished
+                                    ? "event-finished"
+                                    : "f23232332")
                                 }
                                 key={index}
                               >
@@ -401,7 +412,11 @@ export default function(props: ItemProps) {
                                         : ""}
                                     </span>
                                   </div>
-                                  {event._finished ?<div className="event-finished-des mr-10 shrink-0">已执行</div> : null}
+                                  {event._finished ? (
+                                    <div className="event-finished-des mr-10 shrink-0">
+                                      已执行
+                                    </div>
+                                  ) : null}
                                 </div>
                                 {/* 执行完成后下一个状态的所有事件 */}
                                 <div className="flex-column event-next pt-5 ml-3">

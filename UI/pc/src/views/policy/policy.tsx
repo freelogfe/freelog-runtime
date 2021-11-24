@@ -20,7 +20,7 @@ interface ItemProps {
   getAuth: any;
   children?: any;
 }
-export default function (props: ItemProps) {
+export default function Policy(props: ItemProps) {
   const [visible, setVisible] = useState(false);
   function callback(key: any) {}
   function onChange(e: any) {

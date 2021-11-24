@@ -22,7 +22,7 @@ const buttonTypes = {
     disabled: "bg-disabled bg-c-main",
   }
 };
-export default function (props: buttonProps) {
+export default function Button(props: buttonProps) {
   const [status, setStatus] = useState(0);
   const [buttonClass, setButtonClass] = useState(buttonTypes.main);
   useEffect(() => {

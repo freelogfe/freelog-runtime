@@ -18,11 +18,10 @@ const {
   lowerUI,
   upperUI,
 } = window.freelogAuth;
-const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
+const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 
 function App() {
   const [events, setEvents] = useState([]);
-  const [failedEvents, setFailedEvents] = useState([]);
   const [inited, setInited] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
@@ -50,7 +49,6 @@ function App() {
     failedMap.forEach((val: any) => {
       arr2.push(val);
     });
-    setFailedEvents(arr2);
     setEvents(arr);
     if (!arr.length) {
       lowerUI();

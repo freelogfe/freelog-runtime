@@ -53,7 +53,7 @@ export function compareObjects(origin: any, data: any, diff = false) {
 
 export function isMobile() {
   var browser = {
-    versions: (function () {
+    versions: (function() {
       var u = navigator.userAgent;
       // app = navigator.appVersion;
       return {
@@ -93,29 +93,28 @@ export function checkPhone(phone: string) {
   return true;
 }
 export function checkEmail(email: string) {
-  const reg =
-    /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/gi;
+  const reg = /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/gi;
   if (!reg.test(email)) {
     return false;
   }
   return true;
 }
-export function checkPassword(password: string){
+export function checkPassword(password: string) {
   const reg = /^(?=.*[0-9])(?=.*[a-zA-Z])(.{6,24})$/;
   if (!reg.test(password)) {
     return false;
   }
   return true;
 }
-export function checkPayPassword(password: string){
+export function checkPayPassword(password: string) {
   const reg = /^\d{6}$/;
   if (!reg.test(password)) {
     return false;
   }
   return true;
 }
-export function checkUsername(username: string){
-  const reg =  /^(?!-)[A-Za-z0-9-]{1,30}(?<!-)$/;
+export function checkUsername(username: string) {
+  const reg = /^(?!-)[A-Za-z0-9-]{1,30}(?<!-)$/;
   if (!reg.test(username)) {
     return false;
   }
