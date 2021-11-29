@@ -81,8 +81,8 @@ export default function frequest(
           caller &&
           (caller.exhibitId || caller.resourceIdOrName)
         ) {
-          // freelog-entity-nid,freelog-test-resource-id,freelog-test-resource-name,
-          // freelog-sub-dependencies,freelog-resource-type,freelog-entity-property
+          // freelog-work-nid,freelog-test-resource-id,freelog-test-resource-name,
+          // freelog-sub-dependencies,freelog-resource-type,freelog-work-property
           const exhibitId = response.headers["freelog-presentable-id"];
           const presentableName = decodeURI(
             response.headers["freelog-presentable-name"]

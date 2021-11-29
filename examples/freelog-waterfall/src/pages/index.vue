@@ -201,7 +201,7 @@ function getData(page = 1) {
       .getPresentables({
         skip: (page - 1) * pageSize,
         limit: pageSize,
-        resourceType: "image",
+        workType: "image",
       })
       .then(async (res) => {
         console.log(res);
@@ -215,13 +215,13 @@ function getData(page = 1) {
               title:  i.presentableName ,
               src,
               index,
-              // resourceID: i.resourceId,
+              // resourceID: i.workId,
             });
             dataList.push( {
               title:  i.presentableName,
               src,
               index,
-              // resourceID: i.resourceId,
+              // resourceID: i.workId,
             });
             
           });

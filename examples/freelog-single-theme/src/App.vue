@@ -35,9 +35,9 @@ export default {
         //     exhibitId: exhibitId,
         //     workNid: subData.workNid,
         //     subDependId: sub.id,
-        //     resourceInfo: {
-        //       resourceId: sub.id,
-        //       // resourceName: sub.resourceInfo.name,
+        //     workInfo: {
+        //       workId: sub.id,
+        //       // workName: sub.workInfo.name,
         //     },
         //   },
         //   ""

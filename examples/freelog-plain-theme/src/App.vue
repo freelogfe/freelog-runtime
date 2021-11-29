@@ -16,7 +16,7 @@ export default {
   methods: {
     async getSub() {
       const res = await window.freelogApp.getPresentables({
-        resourceType: "widget",
+        workType: "widget",
         isLoadVersionProperty: 1
       });
       console.log(res)
@@ -31,9 +31,9 @@ export default {
         //   {
         //     exhibitId: widget.exhibitId,
         //     name: widget.presentableName,
-        //     resourceId: widget.resourceInfo.resourceId,
-        //     resourceName:  widget.resourceInfo.name,
-        //     // resourceId: widget.resourceInfo.resourceId,
+        //     workId: widget.workInfo.workId,
+        //     workName:  widget.workInfo.name,
+        //     // workId: widget.workInfo.workId,
         //   },
         //   document.getElementById("freelog-single")
         // );

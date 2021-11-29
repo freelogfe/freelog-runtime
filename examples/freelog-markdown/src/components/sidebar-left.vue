@@ -58,7 +58,7 @@ export default {
       this.observeLastNavItem()
 		},
 		async getMarkdownList() {
-			const {data: result} = await window.freelogApp.getPresentables({ resourceType: 'markdown' })
+			const {data: result} = await window.freelogApp.getPresentables({ workType: 'markdown' })
 			if (result.errcode === 0) {
         const { dataList, page, pageSize, totalItem } = result.data
         this.canLoadMore = totalItem > page * pageSize

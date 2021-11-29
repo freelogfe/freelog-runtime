@@ -78,7 +78,7 @@ export default {
 function getData() {
   return new Promise((resolve) => {
     const params = {
-      resourceType: "video",
+      workType: "video",
     };
     window.freelogApp.getPresentables(params).then((res) => {
       const dataList = [];
@@ -90,7 +90,7 @@ function getData() {
         dataList.push({
           title: i.presentableName,
           src,
-          // resourceID: i.resourceId,
+          // resourceID: i.workId,
         });
       });
       resolve({

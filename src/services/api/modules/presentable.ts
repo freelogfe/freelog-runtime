@@ -16,7 +16,7 @@ export type Presentable = {
 };
 
 const presentable: Presentable = {
-  // exhibitId, result|info|resourceInfo|fileStream
+  // exhibitId, result|info|workInfo|fileStream
   getPresentableDetail: {
     url: `presentables/${placeHolder}`,
     method: "GET",
@@ -37,7 +37,7 @@ const presentable: Presentable = {
       nodeId: "string",
       skip: "string",
       limit: "string",
-      resourceType: "string",
+      workType: "string",
       omitResourceType: "string",
       onlineStatus: "string",
       tags: "string",
@@ -61,12 +61,12 @@ const presentable: Presentable = {
       projection: "string",
     },
   },
-  // exhibitId, result|info|resourceInfo|fileStream
+  // exhibitId, result|info|workInfo|fileStream
   getByPresentableId: {
     url: `auths/presentables/${placeHolder}/${placeHolder}`,
     method: "GET",
   },
-  // nodeId  resourceIdOrName   result|info|resourceInfo|fileStream
+  // nodeId  resourceIdOrName   result|info|workInfo|fileStream
   getByResourceIdOrName: {
     url: `auths/presentables/nodes/${placeHolder}/${placeHolder}/${placeHolder}`,
     method: "GET",
@@ -78,7 +78,7 @@ const presentable: Presentable = {
       nodeId: "string",
       skip: "string",
       limit: "string",
-      resourceType: "string",
+      workType: "string",
       onlineStatus: "string",
       tags: "string",
       omitResourceType: "string",

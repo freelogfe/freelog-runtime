@@ -32,7 +32,7 @@ export default function (props) {
         
     //   })
     // })
-    const res = await window.freelogApp.getPresentables({ resourceType: 'novel' })
+    const res = await window.freelogApp.getPresentables({ workType: 'novel' })
     setNovels(res.data.data.dataList)
   }, []);
   return (

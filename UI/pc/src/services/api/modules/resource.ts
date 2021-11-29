@@ -10,7 +10,7 @@ const resource: Resource = {
     method: "get",
     dataModel: {
       version: "string",
-      resourceId: "string",
+      workId: "string",
       projection: "string",
     },
   },

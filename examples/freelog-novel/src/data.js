@@ -28,7 +28,7 @@ function handleErrorResponse(response) {
 }
 
 var onloadBookDetail = createLoader(function (callback) {
-  window.freelogApp.getPresentables({ tags: 'book-intro', resourceType: 'json', isLoadingResourceInfo: 1 })
+  window.freelogApp.getPresentables({ tags: 'book-intro', workType: 'json', isLoadingResourceInfo: 1 })
     .then(res => {
       console.log(res)
       if (res.data.errcode === 0 && res.data.data.dataList.length) {

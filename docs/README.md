@@ -500,7 +500,7 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
 const res = await window.freelogApp.getPresentables({
-  resourceType: "widget",
+  workType: "widget",
   isLoadVersionProperty: 1,
 });
 const widgets = res.data.data.dataList;
@@ -631,7 +631,7 @@ export async function mount(props) {
    query:{
     skip: "string", // 从第几个开始
     limit: "string", // 取多少个
-    resourceType: "string", // 资源类型
+    workType: "string", // 资源类型
     omitResourceType: "string", // 过滤资源类型
     tags: "string", // 展品和资源标签，多个使用","隔开
     projection: "string",

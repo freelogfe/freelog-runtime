@@ -65,7 +65,7 @@ export default class MarkdownParser extends HTMLElement {
 			if (response.headers['freelog-resource-type'] != null) {
 				const subDependenciesString = decodeURIComponent(response.headers['freelog-sub-dependencies'])
 				const subDependencies = JSON.parse(subDependenciesString)
-				const workNid = response.headers['freelog-entity-nid']
+				const workNid = response.headers['freelog-work-nid']
 				const markdownText = await response.data
 				tmpMD = { markdownText, workNid, subDependencies, authError: null }
 			} else {
@@ -134,8 +134,8 @@ export default class MarkdownParser extends HTMLElement {
 			if (text.replace(/^(\s*)|(\s*)$/g, '') === 'freelog-resource') {
 				const [ name, queryString ] = href.split('?')
 				const size = this.getImgSizeByQueryStr(queryString) 
-				const resourceId = this.getResourceIdByName(name)
-				if (resourceId) {
+				const workId = this.getResourceIdByName(name)
+				if (workId) {
 					var img = new Image()
           var imgId = `resource_img_${resIndex++}`
           img.id = imgId
@@ -147,7 +147,7 @@ export default class MarkdownParser extends HTMLElement {
           if (size.height) {
             img.height = size.height
           }
-          img.dataset.resourceId = resourceId
+          img.dataset.workId = workId
           img.classList.add(LAZY_LOAD_SPEC)
           title && (img.title = title)
           return img.outerHTML
@@ -186,9 +186,9 @@ export default class MarkdownParser extends HTMLElement {
             return
 					}
           var $target = entry.target
-          var resourceId = $target.dataset.resourceId
-					Reflect.deleteProperty($target.dataset, resourceId)
-					this.loadFreelogResource(resourceId, $target)
+          var workId = $target.dataset.workId
+					Reflect.deleteProperty($target.dataset, workId)
+					this.loadFreelogResource(workId, $target)
           observer.unobserve($target)
         })
       }

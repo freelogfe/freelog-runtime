@@ -134,7 +134,7 @@ export async function getInfoById(exhibitId: string | number) {
 export async function getResourceInfoById(exhibitId: string | number) {
   if (isTest) return "not supported!";
   // @ts-ignore
-  return getByPresentableId(this.name, exhibitId, "resourceInfo", "", "");
+  return getByPresentableId(this.name, exhibitId, "workInfo", "", "");
 }
 export async function getFileStreamById(
   exhibitId: string | number,
@@ -204,7 +204,7 @@ export async function getSubResourceInfoById(
     // @ts-ignore
     this.name,
     exhibitId,
-    "resourceInfo",
+    "workInfo",
     parentNid,
     subResourceIdOrName
   );
@@ -292,7 +292,7 @@ export async function getResourceInfoByName(workIdOrName: string | number) {
     // @ts-ignore
     this.name,
     workIdOrName,
-    "resourceInfo",
+    "workInfo",
     "",
     ""
   );
@@ -362,7 +362,7 @@ export async function getSubResourceInfoByName(
     // @ts-ignore
     this.name,
     workIdOrName,
-    "resourceInfo",
+    "workInfo",
     parentNid,
     subResourceIdOrName
   );
@@ -390,14 +390,14 @@ export async function getSubFileStreamByName(
 }
 
 export async function getResourceInfoByVersion(
-  resourceId: string,
+  workId: string,
   version: string,
   projection: string = ""
 ) {
   // @ts-ignore
   return frequest(
     resource.getResourceInfoByVersion,
-    [resourceId, version, projection],
+    [workId, version, projection],
     ''
   );
 }

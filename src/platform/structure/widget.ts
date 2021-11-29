@@ -182,9 +182,9 @@ export function mountWidget(
         name: widget.testResourceName,
         exhibitId: widget.testResourceId,
         workNid: "",
-        resourceInfo: {
-          resourceId: widget.testResourceId,
-          resourceName: widget.testResourceName,
+        workInfo: {
+          workId: widget.testResourceId,
+          workName: widget.testResourceName,
         },
       };
     } else {
@@ -193,14 +193,14 @@ export function mountWidget(
         name: widget.name,
         exhibitId: topPresentableData.data.testResourceId,
         workNid: topPresentableData.workNid,
-        resourceInfo: {
-          resourceId: widget.id,
-          resourceName: widget.name,
+        workInfo: {
+          workId: widget.id,
+          workName: widget.name,
         },
       };
     }
     // TODO freelog-需要用常量
-    let widgetId = "freelog-" + commonData.resourceInfo.resourceId;
+    let widgetId = "freelog-" + commonData.workInfo.workId;
     // @ts-ignore
     const devData = window.freelogApp.devData;
     if (devData) {
@@ -220,17 +220,17 @@ export function mountWidget(
       name: widgetId, //id
       isTheme: !!isTheme,
       exhibitId: commonData.exhibitId, // 展品id为空的都是插件依赖的插件
-      widgetName: commonData.resourceInfo.resourceName.replace("/", "-"),
+      widgetName: commonData.workInfo.workName.replace("/", "-"),
       parentNid: commonData.workNid,
-      resourceName: commonData.resourceInfo.resourceName,
-      subResourceIdOrName: commonData.resourceInfo.resourceId,
-      resourceId: commonData.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
+      workName: commonData.workInfo.workName,
+      subResourceIdOrName: commonData.workInfo.workId,
+      workId: commonData.workInfo.workId, // id可以重复，name不可以, 这里暂时这样
       entry:
         entry ||
         getEntry({
           exhibitId: commonData.exhibitId,
           parentNid: commonData.workNid,
-          subResourceIdOrName: commonData.resourceInfo.resourceId,
+          subResourceIdOrName: commonData.workInfo.workId,
         }),
       isDev: !!entry,
       config, // 主题插件配置数据
@@ -308,14 +308,14 @@ function mountNormalWidget(
   let entry = "";
   if (!topPresentableData) {
     commonData = {
-      id: widget.resourceInfo.resourceId,
-      name: widget.resourceInfo.name || widget.resourceInfo.resourceName,
+      id: widget.workInfo.workId,
+      name: widget.workInfo.name || widget.workInfo.workName,
       exhibitId: widget.exhibitId || "",
       workNid: "",
-      resourceInfo: {
-        resourceId: widget.resourceInfo.resourceId,
-        resourceName:
-          widget.resourceInfo.name || widget.resourceInfo.resourceName,
+      workInfo: {
+        workId: widget.workInfo.workId,
+        workName:
+          widget.workInfo.name || widget.workInfo.workName,
       },
     };
   } else {
@@ -324,14 +324,14 @@ function mountNormalWidget(
       name: widget.name,
       exhibitId: topPresentableData.data.exhibitId || "",
       workNid: topPresentableData.workNid,
-      resourceInfo: {
-        resourceId: widget.id,
-        resourceName: widget.name,
+      workInfo: {
+        workId: widget.id,
+        workName: widget.name,
       },
     };
   }
   // TODO freelog-需要用常量
-  let widgetId = "freelog-" + commonData.resourceInfo.resourceId;
+  let widgetId = "freelog-" + commonData.workInfo.workId;
   // @ts-ignore
   const devData = window.freelogApp.devData;
   if (devData) {
@@ -351,17 +351,17 @@ function mountNormalWidget(
     name: widgetId, //id
     isTheme: !!isTheme,
     exhibitId: commonData.exhibitId, // 展品id为空的都是插件依赖的插件
-    widgetName: commonData.resourceInfo.resourceName.replace("/", "-"),
+    widgetName: commonData.workInfo.workName.replace("/", "-"),
     parentNid: commonData.workNid,
-    resourceName: commonData.resourceInfo.resourceName,
-    subResourceIdOrName: commonData.resourceInfo.resourceId,
-    resourceId: commonData.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
+    workName: commonData.workInfo.workName,
+    subResourceIdOrName: commonData.workInfo.workId,
+    workId: commonData.workInfo.workId, // id可以重复，name不可以, 这里暂时这样
     entry:
       entry ||
       getEntry({
         exhibitId: commonData.exhibitId,
         parentNid: commonData.workNid,
-        subResourceIdOrName: commonData.resourceInfo.resourceId,
+        subResourceIdOrName: commonData.workInfo.workId,
       }),
     isDev: !!entry,
     config, // 主题插件配置数据
@@ -414,11 +414,11 @@ export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
     "freelog-" + parent.data.exhibitId
   ).proxy;
   // @ts-ignore
-  // theme.subDeps.push({id:"60068f63973b31003a4fbf2a",name:"chtes/pubu",type:"resource",resourceType:"widget"})
+  // theme.subDeps.push({id:"60068f63973b31003a4fbf2a",name:"chtes/pubu",type:"resource",workType:"widget"})
   const promises: Promise<any>[] = [];
   // @ts-ignore
   parent.subDeps.forEach((sub) => {
-    switch (sub.resourceType) {
+    switch (sub.workType) {
       case "widget":
         const subContainer = parentGlobal.document.getElementById(
           "freelog-" + sub.id

@@ -1,7 +1,7 @@
 // 工具utils：获取容器，生成容器，销毁容器，生成id
 
 import { baseUrl } from "../../services/base";
-import { getExhibitResultById } from "./api";
+import { getExhibitInfoById } from "./api";
 import { widgetsConfig, widgetUserData, sandBoxs, FREELOG_DEV } from "./widget";
 import frequest from "../../services/handler";
 import user from "../../services/api/modules/user";
@@ -119,7 +119,7 @@ export async function getSubDep(exhibitId: any) {
     exhibitId = widgetsConfig.get(that.name).exhibitId;
   }
   // @ts-ignore
-  let info = await getExhibitResultById.bind(widgetSandBox)(exhibitId, );
+  let info = await getExhibitInfoById.bind(widgetSandBox)(exhibitId, );
   if (info.data && info.data.errCode === 3 && isTheme) {
     // 只有主题才需要权限验证
     await new Promise((resolve, reject) => {
@@ -127,7 +127,7 @@ export async function getSubDep(exhibitId: any) {
         immediate: true,
       });
     });
-    info = await getExhibitResultById.bind(widgetSandBox)(exhibitId);
+    info = await getExhibitInfoById.bind(widgetSandBox)(exhibitId);
     if (info.data.errCode) {
       await new Promise((resolve, reject) => {
         addAuth.bind(widgetSandBox)(exhibitId, resolve, reject, {
@@ -136,7 +136,7 @@ export async function getSubDep(exhibitId: any) {
       });
     }
 
-    info = await getExhibitResultById.bind(widgetSandBox)(exhibitId);
+    info = await getExhibitInfoById.bind(widgetSandBox)(exhibitId);
   }
   // TODO 报错要明确
   if (!info.data) {
@@ -251,7 +251,7 @@ export async function setUserData(key: string, data: any) {
   let userData = widgetUserData.get(name) || {};
   let config = widgetsConfig.get(name);
   userData[key] = data;
-  let widgetId = btoa(encodeURI(config.resourceName));
+  let widgetId = btoa(encodeURI(config.workName));
   if (name === FREELOG_DEV) {
     widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
   }
@@ -273,7 +273,7 @@ export async function getUserData(key: string) {
     return userData[key];
   }
   let config = widgetsConfig.get(name);
-  let widgetId = btoa(encodeURI(config.resourceName));
+  let widgetId = btoa(encodeURI(config.workName));
   if (name === FREELOG_DEV) {
     widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
   }
