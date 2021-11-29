@@ -15,7 +15,7 @@ const LAZY_LOAD_SPEC = 'js-md-lazy-load'
 
 export default class MarkdownParser extends HTMLElement {
 	markdownText = ''
-	entityNid = ''
+	workNid = ''
 	subDependencies = []
 	_tocs = []
 	$container = this 
@@ -40,15 +40,15 @@ export default class MarkdownParser extends HTMLElement {
 	}
 
 	init() {
-		this.presentableId = this.getAttribute('presentableId') || ''
+		this.exhibitId = this.getAttribute('exhibitId') || ''
 	}
 
 	async mount() {
-		if (this.presentableId === '') {
+		if (this.exhibitId === '') {
 			throw new Error(`PresentableId不能为空`)
 			return 
 		}
-		await this.getMarkdownData(this.presentableId)
+		await this.getMarkdownData(this.exhibitId)
 		if (this.authError == null) {
 			this.renderMarkdown()
 			this.createlazyLoader()
@@ -57,25 +57,25 @@ export default class MarkdownParser extends HTMLElement {
 		}
 	}
 
-	async getMarkdownData(presentableId) {
-		let tmpMD = markdownTextCache.get(presentableId)
+	async getMarkdownData(exhibitId) {
+		let tmpMD = markdownTextCache.get(exhibitId)
 		if (tmpMD == null) {
-			var response = await window.freelogApp.getFileStreamById(presentableId)
+			var response = await window.freelogApp.getFileStreamById(exhibitId)
 			
 			if (response.headers['freelog-resource-type'] != null) {
 				const subDependenciesString = decodeURIComponent(response.headers['freelog-sub-dependencies'])
 				const subDependencies = JSON.parse(subDependenciesString)
-				const entityNid = response.headers['freelog-entity-nid']
+				const workNid = response.headers['freelog-entity-nid']
 				const markdownText = await response.data
-				tmpMD = { markdownText, entityNid, subDependencies, authError: null }
+				tmpMD = { markdownText, workNid, subDependencies, authError: null }
 			} else {
 				const authError = await response.json()
-				tmpMD = { markdownText: '', entityNid: '', subDependencies: [], authError }
+				tmpMD = { markdownText: '', workNid: '', subDependencies: [], authError }
 			}
-			markdownTextCache.set(presentableId, tmpMD)
+			markdownTextCache.set(exhibitId, tmpMD)
 		}
-		const { markdownText = '', entityNid = '',  subDependencies = [], authError } = tmpMD
-		this.entityNid = entityNid
+		const { markdownText = '', workNid = '',  subDependencies = [], authError } = tmpMD
+		this.workNid = workNid
 		this.subDependencies = subDependencies
 		this.authError = authError
 		this.markdownText = markdownText
@@ -208,9 +208,9 @@ export default class MarkdownParser extends HTMLElement {
 
   async loadFreelogResource(subResourceId, $target) {
 		try {
-			const _response =  await window.freelogApp.getSubInfoById(this.presentableId, this.entityNid, subResourceId )
+			const _response =  await window.freelogApp.getSubInfoById(this.exhibitId, this.workNid, subResourceId )
 			const type = _response.headers['freelog-resource-type']
-			const url = await window.freelogApp.getSubFileStreamById(this.presentableId, this.entityNid, subResourceId, true )
+			const url = await window.freelogApp.getSubFileStreamById(this.exhibitId, this.workNid, subResourceId, true )
 			console.log(url, 234234)
 			if (type) {
 				const blob =  _response.data // .blob()

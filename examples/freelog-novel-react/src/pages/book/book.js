@@ -15,7 +15,7 @@ function Book(props) {
     if (bookResource.data.errCode) {
       bookResource = await new Promise((resolve, rej) => {
         console.log(bookResource)
-        window.freelogApp.addAuth(bookResource.data.presentableId, async () => {
+        window.freelogApp.addAuth(bookResource.data.exhibitId, async () => {
           const book = await window.freelogApp.getResourceInfoById(bookId)
           console.log(resolve)
           resolve && resolve(book)

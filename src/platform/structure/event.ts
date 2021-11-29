@@ -1,18 +1,18 @@
 import { addAuth } from "../../bridge/index";
 // 异步回调
 export function asyncCallUI(
-  presentableId: any,
+  exhibitId: any,
   resolve: any,
   reject: any,
   options?: any
 ) {
   // @ts-ignore
-  addAuth.bind(this)(presentableId, resolve, reject, options);
+  addAuth.bind(this)(exhibitId, resolve, reject, options);
 }
 // 同步回调  callBack 与callUI函数后面的代码执行顺序 是有问题的，后面代码可能先执行，所以这里的同步回调，把后面代码写入callBack才是正确的
 // 已解决
 export async function callUI(
-  presentableId: any,
+  exhibitId: any,
   resolve: any,
   reject: any,
   options?: any
@@ -31,7 +31,7 @@ export async function callUI(
       rej && rej(...arguments);
     };
     // @ts-ignore
-    addAuth.bind(this)(presentableId, _res, _rej, options);
+    addAuth.bind(this)(exhibitId, _res, _rej, options);
   });
 }
 export const loginCallback:any = []

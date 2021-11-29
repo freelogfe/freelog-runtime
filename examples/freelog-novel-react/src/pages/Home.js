@@ -49,7 +49,7 @@ export default function (props) {
           return (
             <div
               key={index}
-              onClick={() => { props.history.push("/book/" + item.presentableId) }}
+              onClick={() => { props.history.push("/book/" + item.exhibitId) }}
 
               className={
                 (index % 2 === 0 ? "ml-25" : " mr-25") +

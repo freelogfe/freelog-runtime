@@ -81,7 +81,7 @@ export default function Auth(props: contractProps) {
     const con =
       userInfo &&
       (await frequest(contract.getContracts, "", {
-        subjectIds: currentPresentable.presentableId,
+        subjectIds: currentPresentable.exhibitId,
         subjectType: 2,
         licenseeIdentityType: 3,
         licenseeId: userInfo.userId,
@@ -103,7 +103,7 @@ export default function Auth(props: contractProps) {
     }
     const res = await frequest(
       presentable.getPresentableDetail,
-      [id || currentPresentable.presentableId],
+      [id || currentPresentable.exhibitId],
       {
         isLoadPolicyInfo: 1,
         isTranslate: 1,
@@ -150,7 +150,7 @@ export default function Auth(props: contractProps) {
   useEffect(() => {
     setThemeCancel(false);
     const isExist = events.some((item: any) => {
-      if (item.presentableId === currentPresentable.presentableId) {
+      if (item.exhibitId === currentPresentable.exhibitId) {
         setCurrentPresentable(item);
         return true;
       }
@@ -159,7 +159,7 @@ export default function Auth(props: contractProps) {
     !isExist && setCurrentPresentable(events[0]);
   }, [props.events]);
   useEffect(() => {
-    currentPresentable && getDetail(currentPresentable.presentableId);
+    currentPresentable && getDetail(currentPresentable.exhibitId);
   }, [currentPresentable]);
   useEffect(() => {
     props.isLogin && setIsLoginVisible(true);
@@ -201,7 +201,7 @@ export default function Auth(props: contractProps) {
     policies.forEach((item: any) => {
       selectedPolicies.includes(item.policyId) &&
         subjects.push({
-          subjectId: currentPresentable.presentableId,
+          subjectId: currentPresentable.exhibitId,
           policyId: item.policyId,
         });
     });

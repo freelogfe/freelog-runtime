@@ -89,7 +89,7 @@
           console.log(v.chapters)
           v.chapters.forEach(c => {
             c._detail = {}
-            var promise = onloadChapterContent(c.presentableId)
+            var promise = onloadChapterContent(c.exhibitId)
               .then((chapterDetail) => {
                 c._detail = chapterDetail
               })
@@ -109,7 +109,7 @@
         this.activeTab = tab;
       },
       calcChapterLink(volume, chapter) {
-        return `volume/${volume.volumeIndex}/chapter/${chapter.versionProperty.chapter}?chapterId=${chapter.presentableId}`;
+        return `volume/${volume.volumeIndex}/chapter/${chapter.versionProperty.chapter}?chapterId=${chapter.exhibitId}`;
       }
     }
   }

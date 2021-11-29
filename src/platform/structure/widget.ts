@@ -180,8 +180,8 @@ export function mountWidget(
       commonData = {
         id: widget.testResourceId,
         name: widget.testResourceName,
-        presentableId: widget.testResourceId,
-        entityNid: "",
+        exhibitId: widget.testResourceId,
+        workNid: "",
         resourceInfo: {
           resourceId: widget.testResourceId,
           resourceName: widget.testResourceName,
@@ -191,8 +191,8 @@ export function mountWidget(
       commonData = {
         id: widget.id,
         name: widget.name,
-        presentableId: topPresentableData.data.testResourceId,
-        entityNid: topPresentableData.entityNid,
+        exhibitId: topPresentableData.data.testResourceId,
+        workNid: topPresentableData.workNid,
         resourceInfo: {
           resourceId: widget.id,
           resourceName: widget.name,
@@ -219,17 +219,17 @@ export function mountWidget(
       container,
       name: widgetId, //id
       isTheme: !!isTheme,
-      presentableId: commonData.presentableId, // 展品id为空的都是插件依赖的插件
+      exhibitId: commonData.exhibitId, // 展品id为空的都是插件依赖的插件
       widgetName: commonData.resourceInfo.resourceName.replace("/", "-"),
-      parentNid: commonData.entityNid,
+      parentNid: commonData.workNid,
       resourceName: commonData.resourceInfo.resourceName,
       subResourceIdOrName: commonData.resourceInfo.resourceId,
       resourceId: commonData.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
       entry:
         entry ||
         getEntry({
-          presentableId: commonData.presentableId,
-          parentNid: commonData.entityNid,
+          exhibitId: commonData.exhibitId,
+          parentNid: commonData.workNid,
           subResourceIdOrName: commonData.resourceInfo.resourceId,
         }),
       isDev: !!entry,
@@ -310,8 +310,8 @@ function mountNormalWidget(
     commonData = {
       id: widget.resourceInfo.resourceId,
       name: widget.resourceInfo.name || widget.resourceInfo.resourceName,
-      presentableId: widget.presentableId || "",
-      entityNid: "",
+      exhibitId: widget.exhibitId || "",
+      workNid: "",
       resourceInfo: {
         resourceId: widget.resourceInfo.resourceId,
         resourceName:
@@ -322,8 +322,8 @@ function mountNormalWidget(
     commonData = {
       id: widget.id,
       name: widget.name,
-      presentableId: topPresentableData.data.presentableId || "",
-      entityNid: topPresentableData.entityNid,
+      exhibitId: topPresentableData.data.exhibitId || "",
+      workNid: topPresentableData.workNid,
       resourceInfo: {
         resourceId: widget.id,
         resourceName: widget.name,
@@ -350,17 +350,17 @@ function mountNormalWidget(
     container,
     name: widgetId, //id
     isTheme: !!isTheme,
-    presentableId: commonData.presentableId, // 展品id为空的都是插件依赖的插件
+    exhibitId: commonData.exhibitId, // 展品id为空的都是插件依赖的插件
     widgetName: commonData.resourceInfo.resourceName.replace("/", "-"),
-    parentNid: commonData.entityNid,
+    parentNid: commonData.workNid,
     resourceName: commonData.resourceInfo.resourceName,
     subResourceIdOrName: commonData.resourceInfo.resourceId,
     resourceId: commonData.resourceInfo.resourceId, // id可以重复，name不可以, 这里暂时这样
     entry:
       entry ||
       getEntry({
-        presentableId: commonData.presentableId,
-        parentNid: commonData.entityNid,
+        exhibitId: commonData.exhibitId,
+        parentNid: commonData.workNid,
         subResourceIdOrName: commonData.resourceInfo.resourceId,
       }),
     isDev: !!entry,
@@ -411,7 +411,7 @@ function mountNormalWidget(
 // 固定id 的加载子插件，仅支持加载一次
 export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
   const parentGlobal = sandBoxs.get(
-    "freelog-" + parent.data.presentableId
+    "freelog-" + parent.data.exhibitId
   ).proxy;
   // @ts-ignore
   // theme.subDeps.push({id:"60068f63973b31003a4fbf2a",name:"chtes/pubu",type:"resource",resourceType:"widget"})
@@ -433,8 +433,8 @@ export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
           subContainer,
           {
             //@ts-ignore
-            presentableId: window.freelogApp.nodeInfo.nodeThemeId,
-            entityNid: parent.entityNid,
+            exhibitId: window.freelogApp.nodeInfo.nodeThemeId,
+            workNid: parent.workNid,
             subDependId: sub.id,
           },
           "",

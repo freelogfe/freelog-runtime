@@ -32,30 +32,30 @@ export default {
     '$route.params': {
       deep: true,
       handler(val, oldVal) {
-        if (val.presentableId !== oldVal.presentableId) {
-          this.refresh(val.presentableId)
+        if (val.exhibitId !== oldVal.exhibitId) {
+          this.refresh(val.exhibitId)
         }
       },
     }
   },
 	methods: {
 		async init() {
-      const { presentableId } = this.$route.params
-      if (presentableId == null) return 
-      await this.mountMarkdownArticle(presentableId)
+      const { exhibitId } = this.$route.params
+      if (exhibitId == null) return 
+      await this.mountMarkdownArticle(exhibitId)
       const hash = this.$route.hash
       const $dom = hash === '' ? null : document.querySelector(hash)
       if ($dom != null) {
         window.scrollTo(0, $dom.offsetTop + 60)
       }
     },
-    async refresh(presentableId) {
+    async refresh(exhibitId) {
       this.navItems = []
-      await this.mountMarkdownArticle(presentableId)
+      await this.mountMarkdownArticle(exhibitId)
     },
-    async mountMarkdownArticle(presentableId) {
+    async mountMarkdownArticle(exhibitId) {
       this.loadingVisibble = true
-      this.$refs['mdContainer'].innerHTML = `<freelog-markdown-parser presentableId="${presentableId}"></freelog-markdown-parser>`
+      this.$refs['mdContainer'].innerHTML = `<freelog-markdown-parser exhibitId="${exhibitId}"></freelog-markdown-parser>`
       await new Promise(resolve => this.$nextTick(resolve))
       const $mdParser = document.querySelector('#f-docs-main-content freelog-markdown-parser')
       try {
@@ -73,9 +73,9 @@ export default {
       }
       this.loadingVisibble = false
     },
-    createMarkdownParser(presentableId) {
-      if (mdParserMap.get(presentableId) != null) {
-        return mdParserMap.get(presentableId)
+    createMarkdownParser(exhibitId) {
+      if (mdParserMap.get(exhibitId) != null) {
+        return mdParserMap.get(exhibitId)
       }
       var count = 0
       const timer = setInterval(() => {

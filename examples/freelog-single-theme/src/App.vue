@@ -16,8 +16,8 @@ export default {
   methods: {
     async getSub() {
       console.log(window.freelogApp);
-      const presentableId = await window.freelogApp.getSelfId(window);
-      const subData = await window.freelogApp.getSubDep(presentableId);
+      const exhibitId = await window.freelogApp.getSelfId(window);
+      const subData = await window.freelogApp.getSubDep(exhibitId);
       console.log(122222, subData);
       subData.subDeps.some((sub, index) => {
         if (index === 1) return true;
@@ -32,8 +32,8 @@ export default {
         //   document.getElementById("freelog-single"),
         //   {
         //     //@ts-ignore
-        //     presentableId: presentableId,
-        //     entityNid: subData.entityNid,
+        //     exhibitId: exhibitId,
+        //     workNid: subData.workNid,
         //     subDependId: sub.id,
         //     resourceInfo: {
         //       resourceId: sub.id,

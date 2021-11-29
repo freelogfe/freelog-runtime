@@ -1,7 +1,5 @@
-
 import frequest from "../../services/handler";
-import presentable from '../../services/api/modules/presentable';
-import resource from "../../services/api/modules/resource";
+import exhibit from "../../services/api/modules/exhibit";
 let isTest = false;
 if (
   window.location.href
@@ -18,14 +16,14 @@ export function init() {
   nodeId = window.freelogApp.nodeInfo.nodeId;
 }
 // 展品非授权信息接口
-export async function getPresentables(query: any): Promise<any> {
+export async function getExhibitsByIds(query: any): Promise<any> {
   if (query && Object.prototype.toString.call(query) !== "[object Object]") {
     return "query parameter must be object";
   }
   if (isTest)
     //@ts-ignore
     return frequest.bind({ name: this.name })(
-      presentable.getTestPagingData,
+      exhibit.getTestExhibitsByIds,
       [nodeId],
       {
         ...query,
@@ -33,119 +31,114 @@ export async function getPresentables(query: any): Promise<any> {
     );
   //@ts-ignore
   return frequest.bind({ name: this.name })(
-    presentable.getPagingPresentables,
-    "",
+    exhibit.getExhibitsByIds,
+    [nodeId],
     {
-      nodeId,
       ...query,
     }
   );
 }
-export async function getPresentablesPaging(query: any): Promise<any> {
+export async function getExhibitsByPaging(query: any): Promise<any> {
   if (query && Object.prototype.toString.call(query) !== "[object Object]") {
     return "query parameter must be object";
   }
   if (isTest)
     // @ts-ignore
     return frequest.bind({ name: this.name })(
-      presentable.getTestPagingData,
+      exhibit.getTestExhibitsByPaging,
       [nodeId],
       {
         ...query,
       }
     );
   // @ts-ignore
-  return frequest.bind({ name: this.name })(
-    presentable.getPagingPresentables,
-    "",
-    {
-      nodeId,
-      ...query,
-    }
-  );
-}
-export async function getPresentablesSearch(query: any): Promise<any> {
-  if (query && Object.prototype.toString.call(query) !== "[object Object]") {
-    return "query parameter must be object";
-  }
-  if (isTest)
-    // @ts-ignore
-    return frequest.bind({ name: this.name })(
-      presentable.getTestPagingData,
-      [nodeId],
-      {
-        ...query,
-      }
-    );
-  // @ts-ignore
-  return frequest.bind({ name: this.name })(presentable.getPresentables, "", {
+  return frequest.bind({ name: this.name })(exhibit.getExhibitsByPaging, "", {
     nodeId,
     ...query,
   });
 }
+export async function getExhibitsDetail(exhibitId: string, query: any) {
+  if (isTest)
+    // @ts-ignore
+    return frequest(exhibit.getTestExhibitsDetail, [nodeId, exhibitId], query);
+  // @ts-ignore
+  return frequest(exhibit.getExhibitsDetail, [nodeId, exhibitId], query);
+}
 
+export async function getExhibitsSignCount(exhibitId: string) {
+  // @ts-ignore
+  return frequest(exhibit.getExhibitsSignCount, "", {
+    subjectIds: exhibitId,
+    subjectType: 2,
+  });
+}
+export async function getExhibitsAuth(exhibitIds: string) {
+  if (isTest) {
+    return frequest(exhibit.getTestExhibitsAuth, [nodeId], {
+      authType: 4,
+      exhibitIds,
+    });
+  }
+  // @ts-ignore
+  return frequest(exhibit.getExhibitsAuth, [nodeId], {
+    authType: 4,
+    exhibitIds,
+  });
+}
 // 展品授权信息接口
-function getByPresentableId(
+function getByExhibitId(
   name: string,
-  presentableId: string | number,
+  exhibitId: string | number,
   type: string,
   parentNid?: string,
-  subResourceIdOrName?: string,
+  subWorkIdOrName?: string,
   returnUrl?: boolean,
   config?: any
 ): Promise<any> | string {
-  if (!presentableId) {
-    return "presentableId is required";
+  if (!exhibitId) {
+    return "exhibitId is required";
   }
-  let test: any = {};
   let form: any = {};
   if (parentNid) {
-    test.parentNid = parentNid;
     form.parentNid = parentNid;
   }
-  if (subResourceIdOrName) {
-    test.subEntityIdOrName = subResourceIdOrName;
-    form.subResourceIdOrName = subResourceIdOrName;
+  if (subWorkIdOrName) {
+    form.subWorkIdOrName = subWorkIdOrName;
   }
   if (isTest)
-    return frequest.bind({ name, presentableId })(
-      presentable.getTestByPresentableId,
-      [presentableId, type],
-      test,
+    return frequest.bind({ name, exhibitId })(
+      exhibit.getTestExhibitAuthById,
+      [exhibitId, type],
+      form,
       returnUrl,
       config
     );
-  return frequest.bind({ name, presentableId: parentNid ? "" : presentableId })(
-    presentable.getByPresentableId,
-    [presentableId, type],
+  return frequest.bind({ name, exhibitId: parentNid ? "" : exhibitId })(
+    exhibit.getExhibitAuthById,
+    [exhibitId, type],
     form,
     returnUrl,
     config
   );
 }
-export async function getResultById(presentableId: string | number) {
+export async function getExhibitResultById(exhibitId: string | number) {
   // @ts-ignore
-  return getByPresentableId(this.name, presentableId, "result", "", "");
+  return getByExhibitId(this.name, exhibitId, "result", "", "");
 }
-export async function getInfoById(presentableId: string | number) {
+export async function getExhibitInfoById(exhibitId: string | number) {
   // @ts-ignore
-  return getByPresentableId(this.name, presentableId, "info", "", "");
+  return getByExhibitId(this.name, exhibitId, "info", "", "");
 }
-export async function getResourceInfoById(presentableId: string | number) {
-  if (isTest) return "not supported!";
-  // @ts-ignore
-  return getByPresentableId(this.name, presentableId, "resourceInfo", "", "");
-}
-export async function getFileStreamById(
-  presentableId: string | number,
+export async function getExhibitFileStreamById(
+  exhibitId: string | number,
   returnUrl?: boolean,
   config?: any
 ) {
   // @ts-ignore
-  return getByPresentableId(
+  return getByExhibitId(
     // @ts-ignore
     this.name,
-    presentableId,
+    exhibitId,
     "fileStream",
     "",
     "",
@@ -154,159 +147,126 @@ export async function getFileStreamById(
   );
 }
 // 子依赖
-export async function getSubResultById(
-  presentableId: string | number,
+export async function getExhibitSubResultById(
+  exhibitId: string | number,
   parentNid: string,
-  subResourceIdOrName: string
+  subWorkId: string
 ) {
-  if (!parentNid || !subResourceIdOrName) {
-    return "parentNid and subResourceIdOrName is required!";
+  if (!parentNid || !subWorkId) {
+    return "parentNid and subWorkId is required!";
   }
   // @ts-ignore
-  return getByPresentableId(
+  return getByExhibitId(
     // @ts-ignore
     this.name,
-    presentableId,
+    exhibitId,
     "result",
     parentNid,
-    subResourceIdOrName
+    subWorkId
   );
 }
-export async function getSubInfoById(
-  presentableId: string | number,
+export async function getExhibitSubInfoById(
+  exhibitId: string | number,
   parentNid: string,
-  subResourceIdOrName: string
+  subWorkId: string
 ) {
-  if (!parentNid || !subResourceIdOrName) {
-    return "parentNid and subResourceIdOrName is required!";
+  if (!parentNid || !subWorkId) {
+    return "parentNid and subWorkId is required!";
   }
   // @ts-ignore
-  return getByPresentableId(
+  return getByExhibitId(
     // @ts-ignore
     this.name,
-    presentableId,
+    exhibitId,
     "info",
     parentNid,
-    subResourceIdOrName
+    subWorkId
   );
 }
-export async function getSubResourceInfoById(
-  presentableId: string | number, // 主题请求自己的依赖，传自己的presentableId 和 自己的parentNid
-  parentNid: string, // 主题的依赖请求自己的依赖，传主题的presentableId 和 自己的parentNid
-  subResourceIdOrName: string
-) {
-  if (!parentNid || !subResourceIdOrName) {
-    return "parentNid and subResourceIdOrName is required!";
-  }
-  if (isTest) return "not supported!";
-  // @ts-ignore
-  return getByPresentableId(
-    // @ts-ignore
-    this.name,
-    presentableId,
-    "resourceInfo",
-    parentNid,
-    subResourceIdOrName
-  );
-}
-export async function getSubFileStreamById(
-  presentableId: string | number,
+export async function getExhibitSubFileStreamById(
+  exhibitId: string | number,
   parentNid: string,
-  subResourceIdOrName: string,
+  subWorkId: string,
   returnUrl?: boolean,
   config?: any
 ) {
-  if (!parentNid || !subResourceIdOrName) {
-    return "parentNid and subResourceIdOrName is required!";
+  if (!parentNid || !subWorkId) {
+    return "parentNid and subWorkId is required!";
   }
   // @ts-ignore
-  return getByPresentableId(
+  return getByExhibitId(
     // @ts-ignore
     this.name,
-    presentableId,
+    exhibitId,
     "fileStream",
     parentNid,
-    subResourceIdOrName,
+    subWorkId,
     returnUrl,
     config
   );
 }
 
 // TODO return a promise
-function getByResourceIdOrName(
+function getExhibitAuthByWorkIdOrName(
   name: string,
-  resourceIdOrName: string | number,
+  workIdOrName: string | number,
   type: string,
   parentNid?: string,
-  subResourceIdOrName?: string,
+  subWorkIdOrName?: string,
   returnUrl?: boolean,
   config?: any
 ): Promise<any> | string {
-  if (!resourceIdOrName) {
-    return "resourceIdOrName is required";
+  if (!workIdOrName) {
+    return Promise.reject("workIdOrName is required");
   }
-  let test: any = {};
   let form: any = {};
   if (parentNid) {
-    test.parentNid = parentNid;
     form.parentNid = parentNid;
   }
-  if (subResourceIdOrName) {
-    test.subEntityIdOrName = subResourceIdOrName;
-    form.subResourceIdOrName = subResourceIdOrName;
+  if (subWorkIdOrName) {
+    form.subWorkIdOrName = subWorkIdOrName;
   }
   if (isTest)
     return frequest.bind({
       name,
-      resourceIdOrName: parentNid ? "" : resourceIdOrName,
+      workIdOrName: parentNid ? "" : subWorkIdOrName,
     })(
-      presentable.getTestByResourceIdOrName,
-      [resourceIdOrName, type],
-      test,
+      exhibit.getTestExhibitAuthByWorkIdOrName,
+      [nodeId, workIdOrName, type],
+      form,
       returnUrl,
       config
     );
   return frequest.bind({
     name,
-    resourceIdOrName: parentNid ? "" : resourceIdOrName,
+    workIdOrName: parentNid ? "" : workIdOrName,
   })(
-    presentable.getByResourceIdOrName,
-    [nodeId, resourceIdOrName, type],
+    exhibit.getExhibitAuthByWorkIdOrName,
+    [nodeId, workIdOrName, type],
     form,
     returnUrl,
     config
   );
 }
-export async function getResultByName(resourceIdOrName: string | number) {
+export async function getExhibitResultByWorkId(workId: string | number) {
   // @ts-ignore
-  return getByResourceIdOrName(this.name, resourceIdOrName, "result", "", "");
+  return getExhibitAuthByWorkIdOrName(this.name, workId, "result", "", "");
 }
-export async function getInfoByName(resourceIdOrName: string | number) {
+export async function getExhibitInfoByWorkId(workId: string | number) {
   // @ts-ignore
-  return getByResourceIdOrName(this.name, resourceIdOrName, "info", "", "");
+  return getExhibitAuthByWorkIdOrName(this.name, workId, "info", "", "");
 }
-export async function getResourceInfoByName(resourceIdOrName: string | number) {
-  if (isTest) return "not supported!";
-  // @ts-ignore
-  return getByResourceIdOrName(
-    // @ts-ignore
-    this.name,
-    resourceIdOrName,
-    "resourceInfo",
-    "",
-    ""
-  );
-}
-export async function getFileStreamByName(
-  resourceIdOrName: string | number,
+
+export async function getExhibitFileStreamByWorkId(
+  workId: string | number,
   returnUrl?: boolean,
   config?: any
 ) {
   // @ts-ignore
-  return getByResourceIdOrName(
+  return getExhibitAuthByWorkIdOrName(
     // @ts-ignore
     this.name,
-    resourceIdOrName,
+    workId,
     "fileStream",
     "",
     "",
@@ -315,126 +275,58 @@ export async function getFileStreamByName(
   );
 }
 // sub
-export async function getSubResultByName(
-  resourceIdOrName: string | number,
+export async function getExhibitSubResultByWorkId(
+  workId: string | number,
   parentNid: string,
-  subResourceIdOrName: string
+  subWorkId: string
 ) {
-  if (!parentNid || !subResourceIdOrName) {
-    return "parentNid and subResourceIdOrName is required!";
+  if (!parentNid || !subWorkId) {
+    return Promise.resolve("parentNid and subWorkId are required!");
   }
-  return getByResourceIdOrName(
+  return getExhibitAuthByWorkIdOrName(
     // @ts-ignore
     this.name,
-    resourceIdOrName,
+    workId,
     "result",
     parentNid,
-    subResourceIdOrName
+    subWorkId
   );
 }
-export async function getSubInfoByName(
-  resourceIdOrName: string | number,
+export async function getExhibitSubInfoByWorkId(
+  workId: string | number,
   parentNid: string,
-  subResourceIdOrName: string
+  subWorkId: string
 ) {
-  if (!parentNid || !subResourceIdOrName) {
-    return "parentNid and subResourceIdOrName is required!";
+  if (!parentNid || !subWorkId) {
+    return Promise.resolve("parentNid and subWorkId are required!");
   }
-  return getByResourceIdOrName(
+  return getExhibitAuthByWorkIdOrName(
     // @ts-ignore
     this.name,
-    resourceIdOrName,
+    workId,
     "info",
     parentNid,
-    subResourceIdOrName
+    subWorkId
   );
 }
-export async function getSubResourceInfoByName(
-  resourceIdOrName: string | number,
+export async function getExhibitSubFileStreamByWorkId(
+  workIdOrName: string | number,
   parentNid: string,
-  subResourceIdOrName: string
-) {
-  if (!parentNid || !subResourceIdOrName) {
-    return "parentNid and subResourceIdOrName is required!";
-  }
-  if (isTest) return "not supported!";
-  return getByResourceIdOrName(
-    // @ts-ignore
-    this.name,
-    resourceIdOrName,
-    "resourceInfo",
-    parentNid,
-    subResourceIdOrName
-  );
-}
-export async function getSubFileStreamByName(
-  resourceIdOrName: string | number,
-  parentNid: string,
-  subResourceIdOrName: string,
+  subWorkId: string,
   returnUrl?: boolean,
   config?: any
 ) {
-  if (!parentNid || !subResourceIdOrName) {
-    return "parentNid and subResourceIdOrName is required!";
+  if (!parentNid || !subWorkId) {
+    return Promise.resolve("parentNid and subWorkId are required!");
   }
-  return getByResourceIdOrName(
+  return getExhibitAuthByWorkIdOrName(
     // @ts-ignore
     this.name,
-    resourceIdOrName,
+    workIdOrName,
     "fileStream",
     parentNid,
-    subResourceIdOrName,
+    subWorkId,
     returnUrl,
     config
-  );
-}
-
-export async function getResourceInfoByVersion(
-  resourceId: string,
-  version: string,
-  projection: string = ""
-) {
-  // @ts-ignore
-  return frequest(
-    resource.getResourceInfoByVersion,
-    [resourceId, version, projection],
-    ''
-  );
-}
-export async function getPresentableDetailById(
-  presentableId: string, query: any
-) {
-  // @ts-ignore
-  return frequest(
-    presentable.getPresentableDetail,
-    [presentableId],
-    query
-  );
-}
-
-export async function getPresentableSignCount(
-  presentableId: string 
-) {
-  // @ts-ignore
-  return frequest(
-    presentable.getPresentableSignCount,
-    "",
-    {
-      subjectIds: presentableId,
-      subjectType: 2
-    }
-  );
-}
-export async function getPresentablesAuth(
-   presentableIds: string 
-) {
-  // @ts-ignore
-  return frequest(
-    presentable.getPresentablesAuth,
-    [nodeId],
-    {
-      authType: 4,
-      presentableIds
-    }
   );
 }

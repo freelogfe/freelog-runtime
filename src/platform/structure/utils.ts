@@ -1,7 +1,7 @@
 // 工具utils：获取容器，生成容器，销毁容器，生成id
 
 import { baseUrl } from "../../services/base";
-import { getInfoById } from "./api";
+import { getExhibitResultById } from "./api";
 import { widgetsConfig, widgetUserData, sandBoxs, FREELOG_DEV } from "./widget";
 import frequest from "../../services/handler";
 import user from "../../services/api/modules/user";
@@ -94,7 +94,7 @@ export function resolveUrl(path: string, params?: any): string {
 // TODO 这个根本不需要
 export async function getSelfId() {
   // @ts-ignore
-  return widgetsConfig.get(this.name)?.presentableId;
+  return widgetsConfig.get(this.name)?.exhibitId;
 }
 
 export async function getSelfConfig() {
@@ -103,7 +103,7 @@ export async function getSelfConfig() {
 }
 // TODO if error  这里不需要参数，除了运行时自行调用，需要抽离出来不与插件调用混在一起
 // TODO 紧急，增加方法加载子依赖传递资源id，通过资源id查询到孙依赖插件
-export async function getSubDep(presentableId: any) {
+export async function getSubDep(exhibitId: any) {
   let isTheme = false;
   // @ts-ignore
   const that = this || {};
@@ -111,49 +111,48 @@ export async function getSubDep(presentableId: any) {
   if (!widgetSandBox) {
     isTheme = true;
     widgetSandBox = {
-      name: "freelog-" + presentableId,
-      presentableId,
+      name: "freelog-" + exhibitId,
+      exhibitId,
       isTheme,
     };
   } else {
-    presentableId = widgetsConfig.get(that.name).presentableId;
+    exhibitId = widgetsConfig.get(that.name).exhibitId;
   }
   // @ts-ignore
-  let info = await getInfoById.bind(widgetSandBox)(presentableId);
+  let info = await getExhibitResultById.bind(widgetSandBox)(exhibitId, );
   if (info.data && info.data.errCode === 3 && isTheme) {
     // 只有主题才需要权限验证
     await new Promise((resolve, reject) => {
-      addAuth.bind(widgetSandBox)(presentableId, resolve, reject, {
+      addAuth.bind(widgetSandBox)(exhibitId, resolve, reject, {
         immediate: true,
       });
     });
-    info = await getInfoById.bind(widgetSandBox)(presentableId);
+    info = await getExhibitResultById.bind(widgetSandBox)(exhibitId);
     if (info.data.errCode) {
       await new Promise((resolve, reject) => {
-        addAuth.bind(widgetSandBox)(presentableId, resolve, reject, {
+        addAuth.bind(widgetSandBox)(exhibitId, resolve, reject, {
           immediate: true,
         });
       });
     }
 
-    info = await getInfoById.bind(widgetSandBox)(presentableId);
+    info = await getExhibitResultById.bind(widgetSandBox)(exhibitId);
   }
   // TODO 报错要明确
   if (!info.data) {
     return info;
   }
-  const [subDeps, entityNid, config] = [
-    info.headers["freelog-sub-dependencies"],
-    info.headers["freelog-entity-nid"],
-    window.isTest
-      ? info.headers["freelog-entity-property"]
-      : info.headers["freelog-resource-property"],
+  const [subDeps, workNid, config] = [
+    info.headers["freelog-work-sub-dependencies"],
+    info.headers["freelog-work-nid"],
+    info.headers["freelog-work-property	"]
   ];
+  console.log(info.data)
   return {
     subDeps: subDeps ? JSON.parse(decodeURIComponent(subDeps)) : [],
     headers: info.headers,
     properties: config ? JSON.parse(decodeURIComponent(config)) : {},
-    entityNid,
+    workNid,
     data: info.data.data,
   };
 }
@@ -186,7 +185,7 @@ export function getEntry(that: any) {
   let url =
     baseURL +
     `auths/${window.isTest ? "testResources" : "presentables"}/${
-      that.presentableId
+      that.exhibitId
     }/fileStream?`;
   let url2 = `parentNid=${that.parentNid}&${window.isTest? 'subEntityIdOrName' : 'subResourceIdOrName'}=${that.subResourceIdOrName}`;
   if (that.parentNid) {

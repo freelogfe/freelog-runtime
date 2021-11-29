@@ -127,7 +127,7 @@ subData.subDeps.some((sub, index) => {
 **用途：获取展品详情**
  ```ts
   **参数说明**
-   presentableId: 展品id，
+   exhibitId: 展品id，
     query:{
         projection:  "string", // 需要指定哪些字段
         isLoadVersionProperty: 0 | 1, // 是否需要展品版本属性
@@ -139,7 +139,7 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
  **用法**
- const res = await window.freelogApp.getPresentableDetailById(presentableId, query).then((res)=>{
+ const res = await window.freelogApp.getPresentableDetailById(exhibitId, query).then((res)=>{
 
  })
 ```
@@ -149,7 +149,7 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品信息**
 
 ```ts
-  const res = await window.freelogApp.getInfoById(presentableId)
+  const res = await window.freelogApp.getInfoById(exhibitId)
 
   **参数说明**
     presentableIds: "string", // 展品id
@@ -174,7 +174,7 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品标准授权响应结果**
 
 ```ts
-  window.freelogApp.getResultById(presentableId)
+  window.freelogApp.getResultById(exhibitId)
 
   **参数说明**
 
@@ -201,14 +201,14 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
   const res = await window.freelogApp.getFileStreamById(
-    presentableId: string | number,
+    exhibitId: string | number,
     returnUrl?: boolean,
     config?: any
   )
 
   **参数说明**
 
-    presentableId: string,  // 展品id
+    exhibitId: string,  // 展品id
     returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
     config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
 
@@ -227,7 +227,7 @@ subData.subDeps.some((sub, index) => {
 
   **参数说明**
 
-    presentableId: string,  // 展品id
+    exhibitId: string,  // 展品id
     returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
     config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
 
@@ -239,14 +239,14 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
   const res = await window.freelogApp.getSubInfoById(
-      presentableId: string | number,
+      exhibitId: string | number,
       parentNid: string,
       subResourceIdOrName: string
   )
 
   **参数说明**
 
-    presentableId: string,
+    exhibitId: string,
     parentNid: string,  // 自身链路id
     subResourceIdOrName: string   // 子资源id或名称
 
@@ -277,14 +277,14 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
   const res = await window.freelogApp.getSubResultById(
-      presentableId: string,
+      exhibitId: string,
       parentNid: string, 
       subResourceIdOrName: string
   )
 
   **参数说明**
 
-    presentableId: string,
+    exhibitId: string,
     parentNid: string,  // 自身链路id
     subResourceIdOrName: string   // 子资源id或名称
 
@@ -314,7 +314,7 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
   const res = await window.freelogApp.getSubFileStreamById(
-    presentableId: string ,
+    exhibitId: string ,
     parentNid: string,
     subResourceIdOrName: string,
     returnUrl?: boolean,
@@ -323,7 +323,7 @@ subData.subDeps.some((sub, index) => {
 
   **参数说明**
 
-    presentableId: string , // 自身展品id
+    exhibitId: string , // 自身展品id
     parentNid: string,    // 自身链路id
     subResourceIdOrName: string, // 子依赖资源id或名称
     returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
@@ -359,7 +359,7 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品资源信息**
 
 ```ts
-  const res = await window.freelogApp.getResourceInfoById(presentableId)
+  const res = await window.freelogApp.getResourceInfoById(exhibitId)
 
   **参数说明**
 
@@ -386,14 +386,14 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
  const res = await window.freelogApp.getSubResourceInfoById(
-    presentableId: string | number, 
+    exhibitId: string | number, 
     parentNid: string, 
     subResourceIdOrName: string
   )
 
   **参数说明**
 
-    presentableId: string, // 展品id
+    exhibitId: string, // 展品id
     parentNid: string,  // 自身链路id
     subResourceIdOrName: string // 子资源id或名称
 
@@ -494,7 +494,7 @@ subData.subDeps.some((sub, index) => {
  **返回值**
   {
     subDeps:  [], // 子依赖数组
-    entityNid,  // 自身链路id
+    workNid,  // 自身链路id
     data: data, // 自身信息
   }
 ```
@@ -517,7 +517,7 @@ window.freelogApp.callAuth()
 window.freelogApp.addAuth(data) 
  
  **参数说明**
-    presentableId: string,
+    exhibitId: string,
     resolve: Function,  // 授权成功回调
     reject: Function,  // 授权失败回调
     options?: {

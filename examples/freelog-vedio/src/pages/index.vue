@@ -84,7 +84,7 @@ function getData() {
       const dataList = [];
       res.data.data.dataList.forEach(async (i) => {
         const src = await window.freelogApp.getFileStreamById(
-            i.presentableId,
+            i.exhibitId,
             true
         );
         dataList.push({

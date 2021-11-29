@@ -58,7 +58,7 @@ function render(props = {}) {
 				component: MdPage
 			},
 			{
-				path: '/acticles/:presentableId/:presentableName',
+				path: '/acticles/:exhibitId/:presentableName',
 				component: MdPage
 			}
 		]

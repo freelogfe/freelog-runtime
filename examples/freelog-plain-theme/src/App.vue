@@ -29,7 +29,7 @@ export default {
         );
         // window.freelogApp.mountWidget(
         //   {
-        //     presentableId: widget.presentableId,
+        //     exhibitId: widget.exhibitId,
         //     name: widget.presentableName,
         //     resourceId: widget.resourceInfo.resourceId,
         //     resourceName:  widget.resourceInfo.name,

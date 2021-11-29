@@ -32,8 +32,8 @@ var onloadBookDetail = createLoader(function (callback) {
     .then(res => {
       console.log(res)
       if (res.data.errcode === 0 && res.data.data.dataList.length) {
-        const { presentableId } = res.data.data.dataList[0]
-        window.freelogApp.getFileStreamById(presentableId, '', {
+        const { exhibitId } = res.data.data.dataList[0]
+        window.freelogApp.getFileStreamById(exhibitId, '', {
           responseType: "blob",
           onDownloadProgress: function (evt) {
             console.log(11111, parseInt((evt.loaded / evt.total) * 100))
@@ -101,8 +101,8 @@ var onloadChapters = createLoader(function (callback) {
     })
 })
 
-function requestPresentableData(presentableId) {
-  return window.freelogApp.getFileStreamById(presentableId)
+function requestPresentableData(exhibitId) {
+  return window.freelogApp.getFileStreamById(exhibitId)
     .then(res => {
       var meta = decodeURIComponent(res.headers['freelog-resource-property'])
       var chapter
@@ -114,7 +114,7 @@ function requestPresentableData(presentableId) {
       }
       console.log(res)
       if (!chapter) {
-        return window.freelogApp.getInfoById(presentableId)
+        return window.freelogApp.getInfoById(exhibitId)
           .then(res => {
             chapter = res.data && res.data.versionProperty || {
               "chapterName": "第一章 秦羽",
@@ -122,7 +122,7 @@ function requestPresentableData(presentableId) {
               "chapter": 1,
               "volumeName": "秦羽"
             }
-            chapter.presentableId = presentableId
+            chapter.exhibitId = exhibitId
             chapter.error = 'no chapter'
             return chapter
           }).catch((e) => {
@@ -142,13 +142,13 @@ function requestPresentableData(presentableId) {
 
 var presentablesMap = {}
 
-function onloadPresentableData(presentableId, disabledCache) {
+function onloadPresentableData(exhibitId, disabledCache) {
 
-  if (!disabledCache && presentablesMap[presentableId]) {
-    return Promise.resolve(presentablesMap[presentableId])
+  if (!disabledCache && presentablesMap[exhibitId]) {
+    return Promise.resolve(presentablesMap[exhibitId])
   } else {
-    return requestPresentableData(presentableId).then((chapter) => {
-      presentablesMap[presentableId] = chapter
+    return requestPresentableData(exhibitId).then((chapter) => {
+      presentablesMap[exhibitId] = chapter
       return chapter
     })
   }

@@ -174,17 +174,17 @@
         var params = route.params
         this.readProcess = params
         this.readProcess._id = `${params.volumeIndex}_${params.chapterIndex}`
-        var presentableId = route.query.chapterId;
-        if (!presentableId) {
+        var exhibitId = route.query.chapterId;
+        if (!exhibitId) {
           return;
         }
 
         this.chapters = [];
-        this.renderChapterContent(presentableId)
+        this.renderChapterContent(exhibitId)
       },
-      renderChapterContent(presentableId, disabledCache) {
+      renderChapterContent(exhibitId, disabledCache) {
         this.loadingChapter = true
-        onloadChapterContent(presentableId, disabledCache)
+        onloadChapterContent(exhibitId, disabledCache)
           .then(chapter => {
             console.log(chapter)
             if (chapter.error) {
@@ -193,7 +193,7 @@
             }
 
             var findChapterIndex = this.chapters.findIndex(chapter => {
-              return chapter.presentableId === presentableId
+              return chapter.exhibitId === exhibitId
             })
             if (findChapterIndex !== -1) {
               this.chapters.splice(findChapterIndex, 1, chapter)
@@ -249,7 +249,7 @@
             }
           }
           if (nextChapter) {
-            this.renderChapterContent(nextChapter.presentableId)
+            this.renderChapterContent(nextChapter.exhibitId)
           } else {
             this.loadEnd = true
           }
@@ -307,7 +307,7 @@
         this.$router.push({
           path: `/volume/${volume.volumeIndex}/chapter/${chapter.versionProperty.chapter}`,
           query: {
-            chapterId: chapter.presentableId
+            chapterId: chapter.exhibitId
           }
         })
       },

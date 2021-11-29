@@ -25,7 +25,7 @@ export function setPresentableQueue(name: string, value: any) {
 let uiInited = false;
 // 公共非展品事件UI， 后面考虑
 export function addAuth(
-  presentableId: any,
+  exhibitId: any,
   resolve: any,
   reject: any,
   options?: any
@@ -40,25 +40,25 @@ export function addAuth(
   const that = this;
   const name = that.name;
   // @ts-ignore
-  let data = presentableQueue.get(presentableId);
+  let data = presentableQueue.get(exhibitId);
   if (!data) {
     //  TODO 返回信息
     reject &&
       reject({
         errorCode: 2,
-        msg: presentableId + " is inncorrect or not required for callUI",
+        msg: exhibitId + " is inncorrect or not required for callUI",
       });
     return;
   }
   // TODO 根据 errCode 决定事件 外部函数判断，不写在里面
 
-  const arr = eventMap.get(presentableId)?.callBacks || [];
+  const arr = eventMap.get(exhibitId)?.callBacks || [];
   arr.push({
     resolve,
     reject,
     options,
   });
-  let id = presentableId;
+  let id = exhibitId;
   eventMap.set(id, {
     isTheme: that.isTheme,
     eventId: id, // 后期evnetId是要与prsesentableId区分开来的

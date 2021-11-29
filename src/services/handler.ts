@@ -79,22 +79,22 @@ export default function frequest(
           response.data.errCode &&
           response.data.errCode === 3 &&
           caller &&
-          (caller.presentableId || caller.resourceIdOrName)
+          (caller.exhibitId || caller.resourceIdOrName)
         ) {
           // freelog-entity-nid,freelog-test-resource-id,freelog-test-resource-name,
           // freelog-sub-dependencies,freelog-resource-type,freelog-entity-property
-          const presentableId = response.headers["freelog-presentable-id"];
+          const exhibitId = response.headers["freelog-presentable-id"];
           const presentableName = decodeURI(
             response.headers["freelog-presentable-name"]
           );
-          setPresentableQueue(presentableId, {
+          setPresentableQueue(exhibitId, {
             widget: caller.name,
             errCode: response.data.errCode,
             authCode: response.data.data.authCode,
             contracts: response.data.data.data.contracts || [],
             policies: response.data.data.data.policies,
             presentableName,
-            presentableId,
+            exhibitId,
             info: response.data,
           });
           resolve({
@@ -102,7 +102,7 @@ export default function frequest(
               errCode: 3,
               authCode: response.data.errCode,
               presentableName,
-              presentableId,
+              exhibitId,
               errorMsg: response.data.data.errorMsg,
             },
           });

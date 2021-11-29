@@ -5,8 +5,8 @@
         <li 
           class="fd-aside-item" 
           v-for="item in mdArticles" 
-          :key="item.presentableId">
-          <router-link class="fd-aside-link" :to="`/acticles/${item.presentableId}/${item.presentableName}`">
+          :key="item.exhibitId">
+          <router-link class="fd-aside-link" :to="`/acticles/${item.exhibitId}/${item.presentableName}`">
             <span :title="item.presentableName">{{item.presentableName}}</span>
           </router-link>
         </li>
@@ -43,7 +43,7 @@ export default {
   watch: {},
   computed: {
     activePresentableId() {
-      return this.$route.params.presentableId
+      return this.$route.params.exhibitId
     }
   },
   methods: {
@@ -51,8 +51,8 @@ export default {
       this.loadingVisible = true
       this.mdArticles = await this.getMarkdownList()
 			if (this.mdArticles.length > 0 && this.activePresentableId == null) {
-				const { presentableId, presentableName } = this.mdArticles[0]
-				this.$router.push(`/acticles/${presentableId}/${encodeURIComponent(presentableName)}`)
+				const { exhibitId, presentableName } = this.mdArticles[0]
+				this.$router.push(`/acticles/${exhibitId}/${encodeURIComponent(presentableName)}`)
       }
       this.loadingVisible = false
       this.observeLastNavItem()
