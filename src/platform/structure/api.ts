@@ -108,14 +108,14 @@ function getByExhibitId(
   if (isTest)
     return frequest.bind({ name, exhibitId })(
       exhibit.getTestExhibitAuthById,
-      [exhibitId, type],
+      [nodeId, exhibitId, type],
       form,
       returnUrl,
       config
     );
   return frequest.bind({ name, exhibitId: parentNid ? "" : exhibitId })(
     exhibit.getExhibitAuthById,
-    [exhibitId, type],
+    [nodeId, exhibitId, type],
     form,
     returnUrl,
     config

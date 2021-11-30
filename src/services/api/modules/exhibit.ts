@@ -16,7 +16,7 @@ export type Exhibit = {
 };
 
 const exhibit: Exhibit = {
-  // placeHolder: exhibitId
+  // placeHolder: nodeId exhibitId
   getExhibitsDetail: {
     url: `exhibits/${placeHolder}/${placeHolder}`,
     method: "GET",
@@ -24,7 +24,7 @@ const exhibit: Exhibit = {
       isLoadPolicyInfo: "int",
     },
   },
-  // placeHolder: exhibitId
+  // placeHolder: nodeId exhibitId
   getTestExhibitsDetail: {
     url: `exhibits/${placeHolder}/test/${placeHolder}`,
     method: "GET",
@@ -89,7 +89,7 @@ const exhibit: Exhibit = {
   },
   // exhibitId  {result|info|fileStream}
   getExhibitAuthById: {
-    url: `auths/exhibits/${placeHolder}/${placeHolder}`,
+    url: `auths/exhibits/${placeHolder}/${placeHolder}/${placeHolder}`,
     method: "GET",
     dataModel: {
       parentNid: "string", // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
@@ -98,9 +98,9 @@ const exhibit: Exhibit = {
       subFilePath: "string", // 主题或插件的压缩包内部子资源,需要带相对路径
     },
   },
-  // nodeId articleIdOrName {result|info|fileStream}
+  // nodeId  articleIdOrName {result|info|fileStream}
   getExhibitAuthByWorkIdOrName: {
-    url: `auths/exhibits/${placeHolder}/${placeHolder}/${placeHolder}`,
+    url: `auths/exhibits/${placeHolder}/articles/${placeHolder}/${placeHolder}`,
     method: "GET",
     dataModel: {
       articleIdOrName: "string", // 作品ID或者名称,需要encodeURIComponent编码
@@ -112,7 +112,7 @@ const exhibit: Exhibit = {
   },
   // exhibitId  {result|info|fileStream}
   getTestExhibitAuthById: {
-    url: `auths/exhibits/${placeHolder}/${placeHolder}/test/${placeHolder}`,
+    url: `auths/exhibits/${placeHolder}/test/${placeHolder}/${placeHolder}`,
     method: "GET",
     dataModel: {
       parentNid: "string",

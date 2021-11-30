@@ -1,4 +1,4 @@
-import { mountWidget, autoMoutSubWdigets } from "./widget";
+import { mountWidget } from "./widget";
 import {
   getSelfConfig,
   setUserData,
@@ -53,7 +53,6 @@ export const freelogApp: any = {
   getExhibitsSignCount,
   devData,
   getStaticPath,
-  autoMoutSubWdigets,
   getSubDep,
   getSelfId,
   callAuth,

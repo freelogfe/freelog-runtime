@@ -16,8 +16,8 @@ export default {
   methods: {
     async getSub() {
       console.log(window.freelogApp);
-      const exhibitId = await window.freelogApp.getSelfId(window);
-      const subData = await window.freelogApp.getSubDep(exhibitId);
+      // const exhibitId = await window.freelogApp.getSelfId(window);
+      const subData = await window.freelogApp.getSubDep();
       console.log(122222, subData);
       subData.subDeps.some((sub, index) => {
         if (index === 1) return true;

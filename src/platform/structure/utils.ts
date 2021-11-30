@@ -103,7 +103,7 @@ export async function getSelfConfig() {
 }
 // TODO if error  这里不需要参数，除了运行时自行调用，需要抽离出来不与插件调用混在一起
 // TODO 紧急，增加方法加载子依赖传递资源id，通过资源id查询到孙依赖插件
-export async function getSubDep(exhibitId: any) {
+export async function getSubDep(exhibitId?: any) {
   let isTheme = false;
   // @ts-ignore
   const that = this || {};
