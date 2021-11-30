@@ -79,13 +79,13 @@ export default function frequest(
           response.data.errCode &&
           response.data.errCode === 3 &&
           caller &&
-          (caller.exhibitId || caller.resourceIdOrName)
+          (caller.exhibitId || caller.articleIdOrName)
         ) {
           // freelog-work-nid,freelog-test-resource-id,freelog-test-resource-name,
           // freelog-sub-dependencies,freelog-resource-type,freelog-work-property
-          const exhibitId = response.headers["freelog-presentable-id"];
+          const exhibitId = response.headers["freelog-exhibit-id"];
           const exhibitName = decodeURI(
-            response.headers["freelog-presentable-name"]
+            response.headers["freelog-exhibit-name"]
           );
           setPresentableQueue(exhibitId, {
             widget: caller.name,

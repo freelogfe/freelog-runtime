@@ -5,7 +5,7 @@ import "./auth.scss";
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
 import frequest from "@/services/handler";
-import presentable from "@/services/api/modules/presentable";
+import exhibit from "@/services/api/modules/exhibit";
 import Confirm from "./_components/confirm";
 import Login from "./login";
 import contract from "@/services/api/modules/contract";
@@ -102,7 +102,7 @@ export default function Auth(props: contractProps) {
       return;
     }
     const res = await frequest(
-      presentable.getPresentableDetail,
+      exhibit.getPresentableDetail,
       [id || currentPresentable.exhibitId],
       {
         isLoadPolicyInfo: 1,
@@ -333,13 +333,13 @@ export default function Auth(props: contractProps) {
                                   }}
                                   className={
                                     (currentPresentable === item
-                                      ? "presentable-selected "
+                                      ? "exhibit-selected "
                                       : "") +
-                                    " px-20 py-15 w-100x b-box x-auto  cur-pointer presentable-item select-none flex-column"
+                                    " px-20 py-15 w-100x b-box x-auto  cur-pointer exhibit-item select-none flex-column"
                                   }
                                 >
                                   <div
-                                    className="presentable-name w-100x text-ellipsis flex-1 flex-row align-center"
+                                    className="exhibit-name w-100x text-ellipsis flex-1 flex-row align-center"
                                     title={item.exhibitName}
                                   >
                                     <span>{item.exhibitName}</span>

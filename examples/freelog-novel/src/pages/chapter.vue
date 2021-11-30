@@ -315,14 +315,14 @@
         window.scrollTo(0, 0)
       },
       errorHandler(chapter) {
-        var presentable = chapter.error.data.data.presentableInfo
+        var exhibit = chapter.error.data.data.exhibitInfo
         // var contract = chapter.error.data.data.contract;
         // var contractState = contract && contract.status
 
         window.FreelogApp.trigger('HANDLE_INVALID_RESPONSE', {
           response: chapter.error,
           callback: () => {
-            this.renderChapterContent(presentable.targetId, true)
+            this.renderChapterContent(exhibit.targetId, true)
           }
         })
       }

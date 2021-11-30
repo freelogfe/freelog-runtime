@@ -9,7 +9,7 @@ import Register from "./user/register";
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
 import frequest from "@/services/handler";
-import presentable from "@/services/api/modules/presentable";
+import exhibit from "@/services/api/modules/exhibit";
 import contract from "@/services/api/modules/contract";
 import getBestTopology from "./topology/data";
 import { Dialog, Popup, Button, Toast } from "antd-mobile"; // Toast, Button
@@ -96,7 +96,7 @@ export default function (props: contractProps) {
       return;
     }
     const res = await frequest(
-      presentable.getPresentableDetail,
+      exhibit.getPresentableDetail,
       [id || currentPresentable.exhibitId],
       {
         isLoadPolicyInfo: 1,
@@ -267,7 +267,7 @@ export default function (props: contractProps) {
           <Popup
             visible={isListVisible}
             position="left"
-            bodyClassName="presentable-list w-100x h-100x"
+            bodyClassName="exhibit-list w-100x h-100x"
           >
             <div className="flex-row space-between px-15 py-20 list-title">
               <div className="list-title-name">展品列表</div>
@@ -296,14 +296,14 @@ export default function (props: contractProps) {
                       }}
                       className={
                         (currentPresentable === item
-                          ? "presentable-selected "
+                          ? "exhibit-selected "
                           : "") +
-                        " px-15 py-15 presentable-item  flex-row space-between algin-center"
+                        " px-15 py-15 exhibit-item  flex-row space-between algin-center"
                       }
                     >
                       <div className="flex-1 flex-column over-h">
                         <div
-                          className="presentable-name text-ellipsis flex-1 flex-row align-center"
+                          className="exhibit-name text-ellipsis flex-1 flex-row align-center"
                           title={item.exhibitName}
                         >
                           <span className="text-ellipsis">

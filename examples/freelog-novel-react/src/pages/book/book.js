@@ -24,7 +24,7 @@ function Book(props) {
     }
     console.log(bookResource)
     setBookInfo({...res.data.data[0], intro: bookResource.data.data.intro})
-    const chaptersRes = await window.freelogApp.getPresentables({ articleResourceTypes: "chapter", tags: res.data.data[0].exhibitName, isLoadVersionProperty: 1})
+    const chaptersRes = await window.freelogApp.getExhibitsByPaging({ articleResourceTypes: "chapter", tags: res.data.data[0].exhibitName, isLoadVersionProperty: 1})
     let chaptersData = chaptersRes.data.data.dataList
     console.log(chaptersData)
     chaptersData.sort((a,b)=>{

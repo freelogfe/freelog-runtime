@@ -140,15 +140,15 @@ function requestPresentableData(exhibitId) {
     })
 }
 
-var presentablesMap = {}
+var exhibitsMap = {}
 
 function onloadPresentableData(exhibitId, disabledCache) {
 
-  if (!disabledCache && presentablesMap[exhibitId]) {
-    return Promise.resolve(presentablesMap[exhibitId])
+  if (!disabledCache && exhibitsMap[exhibitId]) {
+    return Promise.resolve(exhibitsMap[exhibitId])
   } else {
     return requestPresentableData(exhibitId).then((chapter) => {
-      presentablesMap[exhibitId] = chapter
+      exhibitsMap[exhibitId] = chapter
       return chapter
     })
   }

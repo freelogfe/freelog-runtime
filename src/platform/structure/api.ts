@@ -52,9 +52,13 @@ export async function getExhibitsByPaging(query: any): Promise<any> {
       }
     );
   // @ts-ignore
-  return frequest.bind({ name: this.name })(exhibit.getExhibitsByPaging, [nodeId], {
-    ...query,
-  });
+  return frequest.bind({ name: this.name })(
+    exhibit.getExhibitsByPaging,
+    [nodeId],
+    {
+      ...query,
+    }
+  );
 }
 export async function getExhibitsDetail(exhibitId: string, query: any) {
   if (isTest)
@@ -105,14 +109,22 @@ function getByExhibitId(
     form.subWorkIdOrName = subWorkIdOrName;
   }
   if (isTest)
-    return frequest.bind({ name, exhibitId })(
+    return frequest.bind({
+      name,
+      isAuth: true,
+      exhibitId: parentNid ? "" : exhibitId,
+    })(
       exhibit.getTestExhibitAuthById,
       [nodeId, exhibitId, type],
       form,
       returnUrl,
       config
     );
-  return frequest.bind({ name, exhibitId: parentNid ? "" : exhibitId })(
+  return frequest.bind({
+    name,
+    isAuth: true,
+    exhibitId: parentNid ? "" : exhibitId,
+  })(
     exhibit.getExhibitAuthById,
     [nodeId, exhibitId, type],
     form,
@@ -238,6 +250,7 @@ function getExhibitAuthByWorkIdOrName(
     );
   return frequest.bind({
     name,
+    isAuth: true,
     articleIdOrName: parentNid ? "" : articleIdOrName,
   })(
     exhibit.getExhibitAuthByWorkIdOrName,

@@ -1,7 +1,7 @@
 import { SUCCESS, FAILED, USER_CANCEL } from "./event";
 import { LOGIN, CONTRACT } from "./event";
 
-export const presentableQueue = new Map<any, any>();
+export const exhibitQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
 export const failedMap = new Map<any, any>();
 const rawDocument = document;
@@ -20,7 +20,7 @@ export function updateLock(status: boolean) {
   locked = !!status;
 }
 export function setPresentableQueue(name: string, value: any) {
-  presentableQueue.set(name, value);
+  exhibitQueue.set(name, value);
 }
 let uiInited = false;
 // 公共非展品事件UI， 后面考虑
@@ -40,7 +40,7 @@ export function addAuth(
   const that = this;
   const name = that.name;
   // @ts-ignore
-  let data = presentableQueue.get(exhibitId);
+  let data = exhibitQueue.get(exhibitId);
   if (!data) {
     //  TODO 返回信息
     reject &&
@@ -121,14 +121,14 @@ export function endEvent(eventId: string, type: number, data: any) {
       eventMap.get(eventId).callBacks.forEach((item: any) => {
         item.resolve(data);
       });
-      presentableQueue.delete(eventId);
+      exhibitQueue.delete(eventId);
       removeEvent(eventId);
       break;
     case FAILED:
       eventMap.get(eventId).callBacks.forEach((item: any) => {
         item.reject(FAILED, data);
       });
-      presentableQueue.delete(eventId);
+      exhibitQueue.delete(eventId);
       removeEvent(eventId);
       break;
     case USER_CANCEL:
@@ -137,7 +137,7 @@ export function endEvent(eventId: string, type: number, data: any) {
           item.reject(USER_CANCEL, data);
         });
       });
-      presentableQueue.clear();
+      exhibitQueue.clear();
       removeEvent();
       break;
   }

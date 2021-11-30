@@ -161,11 +161,11 @@ subData.subDeps.some((sub, index) => {
 **用途：根据资源 id 或名称查找展品信息**
 
 ```ts
-  const res = await window.freelogApp.getInfoByName(resourceIdOrName)
+  const res = await window.freelogApp.getInfoByName(articleIdOrName)
 
   **参数说明**
 
-    resourceIdOrName: "string", // 资源id或名称
+    articleIdOrName: "string", // 资源id或名称
 
 ```
 
@@ -187,11 +187,11 @@ subData.subDeps.some((sub, index) => {
 **用途：根据资源 id 或名称查找展品标准授权响应结果**
 
 ```ts
-  const res = await window.freelogApp.getResultByName(resourceIdOrName)
+  const res = await window.freelogApp.getResultByName(articleIdOrName)
 
   **参数说明**
 
-    resourceIdOrName: "string", // 资源id或名称
+    articleIdOrName: "string", // 资源id或名称
 
 ```
 
@@ -220,7 +220,7 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
   const res = await window.freelogApp.getFileStreamByName(
-    resourceIdOrName, 
+    articleIdOrName, 
     returnUrl, 
     config
   )
@@ -258,14 +258,14 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
   const res = await window.freelogApp.getSubInfoByName(
-      resourceIdOrName: string | number,
+      articleIdOrName: string | number,
       parentNid: string,
       subResourceIdOrName: string
   )
 
   **参数说明**
 
-    resourceIdOrName: string, // 展品自身的资源名称或id
+    articleIdOrName: string, // 展品自身的资源名称或id
     parentNid: string,  // 自身链路id
     subResourceIdOrName: string   // 子资源id或名称
 
@@ -296,13 +296,13 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
   const res = await window.freelogApp.getSubResultByName(
-      resourceIdOrName: string | number,
+      articleIdOrName: string | number,
       parentNid: string,
       subResourceIdOrName: string)
 
   **参数说明**
 
-    resourceIdOrName: string, // 展品自身的资源名称或id
+    articleIdOrName: string, // 展品自身的资源名称或id
     parentNid: string,  // 自身链路id
     subResourceIdOrName: string   // 子资源id或名称
 
@@ -337,7 +337,7 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
   const res = await window.freelogApp.getSubFileStreamByName(
-    resourceIdOrName: string | number,
+    articleIdOrName: string | number,
     parentNid: string,
     subResourceIdOrName: string,
     returnUrl?: boolean,
@@ -346,7 +346,7 @@ subData.subDeps.some((sub, index) => {
 
   **参数说明**
 
-    resourceIdOrName: string , // 自身资源id或名称
+    articleIdOrName: string , // 自身资源id或名称
     parentNid: string,    // 自身链路id
     subResourceIdOrName: string, // 子依赖资源id或名称
     returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
@@ -372,11 +372,11 @@ subData.subDeps.some((sub, index) => {
 **用途：查找展品资源信息**
 
 ```ts
-  const res = await window.freelogApp.getResourceInfoByName(resourceIdOrName)
+  const res = await window.freelogApp.getResourceInfoByName(articleIdOrName)
 
   **参数说明**
 
-    resourceIdOrName: "string", // 展品资源id或名称
+    articleIdOrName: "string", // 展品资源id或名称
 
 ```
 
@@ -405,14 +405,14 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
   const res = await window.freelogApp.getSubResourceInfoByName(
-    resourceIdOrName: string | number,
+    articleIdOrName: string | number,
     parentNid: string,
     subResourceIdOrName: string
   )
 
   **参数说明**
 
-    resourceIdOrName: string | number, // 自身资源id或名称
+    articleIdOrName: string | number, // 自身资源id或名称
     parentNid: string, // 自身链路id
     subResourceIdOrName: string // 子资源id或名称
 

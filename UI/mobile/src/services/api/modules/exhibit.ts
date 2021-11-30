@@ -13,10 +13,10 @@ export type Presentable = {
   getPresentableDetail: any
 };
 
-const presentable: Presentable = {
+const exhibit: Presentable = {
   // exhibitId, result|info|articleInfo|fileStream
   getPresentableDetail: {
-    url: `presentables/${placeHolder}`,
+    url: `exhibits/${placeHolder}`,
     method: "GET",
     dataModel: {
       projection:  "string",
@@ -29,7 +29,7 @@ const presentable: Presentable = {
     }
   },
   getPagingPresentables: {
-    url: "presentables",
+    url: "exhibits",
     method: "GET",
     dataModel: {
       nodeId: "string",
@@ -46,7 +46,7 @@ const presentable: Presentable = {
     },
   },
   getPresentables: {
-    url: "presentables/list",
+    url: "exhibits/list",
     method: "GET",
     dataModel: {
       nodeId: "string",
@@ -61,12 +61,12 @@ const presentable: Presentable = {
   },
   // exhibitId, result|info|articleInfo|fileStream
   getByPresentableId: {
-    url: `auths/presentables/${placeHolder}/${placeHolder}`,
+    url: `auths/exhibits/${placeHolder}/${placeHolder}`,
     method: "GET",
   },
-  // nodeId  resourceIdOrName   result|info|articleInfo|fileStream
+  // nodeId  articleIdOrName   result|info|articleInfo|fileStream
   getByResourceIdOrName: {
-    url: `auths/presentables/nodes/${placeHolder}/${placeHolder}/${placeHolder}`,
+    url: `auths/exhibits/nodes/${placeHolder}/${placeHolder}/${placeHolder}`,
     method: "GET",
   },
   getTestPagingData: {
@@ -94,4 +94,4 @@ const presentable: Presentable = {
     method: "GET",
   },
 };
-export default presentable;
+export default exhibit;

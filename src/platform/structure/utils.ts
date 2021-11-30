@@ -184,7 +184,7 @@ export function getEntry(that: any) {
   }
   let url =
     baseURL +
-    `auths/${window.isTest ? "testResources" : "presentables"}/${
+    `auths/${window.isTest ? "testResources" : "exhibits"}/${
       that.exhibitId
     }/fileStream?`;
   let url2 = `parentNid=${that.parentNid}&${window.isTest? 'subEntityIdOrName' : 'subResourceIdOrName'}=${that.subResourceIdOrName}`;
