@@ -37,7 +37,7 @@ const presentable: Presentable = {
       nodeId: "string",
       skip: "string",
       limit: "string",
-      workType: "string",
+      articleResourceTypes: "string",
       omitResourceType: "string",
       onlineStatus: "string",
       tags: "string",
@@ -53,7 +53,7 @@ const presentable: Presentable = {
     dataModel: {
       nodeId: "string",
       userId: "string",
-      presentableIds: "string",
+      exhibitIds: "string",
       resourceIds: "string",
       resourceNames: "string",
       isLoadVersionProperty: "string",
@@ -78,7 +78,7 @@ const presentable: Presentable = {
       nodeId: "string",
       skip: "string",
       limit: "string",
-      workType: "string",
+      articleResourceTypes: "string",
       onlineStatus: "string",
       tags: "string",
       omitResourceType: "string",
@@ -109,7 +109,7 @@ const presentable: Presentable = {
     dataModel: {
       nodeId: "string",
       authType: "string",
-      presentableIds: "string"
+      exhibitIds: "string"
     },
   }
 };

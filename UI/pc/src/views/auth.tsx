@@ -340,9 +340,9 @@ export default function Auth(props: contractProps) {
                                 >
                                   <div
                                     className="presentable-name w-100x text-ellipsis flex-1 flex-row align-center"
-                                    title={item.presentableName}
+                                    title={item.exhibitName}
                                   >
-                                    <span>{item.presentableName}</span>
+                                    <span>{item.exhibitName}</span>
                                   </div>
                                   {!item.contracts.length ? null : (
                                     <div className="flex-row pt-10">

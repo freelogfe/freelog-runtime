@@ -9,14 +9,14 @@ function Book(props) {
   const [chapters, setChapters] = useState([]);
 
   useEffect(async() => {
-    const res = await window.freelogApp.getPresentablesSearch({presentableIds: bookId})
-    let bookResource = await window.freelogApp.getResourceInfoById(bookId)
+    const res = await window.freelogApp.getExhibitsByIds({exhibitIds: bookId})
+    let bookResource = await window.freelogApp.getExhibitInfoById(bookId)
     console.log(res, bookResource)
     if (bookResource.data.errCode) {
       bookResource = await new Promise((resolve, rej) => {
         console.log(bookResource)
         window.freelogApp.addAuth(bookResource.data.exhibitId, async () => {
-          const book = await window.freelogApp.getResourceInfoById(bookId)
+          const book = await window.freelogApp.getExhibitInfoById(bookId)
           console.log(resolve)
           resolve && resolve(book)
         }, () => { }, { immediate: true })
@@ -24,7 +24,7 @@ function Book(props) {
     }
     console.log(bookResource)
     setBookInfo({...res.data.data[0], intro: bookResource.data.data.intro})
-    const chaptersRes = await window.freelogApp.getPresentables({ workType: "chapter", tags: res.data.data[0].presentableName, isLoadVersionProperty: 1})
+    const chaptersRes = await window.freelogApp.getPresentables({ articleResourceTypes: "chapter", tags: res.data.data[0].exhibitName, isLoadVersionProperty: 1})
     let chaptersData = chaptersRes.data.data.dataList
     console.log(chaptersData)
     chaptersData.sort((a,b)=>{
@@ -34,7 +34,7 @@ function Book(props) {
          aIndex = parseInt(a.versionProperty.chapter)
          bIndex = parseInt(b.versionProperty.chapter)
       }catch(e){
-        console.log("chapter 设置错误 " + a.presentableName + ' 或者 ' + b.presentableName )
+        console.log("chapter 设置错误 " + a.exhibitName + ' 或者 ' + b.exhibitName )
       }
       return aIndex - bIndex
     })
@@ -74,7 +74,7 @@ function Book(props) {
           className={"text-ellipsis flex-row align-center cur-pointer select-none " + (hovered? ' fc-nav-active': '')}
         >
           <div className={"mr-5 fs-40 pb-5"  + (!hovered? ' fc-less': '')}>&lt;</div>{" "}
-          <div className="fs-30 text-ellipsis flex-1 lh-55">{bookInfo.presentableName}</div>
+          <div className="fs-30 text-ellipsis flex-1 lh-55">{bookInfo.exhibitName}</div>
         </div>
       </div>
       <div className="flex-1 over-h w-100x">
@@ -97,7 +97,7 @@ function Book(props) {
                   setCurrent({bookInfo, chapters, chapterIndex: index })
                   setVisible(true)
                 }}>
-                  {item.chapterIndex + '      '  + item.presentableName}
+                  {item.chapterIndex + '      '  + item.exhibitName}
                 </div>
               );
             })}

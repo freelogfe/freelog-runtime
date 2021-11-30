@@ -15,10 +15,7 @@ export default {
   computed: {},
   methods: {
     async getSub() {
-      console.log(window.freelogApp);
-      // const exhibitId = await window.freelogApp.getSelfId(window);
       const subData = await window.freelogApp.getSubDep();
-      console.log(122222, subData);
       subData.subDeps.some((sub, index) => {
         if (index === 1) return true;
         window.freelogApp.mountWidget(
@@ -27,21 +24,6 @@ export default {
           subData,
           ""
         );
-        // window.freelogApp.mountWidget(
-        //   sub,
-        //   document.getElementById("freelog-single"),
-        //   {
-        //     //@ts-ignore
-        //     exhibitId: exhibitId,
-        //     articleNid: subData.articleNid,
-        //     subDependId: sub.id,
-        //     articleInfo: {
-        //       articleId: sub.id,
-        //       // articleName: sub.articleInfo.name,
-        //     },
-        //   },
-        //   ""
-        // );
       });
     },
   },

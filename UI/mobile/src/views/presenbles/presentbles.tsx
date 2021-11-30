@@ -4,7 +4,7 @@ interface ContractType {
   name: string;
 }
 interface ItemProps {
-  presentableName: string;
+  exhibitName: string;
   contracts: Array<ContractType>;
   children: any;
 }

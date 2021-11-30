@@ -52,7 +52,7 @@ export default function Chapter(props) {
         </div>
         <div className="flex-1 over-h h-55">
           <div className="fs-30 text-ellipsis w-100x b-box text-align-center pr-40 lh-55">
-            {chapter.presentableName}
+            {chapter.exhibitName}
           </div>
         </div>
       </div>

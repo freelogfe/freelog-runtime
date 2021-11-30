@@ -64,7 +64,7 @@ export async function getPresentablesPaging(query: any): Promise<any> {
     }
   );
 }
-export async function getPresentablesSearch(query: any): Promise<any> {
+export async function getExhibitsByIds(query: any): Promise<any> {
   if (query && Object.prototype.toString.call(query) !== "[object Object]") {
     return "query parameter must be object";
   }
@@ -426,7 +426,7 @@ export async function getPresentableSignCount(
   );
 }
 export async function getPresentablesAuth(
-   presentableIds: string 
+   exhibitIds: string 
 ) {
   // @ts-ignore
   return frequest(
@@ -434,7 +434,7 @@ export async function getPresentablesAuth(
     [nodeId],
     {
       authType: 4,
-      presentableIds
+      exhibitIds
     }
   );
 }

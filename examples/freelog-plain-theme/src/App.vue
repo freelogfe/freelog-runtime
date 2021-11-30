@@ -16,7 +16,7 @@ export default {
   methods: {
     async getSub() {
       const res = await window.freelogApp.getPresentables({
-        workType: "widget",
+        articleResourceTypes: "widget",
         isLoadVersionProperty: 1
       });
       console.log(res)
@@ -30,7 +30,7 @@ export default {
         // window.freelogApp.mountWidget(
         //   {
         //     exhibitId: widget.exhibitId,
-        //     name: widget.presentableName,
+        //     name: widget.exhibitName,
         //     articleId: widget.articleInfo.articleId,
         //     articleName:  widget.articleInfo.name,
         //     // articleId: widget.articleInfo.articleId,

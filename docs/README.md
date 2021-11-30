@@ -500,7 +500,7 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
 const res = await window.freelogApp.getPresentables({
-  workType: "widget",
+  articleResourceTypes: "widget",
   isLoadVersionProperty: 1,
 });
 const widgets = res.data.data.dataList;
@@ -631,7 +631,7 @@ export async function mount(props) {
    query:{
     skip: "string", // 从第几个开始
     limit: "string", // 取多少个
-    workType: "string", // 资源类型
+    articleResourceTypes: "string", // 资源类型
     omitResourceType: "string", // 过滤资源类型
     tags: "string", // 展品和资源标签，多个使用","隔开
     projection: "string",
@@ -643,11 +643,11 @@ export async function mount(props) {
 **查找展品**
 
 ```ts
- window.freelogApp.getPresentablesSearch(query).then((res)=>{
+ window.freelogApp.getExhibitsByIds(query).then((res)=>{
 
  })
   query:{
-    presentableIds: "string", // 展品ids 多个使用","隔开
+    exhibitIds: "string", // 展品ids 多个使用","隔开
     resourceIds: "string", // 资源ids
     resourceNames: "string", // 资源名称s
   }
@@ -697,12 +697,12 @@ export async function mount(props) {
 
 ```ts
   const res = await window.freelogApp.getPresentableSignCount(
-    presentableIds: string
+    exhibitIds: string
   )
 
   **参数说明**
 
-    presentableIds: 用英文逗号隔开的展品id
+    exhibitIds: 用英文逗号隔开的展品id
 
 ```
 
@@ -710,12 +710,12 @@ export async function mount(props) {
 
 ```ts
   const res = await window.freelogApp.getPresentablesAuth(
-    presentableIds: string
+    exhibitIds: string
   )
 
   **参数说明**
 
-    presentableIds:  用英文逗号隔开的展品id
+    exhibitIds:  用英文逗号隔开的展品id
 
 ```
 
@@ -734,7 +734,7 @@ let ch = await window.freelogApp.getFileStreamById(
  * {
  *   data: {
  *     errCode: 3,
- *     presentableName,
+ *     exhibitName,
  *     exhibitId,
  *     errorMsg: response.data.data.errorMsg,
  *   },

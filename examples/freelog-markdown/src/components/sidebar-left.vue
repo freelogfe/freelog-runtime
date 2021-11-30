@@ -6,8 +6,8 @@
           class="fd-aside-item" 
           v-for="item in mdArticles" 
           :key="item.exhibitId">
-          <router-link class="fd-aside-link" :to="`/acticles/${item.exhibitId}/${item.presentableName}`">
-            <span :title="item.presentableName">{{item.presentableName}}</span>
+          <router-link class="fd-aside-link" :to="`/acticles/${item.exhibitId}/${item.exhibitName}`">
+            <span :title="item.exhibitName">{{item.exhibitName}}</span>
           </router-link>
         </li>
       </ul>
@@ -51,14 +51,14 @@ export default {
       this.loadingVisible = true
       this.mdArticles = await this.getMarkdownList()
 			if (this.mdArticles.length > 0 && this.activePresentableId == null) {
-				const { exhibitId, presentableName } = this.mdArticles[0]
-				this.$router.push(`/acticles/${exhibitId}/${encodeURIComponent(presentableName)}`)
+				const { exhibitId, exhibitName } = this.mdArticles[0]
+				this.$router.push(`/acticles/${exhibitId}/${encodeURIComponent(exhibitName)}`)
       }
       this.loadingVisible = false
       this.observeLastNavItem()
 		},
 		async getMarkdownList() {
-			const {data: result} = await window.freelogApp.getPresentables({ workType: 'markdown' })
+			const {data: result} = await window.freelogApp.getPresentables({ articleResourceTypes: 'markdown' })
 			if (result.errcode === 0) {
         const { dataList, page, pageSize, totalItem } = result.data
         this.canLoadMore = totalItem > page * pageSize

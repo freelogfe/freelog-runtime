@@ -47,7 +47,7 @@ export default function Confirm(props: ConfirmProps) {
           <span className="pr-10 shrink-0">展品名称</span>
           {props.currentPresentable ? (
             <span>
-              {props.currentPresentable.presentableName}
+              {props.currentPresentable.exhibitName}
             </span>
           ) : (
             ""

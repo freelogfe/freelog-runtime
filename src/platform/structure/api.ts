@@ -40,7 +40,7 @@ export async function getExhibitsByIds(query: any): Promise<any> {
 }
 export async function getExhibitsByPaging(query: any): Promise<any> {
   if (query && Object.prototype.toString.call(query) !== "[object Object]") {
-    return "query parameter must be object";
+    return Promise.reject("query parameter must be object");
   }
   if (isTest)
     // @ts-ignore
@@ -52,8 +52,7 @@ export async function getExhibitsByPaging(query: any): Promise<any> {
       }
     );
   // @ts-ignore
-  return frequest.bind({ name: this.name })(exhibit.getExhibitsByPaging, "", {
-    nodeId,
+  return frequest.bind({ name: this.name })(exhibit.getExhibitsByPaging, [nodeId], {
     ...query,
   });
 }

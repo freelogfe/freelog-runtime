@@ -32,7 +32,7 @@ export default function (props) {
         
     //   })
     // })
-    const res = await window.freelogApp.getPresentables({ workType: 'novel' })
+    const res = await window.freelogApp.getExhibitsByPaging({ articleResourceTypes: 'novel' })
     setNovels(res.data.data.dataList)
   }, []);
   return (
@@ -59,7 +59,7 @@ export default function (props) {
               <div className="flex-1 over-h flex-column">
                 <img className="h-100x" src={item.coverImages} />
               </div>
-              <div className="mt-10 fw-bold fs-30 text-2-ellipsis text-break p-10">{item.presentableName} </div>
+              <div className="mt-10 fw-bold fs-30 text-2-ellipsis text-break p-10">{item.exhibitName} </div>
             </div>
           );
         })}

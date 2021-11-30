@@ -304,10 +304,10 @@ export default function (props: contractProps) {
                       <div className="flex-1 flex-column over-h">
                         <div
                           className="presentable-name text-ellipsis flex-1 flex-row align-center"
-                          title={item.presentableName}
+                          title={item.exhibitName}
                         >
                           <span className="text-ellipsis">
-                            {item.presentableName}
+                            {item.exhibitName}
                           </span>
                         </div>
                         {!item.contracts.length ? null : (
@@ -363,7 +363,7 @@ export default function (props: contractProps) {
                   {events.length === 1 ? "退出" : "关闭"}
                 </div>
                 <div className="text-center mt-20 mb-10 fs-20 fc-main fw-bold">
-                  {currentPresentable.presentableName}
+                  {currentPresentable.exhibitName}
                 </div>
                 {currentPresentable.isTheme ? (
                   <>
