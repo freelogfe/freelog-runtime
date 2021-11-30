@@ -15,7 +15,7 @@ const LAZY_LOAD_SPEC = 'js-md-lazy-load'
 
 export default class MarkdownParser extends HTMLElement {
 	markdownText = ''
-	workNid = ''
+	articleNid = ''
 	subDependencies = []
 	_tocs = []
 	$container = this 
@@ -65,17 +65,17 @@ export default class MarkdownParser extends HTMLElement {
 			if (response.headers['freelog-resource-type'] != null) {
 				const subDependenciesString = decodeURIComponent(response.headers['freelog-sub-dependencies'])
 				const subDependencies = JSON.parse(subDependenciesString)
-				const workNid = response.headers['freelog-work-nid']
+				const articleNid = response.headers['freelog-work-nid']
 				const markdownText = await response.data
-				tmpMD = { markdownText, workNid, subDependencies, authError: null }
+				tmpMD = { markdownText, articleNid, subDependencies, authError: null }
 			} else {
 				const authError = await response.json()
-				tmpMD = { markdownText: '', workNid: '', subDependencies: [], authError }
+				tmpMD = { markdownText: '', articleNid: '', subDependencies: [], authError }
 			}
 			markdownTextCache.set(exhibitId, tmpMD)
 		}
-		const { markdownText = '', workNid = '',  subDependencies = [], authError } = tmpMD
-		this.workNid = workNid
+		const { markdownText = '', articleNid = '',  subDependencies = [], authError } = tmpMD
+		this.articleNid = articleNid
 		this.subDependencies = subDependencies
 		this.authError = authError
 		this.markdownText = markdownText
@@ -134,8 +134,8 @@ export default class MarkdownParser extends HTMLElement {
 			if (text.replace(/^(\s*)|(\s*)$/g, '') === 'freelog-resource') {
 				const [ name, queryString ] = href.split('?')
 				const size = this.getImgSizeByQueryStr(queryString) 
-				const workId = this.getResourceIdByName(name)
-				if (workId) {
+				const articleId = this.getResourceIdByName(name)
+				if (articleId) {
 					var img = new Image()
           var imgId = `resource_img_${resIndex++}`
           img.id = imgId
@@ -147,7 +147,7 @@ export default class MarkdownParser extends HTMLElement {
           if (size.height) {
             img.height = size.height
           }
-          img.dataset.workId = workId
+          img.dataset.articleId = articleId
           img.classList.add(LAZY_LOAD_SPEC)
           title && (img.title = title)
           return img.outerHTML
@@ -186,9 +186,9 @@ export default class MarkdownParser extends HTMLElement {
             return
 					}
           var $target = entry.target
-          var workId = $target.dataset.workId
-					Reflect.deleteProperty($target.dataset, workId)
-					this.loadFreelogResource(workId, $target)
+          var articleId = $target.dataset.articleId
+					Reflect.deleteProperty($target.dataset, articleId)
+					this.loadFreelogResource(articleId, $target)
           observer.unobserve($target)
         })
       }
@@ -208,9 +208,9 @@ export default class MarkdownParser extends HTMLElement {
 
   async loadFreelogResource(subResourceId, $target) {
 		try {
-			const _response =  await window.freelogApp.getSubInfoById(this.exhibitId, this.workNid, subResourceId )
+			const _response =  await window.freelogApp.getSubInfoById(this.exhibitId, this.articleNid, subResourceId )
 			const type = _response.headers['freelog-resource-type']
-			const url = await window.freelogApp.getSubFileStreamById(this.exhibitId, this.workNid, subResourceId, true )
+			const url = await window.freelogApp.getSubFileStreamById(this.exhibitId, this.articleNid, subResourceId, true )
 			console.log(url, 234234)
 			if (type) {
 				const blob =  _response.data // .blob()

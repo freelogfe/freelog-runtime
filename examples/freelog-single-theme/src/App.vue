@@ -33,11 +33,11 @@ export default {
         //   {
         //     //@ts-ignore
         //     exhibitId: exhibitId,
-        //     workNid: subData.workNid,
+        //     articleNid: subData.articleNid,
         //     subDependId: sub.id,
-        //     workInfo: {
-        //       workId: sub.id,
-        //       // workName: sub.workInfo.name,
+        //     articleInfo: {
+        //       articleId: sub.id,
+        //       // articleName: sub.articleInfo.name,
         //     },
         //   },
         //   ""

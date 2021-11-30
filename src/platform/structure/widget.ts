@@ -145,148 +145,7 @@ export function mountWidget(
   seq?: number | null | undefined,
   isTheme?: boolean
 ): any {
-  if (!window.isTest) {
-    mountNormalWidget(
-      widget,
-      container,
-      topPresentableData,
-      config,
-      seq,
-      isTheme
-    );
-  } else {
-    // @ts-ignore
-    const that = this;
-    let configData = config;
-    // TODO 为了安全，得验证是否是插件使用还是运行时使用mountWidget
-    if (that && that.name) {
-      isTheme = false;
-      defaultWidgetConfigData.historyFB = false;
-    }
-    config = {
-      ...defaultWidgetConfigData,
-      ...(widget.versionProperty || {}), // versionProperty 展品里面的，可以freeze widget数据，防止加载时篡改
-      ...config,
-    };
-    if (!isTheme) {
-      config.historyFB = hbfOnlyToTheme ? false : config.historyFB;
-    } else {
-      hbfOnlyToTheme = config.hbfOnlyToTheme;
-    }
-    let commonData: any;
-    let entry = "";
-    
-    if (!topPresentableData) {
-      commonData = {
-        id: widget.testResourceId,
-        name: widget.testResourceName,
-        exhibitId: widget.testResourceId,
-        workNid: "",
-        workInfo: {
-          workId: widget.testResourceId,
-          workName: widget.testResourceName,
-        },
-      };
-    } else {
-      commonData = {
-        id: widget.id,
-        name: widget.name,
-        exhibitId: topPresentableData.data.testResourceId,
-        workNid: topPresentableData.workNid,
-        workInfo: {
-          workId: widget.id,
-          workName: widget.name,
-        },
-      };
-    }
-    // TODO freelog-需要用常量
-    let widgetId = "freelog-" + commonData.workInfo.workId;
-    // @ts-ignore
-    const devData = window.freelogApp.devData;
-    if (devData) {
-      if (devData.type === DEV_TYPE_REPLACE) {
-        entry = devData.params[commonData.id] || "";
-      }
-      if (devData.type === DEV_WIDGET && !firstDev) {
-        entry = devData.params.dev;
-        firstDev = true;
-      }
-    }
-    if (seq || seq === 0) {
-      widgetId = "freelog-" + commonData.id + seq;
-    }
-    const widgetConfig = {
-      container,
-      name: widgetId, //id
-      isTheme: !!isTheme,
-      exhibitId: commonData.exhibitId, // 展品id为空的都是插件依赖的插件
-      widgetName: commonData.workInfo.workName.replace("/", "-"),
-      parentNid: commonData.workNid,
-      workName: commonData.workInfo.workName,
-      subResourceIdOrName: commonData.workInfo.workId,
-      workId: commonData.workInfo.workId, // id可以重复，name不可以, 这里暂时这样
-      entry:
-        entry ||
-        getEntry({
-          exhibitId: commonData.exhibitId,
-          parentNid: commonData.workNid,
-          subResourceIdOrName: commonData.workInfo.workId,
-        }),
-      isDev: !!entry,
-      config, // 主题插件配置数据
-      isUI: false,
-    };
-    addWidgetConfig(widgetId, widgetConfig);
-    // TODO 所有插件加载用promise all
-    // @ts-ignore
-    const app = loadMicroApp(widgetConfig, {
-      sandbox: {
-        strictStyleIsolation: configData ? !!configData.shadowDom : false,
-        experimentalStyleIsolation: configData ? !!configData.scopedCss : true,
-      },
-    });
-    // TODO 增加是否保留数据
-    const freelog_app = {
-      ...app,
-      mount: (resolve?: any, reject?: any) => {
-        app.mount().then(
-          () => {
-            addWidget(widgetId, freelog_app);
-            // TODO 验证是否是函数
-            resolve && resolve();
-          },
-          () => {
-            reject();
-          }
-        );
-      },
-      unmount: (resolve?: any, reject?: any) => {
-        app.unmount().then(
-          () => {
-            deactiveWidget(widgetId);
-            setLocation();
-            // TODO 验证是否是函数
-            resolve && resolve();
-          },
-          () => {
-            reject();
-          }
-        );
-      },
-    };
-    addWidget(widgetId, freelog_app);
-    return freelog_app;
-  }
-}
-function mountNormalWidget(
-  widget: any,
-  container: any,
-  topPresentableData: any,
-  config: any,
-  seq?: number | null | undefined,
-  isTheme?: boolean
-) {
-  // @ts-ignore
+     // @ts-ignore
   const that = this;
   let configData = config;
   // TODO 为了安全，得验证是否是插件使用还是运行时使用mountWidget
@@ -308,14 +167,14 @@ function mountNormalWidget(
   let entry = "";
   if (!topPresentableData) {
     commonData = {
-      id: widget.workInfo.workId,
-      name: widget.workInfo.name || widget.workInfo.workName,
+      id: widget.articleInfo.articleId,
+      name: widget.articleInfo.name || widget.articleInfo.articleName,
       exhibitId: widget.exhibitId || "",
-      workNid: "",
-      workInfo: {
-        workId: widget.workInfo.workId,
-        workName:
-          widget.workInfo.name || widget.workInfo.workName,
+      articleNid: "",
+      articleInfo: {
+        articleId: widget.articleInfo.articleId,
+        articleName:
+          widget.articleInfo.name || widget.articleInfo.articleName,
       },
     };
   } else {
@@ -323,15 +182,15 @@ function mountNormalWidget(
       id: widget.id,
       name: widget.name,
       exhibitId: topPresentableData.data.exhibitId || "",
-      workNid: topPresentableData.workNid,
-      workInfo: {
-        workId: widget.id,
-        workName: widget.name,
+      articleNid: topPresentableData.articleNid,
+      articleInfo: {
+        articleId: widget.id,
+        articleName: widget.name,
       },
     };
   }
   // TODO freelog-需要用常量
-  let widgetId = "freelog-" + commonData.workInfo.workId;
+  let widgetId = "freelog-" + commonData.articleInfo.articleId;
   // @ts-ignore
   const devData = window.freelogApp.devData;
   if (devData) {
@@ -351,17 +210,17 @@ function mountNormalWidget(
     name: widgetId, //id
     isTheme: !!isTheme,
     exhibitId: commonData.exhibitId, // 展品id为空的都是插件依赖的插件
-    widgetName: commonData.workInfo.workName.replace("/", "-"),
-    parentNid: commonData.workNid,
-    workName: commonData.workInfo.workName,
-    subResourceIdOrName: commonData.workInfo.workId,
-    workId: commonData.workInfo.workId, // id可以重复，name不可以, 这里暂时这样
+    widgetName: commonData.articleInfo.articleName.replace("/", "-"),
+    parentNid: commonData.articleNid,
+    articleName: commonData.articleInfo.articleName,
+    subResourceIdOrName: commonData.articleInfo.articleId,
+    articleId: commonData.articleInfo.articleId, // id可以重复，name不可以, 这里暂时这样
     entry:
       entry ||
       getEntry({
         exhibitId: commonData.exhibitId,
-        parentNid: commonData.workNid,
-        subResourceIdOrName: commonData.workInfo.workId,
+        parentNid: commonData.articleNid,
+        subResourceIdOrName: commonData.articleInfo.articleId,
       }),
     isDev: !!entry,
     config, // 主题插件配置数据
@@ -408,72 +267,5 @@ function mountNormalWidget(
   addWidget(widgetId, freelog_app);
   return freelog_app;
 }
-// 固定id 的加载子插件，仅支持加载一次
-export function mountSubWidgets(parent: any, config?: any, resolve?: any) {
-  const parentGlobal = sandBoxs.get(
-    "freelog-" + parent.data.exhibitId
-  ).proxy;
-  // @ts-ignore
-  // theme.subDeps.push({id:"60068f63973b31003a4fbf2a",name:"chtes/pubu",type:"resource",workType:"widget"})
-  const promises: Promise<any>[] = [];
-  // @ts-ignore
-  parent.subDeps.forEach((sub) => {
-    switch (sub.workType) {
-      case "widget":
-        const subContainer = parentGlobal.document.getElementById(
-          "freelog-" + sub.id
-        );
-        if (!subContainer) {
-          console.error("container is not exists: " + sub.presentableName);
-          return;
-        }
-        // @ts-ignore
-        window.freelogApp.mountWidget(
-          sub,
-          subContainer,
-          {
-            //@ts-ignore
-            exhibitId: window.freelogApp.nodeInfo.nodeThemeId,
-            workNid: parent.workNid,
-            subDependId: sub.id,
-          },
-          "",
-          config
-        );
-        // setTimeout(app.unmount, 2000)
-        // setTimeout(app.mount, 5000)
-        // TODO 所有插件加载完成后 加载交给运行时子依赖的插件
-        break;
-      // case "js": {
-      //   promises.push(createScript(url));
-      //   break;
-      // }
-      // case "css": {
-      //   promises.push(createCssLink(url));
-      //   break;
-      // }
-      default: {
-      }
-    }
-  });
-  let count = promises.length;
-  if (count === 0) {
-    resolve && resolve();
-  } else {
-    for (const p of promises) {
-      p.finally(() => {
-        count--;
-        if (count === 0) {
-          resolve && resolve();
-        }
-      });
-    }
-  }
-}
-export async function autoMoutSubWdigets(config?: any) {
-  // @ts-ignore
-  const presenbaleId = widgetsConfig.get(this.widgetName)?.id;
-  // @ts-ignore
-  const parent = await getSubDep.bind(this)(presenbaleId);
-  mountSubWidgets(parent, config);
-}
+ 
+ 

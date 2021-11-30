@@ -209,15 +209,15 @@ export async function getExhibitSubFileStreamById(
 // TODO return a promise
 function getExhibitAuthByWorkIdOrName(
   name: string,
-  workIdOrName: string | number,
+  articleIdOrName: string | number,
   type: string,
   parentNid?: string,
   subWorkIdOrName?: string,
   returnUrl?: boolean,
   config?: any
 ): Promise<any> | string {
-  if (!workIdOrName) {
-    return Promise.reject("workIdOrName is required");
+  if (!articleIdOrName) {
+    return Promise.reject("articleIdOrName is required");
   }
   let form: any = {};
   if (parentNid) {
@@ -229,36 +229,36 @@ function getExhibitAuthByWorkIdOrName(
   if (isTest)
     return frequest.bind({
       name,
-      workIdOrName: parentNid ? "" : subWorkIdOrName,
+      articleIdOrName: parentNid ? "" : subWorkIdOrName,
     })(
       exhibit.getTestExhibitAuthByWorkIdOrName,
-      [nodeId, workIdOrName, type],
+      [nodeId, articleIdOrName, type],
       form,
       returnUrl,
       config
     );
   return frequest.bind({
     name,
-    workIdOrName: parentNid ? "" : workIdOrName,
+    articleIdOrName: parentNid ? "" : articleIdOrName,
   })(
     exhibit.getExhibitAuthByWorkIdOrName,
-    [nodeId, workIdOrName, type],
+    [nodeId, articleIdOrName, type],
     form,
     returnUrl,
     config
   );
 }
-export async function getExhibitResultByWorkId(workId: string | number) {
+export async function getExhibitResultByWorkId(articleId: string | number) {
   // @ts-ignore
-  return getExhibitAuthByWorkIdOrName(this.name, workId, "result", "", "");
+  return getExhibitAuthByWorkIdOrName(this.name, articleId, "result", "", "");
 }
-export async function getExhibitInfoByWorkId(workId: string | number) {
+export async function getExhibitInfoByWorkId(articleId: string | number) {
   // @ts-ignore
-  return getExhibitAuthByWorkIdOrName(this.name, workId, "info", "", "");
+  return getExhibitAuthByWorkIdOrName(this.name, articleId, "info", "", "");
 }
 
 export async function getExhibitFileStreamByWorkId(
-  workId: string | number,
+  articleId: string | number,
   returnUrl?: boolean,
   config?: any
 ) {
@@ -266,7 +266,7 @@ export async function getExhibitFileStreamByWorkId(
   return getExhibitAuthByWorkIdOrName(
     // @ts-ignore
     this.name,
-    workId,
+    articleId,
     "fileStream",
     "",
     "",
@@ -276,7 +276,7 @@ export async function getExhibitFileStreamByWorkId(
 }
 // sub
 export async function getExhibitSubResultByWorkId(
-  workId: string | number,
+  articleId: string | number,
   parentNid: string,
   subWorkId: string
 ) {
@@ -286,14 +286,14 @@ export async function getExhibitSubResultByWorkId(
   return getExhibitAuthByWorkIdOrName(
     // @ts-ignore
     this.name,
-    workId,
+    articleId,
     "result",
     parentNid,
     subWorkId
   );
 }
 export async function getExhibitSubInfoByWorkId(
-  workId: string | number,
+  articleId: string | number,
   parentNid: string,
   subWorkId: string
 ) {
@@ -303,14 +303,14 @@ export async function getExhibitSubInfoByWorkId(
   return getExhibitAuthByWorkIdOrName(
     // @ts-ignore
     this.name,
-    workId,
+    articleId,
     "info",
     parentNid,
     subWorkId
   );
 }
 export async function getExhibitSubFileStreamByWorkId(
-  workIdOrName: string | number,
+  articleIdOrName: string | number,
   parentNid: string,
   subWorkId: string,
   returnUrl?: boolean,
@@ -322,7 +322,7 @@ export async function getExhibitSubFileStreamByWorkId(
   return getExhibitAuthByWorkIdOrName(
     // @ts-ignore
     this.name,
-    workIdOrName,
+    articleIdOrName,
     "fileStream",
     parentNid,
     subWorkId,

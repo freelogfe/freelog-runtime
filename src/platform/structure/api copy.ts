@@ -134,7 +134,7 @@ export async function getInfoById(exhibitId: string | number) {
 export async function getResourceInfoById(exhibitId: string | number) {
   if (isTest) return "not supported!";
   // @ts-ignore
-  return getByPresentableId(this.name, exhibitId, "workInfo", "", "");
+  return getByPresentableId(this.name, exhibitId, "articleInfo", "", "");
 }
 export async function getFileStreamById(
   exhibitId: string | number,
@@ -204,7 +204,7 @@ export async function getSubResourceInfoById(
     // @ts-ignore
     this.name,
     exhibitId,
-    "workInfo",
+    "articleInfo",
     parentNid,
     subResourceIdOrName
   );
@@ -235,15 +235,15 @@ export async function getSubFileStreamById(
 // TODO return a promise
 function getByResourceIdOrName(
   name: string,
-  workIdOrName: string | number,
+  articleIdOrName: string | number,
   type: string,
   parentNid?: string,
   subResourceIdOrName?: string,
   returnUrl?: boolean,
   config?: any
 ): Promise<any> | string {
-  if (!workIdOrName) {
-    return "workIdOrName is required";
+  if (!articleIdOrName) {
+    return "articleIdOrName is required";
   }
   let test: any = {};
   let form: any = {};
@@ -258,47 +258,47 @@ function getByResourceIdOrName(
   if (isTest)
     return frequest.bind({
       name,
-      workIdOrName: parentNid ? "" : workIdOrName,
+      articleIdOrName: parentNid ? "" : articleIdOrName,
     })(
       presentable.getTestByResourceIdOrName,
-      [workIdOrName, type],
+      [articleIdOrName, type],
       test,
       returnUrl,
       config
     );
   return frequest.bind({
     name,
-    workIdOrName: parentNid ? "" : workIdOrName,
+    articleIdOrName: parentNid ? "" : articleIdOrName,
   })(
     presentable.getByResourceIdOrName,
-    [nodeId, workIdOrName, type],
+    [nodeId, articleIdOrName, type],
     form,
     returnUrl,
     config
   );
 }
-export async function getResultByName(workIdOrName: string | number) {
+export async function getResultByName(articleIdOrName: string | number) {
   // @ts-ignore
-  return getByResourceIdOrName(this.name, workIdOrName, "result", "", "");
+  return getByResourceIdOrName(this.name, articleIdOrName, "result", "", "");
 }
-export async function getInfoByName(workIdOrName: string | number) {
+export async function getInfoByName(articleIdOrName: string | number) {
   // @ts-ignore
-  return getByResourceIdOrName(this.name, workIdOrName, "info", "", "");
+  return getByResourceIdOrName(this.name, articleIdOrName, "info", "", "");
 }
-export async function getResourceInfoByName(workIdOrName: string | number) {
+export async function getResourceInfoByName(articleIdOrName: string | number) {
   if (isTest) return "not supported!";
   // @ts-ignore
   return getByResourceIdOrName(
     // @ts-ignore
     this.name,
-    workIdOrName,
-    "workInfo",
+    articleIdOrName,
+    "articleInfo",
     "",
     ""
   );
 }
 export async function getFileStreamByName(
-  workIdOrName: string | number,
+  articleIdOrName: string | number,
   returnUrl?: boolean,
   config?: any
 ) {
@@ -306,7 +306,7 @@ export async function getFileStreamByName(
   return getByResourceIdOrName(
     // @ts-ignore
     this.name,
-    workIdOrName,
+    articleIdOrName,
     "fileStream",
     "",
     "",
@@ -316,7 +316,7 @@ export async function getFileStreamByName(
 }
 // sub
 export async function getSubResultByName(
-  workIdOrName: string | number,
+  articleIdOrName: string | number,
   parentNid: string,
   subResourceIdOrName: string
 ) {
@@ -326,14 +326,14 @@ export async function getSubResultByName(
   return getByResourceIdOrName(
     // @ts-ignore
     this.name,
-    workIdOrName,
+    articleIdOrName,
     "result",
     parentNid,
     subResourceIdOrName
   );
 }
 export async function getSubInfoByName(
-  workIdOrName: string | number,
+  articleIdOrName: string | number,
   parentNid: string,
   subResourceIdOrName: string
 ) {
@@ -343,14 +343,14 @@ export async function getSubInfoByName(
   return getByResourceIdOrName(
     // @ts-ignore
     this.name,
-    workIdOrName,
+    articleIdOrName,
     "info",
     parentNid,
     subResourceIdOrName
   );
 }
 export async function getSubResourceInfoByName(
-  workIdOrName: string | number,
+  articleIdOrName: string | number,
   parentNid: string,
   subResourceIdOrName: string
 ) {
@@ -361,14 +361,14 @@ export async function getSubResourceInfoByName(
   return getByResourceIdOrName(
     // @ts-ignore
     this.name,
-    workIdOrName,
-    "workInfo",
+    articleIdOrName,
+    "articleInfo",
     parentNid,
     subResourceIdOrName
   );
 }
 export async function getSubFileStreamByName(
-  workIdOrName: string | number,
+  articleIdOrName: string | number,
   parentNid: string,
   subResourceIdOrName: string,
   returnUrl?: boolean,
@@ -380,7 +380,7 @@ export async function getSubFileStreamByName(
   return getByResourceIdOrName(
     // @ts-ignore
     this.name,
-    workIdOrName,
+    articleIdOrName,
     "fileStream",
     parentNid,
     subResourceIdOrName,
@@ -390,14 +390,14 @@ export async function getSubFileStreamByName(
 }
 
 export async function getResourceInfoByVersion(
-  workId: string,
+  articleId: string,
   version: string,
   projection: string = ""
 ) {
   // @ts-ignore
   return frequest(
     resource.getResourceInfoByVersion,
-    [workId, version, projection],
+    [articleId, version, projection],
     ''
   );
 }

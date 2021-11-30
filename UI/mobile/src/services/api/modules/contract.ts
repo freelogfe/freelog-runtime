@@ -9,7 +9,7 @@ export type Contract = {
 };
 
 const contract: Contract = {
-  // exhibitId, result|info|workInfo|fileStream
+  // exhibitId, result|info|articleInfo|fileStream
   getContractInfo: {
     url: `contracts/${placeHolder}`,
     method: "GET",

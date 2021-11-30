@@ -31,9 +31,9 @@ export default {
         //   {
         //     exhibitId: widget.exhibitId,
         //     name: widget.presentableName,
-        //     workId: widget.workInfo.workId,
-        //     workName:  widget.workInfo.name,
-        //     // workId: widget.workInfo.workId,
+        //     articleId: widget.articleInfo.articleId,
+        //     articleName:  widget.articleInfo.name,
+        //     // articleId: widget.articleInfo.articleId,
         //   },
         //   document.getElementById("freelog-single")
         // );

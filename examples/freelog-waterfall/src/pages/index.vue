@@ -215,13 +215,13 @@ function getData(page = 1) {
               title:  i.presentableName ,
               src,
               index,
-              // resourceID: i.workId,
+              // resourceID: i.articleId,
             });
             dataList.push( {
               title:  i.presentableName,
               src,
               index,
-              // resourceID: i.workId,
+              // resourceID: i.articleId,
             });
             
           });

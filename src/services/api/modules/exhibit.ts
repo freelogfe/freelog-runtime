@@ -26,7 +26,7 @@ const exhibit: Exhibit = {
   },
   // placeHolder: exhibitId
   getTestExhibitsDetail: {
-    url: `exhibits/test/${placeHolder}/${placeHolder}`,
+    url: `exhibits/${placeHolder}/test/${placeHolder}`,
     method: "GET",
     dataModel: {
       isLoadPolicyInfo: "int",
@@ -43,7 +43,7 @@ const exhibit: Exhibit = {
     },
   },
   getTestExhibitsByIds: {
-    url: `exhibits/test/${placeHolder}/list`,
+    url: `exhibits/${placeHolder}/test/list`,
     method: "GET",
     dataModel: {
       exhibitIds: "string",
@@ -59,7 +59,7 @@ const exhibit: Exhibit = {
     dataModel: {
       skip: "int",
       limit: "int",
-      workResourceTypes: "string",
+      articleResourceTypes: "string",
       omitWorkResourceType: "string",
       onlineStatus: "int",
       tags: "string",
@@ -71,12 +71,12 @@ const exhibit: Exhibit = {
     },
   },
   getTestExhibitsByPaging: {
-    url: `exhibits/test/${placeHolder}`,
+    url: `exhibits/${placeHolder}/test`,
     method: "GET",
     dataModel: {
       skip: "int",
       limit: "int",
-      workResourceTypes: "string",
+      articleResourceTypes: "string",
       omitWorkResourceType: "string",
       onlineStatus: "int",
       tags: "string",
@@ -98,12 +98,12 @@ const exhibit: Exhibit = {
       subFilePath: "string", // 主题或插件的压缩包内部子资源,需要带相对路径
     },
   },
-  // nodeId workIdOrName {result|info|fileStream}
+  // nodeId articleIdOrName {result|info|fileStream}
   getExhibitAuthByWorkIdOrName: {
     url: `auths/exhibits/${placeHolder}/${placeHolder}/${placeHolder}`,
     method: "GET",
     dataModel: {
-      workIdOrName: "string", // 作品ID或者名称,需要encodeURIComponent编码
+      articleIdOrName: "string", // 作品ID或者名称,需要encodeURIComponent编码
       parentNid: "string", // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
       subWorkIdOrName: "int", // 子依赖的作品ID作品名称
       subWorkType: "string", // 子依赖的作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)
@@ -112,7 +112,7 @@ const exhibit: Exhibit = {
   },
   // exhibitId  {result|info|fileStream}
   getTestExhibitAuthById: {
-    url: `auths/exhibits/test/${placeHolder}/${placeHolder}`,
+    url: `auths/exhibits/${placeHolder}/${placeHolder}/test/${placeHolder}`,
     method: "GET",
     dataModel: {
       parentNid: "string",
@@ -121,12 +121,12 @@ const exhibit: Exhibit = {
       subFilePath: "string",
     },
   },
-  // nodeId workIdOrName {result|info|fileStream}
+  // nodeId articleIdOrName {result|info|fileStream}
   getTestExhibitAuthByWorkIdOrName: {
-    url: `auths/exhibits/test/${placeHolder}/${placeHolder}/${placeHolder}`,
+    url: `auths/exhibits/${placeHolder}/test/${placeHolder}/${placeHolder}`,
     method: "GET",
     dataModel: {
-      workIdOrName: "string",
+      articleIdOrName: "string",
       parentNid: "string",
       subWorkIdOrName: "int",
       subWorkType: "string",
@@ -144,7 +144,7 @@ const exhibit: Exhibit = {
   },
   // nodeId
   getTestExhibitsAuth: {
-    url: `auths/exhibits/test/${placeHolder}/batchAuth/results`,
+    url: `auths/exhibits/${placeHolder}/test/batchAuth/results`,
     method: "GET",
     dataModel: {
       authType: "string", // 授权类型 1:节点侧授权 2:资源侧授权 3:节点+资源侧授权 4:全链路(包含用户,节点与资源)

@@ -90,7 +90,7 @@ function getData() {
         dataList.push({
           title: i.presentableName,
           src,
-          // resourceID: i.workId,
+          // resourceID: i.articleId,
         });
       });
       resolve({

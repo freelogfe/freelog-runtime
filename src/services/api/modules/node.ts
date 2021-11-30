@@ -15,7 +15,7 @@ const node: Node = {
         url: `nodes/${placeHolder}`,
         method: 'GET'
     },
-    // exhibitId, result|info|workInfo|fileStream
+    // exhibitId, result|info|articleInfo|fileStream
     getInfoByNameOrDomain: {
         url: `nodes/detail`,
         method: 'GET',

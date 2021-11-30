@@ -14,7 +14,7 @@ export type Presentable = {
 };
 
 const presentable: Presentable = {
-  // exhibitId, result|info|workInfo|fileStream
+  // exhibitId, result|info|articleInfo|fileStream
   getPresentableDetail: {
     url: `presentables/${placeHolder}`,
     method: "GET",
@@ -59,12 +59,12 @@ const presentable: Presentable = {
       projection: "string",
     },
   },
-  // exhibitId, result|info|workInfo|fileStream
+  // exhibitId, result|info|articleInfo|fileStream
   getByPresentableId: {
     url: `auths/presentables/${placeHolder}/${placeHolder}`,
     method: "GET",
   },
-  // nodeId  resourceIdOrName   result|info|workInfo|fileStream
+  // nodeId  resourceIdOrName   result|info|articleInfo|fileStream
   getByResourceIdOrName: {
     url: `auths/presentables/nodes/${placeHolder}/${placeHolder}/${placeHolder}`,
     method: "GET",

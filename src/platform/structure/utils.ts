@@ -142,17 +142,17 @@ export async function getSubDep(exhibitId: any) {
   if (!info.data) {
     return info;
   }
-  const [subDeps, workNid, config] = [
-    info.headers["freelog-work-sub-dependencies"],
-    info.headers["freelog-work-nid"],
-    info.headers["freelog-work-property	"]
+  const [subDeps, articleNid, config] = [
+    info.headers["freelog-article-sub-dependencies"],
+    info.headers["freelog-article-nid"],
+    info.headers["freelog-article-property	"]
   ];
   console.log(info.data)
   return {
     subDeps: subDeps ? JSON.parse(decodeURIComponent(subDeps)) : [],
     headers: info.headers,
     properties: config ? JSON.parse(decodeURIComponent(config)) : {},
-    workNid,
+    articleNid,
     data: info.data.data,
   };
 }
@@ -251,7 +251,7 @@ export async function setUserData(key: string, data: any) {
   let userData = widgetUserData.get(name) || {};
   let config = widgetsConfig.get(name);
   userData[key] = data;
-  let widgetId = btoa(encodeURI(config.workName));
+  let widgetId = btoa(encodeURI(config.articleName));
   if (name === FREELOG_DEV) {
     widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
   }
@@ -273,7 +273,7 @@ export async function getUserData(key: string) {
     return userData[key];
   }
   let config = widgetsConfig.get(name);
-  let widgetId = btoa(encodeURI(config.workName));
+  let widgetId = btoa(encodeURI(config.articleName));
   if (name === FREELOG_DEV) {
     widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
   }
