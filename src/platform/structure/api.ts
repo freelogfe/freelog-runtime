@@ -77,7 +77,7 @@ export async function getExhibitSignCount(exhibitId: string) {
 }
 export async function getExhibitAuthStatus(exhibitIds: string) {
   if (isTest) {
-    return frequest(exhibit.getTestExhibitsAuth, [nodeId], {
+    return frequest(exhibit.getTestExhibitsAuthStatus, [nodeId], {
       authType: 4,
       exhibitIds,
     });
