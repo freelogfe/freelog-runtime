@@ -23,7 +23,7 @@ export async function getExhibitListById(query: any): Promise<any> {
   if (isTest)
     //@ts-ignore
     return frequest.bind({ name: this.name })(
-      exhibit.getTestExhibitsByIds,
+      exhibit.getTestExhibitById,
       [nodeId],
       {
         ...query,
@@ -45,7 +45,7 @@ export async function getExhibitListByPaging(query: any): Promise<any> {
   if (isTest)
     // @ts-ignore
     return frequest.bind({ name: this.name })(
-      exhibit.getTestExhibitsByPaging,
+      exhibit.getTestExhibitByPaging,
       [nodeId],
       {
         ...query,
@@ -63,27 +63,27 @@ export async function getExhibitListByPaging(query: any): Promise<any> {
 export async function getExhibitInfo(exhibitId: string, query: any) {
   if (isTest)
     // @ts-ignore
-    return frequest(exhibit.getTestExhibitsDetail, [nodeId, exhibitId], query);
+    return frequest(exhibit.getTestExhibitDetail, [nodeId, exhibitId], query);
   // @ts-ignore
-  return frequest(exhibit.getExhibitsDetail, [nodeId, exhibitId], query);
+  return frequest(exhibit.getExhibitDetail, [nodeId, exhibitId], query);
 }
 
 export async function getExhibitSignCount(exhibitId: string) {
   // @ts-ignore
-  return frequest(exhibit.getExhibitsSignCount, "", {
+  return frequest(exhibit.getExhibitSignCount, "", {
     subjectIds: exhibitId,
     subjectType: 2,
   });
 }
 export async function getExhibitAuthStatus(exhibitIds: string) {
   if (isTest) {
-    return frequest(exhibit.getTestExhibitsAuthStatus, [nodeId], {
+    return frequest(exhibit.getTestExhibitAuthStatus, [nodeId], {
       authType: 4,
       exhibitIds,
     });
   }
   // @ts-ignore
-  return frequest(exhibit.getExhibitsAuthStatus, [nodeId], {
+  return frequest(exhibit.getExhibitAuthStatus, [nodeId], {
     authType: 4,
     exhibitIds,
   });

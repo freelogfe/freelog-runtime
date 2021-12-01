@@ -1,21 +1,21 @@
 import { placeHolder } from "../../base";
 export type Exhibit = {
-  getExhibitsDetail: any;
-  getTestExhibitsDetail: any;
+  getExhibitDetail: any;
+  getTestExhibitDetail: any;
   getExhibitListById: any;
-  getTestExhibitsByIds: any;
+  getTestExhibitById: any;
   getExhibitListByPaging: any;
-  getTestExhibitsByPaging: any;
+  getTestExhibitByPaging: any;
   getExhibitAuthById: any;
   getTestExhibitAuthById: any;
-  getExhibitsAuthStatus: any;
-  getTestExhibitsAuthStatus: any;
-  getExhibitsSignCount: any;
+  getExhibitAuthStatus: any;
+  getTestExhibitAuthStatus: any;
+  getExhibitSignCount: any;
 };
 
 const exhibit: Exhibit = {
   // placeHolder: nodeId exhibitId
-  getExhibitsDetail: {
+  getExhibitDetail: {
     url: `exhibits/${placeHolder}/${placeHolder}`,
     method: "GET",
     dataModel: {
@@ -23,7 +23,7 @@ const exhibit: Exhibit = {
     },
   },
   // placeHolder: nodeId exhibitId
-  getTestExhibitsDetail: {
+  getTestExhibitDetail: {
     url: `exhibits/${placeHolder}/test/${placeHolder}`,
     method: "GET",
     dataModel: {
@@ -40,7 +40,7 @@ const exhibit: Exhibit = {
       isTranslate: "int",
     },
   },
-  getTestExhibitsByIds: {
+  getTestExhibitById: {
     url: `exhibits/${placeHolder}/test/list`,
     method: "GET",
     dataModel: {
@@ -68,7 +68,7 @@ const exhibit: Exhibit = {
       isTranslate: "int",
     },
   },
-  getTestExhibitsByPaging: {
+  getTestExhibitByPaging: {
     url: `exhibits/${placeHolder}/test`,
     method: "GET",
     dataModel: {
@@ -108,7 +108,7 @@ const exhibit: Exhibit = {
     },
   },
   // nodeId
-  getExhibitsAuthStatusStatus: {
+  getExhibitAuthStatusStatus: {
     url: `auths/exhibits/${placeHolder}/batchAuth/results`,
     method: "GET",
     dataModel: {
@@ -117,7 +117,7 @@ const exhibit: Exhibit = {
     },
   },
   // nodeId
-  getTestExhibitsAuthStatus: {
+  getTestExhibitAuthStatus: {
     url: `auths/exhibits/${placeHolder}/test/batchAuth/results`,
     method: "GET",
     dataModel: {
@@ -125,7 +125,7 @@ const exhibit: Exhibit = {
       exhibitIds: "string", // 展品ID,多个逗号分隔
     },
   },
-  getExhibitsSignCount: {
+  getExhibitSignCount: {
     url: `contracts/subjects/signCount`,
     method: "GET",
     dataModel: {
