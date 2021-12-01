@@ -2,15 +2,15 @@ import { placeHolder } from "../../base";
 export type Exhibit = {
   getExhibitsDetail: any;
   getTestExhibitsDetail: any;
-  getExhibitsByIds: any;
+  getExhibitListById: any;
   getTestExhibitsByIds: any;
-  getExhibitsByPaging: any;
+  getExhibitListByPaging: any;
   getTestExhibitsByPaging: any;
   getExhibitAuthById: any;
-  getExhibitAuthByWorkIdOrName: any;
+  getExhibitAuthByArticleIdOrName: any;
   getTestExhibitAuthById: any;
-  getTestExhibitAuthByWorkIdOrName: any;
-  getExhibitsAuth: any;
+  getTestExhibitAuthByArticleIdOrName: any;
+  getExhibitsAuthStatusStatus: any;
   getTestExhibitsAuth: any;
   getExhibitsSignCount: any;
 };
@@ -32,7 +32,7 @@ const exhibit: Exhibit = {
       isLoadPolicyInfo: "int",
     },
   },
-  getExhibitsByIds: {
+  getExhibitListById: {
     url: `exhibits/${placeHolder}/list`,
     method: "GET",
     dataModel: {
@@ -53,7 +53,7 @@ const exhibit: Exhibit = {
     },
   },
   // placeHolder: nodeId
-  getExhibitsByPaging: {
+  getExhibitListByPaging: {
     url: `exhibits/${placeHolder}`,
     method: "GET",
     dataModel: {
@@ -93,19 +93,19 @@ const exhibit: Exhibit = {
     method: "GET",
     dataModel: {
       parentNid: "string", // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
-      subWorkIdOrName: "string", // 子依赖的作品ID作品名称
+      subArticleIdOrName: "string", // 子依赖的作品ID作品名称
       subWorkType: "string", // 子依赖的作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)
       subFilePath: "string", // 主题或插件的压缩包内部子资源,需要带相对路径
     },
   },
   // nodeId  articleIdOrName {result|info|fileStream}
-  getExhibitAuthByWorkIdOrName: {
+  getExhibitAuthByArticleIdOrName: {
     url: `auths/exhibits/${placeHolder}/articles/${placeHolder}/${placeHolder}`,
     method: "GET",
     dataModel: {
       articleIdOrName: "string", // 作品ID或者名称,需要encodeURIComponent编码
       parentNid: "string", // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
-      subWorkIdOrName: "int", // 子依赖的作品ID作品名称
+      subArticleIdOrName: "int", // 子依赖的作品ID作品名称
       subWorkType: "string", // 子依赖的作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)
       subFilePath: "string", // 主题或插件的压缩包内部子资源,需要带相对路径
     },
@@ -116,25 +116,25 @@ const exhibit: Exhibit = {
     method: "GET",
     dataModel: {
       parentNid: "string",
-      subWorkIdOrName: "string",
+      subArticleIdOrName: "string",
       subWorkType: "string",
       subFilePath: "string",
     },
   },
   // nodeId articleIdOrName {result|info|fileStream}
-  getTestExhibitAuthByWorkIdOrName: {
+  getTestExhibitAuthByArticleIdOrName: {
     url: `auths/exhibits/${placeHolder}/test/${placeHolder}/${placeHolder}`,
     method: "GET",
     dataModel: {
       articleIdOrName: "string",
       parentNid: "string",
-      subWorkIdOrName: "int",
+      subArticleIdOrName: "int",
       subWorkType: "string",
       subFilePath: "string",
     },
   },
   // nodeId
-  getExhibitsAuth: {
+  getExhibitsAuthStatusStatus: {
     url: `auths/exhibits/${placeHolder}/batchAuth/results`,
     method: "GET",
     dataModel: {

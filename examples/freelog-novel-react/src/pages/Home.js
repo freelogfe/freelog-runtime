@@ -32,7 +32,7 @@ export default function (props) {
         
     //   })
     // })
-    const res = await window.freelogApp.getExhibitsByPaging({ articleResourceTypes: 'novel' })
+    const res = await window.freelogApp.getExhibitListByPaging({ articleResourceTypes: 'novel' })
     setNovels(res.data.data.dataList)
   }, []);
   return (

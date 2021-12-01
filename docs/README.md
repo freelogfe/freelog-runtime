@@ -643,7 +643,7 @@ export async function mount(props) {
 **查找展品**
 
 ```ts
- window.freelogApp.getExhibitsByIds(query).then((res)=>{
+ window.freelogApp.getExhibitListById(query).then((res)=>{
 
  })
   query:{

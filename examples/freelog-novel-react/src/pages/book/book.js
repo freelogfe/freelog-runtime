@@ -9,14 +9,14 @@ function Book(props) {
   const [chapters, setChapters] = useState([]);
 
   useEffect(async() => {
-    const res = await window.freelogApp.getExhibitsByIds({exhibitIds: bookId})
-    let bookResource = await window.freelogApp.getExhibitInfoById(bookId)
+    const res = await window.freelogApp.getExhibitListById({exhibitIds: bookId})
+    let bookResource = await window.freelogApp.getExhibitInfoByAuth(bookId)
     console.log(res, bookResource)
     if (bookResource.data.errCode) {
       bookResource = await new Promise((resolve, rej) => {
         console.log(bookResource)
         window.freelogApp.addAuth(bookResource.data.exhibitId, async () => {
-          const book = await window.freelogApp.getExhibitInfoById(bookId)
+          const book = await window.freelogApp.getExhibitInfoByAuth(bookId)
           console.log(resolve)
           resolve && resolve(book)
         }, () => { }, { immediate: true })
@@ -24,7 +24,7 @@ function Book(props) {
     }
     console.log(bookResource)
     setBookInfo({...res.data.data[0], intro: bookResource.data.data.intro})
-    const chaptersRes = await window.freelogApp.getExhibitsByPaging({ articleResourceTypes: "chapter", tags: res.data.data[0].exhibitName, isLoadVersionProperty: 1})
+    const chaptersRes = await window.freelogApp.getExhibitListByPaging({ articleResourceTypes: "chapter", tags: res.data.data[0].exhibitName, isLoadVersionProperty: 1})
     let chaptersData = chaptersRes.data.data.dataList
     console.log(chaptersData)
     chaptersData.sort((a,b)=>{

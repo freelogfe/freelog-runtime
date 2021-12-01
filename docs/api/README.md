@@ -103,7 +103,7 @@ subData.subDeps.some((sub, index) => {
    })
 ```
 
-## getExhibitsByIds
+## getExhibitListById
 
 **用途：查找展品**
 
@@ -119,7 +119,7 @@ subData.subDeps.some((sub, index) => {
 ```ts
  **用法**
 
- const res = await window.freelogApp.getExhibitsByIds(query).then((res)=>{
+ const res = await window.freelogApp.getExhibitListById(query).then((res)=>{
  })
 ```
 ## getPresentableDetailById

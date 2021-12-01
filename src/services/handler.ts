@@ -73,6 +73,7 @@ export default function frequest(
   return new Promise((resolve, reject) => {
     axios(url, _api)
       .then(async (response) => {
+        
         api.after && api.after(response);
         // TODO 仅授权失败
         if (
