@@ -60,7 +60,7 @@ export default class MarkdownParser extends HTMLElement {
 	async getMarkdownData(exhibitId) {
 		let tmpMD = markdownTextCache.get(exhibitId)
 		if (tmpMD == null) {
-			var response = await window.freelogApp.getFileStreamById(exhibitId)
+			var response = await window.freelogApp.getExhibitFileStream(exhibitId)
 			
 			if (response.headers['freelog-resource-type'] != null) {
 				const subDependenciesString = decodeURIComponent(response.headers['freelog-sub-dependencies'])
@@ -210,7 +210,7 @@ export default class MarkdownParser extends HTMLElement {
 		try {
 			const _response =  await window.freelogApp.getSubInfoById(this.exhibitId, this.articleNid, subResourceId )
 			const type = _response.headers['freelog-resource-type']
-			const url = await window.freelogApp.getSubFileStreamById(this.exhibitId, this.articleNid, subResourceId, true )
+			const url = await window.freelogApp.getExhibitDepFileStream(this.exhibitId, this.articleNid, subResourceId, true )
 			console.log(url, 234234)
 			if (type) {
 				const blob =  _response.data // .blob()

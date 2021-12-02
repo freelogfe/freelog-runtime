@@ -2,6 +2,9 @@ import axios from "./request";
 import { placeHolder, baseConfig } from "./base";
 import { compareObjects } from "../utils/utils";
 import { setPresentableQueue } from "../bridge/index";
+const noAuthCode = [301, 302, 303, 304, 305, 306, 307];
+const authCode = [200, 201, 202, 203];
+const errorAuthCode = [401, 402, 403, 501, 502, 503, 504, 505, 900, 901];
 /**
  *
  * @param action api namespace.apiName
@@ -73,41 +76,72 @@ export default function frequest(
   return new Promise((resolve, reject) => {
     axios(url, _api)
       .then(async (response) => {
-        
         api.after && api.after(response);
-        // TODO 仅授权失败
-        if (
-          response.data.errCode &&
-          response.data.errCode === 3 &&
-          caller &&
-          (caller.exhibitId || caller.articleIdOrName)
-        ) {
-          // freelog-work-nid,freelog-test-resource-id,freelog-test-resource-name,
-          // freelog-sub-dependencies,freelog-resource-type,freelog-work-property
+        // 如果是授权接口，而且有数据
+        if (caller && caller.isAuth && response.data && response.data.data) {
+          const resData = response.data.data;
           const exhibitId = response.headers["freelog-exhibit-id"];
           const exhibitName = decodeURI(
             response.headers["freelog-exhibit-name"]
           );
-          setPresentableQueue(exhibitId, {
-            widget: caller.name,
-            errCode: response.data.errCode,
-            authCode: response.data.data.authCode,
-            contracts: response.data.data.data.contracts || [],
-            policies: response.data.data.data.policies,
-            exhibitName,
-            exhibitId,
-            info: response.data,
-          });
-          resolve({
-            data: {
-              errCode: 3,
-              authCode: response.data.errCode,
+          const articleNid = decodeURI(response.headers["freelog-article-nid"]);
+          const articleResourceType = decodeURI(
+            response.headers["freelog-article-resource-type"]
+          );
+          let subDep = decodeURI(
+            response.headers["freelog-article-sub-dependencies"]
+          );
+          subDep = subDep ? JSON.parse(decodeURIComponent(subDep)) : [];
+
+          let exhibitProperty = decodeURI(
+            response.headers["freelog-exhibit-property"]
+          );
+          exhibitProperty = exhibitProperty
+            ? JSON.parse(decodeURIComponent(exhibitProperty))
+            : {};
+          if (
+            noAuthCode.includes(resData.authCode) &&
+            (caller.exhibitId || caller.articleIdOrName)
+          ) {
+            console.log(resData)
+            setPresentableQueue(exhibitId, {
+              widget: caller.name,
+              authCode: resData.authCode,
+              contracts: resData.data.contracts || [],
+              policies: resData.data.policies,
               exhibitName,
               exhibitId,
-              errorMsg: response.data.data.errorMsg,
-            },
-          });
-          return;
+              articleNid,
+              articleResourceType,
+              subDep,
+              versionInfo: {exhibitProperty},
+              info: resData,
+            });
+            resolve({
+              authErrorType: 1,// 存在但未授权
+              authCode: resData.authCode,
+              exhibitName,
+              exhibitId,
+              articleNid,
+              articleResourceType,
+              subDep,
+              versionInfo: {exhibitProperty},
+              data: resData,
+            });
+          } else if (errorAuthCode.includes(resData.authCode)) {
+            resolve({
+              authErrorType: 2,// 不存在
+              authCode: resData.authCode,
+              exhibitName,
+              exhibitId,
+              articleNid,
+              articleResourceType,
+              subDep,
+              versionInfo: {exhibitProperty},
+            });
+          } else {
+            resolve(response);
+          }
         } else {
           resolve(response);
         }
@@ -115,9 +149,6 @@ export default function frequest(
       .catch((error) => {
         // 防止error为空
         reject({ error });
-        if (typeof error === "string") {
-        } else {
-        }
       });
   });
 }

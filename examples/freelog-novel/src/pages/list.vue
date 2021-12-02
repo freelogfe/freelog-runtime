@@ -56,7 +56,7 @@
         <ul>
           <li v-for="(chapter, index) in volume.chapters" :key="'chapter'+index">
             <router-link :to="calcChapterLink(volume, chapter)">
-              第{{chapter.versionProperty.chapter}}章 {{chapter.versionProperty.chapterName}}
+              第{{chapter.versionInfo.exhibitProperty.chapter}}章 {{chapter.versionInfo.exhibitProperty.chapterName}}
               <i class="lock-chapter" v-if="chapter._detail.error"></i>
             </router-link>
           </li>
@@ -109,7 +109,7 @@
         this.activeTab = tab;
       },
       calcChapterLink(volume, chapter) {
-        return `volume/${volume.volumeIndex}/chapter/${chapter.versionProperty.chapter}?chapterId=${chapter.exhibitId}`;
+        return `volume/${volume.volumeIndex}/chapter/${chapter.versionInfo.exhibitProperty.chapter}?chapterId=${chapter.exhibitId}`;
       }
     }
   }

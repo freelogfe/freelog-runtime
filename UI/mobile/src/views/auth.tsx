@@ -9,7 +9,6 @@ import Register from "./user/register";
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
 import frequest from "@/services/handler";
-import exhibit from "@/services/api/modules/exhibit";
 import contract from "@/services/api/modules/contract";
 import getBestTopology from "./topology/data";
 import { Dialog, Popup, Button, Toast } from "antd-mobile"; // Toast, Button
@@ -45,7 +44,7 @@ export default function (props: contractProps) {
         onConfirm: async () => {
           userCancel();
         },
-      }); 
+      });
     } else {
       // 否则弹出展品列表
       setIsListVisible(true);
@@ -95,9 +94,8 @@ export default function (props: contractProps) {
       }
       return;
     }
-    const res = await frequest(
-      exhibit.getPresentableDetail,
-      [id || currentPresentable.exhibitId],
+    const res = await window.freelogApp.getExhibitInfo(
+      id || currentPresentable.exhibitId,
       {
         isLoadPolicyInfo: 1,
         isTranslate: 1,
@@ -106,7 +104,7 @@ export default function (props: contractProps) {
     /**
      * 获取
      */
-
+    console.log(res)
     res.data.data.policies = res.data.data.policies.filter((i: any) => {
       return i.status === 1;
     });
@@ -143,6 +141,7 @@ export default function (props: contractProps) {
         return true;
       }
     });
+    console.log(events[0])
     !isExist && setCurrentPresentable(events[0]);
   }, [props.events]);
   useEffect(() => {
@@ -200,7 +199,7 @@ export default function (props: contractProps) {
         Toast.show({
           icon: "success",
           content: "获得授权",
-          duration: 1500
+          duration: 1500,
         });
         setTimeout(() => {
           props.contractFinished(currentPresentable.eventId, SUCCESS);
@@ -212,7 +211,7 @@ export default function (props: contractProps) {
       Toast.show({
         icon: "success",
         content: "签约成功",
-        duration: 1500
+        duration: 1500,
       });
       setTimeout(() => {
         props.updateEvents({ ...currentPresentable, contracts: res.data.data });
@@ -230,8 +229,7 @@ export default function (props: contractProps) {
             继续浏览请签约并获取授权
           </div>
           <Button
-
-            color='primary'
+            color="primary"
             onClick={() => {
               setThemeCancel(false);
             }}
@@ -445,7 +443,7 @@ export default function (props: contractProps) {
                     onClick={() => {
                       setModalType(1);
                     }}
-                    color='primary'
+                    color="primary"
                     size="small"
                     className=" text-center"
                   >

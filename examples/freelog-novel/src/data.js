@@ -33,7 +33,7 @@ var onloadBookDetail = createLoader(function (callback) {
       console.log(res)
       if (res.data.errcode === 0 && res.data.data.dataList.length) {
         const { exhibitId } = res.data.data.dataList[0]
-        window.freelogApp.getFileStreamById(exhibitId, '', {
+        window.freelogApp.getExhibitFileStream(exhibitId, '', {
           responseType: "blob",
           onDownloadProgress: function (evt) {
             console.log(11111, parseInt((evt.loaded / evt.total) * 100))
@@ -64,7 +64,7 @@ function resolveChapters(chapters) {
   var bookVolumes = []
 
   chapters.forEach(chapter => {
-    var volume = chapter.versionProperty.volume
+    var volume = chapter.versionInfo.exhibitProperty.volume
     if (volume) {
       if (!bookVolumesMap[volume]) {
         bookVolumesMap[volume] = []
@@ -76,11 +76,11 @@ function resolveChapters(chapters) {
   Object.keys(bookVolumesMap).forEach(volume => {
     var chapterList = bookVolumesMap[volume];
     chapterList.sort(function (a, b) {
-      return a.versionProperty.chapter > b.versionProperty.chapter
+      return a.versionInfo.exhibitProperty.chapter > b.versionInfo.exhibitProperty.chapter
     })
 
     bookVolumes.push({
-      volumeName: chapterList[0].versionProperty.volumeName,
+      volumeName: chapterList[0].versionInfo.exhibitProperty.volumeName,
       volumeIndex: volume,
       chapters: chapterList
     })
@@ -102,7 +102,7 @@ var onloadChapters = createLoader(function (callback) {
 })
 
 function requestPresentableData(exhibitId) {
-  return window.freelogApp.getFileStreamById(exhibitId)
+  return window.freelogApp.getExhibitFileStream(exhibitId)
     .then(res => {
       var meta = decodeURIComponent(res.headers['freelog-resource-property'])
       var chapter
@@ -116,7 +116,7 @@ function requestPresentableData(exhibitId) {
       if (!chapter) {
         return window.freelogApp.getInfoById(exhibitId)
           .then(res => {
-            chapter = res.data && res.data.versionProperty || {
+            chapter = res.data && res.data.versionInfo.exhibitProperty || {
               "chapterName": "第一章 秦羽",
               "volume": 1,
               "chapter": 1,

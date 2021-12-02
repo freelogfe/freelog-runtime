@@ -12,10 +12,10 @@ function Book(props) {
     const res = await window.freelogApp.getExhibitListById({exhibitIds: bookId})
     let bookResource = await window.freelogApp.getExhibitInfoByAuth(bookId)
     console.log(res, bookResource)
-    if (bookResource.data.errCode) {
+    if (bookResource.authErrorType) {
       bookResource = await new Promise((resolve, rej) => {
         console.log(bookResource)
-        window.freelogApp.addAuth(bookResource.data.exhibitId, async () => {
+        window.freelogApp.addAuth(bookResource.exhibitId, async () => {
           const book = await window.freelogApp.getExhibitInfoByAuth(bookId)
           console.log(resolve)
           resolve && resolve(book)
@@ -23,7 +23,7 @@ function Book(props) {
       })
     }
     console.log(bookResource)
-    setBookInfo({...res.data.data[0], intro: bookResource.data.data.intro})
+    setBookInfo({...res.data.data[0], intro: bookResource.intro})
     const chaptersRes = await window.freelogApp.getExhibitListByPaging({ articleResourceTypes: "chapter", tags: res.data.data[0].exhibitName, isLoadVersionProperty: 1})
     let chaptersData = chaptersRes.data.data.dataList
     console.log(chaptersData)
@@ -31,8 +31,8 @@ function Book(props) {
       let aIndex = 0
       let bIndex = 1
       try{
-         aIndex = parseInt(a.versionProperty.chapter)
-         bIndex = parseInt(b.versionProperty.chapter)
+         aIndex = parseInt(a.versionInfo.exhibitProperty.chapter)
+         bIndex = parseInt(b.versionInfo.exhibitProperty.chapter)
       }catch(e){
         console.log("chapter 设置错误 " + a.exhibitName + ' 或者 ' + b.exhibitName )
       }

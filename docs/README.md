@@ -499,18 +499,25 @@ subData.subDeps.some((sub, index) => {
 ### 加载展品插件
 
 ```ts
-const res = await window.freelogApp.getPresentables({
+const res = await window.freelogApp.getExhibitListById({
   articleResourceTypes: "widget",
   isLoadVersionProperty: 1,
 });
 const widgets = res.data.data.dataList;
 widgets.some((widget, index) => {
-  if (index === 1) return true;
+  // if (index === 1) return true;
   let widgetController = window.freelogApp.mountWidget(
     widget,
-    document.getElementById("freelog-single")
+    document.getElementById("freelog-single") // // 给每一个提供不同的容器
   );
 });
+
+**参数说明**
+  query:{
+    exhibitIds: "string", // 展品ids 多个使用","隔开
+    isLoadVersionProperty: "string", // 是否加载版本信息
+  }
+ 
 ```
 
 
@@ -627,7 +634,7 @@ export async function mount(props) {
 **分页列表**
 
 ```ts
-   const res = await window.freelogApp.getPresentablesPaging(query)
+   const res = await window.freelogApp.getExhibitListByPaging(query)
    query:{
     skip: "string", // 从第几个开始
     limit: "string", // 取多少个
@@ -656,7 +663,7 @@ export async function mount(props) {
 ### 获取展品详情
 
 ```ts
- const res = await  window.freelogApp.getPresentableDetailById(exhibitId, query)
+ const res = await  window.freelogApp.getExhibitInfo(exhibitId, query)
 
  **参数说明**
   exhibitId: 展品id，
@@ -672,7 +679,7 @@ export async function mount(props) {
 ### 获取展品资源
 
 ```ts
-  const res = await window.freelogApp.getFileStreamById(
+  const res = await window.freelogApp.getExhibitFileStream(
     exhibitId: string,  // 展品id
     returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
     config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
@@ -682,10 +689,10 @@ export async function mount(props) {
 ### 获取展品子依赖
 
 ```ts
-  const res = await  window.freelogApp.getSubFileStreamById(
+  const res = await  window.freelogApp.getExhibitDepFileStream(
     exhibitId: string | number,
     parentNid: string,
-    subResourceIdOrName: string,
+    subArticleIdOrName: string,
     returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
     config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
   )
@@ -696,7 +703,7 @@ export async function mount(props) {
 **同一个用户的多次签约只计算一次**
 
 ```ts
-  const res = await window.freelogApp.getPresentableSignCount(
+  const res = await window.freelogApp.getExhibitSignCount(
     exhibitIds: string
   )
 
@@ -709,7 +716,7 @@ export async function mount(props) {
 ### 批量查询展品授权
 
 ```ts
-  const res = await window.freelogApp.getPresentablesAuth(
+  const res = await window.freelogApp.getExhibitAuthStatus(
     exhibitIds: string
   )
 
@@ -726,7 +733,7 @@ export async function mount(props) {
 
 ```ts
 // 根据展品id获取展品资源
-let ch = await window.freelogApp.getFileStreamById(
+let ch = await window.freelogApp.getExhibitFileStream(
   chapters[index].exhibitId
 );
 /**
@@ -755,7 +762,7 @@ if (ch.data.errCode) {
     window.freelogApp.addAuth(
       ch.data.exhibitId,
       async () => {
-        const res = await window.freelogApp.getFileStreamById(
+        const res = await window.freelogApp.getExhibitFileStream(
           chapters[index].exhibitId
         );
         resolve(res);

@@ -5,7 +5,6 @@ import "./auth.scss";
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
 import frequest from "@/services/handler";
-import exhibit from "@/services/api/modules/exhibit";
 import Confirm from "./_components/confirm";
 import Login from "./login";
 import contract from "@/services/api/modules/contract";
@@ -101,9 +100,8 @@ export default function Auth(props: contractProps) {
       }
       return;
     }
-    const res = await frequest(
-      exhibit.getPresentableDetail,
-      [id || currentPresentable.exhibitId],
+    const res = await window.freelogApp.getExhibitInfo(
+      id || currentPresentable.exhibitId,
       {
         isLoadPolicyInfo: 1,
         isTranslate: 1,
@@ -112,7 +110,7 @@ export default function Auth(props: contractProps) {
     /**
      * 获取
      */
-
+    console.log(currentPresentable, res)
     res.data.data.policies = res.data.data.policies.filter((i: any) => {
       return i.status === 1;
     });

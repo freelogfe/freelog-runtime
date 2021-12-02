@@ -20,6 +20,8 @@ const exhibit: Exhibit = {
     method: "GET",
     dataModel: {
       isLoadPolicyInfo: "int",
+      isLoadVersionProperty: "int",
+      isTranslate: "int",
     },
   },
   // placeHolder: nodeId exhibitId
@@ -28,6 +30,8 @@ const exhibit: Exhibit = {
     method: "GET",
     dataModel: {
       isLoadPolicyInfo: "int",
+      isLoadVersionProperty: "int",
+      isTranslate: "int",
     },
   },
   getExhibitListById: {
@@ -108,7 +112,7 @@ const exhibit: Exhibit = {
     },
   },
   // nodeId
-  getExhibitAuthStatusStatus: {
+  getExhibitAuthStatus: {
     url: `auths/exhibits/${placeHolder}/batchAuth/results`,
     method: "GET",
     dataModel: {

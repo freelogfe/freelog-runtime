@@ -207,7 +207,7 @@ function getData(page = 1) {
         console.log(res);
         const dataList = []
          res.data.data.dataList.forEach(async (i, index) => {
-            const src = await window.freelogApp.getFileStreamById(
+            const src = await window.freelogApp.getExhibitFileStream(
               i.exhibitId,
               true
             );

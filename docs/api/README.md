@@ -60,24 +60,22 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
  **用法**
- const res = await window.freelogApp.getPresentables({
+ const res = await window.freelogApp.getExhibitListById({
     articleResourceTypes: "widget",
     isLoadVersionProperty: 1
   });
-  console.log(res)
   const widgets = res.data.data.dataList;
   widgets.some((widget, index) => {
-    if (index === 1) return true;
     window.freelogApp.mountWidget(
       widget,
-      document.getElementById("freelog-single"),
+      document.getElementById("freelog-single"),// 给每一个提供不同的容器
     );
   });
 ```
 
 
 
-## getPresentablesPaging
+## getExhibitListByPaging
 
 **用途：分页获取展品**
 
@@ -92,13 +90,13 @@ subData.subDeps.some((sub, index) => {
       tags: "string", // 展品和资源标签，多个使用","隔开
       projection: "string",
       keywords: "string",
-      isLoadVersionProperty: "string", // 是否加载版本
+      isLoadVersionProperty: "string", // 是否加载版本信息
     }
 ```
 
 ```ts
    **用法**
-   const res = await window.freelogApp.getPresentablesPaging(query).then((res)=>{
+   const res = await window.freelogApp.getExhibitListByPaging(query).then((res)=>{
 
    })
 ```
@@ -111,96 +109,35 @@ subData.subDeps.some((sub, index) => {
   **参数说明**
     query:{
       exhibitIds: "string", // 展品ids 多个使用","隔开
-      resourceIds: "string", // 资源ids
-      resourceNames: "string", // 资源名称s
+      isLoadVersionProperty: "string", // 是否加载版本信息
     }
-```
-
-```ts
+ 
  **用法**
 
  const res = await window.freelogApp.getExhibitListById(query).then((res)=>{
  })
 ```
-## getPresentableDetailById
 
-**用途：获取展品详情**
- ```ts
+## getExhibitInfo
+
+**用途：获取单个展品详情**
+
+```ts
+  const res = await window.freelogApp.getExhibitInfo(exhibitId, query)
+
   **参数说明**
-   exhibitId: 展品id，
-    query:{
-        projection:  "string", // 需要指定哪些字段
-        isLoadVersionProperty: 0 | 1, // 是否需要展品版本属性
-        isLoadCustomPropertyDescriptors: 0 | 1, // 是否加载自定义属性信息
-        isLoadResourceDetailInfo: 0 | 1, // 是否加载资源详细信息(额外查询了资源的封面,标签,简介等)
-        isLoadResourceVersionInfo: 0 | 1, // 	是否加载资源版本信息(额外查询了资源版本的描述,创建日期,更新日期等)
+    exhibitId: "string", // 展品id
+    query: {
+      isLoadVersionProperty: "int", // 是否加载版本信息
     }
 ```
 
-```ts
- **用法**
- const res = await window.freelogApp.getPresentableDetailById(exhibitId, query).then((res)=>{
-
- })
-```
-
-## getInfoById
-
-**用途：查找展品信息**
-
-```ts
-  const res = await window.freelogApp.getInfoById(exhibitId)
-
-  **参数说明**
-    exhibitIds: "string", // 展品id
-
-```
-
-## getInfoByName
-
-**用途：根据资源 id 或名称查找展品信息**
-
-```ts
-  const res = await window.freelogApp.getInfoByName(articleIdOrName)
-
-  **参数说明**
-
-    articleIdOrName: "string", // 资源id或名称
-
-```
-
-## getResultById
-
-**用途：查找展品标准授权响应结果**
-
-```ts
-  window.freelogApp.getResultById(exhibitId)
-
-  **参数说明**
-
-    exhibitIds: "string", // 展品id
-
-```
-
-## getResultByName
-
-**用途：根据资源 id 或名称查找展品标准授权响应结果**
-
-```ts
-  const res = await window.freelogApp.getResultByName(articleIdOrName)
-
-  **参数说明**
-
-    articleIdOrName: "string", // 资源id或名称
-
-```
-
-## getFileStreamById
+## getExhibitFileStream
 
 **用途：获取展品资源文件**
 
 ```ts
-  const res = await window.freelogApp.getFileStreamById(
+  const res = await window.freelogApp.getExhibitFileStream(
     exhibitId: string | number,
     returnUrl?: boolean,
     config?: any
@@ -214,109 +151,15 @@ subData.subDeps.some((sub, index) => {
 
 ```
 
-## getFileStreamByName
-
-**用途：根据资源 id 或名称获取展品资源文件**
-
-```ts
-  const res = await window.freelogApp.getFileStreamByName(
-    articleIdOrName, 
-    returnUrl, 
-    config
-  )
-
-  **参数说明**
-
-    exhibitId: string,  // 展品id
-    returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
-    config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
-
-```
-
-## getSubInfoById
-
-**用途：查找展品子依赖资源信息**
-
-```ts
-  const res = await window.freelogApp.getSubInfoById(
-      exhibitId: string | number,
-      parentNid: string,
-      subResourceIdOrName: string
-  )
-
-  **参数说明**
-
-    exhibitId: string,
-    parentNid: string,  // 自身链路id
-    subResourceIdOrName: string   // 子资源id或名称
-
-```
-
-## getSubInfoByName
-
-**用途：查找展品子依赖资源信息**
-
-```ts
-  const res = await window.freelogApp.getSubInfoByName(
-      articleIdOrName: string | number,
-      parentNid: string,
-      subResourceIdOrName: string
-  )
-
-  **参数说明**
-
-    articleIdOrName: string, // 展品自身的资源名称或id
-    parentNid: string,  // 自身链路id
-    subResourceIdOrName: string   // 子资源id或名称
-
-```
-
-## getSubResultById
-
-**用途：查找展品子依赖标准授权响应结果**
-
-```ts
-  const res = await window.freelogApp.getSubResultById(
-      exhibitId: string,
-      parentNid: string, 
-      subResourceIdOrName: string
-  )
-
-  **参数说明**
-
-    exhibitId: string,
-    parentNid: string,  // 自身链路id
-    subResourceIdOrName: string   // 子资源id或名称
-
-```
-
-## getSubResultByName
-
-**用途：查找展品子依赖标准授权响应结果**
-
-```ts
-  const res = await window.freelogApp.getSubResultByName(
-      articleIdOrName: string | number,
-      parentNid: string,
-      subResourceIdOrName: string)
-
-  **参数说明**
-
-    articleIdOrName: string, // 展品自身的资源名称或id
-    parentNid: string,  // 自身链路id
-    subResourceIdOrName: string   // 子资源id或名称
-
-```
-
-## getSubFileStreamById
+## getExhibitDepFileStream
 
 **用途：查找展品子依赖资源文件**
 
 ```ts
-  const res = await window.freelogApp.getSubFileStreamById(
+  const res = await window.freelogApp.getExhibitDepFileStream(
     exhibitId: string ,
     parentNid: string,
-    subResourceIdOrName: string,
+    subArticleIdOrName: string,
     returnUrl?: boolean,
     config?: any
   )
@@ -325,105 +168,18 @@ subData.subDeps.some((sub, index) => {
 
     exhibitId: string , // 自身展品id
     parentNid: string,    // 自身链路id
-    subResourceIdOrName: string, // 子依赖资源id或名称
+    subArticleIdOrName: string, // 子依赖资源id或名称
     returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
     config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
 
 ```
 
-## getSubFileStreamByName
-
-**用途：查找展品信息**
-
-```ts
-  const res = await window.freelogApp.getSubFileStreamByName(
-    articleIdOrName: string | number,
-    parentNid: string,
-    subResourceIdOrName: string,
-    returnUrl?: boolean,
-    config?: any
-  )
-
-  **参数说明**
-
-    articleIdOrName: string , // 自身资源id或名称
-    parentNid: string,    // 自身链路id
-    subResourceIdOrName: string, // 子依赖资源id或名称
-    returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
-    config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
-
-```
-
-## getResourceInfoById
-
-**用途：查找展品资源信息**
-
-```ts
-  const res = await window.freelogApp.getResourceInfoById(exhibitId)
-
-  **参数说明**
-
-    exhibitIds: "string", // 展品id
-
-```
-
-## getResourceInfoByName
-
-**用途：查找展品资源信息**
-
-```ts
-  const res = await window.freelogApp.getResourceInfoByName(articleIdOrName)
-
-  **参数说明**
-
-    articleIdOrName: "string", // 展品资源id或名称
-
-```
-
-## getSubResourceInfoById
-
-**用途：查找展品的子资源信息**
-
-```ts
- const res = await window.freelogApp.getSubResourceInfoById(
-    exhibitId: string | number, 
-    parentNid: string, 
-    subResourceIdOrName: string
-  )
-
-  **参数说明**
-
-    exhibitId: string, // 展品id
-    parentNid: string,  // 自身链路id
-    subResourceIdOrName: string // 子资源id或名称
-
-```
-
-## getSubResourceInfoByName
-
-**用途：查找展品信息**
-
-```ts
-  const res = await window.freelogApp.getSubResourceInfoByName(
-    articleIdOrName: string | number,
-    parentNid: string,
-    subResourceIdOrName: string
-  )
-
-  **参数说明**
-
-    articleIdOrName: string | number, // 自身资源id或名称
-    parentNid: string, // 自身链路id
-    subResourceIdOrName: string // 子资源id或名称
-
-```
-
-## getPresentableSignCount
+## getExhibitSignCount
 
 **用途：查找展品签约数量（同一个用户的多次签约只计算一次）**
 
 ```ts
-  const res = await window.freelogApp.getPresentableSignCount(
+  const res = await window.freelogApp.getExhibitSignCount(
     exhibitIds: string
   )
 
@@ -433,12 +189,12 @@ subData.subDeps.some((sub, index) => {
 
 ```
 
-## getPresentablesAuth
+## getExhibitAuthStatus
 
 **批量查询展品授权** 
 
 ```ts
-  const res = await window.freelogApp.getPresentablesAuth(
+  const res = await window.freelogApp.getExhibitAuthStatus(
     exhibitIds: string
   )
 
@@ -561,12 +317,14 @@ window.freelogApp.onLogin(callback)
  const userData = await window.freelogApp.getUserData(key)
  
 ```
-### callLogin 
+
+## callLogin 
 ```ts
  **唤起登录**
  window.freelogApp.callLogin()
 ```
-### callLoginOut 
+
+## callLoginOut 
 ```ts
  **唤起退出登录**
  window.freelogApp.callLoginOut()

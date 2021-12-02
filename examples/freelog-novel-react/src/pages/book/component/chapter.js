@@ -12,11 +12,11 @@ export default function Chapter(props) {
 
   async function getChapter(index) {
     if (chapters[index]) {
-      let ch = await window.freelogApp.getFileStreamById(chapters[index].exhibitId)
-      if (ch.data.errCode) {
+      let ch = await window.freelogApp.getExhibitFileStream(chapters[index].exhibitId)
+      if (ch.authErrorType) {
         ch = await new Promise((resolve, rej) => {
           window.freelogApp.addAuth(ch.data.exhibitId, async () => {
-            const res  = await window.freelogApp.getFileStreamById(chapters[index].exhibitId)
+            const res  = await window.freelogApp.getExhibitFileStream(chapters[index].exhibitId)
             resolve(res)
           }, () => { }, { immediate: true })
         })

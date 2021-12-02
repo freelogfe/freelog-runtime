@@ -1,7 +1,7 @@
 import { Modal, Input, Spin } from "antd";
 import Button from "../_components/button";
 import "./pay.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import frequest from "@/services/handler";
 import user from "@/services/api/modules/user";
 import event from "@/services/api/modules/event";
@@ -31,6 +31,7 @@ export default function Pay(props: PayProps) {
     type: "success",
     mask: false,
   });
+  const inputP = useRef(null);
   const [userAccount, setUserAccount] = useState<any>({});
   const handleOk = () => {
     props.setIsModalVisible(false);
@@ -45,10 +46,15 @@ export default function Pay(props: PayProps) {
     // @ts-ignore
     const res = await frequest(user.getAccount, [userInfo.userId], "");
     setUserAccount(res.data.data);
+    setTimeout(() => {
+      // @ts-ignore
+      inputP.current.focus();
+    }, 200);
   }
   useEffect(() => {
     setPassword("");
     setVisible(props.isModalVisible);
+
     props.isModalVisible && getAccount();
   }, [props.isModalVisible]);
   async function pay() {
@@ -153,6 +159,7 @@ export default function Pay(props: PayProps) {
         <div className="px-80 pt-5">
           <Input.Password
             size="large"
+            ref={inputP}
             onChange={(e) => {
               setPassword(e.target.value);
             }}

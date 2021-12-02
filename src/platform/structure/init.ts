@@ -56,19 +56,6 @@ export function initNode() {
         Object.freeze(freelogApp.nodeInfo);
         initLocation();
         const container = document.getElementById.bind(document)("freelog-plugin-container");
-        if(window.isTest){
-          const theme = await getSubDep(nodeInfo.nodeTestThemeId);
-          freelogApp.mountWidget(
-            theme.data,
-            container,
-            "",
-            { shadowDom: false, scopedCss: true, ...theme.properties },
-            null,
-            true
-          );
-          resolve && resolve()
-          return 
-        }
         mountUI("freelog-ui", document.getElementById.bind(document)("ui-root"), uiPath, {
           shadowDom: false,
           scopedCss: false,
@@ -76,10 +63,10 @@ export function initNode() {
           // TODO 如果没有主题，需要提醒先签约主题才行，意味着开发主题需要先建一个节点和主题并签约
           const theme = await getSubDep(window.isTest? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId);
           freelogApp.mountWidget(
-            theme.data,
+            theme,
             container,
             "",
-            { shadowDom: false, scopedCss: true, ...theme.properties },
+            { shadowDom: false, scopedCss: true, ...theme.exhibitProperty },
             null,
             true
           );

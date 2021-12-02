@@ -50,7 +50,9 @@ export function deleteContainer(
 export function createId(subId: string, count?: number): any {
   let id = count ? "freelog-" + subId + "-" + count : "freelog-" + subId;
   // @ts-ignore
-  return document.querySelector.bind(document)("#" + id) ? createId(subId, ++count) : id;
+  return document.querySelector.bind(document)("#" + id)
+    ? createId(subId, ++count)
+    : id;
 }
 
 export function createScript(url: string): Promise<any> {
@@ -62,7 +64,10 @@ export function createScript(url: string): Promise<any> {
     // script.async = true
     script.defer = true;
     // @ts-ignore
-    document.getElementsByTagName.bind(document)("head").item(0).appendChild(script);
+    document.getElementsByTagName
+      .bind(document)("head")
+      .item(0)
+      .appendChild(script);
   });
 }
 
@@ -75,7 +80,10 @@ export function createCssLink(href: string, type?: string): Promise<any> {
     link.onload = resolve;
     link.onerror = reject;
     // @ts-ignore
-    document.getElementsByTagName.bind(document)("head").item(0).appendChild(link);
+    document.getElementsByTagName
+      .bind(document)("head")
+      .item(0)
+      .appendChild(link);
   });
 }
 //
@@ -119,16 +127,16 @@ export async function getSubDep(exhibitId?: any) {
     exhibitId = widgetsConfig.get(that.name).exhibitId;
   }
   // @ts-ignore
-  let info = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId, );
-  if (info.data && info.data.errCode === 3 && isTheme) {
+  let response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
+  if (response.authErrorType === 1 && isTheme) {
     // 只有主题才需要权限验证
     await new Promise((resolve, reject) => {
       addAuth.bind(widgetSandBox)(exhibitId, resolve, reject, {
         immediate: true,
       });
     });
-    info = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
-    if (info.data.errCode) {
+    response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
+    if (response.authErrorType) {
       await new Promise((resolve, reject) => {
         addAuth.bind(widgetSandBox)(exhibitId, resolve, reject, {
           immediate: true,
@@ -136,24 +144,28 @@ export async function getSubDep(exhibitId?: any) {
       });
     }
 
-    info = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
+    response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
   }
-  // TODO 报错要明确
-  if (!info.data) {
-    return info;
-  }
-  const [subDeps, articleNid, config] = [
-    info.headers["freelog-article-sub-dependencies"],
-    info.headers["freelog-article-nid"],
-    info.headers["freelog-article-property	"]
-  ];
-  console.log(info.data)
+  const exhibitName = decodeURI(response.headers["freelog-exhibit-name"]);
+  const articleNid = decodeURI(response.headers["freelog-article-nid"]);
+  const articleResourceType = decodeURI(
+    response.headers["freelog-article-resource-type"]
+  );
+  let subDep = decodeURI(response.headers["freelog-article-sub-dependencies"]);
+  subDep = subDep ? JSON.parse(decodeURIComponent(subDep)) : [];
+
+  let exhibitProperty = decodeURI(response.headers["freelog-exhibit-property"]);
+  exhibitProperty = exhibitProperty
+    ? JSON.parse(decodeURIComponent(exhibitProperty))
+    : {};
   return {
-    subDeps: subDeps ? JSON.parse(decodeURIComponent(subDeps)) : [],
-    headers: info.headers,
-    properties: config ? JSON.parse(decodeURIComponent(config)) : {},
+    exhibitName,
+    exhibitId,
     articleNid,
-    data: info.data.data,
+    articleResourceType,
+    subDep,
+    versionInfo: {exhibitProperty},
+    ...response.data.data,
   };
 }
 let userInfo: any = null;
@@ -187,11 +199,15 @@ export function getEntry(that: any) {
     `auths/${window.isTest ? "testResources" : "exhibits"}/${
       that.exhibitId
     }/fileStream?`;
-  let url2 = `parentNid=${that.parentNid}&${window.isTest? 'subEntityIdOrName' : 'subResourceIdOrName'}=${that.subResourceIdOrName}`;
+  let url2 = `parentNid=${that.parentNid}&${
+    window.isTest ? "subEntityIdOrName" : "subArticleIdOrName"
+  }=${that.subArticleIdOrName}`;
   if (that.parentNid) {
-    return url + url2 + (window.isTest? "&subEntityFile=" : "&subResourceFile=");
+    return (
+      url + url2 + (window.isTest ? "&subEntityFile=" : "&subResourceFile=")
+    );
   } else {
-    return url + (window.isTest? "&subEntityFile=" : "&subResourceFile=");
+    return url + (window.isTest ? "&subEntityFile=" : "&subResourceFile=");
   }
 }
 const immutableKeys = ["width"];

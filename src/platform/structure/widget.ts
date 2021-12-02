@@ -145,7 +145,7 @@ export function mountWidget(
   seq?: number | null | undefined,
   isTheme?: boolean
 ): any {
-     // @ts-ignore
+  // @ts-ignore
   const that = this;
   let configData = config;
   // TODO 为了安全，得验证是否是插件使用还是运行时使用mountWidget
@@ -153,9 +153,11 @@ export function mountWidget(
     isTheme = false;
     defaultWidgetConfigData.historyFB = false;
   }
+  console.log(widget);
+
   config = {
     ...defaultWidgetConfigData,
-    ...(widget.versionProperty || {}), // versionProperty 展品里面的，可以freeze widget数据，防止加载时篡改
+    ...(widget.versionInfo.exhibitProperty || {}), // exhibitProperty 展品里面的，可以freeze widget数据，防止加载时篡改
     ...config,
   };
   if (!isTheme) {
@@ -165,6 +167,7 @@ export function mountWidget(
   }
   let commonData: any;
   let entry = "";
+  console.log(widget);
   if (!topPresentableData) {
     commonData = {
       id: widget.articleInfo.articleId,
@@ -173,8 +176,7 @@ export function mountWidget(
       articleNid: "",
       articleInfo: {
         articleId: widget.articleInfo.articleId,
-        articleName:
-          widget.articleInfo.name || widget.articleInfo.articleName,
+        articleName: widget.articleInfo.name || widget.articleInfo.articleName,
       },
     };
   } else {
@@ -213,14 +215,14 @@ export function mountWidget(
     widgetName: commonData.articleInfo.articleName.replace("/", "-"),
     parentNid: commonData.articleNid,
     articleName: commonData.articleInfo.articleName,
-    subResourceIdOrName: commonData.articleInfo.articleId,
+    subArticleIdOrName: commonData.articleInfo.articleId,
     articleId: commonData.articleInfo.articleId, // id可以重复，name不可以, 这里暂时这样
     entry:
       entry ||
       getEntry({
         exhibitId: commonData.exhibitId,
         parentNid: commonData.articleNid,
-        subResourceIdOrName: commonData.articleInfo.articleId,
+        subArticleIdOrName: commonData.articleInfo.articleId,
       }),
     isDev: !!entry,
     config, // 主题插件配置数据
@@ -267,5 +269,3 @@ export function mountWidget(
   addWidget(widgetId, freelog_app);
   return freelog_app;
 }
- 
- 
