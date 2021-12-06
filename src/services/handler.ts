@@ -117,8 +117,9 @@ export default function frequest(
               versionInfo: {exhibitProperty},
               info: resData,
             });
-            resolve({
-              authErrorType: 1,// 存在但未授权
+            reject({
+              authErrorType: 1, // 存在但未授权
+              authErrorDes: '未授权',
               authCode: resData.authCode,
               exhibitName,
               exhibitId,
@@ -129,8 +130,9 @@ export default function frequest(
               data: resData,
             });
           } else if (errorAuthCode.includes(resData.authCode)) {
-            resolve({
-              authErrorType: 2,// 不存在
+            reject({
+              authErrorType: 2, // 不存在
+              authErrorDes: '不存在',
               authCode: resData.authCode,
               exhibitName,
               exhibitId,
