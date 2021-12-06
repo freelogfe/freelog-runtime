@@ -104,22 +104,22 @@ export default function frequest(
             (caller.exhibitId || caller.articleIdOrName)
           ) {
             console.log(resData)
+            
             setPresentableQueue(exhibitId, {
               widget: caller.name,
               authCode: resData.authCode,
-              contracts: resData.data.contracts || [],
-              policies: resData.data.policies,
+              contracts: resData.data? resData.data.contracts : [],
+              policies: resData.data? resData.data.policies : [],
               exhibitName,
               exhibitId,
               articleNid,
               articleResourceType,
               subDep,
               versionInfo: {exhibitProperty},
-              info: resData,
+              ...resData,
             });
             resolve({
               authErrorType: 1, // 存在但未授权
-              authErrorDes: '未授权',
               authCode: resData.authCode,
               exhibitName,
               exhibitId,
@@ -127,12 +127,11 @@ export default function frequest(
               articleResourceType,
               subDep,
               versionInfo: {exhibitProperty},
-              data: resData,
+              ...resData,
             });
           } else if (errorAuthCode.includes(resData.authCode)) {
             resolve({
               authErrorType: 2, // 不存在
-              authErrorDes: '不存在',
               authCode: resData.authCode,
               exhibitName,
               exhibitId,

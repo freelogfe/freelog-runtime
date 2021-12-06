@@ -141,7 +141,6 @@ export default function (props: contractProps) {
         return true;
       }
     });
-    console.log(events[0])
     !isExist && setCurrentPresentable(events[0]);
   }, [props.events]);
   useEffect(() => {
