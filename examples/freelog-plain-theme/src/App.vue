@@ -15,19 +15,20 @@ export default {
   computed: {},
   methods: {
     async getSub() {
-      const res = await window.freelogApp.getPresentables({
+      const res = await window.freelogApp.getExhibitListByPaging({
         articleResourceTypes: "widget",
         isLoadVersionProperty: 1
       });
       console.log(res)
       const widgets = res.data.data.dataList;
-      widgets.some((widget, index) => {
+
+      widgets.some(async (widget, index) => {
         if (index === 1) return true;
-        window.freelogApp.mountWidget(
+        await window.freelogApp.mountWidget(
           widget,
           document.getElementById("freelog-single"),
         );
-        // window.freelogApp.mountWidget(
+        // await window.freelogApp.mountWidget(
         //   {
         //     exhibitId: widget.exhibitId,
         //     name: widget.exhibitName,

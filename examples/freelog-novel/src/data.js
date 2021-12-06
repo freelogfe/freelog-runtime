@@ -101,7 +101,7 @@ var onloadChapters = createLoader(function (callback) {
     })
 })
 
-function requestPresentableData(exhibitId) {
+function requestExhibitData(exhibitId) {
   return window.freelogApp.getExhibitFileStream(exhibitId)
     .then(res => {
       var meta = decodeURIComponent(res.headers['freelog-resource-property'])
@@ -142,24 +142,24 @@ function requestPresentableData(exhibitId) {
 
 var exhibitsMap = {}
 
-function onloadPresentableData(exhibitId, disabledCache) {
+function onloadExhibitData(exhibitId, disabledCache) {
 
   if (!disabledCache && exhibitsMap[exhibitId]) {
     return Promise.resolve(exhibitsMap[exhibitId])
   } else {
-    return requestPresentableData(exhibitId).then((chapter) => {
+    return requestExhibitData(exhibitId).then((chapter) => {
       exhibitsMap[exhibitId] = chapter
       return chapter
     })
   }
 }
 //alias
-var onloadChapterContent = onloadPresentableData
+var onloadChapterContent = onloadExhibitData
 
 export {
   onloadBookDetail,
   onloadChapters,
   loadPresentablesByTags,
-  onloadPresentableData,
+  onloadExhibitData,
   onloadChapterContent
 }

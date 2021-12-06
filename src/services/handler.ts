@@ -64,7 +64,7 @@ export default function frequest(
     let query = "";
     if (_api.params) {
       Object.keys(_api.params).forEach((key) => {
-        query = query + "&" + key + "=" + _api.params[key];
+        query = query?  query + "&" + key + "=" + _api.params[key] :  key + "=" + _api.params[key];
       });
     }
     if (query) {

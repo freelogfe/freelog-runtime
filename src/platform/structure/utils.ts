@@ -46,14 +46,7 @@ export function deleteContainer(
 
   return childContainer ? fatherContainer?.removeChild(childContainer) : true;
 }
-// let count = 0;
-export function createId(subId: string, count?: number): any {
-  let id = count ? "freelog-" + subId + "-" + count : "freelog-" + subId;
-  // @ts-ignore
-  return document.querySelector.bind(document)("#" + id)
-    ? createId(subId, ++count)
-    : id;
-}
+
 
 export function createScript(url: string): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -188,28 +181,7 @@ export function getStaticPath(path: string) {
   // @ts-ignore
   return widgetsConfig.get(this.name).entry + path;
 }
-export function getEntry(that: any) {
-  let baseURL = "http://qi.freelog.com/v2/";
-  // TODO  判断不严谨，会有漏洞
-  if (window.location.href.indexOf("testfreelog") > -1) {
-    baseURL = "http://qi.testfreelog.com/v2/";
-  }
-  let url =
-    baseURL +
-    `auths/${window.isTest ? "testResources" : "exhibits"}/${
-      that.exhibitId
-    }/fileStream?`;
-  let url2 = `parentNid=${that.parentNid}&${
-    window.isTest ? "subEntityIdOrName" : "subArticleIdOrName"
-  }=${that.subArticleIdOrName}`;
-  if (that.parentNid) {
-    return (
-      url + url2 + (window.isTest ? "&subEntityFile=" : "&subResourceFile=")
-    );
-  } else {
-    return url + (window.isTest ? "&subEntityFile=" : "&subResourceFile=");
-  }
-}
+ 
 const immutableKeys = ["width"];
 const viewPortValue = {
   width: "device-width", // immutable

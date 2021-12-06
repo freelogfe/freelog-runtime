@@ -2,16 +2,17 @@
 
 **下面所有接口都挂在 window.freelogApp 对象上**
 
-**接口返回值先自行看，后面再整理**
+**文中参数类型为int的'是否'都用1和0传递**
+
 
 ## getStaticPath
 
- **用途：获取图片字体等静态资源的正确路径**
+**用途：获取图片字体等静态资源的正确路径**
 
 ```ts
 
-  
 ```
+
 ```ts
  **用法**
   const path = await window.freelogApp.getStaticPath(path);
@@ -25,6 +26,7 @@
 ## mountWidget
 
 **用途：加载插件**
+
 ```ts
 
   **参数说明**
@@ -39,14 +41,12 @@
 
 ### 加载自身依赖的插件
 
-
-
 ```ts
  **用法**
 const subData = await window.freelogApp.getSubDep();
-subData.subDeps.some((sub, index) => {
+subData.subDep.some((sub, index) => {
   if (index === 1) return true;
-  window.freelogApp.mountWidget(
+  await window.freelogApp.mountWidget(
     sub,
     document.getElementById("freelog-single"),
     subData, // 父数据
@@ -66,40 +66,68 @@ subData.subDeps.some((sub, index) => {
   });
   const widgets = res.data.data.dataList;
   widgets.some((widget, index) => {
-    window.freelogApp.mountWidget(
+    await window.freelogApp.mountWidget(
       widget,
       document.getElementById("freelog-single"),// 给每一个提供不同的容器
     );
   });
 ```
 
-
-
 ## getExhibitListByPaging
 
 **用途：分页获取展品**
 
 ```ts
-
-  **参数说明**
-    query:{
-      skip: "string", // 从第几个开始
-      limit: "string", // 取多少个
-      articleResourceTypes: "string", // 资源类型
-      omitResourceType: "string", // 过滤资源类型
-      tags: "string", // 展品和资源标签，多个使用","隔开
-      projection: "string",
-      keywords: "string",
-      isLoadVersionProperty: "string", // 是否加载版本信息
-    }
+const res = await window.freelogApp.getExhibitListByPaging({
+  skip: 0,
+  limit: 20,
+});
 ```
 
-```ts
-   **用法**
-   const res = await window.freelogApp.getExhibitListByPaging(query).then((res)=>{
+**query 可选参数**
 
-   })
-```
+| 参数                    | 必选 | 类型及范围    | 说明                                                  |
+| :---------------------- | :--- | :------------ | :---------------------------------------------------- |
+| skip                    | 可选 | int           | 跳过的数量.默认为 0.                                  |
+| limit                   | 可选 | int           | 本次请求获取的数据条数.一般不允许超过 100             |
+| articleResourceTypes    | 可选 | string        | 作品资源类型,多个用逗号分隔                           |
+| omitArticleResourceType | 可选 | string        | 忽略的作品资源类型,与 resourceType 参数互斥           |
+| onlineStatus            | 可选 | int           | 上线状态 (0:下线 1:上线 2:全部) 默认 1                |
+| tags                    | 可选 | string        | 用户创建 presentable 时设置的自定义标签,多个用","分割 |
+| projection              | 可选 | string        | 指定返回的字段,多个用逗号分隔                         |
+| keywords                | 可选 | string[1,100] | 搜索关键字,目前支持模糊搜索节点资源名称和资源名称     |
+| isLoadVersionProperty   | 可选 | int           | 是否响应展品版本属性                                  |
+
+**返回说明：**
+
+| 返回值字段              | 字段类型 | 字段说明                                                   |
+| :---------------------- | :------- | :--------------------------------------------------------- |
+| exhibitId               | string   | 展品 ID                                                    |
+| exhibitName             | string   | 展品名称                                                   |
+| exhibitTitle            | string   | 展品标题                                                   |
+| tags                    | string[] | 展品标签                                                   |
+| intro                   | string   | 展品简介                                                   |
+| coverImages             | string[] | 展品封面图                                                 |
+| version                 | string   | 展品版本                                                   |
+| onlineStatus            | int      | 上线状态 0:下线 1:上线                                     |
+| userId                  | int      | 展品的创建者 ID                                            |
+| nodeId                  | int      | 展品所属节点 ID                                            |
+| policies                | object[] | 对外授权的策略组                                           |
+| \*\* policyId           | string   | 策略 ID                                                    |
+| \*\* policyName         | string   | 策略名称                                                   |
+| \*\* status             | int      | 策略状态 0:下线(未启用) 1:上线(启用)                       |
+| \*\* policyText         | string   | 策略文本                                                   |
+| \*\* translateInfo      | object   | 翻译信息<详见策略翻译文档>                                 |
+| \*\* fsmDescriptionInfo | object   | 策略状态机描述信息<策略语言编译对象>                       |
+| articleInfo             | object   | 展品实际挂载的作品信息                                     |
+| \*\* articleId          | string   | 作品 ID                                                    |
+| \*\* articleName        | string   | 作品名称                                                   |
+| \*\* resourceType       | string   | 作品资源类型                                               |
+| \*\* articleType        | int      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
+| \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
+| \*\* articleOwnerName   | string   | 作品所有者名称                                             |
+| versionInfo             | object   | 展品的版本信息,加载版本属性时,才会赋值                     |
+| \*\*exhibitProperty     | object   | 展品的版本属性                                             |
 
 ## getExhibitListById
 
@@ -111,12 +139,42 @@ subData.subDeps.some((sub, index) => {
       exhibitIds: "string", // 展品ids 多个使用","隔开
       isLoadVersionProperty: "string", // 是否加载版本信息
     }
- 
+
  **用法**
 
  const res = await window.freelogApp.getExhibitListById(query).then((res)=>{
  })
 ```
+**返回说明**
+
+| 返回值字段 | 字段类型 | 字段说明 |
+| :--- | :--- | :--- |
+| exhibitId | string | 展品ID |
+| exhibitName | string | 展品名称 |
+| exhibitTitle | string | 展品标题 |
+| tags| string[] | 展品标签 |
+| intro |string | 展品简介 |
+| coverImages |string[] | 展品封面图 |
+| version |string | 展品版本 |
+| onlineStatus | int| 上线状态 0:下线 1:上线 |
+| userId | int| 展品的创建者ID |
+| nodeId | int| 展品所属节点ID |
+| policies| object[] | 对外授权的策略组 |
+| ** policyId | string | 策略ID |
+| ** policyName | string | 策略名称 |
+| ** status | int | 策略状态 0:下线(未启用) 1:上线(启用) |
+| ** policyText | string | 策略文本 |
+| ** translateInfo | object | 翻译信息<详见策略翻译文档> |
+| ** fsmDescriptionInfo | object | 策略状态机描述信息<策略语言编译对象> |
+| articleInfo | object | 展品实际挂载的作品信息 |
+| ** articleId | string | 作品ID |
+| ** articleName | string | 作品名称 |
+| ** resourceType | string | 作品资源类型 |
+| ** articleType | int | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
+| ** articleOwnerId | int | 作品所有者ID |
+| ** articleOwnerName | string | 作品所有者名称 |
+| versionInfo | object | 展品的版本信息,加载版本属性时,才会赋值 |
+| **exhibitProperty | object | 展品的版本属性 |
 
 ## getExhibitInfo
 
@@ -127,10 +185,40 @@ subData.subDeps.some((sub, index) => {
 
   **参数说明**
     exhibitId: "string", // 展品id
-    query: {
-      isLoadVersionProperty: "int", // 是否加载版本信息
+    query:{
+      isLoadVersionProperty: 0 | 1, // 是否需要展品版本属性 
     }
 ```
+**返回说明**
+
+| 返回值字段 | 字段类型 | 字段说明 |
+| :--- | :--- | :--- |
+| exhibitId | string | 展品ID |
+| exhibitName | string | 展品名称 |
+| exhibitTitle | string | 展品标题 |
+| tags| string[] | 展品标签 |
+| intro |string | 展品简介 |
+| coverImages |string[] | 展品封面图 |
+| version |string | 展品版本 |
+| onlineStatus | int| 上线状态 0:下线 1:上线 |
+| userId | int| 展品的创建者ID |
+| nodeId | int| 展品所属节点ID |
+| policies| object[] | 对外授权的策略组 |
+| ** policyId | string | 策略ID |
+| ** policyName | string | 策略名称 |
+| ** status | int | 策略状态 0:下线(未启用) 1:上线(启用) |
+| ** policyText | string | 策略文本 |
+| ** translateInfo | object | 翻译信息<详见策略翻译文档> |
+| ** fsmDescriptionInfo | object | 策略状态机描述信息<策略语言编译对象> |
+| articleInfo | object | 展品实际挂载的作品信息 |
+| ** articleId | string | 作品ID |
+| ** articleName | string | 作品名称 |
+| ** resourceType | string | 作品资源类型 |
+| ** articleType | int | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
+| ** articleOwnerId | int | 作品所有者ID |
+| ** articleOwnerName | string | 作品所有者名称 |
+| versionInfo | object | 展品的版本信息,加载版本属性时,才会赋值 |
+| **exhibitProperty | object | 展品的版本属性 |
 
 ## getExhibitFileStream
 
@@ -191,7 +279,7 @@ subData.subDeps.some((sub, index) => {
 
 ## getExhibitAuthStatus
 
-**批量查询展品授权** 
+**批量查询展品授权**
 
 ```ts
   const res = await window.freelogApp.getExhibitAuthStatus(
@@ -204,30 +292,41 @@ subData.subDeps.some((sub, index) => {
 
 ```
 
+**返回说明**
+
+| 返回值字段 | 字段类型 | 字段说明 |
+| :--- | :--- | :--- |
+| exhibitId | string | 展品ID |
+| exhibitName | string | 展品名称 |
+| referee | int | 做出授权结果的标的物服务类型(1:资源服务 2:展品服务) |
+| defaulterIdentityType | int | 授权不通过责任方(0:无 1:资源 2:节点 3:c端消费者 128:未知) |
+| authCode | int | 授权码 |
+| isAuth | boolean | 是否授权通过 |
+| errorMsg | string | 错误信息 |
+
 ## devData
 
 **普通对象非函数：获取当前 dev 数据（url 数据）**
+
 ```ts
- const data =  window.freelogApp.devData 
+const data = window.freelogApp.devData;
 ```
 
 ## autoMoutSubWdigets
-  
+
 **用途：自动加载自身的子插件**
 
 ```ts
   // 目前存在问题
   window.freelogApp.autoMoutSubWdigets(config)
-  config: 
+  config:
 ```
-
 
 ## getSelfId
 
 ```ts
- const selfId = await window.freelogApp.getSelfId() 
-
-``` 
+const selfId = await window.freelogApp.getSelfId();
+```
 
 ## getSelfConfig
 
@@ -235,27 +334,25 @@ subData.subDeps.some((sub, index) => {
 
  **获取自身配置数据**
 
- const widgetConfig = await window.freelogApp.getSelfConfig() 
+ const widgetConfig = await window.freelogApp.getSelfConfig()
 
-``` 
+```
 
 ## getSubDep
- 
+
 ```ts
 
  **获取自身依赖**
- 
- const res = await window.freelogApp.getSubDep() 
+
+ const res = await window.freelogApp.getSubDep()
 
  **返回值**
   {
-    subDeps:  [], // 子依赖数组
+    subDep:  [], // 子依赖数组
     workNid,  // 自身链路id
     data: data, // 自身信息
   }
 ```
-
-
 
 ## callAuth
 
@@ -263,40 +360,40 @@ subData.subDeps.some((sub, index) => {
 
 ```ts
 // 当addAuth多个未授权展品且没有立刻呼出（或者存在未授权展品且已经addAuth 但用户关闭了，插件想要用户签约时）可以通过callAuth()唤出
-window.freelogApp.callAuth() 
+window.freelogApp.callAuth();
 ```
+
 ## addAuth
 
 **用途：对未授权展品添加授权**
 
 ```ts
-window.freelogApp.addAuth(data) 
- 
+window.freelogApp.addAuth(data)
+
  **参数说明**
     exhibitId: string,
     resolve: Function,  // 授权成功回调
     reject: Function,  // 授权失败回调
     options?: {
       immediate: boolean  // 是否立即弹出授权窗口
-    } 
+    }
 ```
+
 ## onLogin
 
 **监听用户登录**
 
 ```ts
 // callback: 登录成功的回调，登录失败不会回调
-window.freelogApp.onLogin(callback) 
- 
+window.freelogApp.onLogin(callback);
 ```
+
 ## getCurrentUser
 
 **获取当前登录的用户信息**
 
 ```ts
-
- const loginUser = await window.freelogApp.getCurrentUser() 
- 
+const loginUser = await window.freelogApp.getCurrentUser();
 ```
 
 ## setUserData
@@ -304,27 +401,26 @@ window.freelogApp.onLogin(callback)
 **获取当前登录的用户在当前插件保存的数据**
 
 ```ts
-
- const res = await window.freelogApp.setUserData(key, data) 
- 
+const res = await window.freelogApp.setUserData(key, data);
 ```
+
 ## getUserData
 
 **获取当前登录的用户在当前插件保存的数据**
 
 ```ts
-
- const userData = await window.freelogApp.getUserData(key)
- 
+const userData = await window.freelogApp.getUserData(key);
 ```
 
-## callLogin 
+## callLogin
+
 ```ts
  **唤起登录**
  window.freelogApp.callLogin()
 ```
 
-## callLoginOut 
+## callLoginOut
+
 ```ts
  **唤起退出登录**
  window.freelogApp.callLoginOut()

@@ -18,7 +18,6 @@
 import { loadMicroApp } from "../runtime";
 import { setLocation } from "./proxy";
 import { DEV_TYPE_REPLACE, DEV_WIDGET } from "./dev";
-import { getSubDep, getEntry } from "./utils";
 import { defaultWidgetConfigData } from "./widgetConfigData";
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<any, any>();
@@ -133,18 +132,18 @@ export function mountUI(
  * TODO 如果需要支持不同插件下使用同一个插件，需要将展品id也加上
  *
  * @returns
- * 情况1.加载展品插件  topPresentableData只能为""或null值
+ * 情况1.加载展品插件  topExhibitData只能为""或null值
  * 情况2.加载子插件  topPresenbleData必须传
  * 情况3.dev开发模式，
  */
-export function mountWidget(
+export async function mountWidget(
   widget: any,
   container: any,
-  topPresentableData: any,
+  topExhibitData: any,
   config: any,
   seq?: number | null | undefined,
   isTheme?: boolean
-): any {
+) {
   // @ts-ignore
   const that = this;
   let configData = config;
@@ -153,11 +152,11 @@ export function mountWidget(
     isTheme = false;
     defaultWidgetConfigData.historyFB = false;
   }
-  console.log(widget);
+  console.log(widget, topExhibitData);
 
   config = {
     ...defaultWidgetConfigData,
-    ...(widget.versionInfo.exhibitProperty || {}), // exhibitProperty 展品里面的，可以freeze widget数据，防止加载时篡改
+    ...(widget.versionInfo? widget.versionInfo.exhibitProperty : {}), // exhibitProperty 展品里面的，可以freeze widget数据，防止加载时篡改
     ...config,
   };
   if (!isTheme) {
@@ -168,7 +167,7 @@ export function mountWidget(
   let commonData: any;
   let entry = "";
   console.log(widget);
-  if (!topPresentableData) {
+  if (!topExhibitData) {
     commonData = {
       id: widget.articleInfo.articleId,
       name: widget.articleInfo.name || widget.articleInfo.articleName,
@@ -183,8 +182,8 @@ export function mountWidget(
     commonData = {
       id: widget.id,
       name: widget.name,
-      exhibitId: topPresentableData.data.exhibitId || "",
-      articleNid: topPresentableData.articleNid,
+      exhibitId: topExhibitData.exhibitId || "",
+      articleNid: topExhibitData.articleNid,
       articleInfo: {
         articleId: widget.id,
         articleName: widget.name,
@@ -207,6 +206,23 @@ export function mountWidget(
   if (seq || seq === 0) {
     widgetId = "freelog-" + commonData.id + seq;
   }
+  let fentry = ''
+  if(commonData.articleNid){
+    fentry = await window.freelogApp.getExhibitDepFileStream.bind(that || {})(
+      commonData.exhibitId,
+      commonData.articleNid,
+      commonData.articleInfo.articleId,
+      true
+    )
+    fentry = fentry + `&subFilePath=`
+  }else{
+    fentry = await window.freelogApp.getExhibitFileStream.bind(that || {})(
+      commonData.exhibitId,
+      true
+    )
+    fentry = fentry + '?subFilePath='
+  }
+  console.log(fentry)
   const widgetConfig = {
     container,
     name: widgetId, //id
@@ -217,13 +233,7 @@ export function mountWidget(
     articleName: commonData.articleInfo.articleName,
     subArticleIdOrName: commonData.articleInfo.articleId,
     articleId: commonData.articleInfo.articleId, // id可以重复，name不可以, 这里暂时这样
-    entry:
-      entry ||
-      getEntry({
-        exhibitId: commonData.exhibitId,
-        parentNid: commonData.articleNid,
-        subArticleIdOrName: commonData.articleInfo.articleId,
-      }),
+    entry: entry || fentry,
     isDev: !!entry,
     config, // 主题插件配置数据
     isUI: false,

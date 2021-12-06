@@ -166,7 +166,7 @@ export async function getExhibitDepFileStream(
   config?: any
 ) {
   if (!parentNid || !subArticleId) {
-    return "parentNid and subArticleId is required!";
+    return Promise.reject("parentNid and subArticleId is required!");
   }
   // @ts-ignore
   return getByExhibitId(
