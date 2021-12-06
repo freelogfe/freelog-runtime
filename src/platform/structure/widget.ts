@@ -152,7 +152,6 @@ export async function mountWidget(
     isTheme = false;
     defaultWidgetConfigData.historyFB = false;
   }
-  console.log(widget, topExhibitData);
 
   config = {
     ...defaultWidgetConfigData,
@@ -166,7 +165,6 @@ export async function mountWidget(
   }
   let commonData: any;
   let entry = "";
-  console.log(widget);
   if (!topExhibitData) {
     commonData = {
       id: widget.articleInfo.articleId,
@@ -222,7 +220,6 @@ export async function mountWidget(
     )
     fentry = fentry + '?subFilePath='
   }
-  console.log(fentry)
   const widgetConfig = {
     container,
     name: widgetId, //id

@@ -102,9 +102,7 @@ export default function frequest(
           if (
             noAuthCode.includes(resData.authCode) &&
             (caller.exhibitId || caller.articleIdOrName)
-          ) {
-            console.log(resData)
-            
+          ) {            
             setPresentableQueue(exhibitId, {
               widget: caller.name,
               authCode: resData.authCode,

@@ -110,7 +110,6 @@ export default function Auth(props: contractProps) {
     /**
      * 获取
      */
-    console.log(currentPresentable, res)
     res.data.data.policies = res.data.data.policies.filter((i: any) => {
       return i.status === 1;
     });

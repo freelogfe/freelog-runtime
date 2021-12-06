@@ -104,7 +104,6 @@ export default function (props: contractProps) {
     /**
      * 获取
      */
-    console.log(res)
     res.data.data.policies = res.data.data.policies.filter((i: any) => {
       return i.status === 1;
     });
