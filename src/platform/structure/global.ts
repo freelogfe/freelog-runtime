@@ -20,7 +20,8 @@ import {
   getExhibitAuthStatus,
   getExhibitFileStream,
   getExhibitDepFileStream,
-  getExhibitInfoByAuth
+  getExhibitInfoByAuth,
+  getExhibitDepInfo
 } from "./api";
 let devData = "";
 export const freelogApp: any = {
@@ -33,6 +34,7 @@ export const freelogApp: any = {
   getExhibitFileStream,
   getExhibitDepFileStream,
   getExhibitInfoByAuth,
+  getExhibitDepInfo,
   devData,
   getStaticPath,
   getSubDep,

@@ -144,6 +144,7 @@ export async function mountWidget(
   seq?: number | null | undefined,
   isTheme?: boolean
 ) {
+  console.log(widget,config)
   // @ts-ignore
   const that = this;
   let configData = config;

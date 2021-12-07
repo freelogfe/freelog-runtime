@@ -141,7 +141,7 @@ export async function getSubDep(exhibitId?: any) {
   }
   const exhibitName = decodeURI(response.headers["freelog-exhibit-name"]);
   const articleNid = decodeURI(response.headers["freelog-article-nid"]);
-  const articleResourceType = decodeURI(
+  const resourceType = decodeURI(
     response.headers["freelog-article-resource-type"]
   );
   let subDep = decodeURI(response.headers["freelog-article-sub-dependencies"]);
@@ -155,7 +155,7 @@ export async function getSubDep(exhibitId?: any) {
     exhibitName,
     exhibitId,
     articleNid,
-    articleResourceType,
+    resourceType,
     subDep,
     versionInfo: {exhibitProperty},
     ...response.data.data,

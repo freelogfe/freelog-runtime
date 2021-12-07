@@ -33,7 +33,7 @@ export default function frequest(
     });
   }
   // filter data if there is dataModel
-  if (api.dataModel) {
+  if (api.dataModel && caller) {
     // TODO 需要用deepclone
     data = Object.assign({}, data);
     compareObjects(api.dataModel, data, !!api.isDiff);
@@ -85,7 +85,7 @@ export default function frequest(
             response.headers["freelog-exhibit-name"]
           );
           const articleNid = decodeURI(response.headers["freelog-article-nid"]);
-          const articleResourceType = decodeURI(
+          const resourceType = decodeURI(
             response.headers["freelog-article-resource-type"]
           );
           let subDep = decodeURI(
@@ -111,7 +111,7 @@ export default function frequest(
               exhibitName,
               exhibitId,
               articleNid,
-              articleResourceType,
+              resourceType,
               subDep,
               versionInfo: {exhibitProperty},
               ...resData,
@@ -122,7 +122,7 @@ export default function frequest(
               exhibitName,
               exhibitId,
               articleNid,
-              articleResourceType,
+              resourceType,
               subDep,
               versionInfo: {exhibitProperty},
               ...resData,
@@ -134,7 +134,7 @@ export default function frequest(
               exhibitName,
               exhibitId,
               articleNid,
-              articleResourceType,
+              resourceType,
               subDep,
               versionInfo: {exhibitProperty},
             });

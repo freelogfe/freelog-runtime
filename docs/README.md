@@ -650,6 +650,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | :---------------------- | :--- | :------------ | :---------------------------------------------------- |
 | skip                    | 可选 | int           | 跳过的数量.默认为 0.                                  |
 | limit                   | 可选 | int           | 本次请求获取的数据条数.一般不允许超过 100             |
+| sort                    | 可选 | string        | 排序,格式为{排序字段}:{1|-1},1是正序,-1是倒序        |
 | articleResourceTypes    | 可选 | string        | 作品资源类型,多个用逗号分隔                           |
 | omitArticleResourceType | 可选 | string        | 忽略的作品资源类型,与 resourceType 参数互斥           |
 | onlineStatus            | 可选 | int           | 上线状态 (0:下线 1:上线 2:全部) 默认 1                |
@@ -848,7 +849,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
     exhibitName,
     exhibitId,
     articleNid,
-    articleResourceType,
+    resourceType,
     subDep,
     versionInfo: {exhibitProperty},
     data: resData,
@@ -860,7 +861,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
     exhibitName,
     exhibitId,
     articleNid,
-    articleResourceType,
+    resourceType,
     subDep,
     versionInfo: {exhibitProperty},
   }

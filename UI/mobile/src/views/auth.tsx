@@ -69,20 +69,19 @@ export default function (props: contractProps) {
   }
 
   async function getDetail(id?: string) {
+    console.log(id,21222)
     setSelectedPolicies([]);
     // userInfo 如果不存在就是未登录
     const userInfo: any = getCurrentUser();
-    const con =
-      userInfo &&
-      (await frequest(contract.getContracts, "", {
+    if (!id) {
+      const con = await frequest(contract.getContracts, "", {
         subjectIds: currentPresentable.exhibitId,
         subjectType: 2,
         licenseeIdentityType: 3,
         licenseeId: userInfo.userId,
         isLoadPolicyInfo: 1,
         isTranslate: 1,
-      }));
-    if (!id) {
+      });
       const isAuth = con.data.data.some((item: any) => {
         if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
           props.contractFinished(currentPresentable.eventId, SUCCESS);
@@ -94,20 +93,12 @@ export default function (props: contractProps) {
       }
       return;
     }
-    const res = await window.freelogApp.getExhibitInfo(
-      id || currentPresentable.exhibitId,
-      {
-        isLoadPolicyInfo: 1,
-        isTranslate: 1,
+    currentPresentable.policies = currentPresentable.policies.filter(
+      (i: any) => {
+        return i.status === 1;
       }
     );
-    /**
-     * 获取
-     */
-    res.data.data.policies = res.data.data.policies.filter((i: any) => {
-      return i.status === 1;
-    });
-    res.data.data.policies.forEach((item: any) => {
+    currentPresentable.policies.forEach((item: any) => {
       const { policyMaps, bestPyramid, betterPyramids, nodesMap } =
         getBestTopology(item.fsmDescriptionInfo);
       item.policyMaps = policyMaps;
@@ -115,22 +106,20 @@ export default function (props: contractProps) {
       item.betterPyramids = betterPyramids;
       item.nodesMap = nodesMap;
     });
-    setPolicies(res.data.data.policies);
-    if (con) {
-      const contracts = con.data.data.filter((item: any) => {
-        if (item.status === 0) {
-          res.data.data.policies.some((i: any) => {
-            if (item.policyId === i.policyId) {
-              item.policyInfo = i;
-              i.contracted = true;
-              return true;
-            }
-          });
-          return true;
-        }
-      });
-      setContracts(contracts);
-    }
+    setPolicies(currentPresentable.policies);
+    const contracts = currentPresentable.contracts.filter((item: any) => {
+      if (item.status === 0) {
+        currentPresentable.policies.some((i: any) => {
+          if (item.policyId === i.policyId) {
+            item.policyInfo = i;
+            i.contracted = true;
+            return true;
+          }
+        });
+        return true;
+      }
+    });
+    setContracts(contracts);
   }
   useEffect(() => {
     setThemeCancel(false);
@@ -143,7 +132,10 @@ export default function (props: contractProps) {
     !isExist && setCurrentPresentable(events[0]);
   }, [props.events]);
   useEffect(() => {
-    currentPresentable && getDetail(currentPresentable.exhibitId);
+    if (currentPresentable) {
+      console.log(currentPresentable);
+      getDetail(currentPresentable.exhibitId);
+    }
   }, [currentPresentable]);
   useEffect(() => {
     props.isLogin && setModalType(1);

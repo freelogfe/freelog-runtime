@@ -83,7 +83,7 @@ export default function (props: PayProps) {
       Toast.show({
         icon: "fail",
         content: payResult.data.msg,
-        duration: 1600,
+        duration: 3000,
       });
       setTimeout(() => {
         setLoading(false);

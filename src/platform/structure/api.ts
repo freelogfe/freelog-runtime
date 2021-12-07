@@ -67,6 +67,13 @@ export async function getExhibitInfo(exhibitId: string, query: any) {
   // @ts-ignore
   return frequest(exhibit.getExhibitDetail, [nodeId, exhibitId], query);
 }
+export async function getExhibitDepInfo(exhibitId: string, articleNids: string) {
+  if (isTest)
+    // @ts-ignore
+    return frequest(exhibit.getExhibitDepInfo, [nodeId, exhibitId], {articleNids});
+  // @ts-ignore
+  return frequest(exhibit.getTestExhibitDepInfo, [nodeId, exhibitId], {articleNids});
+}
 
 export async function getExhibitSignCount(exhibitId: string) {
   // @ts-ignore

@@ -11,6 +11,8 @@ export type Exhibit = {
   getExhibitAuthStatus: any;
   getTestExhibitAuthStatus: any;
   getExhibitSignCount: any;
+  getExhibitDepInfo: any;
+  getTestExhibitDepInfo: any;
 };
 
 const exhibit: Exhibit = {
@@ -22,6 +24,7 @@ const exhibit: Exhibit = {
       isLoadPolicyInfo: "int",
       isLoadVersionProperty: "int",
       isTranslate: "int",
+      isLoadContract: "int",
     },
   },
   // placeHolder: nodeId exhibitId
@@ -32,6 +35,7 @@ const exhibit: Exhibit = {
       isLoadPolicyInfo: "int",
       isLoadVersionProperty: "int",
       isTranslate: "int",
+      isLoadContract: "int",
     },
   },
   getExhibitListById: {
@@ -66,6 +70,7 @@ const exhibit: Exhibit = {
       onlineStatus: "int",
       tags: "string",
       projection: "string",
+      sort: "string",
       keywords: "string",
       isLoadVersionProperty: "int",
       isLoadPolicyInfo: "int",
@@ -131,6 +136,23 @@ const exhibit: Exhibit = {
   },
   getExhibitSignCount: {
     url: `contracts/subjects/signCount`,
+    method: "GET",
+    dataModel: {
+      subjectIds: "string",
+      subjectType: "string",
+    },
+  },
+  // nodeId exhibitId articleNids
+  getExhibitDepInfo: {
+    url: `exhibits/${placeHolder}/${placeHolder}/articles/list`,
+    method: "GET",
+    dataModel: {
+      subjectIds: "string",
+      subjectType: "string",
+    },
+  },
+  getTestExhibitDepInfo: {
+    url: `exhibits/${placeHolder}/test/${placeHolder}/articles/list`,
     method: "GET",
     dataModel: {
       subjectIds: "string",

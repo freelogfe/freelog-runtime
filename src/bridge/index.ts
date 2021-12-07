@@ -1,5 +1,6 @@
 import { SUCCESS, FAILED, USER_CANCEL } from "./event";
-import { LOGIN, CONTRACT } from "./event";
+import { getExhibitInfo } from "../platform/structure/api";
+import contract from '@/services/api/modules/contract';
 
 export const exhibitQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
@@ -24,7 +25,7 @@ export function setPresentableQueue(name: string, value: any) {
 }
 let uiInited = false;
 // 公共非展品事件UI， 后面考虑
-export function addAuth(
+export async function addAuth(
   exhibitId: any,
   resolve: any,
   reject: any,
@@ -39,24 +40,25 @@ export function addAuth(
   // @ts-ignore
   const that = this;
   const name = that.name;
-  // @ts-ignore
-  let data = exhibitQueue.get(exhibitId);
-  if (!data) {
-    //  TODO 返回信息
-    reject &&
-      reject({
-        errorCode: 2,
-        msg: exhibitId + " is inncorrect or not required for callUI",
-      });
-    return;
-  }
+  // let data = exhibitQueue.get(exhibitId);
+  // if (!data) {
+  const response = await getExhibitInfo(exhibitId, {
+    isLoadPolicyInfo: 1,
+    isLoadVersionProperty: 1,
+    isLoadContract: 1,
+    isTranslate: 1
+  });
+  console.log(response.data.data)
+  const data = response.data.data;
+  data.contracts = data.contracts || []
+  console.log(data)
   // TODO 根据 errCode 决定事件 外部函数判断，不写在里面
-
   const arr = eventMap.get(exhibitId)?.callBacks || [];
   arr.push({
     resolve,
     reject,
     options,
+    widgetName: name
   });
   let id = exhibitId;
   eventMap.set(id, {
@@ -79,7 +81,7 @@ export function addAuth(
     }
   }
   uiInited = true;
-  return;
+  Promise.resolve({msg: '添加成功'});
 }
 export function callAuth() {
   if (!uiInited) {
@@ -178,6 +180,6 @@ export async function onLogin(callback: any) {
     console.error("onLogin error: ", callback, " is not a function!");
   }
 }
-export function reload(){
-  window.location.reload()
+export function reload() {
+  window.location.reload();
 }
