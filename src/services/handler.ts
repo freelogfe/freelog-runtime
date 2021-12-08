@@ -129,7 +129,7 @@ export default function frequest(
             });
           } else if (errorAuthCode.includes(resData.authCode)) {
             resolve({
-              authErrorType: 2, // 不存在
+              authErrorType: 2, 
               authCode: resData.authCode,
               exhibitName,
               exhibitId,
@@ -137,6 +137,7 @@ export default function frequest(
               resourceType,
               subDep,
               versionInfo: {exhibitProperty},
+              ...resData,
             });
           } else {
             resolve(response);

@@ -47,7 +47,6 @@ export function deleteContainer(
   return childContainer ? fatherContainer?.removeChild(childContainer) : true;
 }
 
-
 export function createScript(url: string): Promise<any> {
   return new Promise((resolve, reject) => {
     const script: HTMLScriptElement = document.createElement("script");
@@ -121,26 +120,31 @@ export async function getSubDep(exhibitId?: any) {
   }
   // @ts-ignore
   let response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
-  if (response.authErrorType === 1 && isTheme) {
+  console.log(response);
+  if (response.authErrorType && isTheme) {
+    if(response.authCode === 502){
+      window.freelogApp.onLogin(async ()=>{
+        const data = await addAuth.bind(widgetSandBox)(exhibitId, {
+          immediate: true,
+        });
+      })
+    }
     // 只有主题才需要权限验证
-    await new Promise(async(resolve, reject) => {
-      const data = await addAuth.bind(widgetSandBox)(exhibitId, {
-        immediate: true,
-      });
-      resolve && resolve(1)
+    const data = await addAuth.bind(widgetSandBox)(exhibitId, {
+      immediate: true,
     });
     response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
     if (response.authErrorType) {
-      await new Promise(async(resolve, reject) => {
+      await new Promise(async (resolve, reject) => {
         await addAuth.bind(widgetSandBox)(exhibitId, {
           immediate: true,
         });
-        resolve && resolve(1)
+        resolve && resolve(1);
       });
     }
-
     response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
   }
+  console.log(response);
   const exhibitName = decodeURI(response.headers["freelog-exhibit-name"]);
   const articleNid = decodeURI(response.headers["freelog-article-nid"]);
   const resourceType = decodeURI(
@@ -159,7 +163,7 @@ export async function getSubDep(exhibitId?: any) {
     articleNid,
     resourceType,
     subDep,
-    versionInfo: {exhibitProperty},
+    versionInfo: { exhibitProperty },
     ...response.data.data,
   };
 }
@@ -183,7 +187,7 @@ export function getStaticPath(path: string) {
   // @ts-ignore
   return widgetsConfig.get(this.name).entry + path;
 }
- 
+
 const immutableKeys = ["width"];
 const viewPortValue = {
   width: "device-width", // immutable

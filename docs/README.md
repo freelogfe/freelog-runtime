@@ -876,38 +876,19 @@ const res = await window.freelogApp.getExhibitListByPaging({
 let ch = await window.freelogApp.getExhibitFileStream(
   chapters[index].exhibitId
 );
-/**
- *  未授权返回值
- * {
- *   data: {
- *     errCode: 3,
- *     exhibitName,
- *     exhibitId,
- *     errorMsg: response.data.data.errorMsg,
- *   },
- * }
- */
-if (ch.data.errCode) {
+ 
+if (ch.authErrorType) {
   // 提交给运行时处理
   /**
    * addAuth 参数
       exhibitId: string,
-      resolve: Function,  // 授权成功回调
-      reject: Function,  // 授权失败回调
       options?: {
         immediate: boolean  // 是否立即弹出授权窗口
       }  
   */
-  ch = await new Promise((resolve, rej) => {
+  const data = await new Promise((resolve, rej) => {
     window.freelogApp.addAuth(
-      ch.data.exhibitId,
-      async () => {
-        const res = await window.freelogApp.getExhibitFileStream(
-          chapters[index].exhibitId
-        );
-        resolve(res);
-      },
-      () => {},
+      ch.data.exhibitId, 
       { immediate: true }
     );
   });

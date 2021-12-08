@@ -57,7 +57,6 @@ export async function addAuth(
     });
     if (options && options.immediate) {
       if (!uiInited) {
-        console.log(uiInited)
         UI && UI();
       } else {
         if (locked) {
