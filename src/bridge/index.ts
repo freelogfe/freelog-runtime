@@ -1,7 +1,5 @@
-import { SUCCESS, FAILED, USER_CANCEL } from "./event";
+import { SUCCESS, FAILED, USER_CANCEL, DATA_ERROR } from "./event";
 import { getExhibitInfo } from "../platform/structure/api";
-import contract from '@/services/api/modules/contract';
-
 export const exhibitQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
 export const failedMap = new Map<any, any>();
@@ -27,61 +25,53 @@ let uiInited = false;
 // 公共非展品事件UI， 后面考虑
 export async function addAuth(
   exhibitId: any,
-  resolve: any,
-  reject: any,
   options?: any
 ) {
-  if (typeof resolve !== "function") {
-    resolve = () => {};
-  }
-  if (typeof reject !== "function") {
-    reject = () => {};
-  }
   // @ts-ignore
   const that = this;
   const name = that.name;
-  // let data = exhibitQueue.get(exhibitId);
-  // if (!data) {
   const response = await getExhibitInfo(exhibitId, {
     isLoadPolicyInfo: 1,
     isLoadVersionProperty: 1,
     isLoadContract: 1,
     isTranslate: 1
   });
-  console.log(response.data.data)
+  if(response.data.errCode){
+    return Promise.resolve({status: DATA_ERROR, data: response.data})
+  }
   const data = response.data.data;
   data.contracts = data.contracts || []
-  console.log(data)
-  // TODO 根据 errCode 决定事件 外部函数判断，不写在里面
   const arr = eventMap.get(exhibitId)?.callBacks || [];
-  arr.push({
-    resolve,
-    reject,
-    options,
-    widgetName: name
-  });
-  let id = exhibitId;
-  eventMap.set(id, {
-    isTheme: that.isTheme,
-    eventId: id, // 后期evnetId是要与prsesentableId区分开来的
-    ...data,
-    callBacks: arr,
-  });
-  if (options && options.immediate) {
-    if (!uiInited) {
-      UI && UI();
-    } else {
-      if (locked) {
-        setTimeout(() => {
-          updateUI && updateUI();
-        }, 0);
+  return new Promise((resolve, rej) => {
+    arr.push({
+      resolve,
+      options,
+      widgetName: name
+    });
+    let id = exhibitId;
+    eventMap.set(id, {
+      isTheme: that.isTheme,
+      eventId: id, // 后期evnetId是要与prsesentableId区分开来的
+      ...data,
+      callBacks: arr,
+    });
+    if (options && options.immediate) {
+      if (!uiInited) {
+        console.log(uiInited)
+        UI && UI();
       } else {
-        updateUI && updateUI();
+        if (locked) {
+          setTimeout(() => {
+            updateUI && updateUI();
+          }, 0);
+        } else {
+          updateUI && updateUI();
+        }
       }
     }
-  }
-  uiInited = true;
-  Promise.resolve({msg: '添加成功'});
+
+    uiInited = true;
+  })
 }
 export function callAuth() {
   if (!uiInited) {
@@ -121,14 +111,14 @@ export function endEvent(eventId: string, type: number, data: any) {
   switch (type) {
     case SUCCESS:
       eventMap.get(eventId).callBacks.forEach((item: any) => {
-        item.resolve(data);
+        item.resolve({status: SUCCESS, data} );
       });
       exhibitQueue.delete(eventId);
       removeEvent(eventId);
       break;
     case FAILED:
       eventMap.get(eventId).callBacks.forEach((item: any) => {
-        item.reject(FAILED, data);
+        item.resolve({status: FAILED, data});
       });
       exhibitQueue.delete(eventId);
       removeEvent(eventId);
@@ -136,7 +126,7 @@ export function endEvent(eventId: string, type: number, data: any) {
     case USER_CANCEL:
       eventMap.forEach((event: any) => {
         event.callBacks.forEach((item: any) => {
-          item.reject(USER_CANCEL, data);
+          item.resolve({status: USER_CANCEL, data});
         });
       });
       exhibitQueue.clear();

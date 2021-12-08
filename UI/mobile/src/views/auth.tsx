@@ -29,11 +29,9 @@ export default function (props: contractProps) {
   const [isListVisible, setIsListVisible] = useState(false);
   // 1 登陆  2 注册   3 忘记登录密码  4 忘记支付密码
   const [modalType, setModalType] = useState(0);
-
-  const [contracts, setContracts] = useState([]);
   const events = props.events || [];
-  const [currentPresentable, setCurrentPresentable] = useState(events[0]);
-  const [policies, setPolicies] = useState([]);
+  const [currentExhibit, setCurrentExhibit] = useState(events[0]);
+  const [currentExhibitId, setCurrentExhibitId] = useState("");
   const [selectedPolicies, setSelectedPolicies] = useState<Array<any>>([]);
   const [themeCancel, setThemeCancel] = useState(false);
 
@@ -69,13 +67,11 @@ export default function (props: contractProps) {
   }
 
   async function getDetail(id?: string) {
-    console.log(id,21222)
     setSelectedPolicies([]);
-    // userInfo 如果不存在就是未登录
-    const userInfo: any = getCurrentUser();
     if (!id) {
+      const userInfo: any = getCurrentUser();
       const con = await frequest(contract.getContracts, "", {
-        subjectIds: currentPresentable.exhibitId,
+        subjectIds: currentExhibit.exhibitId,
         subjectType: 2,
         licenseeIdentityType: 3,
         licenseeId: userInfo.userId,
@@ -84,32 +80,18 @@ export default function (props: contractProps) {
       });
       const isAuth = con.data.data.some((item: any) => {
         if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
-          props.contractFinished(currentPresentable.eventId, SUCCESS);
+          props.contractFinished(currentExhibit.eventId, SUCCESS);
           return true;
         }
       });
       if (!isAuth) {
-        props.updateEvents({ ...currentPresentable, contracts: con.data.data });
+        props.updateEvents({ ...currentExhibit, contracts: con.data.data });
       }
       return;
     }
-    currentPresentable.policies = currentPresentable.policies.filter(
-      (i: any) => {
-        return i.status === 1;
-      }
-    );
-    currentPresentable.policies.forEach((item: any) => {
-      const { policyMaps, bestPyramid, betterPyramids, nodesMap } =
-        getBestTopology(item.fsmDescriptionInfo);
-      item.policyMaps = policyMaps;
-      item.bestPyramid = bestPyramid;
-      item.betterPyramids = betterPyramids;
-      item.nodesMap = nodesMap;
-    });
-    setPolicies(currentPresentable.policies);
-    const contracts = currentPresentable.contracts.filter((item: any) => {
-      if (item.status === 0) {
-        currentPresentable.policies.some((i: any) => {
+    currentExhibit.contracts = currentExhibit.contracts.filter((item: any) => {
+      if ([0, 2].includes(item.status)) {
+        currentExhibit.policies.some((i: any) => {
           if (item.policyId === i.policyId) {
             item.policyInfo = i;
             i.contracted = true;
@@ -119,30 +101,47 @@ export default function (props: contractProps) {
         return true;
       }
     });
-    setContracts(contracts);
+    currentExhibit.policiesActive = currentExhibit.policies.filter((i: any) => {
+      return i.status === 1;
+    });
+    if(!currentExhibit.isDAG){
+      currentExhibit.policiesActive.forEach((item: any) => {
+        const {
+          policyMaps,
+          bestPyramid,
+          betterPyramids,
+          nodesMap,
+        } = getBestTopology(item.fsmDescriptionInfo);
+        item.policyMaps = policyMaps;
+        item.bestPyramid = bestPyramid;
+        item.betterPyramids = betterPyramids;
+        item.nodesMap = nodesMap;
+      });
+      currentExhibit.isDAG = true
+    } 
+    setCurrentExhibitId(currentExhibit.exhibitId);
   }
   useEffect(() => {
     setThemeCancel(false);
     const isExist = events.some((item: any) => {
-      if (item.exhibitId === currentPresentable.exhibitId) {
-        setCurrentPresentable(item);
+      if (item.exhibitId === currentExhibit.exhibitId) {
+        setCurrentExhibit(item);
         return true;
       }
     });
-    !isExist && setCurrentPresentable(events[0]);
+    !isExist && events[0] && setCurrentExhibit(events[0]);
   }, [props.events]);
   useEffect(() => {
-    if (currentPresentable) {
-      console.log(currentPresentable);
-      getDetail(currentPresentable.exhibitId);
+    if (currentExhibit.exhibitId !== currentExhibitId) {
+      getDetail(currentExhibit.exhibitId);
     }
-  }, [currentPresentable]);
+  }, [currentExhibit]);
   useEffect(() => {
     props.isLogin && setModalType(1);
   }, [props.isLogin]);
 
   const userCancel = () => {
-    if (currentPresentable.isTheme) {
+    if (currentExhibit.isTheme) {
       setThemeCancel(true);
     } else {
       props.contractFinished("", USER_CANCEL);
@@ -167,10 +166,10 @@ export default function (props: contractProps) {
   }
   const getAuth = async (id: any) => {
     const subjects: any = [];
-    policies.forEach((item: any) => {
+    currentExhibit.policiesActive.forEach((item: any) => {
       [...selectedPolicies, id].includes(item.policyId) &&
         subjects.push({
-          subjectId: currentPresentable.exhibitId,
+          subjectId: currentExhibit.exhibitId,
           policyId: item.policyId,
         });
     });
@@ -192,7 +191,7 @@ export default function (props: contractProps) {
           duration: 1500,
         });
         setTimeout(() => {
-          props.contractFinished(currentPresentable.eventId, SUCCESS);
+          props.contractFinished(currentExhibit.eventId, SUCCESS);
         }, 1600);
         return true;
       }
@@ -204,7 +203,7 @@ export default function (props: contractProps) {
         duration: 1500,
       });
       setTimeout(() => {
-        props.updateEvents({ ...currentPresentable, contracts: res.data.data });
+        props.updateEvents({ ...currentExhibit, contracts: res.data.data });
       }, 1600);
     }
   };
@@ -280,10 +279,10 @@ export default function (props: contractProps) {
                       key={index}
                       onClick={() => {
                         setIsListVisible(false);
-                        setCurrentPresentable(item);
+                        setCurrentExhibit(item);
                       }}
                       className={
-                        (currentPresentable === item
+                        (currentExhibit.exhibitId === item.exhibitId
                           ? "exhibit-selected "
                           : "") +
                         " px-15 py-15 exhibit-item  flex-row space-between algin-center"
@@ -351,9 +350,9 @@ export default function (props: contractProps) {
                   {events.length === 1 ? "退出" : "关闭"}
                 </div>
                 <div className="text-center mt-20 mb-10 fs-20 fc-main fw-bold">
-                  {currentPresentable.exhibitName}
+                  {currentExhibit.exhibitName}
                 </div>
-                {currentPresentable.isTheme ? (
+                {currentExhibit.isTheme ? (
                   <>
                     <div className="auth-des  text-center">
                       当前节点主题未开放授权，
@@ -363,9 +362,9 @@ export default function (props: contractProps) {
                     </div>
                   </>
                 ) : null}
-                {!currentPresentable.contracts.length ? null : (
+                {!currentExhibit.contracts.length ? null : (
                   <div className="flex-row justify-center mb-15">
-                    {currentPresentable.contracts.map(
+                    {currentExhibit.contracts.map(
                       (contract: any, index: number) => {
                         return (
                           <div
@@ -396,31 +395,39 @@ export default function (props: contractProps) {
               </div>
               <div className="flex-column flex-1 over-h">
                 <div className="w-100x h-100x y-auto pb-20">
-                  {contracts.map((contract: any, index: number) => {
-                    return (
-                      <Contract
-                        policy={contract.policyInfo}
-                        contract={contract}
-                        paymentFinish={paymentFinish}
-                        setModalType={setModalType}
-                        key={index}
-                      ></Contract>
-                    );
-                  })}
-                  {policies.map((policy: any, index: number) => {
-                    return policy.contracted ? null : (
-                      <Policy
-                        policy={policy}
-                        key={index}
-                        seq={index}
-                        loginFinished={loginFinished}
-                        setModalType={setModalType}
-                        getAuth={getAuth}
-                        policySelect={policySelect}
-                        selectType={contracts.length ? true : true}
-                      ></Policy>
-                    );
-                  })}
+                  {currentExhibitId === currentExhibit.exhibitId &&
+                    currentExhibit.contracts.map(
+                      (contract: any, index: number) => {
+                        return (
+                          <Contract
+                            policy={contract.policyInfo}
+                            contract={contract}
+                            paymentFinish={paymentFinish}
+                            setModalType={setModalType}
+                            key={index}
+                          ></Contract>
+                        );
+                      }
+                    )}
+                  {currentExhibitId === currentExhibit.exhibitId &&
+                    currentExhibit.policiesActive.map(
+                      (policy: any, index: number) => {
+                        return policy.contracted ? null : (
+                          <Policy
+                            policy={policy}
+                            key={index}
+                            seq={index}
+                            loginFinished={loginFinished}
+                            setModalType={setModalType}
+                            getAuth={getAuth}
+                            policySelect={policySelect}
+                            selectType={
+                              currentExhibit.contracts.length ? true : true
+                            }
+                          ></Policy>
+                        );
+                      }
+                    )}
                 </div>
               </div>
 

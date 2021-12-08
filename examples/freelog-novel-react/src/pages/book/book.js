@@ -11,22 +11,18 @@ function Book(props) {
   useEffect(async() => {
     const res = await window.freelogApp.getExhibitListById({exhibitIds: bookId})
     let bookResource = await window.freelogApp.getExhibitInfoByAuth(bookId)
-    console.log(res, bookResource)
     if (bookResource.authErrorType) {
       bookResource = await new Promise((resolve, rej) => {
-        console.log(bookResource)
-        window.freelogApp.addAuth(bookResource.exhibitId, async () => {
+        window.freelogApp.addAuth(bookResource.exhibitId, { immediate: true }).then(async (res)=>{
           const book = await window.freelogApp.getExhibitInfoByAuth(bookId)
-          console.log(resolve)
           resolve && resolve(book)
-        }, () => { }, { immediate: true })
+        })
       })
     }
     console.log(bookResource)
     setBookInfo({...res.data.data[0], intro: bookResource.intro})
     const chaptersRes = await window.freelogApp.getExhibitListByPaging({ articleResourceTypes: "chapter", tags: res.data.data[0].exhibitName, isLoadVersionProperty: 1})
     let chaptersData = chaptersRes.data.data.dataList
-    console.log(chaptersData)
     chaptersData.sort((a,b)=>{
       let aIndex = 0
       let bIndex = 1
@@ -65,7 +61,6 @@ function Book(props) {
             //props.history.push("/");
           }}
           onTouchStart={()=>{
-            console.log(23232)
             setHovered(true)
           }}
           onTouchEnd={()=>{

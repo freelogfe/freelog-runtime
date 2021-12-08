@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 
 interface ConfirmProps {
   isModalVisible: boolean;
-  currentPresentable: any;
+  currentExhibit: any;
   policies: any;
   getAuth: any;
   setIsModalVisible: any;
@@ -45,9 +45,9 @@ export default function Confirm(props: ConfirmProps) {
       <div className="w-100x h-100x flex-column justify-center  pt-16">
         <div className="flex-row fc-grey mb-20 fs-14 justify-center">
           <span className="pr-10 shrink-0">展品名称</span>
-          {props.currentPresentable ? (
+          {props.currentExhibit ? (
             <span>
-              {props.currentPresentable.exhibitName}
+              {props.currentExhibit.exhibitName}
             </span>
           ) : (
             ""

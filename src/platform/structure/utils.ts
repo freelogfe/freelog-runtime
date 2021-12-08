@@ -123,17 +123,19 @@ export async function getSubDep(exhibitId?: any) {
   let response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
   if (response.authErrorType === 1 && isTheme) {
     // 只有主题才需要权限验证
-    await new Promise((resolve, reject) => {
-      addAuth.bind(widgetSandBox)(exhibitId, resolve, reject, {
+    await new Promise(async(resolve, reject) => {
+      const data = await addAuth.bind(widgetSandBox)(exhibitId, {
         immediate: true,
       });
+      resolve && resolve(1)
     });
     response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
     if (response.authErrorType) {
-      await new Promise((resolve, reject) => {
-        addAuth.bind(widgetSandBox)(exhibitId, resolve, reject, {
+      await new Promise(async(resolve, reject) => {
+        await addAuth.bind(widgetSandBox)(exhibitId, {
           immediate: true,
         });
+        resolve && resolve(1)
       });
     }
 
