@@ -27,6 +27,10 @@ export async function addAuth(
   exhibitId: any,
   options?: any
 ) {
+  if(window.isTest) {
+    Promise.resolve()
+    return
+  }
   // @ts-ignore
   const that = this;
   const name = that.name;
@@ -73,6 +77,7 @@ export async function addAuth(
   })
 }
 export function callAuth() {
+  if(window.isTest) return
   if (!uiInited) {
     UI && UI();
   } else {

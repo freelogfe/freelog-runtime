@@ -38,9 +38,15 @@ export function initNode() {
     Promise.all([requestNodeInfo(nodeDomain), getUserInfo()]).then(
       async (values) => {
         let nodeData = values[0];
+        const userInfo = values[1];
         const nodeInfo = nodeData.data;
+        console.log(nodeInfo, userInfo)
         freelogApp.nodeInfo = nodeInfo;
         document.title = nodeInfo.nodeName;
+        if(userInfo && userInfo.userId !== nodeInfo.ownerUserId && isTest){
+          alert("测试节点只允许节点拥有者访问！")
+          return
+        }
         Object.defineProperty(document, 'title', {
           set(msg) {
           },
