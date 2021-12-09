@@ -63,7 +63,9 @@ export default function (props: contractProps) {
     }
     // TODO 重载插件需要把授权的也一并清除
     setModalType(0);
-    props.loginFinished(type);
+    setTimeout(() => {
+      props.loginFinished(type);
+    }, 10);
   }
 
   async function getDetail(id?: string) {
@@ -104,24 +106,21 @@ export default function (props: contractProps) {
     currentExhibit.policiesActive = currentExhibit.policies.filter((i: any) => {
       return i.status === 1;
     });
-    if(!currentExhibit.isDAG){
+    if (!currentExhibit.isDAG) {
       currentExhibit.policiesActive.forEach((item: any) => {
-        const {
-          policyMaps,
-          bestPyramid,
-          betterPyramids,
-          nodesMap,
-        } = getBestTopology(item.fsmDescriptionInfo);
+        const { policyMaps, bestPyramid, betterPyramids, nodesMap } =
+          getBestTopology(item.fsmDescriptionInfo);
         item.policyMaps = policyMaps;
         item.bestPyramid = bestPyramid;
         item.betterPyramids = betterPyramids;
         item.nodesMap = nodesMap;
       });
-      currentExhibit.isDAG = true
-    } 
+      currentExhibit.isDAG = true;
+    }
     setCurrentExhibitId(currentExhibit.exhibitId);
   }
   useEffect(() => {
+    if (props.isLogin) return;
     setThemeCancel(false);
     const isExist = events.some((item: any) => {
       if (item.exhibitId === currentExhibit.exhibitId) {
@@ -132,6 +131,7 @@ export default function (props: contractProps) {
     !isExist && events[0] && setCurrentExhibit(events[0]);
   }, [props.events]);
   useEffect(() => {
+    if (props.isLogin) return;
     if (currentExhibit.exhibitId !== currentExhibitId) {
       getDetail(currentExhibit.exhibitId);
     }

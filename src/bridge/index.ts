@@ -136,6 +136,10 @@ export function endEvent(eventId: string, type: number, data: any) {
 }
 
 export function goLogin() {
+  if(uiInited){
+    console.error("ui has been launched, can not callLogin")
+    return "ui has been launched, can not callLogin"
+  }
   loginUI && loginUI();
 }
 export function goLoginOut() {

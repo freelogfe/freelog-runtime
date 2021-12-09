@@ -178,7 +178,7 @@ export default function (props: loginProps) {
 
   return (
     <Popup
-      visible={props.visible}
+      visible={true}
       position="top"
       bodyClassName="user-register w-100x h-100x"
     >

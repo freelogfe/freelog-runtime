@@ -1,6 +1,6 @@
 import user from "@/services/api/modules/user";
 import frequest from "@/services/handler";
-import {  Popup, Button, Toast } from "antd-mobile";
+import { Popup, Button, Toast } from "antd-mobile";
 
 import { useState } from "react";
 import "./login.scss";
@@ -13,7 +13,6 @@ interface loginProps {
   children?: any;
 }
 export default function (props: loginProps) {
- 
   const [logging, setLogging] = useState(false);
   const [loginName, setLoginName] = useState("");
   const [password, setPassword] = useState("");
@@ -23,16 +22,15 @@ export default function (props: loginProps) {
       loginName,
       password,
     };
-    // loginName: "string",
-    //   password: "string",
-    //   isRemember: "string",
-    //   returnUrl: "string",
-    //   jwtType: "string",
     values.isRemember = values.isRemember ? 1 : 0;
     const res = await frequest(user.login, "", values);
     if (res.data.errCode === 0) {
-      setTimeout(() => setLogging(false), 1000);
-      props.loginFinished(SUCCESS, res.data.data);
+      setTimeout(() => {
+        setLogging(false);
+        setTimeout(() => {
+          props.loginFinished(SUCCESS, res.data.data);
+        }, 600);
+      }, 100);
     } else {
       setTimeout(() => setLogging(false), 2000);
       Toast.show({
@@ -40,15 +38,14 @@ export default function (props: loginProps) {
         content: res.data.msg,
         duration: 2000,
       });
-     }
+    }
   };
 
   return (
     <Popup
-      visible={props.visible}
+      visible={true}
       position="top"
       bodyClassName="user-login w-100x h-100x"
-      
     >
       <Popup
         visible={logging}
@@ -62,11 +59,16 @@ export default function (props: loginProps) {
         </div>
       </Popup>
       <div className="w-100x h-100x flex-column align-center">
-        <i className="iconfont login-back" onClick={()=>{
-          props.loginFinished(USER_CANCEL);
-        }}>&#xe637;</i>
+        <i
+          className="iconfont login-back"
+          onClick={() => {
+            props.loginFinished(USER_CANCEL);
+          }}
+        >
+          &#xe637;
+        </i>
         <div className="flex-1 w-100x flex-column align-center">
-          <i className="iconfont  mt-50 mb-20 logo" >&#xe614;</i>
+          <i className="iconfont  mt-50 mb-20 logo">&#xe614;</i>
 
           <div className="login-title mb-46 flex-row justify-center">
             免费专业的资源发行和运营平台
@@ -99,7 +101,12 @@ export default function (props: loginProps) {
             >
               {logging ? "登陆中" : "登 录"}
             </Button>
-            <Button className="registry" onClick={() => {!logging &&  props.setModalType(2)}}>
+            <Button
+              className="registry"
+              onClick={() => {
+                !logging && props.setModalType(2);
+              }}
+            >
               注 册
             </Button>
           </div>
@@ -109,7 +116,9 @@ export default function (props: loginProps) {
           <Button
             color="default"
             size="small"
-            onClick={() => { !logging && props.setModalType(3)}}
+            onClick={() => {
+              !logging && props.setModalType(3);
+            }}
           >
             忘记密码
           </Button>

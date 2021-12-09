@@ -120,31 +120,37 @@ export async function getSubDep(exhibitId?: any) {
   }
   // @ts-ignore
   let response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
-  console.log(response);
   if (response.authErrorType && isTheme) {
-    if(response.authCode === 502){
-      window.freelogApp.onLogin(async ()=>{
-        const data = await addAuth.bind(widgetSandBox)(exhibitId, {
-          immediate: true,
+    await new Promise<void>(async (resolve, reject) => {
+      if (response.authCode === 502) {
+        await new Promise<void>(async (resolve, reject) => {
+          addAuth.bind(widgetSandBox)(exhibitId, {
+            immediate: true,
+          });
+          window.freelogApp.onLogin(async () => {
+            resolve();
+          });
         });
-      })
-    }
-    // 只有主题才需要权限验证
-    const data = await addAuth.bind(widgetSandBox)(exhibitId, {
-      immediate: true,
-    });
-    response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
-    if (response.authErrorType) {
-      await new Promise(async (resolve, reject) => {
+        response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
+      }
+      if(response.authErrorType){
         await addAuth.bind(widgetSandBox)(exhibitId, {
           immediate: true,
         });
-        resolve && resolve(1);
+      }
+      resolve();
+    });
+    response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
+    if (response.authErrorType) {
+      await new Promise<void>(async (resolve, reject) => {
+        await addAuth.bind(widgetSandBox)(exhibitId, {
+          immediate: true,
+        });
+        resolve();
       });
     }
     response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
   }
-  console.log(response);
   const exhibitName = decodeURI(response.headers["freelog-exhibit-name"]);
   const articleNid = decodeURI(response.headers["freelog-article-nid"]);
   const resourceType = decodeURI(

@@ -132,6 +132,7 @@ export default function Auth(props: contractProps) {
     setCurrentExhibitId(currentExhibit.exhibitId)
   }
   useEffect(() => {
+    if(props.isLogin) return
     setThemeCancel(false);
     const isExist = events.some((item: any) => {
       if (item.exhibitId === currentExhibit.exhibitId) {
@@ -143,6 +144,7 @@ export default function Auth(props: contractProps) {
     !isExist &&  events[0] && setCurrentExhibit(events[0]);
   }, [props.events]);
   useEffect(() => {
+    if(props.isLogin) return
     if (currentExhibit.exhibitId !== currentExhibitId) {
       getDetail(currentExhibit.exhibitId);
     }

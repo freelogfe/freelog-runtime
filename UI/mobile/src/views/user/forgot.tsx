@@ -288,7 +288,7 @@ export default function (props: ForgotProps) {
 
   return (
     <Popup
-      visible={props.visible}
+      visible={true}
       position="top"
       bodyClassName="user-forgot w-100x h-100x"
     >
