@@ -86,6 +86,7 @@ const exhibit: Exhibit = {
       articleResourceTypes: "string",
       omitWorkResourceType: "string",
       onlineStatus: "int",
+      sort: "string",
       tags: "string",
       projection: "string",
       keywords: "string",
