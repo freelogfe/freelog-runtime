@@ -366,7 +366,7 @@ window.freelogApp.callAuth();
 
 ## addAuth
 
-**用途：对未授权展品添加授权**
+**用途：对未授权展品添加进待授权队列**
 
 ```ts
  const res =  await window.freelogApp.addAuth(exhibitId,options)
