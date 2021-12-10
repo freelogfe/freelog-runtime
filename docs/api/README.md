@@ -369,15 +369,22 @@ window.freelogApp.callAuth();
 **用途：对未授权展品添加授权**
 
 ```ts
-window.freelogApp.addAuth(data)
+ const res =  await window.freelogApp.addAuth(exhibitId,options)
 
  **参数说明**
     exhibitId: string,
-    resolve: Function,  // 授权成功回调
-    reject: Function,  // 授权失败回调
     options?: {
       immediate: boolean  // 是否立即弹出授权窗口
     }
+
+ **返回值说明**
+ {status: SUCCESS, data}
+ status 枚举：
+   SUCCESS = 0;
+   FAILED = 1;
+   USER_CANCEL = 2;
+   DATA_ERROR = 3;
+ data: 如果是DATA_ERROR，会返回错误数据
 ```
 
 ## onLogin

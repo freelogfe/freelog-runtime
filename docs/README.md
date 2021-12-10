@@ -647,10 +647,10 @@ const res = await window.freelogApp.getExhibitListByPaging({
 **文中参数类型为 int 的'是否'都用 1 和 0 传递**
 
 | 参数                    | 必选 | 类型及范围    | 说明                                                  |
-| :---------------------- | :--- | :------------ | :---------------------------------------------------- |
+| :---------------------- | :--- | :------------ | :---------------------------------------------------- | ---------------------- |
 | skip                    | 可选 | int           | 跳过的数量.默认为 0.                                  |
 | limit                   | 可选 | int           | 本次请求获取的数据条数.一般不允许超过 100             |
-| sort                    | 可选 | string        | 排序,格式为{排序字段}:{1|-1},1是正序,-1是倒序        |
+| sort                    | 可选 | string        | 排序,格式为{排序字段}:{1                              | -1},1 是正序,-1 是倒序 |
 | articleResourceTypes    | 可选 | string        | 作品资源类型,多个用逗号分隔                           |
 | omitArticleResourceType | 可选 | string        | 忽略的作品资源类型,与 resourceType 参数互斥           |
 | onlineStatus            | 可选 | int           | 上线状态 (0:下线 1:上线 2:全部) 默认 1                |
@@ -876,7 +876,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 let ch = await window.freelogApp.getExhibitFileStream(
   chapters[index].exhibitId
 );
- 
+
 if (ch.authErrorType) {
   // 提交给运行时处理
   /**
@@ -884,13 +884,25 @@ if (ch.authErrorType) {
       exhibitId: string,
       options?: {
         immediate: boolean  // 是否立即弹出授权窗口
-      }  
+      }
   */
   const data = await new Promise((resolve, rej) => {
-    window.freelogApp.addAuth(
-      ch.data.exhibitId, 
+    const res = await window.freelogApp.addAuth(
+      ch.data.exhibitId,
       { immediate: true }
     );
+    // dosomething
+    /**
+     * **res返回值说明**
+      {status: SUCCESS, data}
+        status 枚举：
+          SUCCESS = 0;
+          FAILED = 1;
+          USER_CANCEL = 2;
+          DATA_ERROR = 3;
+        data: 如果是DATA_ERROR，会返回错误数据
+     *
+     */
   });
 }
 ```
