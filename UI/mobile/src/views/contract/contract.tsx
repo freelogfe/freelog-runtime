@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Pay from "../event/pay";
 import "./contract.scss";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
-import PolicyGraph from "../policy/_components/policyGraph";
+// import PolicyGraph from "../policy/_components/policyGraph";
 import PolicyCode from "../policy/_components/policyCode";
 import PolicyContent from "../policy/_components/policyContent";
 import { Tabs, Badge, Button, Toast } from "antd-mobile";
@@ -26,7 +26,7 @@ const tabs = [
   { title: <Badge>状态机视图</Badge> },
   { title: <Badge>策略代码</Badge> },
 ];
-export default function (props: ItemProps) {
+export default function Contract(props: ItemProps) {
   const [eventIndex, setEventIndex] = useState(-1);
   const [unfold, setUnFold] = useState(false);
   const [records, setRecords] = useState<any>([]);
@@ -514,11 +514,11 @@ export default function (props: ItemProps) {
             ></PolicyContent>
           </div>
         </Tabs.TabPane>
-        <Tabs.TabPane title="状态机视图" key="statusDAG">
+        {/* <Tabs.TabPane title="状态机视图" key="statusDAG">
           <div className="">
             <PolicyGraph policy={props.policy}></PolicyGraph>
           </div>
-        </Tabs.TabPane>
+        </Tabs.TabPane> */}
         <Tabs.TabPane title="策略代码" key="policyCode">
           <div className="">
             <PolicyCode policyText={props.policy.policyText}></PolicyCode>

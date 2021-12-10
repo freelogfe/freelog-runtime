@@ -6,7 +6,7 @@ interface ConfirmProps {
   bestPyramid: any;
 }
 
-export default function (props: ConfirmProps) {
+export default function Dag(props: ConfirmProps) {
   /**
    * first: 面临最大问题，计算文字长短问题
    * start: 

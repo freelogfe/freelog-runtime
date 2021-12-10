@@ -19,7 +19,7 @@ interface PayProps {
   paymentFinish: any;
 }
 
-export default function (props: PayProps) {
+export default function Pay(props: PayProps) {
   const [focus, setFocus] = useState(0);
   const [loading, setLoading] = useState(false);
   const [inputVisible, setInputVisible] = useState(false);
@@ -57,7 +57,7 @@ export default function (props: PayProps) {
   useEffect(() => {
     props.isModalVisible && getAccount();
   }, [props.isModalVisible]);
-  const pay = async function (password: any) {
+  async function pay(password: any) {
     // TODO 防止多次点击
     if (loading) return;
     setTipType(1);

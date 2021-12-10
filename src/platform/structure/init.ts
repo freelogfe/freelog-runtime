@@ -40,7 +40,6 @@ export function initNode() {
         let nodeData = values[0];
         const userInfo = values[1];
         const nodeInfo = nodeData.data;
-        console.log(nodeInfo, userInfo)
         freelogApp.nodeInfo = nodeInfo;
         document.title = nodeInfo.nodeName;
         if(userInfo && userInfo.userId !== nodeInfo.ownerUserId && isTest){

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "@/assets/mobile/index.scss";
 import "./auth.scss";
 import Login from "./user/login";
@@ -10,9 +10,9 @@ import Contract from "./contract/contract";
 import Policy from "./policy/policy";
 import frequest from "@/services/handler";
 import contract from "@/services/api/modules/contract";
-import getBestTopology from "./topology/data";
+// import getBestTopology from "./topology/data";
 import { Dialog, Popup, Button, Toast } from "antd-mobile"; // Toast, Button
-const { SUCCESS, USER_CANCEL, FAILED } = window.freelogAuth.resultType;
+const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 const { setUserInfo, loginCallback, getCurrentUser } = window.freelogAuth;
 // const alert = Modal.alert;
 
@@ -25,7 +25,7 @@ interface contractProps {
   isLogin?: boolean;
   isAuths?: boolean;
 }
-export default function (props: contractProps) {
+export default function Auth(props: contractProps) {
   const [isListVisible, setIsListVisible] = useState(false);
   // 1 登陆  2 注册   3 忘记登录密码  4 忘记支付密码
   const [modalType, setModalType] = useState(0);
@@ -85,6 +85,7 @@ export default function (props: contractProps) {
           props.contractFinished(currentExhibit.eventId, SUCCESS);
           return true;
         }
+        return false
       });
       if (!isAuth) {
         props.updateEvents({ ...currentExhibit, contracts: con.data.data });
@@ -99,24 +100,26 @@ export default function (props: contractProps) {
             i.contracted = true;
             return true;
           }
+          return false
         });
         return true;
       }
+      return false
     });
     currentExhibit.policiesActive = currentExhibit.policies.filter((i: any) => {
       return i.status === 1;
     });
-    if (!currentExhibit.isDAG) {
-      currentExhibit.policiesActive.forEach((item: any) => {
-        const { policyMaps, bestPyramid, betterPyramids, nodesMap } =
-          getBestTopology(item.fsmDescriptionInfo);
-        item.policyMaps = policyMaps;
-        item.bestPyramid = bestPyramid;
-        item.betterPyramids = betterPyramids;
-        item.nodesMap = nodesMap;
-      });
-      currentExhibit.isDAG = true;
-    }
+    // if (!currentExhibit.isDAG) {
+    //   currentExhibit.policiesActive.forEach((item: any) => {
+    //     const { policyMaps, bestPyramid, betterPyramids, nodesMap } =
+    //       getBestTopology(item.fsmDescriptionInfo);
+    //     item.policyMaps = policyMaps;
+    //     item.bestPyramid = bestPyramid;
+    //     item.betterPyramids = betterPyramids;
+    //     item.nodesMap = nodesMap;
+    //   });
+    //   currentExhibit.isDAG = true;
+    // }
     setCurrentExhibitId(currentExhibit.exhibitId);
   }
   useEffect(() => {
@@ -127,6 +130,7 @@ export default function (props: contractProps) {
         setCurrentExhibit(item);
         return true;
       }
+      return false
     });
     !isExist && events[0] && setCurrentExhibit(events[0]);
   }, [props.events]);
@@ -195,6 +199,7 @@ export default function (props: contractProps) {
         }, 1600);
         return true;
       }
+      return false
     });
     if (!isAuth) {
       Toast.show({

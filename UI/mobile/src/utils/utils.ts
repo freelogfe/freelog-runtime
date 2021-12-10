@@ -51,73 +51,40 @@ export function compareObjects(origin: any, data: any, diff = false) {
   });
 }
 
-export function isMobile() {
-  var browser = {
-    versions: (function () {
-      var u = navigator.userAgent;
-      // app = navigator.appVersion;
-      return {
-        //移动终端浏览器版本信息
-        trident: u.indexOf("Trident") > -1, //IE内核
-        presto: u.indexOf("Presto") > -1, //opera内核
-        webKit: u.indexOf("AppleWebKit") > -1, //苹果、谷歌内核
-        gecko: u.indexOf("Gecko") > -1 && u.indexOf("KHTML") === -1, //火狐内核
-        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-        android: u.indexOf("Android") > -1 || u.indexOf("Linux") > -1, //android终端或者uc浏览器
-        iPhone: u.indexOf("iPhone") > -1, //是否为iPhone或者QQHD浏览器
-        iPad: u.indexOf("iPad") > -1, //是否iPad
-        webApp: u.indexOf("Safari") === -1, //是否web应该程序，没有头部与底部
-      };
-    })(),
-    // @ts-ignore
-    language: (navigator.browserLanguage || navigator.language).toLowerCase(),
-  };
-  //如果是移动端就进行这里
-  if (
-    browser.versions.mobile ||
-    browser.versions.ios ||
-    browser.versions.android ||
-    browser.versions.iPhone ||
-    browser.versions.iPad
-  ) {
-    return true;
-  } else {
-    return false;
-  }
-}
+ 
 export function checkPhone(phone: string) {
-  if (!/^1(3|4|5|6|7|8|9)\d{9}$/.test(phone)) {
+  const reg = new RegExp('^1(3|4|5|6|7|8|9)\\d{9}$')
+  if (!reg.test(phone)) {
     return false;
   }
   return true;
 }
 export function checkEmail(email: string) {
   const reg =
-    /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/gi;
+    new RegExp("^([a-zA-Z0-9]+[_|\\-|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\-|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$", 'gi');
   if (!reg.test(email)) {
     return false;
   }
   return true;
 }
 export function checkPassword(password: string){
-  const reg = /^(?=.*[0-9])(?=.*[a-zA-Z])(.{6,24})$/;
-  if (!reg.test(password)) {
-    return false;
-  }
+  // const reg = /^(?=.*[0-9])(?=.*[a-zA-Z])(.{6,24})$/;
+  // if (!reg.test(password)) {
+  //   return false;
+  // }
   return true;
 }
 export function checkPayPassword(password: string){
-  const reg = /^\d{6}$/;
+  const reg = new RegExp("^\\d{6}$");
   if (!reg.test(password)) {
     return false;
   }
   return true;
 }
 export function checkUsername(username: string){
-  const reg =  /^(?!-)[A-Za-z0-9-]{1,30}(?<!-)$/;
-  if (!reg.test(username)) {
-    return false;
-  }
+  // const reg =  /^(?!-)[A-Za-z0-9-]{1,30}(?<!-)$/;
+  // if (!reg.test(username)) {
+  //   return false;
+  // }
   return true;
 }

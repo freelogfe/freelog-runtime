@@ -18,7 +18,7 @@ interface ForgotProps {
   type: "login" | "pay";
   children?: any;
 }
-export default function (props: ForgotProps) {
+export default function Forgot(props: ForgotProps) {
   const [errorTip, setErrorTip] = useState<any>({
     phone: "",
     email: "",

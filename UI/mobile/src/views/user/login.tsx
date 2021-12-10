@@ -12,7 +12,7 @@ interface loginProps {
   setModalType: any;
   children?: any;
 }
-export default function (props: loginProps) {
+export default function Login(props: loginProps) {
   const [logging, setLogging] = useState(false);
   const [loginName, setLoginName] = useState("");
   const [password, setPassword] = useState("");

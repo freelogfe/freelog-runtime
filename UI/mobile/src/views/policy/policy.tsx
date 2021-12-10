@@ -1,4 +1,4 @@
-import PolicyGraph from "./_components/policyGraph";
+// import PolicyGraph from "./_components/policyGraph";
 import PolicyCode from "./_components/policyCode";
  
 import PolicyContent from "./_components/policyContent";
@@ -21,7 +21,7 @@ const tabs = [
   { title: <Badge>状态机视图</Badge> },
   { title: <Badge>策略代码</Badge> },
 ];
-export default function (props: ItemProps) {
+export default function Policy(props: ItemProps) {
   function onChange(e: any) {
     props.policySelect(props.policy.policyId, e.target.checked);
   }
@@ -81,11 +81,11 @@ export default function (props: ItemProps) {
             </div>
           </Tabs.TabPane>
 
-          <Tabs.TabPane title="状态机视图" key="statusDAG">
+          {/* <Tabs.TabPane title="状态机视图" key="statusDAG">
             <div className="px-15">
               <PolicyGraph policy={props.policy}></PolicyGraph>
             </div>
-          </Tabs.TabPane>
+          </Tabs.TabPane> */}
           <Tabs.TabPane title="策略代码" key="policyCode">
             <div className="px-15">
               <PolicyCode policyText={props.policy.policyText}></PolicyCode>

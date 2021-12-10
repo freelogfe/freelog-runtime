@@ -1,13 +1,12 @@
 import { Graph } from "@antv/x6";
-import React, { useState, useEffect } from "react";
-import { forEach } from "lodash";
+import  {  useEffect } from "react";
 
 interface GraphProps {
   policy: any;
   children?: any;
 }
 
-export default function (props: GraphProps) {
+export default function PolicyGraph(props: GraphProps) {
   /**
    * first: 面临最大问题，计算文字长短问题
    * start:

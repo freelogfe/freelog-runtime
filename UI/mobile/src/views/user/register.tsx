@@ -16,7 +16,7 @@ interface loginProps {
   setModalType: any;
   children?: any;
 }
-export default function (props: loginProps) {
+export default function Register(props: loginProps) {
   const [errorTip, setErrorTip] = useState<any>({
     username: "",
     loginName: "",
