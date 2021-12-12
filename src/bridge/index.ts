@@ -90,7 +90,12 @@ export function callAuth() {
     }
   }
 }
+export function clearEvent(){
+  eventMap.clear();
+  uiInited = false
+}
 export function updateEvent(event: any) {
+
   if (!event) return eventMap;
   eventMap.set(event.eventId, event);
   return eventMap;
@@ -100,6 +105,7 @@ function removeEvent(eventId?: string) {
     eventMap.delete(eventId);
   } else {
     eventMap.clear();
+    uiInited = false
   }
   if (locked) {
     setTimeout(() => {
@@ -128,6 +134,7 @@ export function endEvent(eventId: string, type: number, data: any) {
       removeEvent(eventId);
       break;
     case USER_CANCEL:
+      uiInited = false
       eventMap.forEach((event: any) => {
         event.callBacks.forEach((item: any) => {
           item.resolve({status: USER_CANCEL, data});
@@ -161,6 +168,7 @@ export function upperUI() {
   widgetContainer.style.zIndex = 0;
 }
 export function lowerUI() {
+  uiInited = false
   // @ts-ignore
   uiRoot.style.zIndex = 0;
   // // @ts-ignore

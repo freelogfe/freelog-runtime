@@ -8,8 +8,7 @@ import frequest from "@/services/handler";
 import user from "@/services/api/modules/user";
 const {
   reisterUI,
-  eventMap,
-  failedMap,
+  clearEvent,
   endEvent,
   updateLock,
   updateEvent,
@@ -27,11 +26,10 @@ function App() {
     updateLock(false);
   }, [events]);
   function loginFinished(type: any) {
+    setIsLogin(false);
     if (type === SUCCESS) {
-      setIsLogin(false);
-      eventMap.clear();
-      failedMap.clear();
-      updateEvents();
+      setInited(false);
+      clearEvent();
     } else if (type === USER_CANCEL && !inited) {
       lowerUI();
     }
@@ -46,11 +44,6 @@ function App() {
     eventMap.forEach((val: any) => {
       arr.push(val);
     });
-    const arr2: any = [];
-    failedMap.forEach((val: any) => {
-      arr2.push(val);
-    });
-    // setFailedEvents(arr2);
     setEvents(arr);
     if (!arr.length) {
       lowerUI();
@@ -72,6 +65,7 @@ function App() {
 
   function contractFinished(eventId: any, type: number, data?: any) {
     if (type === USER_CANCEL && !eventId) {
+      setInited(false);
       endEvent(eventId, type, data);
       // TODO 通知所有 用户取消了
       lowerUI();

@@ -53,7 +53,7 @@ export default function Auth(props: contractProps) {
     type: "success",
   });
   const events = props.events || [];
-  const [currentExhibit, setCurrentExhibit] = useState(events[0]);
+  const [currentExhibit, setCurrentExhibit] = useState<any>(null);
   const [currentExhibitId, setCurrentExhibitId] = useState("");
   const [selectedPolicies, setSelectedPolicies] = useState<Array<any>>([]);
   function paymentFinish() {
@@ -134,18 +134,19 @@ export default function Auth(props: contractProps) {
   useEffect(() => {
     if(props.isLogin) return
     setThemeCancel(false);
-    const isExist = events.some((item: any) => {
+    const isExist = currentExhibit && events.some((item: any) => {
       if (item.exhibitId === currentExhibit.exhibitId) {
         setCurrentExhibit(item);
         return true;
       }
       return false;
     });
+    console.log(isExist)
     !isExist &&  events[0] && setCurrentExhibit(events[0]);
   }, [props.events]);
   useEffect(() => {
     if(props.isLogin) return
-    if (currentExhibit.exhibitId !== currentExhibitId) {
+    if (currentExhibit && currentExhibit.exhibitId !== currentExhibitId) {
       getDetail(currentExhibit.exhibitId);
     }
   }, [currentExhibit]);
@@ -275,7 +276,7 @@ export default function Auth(props: contractProps) {
             type={tipConfig.type}
             setIsModalVisible={setIsTipVisible}
           />
-          {props.isAuths && (
+          {props.isAuths && currentExhibit && (
             <Modal
               zIndex={1200}
               centered
@@ -298,7 +299,7 @@ export default function Auth(props: contractProps) {
                   </div>
                 ) : null}
               </div>
-              <div
+              {currentExhibit && <div
                 className={
                   currentExhibit.isTheme
                     ? " w-100x  flex-column "
@@ -431,7 +432,7 @@ export default function Auth(props: contractProps) {
                     </Button>
                   </div>
                 )}
-              </div>
+              </div>}
             </Modal>
           )}
         </div>

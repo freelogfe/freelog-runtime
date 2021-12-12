@@ -30,7 +30,7 @@ export default function Auth(props: contractProps) {
   // 1 登陆  2 注册   3 忘记登录密码  4 忘记支付密码
   const [modalType, setModalType] = useState(0);
   const events = props.events || [];
-  const [currentExhibit, setCurrentExhibit] = useState(events[0]);
+  const [currentExhibit, setCurrentExhibit] = useState<any>(null);
   const [currentExhibitId, setCurrentExhibitId] = useState("");
   const [selectedPolicies, setSelectedPolicies] = useState<Array<any>>([]);
   const [themeCancel, setThemeCancel] = useState(false);
@@ -123,7 +123,7 @@ export default function Auth(props: contractProps) {
   useEffect(() => {
     if (props.isLogin) return;
     setThemeCancel(false);
-    const isExist = events.some((item: any) => {
+    const isExist = currentExhibit && events.some((item: any) => {
       if (item.exhibitId === currentExhibit.exhibitId) {
         setCurrentExhibit(item);
         return true;
@@ -134,7 +134,7 @@ export default function Auth(props: contractProps) {
   }, [props.events]);
   useEffect(() => {
     if (props.isLogin) return;
-    if (currentExhibit.exhibitId !== currentExhibitId) {
+    if (currentExhibit && currentExhibit.exhibitId !== currentExhibitId) {
       getDetail(currentExhibit.exhibitId);
     }
   }, [currentExhibit]);
@@ -285,7 +285,7 @@ export default function Auth(props: contractProps) {
                         setCurrentExhibit(item);
                       }}
                       className={
-                        (currentExhibit.exhibitId === item.exhibitId
+                        (currentExhibit && currentExhibit.exhibitId === item.exhibitId
                           ? "exhibit-selected "
                           : "") +
                         " px-15 py-15 exhibit-item  flex-row space-between algin-center"
@@ -340,7 +340,7 @@ export default function Auth(props: contractProps) {
                 })
               : null}
           </Popup>
-          {props.isAuths ? (
+          {props.isAuths && currentExhibit ? (
             <div className="flex-column w-100x h-100x over-h">
               <div className="flex-column justify-center bb-1">
                 <div className="text-center mt-20 fs-16 fc-main fw-bold">
