@@ -5,6 +5,8 @@ import { setPresentableQueue } from "../bridge/index";
 const noAuthCode = [301, 302, 303, 304, 305, 306, 307];
 const authCode = [200, 201, 202, 203];
 const errorAuthCode = [401, 402, 403, 501, 502, 503, 504, 505, 900, 901];
+export const nativeOpen = XMLHttpRequest.prototype.open;
+
 /**
  *
  * @param action api namespace.apiName
@@ -18,6 +20,8 @@ export default function frequest(
   returnUrl?: boolean,
   config?: any
 ): any {
+  // @ts-ignore
+  XMLHttpRequest.prototype.open = nativeOpen;
   // @ts-ignore
   const caller = this;
   let api = Object.assign({}, action);
