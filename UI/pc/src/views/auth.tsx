@@ -66,11 +66,11 @@ export default function Auth(props: contractProps) {
         func && func();
       });
     }
-    if (type === USER_CANCEL) {
-    }
     // TODO 重载插件需要把授权的也一并清除
     setIsLoginVisible(false);
-    props.loginFinished(type);
+    setTimeout(() => {
+      props.loginFinished(type);
+    }, 10);
   }
   async function getDetail(id?: string) {
     setSelectedPolicies([]);
