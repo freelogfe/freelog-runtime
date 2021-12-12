@@ -33,6 +33,8 @@ function App() {
       eventMap.clear();
       failedMap.clear();
       updateEvents();
+    } else if (type === USER_CANCEL && !inited) {
+      lowerUI();
     }
   }
 
@@ -90,7 +92,7 @@ function App() {
         top: "30%",
       },
       onOk: async () => {
-        await frequest(user.loginOut, "", "").then((res:any) => {
+        await frequest(user.loginOut, "", "").then((res: any) => {
           if (res.data.errCode === 0) {
             window.freelogAuth.reload();
           }

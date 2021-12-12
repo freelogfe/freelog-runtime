@@ -32,9 +32,7 @@ function App() {
       eventMap.clear();
       failedMap.clear();
       updateEvents();
-    }
-
-    if (!inited) {
+    } else if (type === USER_CANCEL && !inited) {
       lowerUI();
     }
   }
