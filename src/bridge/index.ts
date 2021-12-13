@@ -92,6 +92,7 @@ export function callAuth() {
 }
 export function clearEvent(){
   eventMap.clear();
+  lowerUI()
   uiInited = false
 }
 export function updateEvent(event: any) {
