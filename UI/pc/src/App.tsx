@@ -46,7 +46,6 @@ function App() {
       arr.push(val);
     });
     const arr2: any = [];
-    console.log(eventMap)
     setEvents(arr);
     if (!arr.length) {
       lowerUI();

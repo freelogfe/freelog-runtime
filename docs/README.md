@@ -646,18 +646,18 @@ const res = await window.freelogApp.getExhibitListByPaging({
 
 **文中参数类型为 int 的'是否'都用 1 和 0 传递**
 
-| 参数                    | 必选 | 类型及范围    | 说明                                                  |
-| :---------------------- | :--- | :------------ | :---------------------------------------------------- | 
-| skip                    | 可选 | int           | 跳过的数量.默认为 0.                                  |
-| limit                   | 可选 | int           | 本次请求获取的数据条数.一般不允许超过 100             |
-| sort                    | 可选 | string        | 排序,格式为{排序字段}:{1或-1},1 是正序,-1 是倒序，例如"updateDate:-1" |
-| articleResourceTypes    | 可选 | string        | 作品资源类型,多个用逗号分隔                           |
-| omitArticleResourceType | 可选 | string        | 忽略的作品资源类型,与 resourceType 参数互斥           |
-| onlineStatus            | 可选 | int           | 上线状态 (0:下线 1:上线 2:全部) 默认 1                |
-| tags                    | 可选 | string        | 用户创建 presentable 时设置的自定义标签,多个用","分割 |
-| projection              | 可选 | string        | 指定返回的字段,多个用逗号分隔                         |
-| keywords                | 可选 | string[1,100] | 搜索关键字,目前支持模糊搜索节点资源名称和资源名称     |
-| isLoadVersionProperty   | 可选 | int           | 是否响应展品版本属性                                  |
+| 参数                    | 必选 | 类型及范围    | 说明                                                                   |
+| :---------------------- | :--- | :------------ | :--------------------------------------------------------------------- |
+| skip                    | 可选 | int           | 跳过的数量.默认为 0.                                                   |
+| limit                   | 可选 | int           | 本次请求获取的数据条数.一般不允许超过 100                              |
+| sort                    | 可选 | string        | 排序,格式为{排序字段}:{1 或-1},1 是正序,-1 是倒序，例如"updateDate:-1" |
+| articleResourceTypes    | 可选 | string        | 作品资源类型,多个用逗号分隔                                            |
+| omitArticleResourceType | 可选 | string        | 忽略的作品资源类型,与 resourceType 参数互斥                            |
+| onlineStatus            | 可选 | int           | 上线状态 (0:下线 1:上线 2:全部) 默认 1                                 |
+| tags                    | 可选 | string        | 用户创建 presentable 时设置的自定义标签,多个用","分割                  |
+| projection              | 可选 | string        | 指定返回的字段,多个用逗号分隔                                          |
+| keywords                | 可选 | string[1,100] | 搜索关键字,目前支持模糊搜索节点资源名称和资源名称                      |
+| isLoadVersionProperty   | 可选 | int           | 是否响应展品版本属性                                                   |
 
 **返回说明：**
 
@@ -887,10 +887,9 @@ if (ch.authErrorType) {
       }
   */
   const data = await new Promise((resolve, rej) => {
-    const res = await window.freelogApp.addAuth(
-      ch.data.exhibitId,
-      { immediate: true }
-    );
+    const res = await window.freelogApp.addAuth(ch.data.exhibitId, {
+      immediate: true,
+    });
     // dosomething
     /**
      * **res返回值说明**
@@ -924,6 +923,12 @@ window.freelogApp.callLogin();
 
 ```ts
 window.freelogApp.callLoginOut();
+```
+
+### 获取当前完整 URL
+
+```ts
+window.location.currentURL;
 ```
 
 ### 静态文件处理

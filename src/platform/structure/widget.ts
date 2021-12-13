@@ -259,11 +259,11 @@ export async function mountWidget(
         }
       );
     },
-    unmount: (resolve?: any, reject?: any) => {
+    unmount: (resolve?: any, reject?: any, keepLocation?:boolean) => {
       app.unmount().then(
         () => {
           deactiveWidget(widgetId);
-          setLocation();
+          !keepLocation && setLocation();
           // TODO 验证是否是函数
           resolve && resolve();
         },

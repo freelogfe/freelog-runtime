@@ -42,6 +42,10 @@ export function initNode() {
         const nodeInfo = nodeData.data;
         freelogApp.nodeInfo = nodeInfo;
         document.title = nodeInfo.nodeName;
+        if(!userInfo && isTest){
+          alert("测试节点必须登录！")
+          return
+        }
         if(userInfo && userInfo.userId !== nodeInfo.ownerUserId && isTest){
           alert("测试节点只允许节点拥有者访问！")
           return

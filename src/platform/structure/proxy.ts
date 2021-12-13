@@ -274,7 +274,7 @@ export const createHistoryProxy = function (name: string) {
       // return;
     }
     let [pathname, search] = href.split("?");
-    locationCenter.set(name, { pathname, href, search, hash, routerType });
+    locationCenter.set(name, { pathname, href, search: search? '?' + search : '', hash, routerType });
   }
   function pushPatch() {
     if (moveLock) return;
@@ -370,6 +370,9 @@ export const createLocationProxy = function (name: string) {
         if (["replace"].indexOf(property) > -1) {
           return function () {};
         }
+        if (["currentURL"].indexOf(property) > -1) {
+          return rawLocation.href
+        }
         if (["reload"].indexOf(property) > -1) {
           // TODO 增加是否保留数据
           return async function (reject: any) {
@@ -387,7 +390,7 @@ export const createLocationProxy = function (name: string) {
                     reject && reject();
                   }
                 );
-              }
+              },true
             );
           };
         }
