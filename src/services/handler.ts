@@ -2,11 +2,15 @@ import axios from "./request";
 import { placeHolder, baseConfig } from "./base";
 import { compareObjects } from "../utils/utils";
 import { setPresentableQueue } from "../bridge/index";
+import docCookies from 'doc-cookies'
 const noAuthCode = [301, 302, 303, 304, 305, 306, 307];
 const authCode = [200, 201, 202, 203];
 const errorAuthCode = [401, 402, 403, 501, 502, 503, 504, 505, 900, 901];
 export const nativeOpen = XMLHttpRequest.prototype.open;
-
+let inited = false
+export function initUserCheck(){
+inited = true
+}
 /**
  *
  * @param action api namespace.apiName
@@ -20,6 +24,17 @@ export default function frequest(
   returnUrl?: boolean,
   config?: any
 ): any {
+  // let uid = docCookies.getItem('uid')
+  // uid = uid? uid : ''
+  // if(inited && uid !== window.userId){
+  //   window.location.reload()
+  //   return 
+  // }
+  // // 有页面登出后，还处于登录状态的页面处理方式
+  // if(inited && window.userId && !uid){
+  //   window.location.reload()
+  //   return 
+  // }
   // @ts-ignore
   XMLHttpRequest.prototype.open = nativeOpen;
   // @ts-ignore

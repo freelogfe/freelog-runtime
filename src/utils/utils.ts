@@ -86,4 +86,10 @@ export function isMobile() {
     return false;
   }
 }
- 
+ type DocCookies = {
+  getItem: any;
+  setItem: any;
+  removeItem: any;
+  hasItem: any;
+  keys: any;
+};

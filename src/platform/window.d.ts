@@ -6,4 +6,5 @@ interface Window {
     baseURL: string;
     freelogAuth: any;
     global: any;
+    userId: string;
 }

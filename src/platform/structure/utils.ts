@@ -3,7 +3,7 @@
 import { baseUrl } from "../../services/base";
 import { getExhibitInfoByAuth } from "./api";
 import { widgetsConfig, widgetUserData, sandBoxs, FREELOG_DEV } from "./widget";
-import frequest from "../../services/handler";
+import frequest, {initUserCheck} from "../../services/handler";
 import user from "../../services/api/modules/user";
 import node from "../../services/api/modules/node";
 import { addAuth, goLogin, goLoginOut } from "../../bridge/index";
@@ -178,12 +178,15 @@ export async function getUserInfo() {
   if (userInfo) return userInfo;
   const res = await frequest(user.getCurrent, "", "");
   userInfo = res.data.errCode === 0 ? res.data.data : null;
+  setUserInfo(userInfo)
+  initUserCheck()
   return userInfo;
 }
 export function getCurrentUser() {
   return userInfo;
 }
 export async function setUserInfo(info: any) {
+  window.userId = info? info.userId + '' : ""
   userInfo = info;
 }
 export function getStaticPath(path: string) {
