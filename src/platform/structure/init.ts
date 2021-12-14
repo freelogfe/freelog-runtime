@@ -10,7 +10,7 @@ import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
 const mobile = isMobile()
 // @ts-ignore
-const uiPath = import.meta.env.DEV
+const uiPath = process.env.NODE_ENV === 'development'
   ? mobile
     ? "http://localhost:8881"
     : "http://localhost:8880"
