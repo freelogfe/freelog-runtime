@@ -403,6 +403,12 @@ if (!window.__POWERED_BY_FREELOG__) {
       process.env.WDS_SOCKET_PATH = 'localhost:'+ process.env.PORT
       process.env.WDS_SOCKET_PORT = process.env.PORT
     }
+  ***热更白屏问题处理***
+  // 把html中根节点的同级iframe隐藏
+  /**  #root~iframe{
+        display: none !important;
+    }
+  */
 
 ```
 
