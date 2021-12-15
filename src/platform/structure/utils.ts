@@ -116,7 +116,7 @@ export async function getSubDep(exhibitId?: any) {
       isTheme,
     };
   } else {
-    exhibitId = widgetsConfig.get(that.name).exhibitId;
+    exhibitId = exhibitId || widgetsConfig.get(that.name).exhibitId;
   }
   // @ts-ignore
   let response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);

@@ -6,9 +6,9 @@ export default function (props) {
   const [img, setImg] = useState('');
   useEffect(async () => {
     props.history.push('/')
-    setTimeout(() => {
-          window.freelogApp.callLogin()
-    }, 500);
+    // setTimeout(() => {
+    //       window.freelogApp.callLogin()
+    // }, 500);
     // function blobToBase64(blob) {
     //   return new Promise((resolve, reject) => {
     //     const fileReader = new FileReader();

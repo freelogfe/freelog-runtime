@@ -12,7 +12,7 @@ const mobile = isMobile()
 // @ts-ignore
 const uiPath = process.env.NODE_ENV === 'development'
   ? mobile
-    ? "http://localhost:8881"
+    ? "http://ui.mobile.com" // "http://localhost:8881"
     : "http://localhost:8880"
   : mobile
   ? "/mobile"
@@ -67,7 +67,7 @@ export function initNode() {
         const container = document.getElementById.bind(document)("freelog-plugin-container");
         mountUI("freelog-ui", document.getElementById.bind(document)("ui-root"), uiPath, {
           shadowDom: false,
-          scopedCss: false,
+          scopedCss: true,
         }).mountPromise.then(async () => {
           // TODO 如果没有主题，需要提醒先签约主题才行，意味着开发主题需要先建一个节点和主题并签约
           const theme = await getSubDep(window.isTest? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId);
@@ -79,7 +79,10 @@ export function initNode() {
             null,
             true
           );
+          
           resolve && resolve()
+        },(e: any)=>{
+          console.log(e)
         });
       }
     );

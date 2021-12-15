@@ -91,7 +91,7 @@ function App() {
   }
   reisterUI(UI, updateUI, login, longinOut);
   return (
-    <div id="freelog-app" className="w-100x h-100x ">
+    <div id="freelog-mobile-auth" className="w-100x h-100x over-h">
       {inited || isLogin ? (
         <div className="w-100x h-100x bg-white">
           <Mobile
