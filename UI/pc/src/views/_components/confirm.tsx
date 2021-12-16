@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 interface ConfirmProps {
   isModalVisible: boolean;
   currentExhibit: any;
+  selectedPolicies: any;
   policies: any;
   getAuth: any;
   setIsModalVisible: any;
@@ -23,7 +24,7 @@ export default function Confirm(props: ConfirmProps) {
     if (props.isModalVisible) {
       let names = ''
       props.policies.forEach((item: any) => {
-        if (item.checked) {
+        if (props.selectedPolicies.includes(item.policyId)) {
           names += names ? names + '，' + item.policyName : item.policyName
         }
       });

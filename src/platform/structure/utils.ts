@@ -7,7 +7,14 @@ import frequest, {initUserCheck} from "../../services/handler";
 import user from "../../services/api/modules/user";
 import node from "../../services/api/modules/node";
 import { addAuth, goLogin, goLoginOut } from "../../bridge/index";
-
+export function freelogFetch(url: string, options?:any) {
+	options = options || {};
+	if (url.indexOf("freelog.com") > -1) {
+		return fetch(url, { ...options, credentials: "include" });
+	} else {
+		return fetch(url, { ...options });
+	}
+};
 // TODO  此文件的方法需要整理分离出freeelogApp下的和内部使用的
 export function getContainer(
   container: string | HTMLElement

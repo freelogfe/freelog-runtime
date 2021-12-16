@@ -13,21 +13,21 @@ import {
 	readResAsString,
 	requestIdleCallback,
 } from './utils';
-import { rawFetch } from '../../structure/proxy'
+import { freelogFetch } from '../../structure/utils'
 const styleCache = {};
 const scriptCache = {};
 const embedHTMLCache = {};
 if (!window.fetch) {
 	throw new Error('[import-html-entry] Here is no "fetch" on the window env, you need to polyfill it');
 }
-function freelogFetch(url, options) {
-	options = options || {};
-	if (url.indexOf("freelog.com") > -1) {
-		return rawFetch(url, { ...options, credentials: "include" });
-	} else {
-		return rawFetch(url, { ...options });
-	}
-};
+// function freelogFetch(url, options) {
+// 	options = options || {};
+// 	if (url.indexOf("freelog.com") > -1) {
+// 		return rawFetch(url, { ...options, credentials: "include" });
+// 	} else {
+// 		return rawFetch(url, { ...options });
+// 	}
+// };
 const defaultFetch = freelogFetch.bind(window);
 
 function defaultGetTemplate(tpl) {

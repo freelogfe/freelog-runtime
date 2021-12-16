@@ -7,6 +7,7 @@ import { isFunction } from 'lodash';
 import { frameworkConfiguration } from '../../../apis';
 
 import * as css from '../css';
+import { freelogFetch } from '../../../../structure/utils'
 
 export const rawHeadAppendChild = HTMLHeadElement.prototype.appendChild;
 const rawHeadRemoveChild = HTMLHeadElement.prototype.removeChild;
@@ -83,13 +84,12 @@ function manualInvokeElementOnError(element: HTMLLinkElement | HTMLScriptElement
 function convertLinkAsStyle(
   element: HTMLLinkElement,
   postProcess: (styleElement: HTMLStyleElement) => void,
-  fetchFn = fetch,
+  fetchFn = freelogFetch,
 ): HTMLStyleElement {
   const styleElement = document.createElement('style');
   const { href } = element;
   // add source link element href
   styleElement.dataset.freelogHref = href;
-
   fetchFn(href)
     .then((res: any) => res.text())
     .then((styleContext: string) => {
@@ -185,6 +185,7 @@ function getOverwrittenAppendChildOrInsertBefore(opts: {
                 typeof frameworkConfiguration.fetch === 'function'
                   ? frameworkConfiguration.fetch
                   : frameworkConfiguration.fetch?.fn;
+                  console.log(frameworkConfiguration)
               stylesheetElement = convertLinkAsStyle(
                 element,
                 (styleElement) => css.process(mountDOM, styleElement, appName),

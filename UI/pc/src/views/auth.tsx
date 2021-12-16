@@ -260,6 +260,7 @@ export default function Auth(props: contractProps) {
               setIsModalVisible={setIsModalVisible}
               isModalVisible={isModalVisible}
               getAuth={getAuth}
+              selectedPolicies={selectedPolicies}
               policies={currentExhibit.policiesActive}
               currentExhibit={currentExhibit}
             />
