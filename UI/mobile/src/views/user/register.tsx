@@ -335,7 +335,7 @@ export default function Register(props: loginProps) {
             size="small"
             onClick={() => props.setModalType(1)}
           >
-            马上登陆
+            马上登录
           </Button>
         </div>
       </div>
@@ -360,7 +360,7 @@ export default function Register(props: loginProps) {
             <i className="iconfont ">&#xe62d;</i>
             <span className=" success mb-60 mt-4">注册成功</span>
             <div className="flex-row justify-center align-center">
-              <span className="count-back">{count}s后返回登陆页；</span>
+              <span className="count-back">{count}s后返回登录页；</span>
               <Button
                 color="default"
                 size="small"
@@ -369,7 +369,7 @@ export default function Register(props: loginProps) {
                   props.setModalType(1);
                 }}
               >
-                立即登陆
+                立即登录
               </Button>
             </div>
           </div>

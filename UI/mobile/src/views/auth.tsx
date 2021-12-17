@@ -13,7 +13,8 @@ import contract from "@/services/api/modules/contract";
 // import getBestTopology from "./topology/data";
 import { Dialog, Popup, Button, Toast } from "antd-mobile"; // Toast, Button
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
-const { setUserInfo, loginCallback, getCurrentUser } = window.freelogAuth;
+const { setUserInfo, loginCallback, getCurrentUser, updateEvent } =
+  window.freelogAuth;
 // const alert = Modal.alert;
 
 interface contractProps {
@@ -27,7 +28,7 @@ interface contractProps {
 }
 export default function Auth(props: contractProps) {
   const [isListVisible, setIsListVisible] = useState(false);
-  // 1 登陆  2 注册   3 忘记登录密码  4 忘记支付密码
+  // 1 登录  2 注册   3 忘记登录密码  4 忘记支付密码
   const [modalType, setModalType] = useState(0);
   const events = props.events || [];
   const [currentExhibit, setCurrentExhibit] = useState<any>(null);
@@ -83,7 +84,7 @@ export default function Auth(props: contractProps) {
           props.contractFinished(currentExhibit.eventId, SUCCESS);
           return true;
         }
-        return false
+        return false;
       });
       if (!isAuth) {
         props.updateEvents({ ...currentExhibit, contracts: con.data.data });
@@ -98,11 +99,11 @@ export default function Auth(props: contractProps) {
             i.contracted = true;
             return true;
           }
-          return false
+          return false;
         });
         return true;
       }
-      return false
+      return false;
     });
     currentExhibit.policiesActive = currentExhibit.policies.filter((i: any) => {
       return i.status === 1;
@@ -123,18 +124,21 @@ export default function Auth(props: contractProps) {
   useEffect(() => {
     if (props.isLogin) return;
     setThemeCancel(false);
-    const isExist = currentExhibit && events.some((item: any) => {
-      if (item.exhibitId === currentExhibit.exhibitId) {
-        setCurrentExhibit(item);
-        return true;
-      }
-      return false
-    });
+    const isExist =
+      currentExhibit &&
+      events.some((item: any) => {
+        if (item.exhibitId === currentExhibit.exhibitId) {
+          setCurrentExhibit(item);
+          return true;
+        }
+        return false;
+      });
     !isExist && events[0] && setCurrentExhibit(events[0]);
   }, [props.events]);
   useEffect(() => {
     if (props.isLogin) return;
-    if (currentExhibit && currentExhibit.exhibitId !== currentExhibitId) {
+    if (currentExhibit) {
+      // && currentExhibit.exhibitId !== currentExhibitId
       getDetail(currentExhibit.exhibitId);
     }
   }, [currentExhibit]);
@@ -197,7 +201,7 @@ export default function Auth(props: contractProps) {
         }, 1600);
         return true;
       }
-      return false
+      return false;
     });
     if (!isAuth) {
       Toast.show({
@@ -206,7 +210,15 @@ export default function Auth(props: contractProps) {
         duration: 1500,
       });
       setTimeout(() => {
-        props.updateEvents({ ...currentExhibit, contracts: res.data.data });
+        updateEvent({
+          ...currentExhibit,
+          contracts: [...res.data.data, ...currentExhibit.contracts],
+        });
+        setCurrentExhibitId("");
+        setCurrentExhibit({
+          ...currentExhibit,
+          contracts: [...res.data.data, ...currentExhibit.contracts],
+        });
       }, 1600);
     }
   };
@@ -285,7 +297,8 @@ export default function Auth(props: contractProps) {
                         setCurrentExhibit(item);
                       }}
                       className={
-                        (currentExhibit && currentExhibit.exhibitId === item.exhibitId
+                        (currentExhibit &&
+                        currentExhibit.exhibitId === item.exhibitId
                           ? "exhibit-selected "
                           : "") +
                         " px-15 py-15 exhibit-item  flex-row space-between algin-center"
@@ -447,7 +460,7 @@ export default function Auth(props: contractProps) {
                     size="small"
                     className=" text-center"
                   >
-                    登陆
+                    登录
                   </Button>
                 </div>
               )}

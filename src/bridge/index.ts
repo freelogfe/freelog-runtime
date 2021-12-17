@@ -96,7 +96,6 @@ export function clearEvent(){
   uiInited = false
 }
 export function updateEvent(event: any) {
-
   if (!event) return eventMap;
   eventMap.set(event.eventId, event);
   return eventMap;

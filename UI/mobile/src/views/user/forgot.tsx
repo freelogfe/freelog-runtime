@@ -300,7 +300,7 @@ export default function Forgot(props: ForgotProps) {
           <div className="mt-40 mb-40 flex-column px-30 self-start">
             <div className="forgot-title self-start">登录密码验证</div>
             <div className="forgot-tip self-start text-align-left mt-10">
-              设置新的支付密码前，首先需要进行登陆密码的验证
+              设置新的支付密码前，首先需要进行登录密码的验证
             </div>
           </div>
           <div className="forgot-container flex-column px-30 mt-118 flex-1">
@@ -633,7 +633,7 @@ export default function Forgot(props: ForgotProps) {
             <div className="flex-row justify-center align-center">
               <span className="count-back">
                 {props.type === LOGIN_PASSWORD
-                  ? count + "s后返回登陆页"
+                  ? count + "s后返回登录页"
                   : "正在返回支付订单页" + count + "s…"}
               </span>
               {props.type === LOGIN_PASSWORD ? (
@@ -645,7 +645,7 @@ export default function Forgot(props: ForgotProps) {
                     props.setModalType(1);
                   }}
                 >
-                  立即登陆
+                  立即登录
                 </Button>
               ) : null}
             </div>

@@ -54,7 +54,7 @@ export default function Login(props: loginProps) {
       >
         <div className=" bg-white">
           <Button loading className="loading">
-            登陆中
+            登录中
           </Button>
         </div>
       </Popup>
@@ -99,7 +99,7 @@ export default function Login(props: loginProps) {
               onClick={onFinish}
               disabled={!loginName || !password}
             >
-              {logging ? "登陆中" : "登 录"}
+              {logging ? "登录中" : "登 录"}
             </Button>
             <Button
               className="registry"

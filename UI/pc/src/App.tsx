@@ -8,6 +8,7 @@ import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 import user from "@/services/api/modules/user";
+import { eventMap } from '../../../src/bridge/index';
 const {
   reisterUI,
   endEvent,
@@ -45,7 +46,7 @@ function App() {
     eventMap.forEach((val: any) => {
       arr.push(val);
     });
-    const arr2: any = [];
+    console.log(eventMap,arr)
     setEvents(arr);
     if (!arr.length) {
       lowerUI();

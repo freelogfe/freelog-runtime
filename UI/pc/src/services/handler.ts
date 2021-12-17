@@ -72,7 +72,7 @@ export default function frequest(
       .then(async (response) => {
          /** 301 合同未获得授权
          *  303 标的物未签约
-         *  502 未登陆的用户
+         *  502 未登录的用户
          */
         api.after && api.after(response);   
         resolve(response)    
