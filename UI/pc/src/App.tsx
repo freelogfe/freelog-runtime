@@ -46,7 +46,6 @@ function App() {
     eventMap.forEach((val: any) => {
       arr.push(val);
     });
-    console.log(eventMap,arr)
     setEvents(arr);
     if (!arr.length) {
       lowerUI();
