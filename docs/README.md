@@ -838,7 +838,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 	}
 }
 ```
-## 获取子依赖资源文件
+### 获取子依赖资源文件
 
 ```ts
   const res = await window.freelogApp.getExhibitDepFileStream(
