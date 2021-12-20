@@ -243,7 +243,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 
 ## getExhibitDepFileStream
 
-**用途：查找展品子依赖资源文件**
+**用途：获取展品子依赖资源文件**
 
 ```ts
   const res = await window.freelogApp.getExhibitDepFileStream(

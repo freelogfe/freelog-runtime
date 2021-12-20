@@ -838,6 +838,26 @@ const res = await window.freelogApp.getExhibitListByPaging({
 	}
 }
 ```
+## 获取子依赖资源文件
+
+```ts
+  const res = await window.freelogApp.getExhibitDepFileStream(
+    exhibitId: string ,
+    parentNid: string,
+    subArticleIdOrName: string,
+    returnUrl?: boolean,
+    config?: any
+  )
+
+  **参数说明**
+
+    exhibitId: string , // 自身展品id
+    parentNid: string,    // 自身链路id
+    subArticleIdOrName: string, // 子依赖资源id或名称
+    returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
+    config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
+
+```
 
 ### 查找展品签约数量
 
