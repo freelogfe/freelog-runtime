@@ -2,7 +2,7 @@
 
 ### 概念
 
-在 Freelog 平台，插件是指资源类型为插件的功能性资源，一般作为主题的依赖在节点发挥作用，决定节点中内容型展品的访问、展示和交互方式。
+在 Freelog 平台，插件是指作品类型为插件的功能性作品，一般作为主题的依赖在节点发挥作用，决定节点中内容型展品的访问、展示和交互方式。
 
 插件可以是一个播放器、一个图床、一个目录菜单或者一个小说阅读器。
 
@@ -14,7 +14,7 @@
 
 ### 运行原理
 
-**插件打包后的文件是放在我司平台的，运行时通过解析 index.html 和修改 webpack_public_path 获取 js 和 css 等资源文件**
+**插件打包后的文件是放在我司平台的，运行时通过解析 index.html 和修改 webpack_public_path 获取 js 和 css 等作品文件**
 
 **同时从 js 中获取导出的插件生命周期来启动、加载、卸载插件**
 
@@ -460,7 +460,7 @@ const render = ($) => {
 
 进入 console.testfreelog.com ---> 节点管理
 
-创建节点后必须建一个主题资源并签约激活
+创建节点后必须建一个主题作品并签约激活
 
 假设节点为http://snnaenu.testfreelog.com/
 
@@ -494,7 +494,7 @@ subData.subDep.some((sub, index) => {
     sub,
     document.getElementById("freelog-single"),
     subData,
-    config: {}, // 子插件配置数据，需要另外获取资源上的配置数据（待提供方法）
+    config: {}, // 子插件配置数据，需要另外获取作品上的配置数据（待提供方法）
     seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号
   );
 });
@@ -568,7 +568,7 @@ widgets.some((widget, index) => {
 
 ```ts
 
-  // 通过资源或展品的meta属性配置指定key作为配置数据, 目前运行时占用的key如下（皆为默认值）
+  // 通过作品或展品的meta属性配置指定key作为配置数据, 目前运行时占用的key如下（皆为默认值）
   hbfOnlyToTheme: true // 历史记录整体前进后退是否只给主题权限
   historyFB: true, // 历史记录整体前进后退是否有权限
 
@@ -618,7 +618,7 @@ export async function mount(props) {
     sub,
     document.getElementById("freelog-single"),
     subData,
-    config: {}, // 子插件配置数据，需要另外获取资源上的配置数据（待提供方法）
+    config: {}, // 子插件配置数据，需要另外获取作品上的配置数据（待提供方法）
     seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号
   );
 
@@ -654,12 +654,12 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | skip                    | 可选 | int           | 跳过的数量.默认为 0.                                                   |
 | limit                   | 可选 | int           | 本次请求获取的数据条数.一般不允许超过 100                              |
 | sort                    | 可选 | string        | 排序,格式为{排序字段}:{1 或-1},1 是正序,-1 是倒序，例如"updateDate:-1" |
-| articleResourceTypes    | 可选 | string        | 作品资源类型,多个用逗号分隔                                            |
-| omitArticleResourceType | 可选 | string        | 忽略的作品资源类型,与 resourceType 参数互斥                            |
+| articleResourceTypes    | 可选 | string        | 作品作品类型,多个用逗号分隔                                            |
+| omitArticleResourceType | 可选 | string        | 忽略的作品作品类型,与 resourceType 参数互斥                            |
 | onlineStatus            | 可选 | int           | 上线状态 (0:下线 1:上线 2:全部) 默认 1                                 |
 | tags                    | 可选 | string        | 用户创建 presentable 时设置的自定义标签,多个用","分割                  |
 | projection              | 可选 | string        | 指定返回的字段,多个用逗号分隔                                          |
-| keywords                | 可选 | string[1,100] | 搜索关键字,目前支持模糊搜索节点资源名称和资源名称                      |
+| keywords                | 可选 | string[1,100] | 搜索关键字,目前支持模糊搜索节点作品名称和作品名称                      |
 | isLoadVersionProperty   | 可选 | int           | 是否响应展品版本属性                                                   |
 
 **返回说明：**
@@ -686,8 +686,8 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | articleInfo             | object   | 展品实际挂载的作品信息                                     |
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
-| \*\* resourceType       | string   | 作品资源类型                                               |
-| \*\* articleType        | int      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
+| \*\* resourceType       | string   | 作品作品类型                                               |
+| \*\* articleType        | int      | 作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象) |
 | \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
 | versionInfo             | object   | 展品的版本信息,加载版本属性时,才会赋值                     |
@@ -701,8 +701,8 @@ const res = await window.freelogApp.getExhibitListByPaging({
  })
   query:{
     exhibitIds: "string", // 展品ids 多个使用","隔开
-    resourceIds: "string", // 资源ids
-    resourceNames: "string", // 资源名称s
+    resourceIds: "string", // 作品ids
+    resourceNames: "string", // 作品名称s
   }
 ```
 
@@ -730,8 +730,8 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | articleInfo             | object   | 展品实际挂载的作品信息                                     |
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
-| \*\* resourceType       | string   | 作品资源类型                                               |
-| \*\* articleType        | int      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
+| \*\* resourceType       | string   | 作品作品类型                                               |
+| \*\* articleType        | int      | 作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象) |
 | \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
 | versionInfo             | object   | 展品的版本信息,加载版本属性时,才会赋值                     |
@@ -773,14 +773,14 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | articleInfo             | object   | 展品实际挂载的作品信息                                     |
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
-| \*\* resourceType       | string   | 作品资源类型                                               |
-| \*\* articleType        | int      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
+| \*\* resourceType       | string   | 作品作品类型                                               |
+| \*\* articleType        | int      | 作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象) |
 | \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
 | versionInfo             | object   | 展品的版本信息,加载版本属性时,才会赋值                     |
 | \*\*exhibitProperty     | object   | 展品的版本属性                                             |
 
-### 获取展品资源
+### 获取展品作品
 
 ```ts
   const res = await window.freelogApp.getExhibitFileStream(
@@ -838,7 +838,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 	}
 }
 ```
-### 获取子依赖资源文件
+### 获取子依赖作品文件
 
 ```ts
   const res = await window.freelogApp.getExhibitDepFileStream(
@@ -853,7 +853,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 
     exhibitId: string , // 自身展品id
     parentNid: string,    // 自身链路id
-    subArticleIdOrName: string, // 子依赖资源id或名称
+    subArticleIdOrName: string, // 子依赖作品id或名称
     returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
     config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
 
@@ -893,8 +893,8 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | :-------------------- | :------- | :--------------------------------------------------------- |
 | exhibitId             | string   | 展品 ID                                                    |
 | exhibitName           | string   | 展品名称                                                   |
-| referee               | int      | 做出授权结果的标的物服务类型(1:资源服务 2:展品服务)        |
-| defaulterIdentityType | int      | 授权不通过责任方(0:无 1:资源 2:节点 3:c 端消费者 128:未知) |
+| referee               | int      | 做出授权结果的标的物服务类型(1:作品服务 2:展品服务)        |
+| defaulterIdentityType | int      | 授权不通过责任方(0:无 1:作品 2:节点 3:c 端消费者 128:未知) |
 | authCode              | int      | 授权码                                                     |
 | isAuth                | boolean  | 是否授权通过                                               |
 | errorMsg              | string   | 错误信息                                                   |
@@ -932,7 +932,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 **单个呼出授权**
 
 ```ts
-// 根据展品id获取展品资源
+// 根据展品id获取展品作品
 let ch = await window.freelogApp.getExhibitFileStream(
   chapters[index].exhibitId
 );
@@ -1088,7 +1088,7 @@ window.freelogApp.onLogin(callback);
 ### 用户数据
 
 ```js
-// 开发者模式需要注意在入口文件加载页面加上主题或插件本身的资源名称,例如：
+// 开发者模式需要注意在入口文件加载页面加上主题或插件本身的作品名称,例如：
 window.FREELOG_RESOURCENAME = Freelog / dev - docs;
 
 // 更新用户数据   data 为任意对象，
@@ -1099,7 +1099,7 @@ const res = await window.freelogApp.getUserData(key);
 
 ## 打包上传
 
-**正常 build 后，将打包后的所有文件压缩为一个 zip 文件（无根目录），作为主题 theme 或插件 widget 类型上传为资源**
+**正常 build 后，将打包后的所有文件压缩为一个 zip 文件（无根目录），作为主题 theme 或插件 widget 类型上传为作品**
 
 <!-- ## 模板下载 -->
 

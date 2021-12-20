@@ -71,7 +71,7 @@ export default function Login(props: loginProps) {
           <i className="iconfont  mt-50 mb-20 logo">&#xe614;</i>
 
           <div className="login-title mb-46 flex-row justify-center">
-            免费专业的资源发行和运营平台
+            免费专业的作品发行和运营平台
           </div>
           <div className="login-container flex-column justify-center">
             <input

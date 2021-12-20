@@ -29,7 +29,7 @@
               <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
             </el-checkbox-group>
           </el-form-item>
-          <el-form-item label="特殊资源" prop="resource">
+          <el-form-item label="特殊作品" prop="resource">
             <el-radio-group v-model="ruleForm.resource">
               <el-radio label="线上品牌商赞助"></el-radio>
               <el-radio label="线下场地免费"></el-radio>
@@ -85,7 +85,7 @@
             },
           ],
           resource: [
-            { required: true, message: '请选择活动资源', trigger: 'change' },
+            { required: true, message: '请选择活动作品', trigger: 'change' },
           ],
           desc: [
             { required: true, message: '请填写活动形式', trigger: 'blur' },

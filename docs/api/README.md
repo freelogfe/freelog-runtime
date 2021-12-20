@@ -6,7 +6,7 @@
 
 ## getStaticPath
 
-**用途：获取图片字体等静态资源的正确路径**
+**用途：获取图片字体等静态作品的正确路径**
 
 ```ts
 
@@ -49,7 +49,7 @@ subData.subDep.some((sub, index) => {
     sub,
     document.getElementById("freelog-single"),
     subData, // 父数据
-    config: {}, // 子插件配置数据，需要另外获取资源上的配置数据（待提供方法）
+    config: {}, // 子插件配置数据，需要另外获取作品上的配置数据（待提供方法）
     seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号
   );
 });
@@ -90,12 +90,12 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | skip                    | 可选 | int           | 跳过的数量.默认为 0.                                                   |
 | limit                   | 可选 | int           | 本次请求获取的数据条数.一般不允许超过 100                              |
 | sort                    | 可选 | string        | 排序,格式为{排序字段}:{1 或-1},1 是正序,-1 是倒序，例如"updateDate:-1" |
-| articleResourceTypes    | 可选 | string        | 作品资源类型,多个用逗号分隔                                            |
-| omitArticleResourceType | 可选 | string        | 忽略的作品资源类型,与 resourceType 参数互斥                            |
+| articleResourceTypes    | 可选 | string        | 作品作品类型,多个用逗号分隔                                            |
+| omitArticleResourceType | 可选 | string        | 忽略的作品作品类型,与 resourceType 参数互斥                            |
 | onlineStatus            | 可选 | int           | 上线状态 (0:下线 1:上线 2:全部) 默认 1                                 |
 | tags                    | 可选 | string        | 用户创建 presentable 时设置的自定义标签,多个用","分割                  |
 | projection              | 可选 | string        | 指定返回的字段,多个用逗号分隔                                          |
-| keywords                | 可选 | string[1,100] | 搜索关键字,目前支持模糊搜索节点资源名称和资源名称                      |
+| keywords                | 可选 | string[1,100] | 搜索关键字,目前支持模糊搜索节点作品名称和作品名称                      |
 | isLoadVersionProperty   | 可选 | int           | 是否响应展品版本属性                                                   |
 
 **返回说明：**
@@ -122,8 +122,8 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | articleInfo             | object   | 展品实际挂载的作品信息                                     |
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
-| \*\* resourceType       | string   | 作品资源类型                                               |
-| \*\* articleType        | int      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
+| \*\* resourceType       | string   | 作品作品类型                                               |
+| \*\* articleType        | int      | 作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象) |
 | \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
 | versionInfo             | object   | 展品的版本信息,加载版本属性时,才会赋值                     |
@@ -170,8 +170,8 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | articleInfo             | object   | 展品实际挂载的作品信息                                     |
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
-| \*\* resourceType       | string   | 作品资源类型                                               |
-| \*\* articleType        | int      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
+| \*\* resourceType       | string   | 作品作品类型                                               |
+| \*\* articleType        | int      | 作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象) |
 | \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
 | versionInfo             | object   | 展品的版本信息,加载版本属性时,才会赋值                     |
@@ -215,8 +215,8 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | articleInfo             | object   | 展品实际挂载的作品信息                                     |
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
-| \*\* resourceType       | string   | 作品资源类型                                               |
-| \*\* articleType        | int      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
+| \*\* resourceType       | string   | 作品作品类型                                               |
+| \*\* articleType        | int      | 作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象) |
 | \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
 | versionInfo             | object   | 展品的版本信息,加载版本属性时,才会赋值                     |
@@ -224,7 +224,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 
 ## getExhibitFileStream
 
-**用途：获取展品资源文件**
+**用途：获取展品作品文件**
 
 ```ts
   const res = await window.freelogApp.getExhibitFileStream(
@@ -243,7 +243,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 
 ## getExhibitDepFileStream
 
-**用途：获取展品子依赖资源文件**
+**用途：获取展品子依赖作品文件**
 
 ```ts
   const res = await window.freelogApp.getExhibitDepFileStream(
@@ -258,7 +258,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 
     exhibitId: string , // 自身展品id
     parentNid: string,    // 自身链路id
-    subArticleIdOrName: string, // 子依赖资源id或名称
+    subArticleIdOrName: string, // 子依赖作品id或名称
     returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
     config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
 
@@ -300,8 +300,8 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | :-------------------- | :------- | :--------------------------------------------------------- |
 | exhibitId             | string   | 展品 ID                                                    |
 | exhibitName           | string   | 展品名称                                                   |
-| referee               | int      | 做出授权结果的标的物服务类型(1:资源服务 2:展品服务)        |
-| defaulterIdentityType | int      | 授权不通过责任方(0:无 1:资源 2:节点 3:c 端消费者 128:未知) |
+| referee               | int      | 做出授权结果的标的物服务类型(1:作品服务 2:展品服务)        |
+| defaulterIdentityType | int      | 授权不通过责任方(0:无 1:作品 2:节点 3:c 端消费者 128:未知) |
 | authCode              | int      | 授权码                                                     |
 | isAuth                | boolean  | 是否授权通过                                               |
 | errorMsg              | string   | 错误信息                                                   |

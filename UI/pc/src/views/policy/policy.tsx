@@ -44,7 +44,7 @@ export default function Policy(props: ItemProps) {
         </div>
         {props.selectType ? (
           <Popconfirm
-            title="确定使用此策略与资源签约？"
+            title="确定使用此策略与展品签约？"
             onConfirm={confirm}
             onCancel={cancel}
             visible={visible}

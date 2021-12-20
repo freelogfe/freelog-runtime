@@ -140,7 +140,7 @@ export default {
      * 向屏幕上填充数据
      */
     pushData() {
-      // 当缓冲区没有数据时，检查是否还需要继续加载资源
+      // 当缓冲区没有数据时，检查是否还需要继续加载作品
       if (this.bufferList.length === 0) {
         if (this.loading === 2) {
           return;

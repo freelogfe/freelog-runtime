@@ -53,7 +53,7 @@ export default function Policy(props: ItemProps) {
               setTimeout(() => {
                 Dialog.confirm({
                   content:
-                    "确定使用策略 " + props.policy.policyName + " 与资源签约？",
+                    "确定使用策略 " + props.policy.policyName + " 与展品签约？",
                   onConfirm: async () => {
                     confirm(props.policy.policyId);
                   },

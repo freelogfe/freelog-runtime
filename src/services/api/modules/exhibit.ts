@@ -102,8 +102,8 @@ const exhibit: Exhibit = {
     dataModel: {
       parentNid: "string", // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
       subArticleIdOrName: "string", // 子依赖的作品ID作品名称
-      subWorkType: "string", // 子依赖的作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)
-      subFilePath: "string", // 主题或插件的压缩包内部子资源,需要带相对路径
+      subWorkType: "string", // 子依赖的作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象)
+      subFilePath: "string", // 主题或插件的压缩包内部子作品,需要带相对路径
     },
   },
   // exhibitId  {result|info|fileStream}
@@ -122,7 +122,7 @@ const exhibit: Exhibit = {
     url: `auths/exhibits/${placeHolder}/batchAuth/results`,
     method: "GET",
     dataModel: {
-      authType: "string", // 授权类型 1:节点侧授权 2:资源侧授权 3:节点+资源侧授权 4:全链路(包含用户,节点与资源)
+      authType: "string", // 授权类型 1:节点侧授权 2:作品侧授权 3:节点+作品侧授权 4:全链路(包含用户,节点与作品)
       exhibitIds: "string", // 展品ID,多个逗号分隔
     },
   },
@@ -131,7 +131,7 @@ const exhibit: Exhibit = {
     url: `auths/exhibits/${placeHolder}/test/batchAuth/results`,
     method: "GET",
     dataModel: {
-      authType: "string", // 授权类型 1:节点侧授权 2:资源侧授权 3:节点+资源侧授权 4:全链路(包含用户,节点与资源)
+      authType: "string", // 授权类型 1:节点侧授权 2:作品侧授权 3:节点+作品侧授权 4:全链路(包含用户,节点与作品)
       exhibitIds: "string", // 展品ID,多个逗号分隔
     },
   },

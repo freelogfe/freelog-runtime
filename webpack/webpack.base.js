@@ -69,7 +69,7 @@ module.exports = {
         BUILD_TIME: JSON.stringify(dayjs().format("YYYY/DD/MM HH:mm:ss")),
       },
     }),
-    // fork-ts-checker-webpack-plugin，顾名思义就是创建一个新进程，专门来运行Typescript类型检查。这么做的原因是为了利用多核资源来提升编译的速度
+    // fork-ts-checker-webpack-plugin，顾名思义就是创建一个新进程，专门来运行Typescript类型检查。这么做的原因是为了利用多核作品来提升编译的速度
     new ForkTsCheckerWebpackPlugin(),
   ],
   resolve: {
