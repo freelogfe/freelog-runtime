@@ -484,7 +484,7 @@ const render = ($) => {
 `http://t.snnaenu.testfreelog.com/?dev=replace&${widgetId}=http://localhost:7101`;
 ```
 
-### 加载子依赖插件
+### 加载自身的子依赖插件
 
 ```ts
 const subData = await window.freelogApp.getSubDep();
@@ -499,8 +499,6 @@ subData.subDep.some((sub, index) => {
   );
 });
 ```
-
-### 加载孙插件（完善中）
 
 ### 加载展品插件
 
@@ -570,8 +568,7 @@ widgets.some((widget, index) => {
 
 ```ts
 
-  // 通过资源或展品的meta属性配置指定key作为配置数据, 目前运行时占用的key如下
-
+  // 通过资源或展品的meta属性配置指定key作为配置数据, 目前运行时占用的key如下（皆为默认值）
   hbfOnlyToTheme: true // 历史记录整体前进后退是否只给主题权限
   historyFB: true, // 历史记录整体前进后退是否有权限
 
@@ -740,7 +737,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | versionInfo             | object   | 展品的版本信息,加载版本属性时,才会赋值                     |
 | \*\*exhibitProperty     | object   | 展品的版本属性                                             |
 
-### 获取展品详情
+### 获取单个展品详情
 
 ```ts
  const res = await  window.freelogApp.getExhibitInfo(exhibitId, query)
@@ -793,16 +790,53 @@ const res = await window.freelogApp.getExhibitListByPaging({
   )
 ```
 
-### 获取展品子依赖
+### 展品子依赖列表
+
+**在获取展品与获取单个展品详情接口返回数据中**
 
 ```ts
-  const res = await  window.freelogApp.getExhibitDepFileStream(
-    exhibitId: string | number,
-    parentNid: string,
-    subArticleIdOrName: string,
-    returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
-    config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
-  )
+  **如下所示，数组versionInfo.dependencyTree就是该展品的所有子孙依赖列表**
+  **第一个为自身，通过自身的nid去找出parentNid为该nid的依赖即为直接子依赖**
+  {
+	"ret": 0,
+	"errCode": 0,
+	"errcode": 0,
+	"msg": "success",
+	"data": {
+		"exhibitId": "61b99394c9dacc002e9f5821",
+    ...
+		"versionInfo": {
+			"exhibitId": "61b99394c9dacc002e9f5821",
+			"exhibitProperty": {
+				"fileSize": 6234,
+				"mime": "text/markdown"
+			},
+			"dependencyTree": [{
+				"nid": "61b99394c9da",
+				"articleId": "61b993157841ed002e5c96ca",
+				"articleName": "ZhuC/测试md",
+				"articleType": 1,
+				"version": "0.1.1",
+				"versionRange": "0.1.1",
+				"resourceType": "markdown",
+				"versionId": "0d786f5b273bc549454b55ea649569a3",
+				"deep": 1,
+				"parentNid": ""
+			}, {
+				"nid": "9091f75e23fb",
+				"articleId": "61b9a82f2ae3ac002eb7993a",
+				"articleName": "ZhuC/元宇宙",
+				"articleType": 1,
+				"version": "0.1.0",
+				"versionRange": "^0.1.0",
+				"resourceType": "video",
+				"versionId": "85fa350f4d003d0adea1fffc2852891d",
+				"deep": 2,
+				"parentNid": "61b99394c9da"
+			}]
+		}
+	}
+}
 ```
 
 ### 查找展品签约数量

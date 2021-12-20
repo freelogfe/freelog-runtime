@@ -214,6 +214,7 @@ const viewPortValue = {
   "user-scalable": "no", // available for theme
   "viewport-fit": "auto", // not supported in browser
 };
+var rawDocument = window.document;
 export function setViewport(keys: any) {
   // @ts-ignore
   const that = this;
@@ -228,8 +229,7 @@ export function setViewport(keys: any) {
       viewPortValue[key] = keys[key];
     }
   });
-  var doc = window.document;
-  var metaEl: any = doc.querySelector('meta[name="viewport"]');
+  var metaEl: any = rawDocument.querySelector('meta[name="viewport"]');
   let content = "";
   Object.keys(viewPortValue).forEach((key: any) => {
     if (viewPortValue.hasOwnProperty(key)) {

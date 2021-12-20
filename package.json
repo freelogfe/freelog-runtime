@@ -4,9 +4,7 @@
   "scripts": {
     "start": "webpack serve --progress --hot --inline --config webpack/webpack.dev.js",
     "build": "webpack --config webpack/webpack.prod.js",
-    "test": "webpack --progress --config webpack/webpack.prod.js ",
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "test": "webpack --progress --config webpack/webpack.prod.js "
   },
   "devDependencies": {
     "@babel/cli": "^7.13.16",

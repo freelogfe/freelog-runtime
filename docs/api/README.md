@@ -344,15 +344,19 @@ const selfId = await window.freelogApp.getSelfId();
 
 ```ts
 
- **获取自身依赖**
+ **获取插件自身依赖**
 
  const res = await window.freelogApp.getSubDep()
 
  **返回值**
   {
-    subDep:  [], // 子依赖数组
-    workNid,  // 自身链路id
-    data: data, // 自身信息
+    exhibitName,
+    exhibitId,
+    articleNid,
+    resourceType,
+    subDep, // 子依赖数组
+    versionInfo: { exhibitProperty },
+    ...response.data.data,
   }
 ```
 
@@ -433,4 +437,22 @@ const userData = await window.freelogApp.getUserData(key);
 ```ts
  **唤起退出登录**
  window.freelogApp.callLoginOut()
+```
+
+## setViewport
+
+```ts
+
+**设置viewport的meta**
+
+window.freelogApp.setViewport(keys: any)
+keys = {
+  width: "device-width", // immutable
+  height: "device-height", // not supported in browser
+  "initial-scale": 1, // 0.0-10.0   available for theme
+  "maximum-scale": 1, // 0.0-10.0   available for theme
+  "minimum-scale": 1, // 0.0-10.0   available for theme
+  "user-scalable": "no", // available for theme
+  "viewport-fit": "auto", // not supported in browser
+}
 ```
