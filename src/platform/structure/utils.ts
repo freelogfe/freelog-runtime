@@ -3,18 +3,18 @@
 import { baseUrl } from "../../services/base";
 import { getExhibitInfoByAuth } from "./api";
 import { widgetsConfig, widgetUserData, sandBoxs, FREELOG_DEV } from "./widget";
-import frequest, {initUserCheck} from "../../services/handler";
+import frequest, { initUserCheck } from "../../services/handler";
 import user from "../../services/api/modules/user";
 import node from "../../services/api/modules/node";
 import { addAuth, goLogin, goLoginOut } from "../../bridge/index";
-export function freelogFetch(url: string, options?:any) {
-	options = options || {};
-	if (url.indexOf("freelog.com") > -1) {
-		return fetch(url, { ...options, credentials: "include" });
-	} else {
-		return fetch(url, { ...options });
-	}
-};
+export function freelogFetch(url: string, options?: any) {
+  options = options || {};
+  if (url.indexOf("freelog.com") > -1) {
+    return fetch(url, { ...options, credentials: "include" });
+  } else {
+    return fetch(url, { ...options });
+  }
+}
 // TODO  此文件的方法需要整理分离出freeelogApp下的和内部使用的
 export function getContainer(
   container: string | HTMLElement
@@ -106,7 +106,7 @@ export async function getSelfId() {
 
 export async function getSelfConfig() {
   // @ts-ignore  由于config只有一层，所以用...就够了
-  return { ...widgetsConfig.get(this.name)?.config };
+  return { ...widgetsConfig.get(this.name).config };
 }
 // TODO if error  这里不需要参数，除了运行时自行调用，需要抽离出来不与插件调用混在一起
 // TODO 紧急，增加方法加载子依赖传递作品id，通过作品id查询到孙依赖插件
@@ -140,7 +140,7 @@ export async function getSubDep(exhibitId?: any) {
         });
         response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
       }
-      if(response.authErrorType){
+      if (response.authErrorType) {
         await addAuth.bind(widgetSandBox)(exhibitId, {
           immediate: true,
         });
@@ -185,15 +185,15 @@ export async function getUserInfo() {
   if (userInfo) return userInfo;
   const res = await frequest(user.getCurrent, "", "");
   userInfo = res.data.errCode === 0 ? res.data.data : null;
-  setUserInfo(userInfo)
-  initUserCheck()
+  setUserInfo(userInfo);
+  initUserCheck();
   return userInfo;
 }
 export function getCurrentUser() {
   return userInfo;
 }
 export async function setUserInfo(info: any) {
-  window.userId = info? info.userId + '' : ""
+  window.userId = info ? info.userId + "" : "";
   userInfo = info;
 }
 export function getStaticPath(path: string) {
@@ -303,6 +303,28 @@ export function callLoginOut() {
   if (userInfo) {
     goLoginOut();
   }
+}
+
+export function setTabLogo(Url: string ) {
+  // fetch("/freelog.ico").then((res: Response) => {
+  //   res.blob().then((blob: Blob) => {
+  //     const objectURL = URL.createObjectURL(blob);
+  //     var link: HTMLLinkElement =
+  //       document.querySelector.bind(document)('link[rel*="icon"]') ||
+  //       document.createElement("link");
+  //     link.type = "image/x-icon";
+  //     link.rel = "shortcut icon";
+  //     link.href = objectURL; // 'http://www.stackoverflow.com/favicon.ico'
+  //     document.getElementsByTagName.bind(document)("head")[0].appendChild(link);
+  //   });
+  // });
+  var link: HTMLLinkElement =
+    document.querySelector.bind(document)('link[rel*="icon"]') ||
+    document.createElement("link");
+  link.type = "image/x-icon";
+  link.rel = "shortcut icon";
+  link.href = Url; // 'http://www.stackoverflow.com/favicon.ico'
+  document.getElementsByTagName.bind(document)("head")[0].appendChild(link);
 }
 
 export function isMobile() {
