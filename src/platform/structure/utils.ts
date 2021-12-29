@@ -294,9 +294,9 @@ export async function getUserData(key: string) {
   return userData[key];
 }
 
-export function callLogin() {
+export function callLogin(resolve: Function) {
   if (!userInfo) {
-    goLogin();
+    goLogin(resolve);
   }
 }
 export function callLoginOut() {

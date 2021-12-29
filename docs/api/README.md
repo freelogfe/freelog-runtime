@@ -397,7 +397,7 @@ window.freelogApp.callAuth();
 **监听用户登录**
 
 ```ts
-// callback: 登录成功的回调，登录失败不会回调
+// callback: 登录成功的回调，登录失败不会回调,这里需要考虑一下，
 window.freelogApp.onLogin(callback);
 ```
 
@@ -429,7 +429,9 @@ const userData = await window.freelogApp.getUserData(key);
 
 ```ts
  **唤起登录**
- window.freelogApp.callLogin()
+ // callback: 登录成功的回调，登录失败不会回调,这里需要考虑一下，
+ window.freelogApp.callLogin(callBack)
+
 ```
 
 ## callLoginOut

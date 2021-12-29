@@ -13,7 +13,7 @@ import contract from "@/services/api/modules/contract";
 // import getBestTopology from "./topology/data";
 import { Dialog, Popup, Button, Toast } from "antd-mobile"; // Toast, Button
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
-const { setUserInfo, loginCallback, getCurrentUser, updateEvent } =
+const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
   window.freelogAuth;
 // const alert = Modal.alert;
 
@@ -56,6 +56,9 @@ export default function Auth(props: contractProps) {
   function loginFinished(type: number, data?: any) {
     if (type === SUCCESS) {
       setUserInfo(data);
+      if (loginCallback.length === 0) {
+        reload()
+      }
       loginCallback.forEach((func: any) => {
         func && func();
       });

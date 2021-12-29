@@ -1,9 +1,10 @@
-import { SUCCESS, FAILED, USER_CANCEL, DATA_ERROR } from "./event";
+import { SUCCESS, FAILED, USER_CANCEL, DATA_ERROR, TEST_NODE } from "./event";
 import { getExhibitInfo } from "../platform/structure/api";
 export const exhibitQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
 export const failedMap = new Map<any, any>();
 const rawDocument = document;
+const rawWindow = window;
 let UI: any = null;
 let updateUI: any = null;
 let loginUI: any = null;
@@ -28,7 +29,7 @@ export async function addAuth(
   options?: any
 ) {
   if(window.isTest) {
-    Promise.resolve()
+    Promise.resolve({status: TEST_NODE, data: null})
     return
   }
   // @ts-ignore
@@ -146,12 +147,14 @@ export function endEvent(eventId: string, type: number, data: any) {
   }
   // }
 }
+export const loginCallback: any = [];
 
-export function goLogin() {
+export function goLogin(resolve: Function) {
   if(uiInited){
     console.error("ui has been launched, can not callLogin")
     return "ui has been launched, can not callLogin"
   }
+  onLogin(resolve)
   loginUI && loginUI();
 }
 export function goLoginOut() {
@@ -177,7 +180,6 @@ export function lowerUI() {
   widgetContainer.style.zIndex = 1;
 }
 
-export const loginCallback: any = [];
 // 登录和切换用户需要触发
 export async function onLogin(callback: any) {
   if (typeof callback === "function") {
@@ -187,5 +189,5 @@ export async function onLogin(callback: any) {
   }
 }
 export function reload() {
-  window.location.reload();
+  rawWindow.location.reload();
 }

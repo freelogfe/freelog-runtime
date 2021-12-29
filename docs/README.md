@@ -976,7 +976,8 @@ window.freelogApp.callAuth();
 ### 唤起登录
 
 ```ts
-window.freelogApp.callLogin();
+// callback: 登录成功的回调，登录失败不会回调,这里需要考虑一下，
+window.freelogApp.callLogin(callback);
 ```
 
 ### 唤起退出登录

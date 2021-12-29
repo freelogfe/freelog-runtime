@@ -6,6 +6,13 @@ import "./App.scss";
 
   
 import Home from "./pages/Home";
+import { VConsole } from 'vconsole';
+
+// or init with options
+const vConsole = new VConsole({ maxLogNumber: 1000 });
+
+// call `console` methods as usual
+console.log('Hello world');
 const Book = lazy(() => import("./pages/book/book"));
 window.FREELOG_RESOURCENAME = '33323234234234sdf23'
 const RouteExample = () => {
