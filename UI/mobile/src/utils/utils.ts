@@ -1,7 +1,9 @@
+import { FUtil } from "@freelog/tools-lib";
+
 /**
  *
  * @param origin model
- * @param data wait to compare with model
+ * @param data to compared with model
  * @param diff  if only reserve difference set
  * delete the data's keys while they are (not) exist in origin
  */
@@ -51,40 +53,41 @@ export function compareObjects(origin: any, data: any, diff = false) {
   });
 }
 
- 
 export function checkPhone(phone: string) {
-  const reg = new RegExp('^1(3|4|5|6|7|8|9)\\d{9}$')
+  const reg = new RegExp("^1(3|4|5|6|7|8|9)\\d{9}$");
   if (!reg.test(phone)) {
     return false;
   }
   return true;
 }
 export function checkEmail(email: string) {
-  const reg =
-    new RegExp("^([a-zA-Z0-9]+[_|\\-|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\-|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$", 'gi');
+  const reg = new RegExp(
+    "^([a-zA-Z0-9]+[_|\\-|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\-|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$",
+    "gi"
+  );
   if (!reg.test(email)) {
     return false;
   }
   return true;
 }
-export function checkPassword(password: string){
-  // const reg = /^(?=.*[0-9])(?=.*[a-zA-Z])(.{6,24})$/;
-  // if (!reg.test(password)) {
-  //   return false;
-  // }
+export function checkPassword(password: string) {
+  const reg = FUtil.Regexp.PASSWORD; ///^(?=.*[0-9])(?=.*[a-zA-Z])(.{6,24})$/;
+  if (!reg.test(password)) {
+    return false;
+  }
   return true;
 }
-export function checkPayPassword(password: string){
+export function checkPayPassword(password: string) {
   const reg = new RegExp("^\\d{6}$");
   if (!reg.test(password)) {
     return false;
   }
   return true;
 }
-export function checkUsername(username: string){
-  // const reg =  /^(?!-)[A-Za-z0-9-]{1,30}(?<!-)$/;
-  // if (!reg.test(username)) {
-  //   return false;
-  // }
+export function checkUsername(username: string) {
+  const reg = FUtil.Regexp.USERNAME;  // const reg =  /^(?!-)[A-Za-z0-9-]{1,30}(?<!-)$/;
+  if (!reg.test(username)) {
+    return false;
+  }
   return true;
 }

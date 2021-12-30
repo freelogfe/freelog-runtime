@@ -1258,6 +1258,16 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@freelog/resource-policy-lang@1.1.26":
+  version "1.1.26"
+  resolved "https://registry.npmmirror.com/@freelog/resource-policy-lang/download/@freelog/resource-policy-lang-1.1.26.tgz#328daec30c532421c2dba9fad6d54fa9815da077"
+  integrity sha512-fUhIaeDV167hJJw4wEWUxuC9VDQycxaGnEU1EA2waHsW0s17gySZzPwZn6wFOA4HR4Z6YiC0lfr3se4WS+El2g==
+  dependencies:
+    "@types/node" "^15.3.1"
+    antlr4 "4.8.0"
+    decimal.js "^10.2.1"
+    moment "^2.29.1"
+
 "@freelog/resource-policy-lang@^1.1.25":
   version "1.2.0"
   resolved "https://registry.npmmirror.com/@freelog/resource-policy-lang/download/@freelog/resource-policy-lang-1.2.0.tgz#af5a68847ab166a70f54c8a1dc728a33a971b701"
@@ -1268,10 +1278,22 @@
     decimal.js "^10.2.1"
     moment "^2.29.1"
 
-"@freelog/tools-lib@^0.1.43", "@freelog/tools-lib@^0.1.59":
+"@freelog/tools-lib@^0.1.43":
   version "0.1.59"
   resolved "https://registry.npmmirror.com/@freelog/tools-lib/download/@freelog/tools-lib-0.1.59.tgz#ea29f3411bd9b100f2e71fffbd8f9d32902bcab6"
   integrity sha512-+rVf5IirNmcK6ysrXdm8pQ2IQIBB1XjpMCC8PXQ38kbb+chIshryMC//9u/TUJBURjwCqmwBB6EL5cPhRXvWRQ==
+  dependencies:
+    "@freelog/resource-policy-lang" "^1.1.25"
+    "@freelog/tools-lib" "^0.1.43"
+    axios "^0.21.1"
+    crypto-js "^4.0.0"
+    moment "^2.29.1"
+    nprogress "^0.2.0"
+
+"@freelog/tools-lib@^0.1.61":
+  version "0.1.61"
+  resolved "https://registry.yarnpkg.com/@freelog/tools-lib/-/tools-lib-0.1.61.tgz#d6113d3d6d4201ac49ae5a699c432c97d3de539b"
+  integrity sha512-98J24iRdgqSK5UoAxqJ4qdPYK9jqbl4qHSlFmWoBWSX9F+3PgsLxdxLzJ7hhnZwX8SL5PMb9qvvUuawVB7Vw0Q==
   dependencies:
     "@freelog/resource-policy-lang" "^1.1.25"
     "@freelog/tools-lib" "^0.1.43"
