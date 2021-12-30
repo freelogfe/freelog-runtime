@@ -154,7 +154,7 @@ export function goLogin(resolve: Function) {
     console.error("ui has been launched, can not callLogin")
     return "ui has been launched, can not callLogin"
   }
-  onLogin(resolve)
+  resolve && onLogin(resolve)
   loginUI && loginUI();
 }
 export function goLoginOut() {

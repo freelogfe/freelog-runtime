@@ -14,6 +14,7 @@ const {
   updateEvent,
   lowerUI,
   upperUI,
+  reload
 } = window.freelogAuth;
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 
@@ -80,7 +81,7 @@ function App() {
       onConfirm: async () => {
         await frequest(user.loginOut, "", "").then((res: any) => {
           if (res.data.errCode === 0) {
-            window.freelogAuth.reload();
+            reload();
           }
         });
       },

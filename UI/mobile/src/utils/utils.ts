@@ -1,4 +1,3 @@
-import { FUtil } from "@freelog/tools-lib";
 
 /**
  *
@@ -70,8 +69,9 @@ export function checkEmail(email: string) {
   }
   return true;
 }
+ 
 export function checkPassword(password: string) {
-  const reg = FUtil.Regexp.PASSWORD; ///^(?=.*[0-9])(?=.*[a-zA-Z])(.{6,24})$/;
+  const reg = new RegExp(/^(?=.*[0-9])(?=.*[a-zA-Z])(.{6,24})$/);
   if (!reg.test(password)) {
     return false;
   }
@@ -85,7 +85,7 @@ export function checkPayPassword(password: string) {
   return true;
 }
 export function checkUsername(username: string) {
-  const reg = FUtil.Regexp.USERNAME;  // const reg =  /^(?!-)[A-Za-z0-9-]{1,30}(?<!-)$/;
+  const reg = new RegExp(/^([A-Za-z0-9][A-Za-z0-9-]{0,28})?[A-Za-z0-9]$/);  // const reg =  /^(?!-)[A-Za-z0-9-]{1,30}(?<!-)$/;
   if (!reg.test(username)) {
     return false;
   }
