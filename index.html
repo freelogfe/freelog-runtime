@@ -166,14 +166,17 @@
       z-index: 0;
       background: transparent;
     }
-    #ui-root > div{
+
+    #ui-root>div {
       background: transparent !important;
     }
-    body{
+
+    body {
       width: 100%;
       height: 100%;
       overflow: hidden !important;
     }
+
     #freelog-plugin-container {
       position: absolute;
       width: 100%;
@@ -183,14 +186,31 @@
       padding: 0 !important;
       z-index: 1;
     }
-/* 
+
+    /* 
     #freelog-plugin-container>iframe {
       display: none !important;
     } */
+    #freelog-no-theme {
+      width: 100%;
+      height: 100%;
+      display: none;
+      z-index: 3;
+      font-size: 30px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #666666;
+      line-height: 36px;
+      padding-top: 40%;
+      text-align: center;
+      position: absolute;
+      background: #F2F2F2;
+    }
   </style>
 </head>
 
 <body>
+  <div id="freelog-no-theme">无主题或主题未激活</div>
   <div id="ui-root"></div>
   <div id="freelog-plugin-container"></div>
   <!-- <script type="module" src="/src/main.ts"></script> -->

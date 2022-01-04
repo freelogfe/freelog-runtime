@@ -57,7 +57,7 @@ export default function Auth(props: contractProps) {
     if (type === SUCCESS) {
       setUserInfo(data);
       if (loginCallback.length === 0) {
-        reload()
+        reload();
       }
       loginCallback.forEach((func: any) => {
         func && func();
@@ -233,7 +233,11 @@ export default function Auth(props: contractProps) {
             当前节点主题未开放授权
           </div>
           <div className="theme-tip mb-30 text-center">
-            继续浏览请签约并获取授权
+            {currentExhibit &&
+            currentExhibit.contracts &&
+            currentExhibit.contracts.length
+              ? "继续浏览请获取授权"
+              : "继续浏览请签约并获取授权"}
           </div>
           <Button
             color="primary"
@@ -243,7 +247,11 @@ export default function Auth(props: contractProps) {
             size="small"
             className="theme-tip-button text-center"
           >
-            签约
+             {currentExhibit &&
+            currentExhibit.contracts &&
+            currentExhibit.contracts.length
+              ? "获取收取"
+              : "签约"}
           </Button>
         </div>
       ) : (
@@ -377,7 +385,11 @@ export default function Auth(props: contractProps) {
                       当前节点主题未开放授权，
                     </div>
                     <div className="auth-des mb-20 text-center">
-                      继续浏览请选择策略签约并获取授权
+                      {currentExhibit &&
+                      currentExhibit.contracts &&
+                      currentExhibit.contracts.length
+                        ? "继续浏览请获取授权"
+                        : "继续浏览请选择策略签约并获取授权"}
                     </div>
                   </>
                 ) : null}

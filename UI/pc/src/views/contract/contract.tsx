@@ -96,6 +96,7 @@ export default function Contract(props: ItemProps) {
           ...currentContent,
           ...stateInfo,
         };
+        tec === 1 && setEventIndex(0);
         // @ts-ignore
         setCurrentStatus(currentSatus);
         return true;
@@ -313,7 +314,7 @@ export default function Contract(props: ItemProps) {
                                     event.origin.name ===
                                       "TransactionEvent" && (
                                       <Button
-                                        disabled={index !== eventIndex}
+                                        // disabled={index !== eventIndex}
                                         className="fs-12 shrink-0"
                                         click={payEvent}
                                       >

@@ -43,7 +43,7 @@ export default function Auth(props: contractProps) {
     if (type === SUCCESS) {
       setUserInfo(data);
       if (loginCallback.length === 0) {
-        reload()
+        reload();
       }
       loginCallback.forEach((func: any) => {
         func && func();
@@ -231,7 +231,11 @@ export default function Auth(props: contractProps) {
       {themeCancel ? (
         <div className="w-100x h-100x text-center">
           <div className="theme-tip mb-30">
-            当前节点主题未开放授权，继续浏览请签约并获取授权
+            {currentExhibit &&
+            currentExhibit.contracts &&
+            currentExhibit.contracts.length
+              ? "节点主题授权未完成，继续浏览请获取授权"
+              : "当前节点主题未开放授权，继续浏览请签约并获取授权"}
           </div>
           <Button
             click={() => {
@@ -239,7 +243,11 @@ export default function Auth(props: contractProps) {
             }}
             className="px-50 py-15"
           >
-            签约
+            {currentExhibit &&
+            currentExhibit.contracts &&
+            currentExhibit.contracts.length
+              ? "获取收取"
+              : "签约"}
           </Button>
         </div>
       ) : (
@@ -281,11 +289,15 @@ export default function Auth(props: contractProps) {
             >
               <div className="flex-column py-20 align-center bb-1">
                 <div className="auth-title ">
-                  {currentExhibit.isTheme ? "节点授权" : "展品授权"}
+                  {currentExhibit.isTheme ? "节点主题授权" : "展品授权"}
                 </div>
                 {currentExhibit.isTheme ? (
                   <div className="auth-des mt-15">
-                    当前节点主题未开放授权，继续浏览请选择策略签约并获取授权
+                    {currentExhibit &&
+                    currentExhibit.contracts &&
+                    currentExhibit.contracts.length
+                      ? "节点主题授权未完成，继续浏览请获取授权"
+                      : "当前节点主题未开放授权，继续浏览请选择策略签约并获取授权"}
                   </div>
                 ) : null}
               </div>

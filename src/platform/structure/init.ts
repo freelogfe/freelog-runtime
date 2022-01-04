@@ -41,6 +41,13 @@ export function initNode() {
         const userInfo = values[1];
         const nodeInfo = nodeData.data;
         freelogApp.nodeInfo = nodeInfo;
+        if((!nodeInfo.nodeThemeId && !isTest) || (!nodeInfo.nodeTestThemeId && isTest)){
+          const nothemeTip = document.getElementById.bind(document)("freelog-no-theme") 
+          // @ts-ignore
+          nothemeTip?.style.display = 'block';
+          resolve()
+          return
+        }
         document.title = nodeInfo.nodeName;
         if(!userInfo && isTest){
           alert("测试节点必须登录！")
@@ -79,7 +86,6 @@ export function initNode() {
             null,
             true
           );
-          
           resolve && resolve()
         },(e: any)=>{
           console.log(e)
