@@ -49,10 +49,10 @@ export default function Contract(props: ItemProps) {
     if (props.contract.status !== 1) {
       authStatus = "未授权";
       authClass = "bg-auth-non";
-      if (props.contract.authStatus === 2 && window.isTest) {
+      if ([2,3].includes(props.contract.authStatus) && window.isTest) {
         authStatus = "已授权";
         authClass = "bg-auth";
-      } else if (props.contract.authStatus === 1) {
+      } else if ([1,3].includes(props.contract.authStatus)) {
         authStatus = "已授权";
         authClass = "bg-auth";
       }

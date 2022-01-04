@@ -388,7 +388,8 @@ export default function Auth(props: contractProps) {
                         currentExhibit.policiesActive.length -
                           currentExhibit.contracts.length ? (
                           <div className="policy-tip flex-row align-center mt-15 px-10">
-                            <div className="tip">最下方有可签约的策略</div>
+                            <i className="iconfont mr-5 fs-14">&#xe641;</i>
+                            <div className="tip fs-12">最下方有可签约的策略</div>
                           </div>
                         ) : null}
                         {currentExhibitId === currentExhibit.exhibitId &&
