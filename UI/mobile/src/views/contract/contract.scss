@@ -72,13 +72,24 @@
             background: rgba(39, 132, 255, 0.08);
             border: 1px solid rgba(39, 132, 255, 0.6) !important;
         }
+        .event-card-one {
+            input {
+                display: none;
+            }
+
+            label {
+                margin-left: -10px;
+            }
+        }
+        .event-card-more {
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+        }
 
         .event-card {
             label{
                 width: 100%;
             }
-            border-radius: 4px;
-            border: 1px solid rgba(0, 0, 0, 0.15);
 
             .event {
                 font-size: 14px;

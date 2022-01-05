@@ -35,6 +35,7 @@ export default function Contract(props: ItemProps) {
   const [authClass, setAuthClass] = useState("bg-auth-non");
   const [authStatus, setAuthStatus] = useState("未授权");
   const [currentStatus, setCurrentStatus] = useState<any>({
+    tec: 0,
     eventTranslateInfos: [{ origin: { args: { amount: "" } } }],
   });
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -267,9 +268,7 @@ export default function Contract(props: ItemProps) {
                 <div className="contract-tip fs-12">
                   当前无授权，请选择执行事件
                 </div>
-
                 {
-                  // @ts-ignore
                   currentStatus.tec > 1 && (
                     <Button
                       color="primary"
@@ -298,8 +297,10 @@ export default function Contract(props: ItemProps) {
                           return (
                             <div
                               className={
-                                "event-card p-10 mt-10 flex-row " +
-                                (index !== eventIndex ? "" : "event-selected")
+                                "event-card flex-row " + (currentStatus.tec === 1
+                                  ? "event-card-one "
+                                  : " p-10 event-card-more mt-10 ") +
+                                (index !== eventIndex || currentStatus.tec === 1? "" : "event-selected")
                               }
                               key={index}
                             >
@@ -319,9 +320,9 @@ export default function Contract(props: ItemProps) {
                                 }
                               />
                               <label htmlFor={event.origin.id}>
-                                <div className="flex-row event flex-wrap align-center  justify-end">
-                                  <div className="mx-10 flex-row align-center pe-none  flex-1">
-                                    <span className="mr-10 ">
+                                <div className="flex-row event  align-center  ">
+                                  <div className="mx-10 flex-row align-center pe-none ">
+                                    <span className={event.content ? "mr-10 ": ""}>
                                       {event.content}
                                     </span>
                                     <span className="auth shrink-0">
