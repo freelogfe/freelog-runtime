@@ -247,7 +247,7 @@ export default function Auth(props: contractProps) {
             size="small"
             className="theme-tip-button text-center"
           >
-             {currentExhibit &&
+            {currentExhibit &&
             currentExhibit.contracts &&
             currentExhibit.contracts.length
               ? "获取收取"
@@ -426,6 +426,18 @@ export default function Auth(props: contractProps) {
               </div>
               <div className="flex-column flex-1 over-h">
                 <div className="w-100x h-100x y-auto pb-20">
+                  <div className="flex-row ml-15 space-between align-center mt-15">
+                    <div className="fs-12 fc-grey flex-1 fw-bold">当前合约</div>
+                    {currentExhibitId === currentExhibit.exhibitId &&
+                    currentExhibit.contracts.length &&
+                    currentExhibit.policiesActive.length -
+                      currentExhibit.contracts.length ? (
+                      <div className="policy-tip flex-row align-center  px-10">
+                        <i className="iconfont mr-5 fs-14">&#xe641;</i>
+                        <div className="tip fs-12">最下方有可签约的策略</div>
+                      </div>
+                    ) : null}
+                  </div>
                   {currentExhibitId === currentExhibit.exhibitId &&
                     currentExhibit.contracts.map(
                       (contract: any, index: number) => {
@@ -440,6 +452,31 @@ export default function Auth(props: contractProps) {
                         );
                       }
                     )}
+                  {currentExhibitId === currentExhibit.exhibitId &&
+                    !!currentExhibit.contracts.length && (
+                      <div className="flex-row mt-10 ml-15 ">
+                        <div className="fs-14 fc-less">
+                          查看已终止的合约请移至
+                        </div>
+                        <div
+                          onClick={() => {
+                            window.open(
+                              "http://user.testfreelog.com/logged/contract"
+                            );
+                          }}
+                          className="ml-10 fs-14 fc-blue cur-pointer hover-light"
+                        >
+                          合约管理
+                        </div>
+                      </div>
+                    )}
+                  {currentExhibitId === currentExhibit.exhibitId &&
+                    currentExhibit.policiesActive.length -
+                      currentExhibit.contracts.length ? (
+                      <div className="fs-12 fc-grey flex-1 fw-bold mt-20 ml-15">
+                        可签约的策略
+                      </div>
+                    ) :null}
                   {currentExhibitId === currentExhibit.exhibitId &&
                     currentExhibit.policiesActive.map(
                       (policy: any, index: number) => {

@@ -10,7 +10,6 @@ import PolicyContent from "../policy/_components/policyContent";
 import frequest from "@/services/handler";
 import contract from "@/services/api/modules/contract";
 import { Tabs } from "antd";
-import { truncate } from "lodash";
 const { TabPane } = Tabs;
 
 var moment = require("moment");
@@ -491,6 +490,7 @@ export default function Contract(props: ItemProps) {
             合同编号 {props.contract.contractId} | 签约时间{" "}
             {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm")}
           </div>
+          
         </TabPane>
         <TabPane tab="策略内容" key="2">
           <PolicyContent

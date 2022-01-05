@@ -389,7 +389,9 @@ export default function Auth(props: contractProps) {
                           currentExhibit.contracts.length ? (
                           <div className="policy-tip flex-row align-center mt-15 px-10">
                             <i className="iconfont mr-5 fs-14">&#xe641;</i>
-                            <div className="tip fs-12">最下方有可签约的策略</div>
+                            <div className="tip fs-12">
+                              最下方有可签约的策略
+                            </div>
                           </div>
                         ) : null}
                         {currentExhibitId === currentExhibit.exhibitId &&
@@ -405,6 +407,31 @@ export default function Auth(props: contractProps) {
                               );
                             }
                           )}
+                        {currentExhibitId === currentExhibit.exhibitId &&
+                          !!currentExhibit.contracts.length && (
+                            <div className="flex-row mt-10 ">
+                              <div className="fs-14 fc-less">
+                                查看已终止的合约请移至
+                              </div>
+                              <div
+                                onClick={() => {
+                                  window.open(
+                                    "http://user.testfreelog.com/logged/contract"
+                                  );
+                                }}
+                                className="ml-10 fs-14 fc-blue cur-pointer hover-light"
+                              >
+                                合约管理
+                              </div>
+                            </div>
+                          )}
+                        {currentExhibitId === currentExhibit.exhibitId &&
+                          currentExhibit.policiesActive.length -
+                          currentExhibit.contracts.length? (
+                            <div className="fs-12 fc-grey flex-1 fw-bold mt-20 ">
+                              可签约的策略
+                            </div>
+                          ) : null}
                         {currentExhibitId === currentExhibit.exhibitId &&
                           currentExhibit.policiesActive.map(
                             (policy: any, index: number) => {
