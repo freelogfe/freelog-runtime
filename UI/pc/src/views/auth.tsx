@@ -385,7 +385,7 @@ export default function Auth(props: contractProps) {
                         }
                       >
                         {currentExhibitId === currentExhibit.exhibitId &&
-                        currentExhibit.defaulterIdentityType === 4 ? (
+                        currentExhibit.defaulterIdentityType !== 4 ? (
                           <div className="policy-tip flex-row align-center mt-15 px-10">
                             <i className="iconfont mr-5 fs-14 fc-error">&#xe62e;</i>
                             <div className="tip fs-12">
