@@ -50,10 +50,10 @@ export default function Contract(props: ItemProps) {
     if (props.contract.status !== 1) {
       authStatus = "未授权";
       authClass = "bg-auth-non";
-      if ([2,3].includes(props.contract.authStatus) && window.isTest) {
+      if ([2, 3].includes(props.contract.authStatus) && window.isTest) {
         authStatus = "已授权";
         authClass = "bg-auth";
-      } else if ([1,3].includes(props.contract.authStatus)) {
+      } else if ([1, 3].includes(props.contract.authStatus)) {
         authStatus = "已授权";
         authClass = "bg-auth";
       }
@@ -103,10 +103,11 @@ export default function Contract(props: ItemProps) {
         return true;
       }
     });
+    getRecords(true);
   }, [props.contract]);
-  async function getRecords() {
+  async function getRecords(init?:boolean) {
     if (records.length >= totalItem && totalItem > -1) {
-      setUnFold(true);
+      !init && setUnFold(true);
       return;
     }
 
@@ -198,7 +199,7 @@ export default function Contract(props: ItemProps) {
     });
     setTotalItem(res.data.data.totalItem);
     setRecords([...records, ...recordsArr]);
-    setUnFold(true);
+    !init && setUnFold(true);
   }
   function onChange(e: any) {
     setEventIndex(parseInt(e.target.value));
@@ -210,10 +211,10 @@ export default function Contract(props: ItemProps) {
   function paymentFinish(status: number) {
     if (status === 2) {
       setIsModalVisible(false);
-      setTimeout(()=>{
+      setTimeout(() => {
         props.paymentFinish();
-      },10)
-      return
+      }, 10);
+      return;
     }
     props.paymentFinish();
   }
@@ -268,21 +269,19 @@ export default function Contract(props: ItemProps) {
                 <div className="contract-tip fs-12">
                   当前无授权，请选择执行事件
                 </div>
-                {
-                  currentStatus.tec > 1 && (
-                    <Button
-                      color="primary"
-                      size="small"
-                      className="fs-14"
-                      disabled={eventIndex === -1}
-                      onClick={() => {
-                        payEvent();
-                      }}
-                    >
-                      支付
-                    </Button>
-                  )
-                }
+                {currentStatus.tec > 1 && (
+                  <Button
+                    color="primary"
+                    size="small"
+                    className="fs-14"
+                    disabled={eventIndex === -1}
+                    onClick={() => {
+                      payEvent();
+                    }}
+                  >
+                    支付
+                  </Button>
+                )}
               </div>
               {/* 可选事件 */}
               <div>
@@ -297,10 +296,13 @@ export default function Contract(props: ItemProps) {
                           return (
                             <div
                               className={
-                                "event-card flex-row " + (currentStatus.tec === 1
+                                "event-card flex-row " +
+                                (currentStatus.tec === 1
                                   ? "event-card-one "
                                   : " p-10 event-card-more mt-10 ") +
-                                (index !== eventIndex || currentStatus.tec === 1? "" : "event-selected")
+                                (index !== eventIndex || currentStatus.tec === 1
+                                  ? ""
+                                  : "event-selected")
                               }
                               key={index}
                             >
@@ -322,7 +324,9 @@ export default function Contract(props: ItemProps) {
                               <label htmlFor={event.origin.id}>
                                 <div className="flex-row event  align-center  ">
                                   <div className="mx-10 flex-row align-center pe-none ">
-                                    <span className={event.content ? "mr-10 ": ""}>
+                                    <span
+                                      className={event.content ? "mr-10 " : ""}
+                                    >
                                       {event.content}
                                     </span>
                                     <span className="auth shrink-0">
@@ -479,25 +483,27 @@ export default function Contract(props: ItemProps) {
                     </div>
                   );
                 })}
-              <div className="fluent-record text-align-center cur-pointer select-none mt-20">
-                {!unfold ? (
-                  <div
-                    onClick={(e) => {
-                      getRecords();
-                    }}
-                  >
-                    展开流转记录 <DownOutlined />
-                  </div>
-                ) : (
-                  <div
-                    onClick={(e) => {
-                      setUnFold(false);
-                    }}
-                  >
-                    收起流转记录 <UpOutlined />
-                  </div>
-                )}
-              </div>
+              {totalItem > 0 && (
+                <div className="fluent-record text-align-center cur-pointer select-none mt-20">
+                  {!unfold ? (
+                    <div
+                      onClick={(e) => {
+                        getRecords();
+                      }}
+                    >
+                      展开流转记录 <DownOutlined />
+                    </div>
+                  ) : (
+                    <div
+                      onClick={(e) => {
+                        setUnFold(false);
+                      }}
+                    >
+                      收起流转记录 <UpOutlined />
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
             <div className="contract-code pt-12">
               <div>合同编号： {props.contract.contractId}</div>

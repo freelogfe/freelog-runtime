@@ -10,6 +10,7 @@ import PolicyContent from "../policy/_components/policyContent";
 import frequest from "@/services/handler";
 import contract from "@/services/api/modules/contract";
 import { Tabs } from "antd";
+import { truncate } from "lodash";
 const { TabPane } = Tabs;
 
 var moment = require("moment");
@@ -104,10 +105,11 @@ export default function Contract(props: ItemProps) {
       }
       return false;
     });
+    getRecords(true);
   }, [props.contract]);
-  async function getRecords() {
+  async function getRecords(init?: boolean) {
     if (records.length >= totalItem && totalItem > -1) {
-      setUnFold(true);
+      !init && setUnFold(true);
       return;
     }
 
@@ -201,7 +203,7 @@ export default function Contract(props: ItemProps) {
     });
     setTotalItem(res.data.data.totalItem);
     setRecords([...records, ...recordsArr]);
-    setUnFold(true);
+    !init && setUnFold(true);
   }
   function onChange(e: any) {
     setEventIndex(e.target.value);
@@ -408,9 +410,7 @@ export default function Contract(props: ItemProps) {
                                 <div
                                   className={
                                     "event-card p-10 mt-10 flex-column " +
-                                    (event._finished
-                                      ? "event-finished"
-                                      : "")
+                                    (event._finished ? "event-finished" : "")
                                   }
                                   key={index}
                                 >
@@ -465,25 +465,27 @@ export default function Contract(props: ItemProps) {
                   </div>
                 );
               })}
-            <div className="fluent-record text-align-center cur-pointer select-none mt-20">
-              {!unfold ? (
-                <div
-                  onClick={(e) => {
-                    getRecords();
-                  }}
-                >
-                  展开完整流转记录 <DownOutlined />
-                </div>
-              ) : (
-                <div
-                  onClick={(e) => {
-                    setUnFold(false);
-                  }}
-                >
-                  收起流转记录 <UpOutlined />
-                </div>
-              )}
-            </div>
+            {totalItem > 0 && (
+              <div className="fluent-record text-align-center cur-pointer select-none mt-20">
+                {!unfold ? (
+                  <div
+                    onClick={(e) => {
+                      getRecords();
+                    }}
+                  >
+                    展开完整流转记录 <DownOutlined />
+                  </div>
+                ) : (
+                  <div
+                    onClick={(e) => {
+                      setUnFold(false);
+                    }}
+                  >
+                    收起流转记录 <UpOutlined />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           <div className="contract-code pt-12">
             合同编号 {props.contract.contractId} | 签约时间{" "}
