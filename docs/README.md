@@ -894,7 +894,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | exhibitId             | string   | 展品 ID                                                    |
 | exhibitName           | string   | 展品名称                                                   |
 | referee               | int      | 做出授权结果的标的物服务类型(1:作品服务 2:展品服务)        |
-| defaulterIdentityType | int      | 授权不通过责任方(0:无 1:作品 2:节点 3:c 端消费者 128:未知) |
+| defaulterIdentityType | int      | 授权不通过责任方(0:无 1:作品 2:节点 4:c 端消费者 128:未知) |
 | authCode              | int      | 授权码                                                     |
 | isAuth                | boolean  | 是否授权通过                                               |
 | errorMsg              | string   | 错误信息                                                   |

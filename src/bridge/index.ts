@@ -1,5 +1,5 @@
 import { SUCCESS, FAILED, USER_CANCEL, DATA_ERROR, TEST_NODE } from "./event";
-import { getExhibitInfo } from "../platform/structure/api";
+import { getExhibitInfo,getExhibitAuthStatus } from "../platform/structure/api";
 export const exhibitQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
 export const failedMap = new Map<any, any>();
@@ -41,11 +41,13 @@ export async function addAuth(
     isLoadContract: 1,
     isTranslate: 1
   });
+  const authData = await getExhibitAuthStatus(exhibitId)
   if(response.data.errCode){
     return Promise.resolve({status: DATA_ERROR, data: response.data})
   }
   const data = response.data.data;
   data.contracts = data.contracts || []
+  data.defaulterIdentityType = authData.data.data[0].defaulterIdentityType
   const arr = eventMap.get(exhibitId)?.callBacks || [];
   return new Promise((resolve, rej) => {
     arr.push({

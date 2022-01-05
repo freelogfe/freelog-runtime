@@ -123,6 +123,7 @@ export default function Auth(props: contractProps) {
   }, [props.events]);
   useEffect(() => {
     if (props.isLogin) return;
+    console.log(currentExhibit);
     if (currentExhibit) {
       //  && currentExhibit.exhibitId !== currentExhibitId
       getDetail(currentExhibit.exhibitId);
@@ -384,6 +385,15 @@ export default function Auth(props: contractProps) {
                         }
                       >
                         {currentExhibitId === currentExhibit.exhibitId &&
+                        currentExhibit.defaulterIdentityType === 4 ? (
+                          <div className="policy-tip flex-row align-center mt-15 px-10">
+                            <i className="iconfont mr-5 fs-14 fc-error">&#xe62e;</i>
+                            <div className="tip fs-12">
+                              当前展品授权存在异常，请联系节点运营商！
+                            </div>
+                          </div>
+                        ) : null}
+                        {currentExhibitId === currentExhibit.exhibitId &&
                         currentExhibit.contracts.length &&
                         currentExhibit.policiesActive.length -
                           currentExhibit.contracts.length ? (
@@ -426,12 +436,12 @@ export default function Auth(props: contractProps) {
                             </div>
                           )}
                         {currentExhibitId === currentExhibit.exhibitId &&
-                          currentExhibit.policiesActive.length -
-                          currentExhibit.contracts.length? (
-                            <div className="fs-12 fc-grey flex-1 fw-bold mt-20 ">
-                              可签约的策略
-                            </div>
-                          ) : null}
+                        currentExhibit.policiesActive.length -
+                          currentExhibit.contracts.length ? (
+                          <div className="fs-12 fc-grey flex-1 fw-bold mt-20 ">
+                            可签约的策略
+                          </div>
+                        ) : null}
                         {currentExhibitId === currentExhibit.exhibitId &&
                           currentExhibit.policiesActive.map(
                             (policy: any, index: number) => {
