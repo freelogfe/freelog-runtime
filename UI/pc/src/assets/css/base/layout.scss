@@ -42,7 +42,21 @@
 .justify-center {
   justify-content: center;
 }
+.jself-center {
+  justify-self: center;
+}
 
+.jself-start {
+  justify-self: flex-start;
+}
+
+.jself-end {
+  justify-self: flex-end;
+}
+
+.jself-baseline {
+  justify-self: baseline;
+}
 .flex-1 {
   flex: 1;
 }

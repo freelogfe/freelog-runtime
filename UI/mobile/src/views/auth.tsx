@@ -245,7 +245,7 @@ export default function Auth(props: contractProps) {
               setThemeCancel(false);
             }}
             size="small"
-            className="theme-tip-button text-center"
+            className="theme-tip-button "
           >
             {currentExhibit &&
             currentExhibit.contracts &&
@@ -365,7 +365,7 @@ export default function Auth(props: contractProps) {
               : null}
           </Popup>
           {props.isAuths && currentExhibit ? (
-            <div className="flex-column w-100x h-100x over-h">
+            <div className="flex-column w-100x h-100x over-h space-between">
               <div className="flex-column justify-center bb-1">
                 <div className="text-center mt-20 fs-16 fc-main fw-bold">
                   签约
@@ -424,7 +424,7 @@ export default function Auth(props: contractProps) {
                   </div>
                 )}
               </div>
-              <div className="flex-column flex-1 over-h">
+              <div className="flex-column flex-1 over-h w-100x">
                 <div className="w-100x h-100x y-auto pb-20">
                   {currentExhibitId === currentExhibit.exhibitId &&
                   currentExhibit.defaulterIdentityType !== 4 ? (
@@ -512,7 +512,7 @@ export default function Auth(props: contractProps) {
               </div>
 
               {getCurrentUser() ? null : (
-                <div className="h-74 w-100x flex-row justify-center align-center bt-1">
+                <div className="h-74 w-100x flex-row justify-center align-center jself-end bt-1 ">
                   <span className="please-login mr-20">
                     进行签约及授权管理，请先登录
                   </span>

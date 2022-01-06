@@ -62,7 +62,21 @@
 .self-baseline {
   align-self: baseline;
 }
+.jself-center {
+  justify-self: center;
+}
 
+.jself-start {
+  justify-self: flex-start;
+}
+
+.jself-end {
+  justify-self: flex-end;
+}
+
+.jself-baseline {
+  justify-self: baseline;
+}
 .text-center {
   display: flex;
   flex-flow: column;
