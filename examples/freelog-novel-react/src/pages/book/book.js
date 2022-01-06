@@ -19,7 +19,7 @@ function Book(props) {
         })
       })
     }
-    console.log(bookResource)
+    console.log(bookResource, res)
     setBookInfo({...res.data.data[0], intro: bookResource.intro})
     const chaptersRes = await window.freelogApp.getExhibitListByPaging({ articleResourceTypes: "chapter", tags: res.data.data[0].exhibitName, isLoadVersionProperty: 1})
     let chaptersData = chaptersRes.data.data.dataList

@@ -6,10 +6,8 @@ import "./App.scss";
 
   
 import Home from "./pages/Home";
-import { VConsole } from 'vconsole';
 
 // or init with options
-const vConsole = new VConsole({ maxLogNumber: 1000 });
 
 // call `console` methods as usual
 console.log('Hello world');

@@ -28,10 +28,10 @@ export async function addAuth(
   exhibitId: any,
   options?: any
 ) {
-  if(window.isTest) {
-    Promise.resolve({status: TEST_NODE, data: null})
-    return
-  }
+  // if(window.isTest) {
+  //   Promise.resolve({status: TEST_NODE, data: null})
+  //   return
+  // }
   // @ts-ignore
   const that = this;
   const name = that.name;
