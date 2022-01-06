@@ -23,7 +23,17 @@
 .bg-error {
     background-color: $error;
 }
+.bg-success-minor {
+    background-color: $success-minor;
+}
 
+.bg-warn-minor {
+    background-color: $warn-minor;
+}
+
+.bg-error-minor {
+    background-color: $error-minor;
+}
 .bg-main {
     background-color: $bt-main;
 }

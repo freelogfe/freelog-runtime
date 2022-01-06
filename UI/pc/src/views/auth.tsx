@@ -386,9 +386,9 @@ export default function Auth(props: contractProps) {
                       >
                         {currentExhibitId === currentExhibit.exhibitId &&
                         currentExhibit.defaulterIdentityType !== 4 ? (
-                          <div className="policy-tip flex-row align-center mt-15 px-10">
+                          <div className="error-tip flex-row align-center mt-15 px-10 bg-error-minor">
                             <i className="iconfont mr-5 fs-14 fc-error">&#xe62e;</i>
-                            <div className="tip fs-12">
+                            <div className=" fw-regular fs-12 fc-error ">
                               当前展品授权存在异常，请联系节点运营商！
                             </div>
                           </div>

@@ -428,15 +428,15 @@ export default function Auth(props: contractProps) {
                 <div className="w-100x h-100x y-auto pb-20">
                   {currentExhibitId === currentExhibit.exhibitId &&
                   currentExhibit.defaulterIdentityType !== 4 ? (
-                    <div className="policy-tip flex-row align-center mt-15 px-10">
+                    <div className="error-tip flex-row align-center mt-15 mx-15 px-10 bg-error-minor">
                       <i className="iconfont mr-5 fs-14 fc-error">&#xe62e;</i>
-                      <div className="tip fs-12">
+                      <div className="fs-12 fc-error ">
                         当前展品授权存在异常，请联系节点运营商！
                       </div>
                     </div>
                   ) : null}
-                  <div className="flex-row ml-15 space-between align-center mt-15">
-                    <div className="fs-12 fc-grey flex-1 fw-bold">当前合约</div>
+                  <div className="flex-row ml-15 mr-5 space-between align-center mt-15">
+                    <div className="fs-12 fc-grey flex-1 fw-bold shrink-0">当前合约</div>
                     {currentExhibitId === currentExhibit.exhibitId &&
                     currentExhibit.contracts.length &&
                     currentExhibit.policiesActive.length -
@@ -445,7 +445,10 @@ export default function Auth(props: contractProps) {
                         <i className="iconfont mr-5 fs-14">&#xe641;</i>
                         <div className="tip fs-12">最下方有可签约的策略</div>
                       </div>
-                    ) : null}
+                    ) : <div className="policy-tip flex-row align-center  px-10">
+                    <i className="iconfont mr-5 fs-14">&#xe641;</i>
+                    <div className="tip fs-12">最下方有可签约的策略</div>
+                  </div>}
                   </div>
                   {currentExhibitId === currentExhibit.exhibitId &&
                     currentExhibit.contracts.map(
