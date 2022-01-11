@@ -5,7 +5,7 @@ import { getSubDep, getUserInfo, isMobile } from "./utils";
 import { freelogApp } from "./global";
 import { freelogAuth } from "./freelogAuth";
 import { init } from "./api";
-import { dev } from "./dev";
+import { dev, DEV_FALSE } from "./dev";
 import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
 import VConsole from 'vconsole';
@@ -68,7 +68,7 @@ export function initNode() {
         });
         init();
         const devData = dev()
-        if(devData.config.vconsole){
+        if(devData.type !== DEV_FALSE && devData.config.vconsole){
           window.vconsole = new VConsole()
         }
         Object.freeze(devData);
