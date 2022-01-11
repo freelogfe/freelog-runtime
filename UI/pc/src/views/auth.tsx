@@ -387,7 +387,9 @@ export default function Auth(props: contractProps) {
                         {currentExhibitId === currentExhibit.exhibitId &&
                         currentExhibit.defaulterIdentityType !== 4 ? (
                           <div className="error-tip flex-row align-center mt-15 px-10 bg-error-minor">
-                            <i className="iconfont mr-5 fs-14 fc-error">&#xe62e;</i>
+                            <i className="iconfont mr-5 fs-14 fc-error">
+                              &#xe62e;
+                            </i>
                             <div className=" fw-regular fs-12 fc-error ">
                               当前展品授权存在异常，请联系节点运营商！
                             </div>
@@ -402,6 +404,12 @@ export default function Auth(props: contractProps) {
                             <div className="tip fs-12">
                               最下方有可签约的策略
                             </div>
+                          </div>
+                        ) : null}
+                        {currentExhibitId === currentExhibit.exhibitId &&
+                        currentExhibit.contracts.length ? (
+                          <div className="fs-12 fc-grey flex-1 fw-bold shrink-0 mt-15">
+                            当前合约
                           </div>
                         ) : null}
                         {currentExhibitId === currentExhibit.exhibitId &&

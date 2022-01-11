@@ -190,8 +190,6 @@ export default function Auth(props: contractProps) {
       licenseeIdentityType: 3,
       isWaitInitial: 1,
     });
-    if (res.data.isAuth) {
-    }
     const isAuth = res.data.data.some((item: any) => {
       if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
         Toast.show({
@@ -436,7 +434,12 @@ export default function Auth(props: contractProps) {
                     </div>
                   ) : null}
                   <div className="flex-row ml-15 mr-5 space-between align-center mt-15">
-                    <div className="fs-12 fc-grey flex-1 fw-bold shrink-0">当前合约</div>
+                    {currentExhibitId === currentExhibit.exhibitId &&
+                    currentExhibit.contracts.length ? (
+                      <div className="fs-12 fc-grey flex-1 fw-bold shrink-0">
+                        当前合约
+                      </div>
+                    ) : null}
                     {currentExhibitId === currentExhibit.exhibitId &&
                     currentExhibit.contracts.length &&
                     currentExhibit.policiesActive.length -
@@ -445,10 +448,7 @@ export default function Auth(props: contractProps) {
                         <i className="iconfont mr-5 fs-14">&#xe641;</i>
                         <div className="tip fs-12">最下方有可签约的策略</div>
                       </div>
-                    ) : <div className="policy-tip flex-row align-center  px-10">
-                    <i className="iconfont mr-5 fs-14">&#xe641;</i>
-                    <div className="tip fs-12">最下方有可签约的策略</div>
-                  </div>}
+                    ) : null}
                   </div>
                   {currentExhibitId === currentExhibit.exhibitId &&
                     currentExhibit.contracts.map(

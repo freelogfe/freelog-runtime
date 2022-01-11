@@ -79,6 +79,6 @@
     "cross-env": "^7.0.3",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
-    "vconsole": "^3.9.5"
+    "vconsole": "^3.11.0"
   }
 }

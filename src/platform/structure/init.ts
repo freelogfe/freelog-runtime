@@ -8,6 +8,8 @@ import { init } from "./api";
 import { dev } from "./dev";
 import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
+import VConsole from 'vconsole';
+
 const mobile = isMobile()
 // @ts-ignore
 const uiPath = process.env.NODE_ENV === 'development'
@@ -65,7 +67,10 @@ export function initNode() {
           },
         });
         init();
-        const devData = dev();
+        const devData = dev()
+        if(devData.config.vconsole){
+          window.vconsole = new VConsole()
+        }
         Object.freeze(devData);
         freelogApp.devData = devData;
         Object.freeze(freelogApp);

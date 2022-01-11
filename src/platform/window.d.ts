@@ -7,4 +7,5 @@ interface Window {
     freelogAuth: any;
     global: any;
     userId: string;
+    vconsole: any;
 }

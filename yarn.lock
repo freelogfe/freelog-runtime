@@ -1774,18 +1774,6 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fortawesome/fontawesome-common-types@^0.2.36":
-  version "0.2.36"
-  resolved "https://registry.npmmirror.com/@fortawesome/fontawesome-common-types/download/@fortawesome/fontawesome-common-types-0.2.36.tgz#b44e52db3b6b20523e0c57ef8c42d315532cb903"
-  integrity sha1-tE5S2ztrIFI+DFfvjELTFVMsuQM=
-
-"@fortawesome/free-solid-svg-icons@^5.15.3":
-  version "5.15.4"
-  resolved "https://registry.npmmirror.com/@fortawesome/free-solid-svg-icons/download/@fortawesome/free-solid-svg-icons-5.15.4.tgz#2a68f3fc3ddda12e52645654142b9e4e8fbb6cc5"
-  integrity sha1-Kmjz/D3doS5SZFZUFCueTo+7bMU=
-  dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.2.36"
-
 "@humanwhocodes/config-array@^0.5.0":
   version "0.5.0"
   resolved "https://registry.npmmirror.com/@humanwhocodes/config-array/download/@humanwhocodes/config-array-0.5.0.tgz?cache=0&sync_timestamp=1635880461804&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40humanwhocodes%2Fconfig-array%2Fdownload%2F%40humanwhocodes%2Fconfig-array-0.5.0.tgz#1407967d4c6eecd7388f83acf1eaf4d0c6e58ef9"
@@ -12300,11 +12288,6 @@ supports-color@^8.0.0:
   dependencies:
     has-flag "^4.0.0"
 
-svelte-fa@^2.2.1:
-  version "2.4.0"
-  resolved "https://registry.npmmirror.com/svelte-fa/download/svelte-fa-2.4.0.tgz?cache=0&sync_timestamp=1637307820789&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fsvelte-fa%2Fdownload%2Fsvelte-fa-2.4.0.tgz#d94285151a975b92b29efec6ec9e2c11c57780ef"
-  integrity sha512-0bnbMGbsE1LUnlioDcf27tl2O8kjuXlTXMXzIxC7LoIOWmqn0D+zd539HfLiQbdLuOHGTaynwN9V+4ehhEu1Jw==
-
 svg-tags@^1.0.0:
   version "1.0.0"
   resolved "https://registry.nlark.com/svg-tags/download/svg-tags-1.0.0.tgz#58f71cee3bd519b59d4b2a843b6c7de64ac04764"
@@ -13115,17 +13098,15 @@ vary@~1.1.2:
   resolved "https://registry.nlark.com/vary/download/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-vconsole@^3.9.5:
-  version "3.9.5"
-  resolved "https://registry.npmmirror.com/vconsole/download/vconsole-3.9.5.tgz?cache=0&sync_timestamp=1636528139815&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fvconsole%2Fdownload%2Fvconsole-3.9.5.tgz#c05d4b26eebb5de3e754963c06fa85118c515200"
-  integrity sha512-myecIEw9dvszjLPsodHc1W+zgGyP8939iO7JrcboF88gHTgRijdH3gMKT3QtWS1r/5EhtDOsGG7paRC9TX9hBQ==
+vconsole@^3.11.0:
+  version "3.11.0"
+  resolved "https://registry.npmmirror.com/vconsole/download/vconsole-3.11.0.tgz#85021630fa171d763eca852922d01d90f07123ea"
+  integrity sha512-DZ6WrSy+5ep11FWxq89DHv8we83rCCrGZaZqlHEXZ+wCvivFd6kfo8OizIP5iQZ0Ynf8Qxj3UfnilFp4HtTVcA==
   dependencies:
-    "@fortawesome/free-solid-svg-icons" "^5.15.3"
     cookie-storage "^6.1.0"
     copy-text-to-clipboard "^3.0.1"
     core-js "^3.11.0"
     mutation-observer "^1.0.3"
-    svelte-fa "^2.2.1"
 
 vendors@^1.0.0:
   version "1.0.4"
