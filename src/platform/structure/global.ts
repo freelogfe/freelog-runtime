@@ -10,8 +10,10 @@ import {
   setViewport,
   callLogin,
   callLoginOut,
+  reload,
 } from "./utils";
 import { callAuth, addAuth, onLogin } from "../../bridge/index";
+import { isUserChange } from "../security";
 import {
   getExhibitListById,
   getExhibitListByPaging,
@@ -21,7 +23,7 @@ import {
   getExhibitFileStream,
   getExhibitDepFileStream,
   getExhibitInfoByAuth,
-  getExhibitDepInfo
+  getExhibitDepInfo,
 } from "./api";
 let devData = "";
 export const freelogApp: any = {
@@ -49,4 +51,6 @@ export const freelogApp: any = {
   setUserData,
   getUserData,
   getSelfConfig,
+  isUserChange,
+  reload,
 };

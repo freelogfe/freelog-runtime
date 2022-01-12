@@ -441,6 +441,13 @@ const userData = await window.freelogApp.getUserData(key);
  window.freelogApp.callLoginOut()
 ```
 
+## reload
+
+```ts
+ **整个网页重载（仅主题可用，插件可访问主题开发者提供的方法进行全局刷新）**
+ window.freelogApp.reload()
+```
+
 ## setViewport
 
 ```ts

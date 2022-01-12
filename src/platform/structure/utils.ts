@@ -3,7 +3,8 @@
 import { baseUrl } from "../../services/base";
 import { getExhibitInfoByAuth } from "./api";
 import { widgetsConfig, widgetUserData, sandBoxs, FREELOG_DEV } from "./widget";
-import frequest, { initUserCheck } from "../../services/handler";
+import frequest from "../../services/handler";
+import { initUserCheck }  from '../security'
 import user from "../../services/api/modules/user";
 import node from "../../services/api/modules/node";
 import { addAuth, goLogin, goLoginOut } from "../../bridge/index";
@@ -203,7 +204,14 @@ export function getStaticPath(path: string) {
   // @ts-ignore
   return widgetsConfig.get(this.name).entry + path;
 }
+const rawLocation = window.location
 
+export function reload(){
+  // @ts-ignore
+  if (widgetsConfig.get(this.name).isTheme) {
+    rawLocation.reload();
+  } 
+}
 const immutableKeys = ["width"];
 const viewPortValue = {
   width: "device-width", // immutable

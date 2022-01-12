@@ -5055,6 +5055,11 @@ dns-txt@^2.0.2:
   dependencies:
     buffer-indexof "^1.0.0"
 
+doc-cookies@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/doc-cookies/-/doc-cookies-1.1.0.tgz#bf7a4e2b708d137463e10acc45a60d39e3a91a9f"
+  integrity sha512-dHjaBAGQKBAQ4j5uwOlVeENrBhpSurlRYRnpsAxoOBhZyNLkvhvr1qcDqrv8uwy41Z3P5RulHhKxnHm7MlEnRA==
+
 docsearch.js@^2.5.2:
   version "2.6.3"
   resolved "https://registry.npm.taobao.org/docsearch.js/download/docsearch.js-2.6.3.tgz#57cb4600d3b6553c677e7cbbe6a734593e38625d"

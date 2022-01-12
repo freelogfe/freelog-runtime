@@ -2,15 +2,12 @@ import axios from "./request";
 import { placeHolder, baseConfig } from "./base";
 import { compareObjects } from "../utils/utils";
 import { setPresentableQueue } from "../bridge/index";
-import docCookies from 'doc-cookies'
+import { isUserChange } from '../platform/security'
 const noAuthCode = [301, 302, 303, 304, 305, 306, 307];
 const authCode = [200, 201, 202, 203];
 const errorAuthCode = [401, 402, 403, 501, 502, 503, 504, 505, 900, 901];
 export const nativeOpen = XMLHttpRequest.prototype.open;
-let inited = false
-export function initUserCheck(){
-inited = true
-}
+
 /**
  *
  * @param action api namespace.apiName
@@ -24,15 +21,7 @@ export default function frequest(
   returnUrl?: boolean,
   config?: any
 ): any {
-  // let uid = docCookies.getItem('uid')
-  // uid = uid? uid : ''
-  // if(inited && uid !== window.userId){
-  //   window.location.reload()
-  //   return 
-  // }
-  // // 有页面登出后，还处于登录状态的页面处理方式
-  // if(inited && window.userId && !uid){
-  //   window.location.reload()
+  // if(isUserChange()){
   //   return 
   // }
   // @ts-ignore
@@ -83,7 +72,9 @@ export default function frequest(
     let query = "";
     if (_api.params) {
       Object.keys(_api.params).forEach((key) => {
-        query = query?  query + "&" + key + "=" + _api.params[key] :  key + "=" + _api.params[key];
+        query = query
+          ? query + "&" + key + "=" + _api.params[key]
+          : key + "=" + _api.params[key];
       });
     }
     if (query) {
@@ -121,18 +112,18 @@ export default function frequest(
           if (
             noAuthCode.includes(resData.authCode) &&
             (caller.exhibitId || caller.articleIdOrName)
-          ) {            
+          ) {
             setPresentableQueue(exhibitId, {
               widget: caller.name,
               authCode: resData.authCode,
-              contracts: resData.data? resData.data.contracts : [],
-              policies: resData.data? resData.data.policies : [],
+              contracts: resData.data ? resData.data.contracts : [],
+              policies: resData.data ? resData.data.policies : [],
               exhibitName,
               exhibitId,
               articleNid,
               resourceType,
               subDep,
-              versionInfo: {exhibitProperty},
+              versionInfo: { exhibitProperty },
               ...resData,
             });
             resolve({
@@ -143,19 +134,19 @@ export default function frequest(
               articleNid,
               resourceType,
               subDep,
-              versionInfo: {exhibitProperty},
+              versionInfo: { exhibitProperty },
               ...resData,
             });
           } else if (errorAuthCode.includes(resData.authCode)) {
             resolve({
-              authErrorType: 2, 
+              authErrorType: 2,
               authCode: resData.authCode,
               exhibitName,
               exhibitId,
               articleNid,
               resourceType,
               subDep,
-              versionInfo: {exhibitProperty},
+              versionInfo: { exhibitProperty },
               ...resData,
             });
           } else {

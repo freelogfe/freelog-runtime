@@ -14,6 +14,9 @@ export default function frequest(
   returnUrl?: boolean,
   config?: any
 ): any {
+  // if(window.freelogApp.isUserChange()){
+  //   return 
+  // }
   let api = Object.assign({}, action);
   // type Api2 = Exclude<Api, 'url' | 'before' | 'after'>
   let url = api.url;

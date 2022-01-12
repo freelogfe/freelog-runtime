@@ -1,6 +1,9 @@
+import docCookies from "doc-cookies";
+
 /**
  * 目标：防止插件通过非运行时的途径调用接口
  */
+
 export function hookAJAX() {
   // @ts-ignore
   XMLHttpRequest.prototype.nativeOpen = XMLHttpRequest.prototype.open;
@@ -52,4 +55,24 @@ export function hookFetch() {
       return fet.value.apply(this, args);
     },
   });
+}
+let inited = false;
+export function initUserCheck() {
+  inited = true;
+}
+const rawLocation = window.location
+
+export function isUserChange(){
+  let uid = docCookies.getItem("uid");
+  uid = uid ? uid : "";
+  if (inited && uid !== window.userId) {
+    rawLocation.reload();
+    return true;
+  }
+  // 有页面登出后，还处于登录状态的页面处理方式
+  if (inited && window.userId && !uid) {
+    rawLocation.reload();
+    return true;
+  }
+  return false
 }
