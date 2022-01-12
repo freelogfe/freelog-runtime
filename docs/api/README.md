@@ -448,6 +448,13 @@ const userData = await window.freelogApp.getUserData(key);
  window.freelogApp.reload()
 ```
 
+## isUserChange
+
+```ts
+ **调用此方法发现用户切换后会刷新网页，否则返回false**
+ window.freelogApp.isUserChange()
+```
+
 ## setViewport
 
 ```ts
