@@ -1111,3 +1111,11 @@ const res = await window.freelogApp.getUserData(key);
 **目前仅支持最新的问题最少的最好的 viewport 兼容方案**
 
 **推荐使用 postcss-px-to-viewport 插件, 各框架具体使用方法请百度**
+
+## 移动端真机调试vconsole
+
+**将dev改成devconsole**
+
+此时无论移动端还是电脑端都会出现vconsole
+
+http://snnaenu.testfreelog.com/?devconsole=http://localhost:8081
