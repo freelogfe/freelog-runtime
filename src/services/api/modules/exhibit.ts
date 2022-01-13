@@ -75,6 +75,7 @@ const exhibit: Exhibit = {
       isLoadVersionProperty: "int",
       isLoadPolicyInfo: "int",
       isTranslate: "int",
+      tagQueryType: "int"
     },
   },
   getTestExhibitByPaging: {

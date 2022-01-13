@@ -661,6 +661,9 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | projection              | 可选 | string        | 指定返回的字段,多个用逗号分隔                                          |
 | keywords                | 可选 | string[1,100] | 搜索关键字,目前支持模糊搜索节点作品名称和作品名称                      |
 | isLoadVersionProperty   | 可选 | int           | 是否响应展品版本属性                                                   |
+| isLoadPolicyInfo        | 可选 | int           | 是否加载策略信息                                                   |
+| isTranslate             | 可选 | int           | 是否加载翻译信息                                                  |
+| tagQueryType            | 可选 | int           | tags的查询方式1:任意匹配一个标签 2:全部匹配所有标签 默认:1           |
 
 **返回说明：**
 
