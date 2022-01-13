@@ -472,7 +472,12 @@ export default function Contract(props: ItemProps) {
                       getRecords();
                     }}
                   >
-                    展开完整流转记录 <DownOutlined />
+                    {records.length >= totalItem
+                      ? "没有更多了 "
+                      : records.length
+                      ? "加载更多 "
+                      : "展开完整流转记录 "}
+                    <DownOutlined />
                   </div>
                 ) : (
                   <div
@@ -490,7 +495,6 @@ export default function Contract(props: ItemProps) {
             合同编号 {props.contract.contractId} | 签约时间{" "}
             {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm")}
           </div>
-          
         </TabPane>
         <TabPane tab="策略内容" key="2">
           <PolicyContent

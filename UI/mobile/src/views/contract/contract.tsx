@@ -105,7 +105,7 @@ export default function Contract(props: ItemProps) {
     });
     getRecords(true);
   }, [props.contract]);
-  async function getRecords(init?:boolean) {
+  async function getRecords(init?: boolean) {
     if (records.length >= totalItem && totalItem > -1) {
       !init && setUnFold(true);
       return;
@@ -491,7 +491,12 @@ export default function Contract(props: ItemProps) {
                         getRecords();
                       }}
                     >
-                      展开流转记录 <DownOutlined />
+                      {records.length >= totalItem
+                        ? "没有更多了 "
+                        : records.length
+                        ? "加载更多 "
+                        : "展开完整流转记录 "} 
+                      <DownOutlined />
                     </div>
                   ) : (
                     <div
