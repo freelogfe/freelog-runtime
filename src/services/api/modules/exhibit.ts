@@ -75,7 +75,7 @@ const exhibit: Exhibit = {
       isLoadVersionProperty: "int",
       isLoadPolicyInfo: "int",
       isTranslate: "int",
-      tagQueryType: "int"
+      tagQueryType: "int",
     },
   },
   getTestExhibitByPaging: {
@@ -94,6 +94,7 @@ const exhibit: Exhibit = {
       isLoadVersionProperty: "int",
       isLoadPolicyInfo: "int",
       isTranslate: "int",
+      tagQueryType: "int",
     },
   },
   // exhibitId  {result|info|fileStream}

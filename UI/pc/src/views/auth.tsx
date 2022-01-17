@@ -10,6 +10,7 @@ import Login from "./login";
 import contract from "@/services/api/modules/contract";
 import getBestTopology from "./topology/data";
 import Tip from "./_components/tip";
+import exhibit from '../../../../.history/src/services/api/modules/exhibit_20220114103208';
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
   window.freelogAuth;
@@ -56,6 +57,7 @@ export default function Auth(props: contractProps) {
     }, 10);
   }
   async function getDetail(id?: string) {
+    console.log(events)
     setSelectedPolicies([]);
     if (!id) {
       const userInfo: any = getCurrentUser();
@@ -282,8 +284,8 @@ export default function Auth(props: contractProps) {
               footer={null}
               visible={props.isAuths}
               onCancel={userCancel}
-              className={currentExhibit.isTheme ? "theme-height" : "h-620"}
-              width={currentExhibit.isTheme ? 600 : 860}
+              className={currentExhibit.isTheme || events.length === 1 ? "theme-height" : "h-620"}
+              width={currentExhibit.isTheme || events.length === 1 ? 600 : 860}
               keyboard={false}
               maskClosable={false}
               wrapClassName="freelog-contract"
@@ -314,7 +316,7 @@ export default function Auth(props: contractProps) {
                   <div className="w-100x flex-1 flex-row over-h">
                     <div className="w-100x h-100x  flex-row">
                       {/* 左：待授权展品列表 */}
-                      {!currentExhibit.isTheme && (
+                      {!currentExhibit.isTheme && events.length !== 1 && (
                         <div className="flex-column w-344 h-100x  y-auto">
                           {events.length
                             ? events.map((item: any, index: number) => {
@@ -380,10 +382,48 @@ export default function Auth(props: contractProps) {
                       {/* 右：策略或合约列表 */}
                       <div
                         className={
-                          (!currentExhibit.isTheme ? "w-516 " : "w-600") +
+                          (!currentExhibit.isTheme  && events.length !== 1 ? "w-516 " : "w-600") +
                           " bg-content h-100x   y-auto px-20 pb-20"
                         }
                       >
+                        {events.length === 1 &&
+                        !currentExhibit.isTheme  &&
+                        currentExhibitId === currentExhibit.exhibitId ? (
+                          <div className="flex-column py-10 px-20 single-exhibit mt-15">
+                            <div className="single-exhibit-name text-ellipsis" title={currentExhibit.exhibitName}>{currentExhibit.exhibitName}</div>
+                            {!currentExhibit.contracts.length ? null : (
+                              <div className="flex-row pt-10">
+                                {currentExhibit.contracts.map(
+                                  (contract: any, index: number) => {
+                                    return (
+                                      <div
+                                        className={
+                                          "contract-tag flex-row align-center mr-5"
+                                        }
+                                        key={index}
+                                      >
+                                        <div className="contract-name">
+                                          {contract.contractName}
+                                        </div>
+                                        <div
+                                          className={
+                                            "contract-dot ml-6 " +
+                                            (contract.authStatus === 128
+                                              ? "bg-auth-none"
+                                              : !window.isTest &&
+                                                contract.authStatus === 1
+                                              ? "bg-auth"
+                                              : "bg-auth-none")
+                                          }
+                                        ></div>
+                                      </div>
+                                    );
+                                  }
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        ) : null}
                         {currentExhibitId === currentExhibit.exhibitId &&
                         currentExhibit.defaulterIdentityType !== 4 ? (
                           <div className="error-tip flex-row align-center mt-15 px-10 bg-error-minor">

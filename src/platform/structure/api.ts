@@ -85,13 +85,13 @@ export async function getExhibitSignCount(exhibitId: string) {
 export async function getExhibitAuthStatus(exhibitIds: string) {
   if (isTest) {
     return frequest(exhibit.getTestExhibitAuthStatus, [nodeId], {
-      authType: 4,
+      authType: window.isTest ? 3 : 4,
       exhibitIds,
     });
   }
   // @ts-ignore
   return frequest(exhibit.getExhibitAuthStatus, [nodeId], {
-    authType: 4,
+    authType: window.isTest ? 3 : 4,
     exhibitIds,
   });
 }
