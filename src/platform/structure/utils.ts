@@ -263,6 +263,7 @@ export function setViewport(keys: any) {
 // }
 
 export async function setUserData(key: string, data: any) {
+  key = window.isTest ? key + '-test' : key
   // TODO 必须验证格式正确
   // @ts-ignore
   const name = this.name;
@@ -284,6 +285,7 @@ export async function setUserData(key: string, data: any) {
 }
 
 export async function getUserData(key: string) {
+  key = window.isTest ? key + '-test' : key
   // @ts-ignore
   const name = this.name;
   let userData = widgetUserData.get(name);
