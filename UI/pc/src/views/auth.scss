@@ -55,13 +55,17 @@
   }
 }
 
+.ant-modal-content {
+  border-radius: 4px !important;
+  overflow: hidden;
+}
 .freelog-confirm {
   .ant-modal-content {
-    border-radius: 6px !important;
+    border-radius: 4px !important;
+    overflow: hidden;
   }
 
   .ant-modal-header {
-    border-radius: 6px !important;
     padding: 30px 24px !important;
     border-bottom: none !important;
 

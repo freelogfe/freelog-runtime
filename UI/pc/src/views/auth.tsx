@@ -57,7 +57,6 @@ export default function Auth(props: contractProps) {
     }, 10);
   }
   async function getDetail(id?: string) {
-    console.log(events)
     setSelectedPolicies([]);
     if (!id) {
       const userInfo: any = getCurrentUser();
@@ -125,7 +124,6 @@ export default function Auth(props: contractProps) {
   }, [props.events]);
   useEffect(() => {
     if (props.isLogin) return;
-    console.log(currentExhibit);
     if (currentExhibit) {
       //  && currentExhibit.exhibitId !== currentExhibitId
       getDetail(currentExhibit.exhibitId);
