@@ -109,7 +109,6 @@ const authWhiteList = [
 export function ajaxProxy(type: string, name: string) {
   // @ts-ignore
   if (type === "fetch") {
-    return rawFetch
     return function (url: string, options: any, widgetWindow: any) {
       options = options || {};
       const base = url.split(".com")[0] + ".com";
@@ -127,7 +126,6 @@ export function ajaxProxy(type: string, name: string) {
     };
   }
   if (type === "XMLHttpRequest") {
-    return XMLHttpRequest
     var customizeOpen = function (
       method: any,
       url: any,
