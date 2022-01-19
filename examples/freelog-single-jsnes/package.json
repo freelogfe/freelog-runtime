@@ -1,0 +1,29 @@
+{
+  "name": "freelog-single-jsnes",
+  "version": "0.0.1",
+  "description": "A freelog widget",
+  "main": "index.js",
+  "scripts": {
+    "dev": "freelog-cli-service serve --internal",
+    "build": "freelog-cli-service build",
+    "authInfo": "freelog-cli-service authInfo",
+    "upload": "freelog-scripts upload",
+    "release": "freelog-scripts release"
+  },
+  "keywords": [],
+  "author": "wwzh",
+  "license": "MIT",
+  "freelogConfig": {
+    "type": "widget",
+    "meta": {}
+  },
+  "devDependencies": {
+    "@freelog/cli-service": "^0.1.15",
+    "@freelog/freelog-scripts": "^0.0.18",
+    "raw-loader": "^4.0.1"
+  },
+  "dependencies": {
+    "joypad.js": "^2.1.5",
+    "jsnes": "^1.1.0"
+  }
+}

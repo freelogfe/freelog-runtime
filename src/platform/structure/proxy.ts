@@ -109,6 +109,7 @@ const authWhiteList = [
 export function ajaxProxy(type: string, name: string) {
   // @ts-ignore
   if (type === "fetch") {
+    return rawFetch
     return function (url: string, options: any, widgetWindow: any) {
       options = options || {};
       const base = url.split(".com")[0] + ".com";
@@ -126,6 +127,7 @@ export function ajaxProxy(type: string, name: string) {
     };
   }
   if (type === "XMLHttpRequest") {
+    return XMLHttpRequest
     var customizeOpen = function (
       method: any,
       url: any,
@@ -197,7 +199,7 @@ export function setLocation() {
       devUrl = devUrl + "/";
     }
     const url =
-      rawLocation.origin +
+      rawLocation.origin + "/" +
       devUrl +
       "$_" +
       hash.replace("?", "_") +
@@ -274,7 +276,13 @@ export const createHistoryProxy = function (name: string) {
       // return;
     }
     let [pathname, search] = href.split("?");
-    locationCenter.set(name, { pathname, href, search: search? '?' + search : '', hash, routerType });
+    locationCenter.set(name, {
+      pathname,
+      href,
+      search: search ? "?" + search : "",
+      hash,
+      routerType,
+    });
   }
   function pushPatch() {
     if (moveLock) return;
@@ -371,7 +379,7 @@ export const createLocationProxy = function (name: string) {
           return function () {};
         }
         if (["currentURL"].indexOf(property) > -1) {
-          return rawLocation.href
+          return rawLocation.href;
         }
         if (["reload"].indexOf(property) > -1) {
           // TODO 增加是否保留数据
@@ -390,7 +398,8 @@ export const createLocationProxy = function (name: string) {
                     reject && reject();
                   }
                 );
-              },true
+              },
+              true
             );
           };
         }
@@ -440,7 +449,7 @@ export const createDocumentProxy = function (name: string) {
   rawDocument.getElementsByTagNameNS =
     rootDoc.getElementsByTagNameNS.bind(rootDoc);
   rawDocument.querySelectorAll = rootDoc.querySelectorAll.bind(rootDoc);
-  rawDocument.addEventListener = rootDoc.addEventListener.bind(rootDoc);
+  // rawDocument.addEventListener = rootDoc.addEventListener.bind(rootDoc);
   rawDocument.removeEventListener = rootDoc.removeEventListener.bind(rootDoc);
   rawDocument.body.appendChild = rootDoc.appendChild.bind(rootDoc);
   rawDocument.body.removeChild = rootDoc.removeChild.bind(rootDoc);

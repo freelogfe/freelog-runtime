@@ -66,7 +66,7 @@ const exhibit: Exhibit = {
       skip: "int",
       limit: "int",
       articleResourceTypes: "string",
-      omitWorkResourceType: "string",
+      omitArticleResourceType: "string",
       onlineStatus: "int",
       tags: "string",
       projection: "string",
@@ -85,7 +85,7 @@ const exhibit: Exhibit = {
       skip: "int",
       limit: "int",
       articleResourceTypes: "string",
-      omitWorkResourceType: "string",
+      omitArticleResourceType: "string",
       onlineStatus: "int",
       sort: "string",
       tags: "string",
@@ -104,7 +104,7 @@ const exhibit: Exhibit = {
     dataModel: {
       parentNid: "string", // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
       subArticleIdOrName: "string", // 子依赖的作品ID作品名称
-      subWorkType: "string", // 子依赖的作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象)
+      subArticleType: "string", // 子依赖的作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象)
       subFilePath: "string", // 主题或插件的压缩包内部子作品,需要带相对路径
     },
   },
@@ -115,7 +115,7 @@ const exhibit: Exhibit = {
     dataModel: {
       parentNid: "string",
       subArticleIdOrName: "string",
-      subWorkType: "string",
+      subArticleType: "string",
       subFilePath: "string",
     },
   },
