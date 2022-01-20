@@ -2666,10 +2666,11 @@
                     var t = this;
                     this.toggleClass(this.$loading, "visible", "add");
                     var e = this.dataset,
-                        i = "红白机"
+                        i = "魂斗罗"
                     const url  = await window.freelogApp.getExhibitFileStream('61e7b893f04747002e473d63', true)  
+                    // 'http://localhost:7105/Contra'
                     console.log(url)
-                    return this.$nesTitle.innerHTML = i, Z(this.$canvas, 'http://localhost:7105/Contra', !1).then(function () {
+                    return this.$nesTitle.innerHTML = i, Z(this.$canvas, url, !1).then(function () {
                         tt(t.defaultKeysMap), t.toggleClass(t.$loading, "visible", "delete")
                     }).catch(function (e) {
                         console.error(e), t.toggleClass(t.$loading, "visible", "delete")

@@ -142,8 +142,10 @@ export function ajaxProxy(type: string, name: string) {
         // @ts-ignore
         nativeOpen.bind(this)(method, url, async, user, password);
       }
-      // TODO 使用假错误正常返回
-      return "can not request data from freelog.com directly!";
+      // @ts-ignore
+      nativeOpen.bind(this)(method, url, async, user, password);
+      // TODO 使用假错误正常返回  暂时无法使用
+      // return "can not request data from freelog.com directly!";
     };
     // @ts-ignore
     XMLHttpRequest.prototype.open = customizeOpen;
