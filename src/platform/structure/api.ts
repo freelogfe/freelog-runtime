@@ -1,5 +1,6 @@
 import frequest from "../../services/handler";
 import exhibit from "../../services/api/modules/exhibit";
+import contract from "../../services/api/modules/contract";
 let isTest = false;
 if (
   window.location.href
@@ -60,6 +61,14 @@ export async function getExhibitListByPaging(query: any): Promise<any> {
     }
   );
 }
+export async function getSignStatistics(query:any) {
+  // @ts-ignore
+  return frequest(contract.getSignStatistics, "", {
+    signUserIdentityType: 2,
+    nodeId,
+    ...query
+  });
+}
 export async function getExhibitInfo(exhibitId: string, query: any) {
   if (isTest)
     // @ts-ignore
@@ -67,12 +76,19 @@ export async function getExhibitInfo(exhibitId: string, query: any) {
   // @ts-ignore
   return frequest(exhibit.getExhibitDetail, [nodeId, exhibitId], query);
 }
-export async function getExhibitDepInfo(exhibitId: string, articleNids: string) {
+export async function getExhibitDepInfo(
+  exhibitId: string,
+  articleNids: string
+) {
   if (isTest)
     // @ts-ignore
-    return frequest(exhibit.getExhibitDepInfo, [nodeId, exhibitId], {articleNids});
+    return frequest(exhibit.getExhibitDepInfo, [nodeId, exhibitId], {
+      articleNids,
+    });
   // @ts-ignore
-  return frequest(exhibit.getTestExhibitDepInfo, [nodeId, exhibitId], {articleNids});
+  return frequest(exhibit.getTestExhibitDepInfo, [nodeId, exhibitId], {
+    articleNids,
+  });
 }
 
 export async function getExhibitSignCount(exhibitId: string) {
@@ -187,5 +203,3 @@ export async function getExhibitDepFileStream(
     config
   );
 }
-
- 

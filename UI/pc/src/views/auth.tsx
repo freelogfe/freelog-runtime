@@ -10,7 +10,6 @@ import Login from "./login";
 import contract from "@/services/api/modules/contract";
 import getBestTopology from "./topology/data";
 import Tip from "./_components/tip";
-import exhibit from '../../../../.history/src/services/api/modules/exhibit_20220114103208';
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
   window.freelogAuth;
