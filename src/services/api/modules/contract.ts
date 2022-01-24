@@ -72,7 +72,8 @@ const contract: Contract = {
     method: "GET",
     // dataModel: {
     //   nodeId: 'string', // subjectType=2&signUserIdentityType=2
-    //   signUserIdentityType: 'int'
+    //   signUserIdentityType: 'int',
+    //   keywords: "string"
     // },
   }
 };

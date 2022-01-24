@@ -97,9 +97,9 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | projection              | 可选 | string        | 指定返回的字段,多个用逗号分隔                                          |
 | keywords                | 可选 | string[1,100] | 搜索关键字,目前支持模糊搜索节点作品名称和作品名称                      |
 | isLoadVersionProperty   | 可选 | int           | 是否响应展品版本属性                                                   |
-| isLoadPolicyInfo        | 可选 | int           | 是否加载策略信息                                                   |
-| isTranslate             | 可选 | int           | 是否加载翻译信息                                                  |
-| tagQueryType            | 可选 | int           | tags的查询方式1:任意匹配一个标签 2:全部匹配所有标签 默认:1           |
+| isLoadPolicyInfo        | 可选 | int           | 是否加载策略信息                                                       |
+| isTranslate             | 可选 | int           | 是否加载翻译信息                                                       |
+| tagQueryType            | 可选 | int           | tags 的查询方式 1:任意匹配一个标签 2:全部匹配所有标签 默认:1           |
 
 **返回说明：**
 
@@ -308,6 +308,31 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | authCode              | int      | 授权码                                                     |
 | isAuth                | boolean  | 是否授权通过                                               |
 | errorMsg              | string   | 错误信息                                                   |
+
+## getSignStatistics
+
+**统计展品签约量**
+
+```ts
+  const res = await window.freelogApp.getSignStatistics(
+    keywords: string
+  )
+
+  **参数说明**
+
+    keywords: 搜索关键字
+
+```
+
+**返回说明**
+
+| 返回值字段     | 字段类型 | 字段说明     |
+| :------------- | :------- | :----------- |
+| subjectId      | string   | 标的物 ID    |
+| subjectName    | string   | 标的物名称   |
+| policyIds      | string[] | 签约的策略   |
+| latestSignDate | date     | 最后签约日期 |
+| count          | int      | 签约次数     |
 
 ## devData
 
