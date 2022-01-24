@@ -1,12 +1,18 @@
 .user-register {
-
+    input{
+        font-size: 16px !important;
+    }
     .register-title {
         font-size: 40px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #222222;
     }
-
+    .adm-button{
+        height: 48px !important;
+        font-size: 16px;
+    }
+    
     .logo {
         color: #2c2c2c;
         font-size: 52px;

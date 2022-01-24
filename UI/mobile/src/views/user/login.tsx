@@ -4,6 +4,7 @@ import { Popup, Button, Toast } from "antd-mobile";
 
 import { useState } from "react";
 import "./login.scss";
+import logoImage from '../../assets/image/logo-feather.png'
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 
 interface loginProps {
@@ -68,8 +69,10 @@ export default function Login(props: loginProps) {
           &#xe637;
         </i>
         <div className="flex-1 w-100x flex-column align-center">
-          <i className="iconfont  mt-50 mb-20 logo">&#xe614;</i>
-
+          {/* <i className="iconfont  mt-50 mb-20 logo">&#xe614;</i> */}
+          <div className="login-logo text-center h-36 w-100x mt-57 mb-20">
+            <img src={logoImage} className="h-100x" alt="" />
+          </div>
           <div className="login-title mb-46 flex-row justify-center">
             免费专业的作品发行和运营平台
           </div>
