@@ -336,9 +336,9 @@ export const createHistoryProxy = function (name: string) {
     : {};
   const length = getHistory(name).length;
   const historyProxy = {
+    ...window.history,
     // @ts-ignore
     length: length,
-    ...window.history,
     pushState: pushPatch,
     replaceState: replacePatch,
     state,

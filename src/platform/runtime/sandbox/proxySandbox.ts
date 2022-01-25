@@ -316,7 +316,7 @@ export default class ProxySandbox implements SandBox {
         // mark the symbol to document while accessing as document.createElement could know is invoked by which sandbox for dynamic append patcher
         if (p === "history") {
           // TODO 如果是单应用模式（提升性能）则不用代理
-          proxyHis = proxyHis || createHistoryProxy(name);
+          proxyHis = createHistoryProxy(name) // proxyHis || createHistoryProxy(name);
           return proxyHis;
         }
         if (p === "childWidgets") {

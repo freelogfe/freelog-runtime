@@ -11,6 +11,7 @@ export default function Chapter(props) {
   const scrollRef = useRef(null);
 
   async function getChapter(index) {
+    console.log(window.history)
     if (chapters[index]) {
       let ch = await window.freelogApp.getExhibitFileStream(chapters[index].exhibitId)
       if (ch.authErrorType) {
