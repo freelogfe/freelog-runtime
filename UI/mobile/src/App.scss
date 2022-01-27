@@ -1,11 +1,5 @@
 
 
-@font-face {
-	font-family: 'freelog';  /* Project id 1522685 */
-	src: url('//at.alicdn.com/t/font_1522685_jcgmo30dh8j.woff2?t=1634204578444') format('woff2'),
-		 url('//at.alicdn.com/t/font_1522685_jcgmo30dh8j.woff?t=1634204578444') format('woff'),
-		 url('//at.alicdn.com/t/font_1522685_jcgmo30dh8j.ttf?t=1634204578444') format('truetype');
-  }
 
 .iconfont {
 	font-family: "freelog" !important;
@@ -15,3 +9,9 @@
 	-webkit-text-stroke-width: 0.2px;
 	-moz-osx-font-smoothing: grayscale;
 }
+@font-face {
+	font-family: 'freelog';  /* Project id 1522685 */
+	src: url('//at.alicdn.com/t/font_1522685_eswcphk9het.woff2?t=1643273048899') format('woff2'),
+		 url('//at.alicdn.com/t/font_1522685_eswcphk9het.woff?t=1643273048899') format('woff'),
+		 url('//at.alicdn.com/t/font_1522685_eswcphk9het.ttf?t=1643273048899') format('truetype');
+  }

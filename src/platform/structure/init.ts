@@ -40,6 +40,10 @@ export function initNode() {
     Promise.all([requestNodeInfo(nodeDomain), getUserInfo()]).then(
       async (values) => {
         let nodeData = values[0];
+        if(!nodeData.data){
+          confirm("节点网址不正确，请检查网址！")
+          return
+        }
         const userInfo = values[1];
         const nodeInfo = nodeData.data;
         freelogApp.nodeInfo = nodeInfo;
