@@ -22,6 +22,13 @@
   color: white;
 }
 
+.kind-tip {
+  font-size: 12px;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  color: #7A869A;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -59,6 +66,7 @@
   border-radius: 4px !important;
   overflow: hidden;
 }
+
 .freelog-confirm {
   .ant-modal-content {
     border-radius: 4px !important;

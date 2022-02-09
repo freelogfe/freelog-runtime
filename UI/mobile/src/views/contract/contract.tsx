@@ -297,7 +297,7 @@ export default function Contract(props: ItemProps) {
                             <div
                               className={
                                 "event-card flex-row " +
-                                (currentStatus.tec === 1
+                                (currentStatus.tec === 1 || event.origin.name !== "TransactionEvent"
                                   ? "event-card-one "
                                   : " p-10 event-card-more mt-10 ") +
                                 (index !== eventIndex || currentStatus.tec === 1
@@ -483,7 +483,7 @@ export default function Contract(props: ItemProps) {
                     </div>
                   );
                 })}
-              {totalItem > 0 && (
+              {totalItem > 1 && (
                 <div className="fluent-record text-align-center cur-pointer select-none mt-20">
                   {!unfold ? (
                     <div

@@ -98,6 +98,19 @@ export async function getExhibitSignCount(exhibitId: string) {
     subjectType: 2,
   });
 }
+export async function getExhibitAvailalbe(exhibitIds: string) {
+  if (isTest) {
+    return frequest(exhibit.getTestExhibitAuthStatus, [nodeId], {
+      authType: 3 ,
+      exhibitIds,
+    });
+  }
+  // @ts-ignore
+  return frequest(exhibit.getExhibitAuthStatus, [nodeId], {
+    authType: 3,
+    exhibitIds,
+  });
+}
 export async function getExhibitAuthStatus(exhibitIds: string) {
   if (isTest) {
     return frequest(exhibit.getTestExhibitAuthStatus, [nodeId], {

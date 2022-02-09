@@ -445,7 +445,7 @@ export default function Auth(props: contractProps) {
                         ) : null}
                         {currentExhibitId === currentExhibit.exhibitId &&
                         currentExhibit.contracts.length ? (
-                          <div className="fs-12 fc-grey flex-1 fw-bold shrink-0 mt-15">
+                          <div className="kind-tip flex-1  shrink-0 mt-15">
                             当前合约
                           </div>
                         ) : null}
@@ -483,7 +483,7 @@ export default function Auth(props: contractProps) {
                         {currentExhibitId === currentExhibit.exhibitId &&
                         currentExhibit.policiesActive.length -
                           currentExhibit.contracts.length ? (
-                          <div className="fs-12 fc-grey flex-1 fw-bold mt-20 ">
+                          <div className="kind-tip flex-1  mt-20 ">
                             可签约的策略
                           </div>
                         ) : null}
