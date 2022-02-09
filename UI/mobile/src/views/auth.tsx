@@ -425,7 +425,7 @@ export default function Auth(props: contractProps) {
               <div className="flex-column flex-1 over-h w-100x">
                 <div className="w-100x h-100x y-auto pb-20">
                   {currentExhibitId === currentExhibit.exhibitId &&
-                  currentExhibit.defaulterIdentityType !== 4 ? (
+                  !currentExhibit.isAvailable ? (
                     <div className="error-tip flex-row align-center mt-15 mx-15 px-10 bg-error-minor">
                       <i className="iconfont mr-5 fs-14 fc-error">&#xe62e;</i>
                       <div className="fs-12 fc-error ">

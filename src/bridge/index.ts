@@ -1,5 +1,9 @@
 import { SUCCESS, FAILED, USER_CANCEL, DATA_ERROR, TEST_NODE } from "./event";
-import { getExhibitInfo,getExhibitAuthStatus } from "../platform/structure/api";
+import {
+  getExhibitInfo,
+  getExhibitAuthStatus,
+  getExhibitAvailalbe,
+} from "../platform/structure/api";
 export const exhibitQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
 export const failedMap = new Map<any, any>();
@@ -24,10 +28,7 @@ export function setPresentableQueue(name: string, value: any) {
 }
 let uiInited = false;
 // 公共非展品事件UI， 后面考虑
-export async function addAuth(
-  exhibitId: any,
-  options?: any
-) {
+export async function addAuth(exhibitId: any, options?: any) {
   // if(window.isTest) {
   //   Promise.resolve({status: TEST_NODE, data: null})
   //   return
@@ -35,52 +36,71 @@ export async function addAuth(
   // @ts-ignore
   const that = this;
   const name = that.name;
-  const response = await getExhibitInfo(exhibitId, {
-    isLoadPolicyInfo: 1,
-    isLoadVersionProperty: 1,
-    isLoadContract: 1,
-    isTranslate: 1
-  });
-  const authData = await getExhibitAuthStatus(exhibitId)
-  if(response.data.errCode){
-    return Promise.resolve({status: DATA_ERROR, data: response.data})
-  }
-  const data = response.data.data;
-  data.contracts = data.contracts || []
-  data.defaulterIdentityType = authData.data.data[0].defaulterIdentityType
+  // const response = await getExhibitInfo(exhibitId, {
+  //   isLoadPolicyInfo: 1,
+  //   isLoadVersionProperty: 1,
+  //   isLoadContract: 1,
+  //   isTranslate: 1,
+  // });
+  // const authData = await getExhibitAuthStatus(exhibitId)
+  // if(response.data.errCode){
+  //   return Promise.resolve({status: DATA_ERROR, data: response.data})
+  // }
+  // const data = response.data.data;
+  // data.contracts = data.contracts || []
+  // data.defaulterIdentityType = authData.data.data[0].defaulterIdentityType
   const arr = eventMap.get(exhibitId)?.callBacks || [];
   return new Promise((resolve, rej) => {
-    arr.push({
-      resolve,
-      options,
-      widgetName: name
-    });
-    let id = exhibitId;
-    eventMap.set(id, {
-      isTheme: that.isTheme,
-      eventId: id, // 后期evnetId是要与prsesentableId区分开来的
-      ...data,
-      callBacks: arr,
-    });
-    if (options && options.immediate) {
-      if (!uiInited) {
-        UI && UI();
-      } else {
-        if (locked) {
-          setTimeout(() => {
-            updateUI && updateUI();
-          }, 0);
+    Promise.all([
+      getExhibitInfo(exhibitId, {
+        isLoadPolicyInfo: 1,
+        isLoadVersionProperty: 1,
+        isLoadContract: 1,
+        isTranslate: 1,
+      }),
+      getExhibitAuthStatus(exhibitId),
+      getExhibitAvailalbe(exhibitId),
+    ]).then((response) => {
+      if (response[1].data.errCode) {
+        resolve({ status: DATA_ERROR, data: response[1].data });
+        return;
+      }
+      const data = response[0].data.data;
+      data.contracts = data.contracts || [];
+      data.defaulterIdentityType = response[1].data.data[0].defaulterIdentityType;
+      data.isAvailable = response[2].data.data[0].isAuth;
+      arr.push({
+        resolve,
+        options,
+        widgetName: name,
+      });
+      let id = exhibitId;
+      eventMap.set(id, {
+        isTheme: that.isTheme,
+        eventId: id, // 后期evnetId是要与prsesentableId区分开来的
+        ...data,
+        callBacks: arr,
+      });
+      if (options && options.immediate) {
+        if (!uiInited) {
+          UI && UI();
         } else {
-          updateUI && updateUI();
+          if (locked) {
+            setTimeout(() => {
+              updateUI && updateUI();
+            }, 0);
+          } else {
+            updateUI && updateUI();
+          }
         }
       }
-    }
 
-    uiInited = true;
-  })
+      uiInited = true;
+    });
+  });
 }
 export function callAuth() {
-  if(window.isTest) return
+  if (window.isTest) return;
   if (!uiInited) {
     UI && UI();
   } else {
@@ -93,10 +113,10 @@ export function callAuth() {
     }
   }
 }
-export function clearEvent(){
+export function clearEvent() {
   eventMap.clear();
-  lowerUI()
-  uiInited = false
+  lowerUI();
+  uiInited = false;
 }
 export function updateEvent(event: any) {
   if (!event) return eventMap;
@@ -108,7 +128,7 @@ function removeEvent(eventId?: string) {
     eventMap.delete(eventId);
   } else {
     eventMap.clear();
-    uiInited = false
+    uiInited = false;
   }
   if (locked) {
     setTimeout(() => {
@@ -124,23 +144,23 @@ export function endEvent(eventId: string, type: number, data: any) {
   switch (type) {
     case SUCCESS:
       eventMap.get(eventId).callBacks.forEach((item: any) => {
-        item.resolve({status: SUCCESS, data} );
+        item.resolve({ status: SUCCESS, data });
       });
       exhibitQueue.delete(eventId);
       removeEvent(eventId);
       break;
     case FAILED:
       eventMap.get(eventId).callBacks.forEach((item: any) => {
-        item.resolve({status: FAILED, data});
+        item.resolve({ status: FAILED, data });
       });
       exhibitQueue.delete(eventId);
       removeEvent(eventId);
       break;
     case USER_CANCEL:
-      uiInited = false
+      uiInited = false;
       eventMap.forEach((event: any) => {
         event.callBacks.forEach((item: any) => {
-          item.resolve({status: USER_CANCEL, data});
+          item.resolve({ status: USER_CANCEL, data });
         });
       });
       exhibitQueue.clear();
@@ -152,11 +172,11 @@ export function endEvent(eventId: string, type: number, data: any) {
 export const loginCallback: any = [];
 
 export function goLogin(resolve: Function) {
-  if(uiInited){
-    console.error("ui has been launched, can not callLogin")
-    return "ui has been launched, can not callLogin"
+  if (uiInited) {
+    console.error("ui has been launched, can not callLogin");
+    return "ui has been launched, can not callLogin";
   }
-  resolve && onLogin(resolve)
+  resolve && onLogin(resolve);
   loginUI && loginUI();
 }
 export function goLoginOut() {
@@ -173,7 +193,7 @@ export function upperUI() {
   widgetContainer.style.zIndex = 0;
 }
 export function lowerUI() {
-  uiInited = false
+  uiInited = false;
   // @ts-ignore
   uiRoot.style.zIndex = 0;
   // // @ts-ignore

@@ -281,7 +281,11 @@ export default function Auth(props: contractProps) {
               footer={null}
               visible={props.isAuths}
               onCancel={userCancel}
-              className={currentExhibit.isTheme || events.length === 1 ? "theme-height" : "h-620"}
+              className={
+                currentExhibit.isTheme || events.length === 1
+                  ? "theme-height"
+                  : "h-620"
+              }
               width={currentExhibit.isTheme || events.length === 1 ? 600 : 860}
               keyboard={false}
               maskClosable={false}
@@ -379,15 +383,22 @@ export default function Auth(props: contractProps) {
                       {/* 右：策略或合约列表 */}
                       <div
                         className={
-                          (!currentExhibit.isTheme  && events.length !== 1 ? "w-516 " : "w-600") +
+                          (!currentExhibit.isTheme && events.length !== 1
+                            ? "w-516 "
+                            : "w-600") +
                           " bg-content h-100x   y-auto px-20 pb-20"
                         }
                       >
                         {events.length === 1 &&
-                        !currentExhibit.isTheme  &&
+                        !currentExhibit.isTheme &&
                         currentExhibitId === currentExhibit.exhibitId ? (
                           <div className="flex-column py-10 px-20 single-exhibit mt-15">
-                            <div className="single-exhibit-name text-ellipsis" title={currentExhibit.exhibitName}>{currentExhibit.exhibitName}</div>
+                            <div
+                              className="single-exhibit-name text-ellipsis"
+                              title={currentExhibit.exhibitName}
+                            >
+                              {currentExhibit.exhibitName}
+                            </div>
                             {!currentExhibit.contracts.length ? null : (
                               <div className="flex-row pt-10">
                                 {currentExhibit.contracts.map(
@@ -422,7 +433,7 @@ export default function Auth(props: contractProps) {
                           </div>
                         ) : null}
                         {currentExhibitId === currentExhibit.exhibitId &&
-                        currentExhibit.defaulterIdentityType !== 4 ? (
+                        !currentExhibit.isAvailable ? (
                           <div className="error-tip flex-row align-center mt-15 px-10 bg-error-minor">
                             <i className="iconfont mr-5 fs-14 fc-error">
                               &#xe62e;
