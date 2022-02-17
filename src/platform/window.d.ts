@@ -8,4 +8,5 @@ interface Window {
     global: any;
     userId: string;
     vconsole: any;
+    ENV: string;
 }

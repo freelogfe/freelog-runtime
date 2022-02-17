@@ -28,6 +28,10 @@ if (
 ) {
   isTest = true;
 }
+window.ENV = 'freelog.com'
+if(window.location.host.includes('.testfreelog.com')){
+  window.ENV = 'testfreelog.com'
+}
 !mobile && document.querySelector.bind(document)('meta[name="viewport"]')?.setAttribute('content', "width=device-width, initial-scale=1.0") 
 window.isTest = isTest;
 window.freelogApp = freelogApp;

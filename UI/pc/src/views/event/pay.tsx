@@ -6,8 +6,10 @@ import frequest from "@/services/handler";
 import user from "@/services/api/modules/user";
 import event from "@/services/api/modules/event";
 import transaction from "@/services/api/modules/transaction";
-
+import { LoadingOutlined } from "@ant-design/icons";
 import Tip from "../_components/tip";
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
 const { getUserInfo } = window.freelogAuth;
 interface PayProps {
   isModalVisible: boolean;
@@ -27,15 +29,14 @@ export default function Pay(props: PayProps) {
   // 1: 支付中  2: 支付成功  3: 密码错误   4: 支付失败：需要考虑网络超时
   const [tipType, setTipType] = useState(0);
   const [focus, setFocus] = useState(0);
-
+  const [isActive, setIsActive] = useState(false);
   const [visible, setVisible] = useState(false);
   const [isTipVisible, setIsTipVisible] = useState(false);
   const [tipConfig, setTipConfig] = useState({
-    content: "签约成功",
+    content: "",
     type: "success",
     mask: false,
   });
-  const inputP = useRef(null);
   const [userAccount, setUserAccount] = useState<any>({});
   const input1 = useRef(null);
   const input2 = useRef(null);
@@ -57,20 +58,19 @@ export default function Pay(props: PayProps) {
     // @ts-ignore
     const res = await frequest(user.getAccount, [userInfo.userId], "");
     setUserAccount(res.data.data);
-    setTimeout(() => {
-      // @ts-ignore
-      inputP.current.focus();
-    }, 200);
+    setIsActive(res.data.data.status === 1)
   }
   useEffect(() => {
-    setPasswords(["", "", "", "", "", ""]);
-    setTimeout(() => {
-      // @ts-ignore
-      input0.current.focus();
-    }, 100);
     setVisible(props.isModalVisible);
-
-    props.isModalVisible && getAccount();
+    if (props.isModalVisible) {
+      setPasswords(["", "", "", "", "", ""]);
+      setTimeout(() => {
+        // @ts-ignore
+        input0.current.focus();
+      }, 100);
+      setIsTipVisible(false);
+      getAccount();
+    }
   }, [props.isModalVisible]);
   async function pay(password: any) {
     // TODO 防止多次点击
@@ -95,6 +95,7 @@ export default function Pay(props: PayProps) {
         }, 100);
         return;
       }
+      setIsTipVisible(true);
       setTipConfig({
         content: payResult.data.msg,
         type: "error",
@@ -109,6 +110,7 @@ export default function Pay(props: PayProps) {
       }, 1500);
       return;
     }
+    setIsTipVisible(true);
     setTipType(2);
     setTipConfig({
       content: "支付成功, 系统处理中...",
@@ -133,54 +135,6 @@ export default function Pay(props: PayProps) {
       }
     }, 2000);
   }
-  // async function pay(pass: any) {
-  //   // TODO 防止多次点击
-  //   if (loading) return;
-  //   setLoading(true);
-  //   const payResult = await frequest(event.pay, [props.contractId], {
-  //     eventId: props.eventId,
-  //     accountId: userAccount.accountId,
-  //     transactionAmount: props.transactionAmount,
-  //     password: pass,
-  //   });
-  //   setIsTipVisible(true);
-  //   if (payResult.data.errCode !== 0) {
-  //     setTipConfig({
-  //       content: payResult.data.msg,
-  //       type: "error",
-  //       mask: false,
-  //     });
-  //     setLoading(false);
-  //     return;
-  //   }
-
-  //   setTipConfig({
-  //     content: "支付成功, 系统处理中...",
-  //     type: "success",
-  //     mask: true,
-  //   });
-  //   // TODO 查交易状态, flag应该设为状态，在关闭弹窗时清除
-  //   const flag = setInterval(async () => {
-  //     const res: any = await frequest(
-  //       transaction.getRecord,
-  //       [payResult.data.data.transactionRecordId],
-  //       ""
-  //     );
-  //     const status = res.data.data.status;
-  //     if ([2, 3, 4].includes(status)) {
-  //       setLoading(false);
-  //       setIsTipVisible(false);
-  //       setTimeout(() => props.paymentFinish(status), 100);
-  //       window.clearInterval(flag);
-  //     }
-  //   }, 2000);
-
-  //   // setLoading(false);
-  //   //   eventId: "string",  contractId
-  //   //   accountId: "int",
-  //   //   transactionAmount: "string",
-  //   //   password: "string"
-  // }
   return (
     <Modal
       title="支付"
@@ -224,8 +178,31 @@ export default function Pay(props: PayProps) {
             </div>
           </div>
         </div>
-        <div className="text-center mt-40">
-          <div className="enter-tip mb-20">输入支付密码进行支付</div>
+        {!isActive ? (
+          <div className={"text-center my-40"}>
+            <div className="enter-tip mb-20">如需支付请先激活羽币账户</div>
+            <Button className="w-184 h-38 text-center" type="primary brs-10" click={()=>{
+              window.open("http://user." + window.ENV + "/logged/wallet");
+            }}>激活羽币账户</Button>
+          </div>
+        ) : null}
+        <div className={"text-center mt-40 " + (!isActive ? "d-none" : "")}>
+          {tipType === 0 ? (
+            <div className="enter-tip mb-20">输入支付密码进行支付</div>
+          ) : tipType === 1 ? (
+            <div className="mb-20">
+              <Spin
+                indicator={antIcon}
+                style={{ fontSize: "12px !important" }}
+              />
+              <span className="paying flex-1 ml-5">正在支付中...</span>
+            </div>
+          ) : null}
+          {tipType === 3 ? (
+            <div className="password-error mt-5 mb-20">
+              支付密码错误，请重新输入
+            </div>
+          ) : null}
           <div className={"" + (tipType === 3 ? "password-error-input" : "")}>
             {[0, 0, 0, 0, 0, 0].map((item: any, index: any) => {
               return (
@@ -238,6 +215,7 @@ export default function Pay(props: PayProps) {
                   value={passwords[index]}
                   onChange={(e: any) => {}}
                   onClick={(e: any) => {
+                    setTipType(0);
                     // @ts-ignore
                     inputs[focus].current.focus();
                   }}
@@ -284,7 +262,7 @@ export default function Pay(props: PayProps) {
           <div
             className="forgot-p cur-pointer"
             onClick={() => {
-              window.open("http://user.testfreelog.com/retrievePayPassword");
+              window.open("http://user." + window.ENV + "/retrievePayPassword");
             }}
           >
             忘记密码
