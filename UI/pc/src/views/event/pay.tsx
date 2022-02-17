@@ -67,7 +67,7 @@ export default function Pay(props: PayProps) {
       setTimeout(() => {
         // @ts-ignore
         input0.current.focus();
-      }, 100);
+      }, 200);
       setIsTipVisible(false);
       getAccount();
     }
@@ -87,11 +87,12 @@ export default function Pay(props: PayProps) {
     if (payResult.data.errCode !== 0) {
       if (payResult.data.data && payResult.data.data.code === "E1010") {
         setTipType(3);
-        setPasswords(["", "", "", "", "", ""]);
+        // setPasswords(["", "", "", "", "", ""]);
         setLoading(false);
+        // setFocus(0)
         setTimeout(() => {
           // @ts-ignore
-          input0.current.focus();
+          input5.current.focus();
         }, 100);
         return;
       }
@@ -102,6 +103,8 @@ export default function Pay(props: PayProps) {
         mask: false,
       });
       setTimeout(() => {
+        // setPasswords(["", "", "", "", "", ""]);
+        // setFocus(0)
         setLoading(false);
         setTimeout(() => {
           // @ts-ignore
