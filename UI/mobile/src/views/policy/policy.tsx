@@ -13,6 +13,7 @@ interface ItemProps {
   seq: number;
   loginFinished: any;
   setModalType: any;
+  isAvailable: boolean;
   getAuth: any;
   children?: any;
 }
@@ -62,7 +63,7 @@ export default function Policy(props: ItemProps) {
                 });
               }, 0);
             }}
-            disabled={!getCurrentUser()}
+            disabled={!getCurrentUser() || !props.isAvailable}
           >
             签约
           </Button>

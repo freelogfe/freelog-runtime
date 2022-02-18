@@ -505,6 +505,7 @@ export default function Auth(props: contractProps) {
                                   key={index}
                                   seq={index}
                                   getAuth={getAuth}
+                                  isAvailable={currentExhibit.isAvailable}
                                   policySelect={policySelect}
                                   selectType={
                                     currentExhibit.contracts.length
@@ -529,7 +530,7 @@ export default function Auth(props: contractProps) {
                       ) : null}
                       <Button
                         disabled={
-                          selectedPolicies.length === 0 && getCurrentUser()
+                          (selectedPolicies.length === 0 && getCurrentUser()) || !currentExhibit.isAvailable
                         }
                         click={act}
                         className={

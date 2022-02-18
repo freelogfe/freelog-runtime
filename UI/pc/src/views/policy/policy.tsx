@@ -17,6 +17,7 @@ interface ItemProps {
   selectType: boolean;
   policySelect: any;
   seq: number;
+  isAvailable: boolean;
   getAuth: any;
   children?: any;
 }
@@ -60,6 +61,7 @@ export default function Policy(props: ItemProps) {
                 props.policySelect(props.policy.policyId, true, true);
                 setVisible(true);
               }}
+              disabled={!props.isAvailable}
             >
               签约
             </Button>

@@ -12,6 +12,7 @@ import frequest from "@/services/handler";
 import contract from "@/services/api/modules/contract";
 // import getBestTopology from "./topology/data";
 import { Dialog, Popup, Button, Toast } from "antd-mobile"; // Toast, Button
+import { isCallable } from '../../../../src/platform/runtime/utils';
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
   window.freelogAuth;
@@ -502,6 +503,7 @@ export default function Auth(props: contractProps) {
                             loginFinished={loginFinished}
                             setModalType={setModalType}
                             getAuth={getAuth}
+                            isAvailable={currentExhibit.isAvailable}
                             policySelect={policySelect}
                             selectType={
                               currentExhibit.contracts.length ? true : true
