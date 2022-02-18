@@ -14,7 +14,7 @@ const mobile = isMobile()
 // @ts-ignore
 const uiPath = process.env.NODE_ENV === 'development'
   ? mobile
-    ? "http://ui.mobile.com" // "http://localhost:8881"
+    ? "http://localhost:8881" // "http://ui.mobile.com" 
     : "http://localhost:8880"
   : mobile
   ? "/mobile"
@@ -55,6 +55,8 @@ export function initNode() {
           const nothemeTip = document.getElementById.bind(document)("freelog-no-theme") 
           // @ts-ignore
           nothemeTip?.style.display = 'flex';
+          // @ts-ignore
+          nothemeTip?.style.paddingTop = mobile? '26vh' : '32vh';
           resolve()
           return
         }

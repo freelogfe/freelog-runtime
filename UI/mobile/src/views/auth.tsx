@@ -12,7 +12,7 @@ import frequest from "@/services/handler";
 import contract from "@/services/api/modules/contract";
 // import getBestTopology from "./topology/data";
 import { Dialog, Popup, Button, Toast } from "antd-mobile"; // Toast, Button
-import { isCallable } from '../../../../src/platform/runtime/utils';
+import { isCallable } from "../../../../src/platform/runtime/utils";
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
   window.freelogAuth;
@@ -138,7 +138,12 @@ export default function Auth(props: contractProps) {
         }
         return false;
       });
-    !isExist && events[0] && setCurrentExhibit(events[0]);
+    if (!isExist && events[0]) {
+      setCurrentExhibit(events[0]);
+      if (events[0].isTheme && !events[0].isAvailable) {
+        setThemeCancel(true);
+      }
+    }
   }, [props.events]);
   useEffect(() => {
     if (props.isLogin) return;
@@ -228,32 +233,59 @@ export default function Auth(props: contractProps) {
   return (
     <>
       {themeCancel ? (
-        <div className=" h-100x text-center ">
-          <div className="theme-tip mb-15 text-center">
-            当前节点主题未开放授权
-          </div>
-          <div className="theme-tip mb-30 text-center">
+        currentExhibit &&
+        currentExhibit.isTheme &&
+        !currentExhibit.isAvailable ? (
+          <div className="freelog-no-theme">
+            <div>
+              <img src="/failed.svg" alt="" />
+            </div>
+            <div className="no-theme-main-tip">节点异常，无法正常访问</div>
+            <div className="no-theme-second-tip">异常原因：主题授权链异常</div>
             {currentExhibit &&
             currentExhibit.contracts &&
-            currentExhibit.contracts.length
-              ? "继续浏览请获取授权"
-              : "继续浏览请签约并获取授权"}
+            currentExhibit.contracts.length ? (
+              <div className="mt-100">
+                <span className="no-theme-button-tip">已与当前主题签约</span>
+                <span
+                  className="no-theme-button ml-5 cur-pointer"
+                  onClick={() => {
+                    setThemeCancel(false);
+                  }}
+                >
+                  查看合约
+                </span>
+              </div>
+            ) : null}
           </div>
-          <Button
-            color="primary"
-            onClick={() => {
-              setThemeCancel(false);
-            }}
-            size="small"
-            className="theme-tip-button "
-          >
-            {currentExhibit &&
-            currentExhibit.contracts &&
-            currentExhibit.contracts.length
-              ? "获取收取"
-              : "签约"}
-          </Button>
-        </div>
+        ) : (
+          <div className=" h-100x text-center ">
+            <div className="theme-tip mb-15 text-center">
+              当前节点主题未开放授权
+            </div>
+            <div className="theme-tip mb-30 text-center">
+              {currentExhibit &&
+              currentExhibit.contracts &&
+              currentExhibit.contracts.length
+                ? "继续浏览请获取授权"
+                : "继续浏览请签约并获取授权"}
+            </div>
+            <Button
+              color="primary"
+              onClick={() => {
+                setThemeCancel(false);
+              }}
+              size="small"
+              className="theme-tip-button "
+            >
+              {currentExhibit &&
+              currentExhibit.contracts &&
+              currentExhibit.contracts.length
+                ? "获取收取"
+                : "签约"}
+            </Button>
+          </div>
+        )
       ) : (
         <div id="runtime-mobile" className="w-100x h-100x over-h">
           {modalType === 1 ? (
@@ -444,7 +476,9 @@ export default function Auth(props: contractProps) {
                     ) : null}
                     {currentExhibitId === currentExhibit.exhibitId &&
                     currentExhibit.contracts.length &&
-                    (currentExhibit.policiesActive.some((item:any)=>!item.contracted)) ? (
+                    currentExhibit.policiesActive.some(
+                      (item: any) => !item.contracted
+                    ) ? (
                       <div className="policy-tip flex-row align-center  px-10">
                         <i className="iconfont mr-5 fs-14">&#xe641;</i>
                         <div className="tip fs-12">最下方有可签约的策略</div>

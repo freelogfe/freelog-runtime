@@ -78,7 +78,7 @@ export default function Auth(props: contractProps) {
       }
       return;
     }
-    currentExhibit._contracts = [...currentExhibit.contracts]
+    currentExhibit._contracts = [...currentExhibit.contracts];
     currentExhibit.contracts = currentExhibit.contracts.filter((item: any) => {
       if ([0, 2].includes(item.status)) {
         currentExhibit.policies.some((i: any) => {
@@ -119,7 +119,12 @@ export default function Auth(props: contractProps) {
         }
         return false;
       });
-    !isExist && events[0] && setCurrentExhibit(events[0]);
+    if (!isExist && events[0]) {
+      setCurrentExhibit(events[0]);
+      if (events[0].isTheme && !events[0].isAvailable) {
+        setThemeCancel(true);
+      }
+    }
   }, [props.events]);
   useEffect(() => {
     if (props.isLogin) return;
@@ -229,27 +234,54 @@ export default function Auth(props: contractProps) {
   return (
     <>
       {themeCancel ? (
-        <div className="w-100x h-100x text-center">
-          <div className="theme-tip mb-30">
+        currentExhibit &&
+        currentExhibit.isTheme &&
+        !currentExhibit.isAvailable ? (
+          <div className="freelog-no-theme">
+            <div>
+              <img src="/failed.svg" alt="" />
+            </div>
+            <div className="no-theme-main-tip">节点异常，无法正常访问</div>
+            <div className="no-theme-second-tip">异常原因：主题授权链异常</div>
             {currentExhibit &&
             currentExhibit.contracts &&
-            currentExhibit.contracts.length
-              ? "节点主题授权未完成，继续浏览请获取授权"
-              : "当前节点主题未开放授权，继续浏览请签约并获取授权"}
+            currentExhibit.contracts.length ? (
+              <div className="mt-100">
+                <span className="no-theme-button-tip">已与当前主题签约</span>
+                <span
+                  className="no-theme-button ml-5 cur-pointer"
+                  onClick={() => {
+                    setThemeCancel(false);
+                  }}
+                >
+                  查看合约
+                </span>
+              </div>
+            ) : null}
           </div>
-          <Button
-            click={() => {
-              setThemeCancel(false);
-            }}
-            className="px-50 py-15"
-          >
-            {currentExhibit &&
-            currentExhibit.contracts &&
-            currentExhibit.contracts.length
-              ? "获取收取"
-              : "签约"}
-          </Button>
-        </div>
+        ) : (
+          <div className="w-100x h-100x text-center">
+            <div className="theme-tip mb-30">
+              {currentExhibit &&
+              currentExhibit.contracts &&
+              currentExhibit.contracts.length
+                ? "节点主题授权未完成，继续浏览请获取授权"
+                : "当前节点主题未开放授权，继续浏览请签约并获取授权"}
+            </div>
+            <Button
+              click={() => {
+                setThemeCancel(false);
+              }}
+              className="px-50 py-15"
+            >
+              {currentExhibit &&
+              currentExhibit.contracts &&
+              currentExhibit.contracts.length
+                ? "获取收取"
+                : "签约"}
+            </Button>
+          </div>
+        )
       ) : (
         <div className="runtime-pc bg-white" id="runtime-pc">
           {isModalVisible && (
@@ -445,7 +477,9 @@ export default function Auth(props: contractProps) {
                         ) : null}
                         {currentExhibitId === currentExhibit.exhibitId &&
                         currentExhibit.contracts.length &&
-                        (currentExhibit.policiesActive.some((item:any)=>!item.contracted)) ? (
+                        currentExhibit.policiesActive.some(
+                          (item: any) => !item.contracted
+                        ) ? (
                           <div className="policy-tip flex-row align-center mt-15 px-10">
                             <i className="iconfont mr-5 fs-14">&#xe641;</i>
                             <div className="tip fs-12">
@@ -473,7 +507,8 @@ export default function Auth(props: contractProps) {
                             }
                           )}
                         {currentExhibitId === currentExhibit.exhibitId &&
-                          (currentExhibit._contracts.length > currentExhibit.contracts.length) && (
+                          currentExhibit._contracts.length >
+                            currentExhibit.contracts.length && (
                             <div className="flex-row mt-10 ">
                               <div className="fs-14 fc-less">
                                 查看已终止的合约请移至
@@ -491,7 +526,9 @@ export default function Auth(props: contractProps) {
                             </div>
                           )}
                         {currentExhibitId === currentExhibit.exhibitId &&
-                        (currentExhibit.policiesActive.some((item:any)=>!item.contracted)) ? (
+                        currentExhibit.policiesActive.some(
+                          (item: any) => !item.contracted
+                        ) ? (
                           <div className="kind-tip flex-1  mt-20 ">
                             可签约的策略
                           </div>
@@ -530,7 +567,8 @@ export default function Auth(props: contractProps) {
                       ) : null}
                       <Button
                         disabled={
-                          (selectedPolicies.length === 0 && getCurrentUser()) || !currentExhibit.isAvailable
+                          (selectedPolicies.length === 0 && getCurrentUser()) ||
+                          !currentExhibit.isAvailable
                         }
                         click={act}
                         className={
