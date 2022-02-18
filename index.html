@@ -196,21 +196,47 @@
       height: 100%;
       display: none;
       z-index: 3;
+      display: flex;
+      flex-flow: column;
       font-size: 30px;
       font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;
       color: #666666;
       line-height: 36px;
-      padding-top: 40%;
       text-align: center;
+      padding-top: 20%;
       position: absolute;
       background: #F2F2F2;
+    }
+
+    .no-theme-main-tip {
+      font-size: 30px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #666666;
+      line-height: 36px;
+      margin-bottom: 30px;
+      margin-top: 40px;
+    }
+
+    .no-theme-second-tip {
+      font-size: 16px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #666666;
+      line-height: 22px;
     }
   </style>
 </head>
 
 <body>
-  <div id="freelog-no-theme">无主题或主题未激活</div>
+  <div id="freelog-no-theme">
+    <div>
+      <img src="/failed.svg" alt="">
+    </div>
+    <div class="no-theme-main-tip">节点异常，无法正常访问</div>
+    <div class="no-theme-second-tip">异常原因：未设置或未激活主题</div>
+  </div>
   <div id="ui-root"></div>
   <div id="freelog-plugin-container"></div>
   <!-- <script type="module" src="/src/main.ts"></script> -->

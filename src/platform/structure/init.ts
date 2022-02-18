@@ -54,7 +54,7 @@ export function initNode() {
         if((!nodeInfo.nodeThemeId && !isTest) || (!nodeInfo.nodeTestThemeId && isTest)){
           const nothemeTip = document.getElementById.bind(document)("freelog-no-theme") 
           // @ts-ignore
-          nothemeTip?.style.display = 'block';
+          nothemeTip?.style.display = 'flex';
           resolve()
           return
         }
@@ -89,7 +89,6 @@ export function initNode() {
           shadowDom: false,
           scopedCss: true,
         }).mountPromise.then(async () => {
-          // TODO 如果没有主题，需要提醒先签约主题才行，意味着开发主题需要先建一个节点和主题并签约
           const theme = await getSubDep(window.isTest? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId);
           freelogApp.mountWidget(
             theme,
