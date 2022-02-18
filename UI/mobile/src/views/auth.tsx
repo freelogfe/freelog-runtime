@@ -94,7 +94,7 @@ export default function Auth(props: contractProps) {
       }
       return;
     }
-    currentExhibit._contracts =currentExhibit.contracts
+    currentExhibit._contracts = currentExhibit.contracts;
     currentExhibit.contracts = currentExhibit.contracts.filter((item: any) => {
       if ([0, 2].includes(item.status)) {
         currentExhibit.policies.some((i: any) => {
@@ -437,14 +437,13 @@ export default function Auth(props: contractProps) {
                   <div className="flex-row ml-15 mr-5 space-between align-center mt-15">
                     {currentExhibitId === currentExhibit.exhibitId &&
                     currentExhibit.contracts.length ? (
-                      <div className="fs-12 fc-grey flex-1 fw-bold shrink-0">
+                      <div className="kind-tip flex-1 fw-bold shrink-0">
                         当前合约
                       </div>
                     ) : null}
                     {currentExhibitId === currentExhibit.exhibitId &&
                     currentExhibit.contracts.length &&
-                    currentExhibit.policiesActive.length -
-                      currentExhibit.contracts.length ? (
+                    (currentExhibit.policiesActive.some((item:any)=>!item.contracted)) ? (
                       <div className="policy-tip flex-row align-center  px-10">
                         <i className="iconfont mr-5 fs-14">&#xe641;</i>
                         <div className="tip fs-12">最下方有可签约的策略</div>
@@ -466,7 +465,8 @@ export default function Auth(props: contractProps) {
                       }
                     )}
                   {currentExhibitId === currentExhibit.exhibitId &&
-                    (currentExhibit._contracts.length > currentExhibit.contracts.length) && (
+                    currentExhibit._contracts.length >
+                      currentExhibit.contracts.length && (
                       <div className="flex-row mt-10 ml-15 ">
                         <div className="fs-14 fc-less">
                           查看已终止的合约请移至
@@ -484,9 +484,10 @@ export default function Auth(props: contractProps) {
                       </div>
                     )}
                   {currentExhibitId === currentExhibit.exhibitId &&
-                  currentExhibit.policiesActive.length -
-                    currentExhibit.contracts.length ? (
-                    <div className="fs-12 fc-grey flex-1 fw-bold mt-20 ml-15">
+                  currentExhibit.policiesActive.some(
+                    (item: any) => !item.contracted
+                  ) ? (
+                    <div className="kind-tip flex-1 fw-bold mt-20 ml-15">
                       可签约的策略
                     </div>
                   ) : null}

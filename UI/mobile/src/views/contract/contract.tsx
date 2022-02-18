@@ -127,7 +127,7 @@ export default function Contract(props: ItemProps) {
       [props.contract.contractId],
       {
         skip: records.length,
-        limit: 5,
+        limit: 25,
       }
     );
     if (res.data.errCode !== 0) {
@@ -297,7 +297,8 @@ export default function Contract(props: ItemProps) {
                             <div
                               className={
                                 "event-card flex-row " +
-                                (currentStatus.tec === 1 || event.origin.name !== "TransactionEvent"
+                                (currentStatus.tec === 1 ||
+                                event.origin.name !== "TransactionEvent"
                                   ? "event-card-one "
                                   : " p-10 event-card-more mt-10 ") +
                                 (index !== eventIndex || currentStatus.tec === 1
@@ -491,11 +492,8 @@ export default function Contract(props: ItemProps) {
                         getRecords();
                       }}
                     >
-                      {records.length >= totalItem
-                        ? "没有更多了 "
-                        : records.length
-                        ? "加载更多 "
-                        : "展开完整流转记录 "} 
+                      {" "}
+                      展开完整流转记录
                       <DownOutlined />
                     </div>
                   ) : (

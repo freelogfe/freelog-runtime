@@ -445,8 +445,7 @@ export default function Auth(props: contractProps) {
                         ) : null}
                         {currentExhibitId === currentExhibit.exhibitId &&
                         currentExhibit.contracts.length &&
-                        currentExhibit.policiesActive.length -
-                          currentExhibit.contracts.length ? (
+                        (currentExhibit.policiesActive.some((item:any)=>!item.contracted)) ? (
                           <div className="policy-tip flex-row align-center mt-15 px-10">
                             <i className="iconfont mr-5 fs-14">&#xe641;</i>
                             <div className="tip fs-12">
@@ -492,8 +491,7 @@ export default function Auth(props: contractProps) {
                             </div>
                           )}
                         {currentExhibitId === currentExhibit.exhibitId &&
-                        currentExhibit.policiesActive.length -
-                          currentExhibit.contracts.length ? (
+                        (currentExhibit.policiesActive.some((item:any)=>!item.contracted)) ? (
                           <div className="kind-tip flex-1  mt-20 ">
                             可签约的策略
                           </div>
