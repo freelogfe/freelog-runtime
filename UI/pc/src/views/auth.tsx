@@ -78,7 +78,7 @@ export default function Auth(props: contractProps) {
       }
       return;
     }
-
+    currentExhibit._contracts = [...currentExhibit.contracts]
     currentExhibit.contracts = currentExhibit.contracts.filter((item: any) => {
       if ([0, 2].includes(item.status)) {
         currentExhibit.policies.some((i: any) => {
@@ -474,7 +474,7 @@ export default function Auth(props: contractProps) {
                             }
                           )}
                         {currentExhibitId === currentExhibit.exhibitId &&
-                          !!currentExhibit.contracts.length && (
+                          (currentExhibit._contracts.length > currentExhibit.contracts.length) && (
                             <div className="flex-row mt-10 ">
                               <div className="fs-14 fc-less">
                                 查看已终止的合约请移至
