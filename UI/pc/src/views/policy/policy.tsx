@@ -48,6 +48,7 @@ export default function Policy(props: ItemProps) {
             onConfirm={confirm}
             onCancel={cancel}
             visible={visible}
+            // icon={<span className="d-none"></span>}
             okText="确定"
             cancelText="取消"
             // @ts-ignore

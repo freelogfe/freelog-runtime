@@ -72,11 +72,11 @@ export default function Pay(props: PayProps) {
     if (payResult.data.errCode !== 0) {
       if (payResult.data.data && payResult.data.data.code === "E1010") {
         setTipType(3);
-        setPasswords(["", "", "", "", "", ""]);
+        // setPasswords(["", "", "", "", "", ""]);
         setLoading(false);
         setTimeout(() => {
           // @ts-ignore
-          input0.current.focus();
+          input5.current.focus();
         }, 100);
         return;
       }
@@ -216,6 +216,7 @@ export default function Pay(props: PayProps) {
                       maxLength={1}
                       minLength={1}
                       key={index}
+                      className="text-center"
                       ref={inputs[index]}
                       value={passwords[index]}
                       onChange={(e: any) => {}}
@@ -264,12 +265,12 @@ export default function Pay(props: PayProps) {
                 })}
               </div>
               {tipType === 3 ? (
-                <div className="password-error text-align-left mt-5">
+                <div className="password-error text-align-left mt-8">
                   支付密码错误，请重新输入
                 </div>
               ) : null}
               <div
-                className="flex-row space-around password-forget py-30 w-100x"
+                className="flex-row space-around password-forget my-30 w-100x"
                 onClick={() => {
                   props.setModalType(4);
                 }}
