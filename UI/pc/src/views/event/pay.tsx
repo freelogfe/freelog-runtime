@@ -171,7 +171,7 @@ export default function Pay(props: PayProps) {
             <div className="left-item">收款方</div>
             <div className="left-item">支付方式</div>
           </div>
-          <div className="flex-column flex-1">
+          <div className="flex-column flex-1 over-h">
             <div className="right-item text-ellipsis">{props.subjectName}</div>
             <div className="right-item text-ellipsis">{props.contractName}</div>
             <div className="right-item text-ellipsis">{props.receiver}</div>
