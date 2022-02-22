@@ -456,6 +456,15 @@ const render = ($) => {
 
 ## 开发
 
+### chrome无法访问localhost问题
+
+地址栏输入：chrome://flags/#block-insecure-private-network-requests
+
+把Block insecure private network requests. 设置为disabled
+
+如图
+![chrome](/chrome.png)
+
 ### 创建一个节点和主题
 
 进入 console.testfreelog.com ---> 节点管理

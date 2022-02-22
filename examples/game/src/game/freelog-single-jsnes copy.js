@@ -26,9 +26,9 @@
         if (4 & e && "object" == typeof t && t && t.__esModule) return t;
         var s = Object.create(null);
         if (i.r(s), Object.defineProperty(s, "default", {
-            enumerable: !0,
-            value: t
-        }), 2 & e && "string" != typeof t)
+                enumerable: !0,
+                value: t
+            }), 2 & e && "string" != typeof t)
             for (var r in t) i.d(s, r, function (e) {
                 return t[e]
             }.bind(null, r));
@@ -96,18 +96,18 @@
                             for (this.x = 0; this.x < 8; this.x++) this.x >= e && this.x < s && this.y >= i && this.y < r && (this.palIndex = this.pix[this.tIndex], this.tpri = c[this.fbIndex], 0 !== this.palIndex && u <= (255 & this.tpri) && (t[this.fbIndex] = o[this.palIndex + a], this.tpri = 3840 & this.tpri | u, c[this.fbIndex] = this.tpri)), this.fbIndex++, this.tIndex--;
                             this.fbIndex -= 8, this.fbIndex += 256, this.tIndex += 16
                         } else if (p && !l)
-                        for (this.fbIndex = (n << 8) + h, this.tIndex = 56, this.y = 0; this.y < 8; this.y++) {
-                            for (this.x = 0; this.x < 8; this.x++) this.x >= e && this.x < s && this.y >= i && this.y < r && (this.palIndex = this.pix[this.tIndex], this.tpri = c[this.fbIndex], 0 !== this.palIndex && u <= (255 & this.tpri) && (t[this.fbIndex] = o[this.palIndex + a], this.tpri = 3840 & this.tpri | u, c[this.fbIndex] = this.tpri)), this.fbIndex++, this.tIndex++;
-                            this.fbIndex -= 8, this.fbIndex += 256, this.tIndex -= 16
-                        } else
-                        for (this.fbIndex = (n << 8) + h, this.tIndex = 63, this.y = 0; this.y < 8; this.y++) {
-                            for (this.x = 0; this.x < 8; this.x++) this.x >= e && this.x < s && this.y >= i && this.y < r && (this.palIndex = this.pix[this.tIndex], this.tpri = c[this.fbIndex], 0 !== this.palIndex && u <= (255 & this.tpri) && (t[this.fbIndex] = o[this.palIndex + a], this.tpri = 3840 & this.tpri | u, c[this.fbIndex] = this.tpri)), this.fbIndex++, this.tIndex--;
-                            this.fbIndex -= 8, this.fbIndex += 256
-                        } else
-                    for (this.fbIndex = (n << 8) + h, this.tIndex = 0, this.y = 0; this.y < 8; this.y++) {
-                        for (this.x = 0; this.x < 8; this.x++) this.x >= e && this.x < s && this.y >= i && this.y < r && (this.palIndex = this.pix[this.tIndex], this.tpri = c[this.fbIndex], 0 !== this.palIndex && u <= (255 & this.tpri) && (t[this.fbIndex] = o[this.palIndex + a], this.tpri = 3840 & this.tpri | u, c[this.fbIndex] = this.tpri)), this.fbIndex++, this.tIndex++;
-                        this.fbIndex -= 8, this.fbIndex += 256
-                    }
+                            for (this.fbIndex = (n << 8) + h, this.tIndex = 56, this.y = 0; this.y < 8; this.y++) {
+                                for (this.x = 0; this.x < 8; this.x++) this.x >= e && this.x < s && this.y >= i && this.y < r && (this.palIndex = this.pix[this.tIndex], this.tpri = c[this.fbIndex], 0 !== this.palIndex && u <= (255 & this.tpri) && (t[this.fbIndex] = o[this.palIndex + a], this.tpri = 3840 & this.tpri | u, c[this.fbIndex] = this.tpri)), this.fbIndex++, this.tIndex++;
+                                this.fbIndex -= 8, this.fbIndex += 256, this.tIndex -= 16
+                            } else
+                                for (this.fbIndex = (n << 8) + h, this.tIndex = 63, this.y = 0; this.y < 8; this.y++) {
+                                    for (this.x = 0; this.x < 8; this.x++) this.x >= e && this.x < s && this.y >= i && this.y < r && (this.palIndex = this.pix[this.tIndex], this.tpri = c[this.fbIndex], 0 !== this.palIndex && u <= (255 & this.tpri) && (t[this.fbIndex] = o[this.palIndex + a], this.tpri = 3840 & this.tpri | u, c[this.fbIndex] = this.tpri)), this.fbIndex++, this.tIndex--;
+                                    this.fbIndex -= 8, this.fbIndex += 256
+                                } else
+                                    for (this.fbIndex = (n << 8) + h, this.tIndex = 0, this.y = 0; this.y < 8; this.y++) {
+                                        for (this.x = 0; this.x < 8; this.x++) this.x >= e && this.x < s && this.y >= i && this.y < r && (this.palIndex = this.pix[this.tIndex], this.tpri = c[this.fbIndex], 0 !== this.palIndex && u <= (255 & this.tpri) && (t[this.fbIndex] = o[this.palIndex + a], this.tpri = 3840 & this.tpri | u, c[this.fbIndex] = this.tpri)), this.fbIndex++, this.tIndex++;
+                                        this.fbIndex -= 8, this.fbIndex += 256
+                                    }
         },
         isTransparent: function (t, e) {
             return 0 === this.pix[(e << 3) + t]
@@ -289,7 +289,7 @@
     function S(t, e) {
         var i, s, r, h;
         if (e.transform && t.css) {
-            if (!(h = "function" == typeof e.transform ? e.transform(t.css) : e.transform.default(t.css))) return function () { };
+            if (!(h = "function" == typeof e.transform ? e.transform(t.css) : e.transform.default(t.css))) return function () {};
             t.css = h
         }
         if (e.singleton) {
@@ -361,8 +361,8 @@
             h = void 0 === e.convertToAbsoluteUrls && r;
         (e.convertToAbsoluteUrls || h) && (s = c(s)), r && (s += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(r)))) + " */");
         var n = new Blob([s], {
-            type: "text/css"
-        }),
+                type: "text/css"
+            }),
             a = t.href;
         t.href = URL.createObjectURL(n), a && URL.revokeObjectURL(a)
     }
@@ -393,14 +393,14 @@
         o = function (t) {
             var e;
             if (this.opts = {
-                onFrame: function () { },
-                onAudioSample: null,
-                onStatusUpdate: function () { },
-                onBatteryRamWrite: function () { },
-                preferredFrameRate: 60,
-                emulateSound: !0,
-                sampleRate: 44100
-            }, void 0 !== t)
+                    onFrame: function () {},
+                    onAudioSample: null,
+                    onStatusUpdate: function () {},
+                    onBatteryRamWrite: function () {},
+                    preferredFrameRate: 60,
+                    emulateSound: !0,
+                    sampleRate: 44100
+                }, void 0 !== t)
                 for (e in this.opts) void 0 !== t[e] && (this.opts[e] = t[e]);
             this.frameTime = 1e3 / this.opts.preferredFrameRate, this.ui = {
                 writeFrame: this.opts.onFrame,
@@ -423,7 +423,7 @@
                 i = this.cpu,
                 s = this.ppu,
                 r = this.papu;
-            t: for (; ;)
+            t: for (;;)
                 for (0 === i.cyclesToHalt ? (t = i.emulate(), e && r.clockFrameCounter(t), t *= 3) : i.cyclesToHalt > 8 ? (t = 24, e && r.clockFrameCounter(8), i.cyclesToHalt -= 8) : (t = 3 * i.cyclesToHalt, e && r.clockFrameCounter(i.cyclesToHalt), i.cyclesToHalt = 0); t > 0; t--) {
                     if (s.curX === s.spr0HitX && 1 === s.f_spVisibility && s.scanline - 21 === s.spr0HitY && s.setStatusFlag(s.STATUS_SPRITE0HIT, !0), s.requestEndFrame && (s.nmiCounter--, 0 === s.nmiCounter)) {
                         s.requestEndFrame = !1, s.startVBlank();
@@ -1149,20 +1149,20 @@
                             if (i >= 0 && i < 256 && n >= 0 && n < 61440 && 0 !== this.pixrendered[n] && 0 !== r.pix[e + h]) return this.spr0HitX = n % 256, this.spr0HitY = t, !0;
                             i++, n++
                         } else
-                        for (h = 0; h < 8; h++) {
-                            if (i >= 0 && i < 256 && n >= 0 && n < 61440 && 0 !== this.pixrendered[n] && 0 !== r.pix[e + h]) return this.spr0HitX = n % 256, this.spr0HitY = t, !0;
-                            i++, n++
-                        }
+                            for (h = 0; h < 8; h++) {
+                                if (i >= 0 && i < 256 && n >= 0 && n < 61440 && 0 !== this.pixrendered[n] && 0 !== r.pix[e + h]) return this.spr0HitX = n % 256, this.spr0HitY = t, !0;
+                                i++, n++
+                            }
             } else if (s <= t && s + 16 > t && i >= -7 && i < 256)
                 if ((e = this.vertFlip[0] ? 15 - (t - s) : t - s) < 8 ? r = this.ptTile[this.sprTile[0] + (this.vertFlip[0] ? 1 : 0) + (0 != (1 & this.sprTile[0]) ? 255 : 0)] : (r = this.ptTile[this.sprTile[0] + (this.vertFlip[0] ? 0 : 1) + (0 != (1 & this.sprTile[0]) ? 255 : 0)], this.vertFlip[0] ? e = 15 - e : e -= 8), e *= 8, n = 256 * t + i, this.horiFlip[0])
                     for (h = 7; h >= 0; h--) {
                         if (i >= 0 && i < 256 && n >= 0 && n < 61440 && 0 !== this.pixrendered[n] && 0 !== r.pix[e + h]) return this.spr0HitX = n % 256, this.spr0HitY = t, !0;
                         i++, n++
                     } else
-                    for (h = 0; h < 8; h++) {
-                        if (i >= 0 && i < 256 && n >= 0 && n < 61440 && 0 !== this.pixrendered[n] && 0 !== r.pix[e + h]) return this.spr0HitX = n % 256, this.spr0HitY = t, !0;
-                        i++, n++
-                    }
+                        for (h = 0; h < 8; h++) {
+                            if (i >= 0 && i < 256 && n >= 0 && n < 61440 && 0 !== this.pixrendered[n] && 0 !== r.pix[e + h]) return this.spr0HitX = n % 256, this.spr0HitY = t, !0;
+                            i++, n++
+                        }
             return !1
         },
         writeMem: function (t, e) {
@@ -1303,7 +1303,7 @@
             this.channelEnableValue = 65535 & t, this.square1.setEnabled(0 != (1 & t)), this.square2.setEnabled(0 != (2 & t)), this.triangle.setEnabled(0 != (4 & t)), this.noise.setEnabled(0 != (8 & t)), this.dmc.setEnabled(0 != (16 & t))
         },
         clockFrameCounter: function (t) {
-            if (this.initCounter > 0 && this.initingHardware) return this.initCounter -= t, void (this.initCounter <= 0 && (this.initingHardware = !1));
+            if (this.initCounter > 0 && this.initingHardware) return this.initCounter -= t, void(this.initCounter <= 0 && (this.initingHardware = !1));
             t += this.extraCycles;
             var e = this.sampleTimerMax - this.sampleTimer;
             t << 10 > e ? (this.extraCycles = (t << 10) - e >> 10, t -= this.extraCycles) : this.extraCycles = 0;
@@ -1788,8 +1788,8 @@
                 r = t % 2 * 8192;
             s.copyArrayElements(this.nes.rom.rom[i], r, this.nes.cpu.mem, e, 8192)
         },
-        clockIrqCounter: function () { },
-        latchAccess: function (t) { },
+        clockIrqCounter: function () {},
+        latchAccess: function (t) {},
         toJSON: function () {
             return {
                 joy1StrobeState: this.joy1StrobeState,
@@ -1829,7 +1829,7 @@
     }, r[1].prototype.loadROM = function () {
         if (!this.nes.rom.valid) throw new Error("MMC1: Invalid ROM! Unable to load.");
         this.loadRomBank(0, 32768), this.loadRomBank(this.nes.rom.romCount - 1, 49152), this.loadCHRROM(), this.loadBatteryRam(), this.nes.cpu.requestIrq(this.nes.cpu.IRQ_RESET)
-    }, r[1].prototype.switchLowHighPrgRom = function (t) { }, r[1].prototype.switch16to32 = function () { }, r[1].prototype.switch32to16 = function () { }, r[1].prototype.toJSON = function () {
+    }, r[1].prototype.switchLowHighPrgRom = function (t) {}, r[1].prototype.switch16to32 = function () {}, r[1].prototype.switch32to16 = function () {}, r[1].prototype.toJSON = function () {
         var t = r[0].prototype.toJSON.apply(this);
         return t.mirroring = this.mirroring, t.oneScreenMirroring = this.oneScreenMirroring, t.prgSwitchingArea = this.prgSwitchingArea, t.prgSwitchingSize = this.prgSwitchingSize, t.vromSwitchingSize = this.vromSwitchingSize, t.romSelectionReg0 = this.romSelectionReg0, t.romSelectionReg1 = this.romSelectionReg1, t.romBankSelect = this.romBankSelect, t.regBuffer = this.regBuffer, t.regBufferCounter = this.regBufferCounter, t
     }, r[1].prototype.fromJSON = function (t) {
@@ -2063,10 +2063,10 @@
         document.exitFullScreen ? document.exitFullScreen() : document.webkitCancelFullScreen ? document.webkitCancelFullScreen() : document.mozCancelFullScreen ? document.mozCancelFullScreen() : document.msExitFullscreen && document.msExitFullscreen()
     }
     var a = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (t) {
-        return typeof t
-    } : function (t) {
-        return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : typeof t
-    },
+            return typeof t
+        } : function (t) {
+            return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : typeof t
+        },
         o = window.mozRequestAnimationFrame || window.requestAnimationFrame,
         l = window.mozCancelRequestAnimationFrame || window.cancelRequestAnimationFrame,
         p = null,
@@ -2078,9 +2078,9 @@
             2: !0
         };
     var R = {
-        1: {},
-        2: {}
-    },
+            1: {},
+            2: {}
+        },
         f = {
             1: {},
             2: {}
@@ -2185,17 +2185,17 @@
             s = b[t];
         if (null != s)
             if (function (t, e, i) {
-                for (var s = g[i], r = _[i], h = !1, n = 0, a = s.length; n < a; n++)
-                    if (s[n] == t && (h = !0, !e))
-                        for (var o = 0, l = r.length; o < l; o++) r[o] == t && (h = !1);
-                return h
-            }(t, s.isHold, e)) {
+                    for (var s = g[i], r = _[i], h = !1, n = 0, a = s.length; n < a; n++)
+                        if (s[n] == t && (h = !0, !e))
+                            for (var o = 0, l = r.length; o < l; o++) r[o] == t && (h = !1);
+                    return h
+                }(t, s.isHold, e)) {
                 if (i[t] = !0, u.buttonDown(e, s.value), s.value < 0) switch (s.value) {
                     case -1:
                         u.reloadROM();
                         break;
                     case -2:
-                        (d = !d) ? h(u._$canvasDom) : n()
+                        (d = !d) ? h(u._$canvasDom): n()
                 }
             } else i[t] && (u.buttonUp(e, s.value), i[t] = !1)
     }
@@ -2228,12 +2228,9 @@
         });
     u = q, window.addEventListener("gamepadconnected", function (t) {
         var e = t.gamepad;
-        c = !0, 
-        /// window.f_common_lib.ElementUI.Message.success("Gamepad(" + e.id + ") connected！"),
-         C()
+        c = !0, window.f_common_lib.ElementUI.Message.success("Gamepad(" + e.id + ") connected！"), C()
     }), window.addEventListener("gamepaddisconnected", function () {
-        // window.f_common_lib.ElementUI.Message.warning("Gamepad disconnected, Waiting for gamepad."), 
-        l(p)
+        window.f_common_lib.ElementUI.Message.warning("Gamepad disconnected, Waiting for gamepad."), l(p)
     });
     var U = {
         ArrowUp: {
@@ -2369,8 +2366,8 @@
         x[t] = !1
     }
     var Y = function (t) {
-        K(q.buttonDown, t, U)
-    },
+            K(q.buttonDown, t, U)
+        },
         W = function (t) {
             K(q.buttonUp, t, U)
         };
@@ -2381,29 +2378,29 @@
                 s = r[a];
                 break
             } if (null != s) {
-                var o = s.value,
-                    l = s.isPreventDefault;
-                if (!x[s.player]) return;
-                if (o > -1) t(s.player, o), l && e.preventDefault();
-                else switch (s.label) {
-                    case "Refresh":
-                        if ("keyup" === e.type) return;
-                        z();
-                        break;
-                    case "FullScreen":
-                        if ("keyup" === e.type) return;
-                        (V = !V) ? h(G) : n()
-                }
+            var o = s.value,
+                l = s.isPreventDefault;
+            if (!x[s.player]) return;
+            if (o > -1) t(s.player, o), l && e.preventDefault();
+            else switch (s.label) {
+                case "Refresh":
+                    if ("keyup" === e.type) return;
+                    z();
+                    break;
+                case "FullScreen":
+                    if ("keyup" === e.type) return;
+                    (V = !V) ? h(G): n()
             }
+        }
     }
 
     function Z(t, e) {
         var i = !(arguments.length > 2 && void 0 !== arguments[2]) || arguments[2];
         return function (t) {
-            G = t, q._$canvasDom = t, I = t.getContext("2d"), N = I.getImageData(0, 0, T, O), I.fillStyle = "black", I.fillRect(0, 0, T, O);
-            var e = new ArrayBuffer(N.data.length);
-            E = new Uint8ClampedArray(e), v = new Uint32Array(e)
-        }(t),
+                G = t, q._$canvasDom = t, I = t.getContext("2d"), N = I.getImageData(0, 0, T, O), I.fillStyle = "black", I.fillRect(0, 0, T, O);
+                var e = new ArrayBuffer(N.data.length);
+                E = new Uint8ClampedArray(e), v = new Uint32Array(e)
+            }(t),
             function (t) {
                 return new Promise(function (e, i) {
                     var s = new XMLHttpRequest;
@@ -2453,10 +2450,10 @@
         }, document.addEventListener("keydown", Y), document.addEventListener("keyup", W)
     }
     var et = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (t) {
-        return typeof t
-    } : function (t) {
-        return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : typeof t
-    },
+            return typeof t
+        } : function (t) {
+            return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : typeof t
+        },
         it = function (t, e) {
             if (Array.isArray(t)) return t;
             if (Symbol.iterator in Object(t)) return function (t, e) {
@@ -2574,25 +2571,25 @@
             }, {
                 key: "initModal",
                 value: function () {
-                    // var t = window.f_common_lib.Vue.extend({
-                    //     data: function () {
-                    //         return {
-                    //             dialogVisible: !1,
-                    //             player1Value: !0,
-                    //             player2Value: !0,
-                    //             controlsData: []
-                    //         }
-                    //     },
-                    //     methods: {
-                    //         init: function () { },
-                    //         closeModal: function () { }
-                    //     },
-                    //     created: function () {
-                    //         this.init()
-                    //     },
-                    //     mounted: function () { }
-                    // });
-                    // this.modalInstance = (new t).$mount(".modal-box")
+                    var t = window.f_common_lib.Vue.extend({
+                        data: function () {
+                            return {
+                                dialogVisible: !1,
+                                player1Value: !0,
+                                player2Value: !0,
+                                controlsData: []
+                            }
+                        },
+                        methods: {
+                            init: function () {},
+                            closeModal: function () {}
+                        },
+                        created: function () {
+                            this.init()
+                        },
+                        mounted: function () {}
+                    });
+                    this.modalInstance = (new t).$mount(".modal-box")
                 }
             }, {
                 key: "renderGamepadList",
@@ -2670,7 +2667,7 @@
                     this.toggleClass(this.$loading, "visible", "add");
                     var e = this.dataset,
                         i = "魂斗罗"
-                    const url = 'http://localhost:7105/Contra' // await window.freelogApp.getExhibitFileStream('61e7b893f04747002e473d63', true)  
+                    const url  = 'http://localhost:7105/Contra' // await window.freelogApp.getExhibitFileStream('61e7b893f04747002e473d63', true)  
                     // 'http://localhost:7105/Contra'
                     console.log(url)
                     return this.$nesTitle.innerHTML = i, Z(this.$canvas, url, !1).then(function () {
@@ -2683,10 +2680,10 @@
                 key: "initNesAudio",
                 value: function () {
                     var t = function () {
-                        var t = new window.AudioContext,
-                            e = t.createScriptProcessor(F, 0, 2);
-                        return e.onaudioprocess = $, e.connect(t.destination), [t, e]
-                    }(),
+                            var t = new window.AudioContext,
+                                e = t.createScriptProcessor(F, 0, 2);
+                            return e.onaudioprocess = $, e.connect(t.destination), [t, e]
+                        }(),
                         e = it(t, 2),
                         i = e[0],
                         s = e[1];
@@ -2824,11 +2821,9 @@
                             }(s)
                         }
                         return t
-                    }), this.closeModal(), tt(this.defaultKeysMap), localStorage.setItem("DEFAULT_BUTTON_KEY_MAP", JSON.stringify(this.defaultKeysMap)), localStorage.setItem("DEFAULT_BUTTON_KEY_VERSION", "0.1.0")
-                    // ,
-                    //  window.f_common_lib.ElementUI.Message.success({
-                    //     message: "按键设置保存成功！"
-                    // })
+                    }), this.closeModal(), tt(this.defaultKeysMap), localStorage.setItem("DEFAULT_BUTTON_KEY_MAP", JSON.stringify(this.defaultKeysMap)), localStorage.setItem("DEFAULT_BUTTON_KEY_VERSION", "0.1.0"), window.f_common_lib.ElementUI.Message.success({
+                        message: "按键设置保存成功！"
+                    })
                 }
             }, {
                 key: "toggleLoudSpeaker",

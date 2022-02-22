@@ -20,7 +20,7 @@ module.exports = {
       errors: true,
     },
     headers: {
-      'Access-Control-Allow-Origin': 'http://f-nes.testfreelog.com',
+      'Access-Control-Allow-Origin': 'https://snnaenu.freelog.com',
       "Access-Control-Allow-Headers": "*",
       "Access-Control-Allow-Credentials": "true",
     },
