@@ -107,7 +107,6 @@ export default function Pay(props: PayProps) {
         // setFocus(0)
         setIsTipVisible(false);
         setLoading(false);
-        console.log(234234234)
         setTimeout(() => {
           setTipType(0);
           // @ts-ignore
