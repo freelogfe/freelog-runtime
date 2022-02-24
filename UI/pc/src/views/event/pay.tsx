@@ -105,8 +105,11 @@ export default function Pay(props: PayProps) {
       setTimeout(() => {
         // setPasswords(["", "", "", "", "", ""]);
         // setFocus(0)
+        setIsTipVisible(false);
         setLoading(false);
+        console.log(234234234)
         setTimeout(() => {
+          setTipType(0);
           // @ts-ignore
           input5.current.focus();
         }, 100);
@@ -131,6 +134,7 @@ export default function Pay(props: PayProps) {
       if ([2, 3, 4].includes(status)) {
         window.clearInterval(flag);
         setIsTipVisible(false);
+        setTipType(0);
         setLoading(false);
         setTimeout(() => {
           props.paymentFinish(status);
