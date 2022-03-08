@@ -1,6 +1,6 @@
-export const DEV_FALSE = 0;
-export const DEV_WIDGET = 1;
-export const DEV_TYPE_REPLACE = 2;
+export const DEV_FALSE = 0; 
+export const DEV_WIDGET = 1; // 插件开发模式
+export const DEV_TYPE_REPLACE = 2; // 插件替换模式
 export function dev(): any {
   const searchs = window.location.search
     ? window.location.search.split("?")

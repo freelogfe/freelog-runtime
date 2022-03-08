@@ -899,6 +899,19 @@ const res = await window.freelogApp.getExhibitListByPaging({
 
 ```
 
+### 批量查询展品是否可用（即能否提供给用户签约）
+
+```ts
+  const res = await window.freelogApp.getExhibitAvailalbe(
+    exhibitIds: string
+  )
+
+  **参数说明**
+
+    exhibitIds:  用英文逗号隔开的展品id
+
+```
+
 **返回说明**
 
 | 返回值字段            | 字段类型 | 字段说明                                                   |
