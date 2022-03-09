@@ -105,7 +105,7 @@ export async function getSelfId() {
   return widgetsConfig.get(this.name)?.exhibitId;
 }
 
-export async function getSelfConfig() {
+export function getSelfConfig() {
   // @ts-ignore  由于config只有一层，所以用...就够了
   return { ...widgetsConfig.get(this.name).config };
 }

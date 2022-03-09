@@ -586,7 +586,7 @@ widgets.some((widget, index) => {
 ### 获取插件自身配置数据
 
 ```ts
-const widgetConfig = await window.freelogApp.getSelfConfig();
+const widgetConfig =  window.freelogApp.getSelfConfig();
 ```
 
 ### 插件通信方式一：全局通信

@@ -1,13 +1,15 @@
- 
+
 import store from "./store";
 
 Vue.config.productionTip = false;
 import './public-path';
+// import routes from './router';
+import './assets/css/index.scss'
+// let router = null;
 
- 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import App from './App.vue' 
+import App from './App.vue'
 
 /**
  * 期望功能：
@@ -21,12 +23,32 @@ import App from './App.vue'
 Vue.use(VueRouter)
 
 let instance = null;
- 
 
+function storeTest(props) {
+    props.onGlobalStateChange &&
+      props.onGlobalStateChange(
+        (value, prev) =>
+          console.log(`[onGlobalStateChange - ${props.name}]:`, value, prev),
+        true
+      );
+    props.setGlobalState &&
+      props.setGlobalState({
+        ignore: props.name,
+        user: {
+          name: props.name,
+        },
+      });
+}
 
 
 function render(props = {}) {
     const { container } = props;
+  
+    // router = new VueRouter({
+    //     base: window.__POWERED_BY_FREELOG__ ? '/vue' : '/',
+    //     mode: 'history',
+    //     routes,
+    // });
     instance = new Vue({
         store,
         render: h => h(App),
@@ -43,6 +65,7 @@ export async function bootstrap() {
 
 export async function mount(props) {
     console.log('[vue] props from main framework', props);
+    storeTest(props)
     render(props);
 }
 

@@ -379,7 +379,7 @@ const selfId = await window.freelogApp.getSelfId();
 
  **获取自身配置数据**
 
- const widgetConfig = await window.freelogApp.getSelfConfig()
+ const widgetConfig =  window.freelogApp.getSelfConfig()
 
 ```
 

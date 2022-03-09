@@ -6,10 +6,16 @@ import routes from './router';
 import store from './store';
 // import  './game/index';
 // import './game/index.less'
+const widgetConfig =  window.freelogApp.getSelfConfig();
+console.log(widgetConfig)
+window.gameName = widgetConfig.gameName
+window.gameId = widgetConfig.gameId
+console.log(window.gameId)
 import './game/freelog-single-jsnes'
 
 let router = null;
 let instance = null;
+console.log(2232323232323)
 
 function render(props = {}) {
   const { container } = props;

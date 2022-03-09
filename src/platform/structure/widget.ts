@@ -142,8 +142,9 @@ export async function mountWidget(
   topExhibitData: any,
   config: any,
   seq?: number | null | undefined,
-  isTheme?: boolean
+  widget_entry?: boolean | string // 因为插件加载者并不使用，所以 可以当成 widget_entry 
 ) {
+  let isTheme = typeof widget_entry === 'boolean' ?  widget_entry :false
   // @ts-ignore
   const that = this;
   let configData = config;
@@ -152,7 +153,7 @@ export async function mountWidget(
     isTheme = false;
     defaultWidgetConfigData.historyFB = false;
   }
-
+  isTheme && (widget_entry = '')
   config = {
     ...defaultWidgetConfigData,
     ...(widget.versionInfo? widget.versionInfo.exhibitProperty : {}), // exhibitProperty 展品里面的，可以freeze widget数据，防止加载时篡改
@@ -163,6 +164,9 @@ export async function mountWidget(
   } else {
     hbfOnlyToTheme = config.hbfOnlyToTheme;
   }
+  const devData = window.freelogApp.devData;
+  // 不是开发模式禁用
+  if(!devData) widget_entry = ''
   let commonData: any;
   let entry = "";
   if (!topExhibitData) {
@@ -190,8 +194,8 @@ export async function mountWidget(
   }
   // TODO freelog-需要用常量
   let widgetId = "freelog-" + commonData.articleInfo.articleId;
+  widget_entry && console.warn('you are using widget entry ' + widget_entry + ' for widget-articleId: ' + commonData.articleInfo.articleId)
   // @ts-ignore
-  const devData = window.freelogApp.devData;
   if (devData) {
     if (devData.type === DEV_TYPE_REPLACE) {
       entry = devData.params[commonData.id] || "";
@@ -201,9 +205,11 @@ export async function mountWidget(
       firstDev = true;
     }
   }
+  // @ts-ignore
+  entry = widget_entry || entry
   if (seq || seq === 0) {
     widgetId = "freelog-" + commonData.id + seq;
-  }
+  }  
   let fentry = ''
   if(commonData.articleNid){
     fentry = await window.freelogApp.getExhibitDepFileStream.bind(that || {})(
@@ -255,7 +261,7 @@ export async function mountWidget(
           resolve && resolve();
         },
         () => {
-          reject();
+          reject && reject();
         }
       );
     },
@@ -268,7 +274,7 @@ export async function mountWidget(
           resolve && resolve();
         },
         () => {
-          reject();
+          reject && reject();
         }
       );
     },

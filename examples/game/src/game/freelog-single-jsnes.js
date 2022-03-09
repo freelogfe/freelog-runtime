@@ -2228,9 +2228,9 @@
         });
     u = q, window.addEventListener("gamepadconnected", function (t) {
         var e = t.gamepad;
-        c = !0, 
-        /// window.f_common_lib.ElementUI.Message.success("Gamepad(" + e.id + ") connected！"),
-         C()
+        c = !0,
+            /// window.f_common_lib.ElementUI.Message.success("Gamepad(" + e.id + ") connected！"),
+            C()
     }), window.addEventListener("gamepaddisconnected", function () {
         // window.f_common_lib.ElementUI.Message.warning("Gamepad disconnected, Waiting for gamepad."), 
         l(p)
@@ -2666,11 +2666,16 @@
             }, {
                 key: "renderNes",
                 value: async function () {
+                    var widgetConfig = window.freelogApp.getSelfConfig();
+                    console.log(widgetConfig)
+                    var gameName = widgetConfig.getGame().gameName
+                    var gameId = widgetConfig.getGame().gameId
+                    console.log(gameName, gameId)
                     var t = this;
                     this.toggleClass(this.$loading, "visible", "add");
                     var e = this.dataset,
-                        i = window.gameName || "魂斗罗"
-                    const url = await window.freelogApp.getExhibitFileStream(window.gameId || '61e7b893f04747002e473d63', true)  
+                        i = gameName || "魂斗罗"
+                    const url = await window.freelogApp.getExhibitFileStream(gameId || '61e7b893f04747002e473d63', true)
                     // 'http://localhost:7107/Contra'
                     console.log(url)
                     return this.$nesTitle.innerHTML = i, Z(this.$canvas, url, !1).then(function () {
