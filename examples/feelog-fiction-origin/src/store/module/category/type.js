@@ -1,2 +1,0 @@
-export const SET_CATEGORY = "SET_CATEGORY";
-export const STE_CATEGORY_DETAIL = "STE_CATEGORY_DETAIL";
