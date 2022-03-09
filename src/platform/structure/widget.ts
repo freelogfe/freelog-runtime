@@ -17,7 +17,7 @@
 
 import { loadMicroApp } from "../runtime";
 import { setLocation } from "./proxy";
-import { DEV_TYPE_REPLACE, DEV_WIDGET } from "./dev";
+import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
 import { defaultWidgetConfigData } from "./widgetConfigData";
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<any, any>();
@@ -166,7 +166,7 @@ export async function mountWidget(
   }
   const devData = window.freelogApp.devData;
   // 不是开发模式禁用
-  if(!devData) widget_entry = ''
+  if(devData.type === DEV_FALSE ) widget_entry = ''
   let commonData: any;
   let entry = "";
   if (!topExhibitData) {
