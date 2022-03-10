@@ -195,7 +195,7 @@ export default function Pay(props: PayProps) {
             visible={true}
             className="input-password text-center"
           >
-            <div className="password-container w-100x bg-white brs-4 px-25 flex-column">
+            <div className="password-container bg-white brs-4 px-25 flex-column">
               <div className="pay-title text-center">输入支付密码</div>
               <div
                 className="p-absolute  rt-0 pr-24 pt-20"

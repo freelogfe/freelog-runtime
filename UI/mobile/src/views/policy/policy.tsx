@@ -74,24 +74,24 @@ export default function Policy(props: ItemProps) {
       {/* 下：tab */}
       <div className="flex-column">
         <Tabs defaultActiveKey="policy">
-          <Tabs.TabPane title="策略内容" key="policy">
+          <Tabs.Tab title="策略内容" key="policy">
             <div className="px-15">
               <PolicyContent
                 translateInfo={props.policy.translateInfo}
               ></PolicyContent>
             </div>
-          </Tabs.TabPane>
+          </Tabs.Tab>
 
-          {/* <Tabs.TabPane title="状态机视图" key="statusDAG">
+          {/* <Tabs.Tab title="状态机视图" key="statusDAG">
             <div className="px-15">
               <PolicyGraph policy={props.policy}></PolicyGraph>
             </div>
-          </Tabs.TabPane> */}
-          <Tabs.TabPane title="策略代码" key="policyCode">
+          </Tabs.Tab> */}
+          <Tabs.Tab title="策略代码" key="policyCode">
             <div className="px-15">
               <PolicyCode policyText={props.policy.policyText}></PolicyCode>
             </div>
-          </Tabs.TabPane>
+          </Tabs.Tab>
         </Tabs>
       </div>
     </div>

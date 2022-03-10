@@ -251,7 +251,7 @@ export default function Contract(props: ItemProps) {
         {/* <div className="policy-button cur-pointer  shrink-0 select-none">策略内容</div> */}
       </div>
       <Tabs defaultActiveKey="contract">
-        <Tabs.TabPane title="合约流转记录" key="contract">
+        <Tabs.Tab title="合约流转记录" key="contract">
           <div className="">
             {/* 状态整体 */}
             <div className="status-card p-15 mt-15">
@@ -516,24 +516,24 @@ export default function Contract(props: ItemProps) {
               </div>
             </div>
           </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane title="策略内容" key="policy">
+        </Tabs.Tab>
+        <Tabs.Tab title="策略内容" key="policy">
           <div className="">
             <PolicyContent
               translateInfo={props.policy.translateInfo}
             ></PolicyContent>
           </div>
-        </Tabs.TabPane>
-        {/* <Tabs.TabPane title="状态机视图" key="statusDAG">
+        </Tabs.Tab>
+        {/* <Tabs.Tab title="状态机视图" key="statusDAG">
           <div className="">
             <PolicyGraph policy={props.policy}></PolicyGraph>
           </div>
-        </Tabs.TabPane> */}
-        <Tabs.TabPane title="策略代码" key="policyCode">
+        </Tabs.Tab> */}
+        <Tabs.Tab title="策略代码" key="policyCode">
           <div className="">
             <PolicyCode policyText={props.policy.policyText}></PolicyCode>
           </div>
-        </Tabs.TabPane>
+        </Tabs.Tab>
       </Tabs>
     </div>
   );
