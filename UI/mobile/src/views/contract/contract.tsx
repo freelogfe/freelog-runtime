@@ -98,6 +98,7 @@ export default function Contract(props: ItemProps) {
           ...currentContent,
           ...stateInfo,
         };
+        console.log(currentSatus)
         // @ts-ignore
         setCurrentStatus(currentSatus);
         return true;
@@ -149,7 +150,7 @@ export default function Contract(props: ItemProps) {
           let recordContent = { ...item, events };
           recordContent.eventTranslateInfos.forEach((e: any) => {
             let event = { ...e, _finished: false };
-            if (event.origin.id === record.eventId) {
+            if (event.origin.eventId === record.eventId) {
               event._finished = true;
             }
             props.contract.policyInfo.translateInfo.fsmInfos.some(
@@ -235,7 +236,7 @@ export default function Contract(props: ItemProps) {
             ).ownerName
           }
           // @ts-ignore
-          eventId={currentStatus.eventTranslateInfos[eventIndex].origin.id}
+          eventId={currentStatus.eventTranslateInfos[eventIndex].origin.eventId}
           // @ts-ignore
           transactionAmount={
             currentStatus.eventTranslateInfos[eventIndex].origin.args.amount
@@ -292,7 +293,7 @@ export default function Contract(props: ItemProps) {
                       // @ts-ignore
                       currentStatus.eventTranslateInfos.map(
                         (event: any, index: number) => {
-                          // origin.id  name
+                          // origin.eventId  name
                           return (
                             <div
                               className={
@@ -315,14 +316,14 @@ export default function Contract(props: ItemProps) {
                                 type="radio"
                                 checked={index === eventIndex}
                                 onChange={onChange}
-                                id={event.origin.id}
+                                id={event.origin.eventId}
                                 name={props.contract.contractId}
                                 value={index}
                                 disabled={
                                   event.origin.name !== "TransactionEvent"
                                 }
                               />
-                              <label htmlFor={event.origin.id}>
+                              <label htmlFor={event.origin.eventId}>
                                 <div className="flex-row event  align-center  ">
                                   <div className="mx-10 flex-row align-center pe-none ">
                                     <span
@@ -424,7 +425,7 @@ export default function Contract(props: ItemProps) {
                             item.events &&
                               // @ts-ignore
                               item.events.map((event: any, index: number) => {
-                                // origin.id  name
+                                // origin.eventId  name
                                 return (
                                   <div
                                     className={

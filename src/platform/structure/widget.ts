@@ -201,7 +201,7 @@ export async function mountWidget(
       entry = devData.params[commonData.id] || "";
     }
     if (devData.type === DEV_WIDGET && !firstDev) {
-      entry = devData.params.dev;
+      entry = devData.params.dev; 
       firstDev = true;
     }
   }
