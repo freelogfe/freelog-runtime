@@ -504,7 +504,8 @@ subData.subDep.some((sub, index) => {
     document.getElementById("freelog-single"),
     subData,
     config: {}, // 子插件配置数据，需要另外获取作品上的配置数据（待提供方法）
-    seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号
+    seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的 
+    widget_entry: string, // 本地url，dev模式下，可以使用本地url调试子插件
   );
 });
 ```
@@ -531,6 +532,12 @@ widgets.some((widget, index) => {
     isLoadVersionProperty: "string", // 是否加载版本信息
   }
 
+```
+
+### 单独调试某个插件
+```ts
+  举例：http://nes-common.testfreelog.com/?dev=replace&62270c5cf670b2002e800193=http://localhost:7107/
+  `${url}?dev=replace&${widgetId}=${local_entry}`
 ```
 
 ### 控制插件

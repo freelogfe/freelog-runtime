@@ -1,4 +1,4 @@
-export const DEV_FALSE = 0; 
+export const DEV_FALSE = 0;
 export const DEV_WIDGET = 1; // 插件开发模式
 export const DEV_TYPE_REPLACE = 2; // 插件替换模式
 export function dev(): any {
@@ -18,7 +18,11 @@ export function dev(): any {
     return { type: DEV_FALSE };
   }
   if (params.dev.toLowerCase() === "replace") {
-    return { type: DEV_TYPE_REPLACE, params };
+    return {
+      type: DEV_TYPE_REPLACE,
+      params,
+      config: { vconsole: !!params.devconsole },
+    };
   } else {
     // TODO $_是路由前缀，这里有错误，需要引用常量
     params.dev = params.dev.split("$_")[0];
