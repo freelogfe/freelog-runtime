@@ -267,7 +267,7 @@ export default function Contract(props: ItemProps) {
                                 (currentStatus.tec === 1 ||
                                 event.origin.name !== "TransactionEvent"
                                   ? "event-card-one "
-                                  : " p-10 event-card-more  mt-10") +
+                                  : " p-10 event-card-more  mt-10 ") +
                                 (index !== eventIndex || currentStatus.tec === 1
                                   ? ""
                                   : "event-selected")
@@ -357,7 +357,7 @@ export default function Contract(props: ItemProps) {
               </div>
               {/* 流转记录 */}
               {unfold &&
-                records.map((item: any, index: number) => {
+                records.slice(0).map((item: any, index: number) => {
                   return (
                     <div
                       className="status-card  mt-15 contract-records"
