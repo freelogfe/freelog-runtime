@@ -357,7 +357,7 @@ export default function Contract(props: ItemProps) {
               </div>
               {/* 流转记录 */}
               {unfold &&
-                records.slice(0).map((item: any, index: number) => {
+                records.slice(1).map((item: any, index: number) => {
                   return (
                     <div
                       className="status-card  mt-15 contract-records"
