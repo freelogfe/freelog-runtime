@@ -68,10 +68,10 @@ export default function Contract(props: ItemProps) {
           if (event.origin.name === "TransactionEvent") tec++;
           props.contract.policyInfo.translateInfo.fsmInfos.some(
             (state: any) => {
-              if (state.stateInfo.origin === event.origin.toState) {
+              if (state.stateInfo.origin === event.origin.state) {
                 const stateInfo =
                   props.contract.policyInfo.fsmDescriptionInfo[
-                    event.origin.toState
+                    event.origin.state
                   ];
                 stateInfo.commonAuth = window.isTest
                   ? stateInfo.isTestAuth
@@ -129,7 +129,6 @@ export default function Contract(props: ItemProps) {
       {
         skip: records.length,
         limit: 25,
-        isTranslate: 1,
       }
     );
     if (res.data.errCode !== 0) {
@@ -153,12 +152,12 @@ export default function Contract(props: ItemProps) {
         authClass = "bg-auth";
       }
       recordsArr.push({
+        status: props.contract.fsmCurrentState,
         ...record,
         authClass,
         authStatus,
       });
     });
-    console.log(recordsArr)
     setTotalItem(res.data.data.totalItem);
     setRecords([...records, ...recordsArr]);
     !init && setUnFold(true);
@@ -216,7 +215,7 @@ export default function Contract(props: ItemProps) {
         <Tabs.Tab title="合约流转记录" key="contract">
           <div className="">
             {/* 状态整体 */}
-            <div className="status-card p-15 mt-3">
+            <div className="status-card p-15 mt-15">
               <div className="flex-row">
                 <div
                   className={"auth-status text-center select-none " + authClass}
@@ -224,7 +223,7 @@ export default function Contract(props: ItemProps) {
                   {authStatus}
                 </div>
                 <div className="auth-time">
-                  {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm:ss")}
+                  {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm")}
                 </div>
               </div>
               <div className="flex-row py-10 space-between align-center">
@@ -320,7 +319,7 @@ export default function Contract(props: ItemProps) {
                                 {/* 执行完成后下一个状态的所有事件 */}
                                 <div className="flex-column event-next pt-5 ml-12 pe-none">
                                   {/** 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
-                                   * event.origin.toState
+                                   * event.origin.state
                                    */}
                                   <div className="event-next">
                                     {event.nextState && event.nextState.isAuth
@@ -368,14 +367,81 @@ export default function Contract(props: ItemProps) {
                           {item.authStatus}
                         </div>
                         <div className="auth-time">
-                          {moment(item.time).format("YYYY-MM-DD HH:mm:ss")}
+                          {moment(item.createDate).format("YYYY-MM-DD HH:mm")}
                         </div>
                       </div>
                       <div className="flex-row py-10 space-between align-center">
                         <div>
-                          {item.stateInfoStr}
+                          {item.commonAuth
+                            ? "获得授权"
+                            : "当前无授权，请选择执行事件"}
                         </div>
-                      </div> 
+                      </div>
+                      {/* 可选事件 */}
+                      <div className="flex-row">
+                        <div className="flex-column w-100x">
+                          {
+                            // @ts-ignore
+                            item.events &&
+                              // @ts-ignore
+                              item.events.map((event: any, index: number) => {
+                                // origin.eventId  name
+                                return (
+                                  <div
+                                    className={
+                                      "event-card p-10 mt-10 flex-column " +
+                                      (event._finished ? "event-finished" : "")
+                                    }
+                                    key={index}
+                                  >
+                                    <div className="flex-row event  align-center space-between">
+                                      <div className="mr-10 flex-row align-center">
+                                        <span>{event.content}</span>
+                                        <span className="auth ml-10 shrink-0">
+                                          {event.nextState &&
+                                          event.nextState.commonAuth
+                                            ? "获得授权"
+                                            : ""}
+                                        </span>
+                                      </div>
+                                      {event._finished ? (
+                                        <div className="event-finished-des mr-10 shrink-0">
+                                          已执行
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                    {/* 执行完成后下一个状态的所有事件 */}
+                                    <div className="flex-column event-next pt-5 ml-3">
+                                      {/** 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
+                                       * event.origin.state
+                                       */}
+                                      <div className="event-next">
+                                        {event.nextState &&
+                                        event.nextState.commonAuth
+                                          ? "获得授权后"
+                                          : "执行成功后:"}
+                                      </div>
+                                      {event.nextState &&
+                                        event.nextState.eventTranslateInfos.map(
+                                          (nextEvent: any, index: number) => {
+                                            return (
+                                              <div
+                                                key={index}
+                                                className="flex-row align-center"
+                                              >
+                                                <div className="event-dot mr-5"></div>
+                                                <span>{nextEvent.content}</span>
+                                              </div>
+                                            );
+                                          }
+                                        )}
+                                    </div>
+                                  </div>
+                                );
+                              })
+                          }
+                        </div>
+                      </div>
                     </div>
                   );
                 })}

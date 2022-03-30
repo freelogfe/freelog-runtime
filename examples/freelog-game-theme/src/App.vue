@@ -42,7 +42,9 @@ export default {
       const subData = await window.freelogApp.getSubDep();
       console.log(subData)
       subData.subDep.some(async (sub, index) => {
-        if (index === 1) return true;
+        if (index === 2) return true;
+        if (index === 2) return true;
+        console.log(sub)
         this.widgetApp = await window.freelogApp.mountWidget(
           sub,
           document.getElementById("freelog-single"),
@@ -51,7 +53,7 @@ export default {
             getGame: this.getGame
           },
           "",
-          'http://localhost:7107'
+          // 'http://localhost:7107'
         );
         // let count = 0 const widgetApp = 
         // const a = setInterval(() => {

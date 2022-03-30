@@ -63,7 +63,8 @@ const contract: Contract = {
     method: "GET",
     dataModel: {
       skip: 'int',
-      limit: 'int'
+      limit: 'int',
+      isTranslate: 'int'
     },
   }
 };

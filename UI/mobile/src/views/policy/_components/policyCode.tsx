@@ -4,6 +4,6 @@ interface CodeProps {
 } 
 export default function PolicyCode(props:CodeProps ) {  
   return (
-     <pre  className="fs-14 lh-24 fw-regular fc-main py-10 x-auto">{props.policyText.trim()}</pre>
+     <pre  className="fs-14 lh-24 fw-regular fc-main  x-auto">{props.policyText.trim()}</pre>
   );
 }

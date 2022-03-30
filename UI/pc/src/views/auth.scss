@@ -10,6 +10,13 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.ant-tabs-tab{
+  font-size: 12px;
+  font-weight: 400;
+}
+.ant-tabs-tab + .ant-tabs-tab {
+  margin: -1px 0px 0px 20px;
+}
 .freelog-no-theme {
   width: 100%;
   height: 100%;

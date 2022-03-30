@@ -271,7 +271,7 @@ export default function Pay(props: PayProps) {
               window.open("http://user." + window.ENV + "/retrievePayPassword");
             }}
           >
-            忘记密码
+            忘记支付密码
           </div>
         </div>
 

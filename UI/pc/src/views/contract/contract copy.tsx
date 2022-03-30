@@ -30,7 +30,7 @@ export default function Contract(props: ItemProps) {
   const [records, setRecords] = useState<any>([]);
   const [totalItem, setTotalItem] = useState<any>(-1);
   const [argsMap, setArgsMap] = useState<Map<any, any>>(new Map());
-  const [authClass, setAuthClass] = useState("bg-auth-none");
+  const [authClass, setAuthClass] = useState("bg-auth-non");
   const [authStatus, setAuthStatus] = useState("未授权");
   const [currentStatus, setCurrentStatus] = useState({
     tec: 0,
@@ -47,7 +47,7 @@ export default function Contract(props: ItemProps) {
     let authStatus = "已终止";
     if (props.contract.status !== 1) {
       authStatus = "未授权";
-      authClass = "bg-auth-none";
+      authClass = "bg-auth-non";
       if ([2, 3].includes(props.contract.authStatus) && window.isTest) {
         authStatus = "已授权";
         authClass = "bg-auth";
@@ -58,7 +58,7 @@ export default function Contract(props: ItemProps) {
     }
     setAuthStatus(authStatus);
     setAuthClass(authClass);
-    console.log(props.contract);
+    console.log(props.contract)
     props.contract.policyInfo.translateInfo.fsmInfos.some((item: any) => {
       if (item.stateInfo.origin === props.contract.fsmCurrentState) {
         let tec = 0; // TransactionEventCount
@@ -99,7 +99,7 @@ export default function Contract(props: ItemProps) {
           ...stateInfo,
         };
         tec === 1 && setEventIndex(0);
-        console.log(currentSatus);
+        console.log(currentSatus)
         // @ts-ignore
         setCurrentStatus(currentSatus);
         return true;
@@ -143,22 +143,62 @@ export default function Contract(props: ItemProps) {
       return;
     }
     let recordsArr: any = [];
-
+   
     res.data.data.dataList.forEach((record: any) => {
-      record.commonAuth = window.isTest
-        ? [2, 3].includes(record.serviceStates)
-        : [1, 3].includes(record.serviceStates);
-      let authStatus = "未授权";
-      let authClass = "bg-auth-none";
-      if (record.commonAuth) {
-        authStatus = "已授权";
-        authClass = "bg-auth";
-      }
-      recordsArr.push({
-        status: props.contract.fsmCurrentState,
-        ...record,
-        authClass,
-        authStatus,
+      props.contract.policyInfo.translateInfo.fsmInfos.some((item: any) => {
+        if (item.stateInfo.origin === record.fromState) {
+          let events: any = [];
+          let recordContent = { ...item, events };
+          recordContent.eventTranslateInfos.forEach((e: any) => {
+            let event = { ...e, _finished: false };
+            if (event.origin.eventId === record.eventId) {
+              event._finished = true;
+            }
+            props.contract.policyInfo.translateInfo.fsmInfos.some(
+              (state: any) => {
+                if (state.stateInfo.origin === event.origin.toState) {
+                  const stateInfo =
+                    props.contract.policyInfo.fsmDescriptionInfo[
+                      event.origin.toState
+                    ];
+
+                  stateInfo.commonAuth = window.isTest
+                    ? stateInfo.isTestAuth
+                    : stateInfo.isAuth;
+                  event.nextState = {
+                    ...state,
+                    ...stateInfo,
+                  };
+                  return true;
+                }
+                return false;
+              }
+            );
+            events.push(event);
+          });
+          const stateInfo =
+            props.contract.policyInfo.fsmDescriptionInfo[record.fromState];
+
+          stateInfo.commonAuth = window.isTest
+            ? stateInfo.isTestAuth
+            : stateInfo.isAuth;
+          let authStatus = "未授权";
+          let authClass = "bg-auth-non";
+          if (stateInfo.commonAuth) {
+            authStatus = "已授权";
+            authClass = "bg-auth";
+          }
+          recordsArr.push({
+            status: props.contract.fsmCurrentState,
+            ...recordContent,
+            ...stateInfo,
+            ...record,
+            authClass,
+            authStatus,
+          });
+          return true;
+        }
+        return false;
       });
     });
     setTotalItem(res.data.data.totalItem);
@@ -220,16 +260,16 @@ export default function Contract(props: ItemProps) {
                 {authStatus}
               </div>
               <div className="auth-time">
-                {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm:ss")}
+                {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm")}
               </div>
             </div>
             <div className="flex-row py-10 space-between align-center">
-              <div className="action-tip">当前无授权，请选择执行事件</div>
+              <div>当前无授权，请选择执行事件</div>
               {
                 // @ts-ignore
                 currentStatus.tec > 1 && (
                   <Button
-                    className="fs-14"
+                    className="fs-12"
                     disabled={eventIndex === -1}
                     click={payEvent}
                   >
@@ -348,13 +388,80 @@ export default function Contract(props: ItemProps) {
                         {item.authStatus}
                       </div>
                       <div className="auth-time">
-                        {moment(item.time).format("YYYY-MM-DD HH:mm:ss")}
+                        {moment(item.createDate).format("YYYY-MM-DD HH:mm")}
                       </div>
                     </div>
                     {/* <div className="text-break">{item.sateInfoStr}</div> */}
                     <div className="flex-row py-10 space-between align-center">
                       <div>
-                        {item.stateInfoStr}
+                        {item.commonAuth
+                          ? "获得授权"
+                          : "当前无授权，请选择执行事件"}
+                      </div>
+                    </div>
+                    {/* 可选事件 */}
+                    <div className="flex-row">
+                      <div className="flex-column w-100x">
+                        {
+                          // @ts-ignore
+                          item.events &&
+                            // @ts-ignore
+                            item.events.map((event: any, index: number) => {
+                              // origin.eventId  name
+                              return (
+                                <div
+                                  className={
+                                    "event-card p-10 mt-10 flex-column " +
+                                    (event._finished ? "event-finished" : "")
+                                  }
+                                  key={index}
+                                >
+                                  <div className="flex-row event  align-center space-between">
+                                    <div className="mr-10 flex-row align-center">
+                                      <span>{event.content}</span>
+                                      <span className="auth ml-10 shrink-0">
+                                        {event.nextState &&
+                                        event.nextState.commonAuth
+                                          ? "获得授权"
+                                          : ""}
+                                      </span>
+                                    </div>
+                                    {event._finished ? (
+                                      <div className="event-finished-des mr-10 shrink-0">
+                                        已执行
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                  {/* 执行完成后下一个状态的所有事件 */}
+                                  <div className="flex-column event-next pt-5 ml-3">
+                                    {/** 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
+                                     * event.origin.toState
+                                     */}
+                                    <div className="event-next">
+                                      {event.nextState &&
+                                      event.nextState.commonAuth
+                                        ? "获得授权后"
+                                        : "执行成功后:"}
+                                    </div>
+                                    {event.nextState &&
+                                      event.nextState.eventTranslateInfos.map(
+                                        (nextEvent: any, index: number) => {
+                                          return (
+                                            <div
+                                              key={index}
+                                              className="flex-row align-center"
+                                            >
+                                              <div className="event-dot mr-5"></div>
+                                              <span>{nextEvent.content}</span>
+                                            </div>
+                                          );
+                                        }
+                                      )}
+                                  </div>
+                                </div>
+                              );
+                            })
+                        }
                       </div>
                     </div>
                   </div>
