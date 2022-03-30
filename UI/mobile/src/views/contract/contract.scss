@@ -14,11 +14,17 @@
         color: #333333;
         line-height: 20px;
     }
-   .adm-tabs-content{
-       padding: 0 15px 0 15px !important;
-   }
+
+    .adm-tabs-content {
+        padding: 0 15px 0 15px !important;
+    }
+
     .contract-tip {
+        font-size: 12px;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
         color: #7A869A;
+        line-height: 18px;
     }
 
     .event-selected {

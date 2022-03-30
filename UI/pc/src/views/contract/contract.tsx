@@ -223,8 +223,8 @@ export default function Contract(props: ItemProps) {
                 {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm:ss")}
               </div>
             </div>
-            <div className="flex-row py-10 space-between align-center">
-              <div className="action-tip">当前无授权，请选择执行事件</div>
+            <div className="flex-row pt-15 pb-5 space-between align-center">
+              <div className="action-tip">{records[0] && records[0].stateInfoStr} &nbsp; &nbsp; &nbsp; {currentStatus.tec > 1 && (records[0] && records[0].eventSelectStr)}</div>
               {
                 // @ts-ignore
                 currentStatus.tec > 1 && (
@@ -332,7 +332,7 @@ export default function Contract(props: ItemProps) {
             </div>
             {/* 流转记录 */}
             {unfold &&
-              records.map((item: any, index: number) => {
+              records.slice(1).map((item: any, index: number) => {
                 return (
                   <div
                     className="status-card  mt-15 contract-records"

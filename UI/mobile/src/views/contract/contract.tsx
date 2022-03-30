@@ -158,7 +158,7 @@ export default function Contract(props: ItemProps) {
         authStatus,
       });
     });
-    console.log(recordsArr)
+    console.log(recordsArr);
     setTotalItem(res.data.data.totalItem);
     setRecords([...records, ...recordsArr]);
     !init && setUnFold(true);
@@ -224,18 +224,23 @@ export default function Contract(props: ItemProps) {
                   {authStatus}
                 </div>
                 <div className="auth-time">
-                  {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm:ss")}
+                  {moment(props.contract.updateDate).format(
+                    "YYYY-MM-DD HH:mm:ss"
+                  )}
                 </div>
               </div>
-              <div className="flex-row py-10 space-between align-center">
-                <div className="contract-tip fs-12">
-                  当前无授权，请选择执行事件
+              <div className="flex-row pt-15 pb-5 space-between align-center">
+                <div className="contract-tip flex-column">
+                  <div>{records[0] && records[0].stateInfoStr}</div>
+                  <div className="mt-5">{currentStatus.tec > 1 &&
+                    records[0] &&
+                    records[0].eventSelectStr}</div>
                 </div>
                 {currentStatus.tec > 1 && (
                   <Button
                     color="primary"
                     size="small"
-                    className="fs-14"
+                    className="fs-14 shrink-0"
                     disabled={eventIndex === -1}
                     onClick={() => {
                       payEvent();
@@ -262,7 +267,7 @@ export default function Contract(props: ItemProps) {
                                 (currentStatus.tec === 1 ||
                                 event.origin.name !== "TransactionEvent"
                                   ? "event-card-one "
-                                  : " p-10 event-card-more mt-10 ") +
+                                  : " p-10 event-card-more  mt-10") +
                                 (index !== eventIndex || currentStatus.tec === 1
                                   ? ""
                                   : "event-selected")
@@ -372,10 +377,8 @@ export default function Contract(props: ItemProps) {
                         </div>
                       </div>
                       <div className="flex-row py-10 space-between align-center">
-                        <div>
-                          {item.stateInfoStr}
-                        </div>
-                      </div> 
+                        <div>{item.stateInfoStr}</div>
+                      </div>
                     </div>
                   );
                 })}
