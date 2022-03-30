@@ -10,9 +10,11 @@
         color: #333333;
         line-height: 20px;
     }
-
+    .ant-tabs-nav{
+        margin: 0 !important;
+    }
     .action-tip {
-        font-size: 14px;
+        font-size: 12px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #222222;

@@ -216,7 +216,7 @@ export default function Contract(props: ItemProps) {
         <Tabs.Tab title="合约流转记录" key="contract">
           <div className="">
             {/* 状态整体 */}
-            <div className="status-card p-15 mt-3">
+            <div className="status-card p-15 ">
               <div className="flex-row">
                 <div
                   className={"auth-status text-center select-none " + authClass}
