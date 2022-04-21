@@ -19,7 +19,6 @@ const uiPath = process.env.NODE_ENV === 'development'
   : mobile
   ? "/mobile"
   : "/pc";
-window.isTest =  window.location.host.split('.')[1] === 't';
 window.ENV = 'freelog.com'
 if(window.location.host.includes('.testfreelog.com')){
   window.ENV = 'testfreelog.com'

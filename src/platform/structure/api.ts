@@ -1,15 +1,7 @@
 import frequest from "../../services/handler";
 import exhibit from "../../services/api/modules/exhibit";
 import contract from "../../services/api/modules/contract";
-let isTest = false;
-if (
-  window.location.href
-    .replace("http://", "")
-    .replace("https://", "")
-    .indexOf("t.") === 0
-) {
-  isTest = true;
-}
+const isTest =  window.isTest;
 // @ts-ignore
 let nodeId = "";
 export function init() {
