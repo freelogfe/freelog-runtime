@@ -4,17 +4,6 @@ import App from "./App";
 import './public-path';
 import reportWebVitals from "./reportWebVitals";
 
-window.isTest = false;
-if (
-  window.location.href
-    .replace("http://", "")
-    .replace("https://", "")
-    .indexOf("t.") === 0
-) {
-  window.isTest = true;
-}
-document.title = '22222'
-
 export async function bootstrap() {
 }
 

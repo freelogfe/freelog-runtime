@@ -3,18 +3,6 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import "./public-path";
 import reportWebVitals from "./reportWebVitals";
-
-window.isTest = false;
-if (
-  window.location.href
-    .replace("http://", "")
-    .replace("https://", "")
-    .indexOf("t.") === 0
-) {
-  window.isTest = true;
-}
-
-
 export async function bootstrap() {
 }
 
