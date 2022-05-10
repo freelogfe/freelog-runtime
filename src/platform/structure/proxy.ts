@@ -413,10 +413,7 @@ export const createLocationProxy = function (name: string) {
           };
         }
         if (property === "protocol") {
-            if(widgetConfig.entry){
-              return   widgetConfig.entry.indexOf('https') === 0 ? 'https' : 'http'  
-            }
-            return rawLocation[property];   
+            widgetConfig.entry.indexOf('https') === 0 ? 'https:' : 'http:'  
          }
         // @ts-ignore
         if (typeof rawLocation[property] === "function") {
