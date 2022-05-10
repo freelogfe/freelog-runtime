@@ -350,7 +350,7 @@ export const createHistoryProxy = function (name: string) {
 };
 export const createLocationProxy = function (name: string) {
   const locationProxy = {};
-
+  const widgetConfig = widgetsConfig.get(name);
   return new Proxy(locationProxy, {
     /* 
         a标签的href需要拦截，// TODO 如果以http开头则不拦截
@@ -412,11 +412,18 @@ export const createLocationProxy = function (name: string) {
             );
           };
         }
+        if (property === "protocol") {
+            if(widgetConfig.entry){
+              return   widgetConfig.entry.indexOf('https') === 0 ? 'https' : 'http'  
+            }
+            return rawLocation[property];   
+         }
         // @ts-ignore
         if (typeof rawLocation[property] === "function") {
           // @ts-ignore
           return rawLocation[property].bind();
         }
+        
         // @ts-ignore
         return rawLocation[property];
       }

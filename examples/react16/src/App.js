@@ -20,7 +20,7 @@ const RouteExample = () => {
       <nav>
         <Link to="/">Home</Link>
         <Divider type="vertical" />
-        <Link to="/book">book</Link>
+        <Link to="/book">bo ok</Link>
       </nav>
       <Button type="primary">Button</Button>
       <Suspense fallback={null}>
