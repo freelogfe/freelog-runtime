@@ -8,7 +8,7 @@ import routes from './router';
 import store from './store';
 
 Vue.config.productionTip = false;
-
+console.log(global)
 Vue.use(ElementUI);
 
 let router = null;

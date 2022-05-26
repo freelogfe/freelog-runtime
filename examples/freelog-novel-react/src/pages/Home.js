@@ -32,13 +32,14 @@ export default function (props) {
         
     //   })
     // })
+    console.log(document.documentElement)
     const res = await window.freelogApp.getExhibitListByPaging({ articleResourceTypes: 'novel' })
     setNovels(res.data.data.dataList)
   }, []);
   return (
     <div className={styles.homePage + " flex-column w-100x h-100x over-h"}>
       <div className={styles.header + " fs-40 mb-30 fw-bold p-20 bs-normal"}>
-        全部小说
+        全 部 小 说
         {/* <img src={img} />
         <Sliders /> */}
       </div>
