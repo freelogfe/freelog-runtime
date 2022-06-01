@@ -6,4 +6,5 @@ interface Window {
     baseURL: string;
     freelogAuth: any;
     __POWERED_BY_FREELOG__: any;
+    ENV: string;
 }

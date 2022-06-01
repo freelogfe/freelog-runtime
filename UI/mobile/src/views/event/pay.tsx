@@ -24,7 +24,7 @@ export default function Pay(props: PayProps) {
   const [loading, setLoading] = useState(false);
   const [inputVisible, setInputVisible] = useState(false);
   const [isAfford, setIsAfford] = useState(true);
-
+  const [isActive, setIsActive] = useState(false);
   // 1: 支付中  2: 支付成功  3: 密码错误   4: 支付失败：需要考虑网络超时
   const [tipType, setTipType] = useState(0);
   const [passwords, setPasswords] = useState<any>(["", "", "", "", "", ""]);
@@ -55,9 +55,10 @@ export default function Pay(props: PayProps) {
     // @ts-ignore
     const res = await frequest(user.getAccount, [userInfo.userId], "");
     setUserAccount(res.data.data);
-        // @ts-ignore
-    // TODO 需要trycatch  parsefloat 
+    // @ts-ignore
+    // TODO 需要trycatch  parsefloat
     setIsAfford(res.data.data.balance > props.transactionAmount);
+    setIsActive(res.data.data.status === 1);
   }
   useEffect(() => {
     props.isModalVisible && getAccount();
@@ -109,15 +110,15 @@ export default function Pay(props: PayProps) {
       );
       const status = res.data.data.status;
       if ([2, 3, 4].includes(status)) {
-        window.clearInterval(flag)
-        setInputVisible(false)
-        setLoading(false)
-        setTimeout(()=>{
-          props.paymentFinish(status)
-        },10)
+        window.clearInterval(flag);
+        setInputVisible(false);
+        setLoading(false);
+        setTimeout(() => {
+          props.paymentFinish(status);
+        }, 10);
       }
     }, 2000);
-  };
+  }
   return (
     <Popup
       position="bottom"
@@ -289,10 +290,12 @@ export default function Pay(props: PayProps) {
           <Button
             color="primary"
             size="large"
-            disabled={!isAfford}
+            disabled={!isAfford && isActive}
             className="w-100x"
             onClick={() => {
-              setInputVisible(true);
+              isActive
+                ? setInputVisible(true)
+                : window.open("http://user." + window.ENV + "/logged/wallet");
             }}
           >
             {loading ? (
@@ -300,8 +303,10 @@ export default function Pay(props: PayProps) {
                 支付中...
                 {/* <Spin /> */}
               </span>
-            ) : (
+            ) : isActive ? (
               "立即支付"
+            ) : (
+              "激活账户"
             )}
           </Button>
         </div>
