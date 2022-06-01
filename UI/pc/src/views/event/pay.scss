@@ -80,12 +80,13 @@
     color: #999999;
     margin: 20px 0 40px 0;
     line-height: 18px;
+
     &:hover {
       color: #2784ff !important;
     }
   }
 
-  
+
 
   input {
     width: 42px;
@@ -103,10 +104,12 @@
     padding-bottom: 5px;
     border: 1px solid #d4d4d4;
     outline: none;
+
     &:focus {
       border: 1px solid #2784ff !important;
     }
   }
+
   .paying {
     width: 60px;
     height: 18px;
@@ -116,6 +119,7 @@
     color: #2784ff;
     line-height: 18px;
   }
+
   .password-error-input {
     input {
       border: 1px solid #ee4040 !important;
@@ -134,6 +138,21 @@
     font-family: PingFangSC-Regular, PingFang SC;
     font-weight: 400;
     color: #999999;
+  }
+
+  .not-afford {
+    font-size: 12px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #EE4040;
+    line-height: 18px;
+  }
+
+  .not-afford-input {
+    input {
+      background: #F7F7F7 !important;
+      border: none !important;
+    }
   }
 
   .enter-tip {

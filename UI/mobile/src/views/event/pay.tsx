@@ -23,6 +23,8 @@ export default function Pay(props: PayProps) {
   const [focus, setFocus] = useState(0);
   const [loading, setLoading] = useState(false);
   const [inputVisible, setInputVisible] = useState(false);
+  const [isAfford, setIsAfford] = useState(true);
+
   // 1: 支付中  2: 支付成功  3: 密码错误   4: 支付失败：需要考虑网络超时
   const [tipType, setTipType] = useState(0);
   const [passwords, setPasswords] = useState<any>(["", "", "", "", "", ""]);
@@ -53,6 +55,9 @@ export default function Pay(props: PayProps) {
     // @ts-ignore
     const res = await frequest(user.getAccount, [userInfo.userId], "");
     setUserAccount(res.data.data);
+        // @ts-ignore
+    // TODO 需要trycatch  parsefloat 
+    setIsAfford(res.data.data.balance > props.transactionAmount);
   }
   useEffect(() => {
     props.isModalVisible && getAccount();
@@ -284,6 +289,7 @@ export default function Pay(props: PayProps) {
           <Button
             color="primary"
             size="large"
+            disabled={!isAfford}
             className="w-100x"
             onClick={() => {
               setInputVisible(true);

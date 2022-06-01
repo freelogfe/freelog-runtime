@@ -26,6 +26,7 @@ interface PayProps {
 export default function Pay(props: PayProps) {
   const [passwords, setPasswords] = useState<any>(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
+  const [isAfford, setIsAfford] = useState(true);
   // 1: 支付中  2: 支付成功  3: 密码错误   4: 支付失败：需要考虑网络超时
   const [tipType, setTipType] = useState(0);
   const [focus, setFocus] = useState(0);
@@ -58,7 +59,11 @@ export default function Pay(props: PayProps) {
     // @ts-ignore
     const res = await frequest(user.getAccount, [userInfo.userId], "");
     setUserAccount(res.data.data);
-    setIsActive(res.data.data.status === 1)
+    console.log(res.data.data);
+    // @ts-ignore
+    // TODO 需要trycatch  parsefloat 
+    setIsAfford(res.data.data.balance > props.transactionAmount);
+    setIsActive(res.data.data.status === 1);
   }
   useEffect(() => {
     setVisible(props.isModalVisible);
@@ -187,13 +192,26 @@ export default function Pay(props: PayProps) {
         {!isActive ? (
           <div className={"text-center my-40"}>
             <div className="enter-tip mb-20">如需支付请先激活羽币账户</div>
-            <Button className="w-184 h-38 text-center" type="primary brs-10" click={()=>{
-              window.open("http://user." + window.ENV + "/logged/wallet");
-            }}>激活羽币账户</Button>
+            <Button
+              className="w-184 h-38 text-center"
+              type="primary brs-10"
+              click={() => {
+                window.open("http://user." + window.ENV + "/logged/wallet");
+              }}
+            >
+              激活羽币账户
+            </Button>
           </div>
         ) : null}
+
         <div className={"text-center mt-40 " + (!isActive ? "d-none" : "")}>
-          {tipType === 0 ? (
+          {!isAfford && (
+            <div className={"text-center mt-40 " + (!isActive ? "d-none" : "")}>
+              {" "}
+              <div className="mb-20 not-afford">余额不足无法支付</div>
+            </div>
+          )}
+          {tipType === 0 && isAfford ? (
             <div className="enter-tip mb-20">输入支付密码进行支付</div>
           ) : tipType === 1 ? (
             <div className="mb-20">
@@ -209,7 +227,7 @@ export default function Pay(props: PayProps) {
               支付密码错误，请重新输入
             </div>
           ) : null}
-          <div className={"" + (tipType === 3 ? "password-error-input" : "")}>
+          <div className={(!isAfford ? "not-afford-input" : "") + (tipType === 3 ? "password-error-input" : "")}>
             {[0, 0, 0, 0, 0, 0].map((item: any, index: any) => {
               return (
                 <input
@@ -218,6 +236,7 @@ export default function Pay(props: PayProps) {
                   minLength={1}
                   key={index}
                   ref={inputs[index]}
+                  disabled={!isAfford}
                   value={passwords[index]}
                   onChange={(e: any) => {}}
                   onClick={(e: any) => {
