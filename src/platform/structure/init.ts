@@ -68,6 +68,7 @@ export function initNode() {
         });
         init();
         const devData = dev()
+        window.vconsole = new VConsole()
         if(devData.type !== DEV_FALSE && devData.config.vconsole){
           window.vconsole = new VConsole()
         }
