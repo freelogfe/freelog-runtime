@@ -1,4 +1,4 @@
-import { SUCCESS, FAILED, USER_CANCEL, DATA_ERROR, TEST_NODE } from "./event";
+import { SUCCESS, FAILED, USER_CANCEL, DATA_ERROR, TEST_NODE, OFFLINE } from "./event";
 import {
   getExhibitInfo,
   getExhibitAuthStatus,
@@ -65,9 +65,15 @@ export async function addAuth(exhibitId: any, options?: any) {
         resolve({ status: DATA_ERROR, data: response[1].data });
         return;
       }
+      if (response[0].data.data.onlineStatus === 0) {
+        resolve({ status: OFFLINE, data: response[0].data });
+        return;
+      }
+      console.log(response);
       const data = response[0].data.data;
       data.contracts = data.contracts || [];
-      data.defaulterIdentityType = response[1].data.data[0].defaulterIdentityType;
+      data.defaulterIdentityType =
+        response[1].data.data[0].defaulterIdentityType;
       data.isAvailable = response[2].data.data[0].isAuth;
       arr.push({
         resolve,

@@ -1,4 +1,5 @@
 import { mountWidget } from "./widget";
+import { resultType } from "../../bridge/event";
 import {
   getSelfConfig,
   setUserData,
@@ -25,7 +26,7 @@ import {
   getExhibitInfoByAuth,
   getExhibitDepInfo,
   getSignStatistics,
-  getExhibitAvailalbe
+  getExhibitAvailalbe,
 } from "./api";
 let devData = "";
 export const freelogApp: any = {
@@ -57,4 +58,5 @@ export const freelogApp: any = {
   getSelfConfig,
   isUserChange,
   reload,
+  resultType
 };

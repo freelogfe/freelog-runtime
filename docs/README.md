@@ -89,7 +89,7 @@ output: {
 ```
 
 ### Vue2 配置示例
- 
+
 **入口配置**
 
 ```ts
@@ -456,11 +456,11 @@ const render = ($) => {
 
 ## 开发
 
-### chrome无法访问localhost问题
+### chrome 无法访问 localhost 问题
 
 地址栏输入：chrome://flags/#block-insecure-private-network-requests
 
-把Block insecure private network requests. 设置为disabled
+把 Block insecure private network requests. 设置为 disabled
 
 如图
 ![chrome](/chrome.png)
@@ -504,7 +504,7 @@ subData.subDep.some((sub, index) => {
     document.getElementById("freelog-single"),
     subData,
     config: {}, // 子插件配置数据，需要另外获取作品上的配置数据（待提供方法）
-    seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的 
+    seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的
     widget_entry: string, // 本地url，dev模式下，可以使用本地url调试子插件
   );
 });
@@ -535,6 +535,7 @@ widgets.some((widget, index) => {
 ```
 
 ### 单独调试某个插件
+
 ```ts
   举例：http://nes-common.testfreelog.com/?dev=replace&62270c5cf670b2002e800193=http://localhost:7107/
   `${url}?dev=replace&${widgetId}=${local_entry}`
@@ -593,7 +594,7 @@ widgets.some((widget, index) => {
 ### 获取插件自身配置数据
 
 ```ts
-const widgetConfig =  window.freelogApp.getSelfConfig();
+const widgetConfig = window.freelogApp.getSelfConfig();
 ```
 
 ### 插件通信方式一：全局通信
@@ -677,9 +678,9 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | projection              | 可选 | string        | 指定返回的字段,多个用逗号分隔                                          |
 | keywords                | 可选 | string[1,100] | 搜索关键字,目前支持模糊搜索节点作品名称和作品名称                      |
 | isLoadVersionProperty   | 可选 | int           | 是否响应展品版本属性                                                   |
-| isLoadPolicyInfo        | 可选 | int           | 是否加载策略信息                                                   |
-| isTranslate             | 可选 | int           | 是否加载翻译信息                                                  |
-| tagQueryType            | 可选 | int           | tags的查询方式1:任意匹配一个标签 2:全部匹配所有标签 默认:1           |
+| isLoadPolicyInfo        | 可选 | int           | 是否加载策略信息                                                       |
+| isTranslate             | 可选 | int           | 是否加载翻译信息                                                       |
+| tagQueryType            | 可选 | int           | tags 的查询方式 1:任意匹配一个标签 2:全部匹配所有标签 默认:1           |
 
 **返回说明：**
 
@@ -857,6 +858,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 	}
 }
 ```
+
 ### 获取子依赖作品文件
 
 ```ts
@@ -982,18 +984,16 @@ if (ch.authErrorType) {
     const res = await window.freelogApp.addAuth(ch.data.exhibitId, {
       immediate: true,
     });
-    // dosomething
-    /**
-     * **res返回值说明**
-      {status: SUCCESS, data}
-        status 枚举：
-          SUCCESS = 0;
-          FAILED = 1;
-          USER_CANCEL = 2;
-          DATA_ERROR = 3;
-        data: 如果是DATA_ERROR，会返回错误数据
-     *
-     */
+
+     **res返回值说明**
+   {status: SUCCESS, data}
+   status 枚举判断：
+     status === window.freelogApp.resultType.SUCCESS;  // 成功
+     status === window.freelogApp.resultType.FAILED;   // 失败
+     status === window.freelogApp.resultType.USER_CANCEL; // 用户取消
+     status === window.freelogApp.resultType.DATA_ERROR;  // 数据错误
+     status === = window.freelogApp.resultType.OFFLINE; // 展品已经下线
+   data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
   });
 }
 ```
@@ -1144,10 +1144,10 @@ const res = await window.freelogApp.getUserData(key);
 
 **推荐使用 postcss-px-to-viewport 插件, 各框架具体使用方法请百度**
 
-## 移动端真机调试vconsole
+## 移动端真机调试 vconsole
 
-**将dev改成devconsole**
+**将 dev 改成 devconsole**
 
-此时无论移动端还是电脑端都会出现vconsole
+此时无论移动端还是电脑端都会出现 vconsole
 
 http://snnaenu.testfreelog.com/?devconsole=http://localhost:8081

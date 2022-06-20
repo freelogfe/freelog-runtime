@@ -34,7 +34,7 @@
     container,   // 挂载容器
     commonData,  // 最外层展品数据（子孙插件都需要用）孙插件暂未完善
     config,      // 配置数据
-    seq,        // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的 
+    seq,        // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的
     widget_entry: string, // 本地url，dev模式下，可以使用本地url调试子插件
   )
 ```
@@ -428,12 +428,13 @@ window.freelogApp.callAuth();
 
  **返回值说明**
  {status: SUCCESS, data}
- status 枚举：
-   SUCCESS = 0;
-   FAILED = 1;
-   USER_CANCEL = 2;
-   DATA_ERROR = 3;
- data: 如果是DATA_ERROR，会返回错误数据
+ status 枚举判断：
+   status === window.freelogApp.resultType.SUCCESS;  // 成功
+   status === window.freelogApp.resultType.FAILED;   // 失败
+   status === window.freelogApp.resultType.USER_CANCEL; // 用户取消
+   status === window.freelogApp.resultType.DATA_ERROR;  // 数据错误
+   status === = window.freelogApp.resultType.OFFLINE; // 展品已经下线
+ data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
 ```
 
 ## onLogin

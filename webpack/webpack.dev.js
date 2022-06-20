@@ -44,6 +44,7 @@ module.exports = merge(common, {
     sockPath,
     historyApiFallback: true,
     disableHostCheck: true,
+    open: false,
     sockPort,
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -52,15 +53,15 @@ module.exports = merge(common, {
     },
     compress: true, // 为每个静态文件开启 gzip compression
     after() {
-      open("http://localhost:" + this.port)
-        .then(() => {
-          console.log(
-            chalk.cyan("成功打开链接： http://localhost:" + this.port)
-          );
-        })
-        .catch((err) => {
-          console.log(chalk.red(err));
-        });
+      // open("http://localhost:" + this.port)
+      //   .then(() => {
+      //     console.log(
+      //       chalk.cyan("成功打开链接： http://localhost:" + this.port)
+      //     );
+      //   })
+      //   .catch((err) => {
+      //     console.log(chalk.red(err));
+      //   });
     },
     before(app, server) {
       console.log(app, server);
