@@ -1,101 +1,14 @@
 @import "../assets/css/index.scss";
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-.ant-tabs-tab{
+.ant-tabs-tab {
   font-size: 12px;
   font-weight: 400;
 }
-.ant-tabs-tab + .ant-tabs-tab {
+
+.ant-tabs-tab+.ant-tabs-tab {
   margin: -1px 0px 0px 20px;
 }
-.freelog-no-theme {
-  width: 100%;
-  height: 100%;
-  z-index: 3;
-  display: flex;
-  flex-flow: column;
-  font-size: 30px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: #666666;
-  line-height: 36px;
-  text-align: center;
-  padding-top: 30vh;
-  position: absolute;
-  background: #f2f2f2;
-}
 
-.no-theme-main-tip {
-  font-size: 30px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: #666666;
-  line-height: 36px;
-  margin-bottom: 30px;
-  margin-top: 40px;
-}
-
-.no-theme-second-tip {
-  font-size: 16px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: #666666;
-  line-height: 22px;
-}
-.no-theme-button-tip {
-  font-size: 14px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: #666666;
-  line-height: 20px;
-}
-.no-theme-button {
-  font-size: 14px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: #2784ff;
-  line-height: 20px;
-}
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.kind-tip {
-  font-size: 12px;
-  font-family: PingFangSC-Semibold, PingFang SC;
-  font-weight: 600;
-  color: #7a869a;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 .freelog-login {
   .ant-modal-root {
@@ -108,7 +21,7 @@
     padding: 0 !important;
   }
 
-  .ant-modal-header > .ant-modal-title {
+  .ant-modal-header>.ant-modal-title {
     color: #222222 !important;
     font-size: 18px !important;
     text-align: center !important;
@@ -140,115 +53,13 @@
   }
 }
 
-.exhibit-item {
-  width: 344px;
-  height: 84px;
-}
-
-.exhibit-selected {
-  background: #fafbfc;
-}
-
-.exhibit-name {
-  width: 304px;
-  font-size: 14px;
-  font-family: PingFangSC-Semibold, PingFang SC;
-  font-weight: 600;
-  color: #222222;
-  line-height: 20px;
-}
-
-.contract-tag {
-  padding: 3px 5px;
-  height: 24px;
-  background: #e9f2ff;
-  border-radius: 2px;
-  border: 1px solid #aed0ff;
-}
-
-.contract-name {
-  font-size: 12px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: #2784ff;
-  line-height: 18px;
-}
-
-.contract-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-}
-
-.error-tip {
-  width: 100%;
-  height: 28px;
-  border-radius: 4px;
-}
-
-.policy-tip {
-  width: 100%;
-  height: 28px;
-  background: rgba(0, 0, 0, 0.02);
-  border-radius: 4px;
-  i {
-    color: #999999 !important;
-  }
-  .tip {
-    height: 18px;
-    font-size: 12px;
-    font-family: PingFangSC-Regular, PingFang SC;
-    font-weight: 400;
-    color: #999999;
-    line-height: 18px;
-  }
-}
-
 .finished {
   opacity: 0.4;
 }
 
-.please-login {
-  font-size: 14px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: #999999;
-}
 
-.auth-title {
-  font-size: 18px;
-  font-family: PingFangSC-Semibold, PingFang SC;
-  font-weight: 600;
-  color: #222222;
-}
 
-.auth-des {
-  font-size: 14px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: #999999;
-}
 
 .theme-height {
   min-height: 460px;
-}
-
-.theme-tip {
-  font-size: 30px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: #666666;
-}
-
-.single-exhibit {
-  background: rgba(0, 0, 0, 0.02);
-  border-radius: 10px;
-
-  .single-exhibit-name {
-    font-size: 14px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
-    color: #222222;
-    line-height: 20px;
-  }
 }

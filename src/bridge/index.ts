@@ -69,7 +69,6 @@ export async function addAuth(exhibitId: any, options?: any) {
         resolve({ status: OFFLINE, data: response[0].data });
         return;
       }
-      console.log(response);
       const data = response[0].data.data;
       data.contracts = data.contracts || [];
       data.defaulterIdentityType =
@@ -100,7 +99,6 @@ export async function addAuth(exhibitId: any, options?: any) {
           }
         }
       }
-
       uiInited = true;
     });
   });

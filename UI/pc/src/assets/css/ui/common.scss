@@ -10,13 +10,14 @@
   filter: grayscale(100%);
 }
 
-.input-none{  
-	background:none !important;  
-	outline:none !important;  
-	border:none !important;
+.input-none {
+  background: none !important;
+  outline: none !important;
+  border: none !important;
 }
-.input-none:focus{   
-  border:none !important;
+
+.input-none:focus {
+  border: none !important;
   box-shadow: none !important;
 }
 
@@ -64,6 +65,18 @@
   background: khaki;
 }
 
-.hover-light:hover{
+.hover-light:hover {
   opacity: 0.85;
+}
+
+.link {
+  color: #2784ff;
+
+  &:hover {
+    color: #529dff;
+  }
+
+  &:active {
+    color: #2376e5;
+  }
 }

@@ -1,4 +1,3 @@
-// import logo from './logo.svg';
 import "./App.scss";
 
 import { useEffect, useState } from "react";
@@ -8,7 +7,6 @@ import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 import user from "@/services/api/modules/user";
-import { eventMap } from '../../../src/bridge/index';
 const {
   reisterUI,
   endEvent,

@@ -1,5 +1,7 @@
+/* @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import { Modal, Input, Spin } from "antd";
-import Button from "../_components/button";
+import Button from "../_commons/button";
 import "./pay.scss";
 import { useState, useEffect, useRef } from "react";
 import frequest from "@/services/handler";
@@ -7,7 +9,7 @@ import user from "@/services/api/modules/user";
 import event from "@/services/api/modules/event";
 import transaction from "@/services/api/modules/transaction";
 import { LoadingOutlined } from "@ant-design/icons";
-import Tip from "../_components/tip";
+import Tip from "../_commons/tip";
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const { getUserInfo } = window.freelogAuth;
@@ -59,9 +61,8 @@ export default function Pay(props: PayProps) {
     // @ts-ignore
     const res = await frequest(user.getAccount, [userInfo.userId], "");
     setUserAccount(res.data.data);
-    console.log(res.data.data);
     // @ts-ignore
-    // TODO 需要trycatch  parsefloat 
+    // TODO 需要trycatch  parsefloat
     setIsAfford(res.data.data.balance > props.transactionAmount);
     setIsActive(res.data.data.status === 1);
   }
@@ -146,6 +147,21 @@ export default function Pay(props: PayProps) {
       }
     }, 2000);
   }
+  const leftItem = `
+        margin-top: 14px;
+        margin-right: 30px;
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #222222;
+        line-height: 20px;`;
+  const rightItem = `
+        margin-top: 14px;
+        font-size: 14px;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #222222;
+        line-height: 20px;`;
   return (
     <Modal
       title="支付"
@@ -164,34 +180,121 @@ export default function Pay(props: PayProps) {
         isModalVisible={isTipVisible}
         setIsModalVisible={setIsTipVisible}
       />
-      <div className="flex-column ">
+      <div className="flex-column">
         {/* 金额 */}
-        <div className="amount text-center my-40 px-80">
+        <div
+          className="amount text-center my-40 px-80"
+          css={css`
+            font-size: 50px;
+            font-weight: 600;
+            color: #222222;
+            line-height: 56px;
+          `}
+        >
           <span className="ml-30">
             {props.transactionAmount}
-            <span className="type ml-10">羽币</span>
+            <span
+              className="type ml-10"
+              css={css`
+                width: 28px;
+                height: 20px;
+                font-size: 14px;
+                font-weight: 400;
+                color: #666666;
+                line-height: 20px;
+              `}
+            >
+              羽币
+            </span>
           </span>
         </div>
         <div className="flex-row px-80 over-h">
           <div className="flex-column shrink-0">
-            <div className="left-item">标的物</div>
-            <div className="left-item">授权合约</div>
-            <div className="left-item">收款方</div>
-            <div className="left-item">支付方式</div>
+            <div
+              css={css`
+                ${leftItem}
+              `}
+            >
+              标的物
+            </div>
+            <div
+              css={css`
+                ${leftItem}
+              `}
+            >
+              授权合约
+            </div>
+            <div
+              css={css`
+                ${leftItem}
+              `}
+            >
+              收款方
+            </div>
+            <div
+              css={css`
+                ${leftItem}
+              `}
+            >
+              支付方式
+            </div>
           </div>
           <div className="flex-column flex-1 over-h">
-            <div className="right-item text-ellipsis">{props.subjectName}</div>
-            <div className="right-item text-ellipsis">{props.contractName}</div>
-            <div className="right-item text-ellipsis">{props.receiver}</div>
-            <div className="right-item text-ellipsis">
+            <div
+              className="text-ellipsis"
+              css={css`
+                ${rightItem}
+              `}
+            >
+              {props.subjectName}
+            </div>
+            <div
+              className="text-ellipsis"
+              css={css`
+                ${rightItem}
+              `}
+            >
+              {props.contractName}
+            </div>
+            <div
+              className="text-ellipsis"
+              css={css`
+                ${rightItem}
+              `}
+            >
+              {props.receiver}
+            </div>
+            <div
+              className="text-ellipsis"
+              css={css`
+                ${rightItem}
+              `}
+            >
               <span className="">羽币账户</span>
-              <span className="balance">（余额{userAccount.balance}枚）</span>
+              <span
+                css={css`
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #999999;
+                  line-height: 20px;
+                `}
+              >
+                （余额{userAccount.balance}枚）
+              </span>
             </div>
           </div>
         </div>
         {!isActive ? (
           <div className={"text-center my-40"}>
-            <div className="enter-tip mb-20">如需支付请先激活羽币账户</div>
+            <div
+              className="enter-tip mb-20 h-18 fs-12 lh-18"
+              css={css`
+                font-weight: 400;
+                color: #222222;
+              `}
+            >
+              如需支付请先激活羽币账户
+            </div>
             <Button
               className="w-184 h-38 text-center"
               type="primary brs-10"
@@ -208,7 +311,15 @@ export default function Pay(props: PayProps) {
           {!isAfford && (
             <div className={"text-center mt-40 " + (!isActive ? "d-none" : "")}>
               {" "}
-              <div className="mb-20 not-afford">余额不足无法支付</div>
+              <div
+                className="mb-20 fs-12 lh-18"
+                css={css`
+                  font-weight: 400;
+                  color: #ee4040;
+                `}
+              >
+                余额不足无法支付
+              </div>
             </div>
           )}
           {tipType === 0 && isAfford ? (
@@ -219,15 +330,30 @@ export default function Pay(props: PayProps) {
                 indicator={antIcon}
                 style={{ fontSize: "12px !important" }}
               />
-              <span className="paying flex-1 ml-5">正在支付中...</span>
+              <span
+                className="flex-1 ml-5 w-60 h-18 fs-12"
+                css={css`
+                  font-weight: 600;
+                  color: #2784ff;
+                  line-height: 18px;
+                `}
+              >
+                正在支付中...
+              </span>
             </div>
           ) : null}
           {tipType === 3 ? (
-            <div className="password-error mt-5 mb-20">
+            <div
+              className=" mt-5 mb-20 fs-14"
+              css={css`
+                font-weight: 400;
+                color: #ee4040;
+              `}
+            >
               支付密码错误，请重新输入
             </div>
           ) : null}
-          <div className={(!isAfford ? "not-afford-input" : "") + (tipType === 3 ? "password-error-input" : "")}>
+          <div className={!isAfford ? "not-afford-input" : ""}>
             {[0, 0, 0, 0, 0, 0].map((item: any, index: any) => {
               return (
                 <input
@@ -237,6 +363,23 @@ export default function Pay(props: PayProps) {
                   key={index}
                   ref={inputs[index]}
                   disabled={!isAfford}
+                  className="w-42 h-38 brs-4 lh-38 fs-38 pb-5 over-h"
+                  css={css`
+                    background: ${!isAfford ? "#F7F7F7" : "#ffffff"};
+                    caret-color: transparent;
+                    margin: 0 10px !important;
+                    box-sizing: border-box;
+                    text-align: center;
+                    border: ${!isAfford
+                      ? "none"
+                      : tipType === 3
+                      ? "1px solid #ee4040 !important"
+                      : "1px solid #d4d4d4"};
+                    outline: none;
+                    &:focus {
+                      border: 1px solid #2784ff !important;
+                    }
+                  `}
                   value={passwords[index]}
                   onChange={(e: any) => {}}
                   onClick={(e: any) => {
@@ -285,7 +428,19 @@ export default function Pay(props: PayProps) {
             })}
           </div>
           <div
-            className="forgot-p cur-pointer"
+            className="cur-pointer"
+            css={css`
+              width: 72px;
+              height: 18px;
+              font-size: 12px;
+              font-weight: 400;
+              color: #999999;
+              margin: 20px 0 40px 0;
+              line-height: 18px;
+              &:hover {
+                color: #2784ff !important;
+              }
+            `}
             onClick={() => {
               window.open("http://user." + window.ENV + "/retrievePayPassword");
             }}

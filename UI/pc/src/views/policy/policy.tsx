@@ -1,17 +1,16 @@
+/* @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import PolicyGraph from "./_components/policyGraph";
 import PolicyCode from "./_components/policyCode";
-import "./policy.scss";
 import { useState } from "react";
 
 import PolicyContent from "./_components/policyContent";
-import Button from "../_components/button";
+import Button from "../_commons/button";
 
 import { Tabs, Checkbox, Popconfirm } from "antd";
 
 const { TabPane } = Tabs;
-const {
-  getCurrentUser, 
-} = window.freelogAuth;
+const { getCurrentUser } = window.freelogAuth;
 interface ItemProps {
   policy: any;
   selectType: boolean;
@@ -28,7 +27,7 @@ export default function Policy(props: ItemProps) {
     props.policySelect(props.policy.policyId, e.target.checked);
   }
   async function confirm(e: any) {
-    props.getAuth()
+    props.getAuth();
     setVisible(false);
   }
 
@@ -37,10 +36,27 @@ export default function Policy(props: ItemProps) {
     setVisible(false);
   }
   return (
-    <div className="flex-column policy-card w-100x">
+    <div
+      className="flex-column policy-card w-100x"
+      css={css`
+        margin-top: 15px;
+        background: #ffffff;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      `}
+    >
       {/* 上：策略名称与操作 */}
       <div className="flex-row space-between px-20 pt-15">
-        <div className="flex-1 policy-name  text-ellipsis">
+        <div
+          className="flex-1 policy-name  text-ellipsis"
+          css={css`
+            font-size: 14px;
+            font-family: PingFangSC-Semibold, PingFang SC;
+            font-weight: 600;
+            color: #333333;
+            line-height: 20px;
+          `}
+        >
           {props.policy.policyName}
         </div>
         {props.selectType ? (
@@ -78,9 +94,9 @@ export default function Policy(props: ItemProps) {
               translateInfo={props.policy.translateInfo}
             ></PolicyContent>
           </TabPane>
-          <TabPane tab="状态机视图" key="2">
+          {/* <TabPane tab="状态机视图" key="2">
             <PolicyGraph policy={props.policy}></PolicyGraph>
-          </TabPane>
+          </TabPane> */}
           <TabPane tab="策略代码" key="3">
             <PolicyCode policyText={props.policy.policyText}></PolicyCode>
           </TabPane>
