@@ -33,8 +33,6 @@ const moduleFileExtensions = [
   'web.tsx',
   'tsx',
   'json',
-  'scss',
-  'css',
   'web.jsx',
   'jsx',
 ];
@@ -59,9 +57,7 @@ module.exports = {
   appBuild: resolveApp(buildPath),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  mobileHtml: resolveApp('public/mobile.html'),
   appIndexJs: resolveModule(resolveApp, 'src/index'),
-  mobileJs: resolveModule(resolveApp, 'src/mobile'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   appTsConfig: resolveApp('tsconfig.json'),
@@ -70,6 +66,8 @@ module.exports = {
   testsSetup: resolveModule(resolveApp, 'src/setupTests'),
   proxySetup: resolveApp('src/setupProxy.js'),
   appNodeModules: resolveApp('node_modules'),
+  appWebpackCache: resolveApp('node_modules/.cache'),
+  appTsBuildInfoFile: resolveApp('node_modules/.cache/tsconfig.tsbuildinfo'),
   swSrc: resolveModule(resolveApp, 'src/service-worker'),
   publicUrlOrPath,
 };

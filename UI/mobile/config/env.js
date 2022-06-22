@@ -6,13 +6,14 @@ const paths = require('./paths');
 
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve('./paths')];
-process.env.PORT = 8881
+
 const NODE_ENV = process.env.NODE_ENV;
 if (!NODE_ENV) {
   throw new Error(
     'The NODE_ENV environment variable is required but was not specified.'
   );
 }
+process.env.PORT = 8881
 if (NODE_ENV === 'development') {
   process.env.WDS_SOCKET_HOST = 'localhost'
   process.env.WDS_SOCKET_PATH = 'localhost:' + process.env.PORT
@@ -90,8 +91,6 @@ function getClientEnvironment(publicUrl) {
         WDS_SOCKET_PATH: process.env.WDS_SOCKET_PATH,
         WDS_SOCKET_PORT: process.env.WDS_SOCKET_PORT,
         // Whether or not react-refresh is enabled.
-        // react-refresh is not 100% stable at this time,
-        // which is why it's disabled by default.
         // It is defined here so it is available in the webpackHotDevClient.
         FAST_REFRESH: process.env.FAST_REFRESH !== 'false',
       }

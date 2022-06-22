@@ -1,4 +1,3 @@
-/* @jsxImportSource astroturf */
 import { css } from "astroturf";
 import { useState, useEffect, useRef } from "react";
 import frequest from "@/services/handler";
@@ -19,20 +18,21 @@ interface PayProps {
   eventId: any;
   paymentFinish: any;
 }
-const titleItem = css`
-  padding: 20px 0 5px 0;
-  font-size: 14px;
-  font-weight: 400;
-  color: #222222;
-  line-height: 20px;
-`;
-const contentItem = css`
-  font-size: 16px;
-  font-weight: 600;
-  color: #222222;
-  line-height: 22px;
-`;
+
 export default function Pay(props: PayProps) {
+  const titleItem = css`
+    padding: 20px 0 5px 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: #222222;
+    line-height: 20px;
+  `;
+  const contentItem = css`
+    font-size: 16px;
+    font-weight: 600;
+    color: #222222;
+    line-height: 22px;
+  `;
   const [focus, setFocus] = useState(0);
   const [loading, setLoading] = useState(false);
   const [inputVisible, setInputVisible] = useState(false);
@@ -59,9 +59,6 @@ export default function Pay(props: PayProps) {
       }, 100);
     }
   }, [inputVisible]);
-  const handleCancel = () => {
-    props.setIsModalVisible(false);
-  };
   async function getAccount() {
     // @ts-ignore
     const userInfo = await getUserInfo();
@@ -178,65 +175,48 @@ export default function Pay(props: PayProps) {
         </div>
         <div className="flex-column over-h">
           <div
-            css={css`
-              ${titleItem}
-            `}
+            css={titleItem}
           >
             标的物
           </div>
           <div
-            css={css`
-              ${contentItem}
-            `}
+            css={contentItem}
             className=" text-ellipsis"
           >
             {props.subjectName}
           </div>
 
           <div
-            css={css`
-              ${titleItem}
-            `}
+            css={titleItem}
           >
             授权合约
           </div>
           <div
-            css={css`
-              ${contentItem}
-            `}
+            css={contentItem}
             className=" text-ellipsis"
           >
             {props.contractName}
           </div>
 
           <div
-            css={css`
-              ${titleItem}
-            `}
+            css={titleItem}
           >
             收款方
           </div>
           <div
-            css={css`
-              ${contentItem}
-            `}
+            css={contentItem}
             className=" text-ellipsis"
           >
             {props.receiver}
           </div>
 
           <div
-            css={css`
-              ${titleItem}
-            `}
+            css={titleItem}
           >
             支付方式
           </div>
           <div
-            css={css`
-              ${contentItem}
-            `}
-            className=""
+            css={contentItem}
           >
             <span className="">羽币账户</span>
             <span

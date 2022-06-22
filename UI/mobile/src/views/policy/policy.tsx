@@ -1,4 +1,4 @@
-/* @jsxImportSource astroturf */
+
 import { css } from "astroturf";
 // import PolicyGraph from "./_components/policyGraph";
 import PolicyCode from "./_components/policyCode";
@@ -18,11 +18,11 @@ interface ItemProps {
   getAuth: any;
   children?: any;
 }
-const tabs = [
-  { title: <Badge>策略内容</Badge> },
-  { title: <Badge>状态机视图</Badge> },
-  { title: <Badge>策略代码</Badge> },
-];
+// const tabs = [
+//   { title: <Badge>策略内容</Badge> },
+//   { title: <Badge>状态机视图</Badge> },
+//   { title: <Badge>策略代码</Badge> },
+// ];
 export default function Policy(props: ItemProps) {
   function onChange(e: any) {
     props.policySelect(props.policy.policyId, e.target.checked);

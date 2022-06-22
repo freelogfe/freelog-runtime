@@ -1,4 +1,4 @@
-/* @jsxImportSource astroturf */
+
 import { css } from "astroturf";
 
 interface policyTipProps {

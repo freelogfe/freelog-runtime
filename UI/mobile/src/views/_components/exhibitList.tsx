@@ -1,4 +1,4 @@
-/* @jsxImportSource astroturf */
+
 import { css } from "astroturf";
 import { Dialog, Popup } from "antd-mobile"; // Toast, Button
 
@@ -77,8 +77,8 @@ export default function exhibitList({
                   padding: 0 15px;
                   ${currentExhibit &&
                   currentExhibit.exhibitId === item.exhibitId
-                    ? ""
-                    : ""}
+                    ? css``
+                    : css``}
                 `}
                 key={item}
               >

@@ -1,4 +1,4 @@
-/* @jsxImportSource astroturf */
+
 import { css } from "astroturf";
 import { useState, useEffect } from "react";
 import Pay from "../event/pay";

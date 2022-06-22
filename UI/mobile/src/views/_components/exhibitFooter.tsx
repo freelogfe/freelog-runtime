@@ -1,4 +1,4 @@
-/* @jsxImportSource astroturf */
+
 import { css } from "astroturf";
 import { Button } from "antd-mobile"; // Toast, Button
 interface exhibitFooterProps {

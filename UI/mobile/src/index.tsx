@@ -1,28 +1,26 @@
 // @ts-ignore
-import ReactDOM from "react-dom";
 import App from "./App";
 import "./public-path";
 import reportWebVitals from "./reportWebVitals";
-export async function bootstrap() {
-}
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+export async function bootstrap() {}
 
 export async function mount(props: any = {}) {
-  const { container } = props;
-  ReactDOM.render(
-    <App />,
-    container
-      ? container.querySelector("#root")
-      : document.querySelector("#root")
-  );
+  root.render(<App />);
 }
-
 export async function unmount(props: any) {
-  const { container } = props;
-  ReactDOM.unmountComponentAtNode(
-    container
-      ? container.querySelector("#root")
-      : document.getElementById("root")
-  );
+  root.unmount();
 }
 if (!window.__POWERED_BY_FREELOG__) {
   bootstrap().then(mount);
