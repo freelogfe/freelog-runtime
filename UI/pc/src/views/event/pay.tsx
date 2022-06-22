@@ -2,7 +2,6 @@
 import { css } from "@emotion/react";
 import { Modal, Input, Spin } from "antd";
 import Button from "../_commons/button";
-import "./pay.scss";
 import { useState, useEffect, useRef } from "react";
 import frequest from "@/services/handler";
 import user from "@/services/api/modules/user";
@@ -147,21 +146,23 @@ export default function Pay(props: PayProps) {
       }
     }, 2000);
   }
-  const leftItem = `
-        margin-top: 14px;
-        margin-right: 30px;
-        font-size: 14px;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
-        color: #222222;
-        line-height: 20px;`;
-  const rightItem = `
-        margin-top: 14px;
-        font-size: 14px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
-        color: #222222;
-        line-height: 20px;`;
+  const leftItem = css`
+    margin-top: 14px;
+    margin-right: 30px;
+    font-size: 14px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #222222;
+    line-height: 20px;
+  `;
+  const rightItem = css`
+    margin-top: 14px;
+    font-size: 14px;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    color: #222222;
+    line-height: 20px;
+  `;
   return (
     <Modal
       title="支付"
@@ -174,6 +175,30 @@ export default function Pay(props: PayProps) {
       onOk={handleOk}
       onCancel={handleCancel}
       wrapClassName="freelog-pay"
+      css={css`
+        .ant-modal-title {
+          font-size: 18px !important;
+          font-family: PingFangSC-Semibold, PingFang SC;
+          font-weight: 600 !important;
+          color: #222222 !important;
+          line-height: 42px !important;
+          text-align: center;
+        }
+
+        .ant-modal-body {
+          padding: 0 !important;
+        }
+
+        .ant-modal-content {
+          background: #ffffff !important;
+          border-radius: 10px !important;
+        }
+
+        .ant-modal-header {
+          height: 75px !important;
+          border-radius: 10px 10px 0 0 !important;
+        }
+      `}
     >
       <Tip
         {...tipConfig}

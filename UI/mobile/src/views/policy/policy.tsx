@@ -1,8 +1,9 @@
+/* @jsxImportSource astroturf */
+import { css } from "astroturf";
 // import PolicyGraph from "./_components/policyGraph";
 import PolicyCode from "./_components/policyCode";
- 
+
 import PolicyContent from "./_components/policyContent";
-import './policy.scss'
 import { Tabs, Badge, Dialog, Button, Checkbox } from "antd-mobile";
 
 const { getCurrentUser } = window.freelogAuth;
@@ -35,7 +36,18 @@ export default function Policy(props: ItemProps) {
   }
 
   return (
-    <div className="flex-column brs-10 b-1 mx-10 mt-15 freelog-policy-card">
+    <div
+      css={css`
+        .adm-auto-center-content {
+          padding: 20px 10px 5px 10px;
+          font-size: 16px;
+        }
+        .adm-tabs-tab-list {
+          margin-right: 190px;
+        }
+      `}
+      className="flex-column brs-10 b-1 mx-10 mt-15"
+    >
       {/* 上：策略名称与操作 */}
       <div className="flex-row space-between px-15 py-15">
         <div className="flex-1 text-ellipsis fc-main fs-16 fw-bold">
@@ -59,7 +71,7 @@ export default function Policy(props: ItemProps) {
                     confirm(props.policy.policyId);
                   },
                   onCancel: () => cancel(),
-                  bodyClassName: 'fs-24'
+                  bodyClassName: "fs-24",
                 });
               }, 0);
             }}

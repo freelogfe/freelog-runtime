@@ -2,7 +2,6 @@
 import { css } from "@emotion/react";
 
 import { Modal } from "antd";
-import "./tip.scss";
 import { useEffect } from "react";
 
 interface ConfirmProps {
@@ -35,7 +34,17 @@ export default function Tip(props: ConfirmProps) {
       onCancel={() => {
         props.setIsModalVisible(false);
       }}
-      wrapClassName="freelog-pc-tip"
+      css={css`
+        .ant-modal-content {
+          background: #ffffff !important;
+          border-radius: 6px !important;
+          border: 1px solid #f0f0f0 !important;
+        }
+
+        .iconfont {
+          font-size: 40px;
+        }
+      `}
     >
       <div className="w-100x h-100x flex-column align-center">
         {props.type === "success" ? (

@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import Button from "../_commons/button";
 import Pay from "../event/pay";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
-import "./contract.scss";
 import PolicyGraph from "../policy/_components/policyGraph";
 import PolicyCode from "../policy/_components/policyCode";
 import PolicyContent from "../policy/_components/policyContent";
@@ -185,6 +184,9 @@ export default function Contract(props: ItemProps) {
       css={css`
         background: #ffffff;
         box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+        .ant-tabs-nav {
+          margin: 0 !important;
+        }
       `}
     >
       {eventIndex > -1 && (
@@ -306,6 +308,42 @@ export default function Contract(props: ItemProps) {
                                   ? ""
                                   : "event-selected")
                               }
+                              css={css`
+                                label {
+                                  width: 100%;
+
+                                  & > span:nth-child(2) {
+                                    width: 100%;
+                                  }
+                                }
+                                .ant-radio-group {
+                                  width: 100%;
+                                }
+                                ${index !== eventIndex ||
+                                currentStatus.tec === 1
+                                  ? css``
+                                  : css`
+                                      background: rgba(39, 132, 255, 0.08);
+                                      border: 1px solid rgba(39, 132, 255, 0.6) !important;
+                                    `}
+                                ${currentStatus.tec === 1 ||
+                                event.origin.name !== "TransactionEvent"
+                                  ? css`
+                                      .ant-radio {
+                                        display: none;
+                                      }
+
+                                      span {
+                                        padding: 0 !important;
+                                      }
+                                    `
+                                  : css`
+                                      padding: 10px;
+                                      margin-top: 10px;
+                                      border-radius: 4px;
+                                      border: 1px solid rgba(0, 0, 0, 0.15);
+                                    `}
+                              `}
                               key={index}
                             >
                               <Radio
