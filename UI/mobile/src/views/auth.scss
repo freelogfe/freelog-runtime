@@ -19,8 +19,25 @@
    border-radius: 0px 10px 10px 0px;
  }
 
+ .pop-body-center {
+   .adm-popup-body {
+     margin: 22px;
+     top: 30%;
+     background-color: transparent !important;
+     width: 330px !important;
+     border-radius: 4px !important;
+   }
+ }
 
-
+ .pop-body-center1 {
+  .adm-popup-body {
+    margin: 22px;
+    top: 30%;
+    height: 220px;
+    width: 330px !important;
+    border-radius: 4px !important;
+  }
+ }
 
 
  .common-input {

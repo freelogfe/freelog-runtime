@@ -4,7 +4,7 @@ import { css } from "astroturf";
 import PolicyCode from "./_components/policyCode";
 
 import PolicyContent from "./_components/policyContent";
-import { Tabs, Badge, Dialog, Button, Checkbox } from "antd-mobile";
+import { Tabs, Dialog, Button, Checkbox } from "antd-mobile";
 
 const { getCurrentUser } = window.freelogAuth;
 interface ItemProps {

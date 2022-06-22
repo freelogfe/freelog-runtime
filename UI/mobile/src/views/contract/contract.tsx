@@ -1,4 +1,3 @@
-
 import { css } from "astroturf";
 import { useState, useEffect } from "react";
 import Pay from "../event/pay";
@@ -27,21 +26,21 @@ const tabs = [
   { title: <Badge>状态机视图</Badge> },
   { title: <Badge>策略代码</Badge> },
 ];
-const authStatusCss = css`
-  padding: 5px 10px;
-  margin-right: 5px;
-  border-radius: 10px;
-  font-size: 11px;
-  font-weight: 500;
-  color: #ffffff;
-`;
-const authTime = css`
-  font-size: 12px;
-  font-weight: 400;
-  color: #222222;
-  line-height: 18px;
-`;
+
 export default function Contract(props: ItemProps) {
+  const authStatusCss = css`
+    padding: 5px 10px;
+    margin-right: 5px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #ffffff;
+  `;
+  const authTime = css`
+    font-size: 12px;
+    font-weight: 400;
+    color: #222222;
+  `;
   const [eventIndex, setEventIndex] = useState(-1);
   const [unfold, setUnFold] = useState(false);
   const [records, setRecords] = useState<any>([]);
@@ -173,7 +172,6 @@ export default function Contract(props: ItemProps) {
         authStatus,
       });
     });
-    console.log(recordsArr);
     setTotalItem(res.data.data.totalItem);
     setRecords([...records, ...recordsArr]);
     !init && setUnFold(true);
@@ -260,14 +258,13 @@ export default function Contract(props: ItemProps) {
               `}
               className="p-15"
             >
-              <div className="flex-row">
+              <div className="flex-row align-center">
                 <div
-                  css={authStatusCss}
-                  className={" text-center select-none " + authClass}
+                  className={authStatusCss + " text-center select-none " + authClass }
                 >
                   {authStatus}
                 </div>
-                <div css={authTime}>
+                <div className={authTime}>
                   {moment(props.contract.updateDate).format(
                     "YYYY-MM-DD HH:mm:ss"
                   )}
@@ -345,6 +342,7 @@ export default function Contract(props: ItemProps) {
                                       border: 1px solid rgba(0, 0, 0, 0.15);
                                     `}
                               `}
+                              className="flex-row"
                               key={index}
                             >
                               <input
@@ -370,7 +368,7 @@ export default function Contract(props: ItemProps) {
                                     color: #222222;
                                     line-height: 20px;
                                   `}
-                                  className="flex-row event  align-center  "
+                                  className="flex-row align-center  "
                                 >
                                   <div className="mx-10 flex-row align-center pe-none ">
                                     <span
@@ -469,7 +467,7 @@ export default function Contract(props: ItemProps) {
                 records.slice(1).map((item: any, index: number) => {
                   return (
                     <div
-                      className=" mt-15 contract-records"
+                      className=" mt-15 "
                       css={css`
                         background: #fafbfc;
                         border-radius: 6px;
@@ -479,14 +477,13 @@ export default function Contract(props: ItemProps) {
                     >
                       <div className="flex-row">
                         <div
-                          css={authStatusCss}
-                          className={
-                            "text-center select-none " + item.authClass
+                          className={authStatusCss + 
+                            " text-center select-none " + item.authClass
                           }
                         >
                           {item.authStatus}
                         </div>
-                        <div css={authTime}>
+                        <div className={authTime}>
                           {moment(item.time).format("YYYY-MM-DD HH:mm:ss")}
                         </div>
                       </div>

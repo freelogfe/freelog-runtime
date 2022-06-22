@@ -6,7 +6,6 @@
     "@ant-design/icons": "^4.6.2",
     "@antv/x6": "^1.32.3-beta.1",
     "@babel/core": "^7.16.0",
-    "@emotion/react": "^11.9.3",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.16.4",
@@ -150,6 +149,5 @@
     ]
   },
   "devDependencies": {
-    "@emotion/babel-plugin": "^11.9.2"
   }
 }
