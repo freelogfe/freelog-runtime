@@ -10,7 +10,7 @@ const getHttpsConfig = require('./getHttpsConfig');
 
 const host = process.env.HOST || '0.0.0.0';
 const sockHost = process.env.WDS_SOCKET_HOST;
-const sockPath = process.env.WDS_SOCKET_PATH; // default: '/ws'
+const sockPath = process.env.WDS_SOCKET_PATH || '/ws'; // default: '/ws'
 const sockPort = process.env.WDS_SOCKET_PORT;
 
 module.exports = function (proxy, allowedHost) {
@@ -36,11 +36,6 @@ module.exports = function (proxy, allowedHost) {
     // Note: ["localhost", ".localhost"] will support subdomains - but we might
     // want to allow setting the allowedHosts manually for more complex setups
     allowedHosts: disableFirewall ? 'all' : [allowedHost],
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': '*',
-      'Access-Control-Allow-Headers': '*',
-    },
     // Enable gzip compression of generated files.
     compress: true,
     static: {
@@ -89,8 +84,7 @@ module.exports = function (proxy, allowedHost) {
       // from the root.
       // remove last slash so user can land on `/test` instead of `/test/`
       publicPath: paths.publicUrlOrPath.slice(0, -1),
-    },
-
+    }, 
     https: getHttpsConfig(),
     host,
     historyApiFallback: {

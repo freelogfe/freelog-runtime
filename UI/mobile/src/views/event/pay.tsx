@@ -423,13 +423,6 @@ export default function Pay(props: PayProps) {
                 font-weight: 400;
                 color: #999999;
               `}
-            ></span>
-            <span
-              css={css`
-                font-size: 14px;
-                font-weight: 400;
-                color: #999999;
-              `}
               className="flex-row space-around my-30 w-100x"
               onClick={() => {
                 props.setModalType(4);

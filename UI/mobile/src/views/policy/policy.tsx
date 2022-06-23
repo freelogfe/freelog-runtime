@@ -1,4 +1,3 @@
-
 import { css } from "astroturf";
 // import PolicyGraph from "./_components/policyGraph";
 import PolicyCode from "./_components/policyCode";
@@ -50,7 +49,7 @@ export default function Policy(props: ItemProps) {
     >
       {/* 上：策略名称与操作 */}
       <div className="flex-row space-between px-15 py-15">
-        <div className="flex-1 text-ellipsis fc-main fs-16 fw-bold">
+        <div className="flex-1 text-ellipsis fc-main fs-16 fw-bold lh-33">
           {props.policy.policyName}
         </div>
         {props.selectType ? (

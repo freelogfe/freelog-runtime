@@ -80,7 +80,6 @@ export default function Auth(props: contractProps) {
 
   async function getDetail(id?: string) {
     setSelectedPolicies([]);
-    console.log(currentExhibit);
     if (!id) {
       const userInfo: any = getCurrentUser();
       const con = await frequest(contract.getContracts, "", {

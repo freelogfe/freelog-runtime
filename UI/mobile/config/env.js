@@ -16,7 +16,7 @@ if (!NODE_ENV) {
 process.env.PORT = 8881
 if (NODE_ENV === 'development') {
   process.env.WDS_SOCKET_HOST = 'localhost'
-  process.env.WDS_SOCKET_PATH = 'localhost:' + process.env.PORT
+  process.env.WDS_SOCKET_PATH = '' // 'localhost:' + process.env.PORT
   process.env.WDS_SOCKET_PORT = process.env.PORT
 }
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
