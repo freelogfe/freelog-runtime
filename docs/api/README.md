@@ -126,7 +126,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | articleInfo             | object   | 展品实际挂载的作品信息                                     |
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
-| \*\* resourceType       | string   | 作品作品类型                                               |
+| \*\* resourceType       | [string]   | 作品作品类型                                               |
 | \*\* articleType        | int      | 作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象) |
 | \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
@@ -174,7 +174,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | articleInfo             | object   | 展品实际挂载的作品信息                                     |
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
-| \*\* resourceType       | string   | 作品作品类型                                               |
+| \*\* resourceType       | [string]   | 作品作品类型                                               |
 | \*\* articleType        | int      | 作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象) |
 | \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
@@ -219,7 +219,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | articleInfo             | object   | 展品实际挂载的作品信息                                     |
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
-| \*\* resourceType       | string   | 作品作品类型                                               |
+| \*\* resourceType       | [string]   | 作品作品类型                                               |
 | \*\* articleType        | int      | 作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象) |
 | \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
