@@ -15,9 +15,11 @@ import ExhibitList from "./_components/exhibitList";
 import Tip from "./_commons/tip";
 import ExhibitHeader from "./_components/exhibitHeader";
 import ExhibitError from "./_statusComponents/exhibitError";
+import ExhibitOffLine from "./_statusComponents/exhibitOffLine";
 import ExhibitFooter from "./_components/exhibitFooter";
 import ContractTip from "./_components/contractTip";
 import PolicyTip from "./_components/policyTip";
+import { forEach } from 'lodash';
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
   window.freelogAuth;
@@ -37,6 +39,7 @@ export default function Auth(props: contractProps) {
   const [isLoginVisible, setIsLoginVisible] = useState(false);
   const [isTipVisible, setIsTipVisible] = useState(false);
   const [themeCancel, setThemeCancel] = useState(false);
+  const [exhibitOnline, setExhibitOnline] = useState(false);
   const [tipConfig, setTipConfig] = useState({
     content: "签约成功",
     type: "success",
@@ -152,6 +155,7 @@ export default function Auth(props: contractProps) {
 
   // 切换展品
   useEffect(() => {
+    console.log(currentExhibit);
     if (props.isLogin) return;
     if (currentExhibit) {
       //  && currentExhibit.exhibitId !== currentExhibitId
@@ -199,12 +203,13 @@ export default function Auth(props: contractProps) {
   // 签约发起
   const getAuth = async () => {
     const subjects: any = [];
+    let policies: any = []
     currentExhibit.policiesActive.forEach((item: any) => {
       selectedPolicies.includes(item.policyId) &&
         subjects.push({
           subjectId: currentExhibit.exhibitId,
           policyId: item.policyId,
-        });
+        }) && policies.push(item);
     });
     const userInfo: any = getCurrentUser();
     const res = await frequest(contract.contracts, [], {
@@ -218,6 +223,48 @@ export default function Auth(props: contractProps) {
       // `付款到${seller}${amount}块钱就可以达到${status}状态`
     }
     setIsConfirmVisible(false);
+    console.log(res)
+    if (res.data.errcode) {
+      if (res.data.msg === "subject-policy-check-failed") {
+        // @ts-ignore
+        // policies.forEach(item=>{
+        //   if(res.data.data item.policyId === )
+        // })
+        // policy._disabled = true;
+        setCurrentExhibit({ ...currentExhibit });
+        // Toast.show({
+        //   icon: (
+        //     <i
+        //       className="iconfont"
+        //       css={css`
+        //         color: red;
+        //         font-size: 50px;
+        //       `}
+        //     >
+        //       &#xe62f;
+        //     </i>
+        //   ),
+        //   content: "策略已下线无法签约",
+        //   duration: 1500,
+        // });
+        setTipConfig({
+          content: "策略已下线无法签约",
+          type: "error",
+        });
+        setTimeout(() => {
+          setIsTipVisible(false);
+        }, 1500);
+        return;
+      }
+      setTipConfig({
+        content: "获得授权",
+        type: "success",
+      });
+      setTimeout(() => {
+        setIsTipVisible(false);
+      }, 1500);
+      return;
+    }
     const isAuth = res.data.data.some((item: any) => {
       if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
         setIsTipVisible(true);
@@ -347,41 +394,48 @@ export default function Auth(props: contractProps) {
                           {events.length === 1 && !currentExhibit.isTheme ? (
                             <ExhibitHeader currentExhibit={currentExhibit} />
                           ) : null}
-                          {!currentExhibit.isAvailable ? (
-                            <ExhibitError />
-                          ) : null}
-                          <ContractTip currentExhibit={currentExhibit} />
-                          {currentExhibit.contracts.map(
-                            (contract: any, index: number) => {
-                              return (
-                                <Contract
-                                  policy={contract.policyInfo}
-                                  contract={contract}
-                                  paymentFinish={paymentFinish}
-                                  key={index}
-                                ></Contract>
-                              );
-                            }
-                          )}
-                          <PolicyTip currentExhibit={currentExhibit} />
-                          {currentExhibit.policiesActive.map(
-                            (policy: any, index: number) => {
-                              return policy.contracted ? null : (
-                                <Policy
-                                  policy={policy}
-                                  key={index}
-                                  seq={index}
-                                  getAuth={getAuth}
-                                  isAvailable={currentExhibit.isAvailable}
-                                  policySelect={policySelect}
-                                  selectType={
-                                    currentExhibit.contracts.length
-                                      ? true
-                                      : false
-                                  }
-                                ></Policy>
-                              );
-                            }
+                          {currentExhibit.onlineStatus === 0 ? (
+                            <ExhibitOffLine length={events.length} />
+                          ) : (
+                            <>
+                              {!currentExhibit.isAvailable ? (
+                                <ExhibitError />
+                              ) : null}
+                              <ContractTip currentExhibit={currentExhibit} />
+                              {currentExhibit.contracts.map(
+                                (contract: any, index: number) => {
+                                  return (
+                                    <Contract
+                                      policy={contract.policyInfo}
+                                      contract={contract}
+                                      paymentFinish={paymentFinish}
+                                      key={index}
+                                    ></Contract>
+                                  );
+                                }
+                              )}
+                              <PolicyTip currentExhibit={currentExhibit} />
+                              {currentExhibit.policiesActive.map(
+                                (policy: any, index: number) => {
+                                  return policy.contracted ? null : (
+                                    <Policy
+                                      policy={policy}
+                                      key={index}
+                                      seq={index}
+                                      disabled={policy._disabled}
+                                      getAuth={getAuth}
+                                      isAvailable={currentExhibit.isAvailable}
+                                      policySelect={policySelect}
+                                      selectType={
+                                        currentExhibit.contracts.length
+                                          ? true
+                                          : false
+                                      }
+                                    ></Policy>
+                                  );
+                                }
+                              )}
+                            </>
                           )}
                         </div>
                       ) : null}

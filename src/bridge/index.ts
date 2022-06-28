@@ -29,26 +29,10 @@ export function setPresentableQueue(name: string, value: any) {
 let uiInited = false;
 // 公共非展品事件UI， 后面考虑
 export async function addAuth(exhibitId: any, options?: any) {
-  // if(window.isTest) {
-  //   Promise.resolve({status: TEST_NODE, data: null})
-  //   return
-  // }
+ 
   // @ts-ignore
   const that = this;
-  const name = that.name;
-  // const response = await getExhibitInfo(exhibitId, {
-  //   isLoadPolicyInfo: 1,
-  //   isLoadVersionProperty: 1,
-  //   isLoadContract: 1,
-  //   isTranslate: 1,
-  // });
-  // const authData = await getExhibitAuthStatus(exhibitId)
-  // if(response.data.errCode){
-  //   return Promise.resolve({status: DATA_ERROR, data: response.data})
-  // }
-  // const data = response.data.data;
-  // data.contracts = data.contracts || []
-  // data.defaulterIdentityType = authData.data.data[0].defaulterIdentityType
+  const name = that.name; 
   const arr = eventMap.get(exhibitId)?.callBacks || [];
   return new Promise((resolve, rej) => {
     Promise.all([
@@ -65,10 +49,10 @@ export async function addAuth(exhibitId: any, options?: any) {
         resolve({ status: DATA_ERROR, data: response[1].data });
         return;
       }
-      if (response[0].data.data.onlineStatus === 0) {
-        resolve({ status: OFFLINE, data: response[0].data });
-        return;
-      }
+      // if (response[0].data.data.onlineStatus === 0) {
+      //   resolve({ status: OFFLINE, data: response[0].data });
+      //   return;
+      // }
       const data = response[0].data.data;
       data.contracts = data.contracts || [];
       data.defaulterIdentityType =

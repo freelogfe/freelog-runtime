@@ -30,11 +30,11 @@ export default function ExhibitFooter({
       <Button
         disabled={
           (selectedPolicies.length === 0 && getCurrentUser()) ||
-          !currentExhibit.isAvailable
+          !currentExhibit.isAvailable || currentExhibit.onlineStatus === 0
         }
         click={act}
         className={
-          (getCurrentUser() ? "w-300" : "") + " px-20 h-38 fs-14 text-center"
+          (getCurrentUser() ? "w-300" : "") + " px-20 h-38 fs-14 flex-column-center"
         }
       >
         {getCurrentUser() ? "立即签约" : "立即登录"}

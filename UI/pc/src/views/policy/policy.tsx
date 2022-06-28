@@ -15,6 +15,7 @@ interface ItemProps {
   policy: any;
   selectType: boolean;
   policySelect: any;
+  disabled: boolean;
   seq: number;
   isAvailable: boolean;
   getAuth: any;
@@ -43,6 +44,9 @@ export default function Policy(props: ItemProps) {
         background: #ffffff;
         box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
         border-radius: 10px;
+        cursor: ${props.disabled ? 'not-allowed' : 'normal'};
+        opacity: ${props.disabled ? '40%' : '1'};
+        pointer-event: ${props.disabled ? 'none' : 'auto'};
       `}
     >
       {/* 上：策略名称与操作 */}
@@ -77,7 +81,7 @@ export default function Policy(props: ItemProps) {
                 props.policySelect(props.policy.policyId, true, true);
                 setVisible(true);
               }}
-              disabled={!props.isAvailable}
+              disabled={!props.isAvailable || props.disabled}
             >
               签约
             </Button>

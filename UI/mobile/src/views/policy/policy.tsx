@@ -10,6 +10,7 @@ interface ItemProps {
   policy: any;
   selectType: boolean;
   policySelect: any;
+  disabled: boolean;
   seq: number;
   loginFinished: any;
   setModalType: any;
@@ -44,6 +45,9 @@ export default function Policy(props: ItemProps) {
         .adm-tabs-tab-list {
           margin-right: 190px;
         }
+        cursor: ${props.disabled ? 'not-allowed' : 'normal'};
+        opacity: ${props.disabled ? '40%' : '1'};
+        pointer-event: ${props.disabled ? 'none' : 'auto'};
       `}
       className="flex-column brs-10 b-1 mx-10 mt-15"
     >
@@ -74,7 +78,7 @@ export default function Policy(props: ItemProps) {
                 });
               }, 0);
             }}
-            disabled={!getCurrentUser() || !props.isAvailable}
+            disabled={!getCurrentUser() || !props.isAvailable || props.disabled}
           >
             签约
           </Button>

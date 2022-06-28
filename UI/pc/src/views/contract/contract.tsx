@@ -237,7 +237,7 @@ export default function Contract(props: ItemProps) {
               {/* <div className="status-dot"></div> */}
               <div
                 className={
-                  "px-10 mr-5 brs-10 fs-11 h-20 lh-16 text-center select-none " +
+                  "px-10 mr-5 brs-10 fs-11 h-20 lh-16 flex-column-center select-none " +
                   authClass
                 }
                 css={css`
@@ -448,7 +448,7 @@ export default function Contract(props: ItemProps) {
                     <div className="flex-row">
                       <div
                         className={
-                          "px-10 mr-5 brs-10 fs-11 h-20 lh-16 text-center select-none " +
+                          "px-10 mr-5 brs-10 fs-11 h-20 lh-16 flex-column-center select-none " +
                           item.authClass
                         }
                         css={css`

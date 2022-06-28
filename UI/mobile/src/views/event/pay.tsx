@@ -220,7 +220,7 @@ export default function Pay(props: PayProps) {
           />
         </div> */}
 
-          <div className=" pt-35 mb-40 text-center">
+          <div className=" pt-35 mb-40 flex-column-center">
             <Button
               color="primary"
               size="large"
@@ -307,7 +307,7 @@ export default function Pay(props: PayProps) {
           position="bottom"
           bodyClassName=""
           visible={true}
-          className="text-center pop-body-center"
+          className="flex-column-center pop-body-center"
         >
           <div className="password-container bg-white brs-4 px-25 flex-column">
             <div
@@ -317,7 +317,7 @@ export default function Pay(props: PayProps) {
                 color: #222222;
                 padding: 30px 0 40px 0;
               `}
-              className="text-center"
+              className="flex-column-center"
             >
               输入支付密码
             </div>
@@ -357,7 +357,7 @@ export default function Pay(props: PayProps) {
                       }
                     `}
                     key={index}
-                    className="text-center"
+                    className="flex-column-center"
                     ref={inputs[index]}
                     value={passwords[index]}
                     onChange={(e: any) => {}}

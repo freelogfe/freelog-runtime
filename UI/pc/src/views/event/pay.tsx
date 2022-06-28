@@ -208,7 +208,7 @@ export default function Pay(props: PayProps) {
       <div className="flex-column">
         {/* 金额 */}
         <div
-          className="amount text-center my-40 px-80"
+          className="amount flex-column-center my-40 px-80"
           css={css`
             font-size: 50px;
             font-weight: 600;
@@ -310,7 +310,7 @@ export default function Pay(props: PayProps) {
           </div>
         </div>
         {!isActive ? (
-          <div className={"text-center my-40"}>
+          <div className={"flex-column-center my-40"}>
             <div
               className="enter-tip mb-20 h-18 fs-12 lh-18"
               css={css`
@@ -321,7 +321,7 @@ export default function Pay(props: PayProps) {
               如需支付请先激活羽币账户
             </div>
             <Button
-              className="w-184 h-38 text-center"
+              className="w-184 h-38 flex-column-center"
               type="primary brs-10"
               click={() => {
                 window.open("http://user." + window.ENV + "/logged/wallet");
@@ -332,9 +332,9 @@ export default function Pay(props: PayProps) {
           </div>
         ) : null}
 
-        <div className={"text-center mt-40 " + (!isActive ? "d-none" : "")}>
+        <div className={"flex-column-center mt-40 " + (!isActive ? "d-none" : "")}>
           {!isAfford && (
-            <div className={"text-center mt-40 " + (!isActive ? "d-none" : "")}>
+            <div className={"flex-column-center mt-40 " + (!isActive ? "d-none" : "")}>
               {" "}
               <div
                 className="mb-20 fs-12 lh-18"

@@ -14,14 +14,14 @@ export default function ExhibitHeader({
 }: exhibitHeaderProps) {
   return (
     <div className="flex-column justify-center bb-1">
-      <div className="text-center mt-20 fs-16 fc-main fw-bold">签约</div>
+      <div className="flex-column-center mt-20 fs-16 fc-main fw-bold">签约</div>
       <div
         className="p-absolute fs-16 mt-20 mr-15 rt-0 fc-blue cur-pointer"
         onClick={() => closeCurrent()}
       >
         {events.length === 1 ? "退出" : "关闭"}
       </div>
-      <div className="text-center mt-20 mb-10 fs-20 fc-main fw-bold">
+      <div className="flex-column-center mt-20 mb-10 fs-20 fc-main fw-bold">
         {currentExhibit.exhibitName}
       </div>
       {currentExhibit.isTheme ? (
@@ -33,7 +33,7 @@ export default function ExhibitHeader({
               color: #999999;
               line-height: 20px;
             `}
-            className="text-center"
+            className="flex-column-center"
           >
             当前节点主题未开放授权，
           </div>
@@ -44,7 +44,7 @@ export default function ExhibitHeader({
               color: #999999;
               line-height: 20px;
             `}
-            className="mb-20 text-center"
+            className="mb-20 flex-column-center"
           >
             {currentExhibit &&
             currentExhibit.contracts &&

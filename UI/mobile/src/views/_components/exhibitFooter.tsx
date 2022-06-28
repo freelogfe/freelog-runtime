@@ -24,7 +24,7 @@ export default function ExhibitFooter({ setModalType }: exhibitFooterProps) {
         }}
         color="primary"
         size="small"
-        className=" text-center"
+        className=" flex-column-center"
       >
         登录
       </Button>

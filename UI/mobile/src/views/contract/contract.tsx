@@ -260,7 +260,7 @@ export default function Contract(props: ItemProps) {
             >
               <div className="flex-row align-center">
                 <div
-                  className={authStatusCss + " text-center select-none " + authClass }
+                  className={authStatusCss + " flex-column-center select-none " + authClass }
                 >
                   {authStatus}
                 </div>
@@ -478,7 +478,7 @@ export default function Contract(props: ItemProps) {
                       <div className="flex-row">
                         <div
                           className={authStatusCss + 
-                            " text-center select-none " + item.authClass
+                            " flex-column-center select-none " + item.authClass
                           }
                         >
                           {item.authStatus}

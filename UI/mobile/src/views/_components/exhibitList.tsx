@@ -167,7 +167,7 @@ export default function exhibitList({
                   </div>
 
                   <div
-                    className="shrink-0 text-center pl-10 "
+                    className="shrink-0 flex-column-center pl-10 "
                     css={css`
                       color: #666666;
                     `}

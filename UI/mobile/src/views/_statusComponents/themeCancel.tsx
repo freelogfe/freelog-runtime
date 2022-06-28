@@ -12,14 +12,14 @@ export default function ThemeCancel({
   setThemeCancel,
 }: ThemeCancelProps) {
   return (
-    <div className=" h-100x text-center ">
+    <div className=" h-100x flex-column-center ">
       <div
         css={css`
           font-size: 20px;
           font-weight: 400;
           color: #666666;
         `}
-        className="mb-15 text-center"
+        className="mb-15 flex-column-center"
       >
         当前节点主题未开放授权
       </div>
@@ -29,7 +29,7 @@ export default function ThemeCancel({
           font-weight: 400;
           color: #666666;
         `}
-        className=" mb-30 text-center"
+        className=" mb-30 flex-column-center"
       >
         {currentExhibit &&
         currentExhibit.contracts &&

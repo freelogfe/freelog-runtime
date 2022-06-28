@@ -1,4 +1,3 @@
-
 import { css } from "astroturf";
 import { useState, useEffect } from "react";
 import "@/assets/mobile/index.scss";
@@ -18,6 +17,8 @@ import PolicyTip from "./_components/policyTip";
 import ThemeCancel from "./_statusComponents/themeCancel";
 import ExhibitFooter from "./_components/exhibitFooter";
 import ContractTip from "./_components/contractTip";
+import ExhibitOffLine from "./_statusComponents/exhibitOffLine";
+
 import ExhibitHeader from "./_components/exhibitHeader";
 import ExhibitList from "./_components/exhibitList";
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
@@ -189,12 +190,15 @@ export default function Auth(props: contractProps) {
   }
   const getAuth = async (id: any) => {
     const subjects: any = [];
+    let policy = {};
     currentExhibit.policiesActive.forEach((item: any) => {
-      [...selectedPolicies, id].includes(item.policyId) &&
+      if ([...selectedPolicies, id].includes(item.policyId)) {
+        policy = item
         subjects.push({
           subjectId: currentExhibit.exhibitId,
           policyId: item.policyId,
         });
+      }
     });
     const userInfo: any = getCurrentUser();
     const res = await frequest(contract.contracts, [], {
@@ -204,6 +208,35 @@ export default function Auth(props: contractProps) {
       licenseeIdentityType: 3,
       isWaitInitial: 1,
     });
+    if (res.data.errcode) {
+      if (res.data.msg === "subject-policy-check-failed") {
+        // @ts-ignore
+        policy._disabled = true
+        setCurrentExhibit({...currentExhibit})
+        Toast.show({
+          icon: (
+            <i
+              className="iconfont"
+              css={css`
+                color: red;
+                font-size: 50px;
+              `}
+            >
+              &#xe62f;
+            </i>
+          ),
+          content: "策略已下线无法签约",
+          duration: 1500,
+        });
+        return;
+      }
+      Toast.show({
+        icon: "fail",
+        content: res.data.msg,
+        duration: 1500,
+      });
+      return;
+    }
     const isAuth = res.data.data.some((item: any) => {
       if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
         Toast.show({
@@ -218,6 +251,7 @@ export default function Auth(props: contractProps) {
       }
       return false;
     });
+
     if (!isAuth) {
       Toast.show({
         icon: "success",
@@ -285,51 +319,58 @@ export default function Auth(props: contractProps) {
             currentExhibit={currentExhibit}
           />
           {props.isAuths && currentExhibit ? (
-            <div className="flex-column w-100x h-100x over-h justify-end">
+            <div className="flex-column w-100x h-100x over-h justifffy-end">
               <ExhibitHeader
                 currentExhibit={currentExhibit}
                 closeCurrent={closeCurrent}
                 events={events}
               />
-              {currentExhibitId === currentExhibit.exhibitId && (
-                <div className="flex-column flex-1 over-h w-100x">
-                  <div className="w-100x h-100x y-auto pb-20">
-                    <ContractTip currentExhibit={currentExhibit} />
-                    {currentExhibit.contracts.map(
-                      (contract: any, index: number) => {
-                        return (
-                          <Contract
-                            policy={contract.policyInfo}
-                            contract={contract}
-                            paymentFinish={paymentFinish}
-                            setModalType={setModalType}
-                            key={index}
-                          ></Contract>
-                        );
-                      }
-                    )}
-                    <PolicyTip currentExhibit={currentExhibit} />
-                    {currentExhibit.policiesActive.map(
-                      (policy: any, index: number) => {
-                        return policy.contracted ? null : (
-                          <Policy
-                            policy={policy}
-                            key={index}
-                            seq={index}
-                            loginFinished={loginFinished}
-                            setModalType={setModalType}
-                            getAuth={getAuth}
-                            isAvailable={currentExhibit.isAvailable}
-                            policySelect={policySelect}
-                            selectType={
-                              currentExhibit.contracts.length ? true : true
-                            }
-                          ></Policy>
-                        );
-                      }
-                    )}
-                  </div>
-                </div>
+              {currentExhibit.onlineStatus === 0 ? (
+                <ExhibitOffLine length={events.length} />
+              ) : (
+                <>
+                  {currentExhibitId === currentExhibit.exhibitId && (
+                    <div className="flex-column flex-1 over-h w-100x">
+                      <div className="w-100x h-100x y-auto pb-20">
+                        <ContractTip currentExhibit={currentExhibit} />
+                        {currentExhibit.contracts.map(
+                          (contract: any, index: number) => {
+                            return (
+                              <Contract
+                                policy={contract.policyInfo}
+                                contract={contract}
+                                paymentFinish={paymentFinish}
+                                setModalType={setModalType}
+                                key={index}
+                              ></Contract>
+                            );
+                          }
+                        )}
+                        <PolicyTip currentExhibit={currentExhibit} />
+                        {currentExhibit.policiesActive.map(
+                          (policy: any, index: number) => {
+                            return policy.contracted ? null : (
+                              <Policy
+                                policy={policy}
+                                key={index}
+                                seq={index}
+                                loginFinished={loginFinished}
+                                setModalType={setModalType}
+                                getAuth={getAuth}
+                                disabled={policy._disabled}
+                                isAvailable={currentExhibit.isAvailable}
+                                policySelect={policySelect}
+                                selectType={
+                                  currentExhibit.contracts.length ? true : true
+                                }
+                              ></Policy>
+                            );
+                          }
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
               {getCurrentUser() ? null : (
                 <ExhibitFooter setModalType={setModalType} />

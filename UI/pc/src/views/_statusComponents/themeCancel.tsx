@@ -13,7 +13,7 @@ export default function ThemeCancel({
 }: ThemeCancelProps) {
   return (
     <div
-      className="w-100x h-100x text-center"
+      className="w-100x h-100x flex-column-center"
       css={css`
         background: #f2f2f2;
       `}

@@ -70,7 +70,7 @@ export default function Login(props: loginProps) {
         </i>
         <div className="flex-1 w-100x flex-column align-center">
           {/* <i className="iconfont  mt-50 mb-20 logo">&#xe614;</i> */}
-          <div className="login-logo text-center h-36 w-100x mt-57 mb-20">
+          <div className="login-logo flex-column-center h-36 w-100x mt-57 mb-20">
             <i
               className="iconfont fs-36" 
             >
@@ -120,7 +120,7 @@ export default function Login(props: loginProps) {
           </div>
         </div>
 
-        <div className="text-center login-forgot mb-50">
+        <div className="flex-column-center login-forgot mb-50">
           <Button
             color="default"
             size="small"
