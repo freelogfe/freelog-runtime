@@ -84,7 +84,8 @@ output: {
     // 把子应用打包成 umd 库格式
     library: `${name}-[name]`,
     libraryTarget: 'umd',
-    jsonpFunction: `webpackJsonp_${name}`,
+    jsonpFunction: `webpackJsonp_${name}`, 
+    // webpack5使用chunkLoadingGlobal: `webpackJsonp${name}`
 },
 ```
 
@@ -211,6 +212,7 @@ module.exports = {
       library: `${name}-[name]`,
       libraryTarget: "umd",
       jsonpFunction: `webpackJsonp_${name}`,
+      // webpack5使用chunkLoadingGlobal: `webpackJsonp${name}`
     },
   },
 };
@@ -323,6 +325,7 @@ module.exports = {
       library: `${name}-[name]`,
       libraryTarget: "umd",
       jsonpFunction: `webpackJsonp_${name}`,
+      // webpack5使用chunkLoadingGlobal: `webpackJsonp${name}`
     },
   },
 };
@@ -383,6 +386,7 @@ if (!window.__POWERED_BY_FREELOG__) {
       library: `${name}-[name]`,
       libraryTarget: 'umd',
       jsonpFunction: `webpackJsonp_${name}`,
+      // webpack5使用chunkLoadingGlobal: `webpackJsonp${name}`
   /**
     * 修改webpackDevServer.config.js
     * 添加跨域headers
@@ -400,7 +404,7 @@ if (!window.__POWERED_BY_FREELOG__) {
      process.env.PORT = '7102' // 端口自行定
     if (NODE_ENV === 'development') {
       process.env.WDS_SOCKET_HOST = 'localhost'
-      process.env.WDS_SOCKET_PATH = 'localhost:'+ process.env.PORT
+      process.env.WDS_SOCKET_PATH = 'localhost:'+ process.env.PORT // webpack5设置为空 ''
       process.env.WDS_SOCKET_PORT = process.env.PORT
     }
   ***热更白屏问题处理***
@@ -706,7 +710,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | articleInfo             | object   | 展品实际挂载的作品信息                                     |
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
-| \*\* resourceType       | string[]   | 作品作品类型                                               |
+| \*\* resourceType       | string[] | 作品作品类型                                               |
 | \*\* articleType        | int      | 作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象) |
 | \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
@@ -750,7 +754,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | articleInfo             | object   | 展品实际挂载的作品信息                                     |
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
-| \*\* resourceType       | string[]   | 作品作品类型                                               |
+| \*\* resourceType       | string[] | 作品作品类型                                               |
 | \*\* articleType        | int      | 作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象) |
 | \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
@@ -793,7 +797,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | articleInfo             | object   | 展品实际挂载的作品信息                                     |
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
-| \*\* resourceType       | string[]   | 作品作品类型                                               |
+| \*\* resourceType       | string[] | 作品作品类型                                               |
 | \*\* articleType        | int      | 作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象) |
 | \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
