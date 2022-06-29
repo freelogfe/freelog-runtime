@@ -286,7 +286,14 @@ export default function Contract(props: ItemProps) {
               }
             </div>
             {/* 可选事件 */}
-            <div className="flex-row">
+            <div
+              className="flex-row"
+              css={css`
+                .ant-radio-group {
+                  width: 100%;
+                }
+              `}
+            >
               <Radio.Group onChange={onChange} value={eventIndex}>
                 <div className="flex-column">
                   {
@@ -312,13 +319,11 @@ export default function Contract(props: ItemProps) {
                                 label {
                                   width: 100%;
 
-                                  & > span:nth-child(2) {
+                                  & > span:nth-of-type(2) {
                                     width: 100%;
                                   }
                                 }
-                                .ant-radio-group {
-                                  width: 100%;
-                                }
+
                                 ${index !== eventIndex ||
                                 currentStatus.tec === 1
                                   ? css``

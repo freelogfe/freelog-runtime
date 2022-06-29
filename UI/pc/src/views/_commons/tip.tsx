@@ -3,10 +3,12 @@ import { css } from "@emotion/react";
 
 import { Modal } from "antd";
 import { useEffect } from "react";
-
+export interface TipTipes {
+  type: "success" | "warn" | "error" | "notAllow";
+}
 interface ConfirmProps {
   isModalVisible: boolean;
-  type: any;
+  type: TipTipes["type"];
   content: string;
   setIsModalVisible: any;
   mask?: boolean;
@@ -51,6 +53,16 @@ export default function Tip(props: ConfirmProps) {
           <i className="iconfont mr-10 fc-success fs-40">&#xe62d;</i>
         ) : props.type === "warn" ? (
           <i className="iconfont mr-10 fc-warn fs-40">&#xe62e;</i>
+        ) : props.type === "notAllow" ? (
+          <i
+            className="iconfont"
+            css={css`
+              color: red;
+              font-size: 76px !important;
+            `}
+          >
+            &#xe62f;
+          </i>
         ) : (
           <i className="iconfont mr-10 fc-error fs-40">&#xe617;</i>
         )}

@@ -12,14 +12,13 @@ import NodeError from "./_statusComponents/nodeError";
 import Header from "./_components/header";
 import ThemeCancel from "./_statusComponents/themeCancel";
 import ExhibitList from "./_components/exhibitList";
-import Tip from "./_commons/tip";
+import Tip, { TipTipes } from "./_commons/tip";
 import ExhibitHeader from "./_components/exhibitHeader";
 import ExhibitError from "./_statusComponents/exhibitError";
 import ExhibitOffLine from "./_statusComponents/exhibitOffLine";
 import ExhibitFooter from "./_components/exhibitFooter";
 import ContractTip from "./_components/contractTip";
 import PolicyTip from "./_components/policyTip";
-import { forEach } from 'lodash';
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
   window.freelogAuth;
@@ -40,7 +39,10 @@ export default function Auth(props: contractProps) {
   const [isTipVisible, setIsTipVisible] = useState(false);
   const [themeCancel, setThemeCancel] = useState(false);
   const [exhibitOnline, setExhibitOnline] = useState(false);
-  const [tipConfig, setTipConfig] = useState({
+  const [tipConfig, setTipConfig] = useState<{
+    content: string;
+    type: TipTipes["type"];
+  }>({
     content: "签约成功",
     type: "success",
   });
@@ -155,7 +157,6 @@ export default function Auth(props: contractProps) {
 
   // 切换展品
   useEffect(() => {
-    console.log(currentExhibit);
     if (props.isLogin) return;
     if (currentExhibit) {
       //  && currentExhibit.exhibitId !== currentExhibitId
@@ -203,13 +204,14 @@ export default function Auth(props: contractProps) {
   // 签约发起
   const getAuth = async () => {
     const subjects: any = [];
-    let policies: any = []
+    let policies: any = [];
     currentExhibit.policiesActive.forEach((item: any) => {
       selectedPolicies.includes(item.policyId) &&
         subjects.push({
           subjectId: currentExhibit.exhibitId,
           policyId: item.policyId,
-        }) && policies.push(item);
+        }) &&
+        policies.push(item);
     });
     const userInfo: any = getCurrentUser();
     const res = await frequest(contract.contracts, [], {
@@ -222,34 +224,24 @@ export default function Auth(props: contractProps) {
     if (res.data.isAuth) {
       // `付款到${seller}${amount}块钱就可以达到${status}状态`
     }
+    setSelectedPolicies([]);
     setIsConfirmVisible(false);
-    console.log(res)
     if (res.data.errcode) {
+      setIsTipVisible(true);
       if (res.data.msg === "subject-policy-check-failed") {
-        // @ts-ignore
-        // policies.forEach(item=>{
-        //   if(res.data.data item.policyId === )
-        // })
-        // policy._disabled = true;
-        setCurrentExhibit({ ...currentExhibit });
-        // Toast.show({
-        //   icon: (
-        //     <i
-        //       className="iconfont"
-        //       css={css`
-        //         color: red;
-        //         font-size: 50px;
-        //       `}
-        //     >
-        //       &#xe62f;
-        //     </i>
-        //   ),
-        //   content: "策略已下线无法签约",
-        //   duration: 1500,
-        // });
+        let failedPolicies: string[] = [];
+        policies.forEach((item: any) => {
+          res.data.data.forEach((f: any) => {
+            if (f.policyId === item.policyId) {
+              item._disabled = true
+              failedPolicies.push(item.policyName);
+            }
+          });
+        });
+        setCurrentExhibit({...currentExhibit})
         setTipConfig({
-          content: "策略已下线无法签约",
-          type: "error",
+          content: `策略 ${failedPolicies.join(',')} 已下线无法签约`,
+          type: "notAllow",
         });
         setTimeout(() => {
           setIsTipVisible(false);
@@ -257,8 +249,8 @@ export default function Auth(props: contractProps) {
         return;
       }
       setTipConfig({
-        content: "获得授权",
-        type: "success",
+        content: res.data.msg,
+        type: "error",
       });
       setTimeout(() => {
         setIsTipVisible(false);

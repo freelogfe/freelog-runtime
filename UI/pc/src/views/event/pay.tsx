@@ -8,7 +8,7 @@ import user from "@/services/api/modules/user";
 import event from "@/services/api/modules/event";
 import transaction from "@/services/api/modules/transaction";
 import { LoadingOutlined } from "@ant-design/icons";
-import Tip from "../_commons/tip";
+import Tip, { TipTipes } from "../_commons/tip";
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const { getUserInfo } = window.freelogAuth;
@@ -34,7 +34,11 @@ export default function Pay(props: PayProps) {
   const [isActive, setIsActive] = useState(false);
   const [visible, setVisible] = useState(false);
   const [isTipVisible, setIsTipVisible] = useState(false);
-  const [tipConfig, setTipConfig] = useState({
+  const [tipConfig, setTipConfig] = useState<{
+    content: string;
+    type: TipTipes["type"];
+    mask: boolean;
+  }>({
     content: "",
     type: "success",
     mask: false,
@@ -332,9 +336,15 @@ export default function Pay(props: PayProps) {
           </div>
         ) : null}
 
-        <div className={"flex-column-center mt-40 " + (!isActive ? "d-none" : "")}>
+        <div
+          className={"flex-column-center mt-40 " + (!isActive ? "d-none" : "")}
+        >
           {!isAfford && (
-            <div className={"flex-column-center mt-40 " + (!isActive ? "d-none" : "")}>
+            <div
+              className={
+                "flex-column-center mt-40 " + (!isActive ? "d-none" : "")
+              }
+            >
               {" "}
               <div
                 className="mb-20 fs-12 lh-18"
