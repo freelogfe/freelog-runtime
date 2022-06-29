@@ -225,7 +225,7 @@ export default function Register(props: loginProps) {
               邮箱注册
             </label>
           </div>
-          <div className="register-container flex-column justify-center px-30 w-100x">
+          <div className="register-container flex-column justify-center px-30 ">
             <input
               type="text"
               className="w-100x mb-5 common-input"

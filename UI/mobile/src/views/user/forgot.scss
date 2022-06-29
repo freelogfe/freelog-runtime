@@ -1,18 +1,21 @@
  .user-forgot {
-     .adm-button{
+     .adm-button {
          height: 48px !important;
          font-size: 16px;
      }
-     input{
-        font-size: 16px !important;
-    }
-    .forgot-back {
-        position: absolute;
-        left: 20px;
-        top: 15px;
-        font-size: 20px;
-        z-index: 13333;
-    }
+
+     input {
+         font-size: 16px !important;
+     }
+
+     .forgot-back {
+         position: absolute;
+         left: 20px;
+         top: 15px;
+         font-size: 20px;
+         z-index: 13333;
+     }
+
      .forgot-title {
          font-size: 40px;
          font-family: PingFangSC-Semibold, PingFang SC;
@@ -51,6 +54,8 @@
      }
 
      .forgot-container {
+         width: calc(100% - 60px);
+
          .error-tip {
              font-size: 14px;
              font-family: PingFangSC-Regular, PingFang SC;
@@ -80,6 +85,7 @@
              color: #2784FF;
              padding: 0 !important;
              border: 0 !important;
+
              &::before {
                  padding: 0 !important;
                  border: none !important;
