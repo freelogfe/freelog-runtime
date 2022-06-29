@@ -132,6 +132,7 @@ export default function Auth(props: contractProps) {
     //   });
     //   currentExhibit.isDAG = true;
     // }
+    // setCurrentExhibit({...currentExhibit})
     setCurrentExhibitId(currentExhibit.exhibitId);
   }
   useEffect(() => {

@@ -119,9 +119,10 @@ export default function Contract(props: ItemProps) {
       }
     });
     getRecords(true);
+    console.log(222222)
   }, [props.contract]);
   async function getRecords(init?: boolean) {
-    if (records.length >= totalItem && totalItem > -1) {
+    if (records.length >= totalItem && totalItem > -1 && !init) {
       !init && setUnFold(true);
       return;
     }
@@ -509,7 +510,6 @@ export default function Contract(props: ItemProps) {
                         getRecords();
                       }}
                     >
-                      {" "}
                       展开完整流转记录
                       <DownOutlined />
                     </div>
