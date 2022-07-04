@@ -1,0 +1,46 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\Administrator\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add global rimraf
+
+PATH: 
+  C:\ProgramData\Oracle\Java\javapath;C:\Python39\Scripts\;C:\Python39\;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Git\cmd;C:\Program Files\Microsoft VS Code\bin;C:\ProgramData\chocolatey\bin;E:\android\platform-tools;E:\android\emulator;E:\android\tools;E:\android\tools\bin;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\flutter\flutter\bin;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Program Files\MySQL\MySQL Server 5.7\bin;C:\Program Files\Java\jdk1.8.0_291\bin;C:\Users\Administrator\AppData\Local\Yarn\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\nodejs\;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\IntelliJ IDEA 2021.1.1\bin;;C:\Users\Administrator\AppData\Roaming\npm
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  16.15.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile 'C:\Users\Administrator\AppData\Local\Yarn\Cache\v6\npm-supports-color-9.2.2-502acaf82f2b7ee78eb7c83dcac0f89694e5a7bb-integrity\node_modules\supports-color\browser.d.ts' -> 'D:\app\runtime\freelog-runtime\node_modules\lint-staged\node_modules\supports-color\browser.d.ts'
+
+npm manifest: 
+  {
+    "private": true,
+    "scripts": {
+      "dev": "npm-run-all --parallel start:*",
+      "start:core": "cd ./packages/core && pnpm start",
+      "start:mobile": "cd ./packages/mobile && pnpm start",
+      "start:pc": "cd ./packages/pc && pnpm start"
+    },
+    "packageManager": "pnpm",
+    "devDependencies": {
+      "eslint": "^8.2.0",
+      "husky": "^7.0.4",
+      "lint-staged": "^12.1.2",
+      "prettier": "^2.5.0",
+      "rimraf": "^3.0.2",
+      "stylelint": "^13.13.1"
+    },
+    "dependencies": {
+      "npm-run-all": "^4.1.5"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
