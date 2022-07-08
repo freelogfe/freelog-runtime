@@ -26,6 +26,9 @@ const rawDocument = document;
 const rawWindow = window;
 let UI: any = null;
 let updateUI: any = null;
+let locked = false;
+let uiInited = false;
+
 /**
  *
  * @param ui    签约事件型UI，登录UI，节点冻结UI，主题冻结UI，无主题UI，
@@ -39,14 +42,15 @@ export function reisterUI(ui: any, update: any) {
   UI = ui;
   updateUI = update;
 }
-let locked = false;
+export function callUI(type: any, data: any) {
+  UI && UI(type, data)
+}
 export function updateLock(status: boolean) {
   locked = !!status;
 }
 export function setPresentableQueue(name: string, value: any) {
   exhibitQueue.set(name, value);
 }
-let uiInited = false;
 // TODO 公共非展品事件UI， 后面考虑
 export async function addAuth(exhibitId: any, options?: any) {
   // @ts-ignore

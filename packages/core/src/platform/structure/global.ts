@@ -58,6 +58,5 @@ export const freelogApp: any = {
   getSelfConfig,
   isUserChange,
   reload,
-  resultType,
-  eventType
+  resultType
 };

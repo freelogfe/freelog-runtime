@@ -12,9 +12,8 @@ import {
   loginCallback,
   reload,
 } from "../../bridge/index";
- 
-import { SUCCESS, FAILED, USER_CANCEL } from "../../bridge/event";
- 
+import { resultType, eventType } from "../../bridge/event";
+
 
 export const freelogAuth = {
   reisterUI,
@@ -26,14 +25,11 @@ export const freelogAuth = {
   clearEvent,
   lowerUI,
   upperUI,
-  resultType: {
-    SUCCESS,
-    FAILED,
-    USER_CANCEL,
-  },
+  resultType,
   loginCallback,
   setUserInfo,
   getCurrentUser,
   getUserInfo,
   reload,
+  eventType,
 };
