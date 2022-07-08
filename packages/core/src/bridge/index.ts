@@ -63,6 +63,7 @@ export async function addAuth(exhibitId: any, options?: any) {
         isLoadPolicyInfo: 1,
         isLoadVersionProperty: 1,
         isLoadContract: 1,
+        isLoadResourceDetailInfo: 1,
         isTranslate: 1,
       }),
       getExhibitAuthStatus(exhibitId),
