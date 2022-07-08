@@ -93,7 +93,7 @@ export function initNode() {
           );
           resolve && resolve()
         },(e: any)=>{
-          console.log(e)
+          console.error(e)
         });
       }
     );

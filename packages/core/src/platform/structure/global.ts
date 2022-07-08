@@ -1,5 +1,5 @@
 import { mountWidget } from "./widget";
-import { resultType } from "../../bridge/event";
+import { resultType, eventType } from "../../bridge/event";
 import {
   getSelfConfig,
   setUserData,
@@ -58,5 +58,6 @@ export const freelogApp: any = {
   getSelfConfig,
   isUserChange,
   reload,
-  resultType
+  resultType,
+  eventType
 };

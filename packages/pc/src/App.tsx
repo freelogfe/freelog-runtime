@@ -5,7 +5,7 @@ import Pc from "./views/auth";
 import frequest from "@/services/handler";
 import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-
+import OutOf from "./views/outOf";
 import user from "@/services/api/modules/user";
 const {
   reisterUI,
@@ -17,10 +17,15 @@ const {
   upperUI,
 } = window.freelogAuth;
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
+const { NODE_FREEZED, THEME_NONE, THEME_FREEZED, LOGIN, CONTRACT, LOGIN_OUT } =
+  window.freelogAuth.eventType;
 
 function App() {
   const [events, setEvents] = useState([]);
   const [inited, setInited] = useState(false);
+  const [eventType, setEventType] = useState("");
+  const [isOut, setIsOut] = useState(false);
+  const [outData, setOutData] = useState<any>(null);
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
     updateLock(false);
@@ -52,8 +57,35 @@ function App() {
       setInited(true);
     }
   }
-  function UI() {
-    updateEvents();
+  function UI(type: any, data: any) {
+    setEventType(type);
+    switch (type) {
+      case NODE_FREEZED:
+        outOfContent(data);
+        break;
+      case THEME_NONE:
+        outOfContent(data);
+        break;
+      case THEME_FREEZED:
+        outOfContent(data);
+        break;
+      case LOGIN:
+        login();
+        break;
+      case CONTRACT:
+        updateEvents();
+        break;
+      case LOGIN_OUT:
+        longinOut();
+        break;
+      default:
+        updateEvents();
+    }
+  }
+  function outOfContent(data: any) {
+    setOutData(data);
+    setIsOut(true);
+    upperUI();
   }
   function updateUI() {
     updateEvents();
@@ -100,7 +132,9 @@ function App() {
   reisterUI(UI, updateUI, login, longinOut);
   return (
     <div id="freelog-pc-auth" className="w-100x h-100x over-h">
-      {inited || isLogin ? (
+      {isOut ? (
+        <OutOf></OutOf>
+      ) : inited || isLogin ? (
         <Pc
           events={events}
           isAuths={inited}

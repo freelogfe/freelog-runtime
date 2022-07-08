@@ -1,4 +1,19 @@
-import { SUCCESS, FAILED, USER_CANCEL, DATA_ERROR, TEST_NODE, OFFLINE } from "./event";
+import {
+  SUCCESS,
+  FAILED,
+  USER_CANCEL,
+  DATA_ERROR,
+  TEST_NODE,
+  OFFLINE,
+} from "./event";
+import {
+  NODE_FREEZED,
+  THEME_NONE,
+  THEME_FREEZED,
+  LOGIN,
+  CONTRACT,
+  LOGIN_OUT,
+} from "./event";
 import {
   getExhibitInfo,
   getExhibitAuthStatus,
@@ -11,13 +26,18 @@ const rawDocument = document;
 const rawWindow = window;
 let UI: any = null;
 let updateUI: any = null;
-let loginUI: any = null;
-let loginOutUI: any = null;
-export function reisterUI(ui: any, update: any, login: any, loginOut: any) {
+/**
+ *
+ * @param ui    签约事件型UI，登录UI，节点冻结UI，主题冻结UI，无主题UI，
+ * @param update    更新签约事件型UI
+ * @param login    提供给插件唤起登录UI
+ * @param loginOut  提供给插件唤起登出UI
+ *
+ *
+ */
+export function reisterUI(ui: any, update: any) {
   UI = ui;
   updateUI = update;
-  loginUI = login;
-  loginOutUI = loginOut;
 }
 let locked = false;
 export function updateLock(status: boolean) {
@@ -27,12 +47,11 @@ export function setPresentableQueue(name: string, value: any) {
   exhibitQueue.set(name, value);
 }
 let uiInited = false;
-// 公共非展品事件UI， 后面考虑
+// TODO 公共非展品事件UI， 后面考虑
 export async function addAuth(exhibitId: any, options?: any) {
- 
   // @ts-ignore
   const that = this;
-  const name = that.name; 
+  const name = that.name;
   const arr = eventMap.get(exhibitId)?.callBacks || [];
   return new Promise((resolve, rej) => {
     Promise.all([
@@ -72,7 +91,7 @@ export async function addAuth(exhibitId: any, options?: any) {
       });
       if (options && options.immediate) {
         if (!uiInited) {
-          UI && UI();
+          UI && UI(CONTRACT);
         } else {
           if (locked) {
             setTimeout(() => {
@@ -90,7 +109,7 @@ export async function addAuth(exhibitId: any, options?: any) {
 export function callAuth() {
   if (window.isTest) return;
   if (!uiInited) {
-    UI && UI();
+    UI && UI(CONTRACT);
   } else {
     if (locked) {
       setTimeout(() => {
@@ -165,17 +184,16 @@ export function goLogin(resolve: Function) {
     return "ui has been launched, can not callLogin";
   }
   resolve && onLogin(resolve);
-  loginUI && loginUI();
+  UI && UI(LOGIN);
 }
 export function goLoginOut() {
-  loginOutUI && loginOutUI();
+  UI && UI(LOGIN_OUT);
 }
 const uiRoot = rawDocument.getElementById("ui-root");
 const widgetContainer = rawDocument.getElementById("freelog-plugin-container");
 export function upperUI() {
   // @ts-ignore
   uiRoot.style.zIndex = 1;
-  // // @ts-ignore
   // uiRoot.style.opacity = 1;
   // @ts-ignore
   widgetContainer.style.zIndex = 0;
