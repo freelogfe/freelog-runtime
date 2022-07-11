@@ -43,7 +43,7 @@ export function reisterUI(ui: any, update: any) {
   updateUI = update;
 }
 export function callUI(type: any, data: any) {
-  UI && UI(type, data)
+  UI && UI(type, data);
 }
 export function updateLock(status: boolean) {
   locked = !!status;
@@ -69,7 +69,7 @@ export async function addAuth(exhibitId: any, options?: any) {
       getExhibitAuthStatus(exhibitId),
       getExhibitAvailalbe(exhibitId),
     ]).then((response) => {
-      console.log(response)
+      console.log(response);
       if (response[1].data.errCode) {
         resolve({ status: DATA_ERROR, data: response[1].data });
         return;
@@ -80,9 +80,10 @@ export async function addAuth(exhibitId: any, options?: any) {
       // }
       const data = response[0].data.data;
       data.contracts = data.contracts || [];
-      data.defaulterIdentityType =
-        response[1].data.data[0].defaulterIdentityType;
+      data.defaulterIdentityType = response[1].data.data[0].authCode;
       data.isAvailable = response[2].data.data[0].isAuth;
+      data.availableData = response[2].data.data[0];
+
       arr.push({
         resolve,
         options,
