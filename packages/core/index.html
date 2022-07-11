@@ -188,81 +188,10 @@
       padding: 0 !important;
       z-index: 1;
     }
-
-    /* 
-    #freelog-plugin-container>iframe {
-      display: none !important;
-    } */
-    #freelog-no-theme {
-      width: 100%;
-      height: 100%;
-      display: none;
-      z-index: 3;
-      flex-flow: column;
-      font-size: 30px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: #666666;
-      line-height: 36px;
-      text-align: center;
-      padding-top: 30vh;
-      position: absolute;
-      background: #F2F2F2;
-    }
-
-    .no-theme-main-tip {
-      font-size: 30px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: #666666;
-      line-height: 36px;
-      margin-bottom: 30px;
-      margin-top: 40px;
-    }
-
-    .no-theme-second-tip {
-      font-size: 16px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: #666666;
-      line-height: 22px;
-    }
-
-    #freelog-node-freezed {
-      width: 100%;
-      height: 100%;
-      display: none;
-      z-index: 3;
-      flex-flow: column;
-      font-size: 30px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: #666666;
-      line-height: 36px;
-      text-align: center;
-      position: absolute;
-      background: #F2F2F2;
-    }
   </style>
 </head>
 
 <body>
-  <div id="freelog-no-theme">
-    <div>
-      <img src="/failed.svg" alt="">
-    </div>
-    <div class="no-theme-main-tip">节点异常，无法正常访问</div>
-    <div class="no-theme-second-tip">异常原因：未设置主题</div>
-  </div>
-  <div id="freelog-node-freezed">
-    <div style="flex: 1;"></div>
-    <div className="forbidden">
-      <img src="/forbidden.png" alt="">
-    </div>
-    <div class="freezed-main-tip">节点异常，无法正常访问</div>
-    <div class="freezed-second-tip">异常原因：未设置主题</div>
-    <div style="flex: 1;"></div>
-  </div>
   <div id="ui-root"></div>
   <div id="freelog-plugin-container"></div>
   <!-- <script type="module" src="/src/main.ts"></script> -->

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Mobile from "./views/auth";
 import { Dialog } from "antd-mobile"; // Toast, Button
 import frequest from "@/services/handler";
+import OutOf from "./views/outOf";
 import user from "@/services/api/modules/user";
 const {
   reisterUI,
@@ -17,11 +18,16 @@ const {
   reload
 } = window.freelogAuth;
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
+const { NODE_FREEZED, THEME_NONE, THEME_FREEZED, LOGIN, CONTRACT, LOGIN_OUT } =
+  window.freelogAuth.eventType;
 
 function App() {
   const [events, setEvents] = useState([]);
   // const [failedEvents, setFailedEvents] = useState([]);
   const [inited, setInited] = useState(false);
+  const [eventType, setEventType] = useState("");
+  const [isOut, setIsOut] = useState(false);
+  const [outData, setOutData] = useState<any>(null);
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
     updateLock(false);
@@ -53,8 +59,37 @@ function App() {
       setInited(true);
     }
   }
-  function UI() {
-    updateEvents();
+  function UI(type: any, data: any) {
+    console.log(type, data)
+    setEventType(type);
+    switch (type) {
+      case NODE_FREEZED:
+        outOfContent(data);
+        break;
+      case THEME_NONE:
+        outOfContent(data);
+        break;
+      case THEME_FREEZED:
+        outOfContent(data);
+        break;
+      case LOGIN:
+        login();
+        break;
+      case CONTRACT:
+        updateEvents();
+        break;
+      case LOGIN_OUT:
+        longinOut();
+        break;
+      default:
+        updateEvents();
+    }
+  }
+  function outOfContent(data: any) {
+    console.log(data)
+    setOutData(data);
+    setIsOut(true);
+    upperUI();
   }
   function updateUI() {
     updateEvents();
@@ -90,10 +125,12 @@ function App() {
       },
     });
   }
-  reisterUI(UI, updateUI, login, longinOut);
+  reisterUI(UI, updateUI);
   return (
     <div id="freelog-mobile-auth" className="w-100x h-100x over-h">
-      {inited || isLogin ? (
+       {isOut ? (
+        <OutOf eventType={eventType} outData={outData}></OutOf>
+      ) : inited || isLogin ? (
         <div className="w-100x h-100x bg-white">
           <Mobile
             events={events}
@@ -104,7 +141,7 @@ function App() {
             loginFinished={loginFinished}
           ></Mobile>
         </div>
-      ) : null}
+      ) : null} 
     </div>
   );
 }

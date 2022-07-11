@@ -10,7 +10,7 @@ import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
 import VConsole from "vconsole";
 import { callUI } from "../../bridge/index";
-import { NODE_FREEZED, THEME_NONE } from "../../bridge/event";
+import { NODE_FREEZED, THEME_NONE, THEME_FREEZED } from "../../bridge/event";
 const mobile = isMobile();
 // @ts-ignore
 const uiPath =
@@ -102,20 +102,31 @@ export function initNode() {
           }
         ).mountPromise.then(
           async () => {
-            console.log(nodeInfo);
+            // 没有主题
             if (
               (!nodeInfo.nodeThemeId && !window.isTest) ||
               (!nodeInfo.nodeTestThemeId && window.isTest)
             ) {
-              console.log(nodeInfo);
-              callUI(NODE_FREEZED, nodeInfo);
               resolve && resolve();
-              return
+              setTimeout(() => callUI(THEME_NONE, nodeInfo), 10);
+              return;
             }
-
+            // 节点冻结
+            if ((nodeInfo.status & 4) === 4) {
+              resolve && resolve();
+              setTimeout(() => callUI(NODE_FREEZED, nodeInfo), 10);
+              return;
+            }
             const theme = await getSubDep(
               window.isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
             );
+
+            // TODO 主题冻结
+            if ((theme.status & 4) === 4 && false) {
+              callUI(THEME_FREEZED, theme);
+              resolve && resolve();
+              return;
+            }
             freelogApp.mountWidget(
               theme,
               container,

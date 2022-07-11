@@ -1,6 +1,6 @@
 /* @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { Modal, Input, Spin } from "antd";
+import { Modal, Spin } from "antd";
 import Button from "../_commons/button";
 import { useState, useEffect, useRef } from "react";
 import frequest from "@/services/handler";

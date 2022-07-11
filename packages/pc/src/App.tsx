@@ -122,6 +122,7 @@ function App() {
           if (res.data.errCode === 0) {
             window.freelogAuth.reload();
           }
+          // TODO 错误提示
         });
       },
       onCancel: () => {
@@ -129,11 +130,11 @@ function App() {
       },
     });
   }
-  reisterUI(UI, updateUI, login, longinOut);
+  reisterUI(UI, updateUI);
   return (
     <div id="freelog-pc-auth" className="w-100x h-100x over-h">
       {isOut ? (
-        <OutOf></OutOf>
+        <OutOf eventType={eventType} outData={outData}></OutOf>
       ) : inited || isLogin ? (
         <Pc
           events={events}
