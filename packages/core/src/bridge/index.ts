@@ -39,12 +39,10 @@ let uiInited = false;
  *
  */
 export function reisterUI(ui: any, update: any) {
-  console.log(ui)
   UI = ui;
   updateUI = update;
 }
 export function callUI(type: any, data: any) {
-  console.log(type, data, UI)
   UI && UI(type, data)
 }
 export function updateLock(status: boolean) {
@@ -71,6 +69,7 @@ export async function addAuth(exhibitId: any, options?: any) {
       getExhibitAuthStatus(exhibitId),
       getExhibitAvailalbe(exhibitId),
     ]).then((response) => {
+      console.log(response)
       if (response[1].data.errCode) {
         resolve({ status: DATA_ERROR, data: response[1].data });
         return;

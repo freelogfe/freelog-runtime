@@ -59,7 +59,6 @@ export default function Contract(props: ItemProps) {
     }
     setAuthStatus(authStatus);
     setAuthClass(authClass);
-    console.log(props.contract);
     props.contract.policyInfo.translateInfo.fsmInfos.some((item: any) => {
       if (item.stateInfo.origin === props.contract.fsmCurrentState) {
         let tec = 0; // TransactionEventCount
@@ -100,7 +99,6 @@ export default function Contract(props: ItemProps) {
           ...stateInfo,
         };
         tec === 1 && setEventIndex(0);
-        console.log(currentSatus);
         // @ts-ignore
         setCurrentStatus(currentSatus);
         return true;
