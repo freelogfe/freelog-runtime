@@ -19,6 +19,8 @@ import ContractTip from "./_components/contractTip";
 import ExhibitOffLine from "./_statusComponents/exhibitOffLine";
 import ExhibitHeader from "./_components/exhibitHeader";
 import ExhibitList from "./_components/exhibitList";
+const nodeInfo = window.freelogApp.nodeInfo;
+
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
   window.freelogAuth;
@@ -331,6 +333,7 @@ export default function Auth(props: contractProps) {
                     background: #fdebec;
                     border-radius: 4px;
                     color: #ee4040;
+                    font-size: 12px;
                     padding: 0 10px;
                     margin-top: 15px;
                   `}
@@ -346,6 +349,30 @@ export default function Auth(props: contractProps) {
                     &#xe62f;
                   </i>
                   <span>此展品违规，授权相关操作已被禁用</span>
+                </div>
+              ) : null}
+              {nodeInfo.ownerUserStatus === 1 ? (
+                <div
+                  className="flex-row align-center py-5 px-10 mx-15 fs-12"
+                  css={css`
+                    background: #fbf5ea;
+                    border-radius: 4px;
+                    color: #e9a923;
+                    font-size: 12px;
+                    margin-top: 15px;
+                    line-height: 100%;
+                  `}
+                >
+                  <div
+                    className="w-16 h-16 over-h flex-column-center"
+                    css={css`
+                      font-size: 16px;
+                      margin-right: 5px;
+                    `}
+                  >
+                    <img src="/warn.svg" alt="" className="w-100x" />
+                  </div>
+                  <span>该展品运营方账号因违规已被冻结，请谨慎处理授权。</span>
                 </div>
               ) : null}
               {currentExhibit.onlineStatus === 0 ? (

@@ -163,7 +163,7 @@ async function requestNodeInfo(nodeDomain: string) {
   let info = await frequest.bind({ name: "node" })(
     node.getInfoByNameOrDomain,
     "",
-    { nodeDomain }
+    { nodeDomain, isLoadOwnerUserInfo: 1 }
   );
   return info.data;
 }

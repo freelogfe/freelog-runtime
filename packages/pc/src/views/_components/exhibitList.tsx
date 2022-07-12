@@ -1,5 +1,6 @@
 /* @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+const nodeInfo = window.freelogApp.nodeInfo;
 
 interface exhibitListProps {
   currentExhibit: any;
@@ -44,6 +45,17 @@ export default function exhibitList({
                     >
                       &#xe62f;
                     </i>
+                  ) : null}
+                  {nodeInfo.ownerUserStatus === 1 ? (
+                    <div
+                      className="w-16 h-16 over-h flex-column-center"
+                      css={css`
+                        font-size: 16px;
+                        margin-right: 5px;
+                      `}
+                    >
+                      <img src="/warn.svg" alt="" className="w-100x" />
+                    </div>
                   ) : null}
                   <div
                     className="fs-14 lh-20 w-304 text-ellipsis flex-1 flex-row align-center"
