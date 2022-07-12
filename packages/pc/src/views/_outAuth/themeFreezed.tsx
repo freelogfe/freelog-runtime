@@ -38,7 +38,7 @@ export default function OutOf({ outData }: OutOfProps) {
           font-weight: 400;
           color: #666666;
           line-height: 36px;
-          margin-top: 34px;
+          margin-top: 40px;
         `}
       >
         节点主题违规，暂时无法加载内容

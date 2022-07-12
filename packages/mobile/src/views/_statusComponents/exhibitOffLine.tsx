@@ -1,6 +1,7 @@
 import { css } from "astroturf";
 interface exhibitOffLineProps {
   length: number;
+  type: "offline" | "freezed";
   children?: any;
 }
 export default function ExhibitOffLine(props: exhibitOffLineProps) {
@@ -21,17 +22,19 @@ export default function ExhibitOffLine(props: exhibitOffLineProps) {
       >
         &#xe62f;
       </i>
-      <div
-        css={css`
-          margin-top: 30px;
-          font-size: 30px;
-          font-weight: 400;
-          color: #666666;
-          line-height: 42px;
-        `}
-      >
-        展品已下线，无法签约
-      </div>
+      {props.type === "offline" && (
+        <div
+          css={css`
+            margin-top: 30px;
+            font-size: 30px;
+            font-weight: 400;
+            color: #666666;
+            line-height: 42px;
+          `}
+        >
+          展品已下线，无法签约
+        </div>
+      )}
       <div className="flex-3"></div>
     </div>
   );

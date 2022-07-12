@@ -16,6 +16,7 @@ interface ItemProps {
   policy: any;
   contract: any;
   children?: any;
+  isAvailable: boolean;
   paymentFinish: any;
   setModalType: any;
   [propName: string]: any;
@@ -119,7 +120,6 @@ export default function Contract(props: ItemProps) {
       }
     });
     getRecords(true);
-    console.log(222222)
   }, [props.contract]);
   async function getRecords(init?: boolean) {
     if (records.length >= totalItem && totalItem > -1 && !init) {

@@ -33,17 +33,43 @@ export default function exhibitList({
                   " px-20 py-15 w-100x b-box x-auto  cur-pointer select-none flex-column"
                 }
               >
-                <div
-                  className="fs-14 lh-20 w-304 text-ellipsis flex-1 flex-row align-center"
-                  css={css`
-                    font-weight: 600;
-                    color: #222222;
-                  `}
-                  title={item.exhibitName}
-                >
-                  <span>{item.exhibitName}</span>
+                <div className="flex-row align-center">
+                  {item.availableData.authCode === 403 ? (
+                    <i
+                      className="iconfont"
+                      css={css`
+                        color: red;
+                        font-size: 16px;
+                      `}
+                    >
+                      &#xe62f;
+                    </i>
+                  ) : null}
+                  <div
+                    className="fs-14 lh-20 w-304 text-ellipsis flex-1 flex-row align-center"
+                    css={css`
+                      font-weight: 600;
+                      color: #222222;
+                    `}
+                    title={item.exhibitName}
+                  >
+                    {item.exhibitName}
+                  </div>
                 </div>
-                {!item.contracts.length ? null : (
+                {item.availableData.authCode === 403 ? (
+                  <span
+                    className="iconfont"
+                    css={css`
+                      color: red;
+                      font-size: 12px;
+                      font-weight: 400;
+                      color: #ee4040;
+                      line-height: 18px;
+                    `}
+                  >
+                    已封禁
+                  </span>
+                ) : !item.contracts.length ? null : (
                   <div className="flex-row pt-10">
                     {item.contracts.map((contract: any, index: number) => {
                       return (

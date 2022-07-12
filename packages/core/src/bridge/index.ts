@@ -69,11 +69,11 @@ export async function addAuth(exhibitId: any, options?: any) {
       getExhibitAuthStatus(exhibitId),
       getExhibitAvailalbe(exhibitId),
     ]).then((response) => {
-      console.log(response);
       if (response[1].data.errCode) {
         resolve({ status: DATA_ERROR, data: response[1].data });
         return;
       }
+ 
       // if (response[0].data.data.onlineStatus === 0) {
       //   resolve({ status: OFFLINE, data: response[0].data });
       //   return;
@@ -83,7 +83,6 @@ export async function addAuth(exhibitId: any, options?: any) {
       data.defaulterIdentityType = response[1].data.data[0].authCode;
       data.isAvailable = response[2].data.data[0].isAuth;
       data.availableData = response[2].data.data[0];
-
       arr.push({
         resolve,
         options,

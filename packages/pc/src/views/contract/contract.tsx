@@ -20,6 +20,7 @@ var moment = require("moment");
 interface ItemProps {
   policy: any;
   contract: any;
+  isAvailable: boolean;
   children?: any;
   paymentFinish: any;
   [propName: string]: any;
@@ -275,7 +276,7 @@ export default function Contract(props: ItemProps) {
                 currentStatus.tec > 1 && (
                   <Button
                     className="fs-14"
-                    disabled={eventIndex === -1}
+                    disabled={!props.isAvailable  || eventIndex === -1}
                     click={payEvent}
                   >
                     支付

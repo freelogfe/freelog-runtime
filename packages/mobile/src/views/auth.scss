@@ -30,13 +30,13 @@
  }
 
  .pop-body-center1 {
-  .adm-popup-body {
-    margin: 22px;
-    top: 30%;
-    height: 220px;
-    width: 330px !important;
-    border-radius: 4px !important;
-  }
+   .adm-popup-body {
+     margin: 22px;
+     top: 30%;
+     height: 220px;
+     width: 330px !important;
+     border-radius: 4px !important;
+   }
  }
 
 
@@ -60,4 +60,11 @@
        border: none !important;
      }
    }
+ }
+
+
+ .exhibit-list {
+   width: 335px !important;
+   height: 100%;
+   border-radius: 0px 10px 10px 0px;
  }

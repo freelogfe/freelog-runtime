@@ -4,7 +4,6 @@ import "@/assets/mobile/index.scss";
 import "./auth.scss";
 import Login from "./user/login";
 import Forgot, { LOGIN_PASSWORD, PAY_PASSWORD } from "./user/forgot";
-
 import Register from "./user/register";
 import NodeError from "./_statusComponents/nodeError";
 import Contract from "./contract/contract";
@@ -12,13 +11,12 @@ import Policy from "./policy/policy";
 import frequest from "@/services/handler";
 import contract from "@/services/api/modules/contract";
 // import getBestTopology from "./topology/data";
-import { Dialog, Popup, Button, Toast } from "antd-mobile"; // Toast, Button
+import { Dialog, Toast } from "antd-mobile"; // Toast, Button
 import PolicyTip from "./_components/policyTip";
 import ThemeCancel from "./_statusComponents/themeCancel";
 import ExhibitFooter from "./_components/exhibitFooter";
 import ContractTip from "./_components/contractTip";
 import ExhibitOffLine from "./_statusComponents/exhibitOffLine";
-
 import ExhibitHeader from "./_components/exhibitHeader";
 import ExhibitList from "./_components/exhibitList";
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
@@ -194,7 +192,7 @@ export default function Auth(props: contractProps) {
     let policy = {};
     currentExhibit.policiesActive.forEach((item: any) => {
       if ([...selectedPolicies, id].includes(item.policyId)) {
-        policy = item
+        policy = item;
         subjects.push({
           subjectId: currentExhibit.exhibitId,
           policyId: item.policyId,
@@ -212,8 +210,8 @@ export default function Auth(props: contractProps) {
     if (res.data.errcode) {
       if (res.data.msg === "subject-policy-check-failed") {
         // @ts-ignore
-        policy._disabled = true
-        setCurrentExhibit({...currentExhibit})
+        policy._disabled = true;
+        setCurrentExhibit({ ...currentExhibit });
         Toast.show({
           icon: (
             <i
@@ -326,8 +324,34 @@ export default function Auth(props: contractProps) {
                 closeCurrent={closeCurrent}
                 events={events}
               />
+              {currentExhibit.availableData.authCode === 403 ? (
+                <div
+                  className="flex-row align-center mx-15 py-5"
+                  css={css`
+                    background: #fdebec;
+                    border-radius: 4px;
+                    color: #ee4040;
+                    padding: 0 10px;
+                    margin-top: 15px;
+                  `}
+                >
+                  <i
+                    className="iconfont"
+                    css={css`
+                      color: red;
+                      font-size: 16px;
+                      margin-right: 5px;
+                    `}
+                  >
+                    &#xe62f;
+                  </i>
+                  <span>此展品违规，授权相关操作已被禁用</span>
+                </div>
+              ) : null}
               {currentExhibit.onlineStatus === 0 ? (
-                <ExhibitOffLine length={events.length} />
+                <ExhibitOffLine length={events.length} type="offline" />
+              ) : currentExhibit.availableData.authCode === 403 ? (
+                <ExhibitOffLine length={events.length} type="freezed" />
               ) : (
                 <>
                   {currentExhibitId === currentExhibit.exhibitId && (
@@ -339,6 +363,7 @@ export default function Auth(props: contractProps) {
                             return (
                               <Contract
                                 policy={contract.policyInfo}
+                                isAvailable={currentExhibit.isAvailable}
                                 contract={contract}
                                 paymentFinish={paymentFinish}
                                 setModalType={setModalType}

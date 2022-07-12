@@ -11,6 +11,11 @@ import { mountUI } from "./widget";
 import VConsole from "vconsole";
 import { callUI } from "../../bridge/index";
 import { NODE_FREEZED, THEME_NONE, THEME_FREEZED } from "../../bridge/event";
+import {
+  getExhibitInfo,
+  getExhibitAuthStatus,
+  getExhibitAvailalbe,
+} from "../structure/api";
 const mobile = isMobile();
 // @ts-ignore
 const uiPath =
@@ -117,16 +122,17 @@ export function initNode() {
               setTimeout(() => callUI(NODE_FREEZED, nodeInfo), 10);
               return;
             }
+            const availableData = await getExhibitAvailalbe(
+              window.isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
+            );
+            // 主题冻结 
+            if (availableData && availableData.authCode === 403) {
+              resolve && resolve(); 
+              return;
+            }
             const theme = await getSubDep(
               window.isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
             );
-
-            // TODO 主题冻结
-            if ((theme.status & 4) === 4 && false) {
-              callUI(THEME_FREEZED, theme);
-              resolve && resolve();
-              return;
-            }
             freelogApp.mountWidget(
               theme,
               container,

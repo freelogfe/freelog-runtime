@@ -1,4 +1,3 @@
-
 import { css } from "astroturf";
 import { Dialog, Popup } from "antd-mobile"; // Toast, Button
 
@@ -104,7 +103,20 @@ export default function exhibitList({
                       className=" text-ellipsis flex-1 flex-row align-center"
                       title={item.exhibitName}
                     >
-                      <span className="text-ellipsis">{item.exhibitName}</span>
+                      {item.availableData.authCode === 403 ? (
+                        <i
+                          className="iconfont ml-5"
+                          css={css`
+                            color: red;
+                            font-size: 16px;
+                          `}
+                        >
+                          &#xe62f;
+                        </i>
+                      ) : null}
+                      <span className="text-ellipsis ml-5">
+                        {item.exhibitName}
+                      </span>
                     </div>
                     {!item.contracts.length ? (
                       <span
@@ -117,6 +129,19 @@ export default function exhibitList({
                         `}
                       >
                         未签约
+                      </span>
+                    ) : item.availableData.authCode === 403 ? (
+                      <span
+                        className="iconfont mt-5"
+                        css={css`
+                          color: red;
+                          font-size: 12px;
+                          font-weight: 400;
+                          color: #ee4040;
+                          line-height: 18px;
+                        `}
+                      >
+                        已封禁
                       </span>
                     ) : (
                       <div className="flex-row pt-10">

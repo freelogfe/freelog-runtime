@@ -1,4 +1,3 @@
-
 import { css } from "astroturf";
 
 interface exhibitHeaderProps {
@@ -21,9 +20,26 @@ export default function ExhibitHeader({
       >
         {events.length === 1 ? "退出" : "关闭"}
       </div>
-      <div className="flex-column-center mt-20 mb-10 fs-20 fc-main fw-bold">
-        {currentExhibit.exhibitName}
+
+      <div className="flex-column-center mt-20 mb-10 fs-20 fc-main fw-bold w-100x">
+        <div className="flex-row align-center w-100x px-10 justify-center">
+          <div className="flex-1"></div>
+          {/* <i
+            className="iconfont"
+            css={css`
+              color: red;
+              font-size: 16px;
+            `}
+          >
+            &#xe62f;
+          </i> */}
+          <span className="text-ellipsis ml-5 ">
+            {currentExhibit.exhibitName}
+          </span>
+          <div className="flex-1"></div>
+        </div>
       </div>
+
       {currentExhibit.isTheme ? (
         <>
           <div
@@ -54,7 +70,22 @@ export default function ExhibitHeader({
           </div>
         </>
       ) : null}
-      {!currentExhibit.contracts.length ? null : (
+      {currentExhibit.availableData.authCode ===
+      403 ? null : // <div className="flex-column-center">
+      //   <span
+      //     className="iconfont"
+      //     css={css`
+      //       color: red;
+      //       font-size: 16px;
+      //       font-weight: 400;
+      //       color: #ee4040;
+      //       line-height: 18px;
+      //     `}
+      //   >
+      //     已封禁
+      //   </span>
+      // </div>
+      !currentExhibit.contracts.length ? null : (
         <div className="flex-row justify-center mb-15">
           {currentExhibit.contracts.map((contract: any, index: number) => {
             return (

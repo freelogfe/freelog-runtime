@@ -1,3 +1,5 @@
+/* @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import { Modal } from "antd";
 import { useState, useEffect } from "react";
 import "./auth.scss";
@@ -233,14 +235,14 @@ export default function Auth(props: contractProps) {
         policies.forEach((item: any) => {
           res.data.data.forEach((f: any) => {
             if (f.policyId === item.policyId) {
-              item._disabled = true
+              item._disabled = true;
               failedPolicies.push(item.policyName);
             }
           });
         });
-        setCurrentExhibit({...currentExhibit})
+        setCurrentExhibit({ ...currentExhibit });
         setTipConfig({
-          content: `策略 ${failedPolicies.join(',')} 已下线无法签约`,
+          content: `策略 ${failedPolicies.join(",")} 已下线无法签约`,
           type: "notAllow",
         });
         setTimeout(() => {
@@ -366,7 +368,7 @@ export default function Auth(props: contractProps) {
                   <div className="w-100x flex-1 flex-row over-h">
                     <div className="w-100x h-100x  flex-row">
                       {/* 左：待授权展品列表 */}
-                      {currentExhibit.isTheme && events.length !== 1 && (
+                      {!currentExhibit.isTheme && events.length !== 1 && (
                         <ExhibitList
                           setCurrentExhibit={setCurrentExhibit}
                           currentExhibit={currentExhibit}
@@ -386,8 +388,40 @@ export default function Auth(props: contractProps) {
                           {events.length === 1 && !currentExhibit.isTheme ? (
                             <ExhibitHeader currentExhibit={currentExhibit} />
                           ) : null}
+                          {currentExhibit.availableData.authCode === 403 ? (
+                            <div
+                              className="flex-row align-center py-5 w-100x"
+                              css={css`
+                                background: #fdebec;
+                                border-radius: 4px;
+                                color: #EE4040;
+                                padding: 0 10px;
+                                margin-top: 15px;
+                              `}
+                            >
+                              <i
+                                className="iconfont"
+                                css={css`
+                                  color: red;
+                                  font-size: 16px;
+                                  margin-right: 5px;
+                                `}
+                              >
+                                &#xe62f;
+                              </i>
+                              <span>此展品违规，授权相关操作已被禁用</span>
+                            </div>
+                          ) : null}
                           {currentExhibit.onlineStatus === 0 ? (
-                            <ExhibitOffLine length={events.length} />
+                            <ExhibitOffLine
+                              length={events.length}
+                              type="offline"
+                            />
+                          ) : currentExhibit.availableData.authCode === 403 ? (
+                            <ExhibitOffLine
+                              length={events.length}
+                              type="freezed"
+                            />
                           ) : (
                             <>
                               {!currentExhibit.isAvailable ? (
@@ -400,6 +434,7 @@ export default function Auth(props: contractProps) {
                                     <Contract
                                       policy={contract.policyInfo}
                                       contract={contract}
+                                      isAvailable={currentExhibit.isAvailable}
                                       paymentFinish={paymentFinish}
                                       key={index}
                                     ></Contract>
