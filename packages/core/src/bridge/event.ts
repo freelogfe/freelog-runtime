@@ -11,6 +11,7 @@ export const eventType = {
   THEME_FREEZED,
   LOGIN,
   CONTRACT,
+  LOGIN_OUT
 };
 
 export const SUCCESS = 0;
