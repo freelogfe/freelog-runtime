@@ -4,7 +4,7 @@ import { Popup, Button, Toast } from "antd-mobile";
 
 import { useState } from "react";
 import "./login.scss";
-import logoImage from '../../assets/image/logo-feather.png'
+import logoImage from "../../assets/image/logo-feather.png";
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 
 interface loginProps {
@@ -69,17 +69,15 @@ export default function Login(props: loginProps) {
           &#xe637;
         </i>
         <div className="flex-1 w-100x flex-column align-center">
-          {/* <i className="iconfont  mt-50 mb-20 logo">&#xe614;</i> */}
-          <div className="login-logo flex-column-center h-36 w-100x mt-57 mb-20">
-            <i
-              className="iconfont fs-36" 
-            >
-              &#xe65c;
-            </i>
-            {/* <img src={logoImage} className="h-100x" alt="" /> */}
-          </div>
-          <div className="login-title mb-46 flex-row justify-center">
-            免费专业的作品发行和运营平台
+          <div className="flex-column align-center w-100x flex-1 justify-center">
+            {/* <i className="iconfont  mt-50 mb-20 logo">&#xe614;</i> */}
+            <div className="login-logo flex-column-center h-36 w-100x mt-57 mb-20">
+              <i className="iconfont fs-36">&#xe65c;</i>
+              {/* <img src={logoImage} className="h-100x" alt="" /> */}
+            </div>
+            <div className="login-title mb-46 flex-row justify-center">
+              免费专业的作品发行和运营平台
+            </div>
           </div>
           <div className="login-container flex-column justify-center">
             <input
@@ -118,18 +116,19 @@ export default function Login(props: loginProps) {
               注 册
             </Button>
           </div>
-        </div>
-
-        <div className="flex-column-center login-forgot mb-50">
-          <Button
-            color="default"
-            size="small"
-            onClick={() => {
-              !logging && props.setModalType(3);
-            }}
-          >
-            忘记密码
-          </Button>
+          <div className="flex-1">
+            <div className="flex-column-center login-forgot mt-125">
+              <Button
+                color="default"
+                size="small"
+                onClick={() => {
+                  !logging && props.setModalType(3);
+                }}
+              >
+                忘记密码
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </Popup>

@@ -1,5 +1,6 @@
 // import logo from './logo.svg';
 import "./App.scss";
+import "@/assets/mobile/index.scss";
 
 import { useEffect, useState } from "react";
 import Mobile from "./views/auth";

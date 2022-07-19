@@ -1,7 +1,5 @@
 import { css } from "astroturf";
 import { useState, useEffect } from "react";
-import "@/assets/mobile/index.scss";
-import "./auth.scss";
 import Login from "./user/login";
 import Forgot, { LOGIN_PASSWORD, PAY_PASSWORD } from "./user/forgot";
 import Register from "./user/register";
