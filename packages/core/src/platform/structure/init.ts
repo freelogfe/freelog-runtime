@@ -8,7 +8,7 @@ import { init } from "./api";
 import { dev, DEV_FALSE } from "./dev";
 import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
-// import VConsole from "vconsole";
+import VConsole from "vconsole";
 import { callUI } from "../../bridge/index";
 import { NODE_FREEZED, THEME_NONE, THEME_FREEZED } from "../../bridge/event";
 import {
@@ -86,9 +86,9 @@ export function initNode() {
         init();
         const devData = dev();
         // window.vconsole = new VConsole()
-        // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
-        //   window.vconsole = new VConsole();
-        // }
+        if (devData.type !== DEV_FALSE && devData.config.vconsole) {
+          window.vconsole = new VConsole();
+        }
         Object.freeze(devData);
         freelogApp.devData = devData;
         Object.freeze(freelogApp);
