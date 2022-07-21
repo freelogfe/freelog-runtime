@@ -6,7 +6,7 @@ import {
   checkPassword,
   checkPayPassword,
 } from "@/utils/utils";
-import { Popup, Button, Toast } from "antd-mobile";
+import { Popup, Button, Toast, SpinLoading } from "antd-mobile";
 
 import { useState, useEffect } from "react";
 import "./forgot.scss";
@@ -99,10 +99,10 @@ export default function Forgot(props: ForgotProps) {
       loginName: registerType === 1 ? phone : email,
     };
     const flag1 = Object.keys(errors).some((key: any) => {
-      return errors[key]
+      return errors[key];
     });
     const flag2 = Object.keys(values).some((key: any) => {
-      return !values[key]
+      return !values[key];
     });
     setAvailable(!(flag1 || flag2));
   };
@@ -321,10 +321,12 @@ export default function Forgot(props: ForgotProps) {
               loading={loading}
               color="primary"
               className="mt-15"
+              loadingIcon={<SpinLoading color="white" />}
+              loadingText="验证中"
               onClick={loginVerify}
               disabled={loading || errorTip.loginPassword}
             >
-              {loading ? "验证中" : "下一步"}
+              下一步
             </Button>
           </div>
           <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
@@ -364,7 +366,7 @@ export default function Forgot(props: ForgotProps) {
                   verify("phone", phone);
                   setRegisterType(parseInt(e.target.value));
                 }}
-              />{" "}
+              />
               <label
                 htmlFor="phone-type"
                 className={registerType === 1 ? "selected mr-20" : " mr-20"}
@@ -382,7 +384,7 @@ export default function Forgot(props: ForgotProps) {
                   setRegisterType(parseInt(e.target.value));
                 }}
                 value="2"
-              />{" "}
+              />
               <label
                 htmlFor="mail-type"
                 className={registerType === 2 ? "selected" : ""}
@@ -459,6 +461,8 @@ export default function Forgot(props: ForgotProps) {
                 color="primary"
                 className="mt-15"
                 onClick={authCodeVerify}
+                loadingIcon={<SpinLoading color="white" />}
+                loadingText="验证中"
                 disabled={
                   loading ||
                   !authCode ||
@@ -467,7 +471,7 @@ export default function Forgot(props: ForgotProps) {
                     : !email || errorTip.email)
                 }
               >
-                {loading ? "验证中" : "下一步"}
+                下一步
               </Button>
             </div>
           </div>
@@ -558,13 +562,15 @@ export default function Forgot(props: ForgotProps) {
                 color="primary"
                 className="mt-15"
                 onClick={onFinish}
+                loadingIcon={<SpinLoading color="white" />}
+                loadingText={
+                  props.type === LOGIN_PASSWORD
+                    ? "正在重置登录密码"
+                    : "正在重置支付密码"
+                }
                 disabled={!available}
               >
-                {loading
-                  ? props.type === LOGIN_PASSWORD
-                    ? "重置登录密码中..."
-                    : "重置支付密码中..."
-                  : props.type === LOGIN_PASSWORD
+                {props.type === LOGIN_PASSWORD
                   ? "重置登录密码"
                   : "重置支付密码"}
               </Button>

@@ -61,7 +61,6 @@ function App() {
     }
   }
   function UI(type: any, data: any) {
-    console.log(type, data)
     setEventType(type);
     switch (type) {
       case NODE_FREEZED:

@@ -6,7 +6,7 @@ import {
   checkPassword,
   checkUsername,
 } from "@/utils/utils";
-import { Popup, Button, Toast } from "antd-mobile";
+import { Popup, Button, Toast, SpinLoading } from "antd-mobile";
 
 import { useState, useEffect } from "react";
 import "./register.scss";
@@ -79,8 +79,8 @@ export default function Register(props: loginProps) {
       loginName: registerType === 1 ? phone : email,
     };
     registerType === 1 ? delete errors.email : delete errors.phone;
-    const flag1 = Object.keys(errors).some((key: any) => errors[key])
-      
+    const flag1 = Object.keys(errors).some((key: any) => errors[key]);
+
     const flag2 = Object.keys(values).some((key: any) => !values[key]);
     setAvailable(!(flag1 || flag2));
   };
@@ -320,10 +320,12 @@ export default function Register(props: loginProps) {
               loading={loading}
               color="primary"
               className="mt-15"
+              loadingIcon={<SpinLoading color='white' />}
               onClick={onFinish}
               disabled={!available}
+              loadingText="注册中"
             >
-              {loading ? "注册中" : "注 册"}
+              注 册
             </Button>
           </div>
         </div>
@@ -339,7 +341,7 @@ export default function Register(props: loginProps) {
           </Button>
         </div>
       </div>
-      <Popup
+      {/* <Popup
         visible={loading}
         position="top"
         bodyClassName="w-325 h-220 modal-tip"
@@ -349,13 +351,13 @@ export default function Register(props: loginProps) {
             注册中
           </Button>
         </div>
-      </Popup>
+      </Popup> */}
       <Popup
         visible={success}
         position="top"
         bodyClassName="w-100x h-100x register-success"
       >
-        <div className="w-100x h-100 flex-column justify-center">
+        <div className="w-100x h-100x flex-column justify-center">
           <div className="flex-column align-center ">
             <i className="iconfont ">&#xe62d;</i>
             <span className=" success mb-60 mt-4">注册成功</span>

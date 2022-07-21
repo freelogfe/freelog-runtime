@@ -1,6 +1,6 @@
 import user from "@/services/api/modules/user";
 import frequest from "@/services/handler";
-import { Popup, Button, Toast } from "antd-mobile";
+import { Popup, Button, Toast, SpinLoading } from "antd-mobile";
 
 import { useState } from "react";
 import "./login.scss";
@@ -104,8 +104,10 @@ export default function Login(props: loginProps) {
               className="mb-15"
               onClick={onFinish}
               disabled={!loginName || !password}
+              loadingIcon={<SpinLoading color='white' />}
+              loadingText="登录中"
             >
-              {logging ? "登录中" : "登 录"}
+               登 录 
             </Button>
             <Button
               className="registry"
