@@ -12,6 +12,7 @@ import {
   callLogin,
   callLoginOut,
   reload,
+  getCookieUserId
 } from "./utils";
 import { callAuth, addAuth, onLogin } from "../../bridge/index";
 import { isUserChange } from "../security";
@@ -58,5 +59,6 @@ export const freelogApp: any = {
   getSelfConfig,
   isUserChange,
   reload,
+  getCookieUserId,
   resultType
 };

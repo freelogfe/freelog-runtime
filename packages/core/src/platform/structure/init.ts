@@ -65,6 +65,9 @@ export function initNode() {
         //   return;
         // }
         document.title = nodeInfo.nodeName;
+        if(window.isTest){
+          document.title = '[T]' + nodeInfo.nodeName; 
+        }
         if (!userInfo && window.isTest) {
           confirm("测试节点必须登录！");
           return;

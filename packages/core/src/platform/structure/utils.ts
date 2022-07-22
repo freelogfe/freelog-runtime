@@ -4,10 +4,12 @@ import { baseUrl } from "../../services/base";
 import { getExhibitInfoByAuth } from "./api";
 import { widgetsConfig, widgetUserData, sandBoxs, FREELOG_DEV } from "./widget";
 import frequest from "../../services/handler";
-import { initUserCheck }  from '../security'
+import { initUserCheck } from "../security";
 import user from "../../services/api/modules/user";
 import node from "../../services/api/modules/node";
 import { addAuth, goLogin, goLoginOut } from "../../bridge/index";
+import docCookies from "doc-cookies";
+
 export function freelogFetch(url: string, options?: any) {
   options = options || {};
   if (url.indexOf("freelog.com") > -1) {
@@ -204,13 +206,13 @@ export function getStaticPath(path: string) {
   // @ts-ignore
   return widgetsConfig.get(this.name).entry + path;
 }
-const rawLocation = window.location
+const rawLocation = window.location;
 
-export function reload(){
+export function reload() {
   // @ts-ignore
   if (widgetsConfig.get(this.name).isTheme) {
     rawLocation.reload();
-  } 
+  }
 }
 const immutableKeys = ["width"];
 const viewPortValue = {
@@ -263,7 +265,7 @@ export function setViewport(keys: any) {
 // }
 
 export async function setUserData(key: string, data: any) {
-  key = window.isTest ? key + '-test' : key
+  key = window.isTest ? key + "-test" : key;
   // TODO 必须验证格式正确
   // @ts-ignore
   const name = this.name;
@@ -285,7 +287,7 @@ export async function setUserData(key: string, data: any) {
 }
 
 export async function getUserData(key: string) {
-  key = window.isTest ? key + '-test' : key
+  key = window.isTest ? key + "-test" : key;
   // @ts-ignore
   const name = this.name;
   let userData = widgetUserData.get(name);
@@ -315,7 +317,7 @@ export function callLoginOut() {
   }
 }
 
-export function setTabLogo(Url: string ) {
+export function setTabLogo(Url: string) {
   // fetch("/freelog.ico").then((res: Response) => {
   //   res.blob().then((blob: Blob) => {
   //     const objectURL = URL.createObjectURL(blob);
@@ -371,4 +373,9 @@ export function isMobile() {
   } else {
     return false;
   }
+}
+
+// 交给主题或插件去刷新用户，或者可以做成由节点选择是否在运行时里面控制
+export function getCookieUserId() {
+  return docCookies.getItem("uid") || '';
 }
