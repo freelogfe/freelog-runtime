@@ -26,7 +26,7 @@ export default function OutOf({ outData }: OutOfProps) {
           className="iconfont"
           css={css`
             color: red;
-            font-size: 100px;
+            font-size: 100px !important;
           `}
         >
           &#xe62f;

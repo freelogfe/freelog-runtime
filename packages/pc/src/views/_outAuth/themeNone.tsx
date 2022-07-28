@@ -23,7 +23,7 @@ export default function OutOf({ outData }: OutOfProps) {
       <div className="flex-1"></div>
       <div
         css={css`
-          width: 100px;
+          width: 100px  !important;
         `}
       >
         <img
