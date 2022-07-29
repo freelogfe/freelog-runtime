@@ -10,12 +10,13 @@ import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
 import VConsole from "vconsole";
 import { callUI } from "../../bridge/index";
-import { NODE_FREEZED, THEME_NONE, THEME_FREEZED } from "../../bridge/event";
+import { NODE_FREEZED, THEME_NONE, THEME_FREEZED } from "../../bridge/eventType";
 import {
   getExhibitInfo,
   getExhibitAuthStatus,
   getExhibitAvailalbe,
 } from "../structure/api";
+import {initWindowListener} from "../../bridge/eventOn"
 const mobile = isMobile();
 // @ts-ignore
 const uiPath =
@@ -38,6 +39,8 @@ window.freelogApp = freelogApp;
 window.freelogAuth = freelogAuth;
 
 export function initNode() {
+  // TODO 这个位置问题需要可考虑，最好放到UI插件之后
+  initWindowListener();
   pathATag();
   return new Promise<void>(async (resolve) => {
     let nodeDomain = getDomain(window.location.host);

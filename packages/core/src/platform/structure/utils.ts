@@ -8,7 +8,6 @@ import { initUserCheck } from "../security";
 import user from "../../services/api/modules/user";
 import node from "../../services/api/modules/node";
 import { addAuth, goLogin, goLoginOut } from "../../bridge/index";
-import docCookies from "doc-cookies";
 
 export function freelogFetch(url: string, options?: any) {
   options = options || {};
@@ -183,7 +182,7 @@ export async function getSubDep(exhibitId?: any) {
     ...response.data.data,
   };
 }
-let userInfo: any = null;
+export let userInfo: any = null;
 export async function getUserInfo() {
   if (userInfo) return userInfo;
   const res = await frequest(user.getCurrent, "", "");
@@ -375,7 +374,4 @@ export function isMobile() {
   }
 }
 
-// 交给主题或插件去刷新用户，或者可以做成由节点选择是否在运行时里面控制
-export function getCookieUserId() {
-  return docCookies.getItem("uid") || '';
-}
+

@@ -5,7 +5,7 @@ import {
   DATA_ERROR,
   TEST_NODE,
   OFFLINE,
-} from "./event";
+} from "./eventType";
 import {
   NODE_FREEZED,
   THEME_NONE,
@@ -13,7 +13,8 @@ import {
   LOGIN,
   CONTRACT,
   LOGIN_OUT,
-} from "./event";
+} from "./eventType";
+import { onLogin } from "./eventOn";
 import {
   getExhibitInfo,
   getExhibitAuthStatus,
@@ -53,7 +54,7 @@ export function setPresentableQueue(name: string, value: any) {
 }
 // TODO 公共非展品事件UI， 后面考虑
 export async function addAuth(exhibitId: any, options?: any) {
-  console.log(exhibitId, options)
+  console.log(exhibitId, options);
   // @ts-ignore
   const that = this;
   const name = that.name;
@@ -74,7 +75,7 @@ export async function addAuth(exhibitId: any, options?: any) {
         resolve({ status: DATA_ERROR, data: response[1].data });
         return;
       }
- 
+
       // if (response[0].data.data.onlineStatus === 0) {
       //   resolve({ status: OFFLINE, data: response[0].data });
       //   return;
@@ -183,7 +184,6 @@ export function endEvent(eventId: string, type: number, data: any) {
   }
   // }
 }
-export const loginCallback: any = [];
 
 export function goLogin(resolve: Function) {
   if (uiInited) {
@@ -194,7 +194,6 @@ export function goLogin(resolve: Function) {
   UI && UI(LOGIN);
 }
 export function goLoginOut() {
-  console.log(234243)
   UI && UI(LOGIN_OUT);
 }
 const uiRoot = rawDocument.getElementById("ui-root");
@@ -216,14 +215,6 @@ export function lowerUI() {
   widgetContainer.style.zIndex = 1;
 }
 
-// 登录和切换用户需要触发
-export async function onLogin(callback: any) {
-  if (typeof callback === "function") {
-    loginCallback.push(callback);
-  } else {
-    console.error("onLogin error: ", callback, " is not a function!");
-  }
-}
 export function reload() {
   rawWindow.location.reload();
 }

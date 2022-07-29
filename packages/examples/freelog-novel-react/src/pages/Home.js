@@ -1,40 +1,20 @@
 import React, { useEffect, useState } from "react";
 import styles from "./home.module.scss";
 import Sliders from './slider'
-export default function (props) {
+export default function Home(props) {
   const [novels, setNovels] = useState([]);
   const [img, setImg] = useState('');
-  useEffect(async () => {
-    props.history.push('/')
-    // setTimeout(() => {
-    //       window.freelogApp.callLogin()
-    // }, 500);
-    // function blobToBase64(blob) {
-    //   return new Promise((resolve, reject) => {
-    //     const fileReader = new FileReader();
-    //     fileReader.onload = (e) => {
-    //       resolve(e.target.result);
-    //     };
-    //     // readAsDataURL
-    //     fileReader.readAsDataURL(blob);
-    //     fileReader.onerror = () => {
-    //       reject(new Error('blobToBase64 error'));
-    //     };
-    //   });
-    // }
-    // fetch('https://image.freelog.com/preview-image/4a8d29ad5aab14df3747ada5c3d680da1a6029f0.jpg', {}).then(res => {
-    //     console.log(res)
-    //     res.blob().then(b => {
-    //     console.log(b)
-    //     blobToBase64(b).then(img=>{
-    //       setImg(img)
-    //     })
-        
-    //   })
-    // })
-    console.log(document.documentElement)
+  async function getData() {
     const res = await window.freelogApp.getExhibitListByPaging({ articleResourceTypes: ['阅读', '文章'] })
+    window.freelogApp.onUserChange(()=>{
+      console.log(
+        'userchanged'
+      )
+    })
     setNovels(res.data.data.dataList)
+  }
+  useEffect(() => {
+    getData()
   }, []);
   return (
     <div className={styles.homePage + " flex-column w-100x h-100x over-h"}>

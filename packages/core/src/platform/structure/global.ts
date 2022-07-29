@@ -1,5 +1,5 @@
 import { mountWidget } from "./widget";
-import { resultType, eventType } from "../../bridge/event";
+import { resultType, eventType } from "../../bridge/eventType";
 import {
   getSelfConfig,
   setUserData,
@@ -12,9 +12,9 @@ import {
   callLogin,
   callLoginOut,
   reload,
-  getCookieUserId
 } from "./utils";
-import { callAuth, addAuth, onLogin } from "../../bridge/index";
+import { callAuth, addAuth } from "../../bridge/index";
+import { onLogin, onUserChange } from "../../bridge/eventOn";
 import { isUserChange } from "../security";
 import {
   getExhibitListById,
@@ -50,6 +50,7 @@ export const freelogApp: any = {
   callAuth,
   addAuth,
   onLogin,
+  onUserChange,
   callLogin,
   callLoginOut,
   getCurrentUser,
@@ -59,6 +60,5 @@ export const freelogApp: any = {
   getSelfConfig,
   isUserChange,
   reload,
-  getCookieUserId,
-  resultType
+  resultType,
 };

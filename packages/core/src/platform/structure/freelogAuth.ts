@@ -9,10 +9,12 @@ import {
   updateEvent,
   lowerUI,
   upperUI,
-  loginCallback,
   reload,
 } from "../../bridge/index";
-import { resultType, eventType } from "../../bridge/event";
+import {
+  loginCallback,
+ } from "../../bridge/eventOn";
+import { resultType, eventType } from "../../bridge/eventType";
 
 
 export const freelogAuth = {
