@@ -54,7 +54,6 @@ export function setPresentableQueue(name: string, value: any) {
 }
 // TODO 公共非展品事件UI， 后面考虑
 export async function addAuth(exhibitId: any, options?: any) {
-  console.log(exhibitId, options);
   // @ts-ignore
   const that = this;
   const name = that.name;
