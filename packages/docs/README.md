@@ -1122,6 +1122,13 @@ const res = await window.freelogApp.getCurrentUser();
 window.freelogApp.onLogin(callback);
 ```
 
+### 监听用户在其余页面切换账号或登录事件
+
+```js
+// callback: 再次进入页面发现账号变化后会回调所有函数
+window.freelogApp.onUserChange(callback);
+```
+
 ### 用户数据
 
 ```js
