@@ -17,7 +17,7 @@ export default function OutOf({ outData }: OutOfProps) {
         color: #666666;
         line-height: 36px;
         text-align: center;
-        background: #FFFFFF;
+        background: #ffffff;
       `}
     >
       <div className="flex-1"></div>
@@ -26,7 +26,7 @@ export default function OutOf({ outData }: OutOfProps) {
           className="iconfont"
           css={css`
             color: red;
-            font-size: 100px  !important;
+            font-size: 100px !important;
           `}
         >
           &#xe62f;
@@ -53,7 +53,13 @@ export default function OutOf({ outData }: OutOfProps) {
         `}
       >
         经核实，节点{outData.nodeName}，严重违反平台规范&nbsp;{" "}
-        <span className="link cur-pointer">查看服务协议</span> ，涉嫌
+        <a
+          className="link cur-pointer"
+          href="https://freelog2.freelog.com/$freelog-61f252ef6fe5c1002e2c7b4b=/home_id=62cce8f2456ff0002e328eb2"
+        >
+          查看服务协议
+        </a>{" "}
+        ，涉嫌
         {outData.freezeReason}，已经被封停。
       </div>
       <div className="flex-1"></div>
