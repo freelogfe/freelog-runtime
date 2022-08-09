@@ -47,12 +47,14 @@ export default function OutOf({ outData }: OutOfProps) {
           margin-top: 40px;
         `}
       >
-        经核实，节点{outData.nodeName}，严重违反平台规范&nbsp;{" "}
+        经核实，节点{outData.nodeName}，严重违反平台规范&nbsp;{" "}查看
         <a
           className="link cur-pointer"
+          target="_blank"
+          rel="noreferrer"
           href="https://freelog2.freelog.com/$freelog-61f252ef6fe5c1002e2c7b4b=/home_id=62cce8f2456ff0002e328eb2"
         >
-          查看服务协议
+          Freelog服务协议
         </a>{" "}
         ，涉嫌
         {outData.freezeReason}，已经被封停。
