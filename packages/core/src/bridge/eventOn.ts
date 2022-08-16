@@ -20,12 +20,15 @@ export function onUserChange(callback: Function) {
     console.error("onLogin error: ", callback, " is not a function!");
   }
 }
+const rawWindow = window;
 export const initWindowListener = () => {
-  window.document.addEventListener("visibilitychange", function () {
-    if(docCookies.getItem("uid") != userInfo?.userId){
-      userChangeCallback.forEach((func: any) => {
-        func && func();
-      });
-    }
+  rawWindow.document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "visible") {
+      if (docCookies.getItem("uid") != userInfo?.userId) {
+        userChangeCallback.forEach((func: any) => {
+          func && func();
+        });
+      }
+    } 
   });
 };
