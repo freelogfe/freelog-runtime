@@ -2,7 +2,7 @@ import axios from "./request";
 import { placeHolder, baseConfig } from "./base";
 import { compareObjects } from "../utils/utils";
 import { setPresentableQueue } from "../bridge/index";
-import { isUserChange } from '../platform/security'
+import { isUserChange } from "../platform/security";
 const noAuthCode = [301, 302, 303, 304, 305, 306, 307];
 const authCode = [200, 201, 202, 203];
 const errorAuthCode = [401, 402, 403, 501, 502, 503, 504, 505, 900, 901];
@@ -22,7 +22,7 @@ export default function frequest(
   config?: any
 ): any {
   // if(isUserChange()){
-  //   return 
+  //   return
   // }
   // @ts-ignore
   XMLHttpRequest.prototype.open = nativeOpen;
@@ -136,7 +136,7 @@ export default function frequest(
               subDep,
               versionInfo: { exhibitProperty },
               ...resData,
-            });
+            }); 
           } else if (errorAuthCode.includes(resData.authCode)) {
             resolve({
               authErrorType: 2,
