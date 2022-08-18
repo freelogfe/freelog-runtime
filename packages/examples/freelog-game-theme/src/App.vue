@@ -1,9 +1,15 @@
-<template >
+<template>
   <div class="theme-main flex-row">
-    <div class="w-300 br-1">
+    <div class="w-300 container">
       <div v-for="a in gameList" :key="a.exhibitId" class="w-100x flex-column">
-        <div @click="selectGame(a)" :class="['py-30 pl-40 bb-1 cur-pointer ', a.exhibitId === gameId? 'bg-active ' : '']" >
-          {{a.exhibitName}}
+        <div
+          @click="selectGame(a)"
+          :class="[
+            'py-30  bb-1 cur-pointer link text-center',
+            a.exhibitId === gameId ? 'fc-white checked' : '',
+          ]"
+        >
+          {{ a.exhibitName }}
         </div>
       </div>
     </div>
@@ -17,45 +23,45 @@ export default {
   data() {
     return {
       mount: false,
-      gameName: '',
-      gameId: '',
+      gameName: "",
+      gameId: "",
       gameList: [],
-      widgetApp: null
+      widgetApp: null,
     };
   },
   computed: {},
   methods: {
-    selectGame(item){
-      this.gameId  = item.exhibitId
-      this.gameName = item.exhibitName
-      this.widgetApp.unmount(()=>{
-         this.widgetApp.mount()
-      })
+    selectGame(item) {
+      this.gameId = item.exhibitId;
+      this.gameName = item.exhibitName;
+      this.widgetApp.unmount(() => {
+        this.widgetApp.mount();
+      });
     },
-    getGame(){
-      return{
+    getGame() {
+      return {
         gameId: this.gameId,
-        gameName: this.gameName
-      }
+        gameName: this.gameName,
+      };
     },
     async getSub() {
       const subData = await window.freelogApp.getSubDep();
-      console.log(subData)
+      console.log(subData);
       subData.subDep.some(async (sub, index) => {
         if (index === 2) return true;
         if (index === 2) return true;
-        console.log(sub)
+        console.log(sub);
         this.widgetApp = await window.freelogApp.mountWidget(
           sub,
           document.getElementById("freelog-single"),
           subData,
           {
-            getGame: this.getGame
+            getGame: this.getGame,
           },
-          "",
+          ""
           // 'http://localhost:7107'
         );
-        // let count = 0 const widgetApp = 
+        // let count = 0 const widgetApp =
         // const a = setInterval(() => {
         //   count++
         //   widgetApp.unmount()
@@ -72,12 +78,12 @@ export default {
     const res = await window.freelogApp.getExhibitListByPaging({
       skip: 0,
       limit: 20,
-      articleResourceTypes: 'nesrom'
+      articleResourceTypes: "红白机",
     });
-    console.log(res)
-    this.gameList = res.data.data.dataList
-    this.gameId = res.data.data.dataList[0].exhibitId
-    this.gameName = res.data.data.dataList[0].exhibitName
+    console.log(res);
+    this.gameList = res.data.data.dataList;
+    this.gameId = res.data.data.dataList[0].exhibitId;
+    this.gameName = res.data.data.dataList[0].exhibitName;
     !this.mount && this.getSub();
     this.mount = true;
   },
@@ -85,6 +91,23 @@ export default {
 </script>
 
 <style lang="less">
+.link {
+  &:hover {
+    background-color: #94bff7;
+    color: white;
+  }
+
+  &:active {
+    background-color: #2376e5;
+  }
+}
+.checked {
+  background-color: #2784ff;
+}
+.container{
+  border-right: 1px solid lightgray;
+  box-shadow: 4px 0 4px 0px  rgb(231, 231, 231);
+}
 .theme-main {
   height: 100%;
   width: 100%;

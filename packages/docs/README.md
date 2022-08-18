@@ -459,6 +459,11 @@ const render = ($) => {
 **2.将 js 打包成库，让运行时能够获取到 bootstrap,mount,unmount 来启动卸载插件**
 
 ## 开发
+### https证书准备（必须）
+
+参考一下链接，后续考虑提供官方工具自动生成带证书的模板
+
+[https://blog.csdn.net/weixin_46383294/article/details/124047526](https://blog.csdn.net/weixin_46383294/article/details/124047526)
 
 ### chrome 无法访问 localhost 问题
 

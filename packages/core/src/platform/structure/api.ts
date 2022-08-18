@@ -53,12 +53,12 @@ export async function getExhibitListByPaging(query: any): Promise<any> {
     }
   );
 }
-export async function getSignStatistics(query:any) {
+export async function getSignStatistics(keywords:string) {
   // @ts-ignore
   return frequest(contract.getSignStatistics, "", {
     signUserIdentityType: 2,
     nodeId,
-    ...query
+    keywords
   });
 }
 export async function getExhibitInfo(exhibitId: string, query: any) {

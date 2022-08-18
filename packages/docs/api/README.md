@@ -446,7 +446,7 @@ window.freelogApp.callAuth();
 window.freelogApp.onLogin(callback);
 ```
 
-### onUserChange 
+## onUserChange 
 
 ```js
 // 监听用户在其余页面切换账号或登录事件  callback: 再次进入页面发现账号变化后会回调所有函数
@@ -499,14 +499,6 @@ const userData = await window.freelogApp.getUserData(key);
  **整个网页重载（仅主题可用，插件可访问主题开发者提供的方法进行全局刷新）**
  window.freelogApp.reload()
 ```
-
-## isUserChange
-
-```ts
- **调用此方法发现用户切换后会刷新网页，否则返回false**
- window.freelogApp.isUserChange()
-```
-
 ## setViewport
 
 ```ts
