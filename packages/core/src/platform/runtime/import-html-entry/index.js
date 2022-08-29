@@ -13,7 +13,7 @@ import {
 	readResAsString,
 	requestIdleCallback,
 } from './utils';
-import { freelogFetch } from '../../structure/utils'
+import { freelogFetch } from '../utils'
 const styleCache = {};
 const scriptCache = {};
 const embedHTMLCache = {};

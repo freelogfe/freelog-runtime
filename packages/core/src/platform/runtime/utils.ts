@@ -183,3 +183,13 @@ export function getXPathForElement(el: Node, document: Document): string | void 
 export function getContainer(container: string | HTMLElement): HTMLElement | null {
   return typeof container === 'string' ? document.querySelector.bind(document)(container) : container;
 }
+
+
+export function freelogFetch(url: string, options?: any) {
+  options = options || {};
+  if (url.indexOf("freelog.com") > -1) {
+    return fetch(url, { ...options, credentials: "include" });
+  } else {
+    return fetch(url, { ...options });
+  }
+}

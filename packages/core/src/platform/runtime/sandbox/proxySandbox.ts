@@ -7,19 +7,7 @@ import type { SandBox } from "../interfaces";
 import { SandBoxType } from "../interfaces";
 import { nextTick } from "../utils";
 import { getTargetValue, setCurrentRunningSandboxProxy } from "./common";
-import {
-  createHistoryProxy,
-  createFreelogAppProxy,
-  createLocationProxy,
-  createDocumentProxy,
-  createWidgetProxy,
-  freelogLocalStorage,
-  saveSandBox,
-  getPublicPath,
-  freelogAddEventListener,
-  isFreelogAuth,
-  ajaxProxy,
-} from "../../structure/proxy";
+
 /**
  * fastest(at most time) unique array method
  * @see https://jsperf.com/array-filter-unique/30
@@ -183,28 +171,35 @@ export default class ProxySandbox implements SandBox {
     this.sandboxRunning = false;
   }
 
-  constructor(name: string) {
+  constructor(
+    name: string,
+    setHooks?: Map<string, any>,
+    getHooks?: Map<string, any>,
+    saveSandBox?: any
+  ) {
+    setHooks = setHooks || new Map();
+    getHooks = getHooks || new Map();
     this.name = name;
     this.type = SandBoxType.Proxy;
     const { updatedValueSet } = this;
-
     const rawWindow = window;
     const { fakeWindow, propertiesWithGetter } = createFakeWindow(rawWindow);
 
     const descriptorTargetMap = new Map<PropertyKey, SymbolTarget>();
     const hasOwnProperty = (key: PropertyKey) =>
       fakeWindow.hasOwnProperty(key) || rawWindow.hasOwnProperty(key);
-
-    var proxyDoc: any;
-    var proxyHis: any;
-    var proxyLoc: any;
-    var proxyWidget: any;
-    var freelogAppProxy: any;
     var _this = this;
     const proxy = new Proxy(fakeWindow, {
       set: (target: FakeWindow, p: PropertyKey, value: any): boolean => {
-        if (p === "freelogApp" || p === "freelogAuth") return false;
         if (this.sandboxRunning) {
+          // @ts-ignore
+          const hook = setHooks.get(p);
+          if (hook) {
+            if (typeof hook === "function") {
+              return hook();
+            }
+            return hook;
+          }
           // We must kept its description while the property existed in rawWindow before
           if (!target.hasOwnProperty(p) && rawWindow.hasOwnProperty(p)) {
             const descriptor = Object.getOwnPropertyDescriptor(rawWindow, p);
@@ -245,35 +240,35 @@ export default class ProxySandbox implements SandBox {
       },
 
       get(target: FakeWindow, p: PropertyKey): any {
-        if (typeof p === "string" && ["fetch", "XMLHttpRequest"].includes(p)) {
-          return ajaxProxy(p, name);
-        }
-        if (p === "freelogAuth") {
-          if (isFreelogAuth(name)) {
-            return rawWindow.freelogAuth;
+        if (p === "document" || p === "eval") {
+          setCurrentRunningSandboxProxy(proxy); // FIXME if you have any other good ideas
+          // remove the mark in next tick, thus we can identify whether it in micro app or not
+          // this approach is just a workaround, it could not cover all complex cases, such as the micro app runs in the same task context with master in some case
+
+          nextTick(function () {
+            return setCurrentRunningSandboxProxy(null);
+          });
+
+          switch (p) {
+            case "eval":
+              // eslint-disable-next-line no-eval
+              return eval;
+            // no default
           }
-          return false;
+        } // eslint-disable-next-line no-nested-ternary
+        // @ts-ignore
+        const hook = getHooks.get(p);
+        if (hook) {
+          if (typeof hook === "function") {
+            return hook(name, _this);
+          }
+          return hook;
+        }
+        // proxy.hasOwnProperty would invoke getter firstly, then its value represented as globalContext.hasOwnProperty
+        if (p === "hasOwnProperty") {
+          return hasOwnProperty;
         }
         if (p === Symbol.unscopables) return unscopables;
-        if (p === "__INJECTED_PUBLIC_PATH_BY_FREELOG__") {
-          return getPublicPath(name);
-        }
-        if (p === "fetch") {
-          return function (url: string, options: any) {
-            if (url.indexOf("i18n-ts") > -1) {
-              return rawWindow.fetch(url, {
-                ...options,
-                credentials: "include",
-              });
-            }
-            // if(url.indexOf("freelog.com") > -1){
-            //   const patchUrl = getPublicPath(name) + url.split("freelog.com/")[1];
-            //   return rawWindow.fetch(patchUrl, {...options});
-            // }else{
-            return rawWindow.fetch(url, options);
-            // }
-          };
-        }
         // avoid who using window.window or window.self to escape the sandbox environment to touch the really window
         // see https://github.com/eligrey/FileSaver.js/blob/master/src/FileSaver.js#L13
         if (p === "window" || p === "self") {
@@ -297,61 +292,6 @@ export default class ProxySandbox implements SandBox {
           }
           return (rawWindow as any)[p];
         }
-
-        // proxy.hasOwnProperty would invoke getter firstly, then its value represented as rawWindow.hasOwnProperty
-        if (p === "hasOwnProperty") {
-          return hasOwnProperty;
-        }
-        if (p === "addEventListener") {
-          return freelogAddEventListener;
-        }
-        if (p === "freelogApp") {
-          freelogAppProxy =
-            freelogAppProxy || createFreelogAppProxy(name, _this);
-          return freelogAppProxy;
-        }
-        if (p === "widgetName") {
-          return name;
-        }
-        // mark the symbol to document while accessing as document.createElement could know is invoked by which sandbox for dynamic append patcher
-        if (p === "history") {
-          // TODO 如果是单应用模式（提升性能）则不用代理
-          proxyHis = createHistoryProxy(name) // proxyHis || createHistoryProxy(name);
-          return proxyHis;
-        }
-        if (p === "childWidgets") {
-          proxyWidget = proxyWidget || createWidgetProxy(name);
-        }
-        if (p === "location") {
-          // TODO 如果是单应用模式（提升性能）则不用代理, 可以设置location.href的使用权限
-          // TODO reload相当于重载应用，想办法把主应用的对应操控函数弄过来，发布订阅模式
-          // TODO replace与reload、toString方法无法访问
-          proxyLoc = proxyLoc || createLocationProxy(name);
-          return proxyLoc;
-        }
-        // TODO test localstorage
-        if (p === "localStorage") {
-          return freelogLocalStorage(name);
-        }
-        if (p === "document" || p === "eval") {
-          setCurrentRunningSandboxProxy(proxy); // FIXME if you have any other good ideas
-          // remove the mark in next tick, thus we can identify whether it in micro app or not
-          // this approach is just a workaround, it could not cover all complex cases, such as the micro app runs in the same task context with master in some case
-
-          nextTick(function () {
-            return setCurrentRunningSandboxProxy(null);
-          });
-
-          switch (p) {
-            case "document":
-              proxyDoc = createDocumentProxy(name);
-              return proxyDoc;
-            case "eval":
-              // eslint-disable-next-line no-eval
-              return eval;
-            // no default
-          }
-        } // eslint-disable-next-line no-nested-ternary
 
         // eslint-disable-next-line no-nested-ternary
         const value = propertiesWithGetter.has(p)
@@ -438,6 +378,6 @@ export default class ProxySandbox implements SandBox {
 
     this.proxy = proxy;
     activeSandboxCount++;
-    saveSandBox(name, this);
+    saveSandBox && saveSandBox(name, this);
   }
 }

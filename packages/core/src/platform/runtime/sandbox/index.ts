@@ -2,11 +2,11 @@
  * @author Kuitos
  * @since 2019-04-11
  */
-import type { Freer, Rebuilder, SandBox } from '../interfaces';
-import { patchAtBootstrapping, patchAtMounting } from './patchers';
-import ProxySandbox from './proxySandbox';
+import type { Freer, Rebuilder, SandBox } from "../interfaces";
+import { patchAtBootstrapping, patchAtMounting } from "./patchers";
+import ProxySandbox from "./proxySandbox";
 
-export { css } from './patchers';
+export { css } from "./patchers";
 
 /**
  * 生成应用运行时沙箱
@@ -32,11 +32,20 @@ export function createSandboxContainer(
   scopedCSS: boolean,
   useLooseSandbox?: boolean,
   excludeAssetFilter?: (url: string) => boolean,
+  setHooks?: Map<string, any>,
+  getHooks?: Map<string, any>,
+  saveSandBox?: any
 ) {
   let sandbox: SandBox;
-  sandbox =  new ProxySandbox(appName);
+  sandbox = new ProxySandbox(appName, setHooks, getHooks, saveSandBox);
   // some side effect could be be invoked while bootstrapping, such as dynamic stylesheet injection with style-loader, especially during the development phase
-  const bootstrappingFreers = patchAtBootstrapping(appName, elementGetter, sandbox, scopedCSS, excludeAssetFilter);
+  const bootstrappingFreers = patchAtBootstrapping(
+    appName,
+    elementGetter,
+    sandbox,
+    scopedCSS,
+    excludeAssetFilter
+  );
   // mounting freers are one-off and should be re-init at every mounting time
   let mountingFreers: Freer[] = [];
 
@@ -56,8 +65,13 @@ export function createSandboxContainer(
       /* ------------------------------------------ 1. 启动/恢复 沙箱------------------------------------------ */
       sandbox.active();
 
-      const sideEffectsRebuildersAtBootstrapping = sideEffectsRebuilders.slice(0, bootstrappingFreers.length);
-      const sideEffectsRebuildersAtMounting = sideEffectsRebuilders.slice(bootstrappingFreers.length);
+      const sideEffectsRebuildersAtBootstrapping = sideEffectsRebuilders.slice(
+        0,
+        bootstrappingFreers.length
+      );
+      const sideEffectsRebuildersAtMounting = sideEffectsRebuilders.slice(
+        bootstrappingFreers.length
+      );
 
       // must rebuild the side effects which added at bootstrapping firstly to recovery to nature state
       if (sideEffectsRebuildersAtBootstrapping.length) {
@@ -66,7 +80,13 @@ export function createSandboxContainer(
 
       /* ------------------------------------------ 2. 开启全局变量补丁 ------------------------------------------*/
       // render 沙箱启动时开始劫持各类全局监听，尽量不要在应用初始化阶段有 事件监听/定时器 等副作用
-      mountingFreers = patchAtMounting(appName, elementGetter, sandbox, scopedCSS, excludeAssetFilter);
+      mountingFreers = patchAtMounting(
+        appName,
+        elementGetter,
+        sandbox,
+        scopedCSS,
+        excludeAssetFilter
+      );
 
       /* ------------------------------------------ 3. 重置一些初始化时的副作用 ------------------------------------------*/
       // 存在 rebuilder 则表明有些副作用需要重建
@@ -84,7 +104,9 @@ export function createSandboxContainer(
     async unmount() {
       // record the rebuilders of window side effects (event listeners or timers)
       // note that the frees of mounting phase are one-off as it will be re-init at next mounting
-      sideEffectsRebuilders = [...bootstrappingFreers, ...mountingFreers].map((free) => free());
+      sideEffectsRebuilders = [...bootstrappingFreers, ...mountingFreers].map(
+        (free) => free()
+      );
 
       sandbox.inactive();
     },

@@ -7,7 +7,7 @@ import { isFunction } from 'lodash';
 import { frameworkConfiguration } from '../../../apis';
 
 import * as css from '../css';
-import { freelogFetch } from '../../../../structure/utils'
+import { freelogFetch } from '../../../utils'
 
 export const rawHeadAppendChild = HTMLHeadElement.prototype.appendChild;
 const rawHeadRemoveChild = HTMLHeadElement.prototype.removeChild;

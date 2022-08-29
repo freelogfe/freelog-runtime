@@ -4,6 +4,7 @@
  */
 import type { ImportEntryOpts } from './import-html-entry';
 import type { RegisterApplicationConfig, StartOpts, Parcel } from 'single-spa';
+import { saveSandBox } from '../structure/proxy';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -75,6 +76,9 @@ type FreelogSpecialOpts = {
          */
         loose?: boolean;
         patchers?: Patcher[];
+        setHooks?: any;
+        getHooks?:any;
+        saveSandBox?: any;
       };
   /*
     with singular mode, any app will wait to load until other apps are unmouting

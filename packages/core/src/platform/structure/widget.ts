@@ -19,6 +19,11 @@ import { loadMicroApp } from "../runtime";
 import { setLocation } from "./proxy";
 import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
 import { defaultWidgetConfigData } from "./widgetConfigData";
+import setHooks from "./proxSet";
+import getHooks from "./proxGet";
+import {
+  saveSandBox,
+} from "./proxy";
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
@@ -86,6 +91,9 @@ export function mountUI(
     sandbox: {
       strictStyleIsolation: config ? !!config.shadowDom : false,
       experimentalStyleIsolation: config ? !!config.scopedCss : true,
+      setHooks, 
+      getHooks,
+      saveSandBox
     },
   });
   // TODO 增加是否保留数据
@@ -248,6 +256,9 @@ export async function mountWidget(
     sandbox: {
       strictStyleIsolation: configData ? !!configData.shadowDom : false,
       experimentalStyleIsolation: configData ? !!configData.scopedCss : true,
+      setHooks, 
+      getHooks,
+      saveSandBox
     },
   });
   // TODO 增加是否保留数据

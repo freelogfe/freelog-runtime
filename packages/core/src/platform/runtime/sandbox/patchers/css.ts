@@ -3,7 +3,6 @@
  * @since 2020-4-19
  */
 
-import { widgetsConfig } from "../../../structure/widget"
 // https://developer.mozilla.org/en-US/docs/Web/API/CSSRule
 enum RuleType {
   // type: rule will be rewrote
@@ -109,12 +108,12 @@ export class ScopedCSS {
     return css;
   }
    // @font-face repalce exclude [http, data:,//]
-  private ruleFont(rule: any, prefix: string) {
-    let { cssText } = rule;
-    // url("/
-    cssText = cssText.replace(/url\(\"\//ig,'url("' +  widgetsConfig.get(this.appName).entry + '/');
-    return cssText;
-  }
+  // private ruleFont(rule: any, prefix: string) {
+  //   let { cssText } = rule;
+  //   // url("/
+  //   // cssText = cssText.replace(/url\(\"\//ig,'url("' +  widgetsConfig.get(this.appName).entry + '/');
+  //   return cssText;
+  // }
   // handle case:
   // .app-main {}
   // html, body {}
