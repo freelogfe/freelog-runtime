@@ -177,8 +177,8 @@ export default class ProxySandbox implements SandBox {
     getHooks?: Map<string, any>,
     saveSandBox?: any
   ) {
-    setHooks = setHooks || new Map();
-    getHooks = getHooks || new Map();
+    // setHooks = setHooks || new Map();
+    // getHooks = getHooks || new Map();
     this.name = name;
     this.type = SandBoxType.Proxy;
     const { updatedValueSet } = this;
@@ -193,7 +193,7 @@ export default class ProxySandbox implements SandBox {
       set: (target: FakeWindow, p: PropertyKey, value: any): boolean => {
         if (this.sandboxRunning) {
           // @ts-ignore
-          const hook = setHooks.get(p);
+          const hook = window.proxyHooks.setHooks.get(p);
           if (hook) {
             if (typeof hook === "function") {
               return hook();
@@ -257,7 +257,7 @@ export default class ProxySandbox implements SandBox {
           }
         } // eslint-disable-next-line no-nested-ternary
         // @ts-ignore
-        const hook = getHooks.get(p);
+        const hook = window.proxyHooks.getHooks.get(p);
         if (hook) {
           if (typeof hook === "function") {
             return hook(name, _this);

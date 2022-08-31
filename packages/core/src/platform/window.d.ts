@@ -9,4 +9,5 @@ interface Window {
     userId: string;
     vconsole: any;
     ENV: string;
+    proxyHooks: any;
 }

@@ -1,6 +1,6 @@
 import frequest from "../../services/handler";
 import node from "../../services/api/modules/node";
-
+import {rawFetch} from './proxy'
 import { getSubDep, getUserInfo, isMobile } from "./utils";
 import { freelogApp } from "./global";
 import { freelogAuth } from "./freelogAuth";
@@ -37,6 +37,17 @@ if (window.location.host.includes(".testfreelog.com")) {
     ?.setAttribute("content", "width=device-width, initial-scale=1.0");
 window.freelogApp = freelogApp;
 window.freelogAuth = freelogAuth;
+// @ts-ignore
+
+window.fetch = (url: string, options?: any) =>{
+  options = options || {};
+  if (url.indexOf("freelog.com") > -1) {
+    return rawFetch(url, { ...options, credentials: "include" });
+  } else {
+    return rawFetch(url, { ...options });
+  }
+}
+
 
 export function initNode() {
   // TODO 这个位置问题需要可考虑，最好放到UI插件之后

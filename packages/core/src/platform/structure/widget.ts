@@ -14,8 +14,9 @@
  *   中央集权：沙盒全部在运行时进行管控，一旦有恶意侵入可中断（对沙盒的中断算paused?）， 挂载后控制对象就在全局，故有加载与卸载任何插件权限。
  *
  */
+ import { loadMicroApp } from '../lib';
 
-import { loadMicroApp } from "../runtime";
+// import { loadMicroApp } from "../runtime";
 import { setLocation } from "./proxy";
 import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
 import { defaultWidgetConfigData } from "./widgetConfigData";
@@ -31,6 +32,12 @@ export const activeWidgets = new Map<any, any>();
 export const childrenWidgets = new Map<any, any>();
 export const sandBoxs = new Map<any, any>(); // 沙盒不交给plugin, 因为plugin是插件可以用的
 export const widgetUserData = new Map<any, any>();
+window.proxyHooks = {
+  setHooks,
+  getHooks,
+  saveSandBox
+}
+Object.freeze(window.proxyHooks)
 // TODO plugin type
 export function addWidget(key: string, plugin: any) {
   if (activeWidgets.has(key)) {
@@ -91,9 +98,6 @@ export function mountUI(
     sandbox: {
       strictStyleIsolation: config ? !!config.shadowDom : false,
       experimentalStyleIsolation: config ? !!config.scopedCss : true,
-      setHooks, 
-      getHooks,
-      saveSandBox
     },
   });
   // TODO 增加是否保留数据
@@ -256,9 +260,7 @@ export async function mountWidget(
     sandbox: {
       strictStyleIsolation: configData ? !!configData.shadowDom : false,
       experimentalStyleIsolation: configData ? !!configData.scopedCss : true,
-      setHooks, 
-      getHooks,
-      saveSandBox
+ 
     },
   });
   // TODO 增加是否保留数据

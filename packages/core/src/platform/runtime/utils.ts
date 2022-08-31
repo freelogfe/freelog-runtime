@@ -185,11 +185,11 @@ export function getContainer(container: string | HTMLElement): HTMLElement | nul
 }
 
 
-export function freelogFetch(url: string, options?: any) {
-  options = options || {};
-  if (url.indexOf("freelog.com") > -1) {
-    return fetch(url, { ...options, credentials: "include" });
-  } else {
-    return fetch(url, { ...options });
-  }
-}
+// export function freelogFetch(url: string, options?: any) {
+//   options = options || {};
+//   if (url.indexOf("freelog.com") > -1) {
+//     return fetch(url, { ...options, credentials: "include" });
+//   } else {
+//     return fetch(url, { ...options });
+//   }
+// }

@@ -7,7 +7,7 @@ import { isFunction } from 'lodash';
 import { frameworkConfiguration } from '../../../apis';
 
 import * as css from '../css';
-import { freelogFetch } from '../../../utils'
+// import { freelogFetch } from '../../../utils'
 
 export const rawHeadAppendChild = HTMLHeadElement.prototype.appendChild;
 const rawHeadRemoveChild = HTMLHeadElement.prototype.removeChild;
@@ -84,7 +84,7 @@ function manualInvokeElementOnError(element: HTMLLinkElement | HTMLScriptElement
 function convertLinkAsStyle(
   element: HTMLLinkElement,
   postProcess: (styleElement: HTMLStyleElement) => void,
-  fetchFn = freelogFetch,
+  fetchFn = fetch,
 ): HTMLStyleElement {
   const styleElement = document.createElement('style');
   const { href } = element;

@@ -28,7 +28,7 @@ if (!window.fetch) {
 // 		return rawFetch(url, { ...options });
 // 	}
 // };
-const defaultFetch = freelogFetch.bind(window);
+const defaultFetch = window.fetch; //freelogFetch.bind(window);
 
 function defaultGetTemplate(tpl) {
 	return tpl;
