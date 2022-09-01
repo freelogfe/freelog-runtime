@@ -29,12 +29,9 @@ import {
   getHistory,
 } from "./history";
 import { DEV_WIDGET } from "./dev";
-const rawDocument = document;
+import { rawFetch, nativeOpen, rawHistory, rawDocument, rawLocation, rawLocalStorage } from "./rawObjects";
 const HISTORY = "history";
-const HASH = "hash";
-const rawHistory = window["history"];
-const rawLocation = window["location"];
-const rawLocalStorage = window["localStorage"];
+const HASH = "hash"; 
 // widgetName  {routerType: 'history' || 'hash'}
 const locations = new Map();
 var freelogPopstate = new PopStateEvent("freelog-popstate");
@@ -87,8 +84,6 @@ export function freelogAddEventListener() {
   window.addEventListener(...arguments);
 }
 // TODO 如果授权UI插件想要请求之外的接口，可以通过freelogAuths放进去
-export const rawFetch = window.fetch;
-export const nativeOpen = XMLHttpRequest.prototype.open;
 const whiteList = [
   "https://image.freelog.com",
   "https://image.testfreelog.com",

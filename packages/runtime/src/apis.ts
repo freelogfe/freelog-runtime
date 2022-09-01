@@ -27,11 +27,11 @@ const autoDowngradeForLowVersionBrowser = (configuration: FrameworkConfiguration
   const { sandbox, singular } = configuration;
   if (sandbox) {
     if (!window.Proxy) {
-      console.warn('[qiankun] Miss window.Proxy, proxySandbox will degenerate into snapshotSandbox');
+      console.warn('[freelog] Miss window.Proxy, proxySandbox will degenerate into snapshotSandbox');
 
       if (singular === false) {
         console.warn(
-          '[qiankun] Setting singular as false may cause unexpected behavior while your browser not support window.Proxy',
+          '[freelog] Setting singular as false may cause unexpected behavior while your browser not support window.Proxy',
         );
       }
 
@@ -165,7 +165,7 @@ export function loadMicroApp<T extends ObjectType>(
     // We need to invoke start method of single-spa as the popstate event should be dispatched while the main app calling pushState/replaceState automatically,
     // but in single-spa it will check the start status before it dispatch popstate
     // see https://github.com/single-spa/single-spa/blob/f28b5963be1484583a072c8145ac0b5a28d91235/src/navigation/navigation-events.js#L101
-    // ref https://github.com/umijs/qiankun/pull/1071
+    // ref https://github.com/umijs/freelog/pull/1071
     startSingleSpa({ urlRerouteOnly: frameworkConfiguration.urlRerouteOnly ?? defaultUrlRerouteOnly });
   }
 

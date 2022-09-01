@@ -63,7 +63,7 @@ function prefetchAfterFirstMounted(apps: AppMetadata[], opts?: ImportEntryOpts):
 
     if (process.env.NODE_ENV === 'development') {
       const mountedApps = getMountedApps();
-      console.log(`[qiankun] prefetch starting after ${mountedApps} mounted...`, notLoadedApps);
+      console.log(`[freelog] prefetch starting after ${mountedApps} mounted...`, notLoadedApps);
     }
 
     notLoadedApps.forEach(({ entry }) => prefetch(entry, opts));
@@ -74,7 +74,7 @@ function prefetchAfterFirstMounted(apps: AppMetadata[], opts?: ImportEntryOpts):
 
 export function prefetchImmediately(apps: AppMetadata[], opts?: ImportEntryOpts): void {
   if (process.env.NODE_ENV === 'development') {
-    console.log('[qiankun] prefetch starting for apps...', apps);
+    console.log('[freelog] prefetch starting for apps...', apps);
   }
 
   apps.forEach(({ entry }) => prefetch(entry, opts));

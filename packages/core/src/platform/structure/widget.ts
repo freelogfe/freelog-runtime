@@ -14,17 +14,17 @@
  *   中央集权：沙盒全部在运行时进行管控，一旦有恶意侵入可中断（对沙盒的中断算paused?）， 挂载后控制对象就在全局，故有加载与卸载任何插件权限。
  *
  */
- import { loadMicroApp } from '../lib';
+import  './interceptors'
 
+import { loadMicroApp } from 'freelog-runtime-core';
 // import { loadMicroApp } from "../runtime";
+
 import { setLocation } from "./proxy";
 import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
 import { defaultWidgetConfigData } from "./widgetConfigData";
-import setHooks from "./proxSet";
-import getHooks from "./proxGet";
-import {
-  saveSandBox,
-} from "./proxy";
+import setHooks from "./proxySet";
+import getHooks from "./proxyGet";
+import { saveSandBox } from "./proxy";
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();

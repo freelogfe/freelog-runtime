@@ -29,7 +29,7 @@ if (!window.fetch) {
 // 	}
 // };
 const defaultFetch = window.fetch; //freelogFetch.bind(window);
-
+console.log(window.fetch)
 function defaultGetTemplate(tpl) {
 	return tpl;
 }
@@ -279,7 +279,8 @@ export default function importHTML(url, opts = {}) {
 	return embedHTMLCache[url] || (embedHTMLCache[url] = fetch(url + '/index.html')
 		.then(response => readResAsString(response, autoDecodeResponse))
 		.then(html => {
-			const assetPublicPath = url; // getPublicPath(url);
+			console.log(url)
+			const assetPublicPath =  getPublicPath(url);
 			const { template, scripts, entry, styles } = processTpl(getTemplate(html), assetPublicPath);
 
 			return getEmbedHTML(template, styles, { fetch }, assetPublicPath).then(embedHTML => ({

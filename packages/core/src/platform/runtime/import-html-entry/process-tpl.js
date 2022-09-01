@@ -30,6 +30,9 @@ function hasProtocol(url) {
 }
 
 function getEntirePath(path, baseURI) {
+
+	const url1 = new URL(path, baseURI).toString();
+	return url1
 	// new URL 虽然可保安全，但我们有特殊需求
 	if(/\/\/$/.test(baseURI)){
 		baseURI = baseURI.substr(0, baseURI.length - 1)
@@ -39,6 +42,7 @@ function getEntirePath(path, baseURI) {
 	}
     if(path.startsWith('/')) path = path.replace('/', '') 
 	const url = baseURI + path
+	console.log(url)
 	return url
 	// return new URL(path, baseURI).toString();
 }
@@ -71,12 +75,13 @@ export default function processTpl(tpl, baseURI) {
 	let entry = null;
 	const moduleSupport = isModuleScriptSupported();
 	// TODO 可能多余的代码
-	if(/\/\/$/.test(baseURI)){
-		baseURI = baseURI.substr(0, baseURI.length - 1)
-	};
-	if(!/\/$/.test(baseURI)){
- 		baseURI =  baseURI + '/'
-	};
+	// if(/\/\/$/.test(baseURI)){
+	// 	baseURI = baseURI.substr(0, baseURI.length - 1)
+	// };
+	// if(!/\/$/.test(baseURI)){
+	// 	baseURI =  baseURI + '/'
+	// };
+	// console.log(baseURI)
 	const template = tpl.replace(/url\(static/g,`url(${baseURI}static`).replace(/url\(\/static/g,`url(${baseURI}static`) 
 
 		/*

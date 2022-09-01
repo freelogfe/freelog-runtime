@@ -286,7 +286,6 @@ export async function loadApp<T extends ObjectType>(
   if (process.env.NODE_ENV === "development") {
     performanceMark(markName);
   }
-  console.log(configuration.sandbox, 555555555555);
   // @ts-ignore
   const { setHooks, getHooks, saveSandBox } = configuration.sandbox;
   // @ts-ignore

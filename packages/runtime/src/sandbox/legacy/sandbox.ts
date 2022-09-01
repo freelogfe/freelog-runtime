@@ -58,7 +58,7 @@ export default class LegacySandbox implements SandBox {
 
   inactive() {
     if (process.env.NODE_ENV === 'development') {
-      console.info(`[qiankun:sandbox] ${this.name} modified global properties restore...`, [
+      console.info(`[freelog:sandbox] ${this.name} modified global properties restore...`, [
         ...this.addedPropsMapInSandbox.keys(),
         ...this.modifiedPropsOriginalValueMapInSandbox.keys(),
       ]);
@@ -103,7 +103,7 @@ export default class LegacySandbox implements SandBox {
       }
 
       if (process.env.NODE_ENV === 'development') {
-        console.warn(`[qiankun] Set window.${p.toString()} while sandbox destroyed or inactive in ${name}!`);
+        console.warn(`[freelog] Set window.${p.toString()} while sandbox destroyed or inactive in ${name}!`);
       }
 
       // 在 strict-mode 下，Proxy 的 handler.set 返回 false 会抛出 TypeError，在沙箱卸载的情况下应该忽略错误

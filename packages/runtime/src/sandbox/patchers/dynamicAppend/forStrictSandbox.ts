@@ -25,10 +25,10 @@ declare global {
   }
 }
 
-// Get native global window with a sandbox disgusted way, thus we could share it between qiankun instances🤪
+// Get native global window with a sandbox disgusted way, thus we could share it between freelog instances🤪
 Object.defineProperty(nativeGlobal, '__proxyAttachContainerConfigMap__', { enumerable: false, writable: true });
 
-// Share proxyAttachContainerConfigMap between multiple qiankun instance, thus they could access the same record
+// Share proxyAttachContainerConfigMap between multiple freelog instance, thus they could access the same record
 nativeGlobal.__proxyAttachContainerConfigMap__ =
   nativeGlobal.__proxyAttachContainerConfigMap__ || new WeakMap<WindowProxy, ContainerConfig>();
 const proxyAttachContainerConfigMap = nativeGlobal.__proxyAttachContainerConfigMap__;

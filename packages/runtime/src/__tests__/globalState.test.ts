@@ -5,12 +5,12 @@
 
 import { getMicroAppStateActions, initGlobalState } from '../globalState';
 
-const master = initGlobalState({ user: 'qiankun' });
+const master = initGlobalState({ user: 'freelog' });
 
 test('test master to master actions', () => {
   const callback1 = (state: Record<string, any>, prevState: Record<string, any>) => {
     expect(state).toEqual({ ignore: 'matser', user: 'master' });
-    expect(prevState).toEqual({ user: 'qiankun' });
+    expect(prevState).toEqual({ user: 'freelog' });
   };
   master.onGlobalStateChange(callback1);
   master.setGlobalState({

@@ -8,9 +8,9 @@ import type { RegisterApplicationConfig, StartOpts, Parcel } from 'single-spa';
 declare global {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface Window {
-    __POWERED_BY_QIANKUN__?: boolean;
-    __INJECTED_PUBLIC_PATH_BY_QIANKUN__?: string;
-    __QIANKUN_DEVELOPMENT__?: boolean;
+    __POWERED_BY_FREELOG__?: boolean;
+    __INJECTED_PUBLIC_PATH_BY_FREELOG__?: string;
+    __FREELOG_DEVELOPMENT__?: boolean;
     Zone?: CallableFunction;
   }
 }
@@ -111,7 +111,7 @@ export enum SandBoxType {
   Snapshot = 'Snapshot',
 
   // for legacy sandbox
-  // https://github.com/umijs/qiankun/blob/0d1d3f0c5ed1642f01854f96c3fabf0a2148bd26/src/sandbox/legacy/sandbox.ts#L22...L25
+  // https://github.com/umijs/freelog/blob/0d1d3f0c5ed1642f01854f96c3fabf0a2148bd26/src/sandbox/legacy/sandbox.ts#L22...L25
   LegacyProxy = 'LegacyProxy',
 }
 

@@ -86,12 +86,22 @@ export function defaultGetPublicPath(entry) {
 		return '/';
 	}
 	try {
+		var _URL = new URL(entry, location.href), origin = _URL.origin,
+			pathname = _URL.pathname;
+
+		var paths = pathname.split('/'); // 移除最后一个元素
+
+		paths.pop();
+		console.log()
+		return "".concat(origin).concat(paths.join('/'), "/");
+
 		// URL 构造函数不支持使用 // 前缀的 url
-		const { origin, pathname } = new URL(entry.startsWith('//') ? `${window.location.protocol}${entry}` : entry, window.location.href);
-		const paths = pathname.split('/');
-		// 移除最后一个元素
-		// paths.pop();
-		return `${origin}${paths.join('/')}/`;
+		// const { origin, pathname } = new URL(entry.startsWith('//') ? `${window.location.protocol}${entry}` : entry, window.location.href);
+		// console.log(11222211, new URL(entry.startsWith('//') ? `${window.location.protocol}${entry}` : entry, window.location.href))
+		// const paths = pathname.split('/');
+		// // 移除最后一个元素
+		// // paths.pop();
+		// return `${origin}${paths.join('/')}/`;
 	} catch (e) {
 		console.warn(e);
 		return '';

@@ -25,7 +25,7 @@ const arrayify = <T>(list: CSSRuleList | any[]) => {
 const rawDocumentBodyAppend = HTMLBodyElement.prototype.appendChild;
 
 export class ScopedCSS {
-  private static ModifiedTag = 'Symbol(style-modified-qiankun)';
+  private static ModifiedTag = 'Symbol(style-modified-freelog)';
 
   private sheet: StyleSheet;
 
@@ -183,7 +183,7 @@ export class ScopedCSS {
 
 let processor: ScopedCSS;
 
-export const QiankunCSSRewriteAttr = 'data-qiankun';
+export const QiankunCSSRewriteAttr = 'data-freelog';
 export const process = (
   appWrapper: HTMLElement,
   stylesheetElement: HTMLStyleElement | HTMLLinkElement,

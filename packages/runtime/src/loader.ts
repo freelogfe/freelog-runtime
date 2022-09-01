@@ -76,7 +76,7 @@ function createElement(
   if (strictStyleIsolation) {
     if (!supportShadowDOM) {
       console.warn(
-        '[qiankun]: As current browser not support shadow dom, your strictStyleIsolation configuration will be ignored!',
+        '[freelog]: As current browser not support shadow dom, your strictStyleIsolation configuration will be ignored!',
       );
     } else {
       const { innerHTML } = appElement;
@@ -146,7 +146,7 @@ type ElementRender = (
 
 /**
  * Get the render function
- * If the legacy render function is provide, used as it, otherwise we will insert the app element to target container by qiankun
+ * If the legacy render function is provide, used as it, otherwise we will insert the app element to target container by freelog
  * @param appInstanceId
  * @param appContent
  * @param legacyRender
@@ -156,7 +156,7 @@ function getRender(appInstanceId: string, appContent: string, legacyRender?: HTM
     if (legacyRender) {
       if (process.env.NODE_ENV === 'development') {
         console.error(
-          '[qiankun] Custom rendering function is deprecated and will be removed in 3.0, you can use the container element setting instead!',
+          '[freelog] Custom rendering function is deprecated and will be removed in 3.0, you can use the container element setting instead!',
         );
       }
 
@@ -222,7 +222,7 @@ function getLifecyclesFromExports(
 
   if (process.env.NODE_ENV === 'development') {
     console.warn(
-      `[qiankun] lifecycle not found from ${appName} entry exports, fallback to get from window['${appName}']`,
+      `[freelog] lifecycle not found from ${appName} entry exports, fallback to get from window['${appName}']`,
     );
   }
 
@@ -248,7 +248,7 @@ export async function loadApp<T extends ObjectType>(
   const { entry, name: appName } = app;
   const appInstanceId = genAppInstanceIdByName(appName);
 
-  const markName = `[qiankun] App ${appInstanceId} Loading`;
+  const markName = `[freelog] App ${appInstanceId} Loading`;
   if (process.env.NODE_ENV === 'development') {
     performanceMark(markName);
   }
@@ -277,7 +277,7 @@ export async function loadApp<T extends ObjectType>(
 
   if (process.env.NODE_ENV === 'development' && strictStyleIsolation) {
     console.warn(
-      "[qiankun] strictStyleIsolation configuration will be removed in 3.0, pls don't depend on it or use experimentalStyleIsolation instead!",
+      "[freelog] strictStyleIsolation configuration will be removed in 3.0, pls don't depend on it or use experimentalStyleIsolation instead!",
     );
   }
 
@@ -314,7 +314,7 @@ export async function loadApp<T extends ObjectType>(
   if (sandbox) {
     sandboxContainer = createSandboxContainer(
       appInstanceId,
-      // FIXME should use a strict sandbox logic while remount, see https://github.com/umijs/qiankun/issues/518
+      // FIXME should use a strict sandbox logic while remount, see https://github.com/umijs/freelog/issues/518
       initialAppWrapperGetter,
       scopedCSS,
       useLooseSandbox,
@@ -414,7 +414,7 @@ export async function loadApp<T extends ObjectType>(
         },
         async () => {
           if (process.env.NODE_ENV === 'development') {
-            const measureName = `[qiankun] App ${appInstanceId} Loading Consuming`;
+            const measureName = `[freelog] App ${appInstanceId} Loading Consuming`;
             performanceMeasure(measureName, markName);
           }
         },

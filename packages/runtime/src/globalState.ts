@@ -21,11 +21,11 @@ function emitGlobal(state: Record<string, any>, prevState: Record<string, any>) 
 
 export function initGlobalState(state: Record<string, any> = {}) {
   if (process.env.NODE_ENV === 'development') {
-    console.warn(`[qiankun] globalState tools will be removed in 3.0, pls don't use it!`);
+    console.warn(`[freelog] globalState tools will be removed in 3.0, pls don't use it!`);
   }
 
   if (state === globalState) {
-    console.warn('[qiankun] state has not changed！');
+    console.warn('[freelog] state has not changed！');
   } else {
     const prevGlobalState = cloneDeep(globalState);
     globalState = cloneDeep(state);
@@ -55,11 +55,11 @@ export function getMicroAppStateActions(id: string, isMaster?: boolean): MicroAp
      */
     onGlobalStateChange(callback: OnGlobalStateChangeCallback, fireImmediately?: boolean) {
       if (!(callback instanceof Function)) {
-        console.error('[qiankun] callback must be function!');
+        console.error('[freelog] callback must be function!');
         return;
       }
       if (deps[id]) {
-        console.warn(`[qiankun] '${id}' global listener already exists before this, new listener will overwrite it.`);
+        console.warn(`[freelog] '${id}' global listener already exists before this, new listener will overwrite it.`);
       }
       deps[id] = callback;
       if (fireImmediately) {
@@ -78,7 +78,7 @@ export function getMicroAppStateActions(id: string, isMaster?: boolean): MicroAp
      */
     setGlobalState(state: Record<string, any> = {}) {
       if (state === globalState) {
-        console.warn('[qiankun] state has not changed！');
+        console.warn('[freelog] state has not changed！');
         return false;
       }
 
@@ -90,12 +90,12 @@ export function getMicroAppStateActions(id: string, isMaster?: boolean): MicroAp
             changeKeys.push(changeKey);
             return Object.assign(_globalState, { [changeKey]: state[changeKey] });
           }
-          console.warn(`[qiankun] '${changeKey}' not declared when init state！`);
+          console.warn(`[freelog] '${changeKey}' not declared when init state！`);
           return _globalState;
         }, globalState),
       );
       if (changeKeys.length === 0) {
-        console.warn('[qiankun] state has not changed！');
+        console.warn('[freelog] state has not changed！');
         return false;
       }
       emitGlobal(globalState, prevGlobalState);

@@ -13,24 +13,24 @@ import {
 test('should wrap the id [1]', () => {
   const id = 'REACT16';
 
-  expect(getWrapperId(id)).toBe(`__qiankun_microapp_wrapper_for_${'react_16'}__`);
+  expect(getWrapperId(id)).toBe(`__freelog_microapp_wrapper_for_${'react_16'}__`);
 });
 
 test('should wrap the id [2]', () => {
   const id = 'react16';
 
-  expect(getWrapperId(id)).toBe('__qiankun_microapp_wrapper_for_react_16__');
+  expect(getWrapperId(id)).toBe('__freelog_microapp_wrapper_for_react_16__');
 });
 
 test('should wrap string with div', () => {
-  const tpl = '<span>qiankun</span>';
+  const tpl = '<span>freelog</span>';
   const factory = getDefaultTplWrapper('react16');
 
   const ret = factory(tpl);
 
   expect(ret).toBe(
     // eslint-disable-next-line max-len
-    `<div id="__qiankun_microapp_wrapper_for_react_16__" data-name="react16" data-version="${version}"><qiankun-head></qiankun-head>${tpl}</div>`,
+    `<div id="__freelog_microapp_wrapper_for_react_16__" data-name="react16" data-version="${version}"><freelog-head></freelog-head>${tpl}</div>`,
   );
 });
 

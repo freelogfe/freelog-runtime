@@ -103,7 +103,7 @@ export function isBoundedFunction(fn: CallableFunction) {
   return bounded;
 }
 
-export const qiankunHeadTagName = 'qiankun-head';
+export const freelogHeadTagName = 'freelog-head';
 
 export function getDefaultTplWrapper(name: string) {
   return (tpl: string) => {
@@ -112,11 +112,11 @@ export function getDefaultTplWrapper(name: string) {
     if (tpl.indexOf('<head>') !== -1) {
       // We need to mock a head placeholder as native head element will be erased by browser in micro app
       tplWithSimulatedHead = tpl
-        .replace('<head>', `<${qiankunHeadTagName}>`)
-        .replace('</head>', `</${qiankunHeadTagName}>`);
+        .replace('<head>', `<${freelogHeadTagName}>`)
+        .replace('</head>', `</${freelogHeadTagName}>`);
     } else {
       // Some template might not be a standard html document, thus we need to add a simulated head tag for them
-      tplWithSimulatedHead = `<${qiankunHeadTagName}></${qiankunHeadTagName}>${tpl}`;
+      tplWithSimulatedHead = `<${freelogHeadTagName}></${freelogHeadTagName}>${tpl}`;
     }
 
     return `<div id="${getWrapperId(
@@ -126,7 +126,7 @@ export function getDefaultTplWrapper(name: string) {
 }
 
 export function getWrapperId(name: string) {
-  return `__qiankun_microapp_wrapper_for_${snakeCase(name)}__`;
+  return `__freelog_microapp_wrapper_for_${snakeCase(name)}__`;
 }
 
 export const nativeGlobal = new Function('return this')();

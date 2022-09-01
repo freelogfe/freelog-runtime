@@ -1,6 +1,5 @@
 import frequest from "../../services/handler";
 import node from "../../services/api/modules/node";
-import {rawFetch} from './proxy'
 import { getSubDep, getUserInfo, isMobile } from "./utils";
 import { freelogApp } from "./global";
 import { freelogAuth } from "./freelogAuth";
@@ -39,14 +38,7 @@ window.freelogApp = freelogApp;
 window.freelogAuth = freelogAuth;
 // @ts-ignore
 
-window.fetch = (url: string, options?: any) =>{
-  options = options || {};
-  if (url.indexOf("freelog.com") > -1) {
-    return rawFetch(url, { ...options, credentials: "include" });
-  } else {
-    return rawFetch(url, { ...options });
-  }
-}
+
 
 
 export function initNode() {
