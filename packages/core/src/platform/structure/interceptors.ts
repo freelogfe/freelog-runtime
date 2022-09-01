@@ -5,11 +5,6 @@ window.fetch = (url: string, options?: any) => {
   if (url.endsWith("?subFilePath=")) {
     url = url + "/index.html";
   }
-  console.log(22222 , url)
-
-  if(url.includes("fileStream%3FsubFilePath=/")){
-    url = url.replace("fileStream%3FsubFilePath=//", "fileStream?subFilePath=/")
-  }
   options = options || {};
   if (url.indexOf("freelog.com") > -1) {
     return rawFetch(url, { ...options, credentials: "include" });
@@ -19,21 +14,23 @@ window.fetch = (url: string, options?: any) => {
 };
 // @ts-ignore
 window.URL = function (url: string, baseURI: string) {
-  console.log(3333, url,baseURI )
-  if(url.includes("fileStream%3FsubFilePath=/")){
-    console.log(3333, url )
-    url = url.replace("fileStream%3FsubFilePath=//", "fileStream?subFilePath=/")
+  // 处理因为拦截defaultGetPublicPath方法造成的 ? 转义与多一个"/"
+  if (baseURI.includes("fileStream%3FsubFilePath=/")) {
+    baseURI = baseURI.replace(
+      "fileStream%3FsubFilePath=/",
+      "fileStream?subFilePath="
+    );
   }
+  
+  // 拦截import-html-entry/index.js 中的 defaultGetPublicPath 方法中的new URI
+  // 该方法会在最后加一个"/"
   if (baseURI === location.href) {
-    console.log(url, baseURI);
     const a = new rawURL(url + "/ ");
+    // 这一行代码会造成?变成%3F，无法作为url的search识别
     a.pathname = a.pathname + a.search;
-    console.log(a);
     return a;
   }
-  if(baseURI.includes("fileStream%3FsubFilePath=/")){
-    baseURI = baseURI.replace("fileStream%3FsubFilePath=/", "fileStream?subFilePath=")
-  }
+
   if (baseURI && !baseURI.includes("fileStream?subFilePath=")) {
     return new rawURL(url, baseURI);
   }
@@ -51,12 +48,3 @@ window.URL = function (url: string, baseURI: string) {
     return urlResult;
   };
 };
-
-export function defaultGetPublicPath2(entry: string) {
-  var _URL = new URL(entry, location.href);
-  const origin = _URL.origin;
-  const pathname = _URL.pathname;
-  var paths = pathname.split("/");
-  paths.pop();
-  return "".concat(origin).concat(paths.join("/"), "/");
-}

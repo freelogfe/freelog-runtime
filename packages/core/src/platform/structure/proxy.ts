@@ -34,7 +34,7 @@ const HISTORY = "history";
 const HASH = "hash"; 
 // widgetName  {routerType: 'history' || 'hash'}
 const locations = new Map();
-var freelogPopstate = new PopStateEvent("freelog-popstate");
+let freelogPopstate = new PopStateEvent("freelog-popstate");
 // for history back and forword
 let state = 0;
 let moveLock = false;
@@ -121,7 +121,7 @@ export function ajaxProxy(type: string, name: string) {
     };
   }
   if (type === "XMLHttpRequest") {
-    var customizeOpen = function (
+    let customizeOpen = function (
       method: any,
       url: any,
       async: any,
@@ -152,7 +152,7 @@ export function isFreelogAuth(name: string) {
 }
 export function initLocation() {
   if (rawLocation.href.includes("$freelog")) {
-    var loc = rawLocation.href.split("freelog.com/")[1].split("$");
+    let loc = rawLocation.href.split("freelog.com/")[1].split("$");
     if (window.freelogApp.devData.type === DEV_WIDGET) {
       const temp = rawLocation.search.split("$_")[1];
       // @ts-ignore
@@ -170,7 +170,7 @@ export function initLocation() {
           locations.set(id, { pathname, href: pathname + search, search });
           return;
         }
-        var l = item.split("=");
+        let l = item.split("=");
         locations.set(l[0], { pathname: l[1], href: l[1], search: "" });
       } catch (e) {
         console.error("url is error" + e);
@@ -180,7 +180,7 @@ export function initLocation() {
 }
 export function setLocation() {
   // TODO 只有在线的应用才在url上显示, 只有pathname和query需要
-  var hash = "";
+  let hash = "";
   locations.forEach((value, key) => {
     if (!activeWidgets.get(key)) {
       locations.delete(key);
@@ -216,7 +216,7 @@ export function setLocation() {
 // TODO pathname  search 需要不可变
 export const locationCenter: any = {
   set: function (name: string, attr: any) {
-    var loc = locations.get(name) || {};
+    let loc = locations.get(name) || {};
     if (attr.pathname && attr.pathname.indexOf(rawLocation.host) > -1) {
       // for vue3
       attr.pathname = attr.pathname
@@ -433,7 +433,7 @@ const querySelector = rawDocument.querySelector;
 // document的代理
 export const createDocumentProxy = function (name: string) {
   // TODO  firstChild还没创建,这里需要改，加载后才能
-  var doc = widgetsConfig.get(name).container.firstChild; //  || widgetsConfig.get(name).container;
+  let doc = widgetsConfig.get(name).container.firstChild; //  || widgetsConfig.get(name).container;
   let rootDoc: any = doc;
   rawDocument.getElementsByClassName = rootDoc.getElementsByClassName.bind(doc);
   rawDocument.getElementsByTagName = (tag: string) => {
