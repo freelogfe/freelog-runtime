@@ -31,7 +31,7 @@ window.URL = function (url: string, baseURI: string) {
     return a;
   }
 
-  if (baseURI && !baseURI.includes("fileStream?subFilePath=")) {
+  if (!baseURI || !baseURI.includes("fileStream?subFilePath=")) {
     return new rawURL(url, baseURI);
   }
 
