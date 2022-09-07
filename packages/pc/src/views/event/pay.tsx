@@ -28,8 +28,9 @@ export default function Pay(props: PayProps) {
   const [passwords, setPasswords] = useState<any>(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [isAfford, setIsAfford] = useState(true);
-  // 1: 支付中  2: 支付成功  3: 密码错误   4: 支付失败：需要考虑网络超时
+  // 1: 支付中  2: 支付成功  3: 错误信息   4: 支付失败：需要考虑网络超时
   const [tipType, setTipType] = useState(0);
+  const [errorTip, setErrorTip] = useState('');
   const [focus, setFocus] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -94,9 +95,10 @@ export default function Pay(props: PayProps) {
     });
     // 这里考虑支付超时
     if (payResult.data.errCode !== 0) {
-      if (payResult.data.data && payResult.data.data.code === "E1010") {
+      if (payResult.data.data && ['E1013',"E1010"].includes(payResult.data.data.code)){
         setTipType(3);
         // setPasswords(["", "", "", "", "", ""]);
+        setErrorTip(payResult.data.data.code=== "E1010"? '支付密码错误，请重新输入' : '不支持向自己付款')
         setLoading(false);
         // setFocus(0)
         setTimeout(() => {
@@ -385,7 +387,7 @@ export default function Pay(props: PayProps) {
                 color: #ee4040;
               `}
             >
-              支付密码错误，请重新输入
+              {errorTip}
             </div>
           ) : null}
           <div className={!isAfford ? "not-afford-input" : ""}>

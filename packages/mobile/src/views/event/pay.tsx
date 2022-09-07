@@ -40,6 +40,7 @@ export default function Pay(props: PayProps) {
   const [isActive, setIsActive] = useState(false);
   // 1: 支付中  2: 支付成功  3: 密码错误   4: 支付失败：需要考虑网络超时
   const [tipType, setTipType] = useState(0);
+  const [errorTip, setErrorTip] = useState('');
   const [passwords, setPasswords] = useState<any>(["", "", "", "", "", ""]);
   const [userAccount, setUserAccount] = useState<any>({});
   const input1 = useRef(null);
@@ -86,8 +87,10 @@ export default function Pay(props: PayProps) {
     });
     // 这里考虑支付超时
     if (payResult.data.errCode !== 0) {
-      if (payResult.data.data && payResult.data.data.code === "E1010") {
+      if (payResult.data.data && ['E1013',"E1010"].includes(payResult.data.data.code)){
         setTipType(3);
+        // setPasswords(["", "", "", "", "", ""]);
+        setErrorTip(payResult.data.data.code=== "E1010"? '支付密码错误，请重新输入' : '不支持向自己付款')
         // setPasswords(["", "", "", "", "", ""]);
         setLoading(false);
         setTimeout(() => {
@@ -414,7 +417,7 @@ export default function Pay(props: PayProps) {
                 `}
                 className=" text-align-left mt-8"
               >
-                支付密码错误，请重新输入
+                {errorTip}
               </div>
             ) : null}
             <span

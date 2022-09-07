@@ -361,13 +361,13 @@ export default function Auth(props: contractProps) {
                 <div
                   className={
                     currentExhibit.isTheme
-                      ? " w-100x  flex-column "
+                      ? " w-100x  flex-column flex-1 over-h"
                       : "w-100x h-551 flex-column"
                   }
                 >
                   {/* 左右 */}
-                  <div className="w-100x flex-1 flex-row over-h">
-                    <div className="w-100x h-100x  flex-row">
+                  <div className="w-100x h-100x over-h flex-column">
+                    <div className="w-100x h-100x  flex-row over-h">
                       {/* 左：待授权展品列表 */}
                       {!currentExhibit.isTheme && events.length !== 1 && (
                         <ExhibitList

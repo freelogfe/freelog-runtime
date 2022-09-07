@@ -66,6 +66,13 @@
   .h-#{$i} {
     height: (1px * $i) !important;
   }
+  .wm-#{$i} {
+    max-width: (1px * $i) !important;
+  }
+
+  .hm-#{$i} {
+    max-height: (1px * $i) !important;
+  }
   .z-#{$i} {
     z-index: $i !important;
   }
