@@ -348,7 +348,7 @@ export default function Auth(props: contractProps) {
               onCancel={userCancel}
               className={
                 currentExhibit.isTheme || events.length === 1
-                  ? "theme-height"
+                  ? "h-620"
                   : "h-620"
               }
               width={currentExhibit.isTheme || events.length === 1 ? 600 : 860}
@@ -361,7 +361,7 @@ export default function Auth(props: contractProps) {
                 <div
                   className={
                     currentExhibit.isTheme
-                      ? " w-100x  flex-column flex-1 over-h"
+                      ? " w-100x h-551 flex-column "
                       : "w-100x h-551 flex-column"
                   }
                 >
@@ -432,7 +432,11 @@ export default function Auth(props: contractProps) {
                                   margin-right: 5px;
                                 `}
                               >
-                                <img src="/warn.svg" alt="" className="w-100x" />
+                                <img
+                                  src="/warn.svg"
+                                  alt=""
+                                  className="w-100x"
+                                />
                               </div>
                               <span>
                                 该展品运营方账号因违规已被冻结，请谨慎处理授权。
