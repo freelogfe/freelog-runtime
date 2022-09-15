@@ -15,7 +15,7 @@
     "@types/node": "^16.11.41",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
-    "antd-mobile": "^5.5.1",
+    "antd-mobile": "5.7.1",
     "astroturf": "^1.0.1",
     "axios": "^0.21.1",
     "babel-jest": "^27.4.2",

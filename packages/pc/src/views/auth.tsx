@@ -93,6 +93,7 @@ export default function Auth(props: contractProps) {
         isLoadPolicyInfo: 1,
         isTranslate: 1,
       });
+      console.log(con)
       const isAuth = con.data.data.some((item: any) => {
         if ((window.isTest && item.authStatus === 2) || item.authStatus === 1) {
           props.contractFinished(currentExhibit.eventId, SUCCESS);
@@ -102,8 +103,10 @@ export default function Auth(props: contractProps) {
       if (!isAuth) {
         props.updateEvents({ ...currentExhibit, contracts: con.data.data });
       }
+      console.log(con)
       return;
     }
+    console.log(currentExhibit)
     // 合约备份
     currentExhibit._contracts = [...currentExhibit.contracts];
     //
@@ -227,6 +230,7 @@ export default function Auth(props: contractProps) {
     if (res.data.isAuth) {
       // `付款到${seller}${amount}块钱就可以达到${status}状态`
     }
+    console.log(res)
     setSelectedPolicies([]);
     setIsConfirmVisible(false);
     if (res.data.errcode) {

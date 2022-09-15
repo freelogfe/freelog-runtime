@@ -36,14 +36,13 @@ export default function Contract(props: ItemProps) {
   const [authStatus, setAuthStatus] = useState("未授权");
   const [currentStatus, setCurrentStatus] = useState({
     tec: 0,
-    eventSectionEntities: [{ origin: { args: { amount: "" } } }],
+    eventTranslateInfos: [{ origin: { args: { amount: "" } } }],
   });
   const [isModalVisible, setIsModalVisible] = useState(false);
   useEffect(() => {
     const argsMap = new Map();
     props.contract.fsmDeclarations.envArgs?.forEach((item: any) => {
       argsMap.set(item.name, item);
-      argsMap.set(item.accountId, item);
     });
     setArgsMap(argsMap);
     let authClass = "bg-auth-end";
@@ -51,12 +50,10 @@ export default function Contract(props: ItemProps) {
     if (props.contract.status !== 1) {
       authStatus = "未授权";
       authClass = "bg-auth-none";
-      if (window.isTest) {
-        if (props.contract.isTestAuth) {
-          authStatus = "已授权";
-          authClass = "bg-auth";
-        }
-      } else if (props.contract.isAuth) {
+      if ([2, 3].includes(props.contract.authStatus) && window.isTest) {
+        authStatus = "已授权";
+        authClass = "bg-auth";
+      } else if ([1, 3].includes(props.contract.authStatus)) {
         authStatus = "已授权";
         authClass = "bg-auth";
       }
@@ -64,12 +61,73 @@ export default function Contract(props: ItemProps) {
     setAuthStatus(authStatus);
     setAuthClass(authClass);
     getRecords(true);
+    console.log(props.contract)
+    return
+    props.contract.policyInfo.translateInfo.fsmInfos.some((item: any) => {
+      if (item.stateInfo.origin === props.contract.fsmCurrentState) {
+        let tec = 0; // TransactionEventCount
+        let currentContent = { ...item };
+        currentContent.eventTranslateInfos.forEach((event: any) => {
+          if (event.origin.name === "TransactionEvent") tec++;
+          props.contract.policyInfo.translateInfo.fsmInfos.some(
+            (state: any) => {
+              if (state.stateInfo.origin === event.origin.toState) {
+                const stateInfo =
+                  props.contract.policyInfo.fsmDescriptionInfo[
+                    event.origin.toState
+                  ];
+                stateInfo.commonAuth = window.isTest
+                  ? stateInfo.isTestAuth
+                  : stateInfo.isAuth;
+                event.nextState = {
+                  ...state,
+                  ...stateInfo,
+                };
+                return true;
+              }
+              return false;
+            }
+          );
+        });
+        const stateInfo =
+          props.contract.policyInfo.fsmDescriptionInfo[
+            props.contract.fsmCurrentState
+          ];
+        stateInfo.commonAuth = window.isTest
+          ? stateInfo.isTestAuth
+          : stateInfo.isAuth;
+        const currentSatus = {
+          tec,
+          status: props.contract.fsmCurrentState,
+          ...currentContent,
+          ...stateInfo,
+        };
+        tec === 1 && setEventIndex(0);
+        // @ts-ignore
+        setCurrentStatus(currentSatus);
+        return true;
+      }
+      return false;
+    });
+    getRecords(true);
   }, [props.contract]);
   async function getRecords(init?: boolean) {
     if (records.length >= totalItem && totalItem > -1) {
       !init && setUnFold(true);
       return;
     }
+
+    /**
+     * contractId: "6141c41dcef4d5002ed4dcc5"
+     * createDate: "2021-09-17T07:55:00.886Z"
+     * eventId: "47a53396dcc9403a969c72e267b31e63"
+     * fromState: "initial"
+     * toState: "a"
+     *
+     * 数据整合差异：使用同样数据，需要注意避免发生冲突
+     *   1.找到执行了哪个事件并标记
+     *   2.授权状态需要在内部判断出来
+     */
     const res = await frequest(
       contract.getTransitionRecords,
       [props.contract.contractId],
@@ -79,6 +137,7 @@ export default function Contract(props: ItemProps) {
         isTranslate: 1,
       }
     );
+    console.log(res)
     if (res.data.errCode !== 0) {
       Modal.error({
         title: "查询失败",
@@ -108,27 +167,6 @@ export default function Contract(props: ItemProps) {
     });
     setTotalItem(res.data.data.totalItem);
     setRecords([...records, ...recordsArr]);
-    const item = res.data.data.dataList[0];
-    let tec = 0; // TransactionEventCount
-    let currentContent = { ...item };
-    currentContent.eventSectionEntities.forEach((event: any) => {
-      if (event.origin.name === "TransactionEvent") tec++;
-      const stateInfo =
-        props.contract.policyInfo.fsmDescriptionInfo[event.origin.toState];
-      stateInfo.commonAuth = window.isTest
-        ? stateInfo.isTestAuth
-        : stateInfo.isAuth;
-      event.nextState = {
-        ...stateInfo,
-      };
-    });
-    const currentStatus = {
-      tec,
-      status: props.contract.fsmCurrentState,
-      ...currentContent,
-    };
-    setCurrentStatus(currentStatus);
-    tec === 1 && setEventIndex(0);
     !init && setUnFold(true);
   }
   function onChange(e: any) {
@@ -162,17 +200,16 @@ export default function Contract(props: ItemProps) {
           paymentFinish={paymentFinish}
           // @ts-ignore
           receiver={
-            // @ts-ignore
             argsMap.get(
               // @ts-ignore
-              currentStatus.eventSectionEntities[eventIndex].origin.args.account
+              currentStatus.eventTranslateInfos[eventIndex].origin.args.account
             ).ownerName
           }
           // @ts-ignore
-          eventId={currentStatus.eventSectionEntities[eventIndex].origin.id}
+          eventId={currentStatus.eventTranslateInfos[eventIndex].origin.eventId}
           // @ts-ignore
           transactionAmount={
-            currentStatus.eventSectionEntities[eventIndex].origin.args.amount
+            currentStatus.eventTranslateInfos[eventIndex].origin.args.amount
           }
           isModalVisible={isModalVisible}
           setIsModalVisible={setIsModalVisible}
@@ -243,7 +280,7 @@ export default function Contract(props: ItemProps) {
                 currentStatus.tec > 1 && (
                   <Button
                     className="fs-14"
-                    disabled={!props.isAvailable || eventIndex === -1}
+                    disabled={!props.isAvailable  || eventIndex === -1}
                     click={payEvent}
                   >
                     支付
@@ -264,9 +301,9 @@ export default function Contract(props: ItemProps) {
                 <div className="flex-column">
                   {
                     // @ts-ignore
-                    currentStatus.eventSectionEntities &&
+                    currentStatus.eventTranslateInfos &&
                       // @ts-ignore
-                      currentStatus.eventSectionEntities.map(
+                      currentStatus.eventTranslateInfos.map(
                         (event: any, index: number) => {
                           // origin.eventId  name
                           return (
@@ -374,8 +411,8 @@ export default function Contract(props: ItemProps) {
                                       ? "获得授权后"
                                       : "执行成功后:"}
                                   </div>
-                                  {event.nextState && event.nextState.eventSectionEntities && 
-                                    event.nextState.eventSectionEntities.map(
+                                  {event.nextState &&
+                                    event.nextState.eventTranslateInfos.map(
                                       (nextEvent: any, index: number) => {
                                         return (
                                           <div
