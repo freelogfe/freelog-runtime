@@ -103,7 +103,7 @@ export default function Contract(props: ItemProps) {
       return;
     }
     let recordsArr: any = [];
-
+    console.log(res)
     res.data.data.dataList.forEach((record: any) => {
       record.commonAuth = window.isTest
         ? [2, 3].includes(record.serviceStates)
@@ -319,6 +319,7 @@ export default function Contract(props: ItemProps) {
                               `}
                               className="flex-row"
                               key={index}
+                              // onClick={()=>setEventIndex()}
                             >
                               <input
                                 // @ts-ignore
@@ -328,14 +329,14 @@ export default function Contract(props: ItemProps) {
                                 type="radio"
                                 checked={index === eventIndex}
                                 onChange={onChange}
-                                id={event.origin.eventId}
+                                id={event.origin.id}
                                 name={props.contract.contractId}
                                 value={index}
                                 disabled={
                                   event.origin.name !== "TransactionEvent"
                                 }
                               />
-                              <label htmlFor={event.origin.eventId}>
+                              <label htmlFor={event.origin.id}>
                                 <div
                                   css={css`
                                     font-size: 14px;
@@ -351,7 +352,7 @@ export default function Contract(props: ItemProps) {
                                     >
                                       {event.content}
                                     </span>
-                                    <span
+                                    {/* <span
                                       css={css`
                                         color: #42c28c;
                                       `}
@@ -360,7 +361,7 @@ export default function Contract(props: ItemProps) {
                                       {event.nextState && event.nextState.isAuth
                                         ? "获得授权"
                                         : ""}
-                                    </span>
+                                    </span> */}
                                   </div>
                                   {
                                     // @ts-ignore
@@ -394,7 +395,7 @@ export default function Contract(props: ItemProps) {
                                   {/** 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
                                    * event.origin.toState
                                    */}
-                                  <div
+                                  {/* <div
                                     css={css`
                                       font-size: 12px;
                                       font-weight: 600;
@@ -405,7 +406,7 @@ export default function Contract(props: ItemProps) {
                                     {event.nextState && event.nextState.isAuth
                                       ? "获得授权后"
                                       : "执行成功后:"}
-                                  </div>
+                                  </div> */}
                                   {event.nextState &&
                                     event.nextState.eventSectionEntities &&
                                     event.nextState.eventSectionEntities.map(

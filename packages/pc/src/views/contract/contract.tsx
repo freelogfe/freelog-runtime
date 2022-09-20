@@ -368,12 +368,12 @@ export default function Contract(props: ItemProps) {
                                   {/** 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
                                    * event.origin.toState
                                    */}
-                                  <div className="">
+                                  {/* <div className="">
                                     {event.nextState &&
                                     event.nextState.commonAuth
                                       ? "获得授权后"
                                       : "执行成功后:"}
-                                  </div>
+                                  </div> */}
                                   {event.nextState && event.nextState.eventSectionEntities && 
                                     event.nextState.eventSectionEntities.map(
                                       (nextEvent: any, index: number) => {
