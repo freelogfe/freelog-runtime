@@ -103,7 +103,7 @@ export default function Contract(props: ItemProps) {
       return;
     }
     let recordsArr: any = [];
-    console.log(res)
+    console.log(res);
     res.data.data.dataList.forEach((record: any) => {
       record.commonAuth = window.isTest
         ? [2, 3].includes(record.serviceStates)
@@ -124,9 +124,13 @@ export default function Contract(props: ItemProps) {
     setRecords([...records, ...recordsArr]);
     const item = res.data.data.dataList[0];
     let tec = 0; // TransactionEventCount
+    let firstPayEvent = -1;
     let currentContent = { ...item };
-    currentContent.eventSectionEntities.forEach((event: any) => {
-      if (event.origin.name === "TransactionEvent") tec++;
+    currentContent.eventSectionEntities.forEach((event: any, index: number) => {
+      if (event.origin.name === "TransactionEvent") {
+        firstPayEvent = firstPayEvent > -1 ? firstPayEvent : index;
+        tec++;
+      }
       const stateInfo =
         props.contract.policyInfo.fsmDescriptionInfo[event.origin.toState];
       stateInfo.commonAuth = window.isTest
@@ -142,7 +146,7 @@ export default function Contract(props: ItemProps) {
       ...currentContent,
     };
     setCurrentStatus(currentStatus);
-    tec === 1 && setEventIndex(0);
+    tec === 1 && setEventIndex(firstPayEvent);
     !init && setUnFold(true);
   }
   function onChange(e: any) {
@@ -201,9 +205,7 @@ export default function Contract(props: ItemProps) {
             ).ownerName
           }
           // @ts-ignore
-          eventId={
-            currentStatus.eventSectionEntities[eventIndex].origin.id
-          }
+          eventId={currentStatus.eventSectionEntities[eventIndex].origin.id}
           // @ts-ignore
           transactionAmount={
             currentStatus.eventSectionEntities[eventIndex].origin.args.amount

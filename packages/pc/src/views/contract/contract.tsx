@@ -110,9 +110,13 @@ export default function Contract(props: ItemProps) {
     setRecords([...records, ...recordsArr]);
     const item = res.data.data.dataList[0];
     let tec = 0; // TransactionEventCount
+    let firstPayEvent = -1
     let currentContent = { ...item };
-    currentContent.eventSectionEntities.forEach((event: any) => {
-      if (event.origin.name === "TransactionEvent") tec++;
+    currentContent.eventSectionEntities.forEach((event: any, index: number) => {
+      if (event.origin.name === "TransactionEvent") {
+        firstPayEvent = firstPayEvent > -1? firstPayEvent : index
+        tec++;
+      }
       const stateInfo =
         props.contract.policyInfo.fsmDescriptionInfo[event.origin.toState];
       stateInfo.commonAuth = window.isTest
@@ -128,7 +132,7 @@ export default function Contract(props: ItemProps) {
       ...currentContent,
     };
     setCurrentStatus(currentStatus);
-    tec === 1 && setEventIndex(0);
+    tec === 1 && setEventIndex(firstPayEvent);
     !init && setUnFold(true);
   }
   function onChange(e: any) {
@@ -154,7 +158,7 @@ export default function Contract(props: ItemProps) {
         }
       `}
     >
-      {eventIndex > -1 && (
+      {eventIndex > -1 && isModalVisible && (
         <Pay
           contractId={props.contract.contractId}
           subjectName={props.contract.subjectName}
@@ -331,7 +335,7 @@ export default function Contract(props: ItemProps) {
                                     color: #222222;
                                   `}
                                 >
-                                  <div className="mr-10 flex-row align-center">
+                                  <div className="mr-10 ml-5 flex-row align-center">
                                     <span>{event.content}</span>
                                     <span
                                       className="ml-10 shrink-0"
