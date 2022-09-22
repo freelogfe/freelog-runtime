@@ -213,6 +213,7 @@ export default class ProxySandbox implements SandBox {
       set: (target: FakeWindow, p: PropertyKey, value: any): boolean => {
         if (this.sandboxRunning) {
           this.registerRunningApp(name, proxy);
+          // TODO FREELOG START
           // @ts-ignore
           const hook = globalContext.proxyHooks.setHooks.get(p);
           if (hook) {
@@ -221,6 +222,7 @@ export default class ProxySandbox implements SandBox {
             }
             return hook;
           }
+          // FREELOG END
           // We must kept its description while the property existed in globalContext before
           if (!target.hasOwnProperty(p) && globalContext.hasOwnProperty(p)) {
             const descriptor = Object.getOwnPropertyDescriptor(globalContext, p);
@@ -260,7 +262,7 @@ export default class ProxySandbox implements SandBox {
 
       get: (target: FakeWindow, p: PropertyKey): any => {
         this.registerRunningApp(name, proxy);
-      
+
         if (p === Symbol.unscopables) return unscopables;
         // avoid who using window.window or window.self to escape the sandbox environment to touch the really window
         // see https://github.com/eligrey/FileSaver.js/blob/master/src/FileSaver.js#L13
@@ -272,6 +274,7 @@ export default class ProxySandbox implements SandBox {
         if (p === 'globalThis') {
           return proxy;
         }
+        // TODO FREELOG START
         // @ts-ignore
         const hook = globalContext.proxyHooks.getHooks.get(p);
         if (hook) {
@@ -280,6 +283,7 @@ export default class ProxySandbox implements SandBox {
           }
           return hook;
         }
+        // FREELOG END
         if (
           p === 'top' ||
           p === 'parent' ||
