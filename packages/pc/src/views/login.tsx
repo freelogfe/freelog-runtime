@@ -1,7 +1,7 @@
-import { Form, Input, Modal  } from "antd";
+import { Form, Input, Modal } from "antd";
 import user from "@/services/api/modules/user";
 import frequest from "@/services/handler";
-import Button from "./_commons/button"
+import Button from "./_commons/button";
 
 import { useState } from "react";
 import "./login.scss";
@@ -21,13 +21,13 @@ export default function Login(props: loginProps) {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-  function onValuesChange(changedValues:any,allValues:any){
-    setDisabled(!allValues.loginName || !allValues.password)
+  function onValuesChange(changedValues: any, allValues: any) {
+    setDisabled(!allValues.loginName || !allValues.password);
   }
-  
+
   const onFinish = async () => {
-    setLoading(true)
-    const values: any = form.getFieldsValue()
+    setLoading(true);
+    const values: any = form.getFieldsValue();
     // loginName: "string",
     //   password: "string",
     //   isRemember: "string",
@@ -36,28 +36,27 @@ export default function Login(props: loginProps) {
     values.isRemember = values.isRemember ? 1 : 0;
     const res = await frequest(user.login, "", values);
     if (res.data.errCode === 0) {
-      setLoading(false)
+      setLoading(false);
       props.loginFinished(SUCCESS, res.data.data);
-    }else{
-     const modal =  Modal.error({
-        title: '登录失败',
+    } else {
+      const modal = Modal.error({
+        title: "登录失败",
         content: res.data.msg,
-        zIndex: 9999
+        zIndex: 9999,
       });
       setTimeout(() => {
-        setLoading(false)
+        setLoading(false);
         modal && modal.destroy();
       }, 2000);
     }
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-  };
+  const onFinishFailed = (errorInfo: any) => {};
 
   const handleOk = () => {
     props.setIsLoginVisible(false);
   };
- 
+
   const handleCancel = () => {
     props.loginFinished(USER_CANCEL);
   };
@@ -96,9 +95,18 @@ export default function Login(props: loginProps) {
           </Form.Item>
           <div className="flex-row space-between login-label mt-10">
             <div className="">密码</div>
-            <div className="login-forgot select-none cur-pointer" onClick={()=>{
-              window.open('http://user.testfreelog.com/retrieve')
-            }}>忘记密码？</div>
+            <div
+              className="login-forgot select-none cur-pointer"
+              onClick={() => {
+                if (window.baseURL.indexOf("testfreelog") > -1) {
+                  window.open("http://user.testfreelog.com/retrieve");
+                  return;
+                }
+                window.open("https://user.freelog.com/retrieve");
+              }}
+            >
+              忘记密码？
+            </div>
           </div>
 
           <Form.Item
@@ -113,14 +121,31 @@ export default function Login(props: loginProps) {
         </Form.Item> */}
 
           <Form.Item className="pt-30">
-            <Button className="py-9" click={onFinish} disabled={disabled || loading}> {loading? '登录中...' : '登录'}</Button>
+            <Button
+              className="py-9"
+              click={onFinish}
+              disabled={disabled || loading}
+            >
+              {" "}
+              {loading ? "登录中..." : "登录"}
+            </Button>
           </Form.Item>
         </Form>
         <div className="flex-row  mt-30">
           <span className="login-new">freelog新用户？</span>
-          <span className="regist-now cur-pointer" onClick={()=>{
-            window.open('http://user.testfreelog.com/logon')
-          }}>立即注册</span>
+          <span
+            className="regist-now cur-pointer"
+            onClick={() => {
+              console.log(window.baseURL)
+              if (window.baseURL.indexOf("testfreelog") > -1) {
+                window.open("http://user.testfreelog.com/logon");
+                return;
+              }
+              window.open("https://user.freelog.com/logon");
+            }}
+          >
+            立即注册
+          </span>
         </div>
       </div>
     </Modal>

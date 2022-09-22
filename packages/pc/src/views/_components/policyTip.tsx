@@ -14,7 +14,11 @@ export default function PolicyTip({ currentExhibit }: policyTipProps) {
           <div className="fs-14 fc-less">查看已终止的合约请移至</div>
           <div
             onClick={() => {
-              window.open("http://user.testfreelog.com/logged/contract");
+              if (window.baseURL.indexOf("testfreelog") > -1) {
+                window.open("http://user.testfreelog.com/logged/contract");
+                return;
+              }
+              window.open("https://user.freelog.com/logged/contract");
             }}
             className="ml-10 fs-14 fc-blue cur-pointer link"
           >
