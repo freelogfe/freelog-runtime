@@ -1,4 +1,3 @@
-
 import { css } from "astroturf";
 
 interface policyTipProps {
@@ -7,6 +6,8 @@ interface policyTipProps {
 }
 
 export default function PolicyTip({ currentExhibit }: policyTipProps) {
+  const exhibitId = currentExhibit.exhibitId;
+  const nodeName = window.freelogApp.nodeInfo.nodeName;
   return (
     <>
       {currentExhibit._contracts.length > currentExhibit.contracts.length && (
@@ -15,10 +16,14 @@ export default function PolicyTip({ currentExhibit }: policyTipProps) {
           <div
             onClick={() => {
               if (window.baseURL.indexOf("testfreelog") > -1) {
-                window.open("http://user.testfreelog.com/logged/contract");
+                window.open(
+                  `http://user.testfreelog.com/logged/contract?exhibitId=${exhibitId}&nodeName=${nodeName}&status=terminated`
+                );
                 return;
               }
-              window.open("https://user.freelog.com/logged/contract");
+              window.open(
+                `https://user.freelog.com/logged/contract?exhibitId=${exhibitId}&nodeName=${nodeName}&status=terminated`
+              );
             }}
             className="ml-10 fs-14 fc-blue cur-pointer link"
           >
