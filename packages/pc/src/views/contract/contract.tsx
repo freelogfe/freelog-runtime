@@ -305,7 +305,7 @@ export default function Contract(props: ItemProps) {
                                 event.origin.name !== "TransactionEvent"
                                   ? css`
                                       .ant-radio {
-                                        display: none;
+                                        display: none !important;
                                       }
 
                                       span {
@@ -337,7 +337,7 @@ export default function Contract(props: ItemProps) {
                                 >
                                   <div className="mr-10 ml-5 flex-row align-center">
                                     <span>{event.content}</span>
-                                    <span
+                                    {/* <span
                                       className="ml-10 shrink-0"
                                       css={css`
                                         color: #42c28c;
@@ -347,7 +347,7 @@ export default function Contract(props: ItemProps) {
                                       event.nextState.commonAuth
                                         ? "获得授权"
                                         : ""}
-                                    </span>
+                                    </span> */}
                                   </div>
                                   {currentStatus.tec === 1 &&
                                     event.origin.name ===

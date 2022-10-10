@@ -103,7 +103,6 @@ export default function Contract(props: ItemProps) {
       return;
     }
     let recordsArr: any = [];
-    console.log(res);
     res.data.data.dataList.forEach((record: any) => {
       record.commonAuth = window.isTest
         ? [2, 3].includes(record.serviceStates)

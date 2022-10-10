@@ -20,7 +20,7 @@ export default function ContractTip({ currentExhibit }: contractTipProps) {
         >
           <i className="iconfont mr-5 fs-14 fc-error">&#xe62e;</i>
           <div className="fs-12 fc-error ">
-            当前展品授权存在异常，请联系节点运营商！
+            该展品授权链异常，请谨慎签约，请联系节点运营商！
           </div>
         </div>
       ) : null}

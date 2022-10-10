@@ -32,7 +32,20 @@ export default function ExhibitOffLine(props: exhibitOffLineProps) {
             line-height: 42px;
           `}
         >
-          展品已下线，无法签约
+          该展品未上架，无法获取授权
+        </div>
+      )}
+      {props.type === "freezed" && (
+        <div
+          css={css`
+            margin-top: 30px;
+            font-size: 30px;
+            font-weight: 400;
+            color: #666666;
+            line-height: 42px;
+          `}
+        >
+          该展品已冻结，无法获取授权
         </div>
       )}
       <div className="flex-3"></div>
