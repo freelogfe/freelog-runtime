@@ -113,6 +113,20 @@ export function initNode() {
           }
         ).mountPromise.then(
           async () => {
+            // 节点冻结
+            if ((nodeInfo.status & 4) === 4) {
+              resolve && resolve();
+              setTimeout(() => callUI(NODE_FREEZED, nodeInfo), 10);
+              return;
+            }
+            console.log(234234234)
+            // 用户冻结
+            if(true || userInfo && userInfo.status == 1){
+              console.log(userInfo)
+              resolve && resolve();
+              setTimeout(() => callUI(USER_FREEZED, userInfo), 10);
+              return;
+            }
             // 没有主题
             if (
               (!nodeInfo.nodeThemeId && !window.isTest) ||
@@ -120,18 +134,6 @@ export function initNode() {
             ) {
               resolve && resolve();
               setTimeout(() => callUI(THEME_NONE, nodeInfo), 10);
-              return;
-            }
-            // 节点冻结
-            if ((nodeInfo.status & 4) === 4) {
-              resolve && resolve();
-              setTimeout(() => callUI(NODE_FREEZED, nodeInfo), 10);
-              return;
-            }
-            // 用户冻结
-            if(userInfo && userInfo.status == 1){
-              resolve && resolve();
-              setTimeout(() => callUI(USER_FREEZED, nodeInfo), 10);
               return;
             }
             const availableData = await getExhibitAvailalbe(

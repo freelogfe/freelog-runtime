@@ -15,11 +15,18 @@ const {
   clearEvent,
   lowerUI,
   upperUI,
-  reload
+  reload,
 } = window.freelogAuth;
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
-const { NODE_FREEZED, THEME_NONE, THEME_FREEZED, LOGIN, CONTRACT, LOGIN_OUT } =
-  window.freelogAuth.eventType;
+const {
+  NODE_FREEZED,
+  THEME_NONE,
+  THEME_FREEZED,
+  LOGIN,
+  CONTRACT,
+  LOGIN_OUT,
+  USER_FREEZED,
+} = window.freelogAuth.eventType;
 
 function App() {
   const [events, setEvents] = useState([]);
@@ -65,6 +72,9 @@ function App() {
         outOfContent(data);
         break;
       case THEME_NONE:
+        outOfContent(data);
+        break;
+      case USER_FREEZED:
         outOfContent(data);
         break;
       case THEME_FREEZED:

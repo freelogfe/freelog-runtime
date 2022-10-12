@@ -1,6 +1,7 @@
 // import logo from './logo.svg';
 import "./App.scss";
 import "@/assets/mobile/index.scss";
+import { Button, Space, Toast } from 'antd-mobile'
 
 import { useEffect, useState } from "react";
 import Mobile from "./views/auth";
@@ -16,10 +17,10 @@ const {
   updateEvent,
   lowerUI,
   upperUI,
-  reload
+  reload,
 } = window.freelogAuth;
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
-const { NODE_FREEZED, THEME_NONE, THEME_FREEZED, LOGIN, CONTRACT, LOGIN_OUT } =
+const { NODE_FREEZED, THEME_NONE, THEME_FREEZED, LOGIN, CONTRACT, LOGIN_OUT, USER_FREEZED } =
   window.freelogAuth.eventType;
 
 function App() {
@@ -61,12 +62,16 @@ function App() {
     }
   }
   function UI(type: any, data: any) {
+    
     setEventType(type);
     switch (type) {
       case NODE_FREEZED:
         outOfContent(data);
         break;
       case THEME_NONE:
+        outOfContent(data);
+        break;
+      case USER_FREEZED:
         outOfContent(data);
         break;
       case THEME_FREEZED:
@@ -86,7 +91,7 @@ function App() {
     }
   }
   function outOfContent(data: any) {
-    console.log(data)
+    console.log(data);
     setOutData(data);
     setIsOut(true);
     upperUI();
@@ -134,7 +139,7 @@ function App() {
   reisterUI(UI, updateUI);
   return (
     <div id="freelog-mobile-auth" className="w-100x h-100x over-h">
-       {isOut ? (
+      {isOut ? (
         <OutOf eventType={eventType} outData={outData}></OutOf>
       ) : inited || isLogin ? (
         <div className="w-100x h-100x bg-white">
@@ -147,7 +152,7 @@ function App() {
             loginFinished={loginFinished}
           ></Mobile>
         </div>
-      ) : null} 
+      ) : null}
     </div>
   );
 }
