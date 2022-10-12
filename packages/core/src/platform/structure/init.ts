@@ -10,7 +10,7 @@ import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
 import VConsole from "vconsole";
 import { callUI } from "../../bridge/index";
-import { NODE_FREEZED, THEME_NONE, THEME_FREEZED } from "../../bridge/eventType";
+import { NODE_FREEZED, THEME_NONE, USER_FREEZED } from "../../bridge/eventType";
 import {
   getExhibitInfo,
   getExhibitAuthStatus,
@@ -126,6 +126,12 @@ export function initNode() {
             if ((nodeInfo.status & 4) === 4) {
               resolve && resolve();
               setTimeout(() => callUI(NODE_FREEZED, nodeInfo), 10);
+              return;
+            }
+            // 用户冻结
+            if(userInfo && userInfo.status == 1){
+              resolve && resolve();
+              setTimeout(() => callUI(USER_FREEZED, nodeInfo), 10);
               return;
             }
             const availableData = await getExhibitAvailalbe(

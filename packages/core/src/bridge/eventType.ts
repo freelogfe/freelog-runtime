@@ -4,6 +4,7 @@ export const THEME_FREEZED = 2;
 export const LOGIN = 3;
 export const CONTRACT = 4;
 export const LOGIN_OUT = 5;
+export const USER_FREEZED = 6;
 
 export const eventType = {
   NODE_FREEZED,
@@ -11,7 +12,8 @@ export const eventType = {
   THEME_FREEZED,
   LOGIN,
   CONTRACT,
-  LOGIN_OUT
+  LOGIN_OUT,
+  USER_FREEZED
 };
 
 export const SUCCESS = 0;
