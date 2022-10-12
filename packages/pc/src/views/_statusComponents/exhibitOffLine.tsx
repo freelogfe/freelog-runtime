@@ -17,7 +17,7 @@ export default function ExhibitOffLine(props: exhibitOffLineProps) {
         className="iconfont"
         css={css`
           color: rgb(208 208 209 / 70%);
-          font-size: 128px;
+          font-size: 128px !important;
         `}
       >
         &#xe62f;

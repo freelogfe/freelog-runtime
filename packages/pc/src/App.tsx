@@ -15,6 +15,7 @@ const {
   clearEvent,
   lowerUI,
   upperUI,
+  reload
 } = window.freelogAuth;
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 const { NODE_FREEZED, THEME_NONE, THEME_FREEZED, LOGIN, CONTRACT, LOGIN_OUT } =
@@ -106,29 +107,35 @@ function App() {
     endEvent(eventId, type, data);
   }
 
-  function longinOut() {
+  async function longinOut() {
     upperUI();
-    Modal.confirm({
-      title: "确认退出登录？",
-      icon: <ExclamationCircleOutlined />,
-      content: "退出后页面会被刷新",
-      okText: "确认",
-      cancelText: "取消",
-      style: {
-        top: "30%",
-      },
-      onOk: async () => {
-        await frequest(user.loginOut, "", "").then((res: any) => {
-          if (res.data.errCode === 0) {
-            window.freelogAuth.reload();
-          }
-          // TODO 错误提示
-        });
-      },
-      onCancel: () => {
-        lowerUI();
-      },
+    await frequest(user.loginOut, "", "").then((res: any) => {
+      if (res.data.errCode === 0) {
+        reload();
+      }
     });
+    lowerUI();
+    // Modal.confirm({
+    //   title: "确认退出登录？",
+    //   icon: <ExclamationCircleOutlined />,
+    //   content: "退出后页面会被刷新",
+    //   okText: "确认",
+    //   cancelText: "取消",
+    //   style: {
+    //     top: "30%",
+    //   },
+    //   onOk: async () => {
+    //     await frequest(user.loginOut, "", "").then((res: any) => {
+    //       if (res.data.errCode === 0) {
+    //         window.freelogAuth.reload();
+    //       }
+    //       // TODO 错误提示
+    //     });
+    //   },
+    //   onCancel: () => {
+    //     lowerUI();
+    //   },
+    // });
   }
   reisterUI(UI, updateUI);
   return (

@@ -109,21 +109,27 @@ function App() {
     }
     endEvent(eventId, type, data);
   }
-  function longinOut() {
+  async function longinOut() {
     upperUI();
-    Dialog.confirm({
-      content: "确定退出登录？页面会被刷新",
-      onConfirm: async () => {
-        await frequest(user.loginOut, "", "").then((res: any) => {
-          if (res.data.errCode === 0) {
-            reload();
-          }
-        });
-      },
-      onCancel: () => {
-        lowerUI();
-      },
+    await frequest(user.loginOut, "", "").then((res: any) => {
+      if (res.data.errCode === 0) {
+        reload();
+      }
     });
+    lowerUI();
+    // Dialog.confirm({
+    //   content: "确定退出登录？页面会被刷新",
+    //   onConfirm: async () => {
+    //     await frequest(user.loginOut, "", "").then((res: any) => {
+    //       if (res.data.errCode === 0) {
+    //         reload();
+    //       }
+    //     });
+    //   },
+    //   onCancel: () => {
+    //     lowerUI();
+    //   },
+    // });
   }
   reisterUI(UI, updateUI);
   return (

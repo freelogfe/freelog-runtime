@@ -333,10 +333,10 @@ export default function Auth(props: contractProps) {
                     color: #ee4040;
                     font-size: 12px;
                     padding: 0 10px;
-                    margin-top: 15px;
+                    margin-top: 10px;
                   `}
                 >
-                  <i
+                  {/* <i
                     className="iconfont"
                     css={css`
                       color: red;
@@ -345,8 +345,8 @@ export default function Auth(props: contractProps) {
                     `}
                   >
                     &#xe62f;
-                  </i>
-                  <span>此展品违规，授权相关操作已被禁用</span>
+                  </i> */}
+                  <span>授权异常：此展品因违规授权相关操作已被禁用</span>
                 </div>
               ) : null}
               {nodeInfo.ownerUserStatus === 1 ? (
