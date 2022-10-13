@@ -119,9 +119,8 @@ export function initNode() {
               setTimeout(() => callUI(NODE_FREEZED, nodeInfo), 10);
               return;
             }
-            console.log(234234234)
             // 用户冻结
-            if(true || userInfo && userInfo.status == 1){
+            if(userInfo && userInfo.status == 1){
               console.log(userInfo)
               resolve && resolve();
               setTimeout(() => callUI(USER_FREEZED, userInfo), 10);
