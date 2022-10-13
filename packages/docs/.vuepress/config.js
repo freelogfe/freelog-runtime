@@ -1,6 +1,6 @@
 
 module.exports = {
-    title: 'docs',
+    title: '',
     description: 'freelog 开发者文档',
     port: 8081,
     base: '/',
@@ -11,7 +11,7 @@ module.exports = {
         }]
     ],
     themeConfig: {
-        logo: '/logo.svg',
+        logo: '/home.jpg',
         sidebarDepth: 2,
         sidebar: "auto", 
         nav: [{
