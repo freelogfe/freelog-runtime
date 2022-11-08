@@ -10,7 +10,7 @@ export default function ExhibitOffLine(props: exhibitOffLineProps) {
     <div
       className="flex-column-center w-100x "
       css={css`
-        height: ${props.length > 1 ? "531px" : "441px"};
+        height: ${props.length > 1 ? "480px" : "390px"};
       `}
     >
       <i

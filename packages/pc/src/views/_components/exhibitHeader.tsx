@@ -10,23 +10,37 @@ export default function ExhibitHeader({ currentExhibit }: exhibitHeaderProps) {
     <div
       className="flex-column py-10 px-20 brs-10 mt-15"
       css={css`
-        background: rgba(0, 0, 0, 0.02);
+        background: ${currentExhibit.availableData.authCode === 403
+          ? "#FDEBEC"
+          : "rgba(0, 0, 0, 0.02)"};
       `}
     >
-      <div className="flex-row align-center">
+      <div className="flex-column ">
         {currentExhibit.availableData.authCode === 403 ? (
-          <i
-            className="iconfont"
-            css={css`
-              color: red;
-              font-size: 16px;
-            `}
-          >
-            &#xe62f;
-          </i>
+          <div className="flex-row align-center mb-9">
+            <i
+              className="iconfont"
+              css={css`
+                color: red;
+                font-size: 16px !important;
+              `}
+            >
+              &#xe62f;
+            </i>
+            <span
+              className="ml-5 "
+              css={css`
+                font-size: 12px;
+                font-weight: 400;
+                color: #ee4040;
+              `}
+            >
+              此展品违规，授权相关操作已被禁用
+            </span>
+          </div>
         ) : null}
         <div
-          className="text-ellipsis lh-20 fs-14 ml-5"
+          className="text-ellipsis lh-20 fs-14 "
           css={css`
             font-weight: 600;
             color: #222222;
@@ -37,20 +51,19 @@ export default function ExhibitHeader({ currentExhibit }: exhibitHeaderProps) {
         </div>
       </div>
 
-      {currentExhibit.availableData.authCode === 403 ? (
-        <span
-          className="iconfont"
-          css={css`
-            color: red;
-            font-size: 12px;
-            font-weight: 400;
-            color: #ee4040;
-            line-height: 18px;
-          `}
-        >
-          已封禁
-        </span>
-      ) : !currentExhibit.contracts.length ? null : (
+      {currentExhibit.availableData.authCode ===
+      403 ? null : //   className="iconfont" // <span
+      //   css={css`
+      //     color: red;
+      //     font-size: 12px;
+      //     font-weight: 400;
+      //     color: #ee4040;
+      //     line-height: 18px;
+      //   `}
+      // >
+      //   已封禁
+      // </span>
+      !currentExhibit.contracts.length ? null : (
         <div className="flex-row pt-10">
           {currentExhibit.contracts.map((contract: any, index: number) => {
             return (

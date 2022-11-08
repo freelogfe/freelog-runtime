@@ -104,6 +104,7 @@ export default function Auth(props: contractProps) {
       }
       return;
     }
+    currentExhibit.availableData.authCode = 403
     // 合约备份
     currentExhibit._contracts = [...currentExhibit.contracts];
     //
@@ -390,7 +391,7 @@ export default function Auth(props: contractProps) {
                           {events.length === 1 && !currentExhibit.isTheme ? (
                             <ExhibitHeader currentExhibit={currentExhibit} />
                           ) : null}
-                          {currentExhibit.availableData.authCode === 403 ? (
+                          {/* {currentExhibit.availableData.authCode === 403 ? (
                             <div
                               className="flex-row align-center py-5 w-100x"
                               css={css`
@@ -402,7 +403,7 @@ export default function Auth(props: contractProps) {
                                 margin-top: 10px;
                               `}
                             >
-                              {/* <i
+                              <i
                                 className="iconfont"
                                 css={css`
                                   color: red;
@@ -411,10 +412,10 @@ export default function Auth(props: contractProps) {
                                 `}
                               >
                                 &#xe62f;
-                              </i> */}
+                              </i>
                               <span>授权异常：此展品因违规授权相关操作已被禁用</span>
                             </div>
-                          ) : null}
+                          ) : null} */}
                           {nodeInfo.ownerUserStatus === 1 ? (
                             <div
                               className="flex-row align-center py-5 px-10 w-100x"
