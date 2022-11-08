@@ -104,7 +104,6 @@ export default function Auth(props: contractProps) {
       }
       return;
     }
-    currentExhibit.availableData.authCode = 403
     // 合约备份
     currentExhibit._contracts = [...currentExhibit.contracts];
     //
