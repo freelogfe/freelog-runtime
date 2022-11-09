@@ -17,15 +17,15 @@ export default function ExhibitOffLine(props: exhibitOffLineProps) {
         className="iconfont"
         css={css`
           color: rgb(208 208 209 / 70%);
-          font-size: 128px !important;
+          font-size: 100px !important;
         `}
       >
         &#xe62f;
       </i>
-      {props.type === "offline" && (
+      {/* {props.type === "offline" && (
         <div
           css={css`
-            font-size: 30px;
+            font-size: 14px;
             margin-top: 30px;
             font-weight: 400;
             color: #666666;
@@ -37,7 +37,7 @@ export default function ExhibitOffLine(props: exhibitOffLineProps) {
       )}{props.type === "freezed" && (
         <div
           css={css`
-            font-size: 30px;
+            font-size: 14px;
             margin-top: 30px;
             font-weight: 400;
             color: #666666;
@@ -46,7 +46,7 @@ export default function ExhibitOffLine(props: exhibitOffLineProps) {
         >
           该展品已冻结，无法获取授权
         </div>
-      )}
+      )} */}
     </div>
   );
 }
