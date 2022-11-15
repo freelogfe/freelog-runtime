@@ -84,7 +84,7 @@ output: {
     // 把子应用打包成 umd 库格式
     library: `${name}-[name]`,
     libraryTarget: 'umd',
-    jsonpFunction: `webpackJsonp_${name}`, 
+    jsonpFunction: `webpackJsonp_${name}`,
     // webpack5使用chunkLoadingGlobal: `webpackJsonp${name}`
 },
 ```
@@ -267,7 +267,7 @@ export async function unmount() {
   instance = null;
   router = null;
 }
-// 插件通信功能暂未测试
+// 插件通信功能
 function storeTest(props) {
   props.onGlobalStateChange &&
     props.onGlobalStateChange(
@@ -459,6 +459,11 @@ const render = ($) => {
 **2.将 js 打包成库，让运行时能够获取到 bootstrap,mount,unmount 来启动卸载插件**
 
 ## 开发
+### https证书准备（必须）
+
+参考一下链接，后续考虑提供官方工具自动生成带证书的模板
+
+[https://blog.csdn.net/weixin_46383294/article/details/124047526](https://blog.csdn.net/weixin_46383294/article/details/124047526)
 
 ### chrome 无法访问 localhost 问题
 
@@ -598,6 +603,7 @@ widgets.some((widget, index) => {
 ### 获取插件自身配置数据
 
 ```ts
+// 父插件的传递过来的config数据也会在这里
 const widgetConfig = window.freelogApp.getSelfConfig();
 ```
 
@@ -627,6 +633,10 @@ export async function mount(props) {
   storeTest(props);
   render(props);
 }
+
+ props.setGlobalState(obj: 自定义对象)：
+ props.onGlobalStateChange((state: 当前状态, prevState: 前数据) => void, fireImmediately:是否立即执行)
+
 ```
 
 ### 插件之间通信方式二：配置数据中传递 config
@@ -639,7 +649,7 @@ export async function mount(props) {
     sub,
     document.getElementById("freelog-single"),
     subData,
-    config: {}, // 子插件配置数据，需要另外获取作品上的配置数据（待提供方法）
+    config: {}, // 子插件配置数据，这里会和子插件自身数据合并，必须为对象
     seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号
   );
 
@@ -950,7 +960,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
     resourceType,
     subDep,
     versionInfo: {exhibitProperty},
-    data: resData,
+    ...resData, // 原始数据
   }
   **不存在**
   {
@@ -962,6 +972,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
     resourceType,
     subDep,
     versionInfo: {exhibitProperty},
+    ...resData, // 原始数据
   }
 ```
 
