@@ -38,17 +38,17 @@ module.exports = merge(common, {
     concatenateModules: false, // 关闭模块合并
     emitOnErrors: true, //  在编译时每当有错误时，就会 emit asset
     // 分离chunks
-    splitChunks: {
-      chunks: 'all', // 所有的 chunks 代码公共的部分分离出来成为一个单独的文件
-      cacheGroups: {
-        vendor: {
-          name: 'vendor',
-          test: /[\\/]node_modules[\\/]/,
-          priority: 10,
-          chunks: 'initial', // 只打包初始时依赖的第三方
-        },
-      },
-    },
+    // splitChunks: {
+    //   chunks: 'all', // 所有的 chunks 代码公共的部分分离出来成为一个单独的文件
+    //   cacheGroups: {
+    //     vendor: {
+    //       name: 'vendor',
+    //       test: /[\\/]node_modules[\\/]/,
+    //       priority: 10,
+    //       chunks: 'initial', // 只打包初始时依赖的第三方
+    //     },
+    //   },
+    // },
     minimize: false, // 是否压缩
     minimizer: [
       new UglifyJsPlugin({
