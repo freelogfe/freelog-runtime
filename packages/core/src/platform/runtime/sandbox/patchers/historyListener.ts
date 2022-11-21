@@ -3,7 +3,7 @@
  * @since 2019-04-11
  */
 
-import { isFunction, noop } from 'lodash';
+import { isFunction, noop } from 'lodash-es';
 
 export default function patch() {
   // FIXME umi unmount feature request

@@ -31,6 +31,10 @@ import {
 } from "./api";
 let devData = "";
 export const freelogApp: any = {
+  status: {
+    authUIMounted: false,
+    themeMounted: false,
+  },
   mountWidget,
   getExhibitListById,
   getExhibitListByPaging,

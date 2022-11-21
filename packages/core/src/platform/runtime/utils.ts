@@ -3,7 +3,7 @@
  * @since 2019-05-15
  */
 
-import { isFunction, snakeCase } from 'lodash';
+import { isFunction, snakeCase } from 'lodash-es';
 import type { FrameworkConfiguration } from './interfaces';
 
 export function toArray<T>(array: T | T[]): T[] {

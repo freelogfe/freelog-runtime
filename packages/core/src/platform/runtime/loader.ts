@@ -4,7 +4,7 @@
  */
 
 import { importEntry } from './import-html-entry';
-import { concat, forEach, mergeWith } from 'lodash';
+import { concat, forEach, mergeWith } from 'lodash-es';
 import type { LifeCycles, ParcelConfigObject } from 'single-spa';
 import getAddOns from './addons';
 import { getMicroAppStateActions } from './globalState';

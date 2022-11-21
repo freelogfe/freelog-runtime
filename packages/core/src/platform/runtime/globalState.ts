@@ -3,7 +3,7 @@
  * @since 2020-04-10
  */
 
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 import type { OnGlobalStateChangeCallback, MicroAppStateActions } from './interfaces';
 
 let globalState: Record<string, any> = {};

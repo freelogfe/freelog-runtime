@@ -3,7 +3,7 @@
  * @since 2019-10-21
  */
 import { execScripts } from '../../../import-html-entry';
-import { isFunction } from 'lodash';
+import { isFunction } from 'lodash-es';
 import { frameworkConfiguration } from '../../../apis';
 
 import * as css from '../css';

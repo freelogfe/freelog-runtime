@@ -8,7 +8,7 @@ import { init } from "./api";
 import { dev, DEV_FALSE } from "./dev";
 import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
-import VConsole from "vconsole";
+// import VConsole from "vconsole";
 import { callUI } from "../../bridge/index";
 import { NODE_FREEZED, THEME_NONE, USER_FREEZED } from "../../bridge/eventType";
 import {
@@ -16,7 +16,7 @@ import {
   getExhibitAuthStatus,
   getExhibitAvailalbe,
 } from "../structure/api";
-import {initWindowListener} from "../../bridge/eventOn"
+import { initWindowListener } from "../../bridge/eventOn";
 const mobile = isMobile();
 // @ts-ignore
 const uiPath =
@@ -31,6 +31,7 @@ window.ENV = "freelog.com";
 if (window.location.host.includes(".testfreelog.com")) {
   window.ENV = "testfreelog.com";
 }
+const rawDocument = document
 !mobile &&
   document.querySelector
     .bind(document)('meta[name="viewport"]')
@@ -68,8 +69,8 @@ export function initNode() {
         //   return;
         // }
         document.title = nodeInfo.nodeName;
-        if(window.isTest){
-          document.title = '[T]' + nodeInfo.nodeName; 
+        if (window.isTest) {
+          document.title = "[T]" + nodeInfo.nodeName;
         }
         if (!userInfo && window.isTest) {
           confirm("测试节点必须登录！");
@@ -91,21 +92,75 @@ export function initNode() {
         });
         init();
         const devData = dev();
+        // TODO 提供一个开发者模式，能在全局创建一个VConsole
         // window.vconsole = new VConsole()
-        if (devData.type !== DEV_FALSE && devData.config.vconsole) {
-          window.vconsole = new VConsole();
-        }
+        // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
+        //   window.vconsole = new VConsole();
+        // }
         Object.freeze(devData);
         freelogApp.devData = devData;
         Object.freeze(freelogApp);
         Object.freeze(freelogApp.nodeInfo);
         initLocation();
-        const container = document.getElementById.bind(document)(
+        const container = document.getElementById.bind(rawDocument)(
           "freelog-plugin-container"
         );
+        const loadingContainer  = document.getElementById.bind(rawDocument)(
+          "runtime-loading"
+        )
+        const mountTheme = new Promise(async (themeResolve) => {
+          // 节点冻结
+          if ((nodeInfo.status & 4) === 4) {
+            themeResolve(false);
+            return;
+          }
+          // 用户冻结
+          if (userInfo && userInfo.status == 1) {
+            themeResolve(false);
+            return;
+          }
+          // 没有主题
+          if (
+            (!nodeInfo.nodeThemeId && !window.isTest) ||
+            (!nodeInfo.nodeTestThemeId && window.isTest)
+          ) {
+            themeResolve(false);
+            return;
+          }
+          // const availableData = await getExhibitAvailalbe(
+          //   window.isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
+          // );
+          // 主题冻结
+          // if (availableData && availableData.authCode === 403) {
+          //   resolve && resolve();
+          //   return;
+          // }
+          const theme = await getSubDep(
+            window.isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
+          );
+          // @ts-ignore
+          loadingContainer.style.display = "none";
+          freelogApp
+            .mountWidget(
+              theme,
+              container,
+              "",
+              { shadowDom: false, scopedCss: true, ...theme.exhibitProperty },
+              null,
+              true
+            )
+            .mountPromise.then(() => {
+              themeResolve(true);
+            });
+        });
+        mountTheme.then((flag) => {
+          freelogApp.status.themeMounted = flag;
+        });
+        // resolve && resolve();
+        // return
         mountUI(
           "freelog-ui",
-          document.getElementById.bind(document)("ui-root"),
+          document.getElementById.bind(rawDocument)("ui-root"),
           uiPath,
           {
             shadowDom: false,
@@ -113,6 +168,10 @@ export function initNode() {
           }
         ).mountPromise.then(
           async () => {
+            console.log(rawDocument)
+            // @ts-ignore
+            loadingContainer.style.display = "none";
+            freelogApp.status.authUIMounted = true;
             // 节点冻结
             if ((nodeInfo.status & 4) === 4) {
               resolve && resolve();
@@ -120,8 +179,8 @@ export function initNode() {
               return;
             }
             // 用户冻结
-            if(userInfo && userInfo.status == 1){
-              console.log(userInfo)
+            if (userInfo && userInfo.status == 1) {
+              console.log(userInfo);
               resolve && resolve();
               setTimeout(() => callUI(USER_FREEZED, userInfo), 10);
               return;
@@ -135,25 +194,25 @@ export function initNode() {
               setTimeout(() => callUI(THEME_NONE, nodeInfo), 10);
               return;
             }
-            const availableData = await getExhibitAvailalbe(
-              window.isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
-            );
-            // 主题冻结 
-            if (availableData && availableData.authCode === 403) {
-              resolve && resolve(); 
-              return;
-            }
-            const theme = await getSubDep(
-              window.isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
-            );
-            freelogApp.mountWidget(
-              theme,
-              container,
-              "",
-              { shadowDom: false, scopedCss: true, ...theme.exhibitProperty },
-              null,
-              true
-            );
+            // const availableData = await getExhibitAvailalbe(
+            //   window.isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
+            // );
+            // // 主题冻结
+            // if (availableData && availableData.authCode === 403) {
+            //   resolve && resolve();
+            //   return;
+            // }
+            // const theme = await getSubDep(
+            //   window.isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
+            // );
+            // freelogApp.mountWidget(
+            //   theme,
+            //   container,
+            //   "",
+            //   { shadowDom: false, scopedCss: true, ...theme.exhibitProperty },
+            //   null,
+            //   true
+            // );
             resolve && resolve();
           },
           (e: any) => {

@@ -19,21 +19,23 @@ var plugins = [
     filename: 'css/[name].[contenthash].css',
     chunkFilename: 'css/[name].[contenthash].css',
   }),
-  /* new BundleAnalyzerPlugin({
-        analyzerMode: 'server',
-        analyzerHost: '127.0.0.1',
-        analyzerPort: 8888,
-        reportFilename: 'report.html',
-        defaultSizes: 'parsed',
-        generateStatsFile: false,
-        statsFilename: 'stats.json',
-        statsOptions: null,
-        logLevel: 'info',
-    }) */
+  // new BundleAnalyzerPlugin({
+  //   analyzerMode: 'server',
+  //   analyzerHost: '127.0.0.1',
+  //   analyzerPort: 8005,
+  //   reportFilename: 'report.html',
+  //   defaultSizes: 'parsed',
+  //   generateStatsFile: false,
+  //   statsFilename: 'stats.json',
+  //   statsOptions: null,
+  //   logLevel: 'info',
+  // })
 ]
 
 module.exports = merge(common, {
   optimization: {
+    usedExports: true,
+    concatenateModules: false, // 关闭模块合并
     emitOnErrors: true, //  在编译时每当有错误时，就会 emit asset
     // 分离chunks
     splitChunks: {

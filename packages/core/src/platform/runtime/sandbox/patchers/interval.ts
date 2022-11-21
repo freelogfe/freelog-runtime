@@ -4,7 +4,7 @@
  * @since 2019-04-11
  */
 
-import { noop } from 'lodash';
+import { noop } from 'lodash-es';
 
 const rawWindowInterval = window.setInterval;
 const rawWindowClearInterval = window.clearInterval;

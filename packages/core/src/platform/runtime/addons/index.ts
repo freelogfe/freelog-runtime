@@ -3,7 +3,7 @@
  * @since 2020-03-02
  */
 
-import { concat, mergeWith } from 'lodash';
+import { concat, mergeWith } from 'lodash-es';
 import type { FrameworkLifeCycles, ObjectType } from '../interfaces';
 
 import getRuntimePublicPathAddOn from './runtimePublicPath';

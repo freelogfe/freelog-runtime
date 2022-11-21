@@ -9,8 +9,9 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = {
   entry: ["./src/main.ts"],
-  target: "web",
+  target: "web", 
   module: {
+
     rules: [
       // 处理字体
       {
