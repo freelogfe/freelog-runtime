@@ -218,13 +218,13 @@ export async function mountWidget(
       commonData.articleInfo.articleId,
       true
     )
-    fentry = fentry + `&subFilePath=`
+    fentry = fentry + `&subFilePath=dist/`
   }else{
     fentry = await window.freelogApp.getExhibitFileStream.bind(that || {})(
       commonData.exhibitId,
       true
     )
-    fentry = fentry + '?subFilePath='
+    fentry = fentry + '/package/dist/'
   }
   const widgetConfig = {
     container,

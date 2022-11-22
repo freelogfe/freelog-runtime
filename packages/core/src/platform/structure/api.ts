@@ -16,7 +16,7 @@ export async function getExhibitListById(query: any): Promise<any> {
   if (isTest)
     //@ts-ignore
     return frequest.bind({ name: this.name })(
-      exhibit.getTestExhibitById,
+      exhibit.getTestExhibitListById,
       [nodeId],
       {
         ...query,
@@ -165,17 +165,29 @@ export async function getExhibitFileStream(
   returnUrl?: boolean,
   config?: any
 ) {
-  // @ts-ignore
-  return getByExhibitId(
+  return frequest.bind({
     // @ts-ignore
-    this.name,
-    exhibitId,
-    "fileStream",
-    "",
-    "",
+    name: this.name,
+    isAuth: true,
+    exhibitId: exhibitId,
+  })(
+    exhibit.getExhibitById,
+    [exhibitId],
+    null,
     returnUrl,
     config
   );
+  // @ts-ignore
+  // return getByExhibitId(
+  //   // @ts-ignore
+  //   this.name,
+  //   exhibitId,
+  //   "fileStream",
+  //   "",
+  //   "",
+  //   returnUrl,
+  //   config
+  // );
 }
 export async function getExhibitResultByAuth(exhibitId: string | number) {
   // @ts-ignore
@@ -196,15 +208,27 @@ export async function getExhibitDepFileStream(
   if (!parentNid || !subArticleId) {
     return Promise.reject("parentNid and subArticleId is required!");
   }
-  // @ts-ignore
-  return getByExhibitId(
+  return frequest.bind({
     // @ts-ignore
-    this.name,
-    exhibitId,
-    "fileStream",
-    parentNid,
-    subArticleId,
+    name: this.name,
+    isAuth: true,
+    exhibitId: exhibitId,
+  })(
+    exhibit.getExhibitById,
+    [exhibitId],
+    {parentNid,subArticleIdOrName: subArticleId},
     returnUrl,
     config
   );
+  // // @ts-ignore
+  // return getByExhibitId(
+  //   // @ts-ignore
+  //   this.name,
+  //   exhibitId,
+  //   "fileStream",
+  //   parentNid,
+  //   subArticleId,
+  //   returnUrl,
+  //   config
+  // );
 }

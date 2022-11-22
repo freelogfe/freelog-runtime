@@ -3,7 +3,7 @@ export type Exhibit = {
   getExhibitDetail: any;
   getTestExhibitDetail: any;
   getExhibitListById: any;
-  getTestExhibitById: any;
+  getTestExhibitListById: any;
   getExhibitListByPaging: any;
   getTestExhibitByPaging: any;
   getExhibitAuthById: any;
@@ -13,6 +13,8 @@ export type Exhibit = {
   getExhibitSignCount: any;
   getExhibitDepInfo: any;
   getTestExhibitDepInfo: any;
+  getExhibitById: any;
+  getTestExhibitById: any;
 };
 
 const exhibit: Exhibit = {
@@ -49,7 +51,7 @@ const exhibit: Exhibit = {
       isTranslate: "int",
     },
   },
-  getTestExhibitById: {
+  getTestExhibitListById: {
     url: `exhibits/${placeHolder}/test/list`,
     method: "GET",
     dataModel: {
@@ -113,6 +115,30 @@ const exhibit: Exhibit = {
   // exhibitId  {result|info|fileStream}
   getTestExhibitAuthById: {
     url: `auths/exhibits/${placeHolder}/test/${placeHolder}/${placeHolder}`,
+    method: "GET",
+    dataModel: {
+      parentNid: "string",
+      subArticleIdOrName: "string",
+      subArticleType: "string",
+      subFilePath: "string",
+    },
+  },
+  // exhibitId  {result|info|fileStream}
+  getExhibitById: {
+    url: `exhibits/${placeHolder}`,
+    baseURL: location.protocol + '//file.testfreelog.com/',
+    method: "GET",
+    dataModel: {
+      parentNid: "string", // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
+      subArticleIdOrName: "string", // 子依赖的作品ID作品名称
+      subArticleType: "string", // 子依赖的作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象)
+      subFilePath: "string", // 主题或插件的压缩包内部子作品,需要带相对路径
+    },
+  },
+  // exhibitId  {result|info|fileStream}
+  getTestExhibitById: {
+    url: `exhibits/${placeHolder}/test/${placeHolder}/${placeHolder}`,
+    baseURL: location.protocol + '//file.testfreelog.com/',
     method: "GET",
     dataModel: {
       parentNid: "string",
