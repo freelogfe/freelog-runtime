@@ -1,4 +1,5 @@
 import { placeHolder } from "../../base";
+const host = location.host.slice(location.host.indexOf('.'))
 export type Exhibit = {
   getExhibitDetail: any;
   getTestExhibitDetail: any;
@@ -126,7 +127,7 @@ const exhibit: Exhibit = {
   // exhibitId  {result|info|fileStream}
   getExhibitById: {
     url: `exhibits/${placeHolder}`,
-    baseURL: location.protocol + '//file.testfreelog.com/',
+    baseURL: location.protocol + `//file${host}/`,
     method: "GET",
     dataModel: {
       parentNid: "string", // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
@@ -137,8 +138,8 @@ const exhibit: Exhibit = {
   },
   // exhibitId  {result|info|fileStream}
   getTestExhibitById: {
-    url: `exhibits/${placeHolder}/test/${placeHolder}/${placeHolder}`,
-    baseURL: location.protocol + '//file.testfreelog.com/',
+    url: `exhibits/test/${placeHolder}`,
+    baseURL: location.protocol + `//file${host}/`,
     method: "GET",
     dataModel: {
       parentNid: "string",

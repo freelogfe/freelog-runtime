@@ -1,7 +1,7 @@
 import frequest from "../../services/handler";
 import exhibit from "../../services/api/modules/exhibit";
 import contract from "../../services/api/modules/contract";
-const isTest =  window.isTest;
+const isTest = window.isTest;
 // @ts-ignore
 let nodeId = "";
 export function init() {
@@ -53,12 +53,12 @@ export async function getExhibitListByPaging(query: any): Promise<any> {
     }
   );
 }
-export async function getSignStatistics(query:any) {
+export async function getSignStatistics(query: any) {
   // @ts-ignore
   return frequest(contract.getSignStatistics, "", {
     signUserIdentityType: 2,
     nodeId,
-    ...query
+    ...query,
   });
 }
 export async function getExhibitInfo(exhibitId: string, query: any) {
@@ -93,7 +93,7 @@ export async function getExhibitSignCount(exhibitId: string) {
 export async function getExhibitAvailalbe(exhibitIds: string) {
   if (isTest) {
     return frequest(exhibit.getTestExhibitAuthStatus, [nodeId], {
-      authType: 3 ,
+      authType: 3,
       exhibitIds,
     });
   }
@@ -171,7 +171,7 @@ export async function getExhibitFileStream(
     isAuth: true,
     exhibitId: exhibitId,
   })(
-    exhibit.getExhibitById,
+    isTest ? exhibit.getTestExhibitById : exhibit.getExhibitById,
     [exhibitId],
     null,
     returnUrl,
@@ -214,9 +214,9 @@ export async function getExhibitDepFileStream(
     isAuth: true,
     exhibitId: exhibitId,
   })(
-    exhibit.getExhibitById,
+    isTest ? exhibit.getTestExhibitById : exhibit.getExhibitById,
     [exhibitId],
-    {parentNid,subArticleIdOrName: subArticleId},
+    { parentNid, subArticleIdOrName: subArticleId },
     returnUrl,
     config
   );

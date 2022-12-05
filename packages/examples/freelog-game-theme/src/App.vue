@@ -84,7 +84,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="scss">
 .theme-main {
   height: 100%;
   width: 100%;
