@@ -16,7 +16,7 @@ export default {
   methods: {
     async getSub() {
       const subData = await window.freelogApp.getSubDep();
-      console.log(subData)
+      console.log(subData,1111)
       subData.subDep.some(async (sub, index) => {
         if (index === 1) return true;
         await window.freelogApp.mountWidget(

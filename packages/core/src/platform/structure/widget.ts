@@ -224,7 +224,7 @@ export async function mountWidget(
       commonData.exhibitId,
       true
     )
-    fentry = fentry + '/package/'
+    fentry = fentry + '?subFilePath=' // '/package/'
   }
   const widgetConfig = {
     container,

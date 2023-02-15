@@ -16,14 +16,15 @@ export default {
   methods: {
     async getSub() {
       const res = await window.freelogApp.getExhibitListByPaging({
-        articleResourceTypes: "widget",
+        articleResourceTypes: "插件",
         isLoadVersionProperty: 1
       });
       console.log(res)
       const widgets = res.data.data.dataList;
-
+      console.log(11111,widgets)
       widgets.some(async (widget, index) => {
         if (index === 1) return true;
+        // widget.exhibitId = widget.exhibitId + '111'
         await window.freelogApp.mountWidget(
           widget,
           document.getElementById("freelog-single"),

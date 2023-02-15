@@ -1,6 +1,7 @@
 {
   "name": "freelog-novel-react",
-  "version": "0.1.0",
+  "version": "0.1.4",
+  "workId": "61d6959a7841ed002e5d526e",
   "private": true,
   "dependencies": {
     "@babel/core": "7.12.3",

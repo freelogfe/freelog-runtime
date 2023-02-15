@@ -31,7 +31,7 @@ window.ENV = "freelog.com";
 if (window.location.host.includes(".testfreelog.com")) {
   window.ENV = "testfreelog.com";
 }
-const rawDocument = document
+const rawDocument = document;
 !mobile &&
   document.querySelector
     .bind(document)('meta[name="viewport"]')
@@ -105,9 +105,8 @@ export function initNode() {
         const container = document.getElementById.bind(rawDocument)(
           "freelog-plugin-container"
         );
-        const loadingContainer  = document.getElementById.bind(rawDocument)(
-          "runtime-loading"
-        )
+        const loadingContainer =
+          document.getElementById.bind(rawDocument)("runtime-loading");
         const mountTheme = new Promise(async (themeResolve) => {
           // 节点冻结
           if ((nodeInfo.status & 4) === 4) {
@@ -140,24 +139,21 @@ export function initNode() {
           );
           // @ts-ignore
           loadingContainer.style.display = "none";
-          freelogApp
-            .mountWidget(
-              theme,
-              container,
-              "",
-              { shadowDom: false, scopedCss: true, ...theme.exhibitProperty },
-              null,
-              true
-            )
-            .mountPromise.then(() => {
-              themeResolve(true);
-            });
+          const themeApp = await freelogApp.mountWidget(
+            theme,
+            container,
+            "",
+            { shadowDom: false, scopedCss: true, ...theme.exhibitProperty },
+            null,
+            true
+          );
+          themeApp.mountPromise.then(() => {
+            themeResolve(true);
+          });
         });
         mountTheme.then((flag) => {
           freelogApp.status.themeMounted = flag;
         });
-        // resolve && resolve();
-        // return
         mountUI(
           "freelog-ui",
           document.getElementById.bind(rawDocument)("ui-root"),
@@ -168,7 +164,7 @@ export function initNode() {
           }
         ).mountPromise.then(
           async () => {
-            console.log(rawDocument)
+            console.log(rawDocument);
             // @ts-ignore
             loadingContainer.style.display = "none";
             freelogApp.status.authUIMounted = true;
