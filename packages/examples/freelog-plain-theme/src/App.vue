@@ -1,4 +1,4 @@
- <template >
+<template>
   <div id="theme-main">
     <div id="freelog-single"></div>
   </div>
@@ -10,6 +10,7 @@ export default {
   data() {
     return {
       mount: false,
+      app: null,
     };
   },
   computed: {},
@@ -17,17 +18,20 @@ export default {
     async getSub() {
       const res = await window.freelogApp.getExhibitListByPaging({
         articleResourceTypes: "插件",
-        isLoadVersionProperty: 1
+        isLoadVersionProperty: 1,
       });
-      console.log(res)
+      console.log(res);
       const widgets = res.data.data.dataList;
-      console.log(11111,widgets)
+      setTimeout(() => {
+        console.log(45454, widgets, document.getElementById("freelog-single"));
+      }, 2000);
+
       widgets.some(async (widget, index) => {
         if (index === 1) return true;
         // widget.exhibitId = widget.exhibitId + '111'
-        await window.freelogApp.mountWidget(
+        this.app = await window.freelogApp.mountWidget(
           widget,
-          document.getElementById("freelog-single"),
+          document.getElementById("freelog-single")
         );
         // await window.freelogApp.mountWidget(
         //   {

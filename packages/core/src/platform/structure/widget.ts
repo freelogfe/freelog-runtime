@@ -29,7 +29,8 @@ export const widgetUserData = new Map<any, any>();
 // TODO plugin type
 export function addWidget(key: string, plugin: any) {
   if (activeWidgets.has(key)) {
-    console.warn(flatternWidgets.get(key).name + " reloaded");
+
+    console.warn(widgetsConfig.get(key).name + " reloaded");
   }
   flatternWidgets.set(key, plugin);
   activeWidgets.set(key, plugin);
@@ -59,7 +60,7 @@ export function removeChildWidget(key: string, childKey: string) {
 // maybe plugin is not exists in flatternWidgets
 export function addSandBox(key: string, sandbox: any) {
   if (sandBoxs.has(key)) {
-    console.warn(flatternWidgets.get(key).name + "reloaded");
+    console.warn(widgetsConfig.get(key).name + " reloaded");
   }
   sandBoxs.set(key, sandbox);
 }
@@ -94,7 +95,7 @@ export function mountUI(
     mount: (resolve?: any, reject?: any) => {
       app.mount().then(
         () => {
-          addWidget(name, app);
+          addWidget(name, _app);
           // TODO 验证是否是函数
           resolve && resolve();
         },

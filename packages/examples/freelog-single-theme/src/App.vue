@@ -1,6 +1,6 @@
 <template >
   <div class="theme-main">
-    <div id="freelog-single"></div>
+    <div id="freelog-single2"></div>
   </div>
 </template>
 
@@ -16,14 +16,16 @@ export default {
   methods: {
     async getSub() {
       const subData = await window.freelogApp.getSubDep();
-      console.log(subData,1111)
+      console.log(subData,11334411)
       subData.subDep.some(async (sub, index) => {
         if (index === 1) return true;
         await window.freelogApp.mountWidget(
           sub,
-          document.getElementById("freelog-single"),
+          document.getElementById("freelog-single2"),
           subData,
-          ""
+          "",
+          "",
+          'http://localhost:7111'
         );
       });
     },
