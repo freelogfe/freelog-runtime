@@ -233,7 +233,7 @@ export async function mountWidget(
     fentry = fentry + "?subFilePath="; // '/package/'
   }
   let once = false;
-  let api: any = null;
+  let api: any = {};
   const widgetConfig = {
     container,
     name: widgetId, //id
@@ -291,6 +291,7 @@ export async function mountWidget(
         () => {
           // 卸载后可以重新注册api
           once = false;
+          api = {}
           deactiveWidget(widgetId);
           !keepLocation && setLocation();
           // TODO 验证是否是函数
