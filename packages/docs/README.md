@@ -459,7 +459,8 @@ const render = ($) => {
 **2.将 js 打包成库，让运行时能够获取到 bootstrap,mount,unmount 来启动卸载插件**
 
 ## 开发
-### https证书准备（必须）
+
+### https 证书准备（必须）
 
 参考一下链接，后续考虑提供官方工具自动生成带证书的模板
 
@@ -565,6 +566,7 @@ widgets.some((widget, index) => {
     bootstrapPromise
     mountPromise
     unmountPromise
+    getApi
  }
 
  // 使用说明
@@ -580,13 +582,15 @@ widgets.some((widget, index) => {
       UNMOUNTING: 卸载中
       SKIP_BECAUSE_BROKEN: 在初始化、挂载、卸载或更新时发生异常。其他插件可能会被正常使用，但当前插件会被跳过。
 
-  loadPromise() 返回一个promise，当插件被装载(loaded)后resolve。
+  loadPromise  一个promise，当插件被装载(loaded)后resolve。
 
-  bootstrapPromise() 返回一个promise，当插件初始化后resolve。
+  bootstrapPromise 一个promise，当插件初始化后resolve。
 
-  mountPromise() 返回一个promise，当插件加载后resolve。通常用于检测插件生成的DOM是否已经挂载。
+  mountPromise  一个promise，当插件加载后resolve。通常用于检测插件生成的DOM是否已经挂载。
 
-  unmountPromise() 返回一个promise，当插件卸载后resolve。
+  unmountPromise 一个promise，当插件卸载后resolve。
+
+  getApi  在子插件加载完成后 使用getApi()方法获取子插件的对外api， 由于子插件可能自己重载、或操作子插件重载，每次调用都需要使用方法获取，不能直接获取，
 
 ```
 
@@ -658,11 +662,24 @@ export async function mount(props) {
 ### 插件之间通信方式三：插件对外发布 api
 
 ```ts
-// 后期实现通过
-// freelogApp.registerApi(eventName,callBack,auth)
-// eventName: '事件名称：插件唯一识别+自定义api名称'
-// callBack: 当其余插件freelogApp.dispatch这个事件时，调用此函数（此函数相当于是插件对外发布的api）
-// auth: 权限级别，例如是否只允许父插件调用
+// 子插件在mount时使用props.resisterApi注册api
+export async function mount(props = {}) {
+  const { container } = props;
+  props.registerApi({
+    // 这个对象会给到父插件
+    show: () => {},
+  });
+  ReactDOM.render(
+    <App />,
+    container
+      ? container.querySelector("#root")
+      : document.querySelector("#root")
+  );
+}
+// 在子插件加载完成后，父插件可以使用app.getApi() 获取子插件的api
+app.mountPromise.then(() => {
+  app.getApi().show();
+});
 ```
 
 ### 获取展品

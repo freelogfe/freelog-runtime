@@ -18,6 +18,9 @@ export async function bootstrap() {
 
 export async function mount(props = {}) {
   const { container } = props;
+  props.registerApi({
+    // 这个对象会给到父插件
+  })
   ReactDOM.render(
       <App />,
       container ? container.querySelector('#root') : document.querySelector('#root')

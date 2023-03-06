@@ -1,4 +1,4 @@
-<template >
+<template>
   <div class="theme-main">
     <div id="freelog-single2"></div>
   </div>
@@ -16,17 +16,29 @@ export default {
   methods: {
     async getSub() {
       const subData = await window.freelogApp.getSubDep();
-      console.log(subData,11334411)
+      console.log(subData, 11334411);
       subData.subDep.some(async (sub, index) => {
         if (index === 1) return true;
-        await window.freelogApp.mountWidget(
+        const app = await window.freelogApp.mountWidget(
           sub,
           document.getElementById("freelog-single2"),
           subData,
           "",
           "",
-          'http://localhost:7111'
+          "http://localhost:8081"
         );
+        console.log(2342342, app);
+        console.log(app.getStatus())
+        console.log(app.getApi())
+        app.mountPromise.then(()=>{
+          console.log(111111, app.getApi())
+        })
+        // setTimeout(() => {
+        //   app.unmount(() => {
+        //     console.log(33333);
+        //     app.mount();
+        //   });
+        // }, 1500);
       });
     },
   },

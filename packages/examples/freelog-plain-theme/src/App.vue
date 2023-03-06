@@ -33,6 +33,7 @@ export default {
           widget,
           document.getElementById("freelog-single")
         );
+        console.log(this.app )
         // await window.freelogApp.mountWidget(
         //   {
         //     exhibitId: widget.exhibitId,

@@ -29,7 +29,6 @@ export const widgetUserData = new Map<any, any>();
 // TODO plugin type
 export function addWidget(key: string, plugin: any) {
   if (activeWidgets.has(key)) {
-
     console.warn(widgetsConfig.get(key).name + " reloaded");
   }
   flatternWidgets.set(key, plugin);
@@ -143,9 +142,9 @@ export async function mountWidget(
   topExhibitData: any,
   config: any,
   seq?: number | null | undefined,
-  widget_entry?: boolean | string // 因为插件加载者并不使用，所以 可以当成 widget_entry 
+  widget_entry?: boolean | string // 因为插件加载者并不使用，所以 可以当成 widget_entry
 ) {
-  let isTheme = typeof widget_entry === 'boolean' ?  widget_entry :false
+  let isTheme = typeof widget_entry === "boolean" ? widget_entry : false;
   // @ts-ignore
   const that = this;
   let configData = config;
@@ -154,10 +153,10 @@ export async function mountWidget(
     isTheme = false;
     defaultWidgetConfigData.historyFB = false;
   }
-  isTheme && (widget_entry = '')
+  isTheme && (widget_entry = "");
   config = {
     ...defaultWidgetConfigData,
-    ...(widget.versionInfo? widget.versionInfo.exhibitProperty : {}), // exhibitProperty 展品里面的，可以freeze widget数据，防止加载时篡改
+    ...(widget.versionInfo ? widget.versionInfo.exhibitProperty : {}), // exhibitProperty 展品里面的，可以freeze widget数据，防止加载时篡改
     ...config,
   };
   if (!isTheme) {
@@ -167,7 +166,7 @@ export async function mountWidget(
   }
   const devData = window.freelogApp.devData;
   // 不是开发模式禁用
-  if(devData.type === DEV_FALSE ) widget_entry = ''
+  if (devData.type === DEV_FALSE) widget_entry = "";
   let commonData: any;
   let entry = "";
   if (!topExhibitData) {
@@ -195,38 +194,46 @@ export async function mountWidget(
   }
   // TODO freelog-需要用常量
   let widgetId = "freelog-" + commonData.articleInfo.articleId;
-  widget_entry && console.warn('you are using widget entry ' + widget_entry + ' for widget-articleId: ' + commonData.articleInfo.articleId)
+  widget_entry &&
+    console.warn(
+      "you are using widget entry " +
+        widget_entry +
+        " for widget-articleId: " +
+        commonData.articleInfo.articleId
+    );
   // @ts-ignore
   if (devData) {
     if (devData.type === DEV_TYPE_REPLACE) {
       entry = devData.params[commonData.id] || "";
     }
     if (devData.type === DEV_WIDGET && !firstDev) {
-      entry = devData.params.dev; 
+      entry = devData.params.dev;
       firstDev = true;
     }
   }
   // @ts-ignore
-  entry = widget_entry || entry
+  entry = widget_entry || entry;
   if (seq || seq === 0) {
     widgetId = "freelog-" + commonData.id + seq;
-  }  
-  let fentry = ''
-  if(commonData.articleNid){
+  }
+  let fentry = "";
+  if (commonData.articleNid) {
     fentry = await window.freelogApp.getExhibitDepFileStream.bind(that || {})(
       commonData.exhibitId,
       commonData.articleNid,
       commonData.articleInfo.articleId,
       true
-    )
-    fentry = fentry + `&subFilePath=`
-  }else{
+    );
+    fentry = fentry + `&subFilePath=`;
+  } else {
     fentry = await window.freelogApp.getExhibitFileStream.bind(that || {})(
       commonData.exhibitId,
       true
-    )
-    fentry = fentry + '?subFilePath=' // '/package/'
+    );
+    fentry = fentry + "?subFilePath="; // '/package/'
   }
+  let once = false;
+  let api: any = null;
   const widgetConfig = {
     container,
     name: widgetId, //id
@@ -241,6 +248,16 @@ export async function mountWidget(
     isDev: !!entry,
     config, // 主题插件配置数据
     isUI: false,
+    props: {
+      registerApi: (apis: any) => {
+        if (once) {
+          console.error("registerApi 只能在加在时使用一次");
+          return "只能使用一次";
+        }
+        api = apis;
+        once = true;
+      },
+    },
   };
   addWidgetConfig(widgetId, widgetConfig);
   // TODO 所有插件加载用promise all
@@ -266,9 +283,14 @@ export async function mountWidget(
         }
       );
     },
-    unmount: (resolve?: any, reject?: any, keepLocation?:boolean) => {
+    getApi: () => {
+      return api;
+    },
+    unmount: (resolve?: any, reject?: any, keepLocation?: boolean) => {
       app.unmount().then(
         () => {
+          // 卸载后可以重新注册api
+          once = false;
           deactiveWidget(widgetId);
           !keepLocation && setLocation();
           // TODO 验证是否是函数
