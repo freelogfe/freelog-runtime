@@ -26,7 +26,7 @@
 
 ### 支持框架
 
-**vue, react, angular 仅支持以 webpack 打包**
+**vue、react（两个框架都仅支持以 webpack 打包）,**
 **jquery**
 
 ### 生命周期
@@ -507,14 +507,15 @@ const render = ($) => {
 
 ```ts
 const subData = await window.freelogApp.getSubDep();
+// 示范代码，这里只加载一个
 subData.subDep.some((sub, index) => {
   if (index === 1) return true;
   let widgetController =  await window.freelogApp.mountWidget(
-    sub,
-    document.getElementById("freelog-single"),
-    subData,
-    config: {}, // 子插件配置数据，需要另外获取作品上的配置数据（待提供方法）
-    seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的
+    sub,  // 必传，子插件数据
+    document.getElementById("freelog-single"), // 必传，自定义一个让插件挂载的div容器
+    subData, // 必传，里面包含了父插件数据
+    config: {}, // 子插件配置数据，需要另外获取作品上的配置数据
+    seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的。
     widget_entry: string, // 本地url，dev模式下，可以使用本地url调试子插件
   );
 });
@@ -528,11 +529,16 @@ const res = await window.freelogApp.getExhibitListById({
   isLoadVersionProperty: 1,
 });
 const widgets = res.data.data.dataList;
+// 示范代码，这里只加载一个
 widgets.some((widget, index) => {
-  // if (index === 1) return true;
+  if (index === 1) return true;
   let widgetController = await window.freelogApp.mountWidget(
     widget,
-    document.getElementById("freelog-single") // // 给每一个提供不同的容器
+    document.getElementById("freelog-single"), // // 给每一个提供不同的容器
+    null, 
+    config: {}, // 子插件配置数据，需要另外获取作品上的配置数据
+    seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的。
+    widget_entry: string, // 本地url，dev模式下，可以使用本地url调试子插件
   );
 });
 
@@ -547,8 +553,12 @@ widgets.some((widget, index) => {
 ### 单独调试某个插件
 
 ```ts
-  举例：http://nes-common.testfreelog.com/?dev=replace&62270c5cf670b2002e800193=http://localhost:7107/
+  url定义描述：
+
   `${url}?dev=replace&${widgetId}=${local_entry}`
+
+  举例：http://nes-common.testfreelog.com/?dev=replace&62270c5cf670b2002e800193=http://localhost:7107/
+  
 ```
 
 ### 控制插件

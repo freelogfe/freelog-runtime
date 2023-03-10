@@ -446,7 +446,7 @@ window.freelogApp.callAuth();
 window.freelogApp.onLogin(callback);
 ```
 
-### onUserChange 
+## onUserChange 
 
 ```js
 // 监听用户在其余页面切换账号或登录事件  callback: 再次进入页面发现账号变化后会回调所有函数
