@@ -8,5 +8,7 @@
   "devDependencies": {
     "vuepress": "^1.8.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@vuepress/core": "^1.9.9"
+  }
 }
