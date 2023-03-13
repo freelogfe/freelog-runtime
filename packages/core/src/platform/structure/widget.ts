@@ -91,30 +91,34 @@ export function mountUI(
   // TODO 增加是否保留数据
   const _app = {
     ...app,
-    mount: (resolve?: any, reject?: any) => {
-      app.mount().then(
-        () => {
-          addWidget(name, _app);
-          // TODO 验证是否是函数
-          resolve && resolve();
-        },
-        () => {
-          reject();
-        }
-      );
+    mount: () => {
+      return new Promise((resolve?: any, reject?: any) => {
+        app.mount().then(
+          () => {
+            addWidget(name, _app);
+            // TODO 验证是否是函数
+            resolve && resolve();
+          },
+          () => {
+            reject();
+          }
+        );
+      });
     },
-    unmount: (resolve?: any, reject?: any) => {
-      app.unmount().then(
-        () => {
-          deactiveWidget(name);
-          setLocation();
-          // TODO 验证是否是函数
-          resolve && resolve();
-        },
-        () => {
-          reject();
-        }
-      );
+    unmount: () => {
+      return new Promise((resolve?: any, reject?: any) => {
+        app.unmount().then(
+          () => {
+            deactiveWidget(name);
+            setLocation();
+            // TODO 验证是否是函数
+            resolve && resolve();
+          },
+          () => {
+            reject();
+          }
+        );
+      });
     },
   };
   addWidget(name, _app);
@@ -271,36 +275,40 @@ export async function mountWidget(
   // TODO 增加是否保留数据
   const freelog_app = {
     ...app,
-    mount: (resolve?: any, reject?: any) => {
-      app.mount().then(
-        () => {
-          addWidget(widgetId, freelog_app);
-          // TODO 验证是否是函数
-          resolve && resolve();
-        },
-        () => {
-          reject && reject();
-        }
-      );
+    mount: () => {
+      return new Promise((resolve?: any, reject?: any) => {
+        app.mount().then(
+          () => {
+            addWidget(widgetId, freelog_app);
+            // TODO 验证是否是函数
+            resolve && resolve();
+          },
+          () => {
+            reject && reject();
+          }
+        );
+      });
     },
     getApi: () => {
       return api;
     },
-    unmount: (resolve?: any, reject?: any, keepLocation?: boolean) => {
-      app.unmount().then(
-        () => {
-          // 卸载后可以重新注册api
-          once = false;
-          api = {}
-          deactiveWidget(widgetId);
-          !keepLocation && setLocation();
-          // TODO 验证是否是函数
-          resolve && resolve();
-        },
-        () => {
-          reject && reject();
-        }
-      );
+    unmount: (keepLocation?: boolean) => {
+      return new Promise((resolve?: any, reject?: any) => {
+        app.unmount().then(
+          () => {
+            // 卸载后可以重新注册api
+            once = false;
+            api = {};
+            deactiveWidget(widgetId);
+            !keepLocation && setLocation();
+            // TODO 验证是否是函数
+            resolve && resolve();
+          },
+          () => {
+            reject && reject();
+          }
+        );
+      });
     },
   };
   addWidget(widgetId, freelog_app);
