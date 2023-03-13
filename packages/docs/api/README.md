@@ -32,11 +32,49 @@
   (
     widget,      // 插件数据
     container,   // 挂载容器
-    commonData,  // 最外层展品数据（子孙插件都需要用）孙插件暂未完善
+    commonData,  // 最外层展品数据（子孙插件都需要用）
     config,      // 配置数据
     seq,        // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的
     widget_entry: string, // 本地url，dev模式下，可以使用本地url调试子插件
   )
+
+  **返回对象说明**
+  let widgetController = await window.freelogApp.mountWidget
+
+ widgetController: {
+    mount
+    unmount
+    update
+    getStatus
+    loadPromise
+    bootstrapPromise
+    mountPromise
+    unmountPromise
+    getApi
+ }
+
+ // 使用说明
+  unmount( keeplocation: Boolean) 卸载插件，返回一个promise。 keeplocation： 布尔值 是否保持url（即路由），false不保持时该插件对应的url清空
+
+  mount()  重新插件，返回一个promise
+
+  getStatus() 返回一个字符串代表插件的状态。所有状态如下：
+      NOT_BOOTSTRAPPED: 未初始化
+      BOOTSTRAPPING: 初始化中
+      NOT_MOUNTED: 完成初始化，未挂载
+      MOUNTED: 激活状态，且已挂载至DOM
+      UNMOUNTING: 卸载中
+      SKIP_BECAUSE_BROKEN: 在初始化、挂载、卸载或更新时发生异常。其他插件可能会被正常使用，但当前插件会被跳过。
+
+  loadPromise  一个promise，当插件被装载(loaded)后resolve。
+
+  bootstrapPromise 一个promise，当插件初始化后resolve。
+
+  mountPromise  一个promise，当插件加载后resolve。通常用于检测插件生成的DOM是否已经挂载。
+
+  unmountPromise 一个promise，当插件卸载后resolve。
+
+  getApi()  在子插件加载完成后 使用getApi()方法获取子插件的对外api， 由于子插件可能自己重载、或操作子插件重载，每次调用都需要使用方法获取，不能直接获取，
 ```
 
 ### 加载自身依赖的插件
@@ -126,7 +164,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | articleInfo             | object   | 展品实际挂载的作品信息                                     |
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
-| \*\* resourceType       | [string]   | 作品作品类型                                               |
+| \*\* resourceType       | [string] | 作品作品类型                                               |
 | \*\* articleType        | int      | 作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象) |
 | \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
@@ -174,7 +212,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | articleInfo             | object   | 展品实际挂载的作品信息                                     |
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
-| \*\* resourceType       | [string]   | 作品作品类型                                               |
+| \*\* resourceType       | [string] | 作品作品类型                                               |
 | \*\* articleType        | int      | 作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象) |
 | \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
@@ -219,7 +257,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | articleInfo             | object   | 展品实际挂载的作品信息                                     |
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
-| \*\* resourceType       | [string]   | 作品作品类型                                               |
+| \*\* resourceType       | [string] | 作品作品类型                                               |
 | \*\* articleType        | int      | 作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象) |
 | \*\* articleOwnerId     | int      | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
@@ -446,7 +484,7 @@ window.freelogApp.callAuth();
 window.freelogApp.onLogin(callback);
 ```
 
-## onUserChange 
+## onUserChange
 
 ```js
 // 监听用户在其余页面切换账号或登录事件  callback: 再次进入页面发现账号变化后会回调所有函数

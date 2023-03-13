@@ -513,7 +513,7 @@ subData.subDep.some((sub, index) => {
   let widgetController =  await window.freelogApp.mountWidget(
     sub,  // 必传，子插件数据
     document.getElementById("freelog-single"), // 必传，自定义一个让插件挂载的div容器
-    subData, // 必传，里面包含了父插件数据
+    subData, // 必传，最外层展品数据（子孙插件都需要用）
     config: {}, // 子插件配置数据，需要另外获取作品上的配置数据
     seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的。
     widget_entry: string, // 本地url，dev模式下，可以使用本地url调试子插件
@@ -535,7 +535,7 @@ widgets.some((widget, index) => {
   let widgetController = await window.freelogApp.mountWidget(
     widget,
     document.getElementById("freelog-single"), // // 给每一个提供不同的容器
-    null, 
+    null,
     config: {}, // 子插件配置数据，需要另外获取作品上的配置数据
     seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的。
     widget_entry: string, // 本地url，dev模式下，可以使用本地url调试子插件
@@ -558,7 +558,7 @@ widgets.some((widget, index) => {
   `${url}?dev=replace&${widgetId}=${local_entry}`
 
   举例：http://nes-common.testfreelog.com/?dev=replace&62270c5cf670b2002e800193=http://localhost:7107/
-  
+
 ```
 
 ### 控制插件
@@ -580,7 +580,7 @@ widgets.some((widget, index) => {
  }
 
  // 使用说明
-  unmount( keeplocation) 卸载插件，返回一个promise。 keeplocation： 布尔值 是否保持url（即路由），false不保持时该插件对应的url清空
+  unmount( keeplocation: Boolean) 卸载插件，返回一个promise。 keeplocation： 布尔值 是否保持url（即路由），false不保持时该插件对应的url清空
 
   mount()  重新插件，返回一个promise
 
@@ -600,7 +600,7 @@ widgets.some((widget, index) => {
 
   unmountPromise 一个promise，当插件卸载后resolve。
 
-  getApi  在子插件加载完成后 使用getApi()方法获取子插件的对外api， 由于子插件可能自己重载、或操作子插件重载，每次调用都需要使用方法获取，不能直接获取，
+  getApi()   在子插件加载完成后 使用getApi()方法获取子插件的对外api， 由于子插件可能自己重载、或操作子插件重载，每次调用都需要使用方法获取，不能直接获取，
 
 ```
 
