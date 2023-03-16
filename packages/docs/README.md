@@ -582,7 +582,7 @@ widgets.some((widget, index) => {
  // 使用说明
   unmount( keeplocation: Boolean) 卸载插件，返回一个promise。 keeplocation： 布尔值 是否保持url（即路由），false不保持时该插件对应的url清空
 
-  mount()  重新插件，返回一个promise
+  mount()  可用于卸载后重新加载插件，返回一个promise
 
   getStatus() 返回一个字符串代表插件的状态。所有状态如下：
       NOT_BOOTSTRAPPED: 未初始化
@@ -1142,10 +1142,6 @@ module.exports = {
 // 目前重载后挂载在window的数据没变，后期增加参数可选是否保留，以及返回重载失败可由插件决定是否刷新页面、同时需要主题授权
 window.location.reload();
 ```
-
-### 插件通信
-
-**完善中**
 
 ### 获取当前登录用户信息
 
