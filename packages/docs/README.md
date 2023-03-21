@@ -462,7 +462,9 @@ const render = ($) => {
 
 ### https 证书准备（必须）
 
-参考一下链接，后续考虑提供官方工具自动生成带证书的模板
+**由于浏览器安全限制，本地开发需要本地以https启动**
+
+**参考以下链接，后续考虑提供官方工具自动生成带证书的模板**
 
 [https://blog.csdn.net/weixin_46383294/article/details/124047526](https://blog.csdn.net/weixin_46383294/article/details/124047526)
 
@@ -477,31 +479,26 @@ const render = ($) => {
 
 ### 创建一个节点和主题
 
-进入 console.testfreelog.com ---> 节点管理
+进入 console.freelog.com ---> 节点管理
 
 创建节点后必须建一个主题作品并签约激活
 
-假设节点为http://snnaenu.testfreelog.com/
+假设节点为https://snnaenu.freelog.com/
 
-用于开发的测试节点为http://t.snnaenu.testfreelog.com/
+用于开发的测试节点为https://t.snnaenu.freelog.com/
 
 ### 连接节点与插件
 
-启动插件，例如‘http://localhost:7101’
+启动插件，例如‘https://localhost:7101’
 
-在节点 url 的http://t.snnaenu.testfreelog.com/后面加上
+在节点 url 的https://t.snnaenu.freelog.com/后面加上
 
 ```ts
-"http://t.snnaenu.testfreelog.com/?dev=http://localhost:7101";
+"https://t.snnaenu.freelog.com/?dev=https://localhost:7101";
 ```
 
 此时插件是作为节点主题（即入口）使用
 
-替换指定子插件
-
-```ts
-`http://t.snnaenu.testfreelog.com/?dev=replace&${widgetId}=http://localhost:7101`;
-```
 
 ### 加载自身的子依赖插件
 
@@ -534,7 +531,7 @@ widgets.some((widget, index) => {
   if (index === 1) return true;
   let widgetController = await window.freelogApp.mountWidget(
     widget,
-    document.getElementById("freelog-single"), // // 给每一个提供不同的容器
+    document.getElementById("freelog-single"),  // 给每一个提供不同的容器
     null,
     config: {}, // 子插件配置数据，需要另外获取作品上的配置数据
     seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的。
@@ -542,22 +539,16 @@ widgets.some((widget, index) => {
   );
 });
 
-**参数说明**
-  query:{
-    exhibitIds: "string", // 展品ids 多个使用","隔开
-    isLoadVersionProperty: "string", // 是否加载版本信息
-  }
-
 ```
 
 ### 单独调试某个插件
 
+当子插件或展品插件
+
 ```ts
-  url定义描述：
+  url定义描述： `${url}?dev=replace&${widgetId}=${local_entry}`
 
-  `${url}?dev=replace&${widgetId}=${local_entry}`
-
-  举例：http://nes-common.testfreelog.com/?dev=replace&62270c5cf670b2002e800193=http://localhost:7107/
+  举例：https://nes-common.freelog.com/?dev=replace&62270c5cf670b2002e800193=https://localhost:7107/
 
 ```
 
@@ -1181,7 +1172,7 @@ const res = await window.freelogApp.getUserData(key);
 
 <!-- ## 模板下载 -->
 
-<!-- [vue模板](http://freelog-docs.testfreelog.com/$freelog-60a614de12ac83003f09d975=/dev/guide)  -->
+<!-- [vue模板](https://freelog-docs.freelog.com/$freelog-60a614de12ac83003f09d975=/dev/guide)  -->
 
 ## 移动端适配
 
@@ -1195,4 +1186,4 @@ const res = await window.freelogApp.getUserData(key);
 
 此时无论移动端还是电脑端都会出现 vconsole
 
-http://snnaenu.testfreelog.com/?devconsole=http://localhost:8081
+https://snnaenu.freelog.com/?devconsole=https://localhost:8081
