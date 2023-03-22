@@ -22,10 +22,6 @@ export default {
       });
       console.log(res);
       const widgets = res.data.data.dataList;
-      setTimeout(() => {
-        console.log(45454, widgets, document.getElementById("freelog-single"));
-      }, 2000);
-
       widgets.some(async (widget, index) => {
         if (index === 1) return true;
         // widget.exhibitId = widget.exhibitId + '111'

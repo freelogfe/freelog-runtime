@@ -28,14 +28,14 @@ const path = await window.freelogApp.getStaticPath(path);
 
 ```ts
 **参数说明**
-  (
-    widget: object,      插件数据
-    container: htmlElement,   挂载容器
+  paramObj: {
+    widget: object,      必传，插件数据
+    container: htmlElement, 必传，挂载容器
     commonData: object,  最外层展品数据（子孙插件都需要用）
     config: object,      给到子插件的配置数据，可传递方法用于通信
     seq: string,         如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的
     widget_entry: string, 本地url，dev模式下，可以使用本地url调试子插件
-  )
+  }
 
 **返回对象说明**
 let widgetController = await window.freelogApp.mountWidget
@@ -82,13 +82,13 @@ getApi()  在子插件加载完成后 使用getApi()方法获取子插件的对�
 **用法**
 const subData = await window.freelogApp.getSubDep();
 subData.subDep.some((sub, index) => {
-  await window.freelogApp.mountWidget(
+  await window.freelogApp.mountWidget({
     sub,
     document.getElementById("freelog-single"), // 注意每一个插件都需要不同容器
     subData,
     config: {},
     seq: string,
-  );
+  });
 });
 ```
 
@@ -102,10 +102,10 @@ const res = await window.freelogApp.getExhibitListById({
 });
 const widgets = res.data.data.dataList;
 widgets.some((widget, index) => {
-  await window.freelogApp.mountWidget(
+  await window.freelogApp.mountWidget({
     widget,
     document.getElementById("freelog-single"),// 注意每一个插件都需要不同容器
-  );
+  });
 });
 ```
 
@@ -370,7 +370,7 @@ const res = await window.freelogApp.getSignStatistics(keywords)
 | subjectName    | string   | 标的物名称   |
 | policyIds      | string[] | 签约的策略   |
 | latestSignDate | date     | 最后签约日期 |
-| count          | int      | 签约次数      |
+| count          | int      | 签约次数     |
 
 ## devData
 
@@ -383,7 +383,7 @@ const data = window.freelogApp.devData;
 
 ## getSelfId
 
-**用途：获取自身Id**
+**用途：获取自身 Id**
 
 ```ts
 **用法**
@@ -453,7 +453,6 @@ status 枚举判断：
   status === = window.freelogApp.resultType.OFFLINE; // 展品已经下线
 data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
 ```
-
 
 ## resultType
 
@@ -528,7 +527,7 @@ const userData = await window.freelogApp.getUserData(key);
 
 ## callLogin
 
-**用途：唤起登录UI**
+**用途：唤起登录 UI**
 
 ```ts
 **用法**
@@ -538,7 +537,7 @@ window.freelogApp.callLogin(callBack)
 
 ## callLoginOut
 
-**用途：唤起退出登录UI**
+**用途：唤起退出登录 UI**
 
 ```ts
 **用法**
@@ -556,7 +555,7 @@ window.freelogApp.reload()
 
 ## isUserChange
 
-**用途：调用此方法发现用户切换后会刷新网页，否则返回false**
+**用途：调用此方法发现用户切换后会刷新网页，否则返回 false**
 
 ```ts
 **用法**
@@ -565,7 +564,7 @@ window.freelogApp.isUserChange()
 
 ## setViewport
 
-**用途：设置viewport的meta**
+**用途：设置 viewport 的 meta**
 
 ```ts
 **用法**

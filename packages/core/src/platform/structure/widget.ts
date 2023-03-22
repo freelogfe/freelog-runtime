@@ -141,13 +141,21 @@ export function mountUI(
  * 情况3.dev开发模式，
  */
 export async function mountWidget(
-  widget: any,
-  container: any,
-  topExhibitData: any,
-  config: any,
-  seq?: number | null | undefined,
-  widget_entry?: boolean | string // 因为插件加载者并不使用，所以 可以当成 widget_entry
+  options: {
+    widget: any;
+    container: any;
+    topExhibitData: any;
+    config: any;
+    seq?: number | null | undefined;
+    widget_entry?: boolean | string; // 因为插件加载者并不使用，所以 可以当成 widget_entry
+  },
+  ...args: any[]
 ) {
+  let { widget, container, topExhibitData, config, seq, widget_entry } = options; // 因为插件加载者并不使用，所以 可以当成 widget_entry}
+  if (args) {
+     widget = options;
+     [container, topExhibitData, config, seq, widget_entry] = args;
+  }
   let isTheme = typeof widget_entry === "boolean" ? widget_entry : false;
   // @ts-ignore
   const that = this;

@@ -26,13 +26,13 @@ export default {
           "",
         );
         app.mountPromise.then(()=>{
-          console.log(111111, app.getApi())
-          app.unmount.then(()=>{
-            console.log(3333, app.getApi())
-            app.mount.then(()=>{
-              console.log(44444, app.getApi())
-            })
-          })
+          // console.log(111111, app.getApi())
+          // app.unmount.then(()=>{
+          //   console.log(3333, app.getApi())
+          //   app.mount.then(()=>{
+          //     console.log(44444, app.getApi())
+          //   })
+          // })
         })
       
         // setTimeout(() => {
