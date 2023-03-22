@@ -354,7 +354,6 @@ export const createLocationProxy = function (name: string) {
   return new Proxy(locationProxy, {
     /* 
         a标签的href需要拦截，// TODO 如果以http开头则不拦截
-         TODO reload 是重新加载插件
      */
     // @ts-ignore
     set: (target: any, p: PropertyKey, value: any): boolean => {

@@ -413,14 +413,12 @@ if (!window.__POWERED_BY_FREELOG__) {
         display: none !important;
     }
   */
-
 ```
 
 ### jquery 配置
 
 ```ts
 // entry.js  在index.html中引入
-
 const render = ($) => {
   $("#purehtml-container").html("Hello, render with jQuery");
   return Promise.resolve();
@@ -543,66 +541,69 @@ widgets.some((widget, index) => {
 
 ### 单独调试某个插件
 
-当子插件或展品插件
+当需要跳过主题直接调试正在运行的子插件或展品插件
 
+定义： `${url}?dev=replace&${widgetId}=${local_entry}`
+
+url: 节点地址
+
+widgetId: 插件ID
+
+local_entry: 本地地址
+
+举例：
 ```ts
-  url定义描述： `${url}?dev=replace&${widgetId}=${local_entry}`
-
-  举例：https://nes-common.freelog.com/?dev=replace&62270c5cf670b2002e800193=https://localhost:7107/
-
+https://nes-common.freelog.com/?dev=replace&62270c5cf670b2002e800193=https://localhost:7107/
 ```
 
 ### 控制插件
 
 ```ts
+let widgetController = await window.freelogApp.mountWidget
 
- let widgetController = await window.freelogApp.mountWidget
+widgetController: {
+  mount
+  unmount
+  update
+  getStatus
+  loadPromise
+  bootstrapPromise
+  mountPromise
+  unmountPromise
+  getApi
+}
 
- widgetController: {
-    mount
-    unmount
-    update
-    getStatus
-    loadPromise
-    bootstrapPromise
-    mountPromise
-    unmountPromise
-    getApi
- }
+** 使用说明 **
 
- // 使用说明
-  unmount( keeplocation: Boolean) 卸载插件，返回一个promise。 keeplocation： 布尔值 是否保持url（即路由），false不保持时该插件对应的url清空
+unmount( keeplocation: Boolean) 卸载插件，返回一个promise。 keeplocation： 布尔值 是否保持url（即路由），false不保持时该插件对应的url清空
 
-  mount()  可用于卸载后重新加载插件，返回一个promise
+mount()  可用于卸载后重新加载插件，返回一个promise
 
-  getStatus() 返回一个字符串代表插件的状态。所有状态如下：
-      NOT_BOOTSTRAPPED: 未初始化
-      BOOTSTRAPPING: 初始化中
-      NOT_MOUNTED: 完成初始化，未挂载
-      MOUNTED: 激活状态，且已挂载至DOM
-      UNMOUNTING: 卸载中
-      SKIP_BECAUSE_BROKEN: 在初始化、挂载、卸载或更新时发生异常。其他插件可能会被正常使用，但当前插件会被跳过。
+getStatus() 返回一个字符串代表插件的状态。所有状态如下：
+    NOT_BOOTSTRAPPED: 未初始化
+    BOOTSTRAPPING: 初始化中
+    NOT_MOUNTED: 完成初始化，未挂载
+    MOUNTED: 激活状态，且已挂载至DOM
+    UNMOUNTING: 卸载中
+    SKIP_BECAUSE_BROKEN: 在初始化、挂载、卸载或更新时发生异常。其他插件可能会被正常使用，但当前插件会被跳过。
 
-  loadPromise  一个promise，当插件被装载(loaded)后resolve。
+loadPromise  一个promise，当插件被装载(loaded)后resolve。
 
-  bootstrapPromise 一个promise，当插件初始化后resolve。
+bootstrapPromise 一个promise，当插件初始化后resolve。
 
-  mountPromise  一个promise，当插件加载后resolve。通常用于检测插件生成的DOM是否已经挂载。
+mountPromise  一个promise，当插件加载后resolve。通常用于检测插件生成的DOM是否已经挂载。
 
-  unmountPromise 一个promise，当插件卸载后resolve。
+unmountPromise 一个promise，当插件卸载后resolve。
 
-  getApi()   在子插件加载完成后 使用getApi()方法获取子插件的对外api， 由于子插件可能自己重载、或操作子插件重载，每次调用都需要使用方法获取，不能直接获取，
-
+getApi()   在子插件加载完成后 使用getApi()方法获取子插件的对外api， 由于子插件可能自己重载、或操作子插件重载，每次调用都需要使用方法获取，不能直接获取，
 ```
 
 ### 配置插件配置数据
 
 ```ts
-
-  // 通过作品或展品的meta属性配置指定key作为配置数据, 目前运行时占用的key如下（皆为默认值）
-  hbfOnlyToTheme: true // 历史记录整体前进后退是否只给主题权限
-  historyFB: true, // 历史记录整体前进后退是否有权限
-
+// 通过作品或展品的meta属性配置指定key作为配置数据, 目前运行时占用的key如下（皆为默认值）
+hbfOnlyToTheme: true // 历史记录整体前进后退是否只给主题权限
+historyFB: true, // 历史记录整体前进后退是否有权限
 ```
 
 ### 获取插件自身配置数据
@@ -615,9 +616,7 @@ const widgetConfig = window.freelogApp.getSelfConfig();
 ### 插件通信方式一：全局通信
 
 ```ts
-
 **在入口处通过props修改与监听全局数据**
-
 function storeTest(props) {
   props.onGlobalStateChange &&
     props.onGlobalStateChange(
@@ -639,25 +638,21 @@ export async function mount(props) {
   render(props);
 }
 
- props.setGlobalState(obj: 自定义对象)：
- props.onGlobalStateChange((state: 当前状态, prevState: 前数据) => void, fireImmediately:是否立即执行)
-
+props.setGlobalState(obj: 自定义对象)：
+props.onGlobalStateChange((state: 当前状态, prevState: 前数据) => void, fireImmediately:是否立即执行)
 ```
 
 ### 插件之间通信方式二：配置数据中传递 config
 
 ```ts
-
 **在config中传递数据或方法提供给子插件访问，同时子插件可以通过调用方法传递数据给父插件**
-
-  await window.freelogApp.mountWidget(
-    sub,
-    document.getElementById("freelog-single"),
-    subData,
-    config: {}, // 子插件配置数据，这里会和子插件自身数据合并，必须为对象
-    seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号
-  );
-
+await window.freelogApp.mountWidget(
+  sub,
+  document.getElementById("freelog-single"),
+  subData,
+  config: {}, // 子插件配置数据，这里会和子插件自身数据合并，必须为对象
+  seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号
+);
 ```
 
 ### 插件之间通信方式三：插件对外发布 api
@@ -748,14 +743,14 @@ const res = await window.freelogApp.getExhibitListByPaging({
 **查找展品**
 
 ```ts
- window.freelogApp.getExhibitListById(query).then((res)=>{
+window.freelogApp.getExhibitListById(query).then((res)=>{
 
- })
-  query:{
-    exhibitIds: "string", // 展品ids 多个使用","隔开
-    resourceIds: "string", // 作品ids
-    resourceNames: "string", // 作品名称s
-  }
+})
+query:{
+  exhibitIds: "string", // 展品ids 多个使用","隔开
+  resourceIds: "string", // 作品ids
+  resourceNames: "string", // 作品名称s
+}
 ```
 
 **返回说明**
@@ -792,13 +787,13 @@ const res = await window.freelogApp.getExhibitListByPaging({
 ### 获取单个展品详情
 
 ```ts
- const res = await  window.freelogApp.getExhibitInfo(exhibitId, query)
+const res = await  window.freelogApp.getExhibitInfo(exhibitId, query)
 
- **参数说明**
-  exhibitId: 展品id，
-  query:{
-      isLoadVersionProperty: 0 | 1, // 是否需要展品版本属性
-  }
+**参数说明**
+exhibitId: 展品id，
+query:{
+    isLoadVersionProperty: 0 | 1, // 是否需要展品版本属性
+}
 ```
 
 **返回说明**
@@ -835,11 +830,11 @@ const res = await window.freelogApp.getExhibitListByPaging({
 ### 获取展品作品
 
 ```ts
-  const res = await window.freelogApp.getExhibitFileStream(
-    exhibitId: string,  // 展品id
-    returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
-    config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
-  )
+const res = await window.freelogApp.getExhibitFileStream(
+  exhibitId: string,  // 展品id
+  returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
+  config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
+)
 ```
 
 ### 展品子依赖列表
@@ -894,22 +889,20 @@ const res = await window.freelogApp.getExhibitListByPaging({
 ### 获取子依赖作品文件
 
 ```ts
-  const res = await window.freelogApp.getExhibitDepFileStream(
-    exhibitId: string ,
-    parentNid: string,
-    subArticleIdOrName: string,
-    returnUrl?: boolean,
-    config?: any
-  )
+const res = await window.freelogApp.getExhibitDepFileStream(
+  exhibitId: string ,
+  parentNid: string,
+  subArticleIdOrName: string,
+  returnUrl?: boolean,
+  config?: any
+)
 
-  **参数说明**
-
-    exhibitId: string , // 自身展品id
-    parentNid: string,    // 自身链路id
-    subArticleIdOrName: string, // 子依赖作品id或名称
-    returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
-    config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
-
+**参数说明**
+  exhibitId: string , // 自身展品id
+  parentNid: string,    // 自身链路id
+  subArticleIdOrName: string, // 子依赖作品id或名称
+  returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
+  config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
 ```
 
 ### 查找展品签约数量
@@ -917,40 +910,34 @@ const res = await window.freelogApp.getExhibitListByPaging({
 **同一个用户的多次签约只计算一次**
 
 ```ts
-  const res = await window.freelogApp.getExhibitSignCount(
-    exhibitIds: string
-  )
+const res = await window.freelogApp.getExhibitSignCount(
+  exhibitIds: string
+)
 
-  **参数说明**
-
-    exhibitIds: 用英文逗号隔开的展品id
-
+**参数说明**
+  exhibitIds: 用英文逗号隔开的展品id
 ```
 
 ### 批量查询展品授权
 
 ```ts
-  const res = await window.freelogApp.getExhibitAuthStatus(
-    exhibitIds: string
-  )
+const res = await window.freelogApp.getExhibitAuthStatus(
+  exhibitIds: string
+)
 
-  **参数说明**
-
-    exhibitIds:  用英文逗号隔开的展品id
-
+**参数说明**
+  exhibitIds:  用英文逗号隔开的展品id
 ```
 
 ### 批量查询展品是否可用（即能否提供给用户签约）
 
 ```ts
-  const res = await window.freelogApp.getExhibitAvailalbe(
-    exhibitIds: string
-  )
+const res = await window.freelogApp.getExhibitAvailalbe(
+  exhibitIds: string
+)
 
-  **参数说明**
-
-    exhibitIds:  用英文逗号隔开的展品id
-
+**参数说明**
+  exhibitIds:  用英文逗号隔开的展品id
 ```
 
 **返回说明**
