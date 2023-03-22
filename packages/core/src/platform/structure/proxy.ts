@@ -199,7 +199,8 @@ export function setLocation() {
       devUrl = devUrl + "/";
     }
     const url =
-      rawLocation.origin + "/" +
+      rawLocation.origin +
+      "/" +
       devUrl +
       "$_" +
       hash.replace("?", "_") +
@@ -412,14 +413,14 @@ export const createLocationProxy = function (name: string) {
           };
         }
         if (property === "protocol") {
-            return widgetConfig.entry.indexOf('https') === 0 ? 'https:' : 'http:'  
-         }
+          return widgetConfig.entry.indexOf("https") === 0 ? "https:" : "http:";
+        }
         // @ts-ignore
         if (typeof rawLocation[property] === "function") {
           // @ts-ignore
           return rawLocation[property].bind();
         }
-        
+
         // @ts-ignore
         return rawLocation[property];
       }
