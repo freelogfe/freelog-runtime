@@ -133,7 +133,12 @@ export function mountUI(
  * @param commonData  最外层展品数据（子孙插件都需要用）
  * @param config      配置数据
  * @param seq         一个节点内可以使用多个插件，但需要传递序号，
- * TODO 如果需要支持不同插件下使用同一个插件，需要将展品id也加上
+ * @param widget_entry    用于父插件中去本地调试子插件
+ * TODO 如果需要支持不同插件下使用同一个插件，需要将作品id也加在运行时管理的插件id以实现全局唯一
+ *      这里就有了一个问题，freelogApp.getSelfId() 与 作品id是不同的，
+ *      造成问题：想在url上进行调试时 无法提前知道自身id。
+ *      解决方案：1.做一个插件加载树，对于同级（同一个父插件，如果没有传递seq序号区分，直接报错不允许）
+ *               2.提供浏览器插件， 打开测试节点时 可以将正在运行的插件加载树信息展示出来，以便开发者找到对应id
  *
  * @returns
  * 情况1.加载展品插件  topExhibitData只能为""或null值
