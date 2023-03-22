@@ -38,7 +38,7 @@ const path = await window.freelogApp.getStaticPath(path);
   }
 
 **返回对象说明**
-let widgetController = await window.freelogApp.mountWidget
+let widgetController = await window.freelogApp.mountWidget(paramObj)
 
 widgetController: {
   mount
