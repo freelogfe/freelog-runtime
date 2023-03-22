@@ -1102,7 +1102,7 @@ module.exports = {
 };
 ```
 
-**5. vue-cli3 项目可以将 css 打包到 js 里面，不单独生成文件(不推荐，仅适用于 css 较少的项目)**
+**vue-cli3 项目可以将 css 打包到 js 里面，不单独生成文件(不推荐，仅适用于 css 较少的项目)**
 
 配置参考 [vue-cli3 官网](https://cli.vuejs.org/zh/config/#css-extract):
 
@@ -1117,7 +1117,7 @@ module.exports = {
 ### 插件自身重载
 
 ```js
-// 目前重载后挂载在window的数据没变，后期增加参数可选是否保留，以及返回重载失败可由插件决定是否刷新页面、同时需要主题授权
+// 目前重载后挂载在window的数据没变，后期增加参数可选是否保留，以及返回重载失败可由插件决定是否刷新页面、但需要主题授权
 window.location.reload();
 ```
 

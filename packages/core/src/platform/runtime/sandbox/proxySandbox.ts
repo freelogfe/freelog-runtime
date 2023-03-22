@@ -195,12 +195,12 @@ export default class ProxySandbox implements SandBox {
     const hasOwnProperty = (key: PropertyKey) =>
       fakeWindow.hasOwnProperty(key) || rawWindow.hasOwnProperty(key);
 
-    var proxyDoc: any;
-    var proxyHis: any;
-    var proxyLoc: any;
-    var proxyWidget: any;
-    var freelogAppProxy: any;
-    var _this = this;
+    let proxyDoc: any;
+    let proxyHis: any;
+    let proxyLoc: any;
+    let proxyWidget: any;
+    let freelogAppProxy: any;
+    let _this = this;
     const proxy = new Proxy(fakeWindow, {
       set: (target: FakeWindow, p: PropertyKey, value: any): boolean => {
         if (p === "freelogApp" || p === "freelogAuth") return false;
