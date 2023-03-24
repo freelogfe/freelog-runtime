@@ -130,7 +130,7 @@ export function mountUI(
  *
  * @param widget      插件数据
  * @param container   挂载容器
- * @param commonData  最外层展品数据（子孙插件都需要用）
+ * @param topExhibitData  最外层展品数据（子孙插件都需要用）
  * @param config      配置数据
  * @param seq         一个节点内可以使用多个插件，但需要传递序号，
  * @param widget_entry    用于父插件中去本地调试子插件
@@ -156,10 +156,11 @@ export async function mountWidget(
   },
   ...args: any[]
 ) {
-  let { widget, container, topExhibitData, config, seq, widget_entry } = options; // 因为插件加载者并不使用，所以 可以当成 widget_entry}
+  let { widget, container, topExhibitData, config, seq, widget_entry } =
+    options; // 因为插件加载者并不使用，所以 可以当成 widget_entry}
   if (args) {
-     widget = options;
-     [container, topExhibitData, config, seq, widget_entry] = args;
+    widget = options;
+    [container, topExhibitData, config, seq, widget_entry] = args;
   }
   let isTheme = typeof widget_entry === "boolean" ? widget_entry : false;
   // @ts-ignore
@@ -290,7 +291,8 @@ export async function mountWidget(
     ...app,
     mount: () => {
       return new Promise((resolve?: any, reject?: any) => {
-        app.mount().then(
+        app.mount()
+        app.mountPromise.then(
           () => {
             addWidget(widgetId, freelog_app);
             // TODO 验证是否是函数
@@ -307,7 +309,8 @@ export async function mountWidget(
     },
     unmount: (keepLocation?: boolean) => {
       return new Promise((resolve?: any, reject?: any) => {
-        app.unmount().then(
+        app.unmount();
+        app.unmountPromise.then(
           () => {
             // 卸载后可以重新注册api
             once = false;

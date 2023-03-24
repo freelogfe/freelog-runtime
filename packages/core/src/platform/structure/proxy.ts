@@ -384,23 +384,10 @@ export const createLocationProxy = function (name: string) {
         if (["reload"].indexOf(property) > -1) {
           // TODO 增加是否保留数据
           return async function (reject: any) {
-            flatternWidgets.get(name).unmount(
-              () => {
-                flatternWidgets.get(name).mount();
-              },
-              () => {
-                // 失败了再试一次
-                flatternWidgets.get(name).unmount(
-                  () => {
-                    flatternWidgets.get(name).mount();
-                  },
-                  () => {
-                    reject && reject();
-                  }
-                );
-              },
-              true
-            );
+            flatternWidgets.get(name).unmount()
+            flatternWidgets.get(name).unmountPromise.then(()=>{
+              flatternWidgets.get(name).mount();
+            },reject);
           };
         }
         if (property === "toString") {
