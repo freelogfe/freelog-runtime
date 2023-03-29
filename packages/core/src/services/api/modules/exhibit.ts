@@ -1,5 +1,5 @@
 import { placeHolder } from "../../base";
-const host = location.host.slice(location.host.indexOf('.'))
+const host = location.host.slice(location.host.indexOf('.')).replace('.t.','.')
 export type Exhibit = {
   getExhibitDetail: any;
   getTestExhibitDetail: any;

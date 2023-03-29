@@ -250,6 +250,7 @@ export async function mountWidget(
     );
     fentry = fentry + "?subFilePath="; // '/package/'
   }
+  console.log(fentry)
   let once = false;
   let api: any = {};
   const widgetConfig = {
