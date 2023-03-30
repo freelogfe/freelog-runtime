@@ -762,6 +762,26 @@ window.location.reload();
 window.location.currentURL;
 ```
 
+### 移动端适配
+
+**除媒体查询外，支持最新的问题最少的最好的 viewport 兼容方案**
+
+**推荐使用 postcss-px-to-viewport 插件, 各框架具体使用方法请百度**
+
+```ts
+**viewport修改用法**
+window.freelogApp.setViewport(keys: any)
+keys = {
+  width: "device-width", // immutable
+  height: "device-height", // not supported in browser
+  "initial-scale": 1, // 0.0-10.0   available for theme
+  "maximum-scale": 1, // 0.0-10.0   available for theme
+  "minimum-scale": 1, // 0.0-10.0   available for theme
+  "user-scalable": "no", // available for theme
+  "viewport-fit": "auto", // not supported in browser
+}
+```
+
 ## 展品相关
 
 ### 获取展品
@@ -1048,11 +1068,7 @@ const res = await window.freelogApp.getUserData(key);
 
 <!-- [vue模板](https://freelog-docs.freelog.com/$freelog-60a614de12ac83003f09d975=/dev/guide)  -->
 
-## 移动端适配
 
-**目前仅支持最新的问题最少的最好的 viewport 兼容方案**
-
-**推荐使用 postcss-px-to-viewport 插件, 各框架具体使用方法请百度**
 
 <!-- ## 移动端真机调试 vconsole
 
