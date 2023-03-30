@@ -1,6 +1,6 @@
 # freelogApp
 
-## 阅读说明
+### 阅读说明
 
 **下面所有接口都挂在 window.freelogApp 对象上**
 
@@ -8,7 +8,9 @@
 
 **文中参数类型为 int 的'是否'都用 1 和 0 传递**
 
-## getStaticPath
+
+## 插件开发相关
+### getStaticPath
 
 **用途：获取图片字体等静态作品的正确路径**
 
@@ -21,8 +23,53 @@
 **用法**
 const path = await window.freelogApp.getStaticPath(path);
 ```
+### devData
 
-## mountWidget
+**用途：获取当前 dev 数据（url 数据）**
+
+```ts
+**用法**
+const data = window.freelogApp.devData;
+```
+
+### getSelfId
+
+**用途：获取自身 Id**
+
+```ts
+**用法**
+const selfId = await window.freelogApp.getSelfId();
+```
+
+### getSelfConfig
+
+**用途：获取自身配置数据**
+
+```ts
+**用法**
+const widgetConfig =  window.freelogApp.getSelfConfig()
+```
+
+### getSubDep
+
+**用途：获取插件自身依赖**
+
+```ts
+**用法**
+const res = await window.freelogApp.getSubDep()
+
+**返回值**
+{
+  exhibitName,  展品名称
+  exhibitId,   展品id
+  articleNid, 作品链路id
+  resourceType, 作品类型
+  subDep,  子依赖数组
+  versionInfo: { exhibitProperty }, 版本信息
+  ...response.data.data,  其它信息
+}
+```
+### mountWidget
 
 **用途：加载插件**
 
@@ -109,7 +156,34 @@ widgets.some((widget, index) => {
 });
 ```
 
-## getExhibitListByPaging
+### reload
+
+**用途：整个网页重载（仅主题可用，插件可访问主题开发者提供的方法进行全局刷新）**
+
+```ts
+**用法**
+window.freelogApp.reload()
+```
+### setViewport
+
+**用途：设置 viewport 的 meta**
+
+```ts
+**用法**
+window.freelogApp.setViewport(keys: any)
+keys = {
+  width: "device-width", // immutable
+  height: "device-height", // not supported in browser
+  "initial-scale": 1, // 0.0-10.0   available for theme
+  "maximum-scale": 1, // 0.0-10.0   available for theme
+  "minimum-scale": 1, // 0.0-10.0   available for theme
+  "user-scalable": "no", // available for theme
+  "viewport-fit": "auto", // not supported in browser
+}
+```
+
+## 展品获取
+### getExhibitListByPaging
 
 **用途：分页获取展品**
 
@@ -170,7 +244,8 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | versionInfo             | object   | 展品的版本信息,加载版本属性时,才会赋值                     |
 | \*\*exhibitProperty     | object   | 展品的版本属性                                             |
 
-## getExhibitListById
+
+### getExhibitListById
 
 **用途：查找展品**
 
@@ -216,7 +291,7 @@ const res = await window.freelogApp.getExhibitListById(query)
 | versionInfo             | object   | 展品的版本信息,加载版本属性时,才会赋值                     |
 | \*\*exhibitProperty     | object   | 展品的版本属性                                             |
 
-## getExhibitInfo
+### getExhibitInfo
 
 **用途：获取单个展品详情**
 
@@ -262,7 +337,7 @@ const res = await window.freelogApp.getExhibitInfo(exhibitId, query)
 | versionInfo             | object   | 展品的版本信息,加载版本属性时,才会赋值                     |
 | \*\*exhibitProperty     | object   | 展品的版本属性                                             |
 
-## getExhibitFileStream
+### getExhibitFileStream
 
 **用途：获取展品作品文件**
 
@@ -280,7 +355,7 @@ const res = await window.freelogApp.getExhibitFileStream(
 )
 ```
 
-## getExhibitDepFileStream
+### getExhibitDepFileStream
 
 **用途：获取展品子依赖作品文件**
 
@@ -302,7 +377,7 @@ const res = await window.freelogApp.getExhibitDepFileStream(
 )
 ```
 
-## getExhibitSignCount
+### getExhibitSignCount
 
 **用途：查找展品签约数量（同一个用户的多次签约只计算一次）**
 
@@ -314,7 +389,7 @@ const res = await window.freelogApp.getExhibitDepFileStream(
 const res = await window.freelogApp.getExhibitSignCount(exhibitIds)
 ```
 
-## getExhibitAuthStatus
+### getExhibitAuthStatus
 
 **用途：批量查询展品授权**
 
@@ -326,7 +401,7 @@ const res = await window.freelogApp.getExhibitSignCount(exhibitIds)
 const res = await window.freelogApp.getExhibitAuthStatus(exhibitIds)
 ```
 
-## getExhibitAvailalbe
+### getExhibitAvailalbe
 
 **用途：批量查询展品是否可用（即能否提供给用户签约）**
 
@@ -350,7 +425,7 @@ const res = await window.freelogApp.getExhibitAvailalbe(exhibitIds)
 | isAuth                | boolean  | 是否授权通过                                               |
 | errorMsg              | string   | 错误信息                                                   |
 
-## getSignStatistics
+### getSignStatistics
 
 **用途：统计展品签约量**
 
@@ -365,61 +440,16 @@ const res = await window.freelogApp.getSignStatistics(keywords)
 **返回说明**
 
 | 返回值字段     | 字段类型 | 字段说明     |
-| :------------- | :------- | :----------- |
+| :------------- | :------- | :-----------|
 | subjectId      | string   | 标的物 ID    |
 | subjectName    | string   | 标的物名称   |
 | policyIds      | string[] | 签约的策略   |
 | latestSignDate | date     | 最后签约日期 |
 | count          | int      | 签约次数     |
 
-## devData
+## 授权处理相关
 
-**用途：获取当前 dev 数据（url 数据）**
-
-```ts
-**用法**
-const data = window.freelogApp.devData;
-```
-
-## getSelfId
-
-**用途：获取自身 Id**
-
-```ts
-**用法**
-const selfId = await window.freelogApp.getSelfId();
-```
-
-## getSelfConfig
-
-**用途：获取自身配置数据**
-
-```ts
-**用法**
-const widgetConfig =  window.freelogApp.getSelfConfig()
-```
-
-## getSubDep
-
-**用途：获取插件自身依赖**
-
-```ts
-**用法**
-const res = await window.freelogApp.getSubDep()
-
-**返回值**
-{
-  exhibitName,  展品名称
-  exhibitId,   展品id
-  articleNid, 作品链路id
-  resourceType, 作品类型
-  subDep,  子依赖数组
-  versionInfo: { exhibitProperty }, 版本信息
-  ...response.data.data,  其它信息
-}
-```
-
-## callAuth
+### callAuth
 
 **用途：呼出授权**
 
@@ -428,7 +458,7 @@ const res = await window.freelogApp.getSubDep()
 window.freelogApp.callAuth();
 ```
 
-## addAuth
+### addAuth
 
 **用途：对未授权展品添加进待授权队列**
 
@@ -454,7 +484,7 @@ status 枚举判断：
 data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
 ```
 
-## resultType
+### resultType
 
 **用途：授权状态枚举**
 
@@ -473,8 +503,9 @@ status 枚举判断：
   status === = window.freelogApp.resultType.OFFLINE; // 展品已经下线
 data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
 ```
+## 用户相关
 
-## onLogin
+### onLogin
 
 **用途：监听用户登录**
 
@@ -484,7 +515,7 @@ data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
 window.freelogApp.onLogin(callback);
 ```
 
-## onUserChange
+### onUserChange
 
 **用途：监听用户登录变化**
 
@@ -494,7 +525,7 @@ window.freelogApp.onLogin(callback);
 window.freelogApp.onUserChange(callback);
 ```
 
-## getCurrentUser
+### getCurrentUser
 
 **用途：获取当前登录的用户信息**
 
@@ -507,7 +538,7 @@ const loginUser = await window.freelogApp.getCurrentUser();
 
 ```
 
-## setUserData
+### setUserData
 
 **用途：改变当前登录的用户在当前插件保存的数据**
 
@@ -516,7 +547,7 @@ const loginUser = await window.freelogApp.getCurrentUser();
 const res = await window.freelogApp.setUserData(key, data);
 ```
 
-## getUserData
+### getUserData
 
 **用途：获取当前登录的用户在当前插件保存的数据**
 
@@ -525,7 +556,7 @@ const res = await window.freelogApp.setUserData(key, data);
 const userData = await window.freelogApp.getUserData(key);
 ```
 
-## callLogin
+### callLogin
 
 **用途：唤起登录 UI**
 
@@ -535,7 +566,7 @@ const userData = await window.freelogApp.getUserData(key);
 window.freelogApp.callLogin(callBack)
 ```
 
-## callLoginOut
+### callLoginOut
 
 **用途：唤起退出登录 UI**
 
@@ -544,16 +575,9 @@ window.freelogApp.callLogin(callBack)
 window.freelogApp.callLoginOut()
 ```
 
-## reload
 
-**用途：整个网页重载（仅主题可用，插件可访问主题开发者提供的方法进行全局刷新）**
 
-```ts
-**用法**
-window.freelogApp.reload()
-```
-
-## isUserChange
+### isUserChange
 
 **用途：调用此方法发现用户切换后会刷新网页，否则返回 false**
 
@@ -562,20 +586,3 @@ window.freelogApp.reload()
 window.freelogApp.isUserChange()
 ```
 
-## setViewport
-
-**用途：设置 viewport 的 meta**
-
-```ts
-**用法**
-window.freelogApp.setViewport(keys: any)
-keys = {
-  width: "device-width", // immutable
-  height: "device-height", // not supported in browser
-  "initial-scale": 1, // 0.0-10.0   available for theme
-  "maximum-scale": 1, // 0.0-10.0   available for theme
-  "minimum-scale": 1, // 0.0-10.0   available for theme
-  "user-scalable": "no", // available for theme
-  "viewport-fit": "auto", // not supported in browser
-}
-```

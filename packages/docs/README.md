@@ -1,3 +1,4 @@
+# 指南
 ## 介绍
 
 ### 概念
@@ -442,6 +443,76 @@ const render = ($) => {
 })(window);
 ```
 
+### 静态文件处理
+
+**打包之后 css 中的字体文件和图片加载 404**
+
+原因是 freelog 将外链样式改成了内联样式，但是字体文件和背景图片的加载路径是相对路径。
+
+而 css 文件一旦打包完成，就无法通过动态修改 publicPath 来修正其中的字体文件和背景图片的路径。
+
+解决方案：
+
+1. 大图片与大字体处理方式：
+
+   大图片：放在不需要 webpack 打包的 public 目录下，通过 **window.freelogApp.getStaticPath(path)** 获取正确地址，
+   其中 path 为以/开头的正常开发时的路径。
+
+   大字体：（暂未实现）如果路径写在 css 中则无需刻意放在 public 目录下，如果使用 js 去赋值，则同图片一样处理。
+
+2. 小文件处理方式：借助 webpack 的 url-loader 将字体文件和图片打包成 base64（适用于字体文件和图片体积小的项目）
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpe?g|gif|webp|woff2?|eot|ttf|otf)$/i,
+        use: [
+          {
+            loader: "url-loader",
+            options: {},
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+**vue-cli3 项目写法：**
+
+```js
+module.exports = {
+  chainWebpack: (config) => {
+    config.module
+      .rule("fonts")
+      .use("url-loader")
+      .loader("url-loader")
+      .options({})
+      .end();
+    config.module
+      .rule("images")
+      .use("url-loader")
+      .loader("url-loader")
+      .options({})
+      .end();
+  },
+};
+```
+
+**vue-cli3 项目可以将 css 打包到 js 里面，不单独生成文件(不推荐，仅适用于 css 较少的项目)**
+
+配置参考 [vue-cli3 官网](https://cli.vuejs.org/zh/config/#css-extract):
+
+```js
+module.exports = {
+  css: {
+    extract: false,
+  },
+};
+```
+
 ### 路由支持
 
 **仅支持 history 路由或不由运行时管的 abstract 路由，hash 路由还有问题需要改进**
@@ -678,6 +749,21 @@ app.mountPromise.then(() => {
 });
 ```
 
+### 插件自身重载
+
+```js
+// 目前重载后挂载在window的数据没变，后期增加参数可选是否保留，以及返回重载失败可由插件决定是否刷新页面、但需要主题授权
+window.location.reload();
+```
+
+### 获取当前完整 URL
+
+```ts
+window.location.currentURL;
+```
+
+## 展品相关
+
 ### 获取展品
 
 **分页列表**
@@ -711,10 +797,10 @@ const res = window.freelogApp.getExhibitListById(query)
 const res = await  window.freelogApp.getExhibitInfo(exhibitId, query)
 
 **参数说明**
-exhibitId: 展品id，
-query:{
-    isLoadVersionProperty: 0 | 1, // 是否需要展品版本属性
-}
+  exhibitId: 展品id，
+  query:{
+      isLoadVersionProperty: 0 | 1, // 是否需要展品版本属性
+  }
 ```
 
 [查看 getExhibitInfo 详情](/api/#getexhibitinfo)
@@ -907,6 +993,8 @@ if (ch.authErrorType) {
 window.freelogApp.callAuth();
 ```
 
+## 用户相关
+
 ### 唤起登录
 
 ```ts
@@ -918,89 +1006,6 @@ window.freelogApp.callLogin(callback);
 
 ```ts
 window.freelogApp.callLoginOut();
-```
-
-### 获取当前完整 URL
-
-```ts
-window.location.currentURL;
-```
-
-### 静态文件处理
-
-**打包之后 css 中的字体文件和图片加载 404**
-
-原因是 freelog 将外链样式改成了内联样式，但是字体文件和背景图片的加载路径是相对路径。
-
-而 css 文件一旦打包完成，就无法通过动态修改 publicPath 来修正其中的字体文件和背景图片的路径。
-
-解决方案：
-
-1. 大图片与大字体处理方式：
-
-   大图片：放在不需要 webpack 打包的 public 目录下，通过 **window.freelogApp.getStaticPath(path)** 获取正确地址，
-   其中 path 为以/开头的正常开发时的路径。
-
-   大字体：（暂未实现）如果路径写在 css 中则无需刻意放在 public 目录下，如果使用 js 去赋值，则同图片一样处理。
-
-2. 小文件处理方式：借助 webpack 的 url-loader 将字体文件和图片打包成 base64（适用于字体文件和图片体积小的项目）
-
-```js
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.(png|jpe?g|gif|webp|woff2?|eot|ttf|otf)$/i,
-        use: [
-          {
-            loader: "url-loader",
-            options: {},
-          },
-        ],
-      },
-    ],
-  },
-};
-```
-
-**vue-cli3 项目写法：**
-
-```js
-module.exports = {
-  chainWebpack: (config) => {
-    config.module
-      .rule("fonts")
-      .use("url-loader")
-      .loader("url-loader")
-      .options({})
-      .end();
-    config.module
-      .rule("images")
-      .use("url-loader")
-      .loader("url-loader")
-      .options({})
-      .end();
-  },
-};
-```
-
-**vue-cli3 项目可以将 css 打包到 js 里面，不单独生成文件(不推荐，仅适用于 css 较少的项目)**
-
-配置参考 [vue-cli3 官网](https://cli.vuejs.org/zh/config/#css-extract):
-
-```js
-module.exports = {
-  css: {
-    extract: false,
-  },
-};
-```
-
-### 插件自身重载
-
-```js
-// 目前重载后挂载在window的数据没变，后期增加参数可选是否保留，以及返回重载失败可由插件决定是否刷新页面、但需要主题授权
-window.location.reload();
 ```
 
 ### 获取当前登录用户信息
@@ -1049,10 +1054,10 @@ const res = await window.freelogApp.getUserData(key);
 
 **推荐使用 postcss-px-to-viewport 插件, 各框架具体使用方法请百度**
 
-## 移动端真机调试 vconsole
+<!-- ## 移动端真机调试 vconsole
 
 **将 dev 改成 devconsole**
 
 此时无论移动端还是电脑端都会出现 vconsole
 
-https://snnaenu.freelog.com/?devconsole=https://localhost:8081
+https://snnaenu.freelog.com/?devconsole=https://localhost:8081 -->

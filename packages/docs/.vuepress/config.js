@@ -14,6 +14,7 @@ module.exports = {
         logo: '/home.jpg',
         sidebarDepth: 2,
         sidebar: "auto", 
+        collapsable: true,
         nav: [{
                 text: '指南',
                 link: '/'
