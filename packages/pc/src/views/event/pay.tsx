@@ -67,7 +67,7 @@ export default function Pay(props: PayProps) {
     setUserAccount(res.data.data);
     // @ts-ignore
     // TODO 需要trycatch  parsefloat
-    setIsAfford(res.data.data.balance > props.transactionAmount);
+    setIsAfford(res.data.data.balance >= props.transactionAmount);
     setIsActive(res.data.data.status === 1);
   }
   useEffect(() => {
