@@ -10,7 +10,7 @@ import frequest from "@/services/handler";
 import OutOf from "./views/outOf";
 import user from "@/services/api/modules/user";
 const {
-  reisterUI,
+  registerUI,
   clearEvent,
   endEvent,
   updateLock,
@@ -136,7 +136,7 @@ function App() {
     //   },
     // });
   }
-  reisterUI(UI, updateUI);
+  registerUI(UI, updateUI);
   return (
     <div id="freelog-mobile-auth" className="w-100x h-100x over-h">
       {isOut ? (

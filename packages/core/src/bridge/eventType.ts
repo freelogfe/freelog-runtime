@@ -1,13 +1,17 @@
 export const NODE_FREEZED = 0;
-export const THEME_NONE = 1;
-export const THEME_FREEZED = 2;
-export const LOGIN = 3;
-export const CONTRACT = 4;
-export const LOGIN_OUT = 5;
-export const USER_FREEZED = 6;
+export const NODE_OFFLINE = 1;
+export const NODE_PRIVATE = 2;
+export const THEME_NONE = 3;
+export const THEME_FREEZED = 4;
+export const LOGIN = 5;
+export const CONTRACT = 6;
+export const LOGIN_OUT = 7;
+export const USER_FREEZED = 8;
 
 export const eventType = {
   NODE_FREEZED,
+  NODE_OFFLINE,
+  NODE_PRIVATE,
   THEME_NONE,
   THEME_FREEZED,
   LOGIN,

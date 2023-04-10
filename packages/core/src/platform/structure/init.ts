@@ -10,13 +10,16 @@ import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
 // import VConsole from "vconsole";
 import { callUI } from "../../bridge/index";
-import { NODE_FREEZED, THEME_NONE, USER_FREEZED } from "../../bridge/eventType";
 import {
-  getExhibitInfo,
-  getExhibitAuthStatus,
-  getExhibitAvailalbe,
-} from "../structure/api";
+  NODE_FREEZED,
+  NODE_OFFLINE,
+  THEME_NONE,
+  NODE_PRIVATE,
+  USER_FREEZED,
+} from "../../bridge/eventType";
 import { initWindowListener } from "../../bridge/eventOn";
+// @ts-ignore
+delete window.setImmediate;
 const mobile = isMobile();
 // @ts-ignore
 const uiPath =
@@ -168,6 +171,19 @@ export function initNode() {
             // @ts-ignore
             loadingContainer.style.display = "none";
             freelogApp.status.authUIMounted = true;
+            // 节点下线
+            if ((nodeInfo.status & 8) === 8) {
+              resolve && resolve();
+              setTimeout(() => callUI(NODE_OFFLINE, nodeInfo), 10);
+              return;
+            }
+            // 私密节点
+            if ((nodeInfo.status & 2) === 2) {
+              resolve && resolve();
+              setTimeout(() => callUI(NODE_PRIVATE, nodeInfo), 10);
+              return;
+            }
+            NODE_PRIVATE
             // 节点冻结
             if ((nodeInfo.status & 4) === 4) {
               resolve && resolve();

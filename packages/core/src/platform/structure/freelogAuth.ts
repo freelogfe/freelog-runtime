@@ -1,6 +1,6 @@
 import { getCurrentUser, getUserInfo, setUserInfo } from "./utils";
 import {
-  reisterUI,
+  registerUI,
   eventMap,
   failedMap,
   endEvent,
@@ -18,7 +18,7 @@ import { resultType, eventType } from "../../bridge/eventType";
 
 
 export const freelogAuth = {
-  reisterUI,
+  registerUI,
   eventMap,
   failedMap,
   endEvent,

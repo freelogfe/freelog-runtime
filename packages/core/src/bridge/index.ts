@@ -40,7 +40,7 @@ let uiInited = false;
  *
  *
  */
-export function reisterUI(ui: any, update: any) {
+export function registerUI(ui: any, update: any) {
   UI = ui;
   updateUI = update;
 }

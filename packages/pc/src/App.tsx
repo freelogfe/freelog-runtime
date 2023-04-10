@@ -8,7 +8,7 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import OutOf from "./views/outOf";
 import user from "@/services/api/modules/user";
 const {
-  reisterUI,
+  registerUI,
   endEvent,
   updateLock,
   updateEvent,
@@ -147,7 +147,7 @@ function App() {
     //   },
     // });
   }
-  reisterUI(UI, updateUI);
+  registerUI(UI, updateUI);
   return (
     <div id="freelog-pc-auth" className="w-100x h-100x over-h">
       {isOut ? (
