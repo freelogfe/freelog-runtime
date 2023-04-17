@@ -92,8 +92,7 @@ export function freelogAddEventListener(proxy: any) {
       rawWindow.addEventListener(
         "message",
         (event:any) => {
-          // TODO 判断是否是函数
-          func &&
+          if (typeof func === "function") {
             func(
               new Proxy(
                 {},
@@ -107,6 +106,7 @@ export function freelogAddEventListener(proxy: any) {
                 }
               )
             );
+          }            
         },
         ...arr.slice(2)
       );
