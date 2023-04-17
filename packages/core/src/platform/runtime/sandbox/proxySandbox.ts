@@ -303,7 +303,7 @@ export default class ProxySandbox implements SandBox {
           return hasOwnProperty;
         }
         if (p === "addEventListener") {
-          return freelogAddEventListener;
+          return freelogAddEventListener(proxy);
         }
         if (p === "freelogApp") {
           freelogAppProxy =

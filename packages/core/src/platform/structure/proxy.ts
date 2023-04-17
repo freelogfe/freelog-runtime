@@ -35,6 +35,7 @@ const HASH = "hash";
 const rawHistory = window["history"];
 const rawLocation = window["location"];
 const rawLocalStorage = window["localStorage"];
+const rawWindow = window;
 // widgetName  {routerType: 'history' || 'hash'}
 const locations = new Map();
 var freelogPopstate = new PopStateEvent("freelog-popstate");
@@ -42,7 +43,7 @@ var freelogPopstate = new PopStateEvent("freelog-popstate");
 let state = 0;
 let moveLock = false;
 
-window.addEventListener(
+rawWindow.addEventListener(
   "popstate",
   function (event) {
     let estate = event.state;
@@ -67,27 +68,59 @@ window.addEventListener(
     }, 0);
     state = estate;
     initLocation();
-    window.dispatchEvent(freelogPopstate);
+    rawWindow.dispatchEvent(freelogPopstate);
   },
   true
 );
-window.addEventListener(
+rawWindow.addEventListener(
   "hashchange",
   function () {
     initLocation();
   },
   true
 );
-export function freelogAddEventListener() {
-  if (arguments[0] === "popstate") {
-    window.addEventListener("freelog-popstate", arguments[1]);
-    return;
-  }
-  // @ts-ignore
-  window.addEventListener(...arguments);
+export function freelogAddEventListener(proxy: any) {
+  return function () {
+    const arr = Array.prototype.slice.apply(arguments);
+    if (arguments[0] === "popstate") {
+      rawWindow.addEventListener("freelog-popstate", arr[1]);
+      return;
+    }
+    // TODO onmessage需要处理
+    if (arguments[0] === "message") {
+      // @ts-ignore
+      // console.log(999999, this, this === proxy)
+      const func = arr[1];
+      rawWindow.addEventListener(
+        "message",
+        (event) => {
+          console.log(7777, event);
+          func &&
+            func(
+              new Proxy(
+                {},
+                {
+                  get(target, p, receiver) {
+                    if (p === "source") {
+                      return proxy;
+                    }
+                    // @ts-ignore
+                    return event[p];
+                  },
+                }
+              )
+            );
+        },
+        ...arr.slice(2)
+      );
+      return;
+    }
+    // @ts-ignore
+    rawWindow.addEventListener(...arguments);
+  };
 }
 // TODO 如果授权UI插件想要请求之外的接口，可以通过freelogAuths放进去
-export const rawFetch = window.fetch;
+export const rawFetch = rawWindow.fetch;
 export const nativeOpen = XMLHttpRequest.prototype.open;
 const whiteList = [
   "https://image.freelog.com",
@@ -158,7 +191,7 @@ export function isFreelogAuth(name: string) {
 export function initLocation() {
   if (rawLocation.href.includes("$freelog")) {
     var loc = rawLocation.href.split("freelog.com/")[1].split("$");
-    if (window.freelogApp.devData.type === DEV_WIDGET) {
+    if (rawWindow.freelogApp.devData.type === DEV_WIDGET) {
       const temp = rawLocation.search.split("$_")[1];
       // @ts-ignore
       loc = temp ? temp.split("$") : [];
@@ -193,7 +226,7 @@ export function setLocation() {
     }
     hash += "$" + key + "=" + value.href || "";
   });
-  if (window.freelogApp.devData.type === DEV_WIDGET) {
+  if (rawWindow.freelogApp.devData.type === DEV_WIDGET) {
     let devUrl = rawLocation.search.split("$_")[0];
     if (!devUrl.endsWith("/")) {
       devUrl = devUrl + "/";
@@ -206,7 +239,7 @@ export function setLocation() {
       hash.replace("?", "_") +
       rawLocation.hash;
     if (url === rawLocation.href) return;
-    window.history.pushState(state++, "", url);
+    rawWindow.history.pushState(state++, "", url);
   } else {
     const url =
       rawLocation.origin +
@@ -215,7 +248,7 @@ export function setLocation() {
       rawLocation.hash +
       rawLocation.search;
     if (url === rawLocation.href) return;
-    window.history.pushState(state++, "", url);
+    rawWindow.history.pushState(state++, "", url);
   }
   // rawLocation.hash = hash; state++
 }
@@ -304,10 +337,10 @@ export const createHistoryProxy = function (name: string) {
     if (history) {
       // @ts-ignore
       patch(...history);
-      window.dispatchEvent(freelogPopstate);
+      rawWindow.dispatchEvent(freelogPopstate);
     }
     // else if(count == -1){
-    //   window.history.go(-1)
+    //   rawWindow.history.go(-1)
     // }
   }
   function back() {
@@ -318,7 +351,7 @@ export const createHistoryProxy = function (name: string) {
     if (history) {
       // @ts-ignore
       patch(...history);
-      window.dispatchEvent(freelogPopstate);
+      rawWindow.dispatchEvent(freelogPopstate);
     }
   }
   function forward() {
@@ -329,7 +362,7 @@ export const createHistoryProxy = function (name: string) {
     if (history) {
       // @ts-ignore
       patch(...history);
-      window.dispatchEvent(freelogPopstate);
+      rawWindow.dispatchEvent(freelogPopstate);
     }
   }
   const state = getHistory(name).histories[getHistory(name).position]
@@ -337,15 +370,15 @@ export const createHistoryProxy = function (name: string) {
     : {};
   const length = getHistory(name).length;
   const historyProxy = {
-    ...window.history,
+    ...rawWindow.history,
     // @ts-ignore
     length: length,
     pushState: pushPatch,
     replaceState: replacePatch,
     state,
-    go: go, // window.history.go.bind(window.history),
-    back: back, // window.history.back.bind(window.history),
-    forward: forward, //window.history.forward.bind(window.history)
+    go: go, // rawWindow.history.go.bind(rawWindow.history),
+    back: back, // rawWindow.history.back.bind(rawWindow.history),
+    forward: forward, //rawWindow.history.forward.bind(rawWindow.history)
   };
   return historyProxy;
 };
@@ -384,10 +417,10 @@ export const createLocationProxy = function (name: string) {
         if (["reload"].indexOf(property) > -1) {
           // TODO 增加是否保留数据
           return async function (reject: any) {
-            flatternWidgets.get(name).unmount()
-            flatternWidgets.get(name).unmountPromise.then(()=>{
+            flatternWidgets.get(name).unmount();
+            flatternWidgets.get(name).unmountPromise.then(() => {
               flatternWidgets.get(name).mount();
-            },reject);
+            }, reject);
           };
         }
         if (property === "toString") {
@@ -508,7 +541,7 @@ export const createFreelogAppProxy = function (name: string, sandbox: any) {
   return new Proxy(freelogAppProxy, {
     // @ts-ignore
     get: function get(app: any, p: string) {
-      const pro = window.freelogApp[p];
+      const pro = rawWindow.freelogApp[p];
       if (typeof pro === "function") {
         return function () {
           // @ts-ignore
