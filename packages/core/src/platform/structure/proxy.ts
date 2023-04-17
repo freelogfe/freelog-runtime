@@ -86,15 +86,13 @@ export function freelogAddEventListener(proxy: any) {
       rawWindow.addEventListener("freelog-popstate", arr[1]);
       return;
     }
-    // TODO onmessage需要处理
+    // TODO onmessage需要处理, 此方法只能支持window.addEventListener
     if (arguments[0] === "message") {
-      // @ts-ignore
-      // console.log(999999, this, this === proxy)
       const func = arr[1];
       rawWindow.addEventListener(
         "message",
-        (event) => {
-          console.log(7777, event);
+        (event:any) => {
+          // TODO 判断是否是函数
           func &&
             func(
               new Proxy(
@@ -104,7 +102,6 @@ export function freelogAddEventListener(proxy: any) {
                     if (p === "source") {
                       return proxy;
                     }
-                    // @ts-ignore
                     return event[p];
                   },
                 }
