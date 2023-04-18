@@ -8,8 +8,18 @@
 
 **文中参数类型为 int 的'是否'都用 1 和 0 传递**
 
+## 节点相关
+
+### 获取节点信息
+
+```ts
+// 目前没有权限控制，主题和插件都可以获取到，后期整体考虑权限时会限制插件使用
+// 如果使用到了节点信息，插件开发者应当在使用说明里明确使用到了节点信息以及无法获取到的影响
+const nodeInfo = window.freelogApp.nodeInfo;
+```
 
 ## 插件相关
+
 ### getStaticPath
 
 **用途：获取图片字体等静态作品的正确路径**
@@ -23,6 +33,7 @@
 **用法**
 const path = await window.freelogApp.getStaticPath(path);
 ```
+
 ### devData
 
 **用途：获取当前 dev 数据（url 数据）**
@@ -69,6 +80,7 @@ const res = await window.freelogApp.getSubDep()
   ...response.data.data,  其它信息
 }
 ```
+
 ### mountWidget
 
 **用途：加载插件**
@@ -164,6 +176,7 @@ widgets.some((widget, index) => {
 **用法**
 window.freelogApp.reload()
 ```
+
 ### setViewport
 
 **用途：设置 viewport 的 meta**
@@ -183,6 +196,7 @@ keys = {
 ```
 
 ## 展品获取
+
 ### getExhibitListByPaging
 
 **用途：分页获取展品**
@@ -243,7 +257,6 @@ const res = await window.freelogApp.getExhibitListByPaging({
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
 | versionInfo             | object   | 展品的版本信息,加载版本属性时,才会赋值                     |
 | \*\*exhibitProperty     | object   | 展品的版本属性                                             |
-
 
 ### getExhibitListById
 
@@ -440,7 +453,7 @@ const res = await window.freelogApp.getSignStatistics(keywords)
 **返回说明**
 
 | 返回值字段     | 字段类型 | 字段说明     |
-| :------------- | :------- | :-----------|
+| :------------- | :------- | :----------- |
 | subjectId      | string   | 标的物 ID    |
 | subjectName    | string   | 标的物名称   |
 | policyIds      | string[] | 签约的策略   |
@@ -503,6 +516,7 @@ status 枚举判断：
   status === = window.freelogApp.resultType.OFFLINE; // 展品已经下线
 data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
 ```
+
 ## 用户相关
 
 ### onLogin
@@ -575,8 +589,6 @@ window.freelogApp.callLogin(callBack)
 window.freelogApp.callLoginOut()
 ```
 
-
-
 ### isUserChange
 
 **用途：调用此方法发现用户切换后会刷新网页，否则返回 false**
@@ -585,4 +597,3 @@ window.freelogApp.callLoginOut()
 **用法**
 window.freelogApp.isUserChange()
 ```
-

@@ -2,8 +2,8 @@
   "name": "freelog-docs",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vuepress dev",
-    "build": "vuepress build"
+    "start": "set NODE_OPTIONS=--openssl-legacy-provider &  vuepress dev",
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider &  vuepress build"
   },
   "devDependencies": {
     "vuepress": "^1.9.9"
