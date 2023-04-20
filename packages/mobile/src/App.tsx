@@ -105,7 +105,6 @@ function App() {
     }
   }
   function outOfContent(data: any) {
-    console.log(data);
     setOutData(data);
     setIsOut(true);
     upperUI();

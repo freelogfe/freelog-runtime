@@ -183,6 +183,7 @@ export function initNode() {
               setTimeout(() => callUI(NODE_OFFLINE, nodeInfo), 10);
               return;
             }
+            console.log(55555, (nodeInfo.status & 2) === 2)
             // 私密节点
             if ((nodeInfo.status & 2) === 2) {
               resolve && resolve();
