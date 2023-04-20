@@ -31,6 +31,7 @@ import {
 } from "./api";
 let devData = "";
 export const freelogApp: any = {
+  nodeInfo: "",
   status: {
     authUIMounted: false,
     themeMounted: false,

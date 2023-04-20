@@ -171,6 +171,12 @@ export function initNode() {
             // @ts-ignore
             loadingContainer.style.display = "none";
             freelogApp.status.authUIMounted = true;
+            // 节点冻结
+            if ((nodeInfo.status & 5) === 5 || (nodeInfo.status & 6) === 6 || (nodeInfo.status & 12) === 12) {
+              resolve && resolve();
+              setTimeout(() => callUI(NODE_FREEZED, nodeInfo), 10);
+              return;
+            }
             // 节点下线
             if ((nodeInfo.status & 8) === 8) {
               resolve && resolve();
@@ -181,13 +187,6 @@ export function initNode() {
             if ((nodeInfo.status & 2) === 2) {
               resolve && resolve();
               setTimeout(() => callUI(NODE_PRIVATE, nodeInfo), 10);
-              return;
-            }
-            NODE_PRIVATE
-            // 节点冻结
-            if ((nodeInfo.status & 4) === 4) {
-              resolve && resolve();
-              setTimeout(() => callUI(NODE_FREEZED, nodeInfo), 10);
               return;
             }
             // 用户冻结

@@ -1,7 +1,7 @@
 // import logo from './logo.svg';
 import "./App.scss";
 import "@/assets/mobile/index.scss";
-import { Button, Space, Toast } from 'antd-mobile'
+import { Button, Space, Toast } from "antd-mobile";
 
 import { useEffect, useState } from "react";
 import Mobile from "./views/auth";
@@ -20,8 +20,17 @@ const {
   reload,
 } = window.freelogAuth;
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
-const { NODE_FREEZED, THEME_NONE, THEME_FREEZED, LOGIN, CONTRACT, LOGIN_OUT, USER_FREEZED } =
-  window.freelogAuth.eventType;
+const {
+  NODE_FREEZED,
+  THEME_NONE,
+  THEME_FREEZED,
+  LOGIN,
+  CONTRACT,
+  LOGIN_OUT,
+  USER_FREEZED,
+  NODE_OFFLINE,
+  NODE_PRIVATE,
+} = window.freelogAuth.eventType;
 
 function App() {
   const [events, setEvents] = useState([]);
@@ -62,10 +71,15 @@ function App() {
     }
   }
   function UI(type: any, data: any) {
-    
     setEventType(type);
     switch (type) {
       case NODE_FREEZED:
+        outOfContent(data);
+        break;
+      case NODE_OFFLINE:
+        outOfContent(data);
+        break;
+      case NODE_PRIVATE:
         outOfContent(data);
         break;
       case THEME_NONE:

@@ -26,6 +26,8 @@ const {
   CONTRACT,
   LOGIN_OUT,
   USER_FREEZED,
+  NODE_OFFLINE,
+  NODE_PRIVATE,
 } = window.freelogAuth.eventType;
 
 function App() {
@@ -78,6 +80,12 @@ function App() {
         outOfContent(data);
         break;
       case THEME_FREEZED:
+        outOfContent(data);
+        break;
+      case NODE_OFFLINE:
+        outOfContent(data);
+        break;
+      case NODE_PRIVATE:
         outOfContent(data);
         break;
       case LOGIN:
