@@ -37,7 +37,7 @@ export default function NodeOffline({ outData }: OutOfProps) {
           margin-bottom: 80px;
         `}
       >
-        {"节点已暂停运营，提示：" + window.freelogApp.nodeInfo.nodeSuspendInfo}
+        {window.freelogApp.nodeInfo.nodeSuspendInfo}
       </div>
       <div className="flex-1"></div>
     </div>
