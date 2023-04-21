@@ -27,6 +27,7 @@ export default function OutOf({ outData }: OutOfProps) {
         <img src={nodeOffline} alt=""  className="w-100x"/>
       </div>
       <div
+        className="text-breakAll"
         css={css`
           font-size: 30px;
           font-weight: 400;
@@ -36,7 +37,7 @@ export default function OutOf({ outData }: OutOfProps) {
           margin-bottom: 80px;
         `}
       >
-        节点已暂停运营，开放时间待定~
+        {'节点已暂停运营，提示：' + window.freelogApp.nodeInfo.nodeSuspendInfo}
       </div>
       <div className="flex-1"></div>
     </div>

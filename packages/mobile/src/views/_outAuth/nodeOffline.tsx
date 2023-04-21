@@ -6,7 +6,7 @@ interface OutOfProps {
   outData: any;
   children?: any;
 }
-export default function OutOf({ outData }: OutOfProps) {
+export default function NodeOffline({ outData }: OutOfProps) {
   return (
     <div
       className="flex-column align-center"
@@ -24,9 +24,10 @@ export default function OutOf({ outData }: OutOfProps) {
       <div className="flex-1"></div>
 
       <div className="w-280">
-        <img src={nodeOffline} alt=""  className="w-100x"/>
+        <img src={nodeOffline} alt="" className="w-100x" />
       </div>
       <div
+        className="text-breakAll "
         css={css`
           font-size: 18px;
           font-weight: 400;
@@ -36,7 +37,7 @@ export default function OutOf({ outData }: OutOfProps) {
           margin-bottom: 80px;
         `}
       >
-        节点已暂停运营，开放时间待定~
+        {"节点已暂停运营，提示：" + window.freelogApp.nodeInfo.nodeSuspendInfo}
       </div>
       <div className="flex-1"></div>
     </div>
