@@ -1,12 +1,25 @@
 /* @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import nodeOffline from "../../assets/image/nodeOffline.png";
+import { useState, useEffect } from "react";
+import nodePrivate from "../../assets/image/nodePrivate.png";
+import Button from "../_commons/button";
+import Login from "../login";
+const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 
 interface OutOfProps {
   outData: any;
   children?: any;
 }
 export default function OutOf({ outData }: OutOfProps) {
+  const [loginVisible, setLoginVisible] = useState(false);
+  function loginFinished(type: number, data?: any) {
+    if (type === SUCCESS) {
+      window.freelogAuth.reload();
+    }
+    if(type === USER_CANCEL){
+      setLoginVisible(false)
+    }
+  }
   return (
     <div
       className="flex-column align-center"
@@ -21,10 +34,16 @@ export default function OutOf({ outData }: OutOfProps) {
         background: #ffffff;
       `}
     >
+      {loginVisible && (
+        <Login
+          loginFinished={loginFinished}
+          setIsLoginVisible={setLoginVisible}
+        ></Login>
+      )}
       <div className="flex-1"></div>
 
       <div className="w-360">
-        <img src={nodeOffline} alt=""  className="w-100x"/>
+        <img src={nodePrivate} alt="" className="w-100x" />
       </div>
       <div
         css={css`
@@ -36,8 +55,20 @@ export default function OutOf({ outData }: OutOfProps) {
           margin-bottom: 80px;
         `}
       >
-        私密节点~
+        {window.freelogApp.getCurrentUser()
+          ? "此节点未开放访问"
+          : "此节点未开放访问，如果你是节点所有者，请登录后继续访问。"}
       </div>
+      {window.freelogApp.getCurrentUser() ? null : (
+        <Button
+          className="fs-14 px-40"
+          click={() => {
+            setLoginVisible(true);
+          }}
+        >
+          立即登录
+        </Button>
+      )}
       <div className="flex-1"></div>
     </div>
   );

@@ -167,7 +167,6 @@ export function initNode() {
           }
         ).mountPromise.then(
           async () => {
-            console.log(rawDocument);
             // @ts-ignore
             loadingContainer.style.display = "none";
             freelogApp.status.authUIMounted = true;
@@ -183,16 +182,14 @@ export function initNode() {
               setTimeout(() => callUI(NODE_OFFLINE, nodeInfo), 10);
               return;
             }
-            console.log(55555, (nodeInfo.status & 2) === 2)
             // 私密节点
-            if ((nodeInfo.status & 2) === 2) {
+            if ((nodeInfo.status & 2) === 2 && nodeInfo.ownerUserId !== userInfo?.userId) {
               resolve && resolve();
               setTimeout(() => callUI(NODE_PRIVATE, nodeInfo), 10);
               return;
             }
             // 用户冻结
             if (userInfo && userInfo.status == 1) {
-              console.log(userInfo);
               resolve && resolve();
               setTimeout(() => callUI(USER_FREEZED, userInfo), 10);
               return;

@@ -9,9 +9,10 @@ const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 
 interface loginProps {
   loginFinished: any;
-  visible: boolean;
-  setModalType: any;
+  visible?: boolean;
+  setModalType?: any;
   children?: any;
+  onlyLogin?: boolean;
 }
 export default function Login(props: loginProps) {
   const [logging, setLogging] = useState(false);
@@ -104,31 +105,35 @@ export default function Login(props: loginProps) {
               className="mb-15"
               onClick={onFinish}
               disabled={!loginName || !password}
-              loadingIcon={<SpinLoading color='white' />}
+              loadingIcon={<SpinLoading color="white" />}
               loadingText="登录中"
             >
-               登 录 
+              登 录
             </Button>
-            <Button
-              className="registry"
-              onClick={() => {
-                !logging && props.setModalType(2);
-              }}
-            >
-              注 册
-            </Button>
+            {props.onlyLogin || (
+              <Button
+                className="registry"
+                onClick={() => {
+                  !logging && props.setModalType(2);
+                }}
+              >
+                注 册
+              </Button>
+            )}
           </div>
           <div className="flex-1">
             <div className="flex-column-center login-forgot mt-125">
-              <Button
-                color="default"
-                size="small"
-                onClick={() => {
-                  !logging && props.setModalType(3);
-                }}
-              >
-                忘记密码
-              </Button>
+              {props.onlyLogin || (
+                <Button
+                  color="default"
+                  size="small"
+                  onClick={() => {
+                    !logging && props.setModalType(3);
+                  }}
+                >
+                  忘记密码
+                </Button>
+              )}
             </div>
           </div>
         </div>

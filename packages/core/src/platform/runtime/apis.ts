@@ -72,7 +72,6 @@ export function loadMicroApp<T extends ObjectType>(
 
     return (await parcelConfigObjectGetterPromise)(container);
   };
-  console.log(1111, app)
   // @ts-ignore
   return mountRootParcel(memorizedLoadingFn, { domElement: document.createElement('div'), ...props });
 }
