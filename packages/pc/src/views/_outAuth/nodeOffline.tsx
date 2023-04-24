@@ -24,7 +24,7 @@ export default function OutOf({ outData }: OutOfProps) {
       <div className="flex-1"></div>
 
       <div className="w-360">
-        <img src={nodeOffline} alt=""  className="w-100x"/>
+        <img src={nodeOffline} alt="" className="w-100x" />
       </div>
       <div
         className="text-breakAll"
@@ -37,7 +37,7 @@ export default function OutOf({ outData }: OutOfProps) {
           margin-bottom: 80px;
         `}
       >
-        {window.freelogApp.nodeInfo.nodeSuspendInfo}
+        {window.freelogApp.nodeInfo.nodeSuspendInfo || "筹备中，敬请期待…"}
       </div>
       <div className="flex-1"></div>
     </div>

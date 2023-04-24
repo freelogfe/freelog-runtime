@@ -37,7 +37,7 @@ export default function NodeOffline({ outData }: OutOfProps) {
           margin-bottom: 80px;
         `}
       >
-        {window.freelogApp.nodeInfo.nodeSuspendInfo}
+        {window.freelogApp.nodeInfo.nodeSuspendInfo || "筹备中，敬请期待…"}
       </div>
       <div className="flex-1"></div>
     </div>
