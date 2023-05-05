@@ -9,7 +9,7 @@ export const sum = (a: number, b: number) => {
 const app = window.freelogApp;
 export const freelogApp: FreelogApp = app;
 
-interface FreelogApp {
+export interface FreelogApp {
   nodeInfo: NodeInfo;
   status: {
     authUIMounted: boolean;
