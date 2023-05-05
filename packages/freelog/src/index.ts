@@ -1,10 +1,10 @@
 import { WidgetApp, PlainObject, NodeInfo, FreelogUserInfo } from './interface';
-export const sum = (a: number, b: number) => {
-  if ('development' === process.env.NODE_ENV) {
-    console.log('boop');
-  }
-  return a + b;
-};
+// export const sum = (a: number, b: number) => {
+//   if ('development' === process.env.NODE_ENV) {
+//     console.log('boop');
+//   }
+//   return a + b;
+// };
 // @ts-ignore
 const app = window.freelogApp;
 export const freelogApp: FreelogApp = app;
@@ -18,34 +18,33 @@ export interface FreelogApp {
   mountWidget: (options: {
     widget: any;
     container: HTMLElement;
-    topExhibitData: any;
-    config: PlainObject;
+    config?: PlainObject;
+    topExhibitData?: any;
     seq?: number | null;
     widget_entry?: boolean | string;
   }) => WidgetApp;
   getExhibitListById: (query: {
     exhibitIds: string;
-    isLoadVersionProperty: 0 | 1;
+    isLoadVersionProperty?: 0 | 1;
   }) => any;
   getExhibitListByPaging: (query: {
-    skip: number;
-    limit: number;
-    sort: string;
-    articleResourceTypes: string;
-    omitArticleResourceType: string;
-    onlineStatus: number;
-    tags: string;
-    projection: string;
-    keywords: string;
-    isLoadVersionProperty: number;
-    isLoadPolicyInfo: number;
-    isTranslate: number;
-    tagQueryType: number;
+    skip?: number;
+    limit?: number;
+    sort?: string;
+    articleResourceTypes?: string;
+    omitArticleResourceType?: string;
+    onlineStatus?: number;
+    tags?: string;
+    projection?: string;
+    keywords?: string;
+    isLoadVersionProperty?: number;
+    isLoadPolicyInfo?: number;
+    isTranslate?: number;
+    tagQueryType?: number;
   }) => any;
   getExhibitInfo: (
     exhibitId: string,
-    query: {
-      exhibitIds: string;
+    query?: {
       isLoadVersionProperty: 0 | 1;
     }
   ) => any;
@@ -83,13 +82,13 @@ export interface FreelogApp {
   callLoginOut: () => void;
   getCurrentUser: () => FreelogUserInfo;
   setViewport: (options: {
-    width: string; // immutable
-    height: string; // not supported in browser
-    'initial-scale': number; // 0.0-10.0   available for theme
-    'maximum-scale': number; // 0.0-10.0   available for theme
-    'minimum-scale': number; // 0.0-10.0   available for theme
-    'user-scalable': string; // available for theme
-    'viewport-fit': string; // not supported in browser
+    width?: string; // immutable
+    height?: string; // not supported in browser
+    'initial-scale'?: number; // 0.0-10.0   available for theme
+    'maximum-scale'?: number; // 0.0-10.0   available for theme
+    'minimum-scale'?: number; // 0.0-10.0   available for theme
+    'user-scalable'?: string; // available for theme
+    'viewport-fit'?: string; // not supported in browser
   }) => void;
   setUserData: (key: string | number, data: string | number) => any;
   getUserData: (key: string | number) => any;

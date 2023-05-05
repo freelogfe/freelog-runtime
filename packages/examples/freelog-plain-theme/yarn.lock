@@ -3955,6 +3955,11 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
+freelog-runtime@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/freelog-runtime/-/freelog-runtime-1.0.1.tgz#95b96c0dff84acf985b83d7565193f696bb8bf33"
+  integrity sha512-SShUZbLD1xQToHcPxXs6VU5MBxxOjDRMpuiW4b/Vsk68TL6TfJkTtihEMfPlOIkADGC2zhRup6VUi4kMIUxAsw==
+
 fresh@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"

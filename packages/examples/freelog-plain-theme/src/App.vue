@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import { freelogApp } from 'freelog-runtime';
+
 export default {
   name: "freelog-document-app",
   data() {
@@ -16,7 +18,8 @@ export default {
   computed: {},
   methods: {
     async getSub() {
-      const res = await window.freelogApp.getExhibitListByPaging({
+      
+      const res = await freelogApp.getExhibitListByPaging({
         articleResourceTypes: "插件",
         isLoadVersionProperty: 1,
       });
@@ -25,7 +28,7 @@ export default {
       widgets.some(async (widget, index) => {
         if (index === 1) return true;
         // widget.exhibitId = widget.exhibitId + '111'
-        this.app = await window.freelogApp.mountWidget(
+        this.app = await freelogApp.mountWidget(
           widget,
           document.getElementById("freelog-single")
         );

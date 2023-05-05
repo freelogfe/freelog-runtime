@@ -92,7 +92,7 @@ const res = await window.freelogApp.getSubDep()
   paramObj: {
     widget: object,      必传，插件数据
     container: htmlElement, 必传，挂载容器
-    commonData: object,  最外层展品数据（子孙插件都需要用）
+    topExhibitData: object,  最外层展品数据（子孙插件都需要用）
     config: object,      给到子插件的配置数据，可传递方法用于通信
     seq: string,         如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的
     widget_entry: string, 本地url，dev模式下，可以使用本地url调试子插件
