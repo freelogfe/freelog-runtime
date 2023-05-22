@@ -4,7 +4,7 @@ import { handleError } from "./utils";
 export default class Speakers {
   constructor({ onBufferUnderrun }) {
     this.onBufferUnderrun = onBufferUnderrun;
-    this.bufferSize = 8192;
+    this.bufferSize = 16384;
     this.buffer = new RingBuffer(this.bufferSize * 2);
   }
 
@@ -43,7 +43,7 @@ export default class Speakers {
 
   writeSample = (left, right) => {
     if (this.buffer.size() / 2 >= this.bufferSize) {
-      console.log(`Buffer overrun`);
+      console.log(`Buffer overrun`, this.buffer.size());
       this.buffer.deqN(this.bufferSize / 2);
     }
     this.buffer.enq(left);

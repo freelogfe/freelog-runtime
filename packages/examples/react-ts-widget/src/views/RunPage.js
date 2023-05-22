@@ -119,6 +119,9 @@ class RunPage extends Component {
   componentDidMount() {
     window.addEventListener("resize", this.layout);
     this.layout();
+    window.addEventListener("gamepadconnected", ()=>{
+      console.log(234234234)
+    })
     this.load();
   }
 

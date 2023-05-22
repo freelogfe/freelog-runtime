@@ -165,19 +165,19 @@ class ControlsModal extends Component {
                 <th>Button</th>
                 <th>
                   Player 1
-                  <img
+                  {/* <img
                     className="controller-icon"
                     src={this.state.controllerIcon[0]}
                     alt={this.state.controllerIconAlt[0]}
-                  />
+                  /> */}
                 </th>
                 <th>
                   Player 2
-                  <img
+                  {/* <img
                     className="controller-icon"
                     src={this.state.controllerIcon[1]}
                     alt={this.state.controllerIconAlt[1]}
-                  />
+                  /> */}
                 </th>
               </tr>
             </thead>
