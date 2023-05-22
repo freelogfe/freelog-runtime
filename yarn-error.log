@@ -1,20 +1,20 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\Administrator\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add global rimraf
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add bootstrap
 
 PATH: 
-  C:\ProgramData\Oracle\Java\javapath;C:\Python39\Scripts\;C:\Python39\;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Git\cmd;C:\Program Files\Microsoft VS Code\bin;C:\ProgramData\chocolatey\bin;E:\android\platform-tools;E:\android\emulator;E:\android\tools;E:\android\tools\bin;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\flutter\flutter\bin;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Program Files\MySQL\MySQL Server 5.7\bin;C:\Program Files\Java\jdk1.8.0_291\bin;C:\Users\Administrator\AppData\Local\Yarn\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\nodejs\;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\IntelliJ IDEA 2021.1.1\bin;;C:\Users\Administrator\AppData\Roaming\npm
+  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Users\45534\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Users\45534\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\dotnet\;D:\flutter\flutter\bin;;C:\Program Files (x86)\Tencent\微信web开发者工具\dll;C:\Users\45534\AppData\Local\Programs\Python\Python38\Scripts\;C:\Users\45534\AppData\Local\Programs\Python\Python38\;C:\Users\45534\AppData\Local\pnpm;C:\Users\45534\AppData\Local\Microsoft\WindowsApps;C:\Users\45534\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\45534\.dotnet\tools;C:\Program Files\JetBrains\IntelliJ IDEA 2021.2.2\bin;
 
 Yarn version: 
-  1.22.10
+  1.22.19
 
 Node version: 
-  16.15.1
+  16.20.0
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: ENOENT: no such file or directory, copyfile 'C:\Users\Administrator\AppData\Local\Yarn\Cache\v6\npm-supports-color-9.2.2-502acaf82f2b7ee78eb7c83dcac0f89694e5a7bb-integrity\node_modules\supports-color\browser.d.ts' -> 'D:\app\runtime\freelog-runtime\node_modules\lint-staged\node_modules\supports-color\browser.d.ts'
+  Error: ENOENT: no such file or directory, copyfile 'C:\Users\45534\AppData\Local\Yarn\Cache\v6\npm-supports-color-9.3.1-34e4ad3c71c9a39dae3254ecc46c9b74e89e15a6-integrity\node_modules\supports-color\browser.js' -> 'D:\app\freelog-runtime\node_modules\lint-staged\node_modules\supports-color\browser.js'
 
 npm manifest: 
   {
@@ -27,10 +27,10 @@ npm manifest:
     },
     "packageManager": "pnpm",
     "devDependencies": {
-      "eslint": "^8.2.0",
+      "eslint": "^8.19.0",
       "husky": "^7.0.4",
-      "lint-staged": "^12.1.2",
-      "prettier": "^2.5.0",
+      "lint-staged": "^12.5.0",
+      "prettier": "^2.7.1",
       "rimraf": "^3.0.2",
       "stylelint": "^13.13.1"
     },
