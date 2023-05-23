@@ -50,6 +50,14 @@ class RunPage extends Component {
               <Button
                 outline
                 color="primary"
+                onClick={this.toggleControlsSpeaker}
+                className="mr-3"
+              >
+                声音
+              </Button>
+              <Button
+                outline
+                color="primary"
                 onClick={this.toggleControlsModal}
                 className="mr-3"
               >
@@ -119,7 +127,7 @@ class RunPage extends Component {
   componentDidMount() {
     window.addEventListener("resize", this.layout);
     this.layout();
-    window.addEventListener("gamepadconnected", ()=>{
+    window.addEventListener("gamepadconnected", () => {
       console.log(234234234)
     })
     this.load();
@@ -134,36 +142,36 @@ class RunPage extends Component {
 
   load = () => {
     // if (this.props.match.params.slug) {
-      // const slug = this.props.match.params.slug;
-      const isLocalROM = false // /^local-/.test(slug);
-      // const romHash = slug.split("-")[1];
-      // const romInfo = isLocalROM
-      //   ? RomLibrary.getRomInfoByHash(romHash)
-      //   : config.ROMS[slug];
+    // const slug = this.props.match.params.slug;
+    const isLocalROM = false // /^local-/.test(slug);
+    // const romHash = slug.split("-")[1];
+    // const romInfo = isLocalROM
+    //   ? RomLibrary.getRomInfoByHash(romHash)
+    //   : config.ROMS[slug];
 
-      // if (!romInfo) {
-      //   this.setState({ error: `No such ROM: ${slug}` });
-      //   return;
-      // }
+    // if (!romInfo) {
+    //   this.setState({ error: `No such ROM: ${slug}` });
+    //   return;
+    // }
 
-      if (isLocalROM) {
-        this.setState({ romName: 'romInfo.name' });
-        const localROMData = localStorage.getItem("blob-" + "romHash");
-        this.handleLoaded(localROMData);
-      } else {
-        this.setState({ romName: 'romInfo.description' });
-        this.currentRequest = loadBinary(
-          'http://localhost:7001/Contra',
-          (err, data) => {
-            if (err) {
-              this.setState({ error: `Error loading ROM: ${err.message}` });
-            } else {
-              this.handleLoaded(data);
-            }
-          },
-          this.handleProgress
-        );
-      }
+    if (isLocalROM) {
+      this.setState({ romName: 'romInfo.name' });
+      const localROMData = localStorage.getItem("blob-" + "romHash");
+      this.handleLoaded(localROMData);
+    } else {
+      this.setState({ romName: 'romInfo.description' });
+      this.currentRequest = loadBinary(
+        'http://localhost:7001/Contra',
+        (err, data) => {
+          if (err) {
+            this.setState({ error: `Error loading ROM: ${err.message}` });
+          } else {
+            this.handleLoaded(data);
+          }
+        },
+        this.handleProgress
+      );
+    }
     // } else if (this.props.location.state && this.props.location.state.file) {
     //   let reader = new FileReader();
     //   reader.readAsBinaryString(this.props.location.state.file);
@@ -185,7 +193,10 @@ class RunPage extends Component {
   handleLoaded = data => {
     this.setState({ running: true, loading: false, romData: data });
   };
-
+  toggleControlsSpeaker = ()=>{
+    this.emulator.startSpeaker()
+    console.log(this.emulator)
+  }
   handlePauseResume = () => {
     this.setState({ paused: !this.state.paused });
   };

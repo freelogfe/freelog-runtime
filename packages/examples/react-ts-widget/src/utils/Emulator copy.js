@@ -53,9 +53,9 @@ class Emulator extends Component {
         //   done by audio instead of requestAnimationFrame.
         // - System can't run emulator at full speed. In this case it'll stop
         //    firing requestAnimationFrame.
-        console.log(
-          "Buffer underrun, running another frame to try and catch up"
-        );
+        // console.log(
+        //   "Buffer underrun, running another frame to try and catch up"
+        // );
 
         this.frameTimer.generateFrame();
         // desiredSize will be 2048, and the NES produces 1468 samples on each
@@ -67,14 +67,56 @@ class Emulator extends Component {
         }
       }
     });
+    var AUDIO_BUFFERING = 512;
+    var SAMPLE_COUNT = 4*1024;
+    var SAMPLE_MASK = SAMPLE_COUNT - 1;
+    var audio_samples_L = new Float32Array(SAMPLE_COUNT);
+    var audio_samples_R = new Float32Array(SAMPLE_COUNT);
+    var audio_write_cursor = 0, audio_read_cursor = 0;
 
     this.nes = new NES({
       onFrame: this.screen.setBuffer,
       // onStatusUpdate: console.log,
-      onAudioSample: this.speakers.writeSample,
+      // onAudioSample: this.speakers.writeSample,
+      onAudioSample: function(l, r){
+        audio_samples_L[audio_write_cursor] = l;
+        audio_samples_R[audio_write_cursor] = r;
+        audio_write_cursor = (audio_write_cursor + 1) & SAMPLE_MASK;
+      },
       sampleRate: this.speakers.getSampleRate()
     });
-
+    function setUpNesAudio() {
+      // Setup audio.
+      var audioContext = new window.AudioContext();
+      var audioScriptNode = audioContext.createScriptProcessor(AUDIO_BUFFERING, 0, 2);
+      audioScriptNode.onaudioprocess = audio_callback;
+      audioScriptNode.connect(audioContext.destination);
+      audioContext.resume()
+      // audioContext.suspend()
+      return [ audioContext, audioScriptNode ]
+    }
+    let nesObj = this.nes
+    function audio_callback(event){
+      var dst = event.outputBuffer;
+      var len = dst.length;
+      
+      // Attempt to avoid buffer underruns.
+      if(audio_remain() < AUDIO_BUFFERING) nesObj.frame();
+      
+      var dst_l = dst.getChannelData(0);
+      var dst_r = dst.getChannelData(1);
+      for(var i = 0; i < len; i++){
+        var src_idx = (audio_read_cursor + i) & SAMPLE_MASK;
+        dst_l[i] = audio_samples_L[src_idx];
+        dst_r[i] = audio_samples_R[src_idx];
+      }
+      
+      audio_read_cursor = (audio_read_cursor + len) & SAMPLE_MASK;
+    }
+    function audio_remain(){
+      return (audio_write_cursor - audio_read_cursor) & SAMPLE_MASK;
+    }
+    setTimeout(()=>setUpNesAudio(),1000)
     // For debugging. (["nes"] instead of .nes to avoid VS Code type errors.)
     window["nes"] = this.nes;
 
@@ -146,9 +188,7 @@ class Emulator extends Component {
 
     // TODO: handle changing romData
   }
-  startSpeaker = ()=>{
-    this.speakers.start();
-  }
+
   start = () => {
     this.frameTimer.start();
     this.speakers.start();

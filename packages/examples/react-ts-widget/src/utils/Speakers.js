@@ -6,6 +6,8 @@ export default class Speakers {
     this.onBufferUnderrun = onBufferUnderrun;
     this.bufferSize = 16384;
     this.buffer = new RingBuffer(this.bufferSize * 2);
+    console.log(this.buffer)
+
   }
 
   getSampleRate() {
@@ -15,6 +17,7 @@ export default class Speakers {
     let myCtx = new window.AudioContext();
     let sampleRate = myCtx.sampleRate;
     myCtx.close();
+    console.log(sampleRate)
     return sampleRate;
   }
 
@@ -24,6 +27,7 @@ export default class Speakers {
       return;
     }
     this.audioCtx = new window.AudioContext();
+    console.log(this.audioCtx)
     this.scriptNode = this.audioCtx.createScriptProcessor(1024, 0, 2);
     this.scriptNode.onaudioprocess = this.onaudioprocess;
     this.scriptNode.connect(this.audioCtx.destination);
@@ -43,11 +47,12 @@ export default class Speakers {
 
   writeSample = (left, right) => {
     if (this.buffer.size() / 2 >= this.bufferSize) {
-      console.log(`Buffer overrun`, this.buffer.size());
+      // console.log(`Buffer overrun`, this.buffer.size());
       this.buffer.deqN(this.bufferSize / 2);
     }
     this.buffer.enq(left);
     this.buffer.enq(right);
+
   };
 
   onaudioprocess = e => {
