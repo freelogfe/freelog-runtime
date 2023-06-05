@@ -170,7 +170,6 @@ export async function getExhibitFileStream(
   },
   config?: any
 ) {
-  console.log(options)
   return frequest.bind({
     // @ts-ignore
     name: this.name,
