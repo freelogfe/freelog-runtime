@@ -1,7 +1,6 @@
 import frequest from "../../services/handler";
 import exhibit from "../../services/api/modules/exhibit";
 import contract from "../../services/api/modules/contract";
-import { PlainObject } from "../../../../freelog/dist/interface";
 const isTest = window.isTest;
 // @ts-ignore
 let nodeId = "";

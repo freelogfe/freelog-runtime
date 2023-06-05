@@ -8546,7 +8546,7 @@ function getByExhibitId(name, exhibitId, type, parentNid, subArticleIdOrName, re
   })(_services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__/* ["default"].getExhibitAuthById */ .Z.getExhibitAuthById, [nodeId, exhibitId, type], form, returnUrl, config);
 }
 
-function getExhibitFileStream(exhibitId, returnUrl, config) {
+function getExhibitFileStream(exhibitId, options, config) {
   return __awaiter(this, void 0, void 0, function () {
     return __generator(this, function (_a) {
       return [2
@@ -8556,7 +8556,9 @@ function getExhibitFileStream(exhibitId, returnUrl, config) {
         name: this.name,
         isAuth: true,
         exhibitId: exhibitId
-      })(isTest ? _services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__/* ["default"].getTestExhibitById */ .Z.getTestExhibitById : _services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__/* ["default"].getExhibitById */ .Z.getExhibitById, [exhibitId], null, returnUrl, config)];
+      })(isTest ? _services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__/* ["default"].getTestExhibitById */ .Z.getTestExhibitById : _services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__/* ["default"].getExhibitById */ .Z.getExhibitById, [exhibitId], options.subFilePath ? {
+        subFilePath: options.subFilePath
+      } : null, typeof options === "boolean" ? options : options.returnUrl, config || options.config)];
     });
   });
 }
@@ -11242,7 +11244,9 @@ function mountWidget(options) {
         case 2:
           return [4
           /*yield*/
-          , window.freelogApp.getExhibitFileStream.bind(that || {})(commonData.exhibitId, true)];
+          , window.freelogApp.getExhibitFileStream.bind(that || {})(commonData.exhibitId, {
+            returnUrl: true
+          })];
 
         case 3:
           fentry = _a.sent();
