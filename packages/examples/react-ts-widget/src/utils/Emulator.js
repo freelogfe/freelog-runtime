@@ -37,6 +37,7 @@ class Emulator extends Component {
   }
 
   componentDidMount() {
+    this.isOff = true
     // Initial layout
     this.fitInParent();
 
@@ -143,15 +144,28 @@ class Emulator extends Component {
         this.start();
       }
     }
-
     // TODO: handle changing romData
   }
-  startSpeaker = ()=>{
-    this.speakers.start();
+  toggleSpeaker = ()=>{
+    if(this.isOff){
+      this.isOff = false
+      console.log(this.speakers.isOn)
+      if(!this.speakers.isOn){
+        this.speakers.start();
+      } 
+      return
+    } 
+    this.isOff = true
+    if(this.speakers.isOn){
+      this.speakers.stop();
+    } 
   }
   start = () => {
     this.frameTimer.start();
-    this.speakers.start();
+    console.log(!this.isOff && this.speakers.isOn)
+    if(!this.isOff && !this.speakers.isOn){
+      this.speakers.start();
+    } 
     this.fpsInterval = setInterval(() => {
       // console.log(`FPS: ${this.nes.getFPS()}`);
     }, 1000);
@@ -160,6 +174,9 @@ class Emulator extends Component {
   stop = () => {
     this.frameTimer.stop();
     this.speakers.stop();
+    if(this.speakers.isOn){
+      this.speakers.stop();
+    } 
     clearInterval(this.fpsInterval);
   };
 

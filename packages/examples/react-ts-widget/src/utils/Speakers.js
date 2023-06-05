@@ -7,7 +7,7 @@ export default class Speakers {
     this.bufferSize = 16384;
     this.buffer = new RingBuffer(this.bufferSize * 2);
     console.log(this.buffer)
-
+    this.isOn = false
   }
 
   getSampleRate() {
@@ -26,6 +26,7 @@ export default class Speakers {
     if (!window.AudioContext) {
       return;
     }
+    this.isOn = true
     this.audioCtx = new window.AudioContext();
     console.log(this.audioCtx)
     this.scriptNode = this.audioCtx.createScriptProcessor(1024, 0, 2);
@@ -34,6 +35,7 @@ export default class Speakers {
   }
 
   stop() {
+    this.isOn = false
     if (this.scriptNode) {
       this.scriptNode.disconnect(this.audioCtx.destination);
       this.scriptNode.onaudioprocess = null;

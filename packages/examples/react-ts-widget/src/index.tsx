@@ -18,7 +18,7 @@ __webpack_public_path__ = window.__INJECTED_PUBLIC_PATH_BY_FREELOG__;
 let root: any = null;
 
 // If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
+// to log results (for example: reportWebVit+als(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 export async function bootstrap(props?: any) {

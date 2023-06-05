@@ -194,7 +194,7 @@ class RunPage extends Component {
     this.setState({ running: true, loading: false, romData: data });
   };
   toggleControlsSpeaker = ()=>{
-    this.emulator.startSpeaker()
+    this.emulator.toggleSpeaker()
     console.log(this.emulator)
   }
   handlePauseResume = () => {

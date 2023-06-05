@@ -1,6 +1,7 @@
 import frequest from "../../services/handler";
 import exhibit from "../../services/api/modules/exhibit";
 import contract from "../../services/api/modules/contract";
+import { PlainObject } from "../../../../freelog/dist/interface";
 const isTest = window.isTest;
 // @ts-ignore
 let nodeId = "";
@@ -162,9 +163,14 @@ function getByExhibitId(
 }
 export async function getExhibitFileStream(
   exhibitId: string | number,
-  returnUrl?: boolean,
+  options: {
+    returnUrl?: boolean;
+    config?: any;
+    subFilePath?: string;
+  },
   config?: any
 ) {
+  console.log(options)
   return frequest.bind({
     // @ts-ignore
     name: this.name,
@@ -173,9 +179,9 @@ export async function getExhibitFileStream(
   })(
     isTest ? exhibit.getTestExhibitById : exhibit.getExhibitById,
     [exhibitId],
-    null,
-    returnUrl,
-    config
+    options.subFilePath? {subFilePath: options.subFilePath } : null,
+    typeof options === "boolean" ? options : options.returnUrl,
+    config || options.config
   );
   // @ts-ignore
   // return getByExhibitId(

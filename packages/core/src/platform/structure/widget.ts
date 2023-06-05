@@ -246,7 +246,7 @@ export async function mountWidget(
   } else {
     fentry = await window.freelogApp.getExhibitFileStream.bind(that || {})(
       commonData.exhibitId,
-      true
+      {returnUrl:true}
     );
     fentry = fentry + "?subFilePath="; // '/package/'
   }
