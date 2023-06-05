@@ -10,7 +10,7 @@
 
 ## 节点相关
 
-### nodeInfo 
+### nodeInfo
 
 **用途：获取节点信息**
 
@@ -358,15 +358,20 @@ const res = await window.freelogApp.getExhibitInfo(exhibitId, query)
 
 ```ts
 **参数说明**
-  exhibitId: string,   展品id
-  returnUrl?: boolean, 是否只返回url， 例如img标签图片只需要url
-  config?: object,     axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
+  exhibitId: 展品id，
+  options: { 
+    returnUrl?: boolean; 是否只返回url， 例如img标签图片只需要url
+    config?: any;   axios的config 目前仅支持"onUploadProgress",  "onDownloadProgress", "responseType"
+    subFilePath?: string;   漫画中的图片等子文件的路径
+  },
 
 **用法**
 const res = await window.freelogApp.getExhibitFileStream(
   exhibitId,
-  returnUrl,
-  config
+  {
+    returnUrl,
+    config
+  }
 )
 ```
 

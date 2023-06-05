@@ -8,7 +8,7 @@
     <link rel="icon" href="/freelog.ico">
     <meta name="description" content="freelog 开发者文档">
     
-    <link rel="preload" href="/assets/css/0.styles.b4108987.css" as="style"><link rel="preload" href="/assets/js/app.ad399456.js" as="script"><link rel="preload" href="/assets/js/2.733019b2.js" as="script"><link rel="preload" href="/assets/js/7.e253d8c9.js" as="script"><link rel="prefetch" href="/assets/js/3.39104db2.js"><link rel="prefetch" href="/assets/js/4.d12742be.js"><link rel="prefetch" href="/assets/js/5.216cae74.js"><link rel="prefetch" href="/assets/js/6.2d0a63f8.js"><link rel="prefetch" href="/assets/js/8.587d4ce6.js"><link rel="prefetch" href="/assets/js/9.6846600c.js">
+    <link rel="preload" href="/assets/css/0.styles.b4108987.css" as="style"><link rel="preload" href="/assets/js/app.0471c120.js" as="script"><link rel="preload" href="/assets/js/2.733019b2.js" as="script"><link rel="preload" href="/assets/js/7.639f3dfa.js" as="script"><link rel="prefetch" href="/assets/js/3.39104db2.js"><link rel="prefetch" href="/assets/js/4.d12742be.js"><link rel="prefetch" href="/assets/js/5.216cae74.js"><link rel="prefetch" href="/assets/js/6.2d0a63f8.js"><link rel="prefetch" href="/assets/js/8.5388f0b5.js"><link rel="prefetch" href="/assets/js/9.245b7132.js">
     <link rel="stylesheet" href="/assets/css/0.styles.b4108987.css">
   </head>
   <body>
@@ -438,9 +438,9 @@ widgets<span class="token punctuation">.</span><span class="token function">some
     widget<span class="token punctuation">,</span>
     document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;freelog-single&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// 给每一个提供不同的容器</span>
     <span class="token keyword">null</span><span class="token punctuation">,</span>
-    config<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> 
-    seq<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> 
-    widget_entry<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> 
+    config<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    seq<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+    widget_entry<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
@@ -570,10 +570,17 @@ keys <span class="token operator">=</span> <span class="token punctuation">{</sp
       isLoadVersionProperty<span class="token operator">:</span> <span class="token number">0</span> <span class="token operator">|</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token comment">// 是否需要展品版本属性</span>
   <span class="token punctuation">}</span>
 </code></pre></div><p><a href="/api/#getexhibitinfo">查看 getExhibitInfo 详情</a></p> <h3 id="获取展品作品"><a href="#获取展品作品" class="header-anchor">#</a> 获取展品作品</h3> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getExhibitFileStream</span><span class="token punctuation">(</span>
-  exhibitId<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>  <span class="token comment">// 展品id</span>
-  returnUrl<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">,</span> <span class="token comment">// 是否只返回url， 例如img标签图片只需要url</span>
-  config<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">any</span> <span class="token comment">// axios的config 目前仅支持&quot;onUploadProgress&quot;, &quot;onDownloadProgress&quot;, &quot;responseType&quot;</span>
+  exhibitId<span class="token punctuation">,</span>
+  options
 <span class="token punctuation">)</span>
+
+<span class="token operator">**</span>参数说明<span class="token operator">**</span>
+  exhibitId<span class="token operator">:</span> <span class="token comment">// 展品id，</span>
+  options<span class="token operator">:</span> <span class="token punctuation">{</span> 
+    returnUrl<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span> <span class="token comment">// 是否只返回url， 例如img标签图片只需要url</span>
+    config<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">;</span> <span class="token comment">// axios的config 目前仅支持&quot;onUploadProgress&quot;, &quot;onDownloadProgress&quot;, &quot;responseType&quot;</span>
+    subFilePath<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span> <span class="token comment">// 漫画中的图片等子文件的路径</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
 </code></pre></div><h3 id="展品子依赖列表"><a href="#展品子依赖列表" class="header-anchor">#</a> 展品子依赖列表</h3> <p><strong>在 获取展品 与 获取单个展品详情 接口返回数据中</strong></p> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token operator">**</span>如下所示，数组versionInfo<span class="token punctuation">.</span>dependencyTree就是该展品的所有子孙依赖列表<span class="token operator">**</span>
   <span class="token operator">**</span>第一个为自身，通过自身的nid去找出parentNid为该nid的依赖即为直接子依赖<span class="token operator">**</span>
   <span class="token punctuation">{</span>
@@ -720,6 +727,6 @@ window<span class="token punctuation">.</span><span class="token constant">FREEL
 <span class="token comment">// 获取用户数据</span>
 <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getUserData</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre></div><h2 id="打包上传"><a href="#打包上传" class="header-anchor">#</a> 打包上传</h2> <p><strong>正常 build 后，将打包后的所有文件压缩为一个 zip 文件（无根目录），作为主题 theme 或插件 widget 类型上传为作品</strong></p></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
-    <script src="/assets/js/app.ad399456.js" defer></script><script src="/assets/js/2.733019b2.js" defer></script><script src="/assets/js/7.e253d8c9.js" defer></script>
+    <script src="/assets/js/app.0471c120.js" defer></script><script src="/assets/js/2.733019b2.js" defer></script><script src="/assets/js/7.639f3dfa.js" defer></script>
   </body>
 </html>

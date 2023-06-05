@@ -1,4 +1,5 @@
 # 指南
+
 ## 介绍
 
 ### 概念
@@ -609,9 +610,9 @@ widgets.some((widget, index) => {
     widget,
     document.getElementById("freelog-single"),  // 给每一个提供不同的容器
     null,
-    config: {}, 
-    seq: string, 
-    widget_entry: string, 
+    config: {},
+    seq: string,
+    widget_entry: string,
   });
 });
 
@@ -837,10 +838,17 @@ const res = await  window.freelogApp.getExhibitInfo(exhibitId, query)
 
 ```ts
 const res = await window.freelogApp.getExhibitFileStream(
-  exhibitId: string,  // 展品id
-  returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
-  config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
+  exhibitId,
+  options
 )
+
+**参数说明**
+  exhibitId: // 展品id，
+  options: { 
+    returnUrl?: boolean; // 是否只返回url， 例如img标签图片只需要url
+    config?: any; // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
+    subFilePath?: string; // 漫画中的图片等子文件的路径
+  },
 ```
 
 ### 展品子依赖列表
@@ -1075,8 +1083,6 @@ const res = await window.freelogApp.getUserData(key);
 <!-- ## 模板下载 -->
 
 <!-- [vue模板](https://freelog-docs.freelog.com/$freelog-60a614de12ac83003f09d975=/dev/guide)  -->
-
-
 
 <!-- ## 移动端真机调试 vconsole
 
