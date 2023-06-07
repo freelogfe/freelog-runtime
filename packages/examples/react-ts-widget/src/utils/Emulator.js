@@ -23,6 +23,7 @@ class Emulator extends Component {
           this.screen = screen;
         }}
         onGenerateFrame={() => {
+          console.log(new Date().getMilliseconds())
           this.nes.frame();
         }}
         onMouseDown={(x, y) => {
@@ -153,16 +154,16 @@ class Emulator extends Component {
       if(!this.speakers.isOn){
         this.speakers.start();
       } 
-      return
+      return this.isOff
     } 
     this.isOff = true
     if(this.speakers.isOn){
       this.speakers.stop();
     } 
+    return this.isOff
   }
   start = () => {
     this.frameTimer.start();
-    console.log(!this.isOff && this.speakers.isOn)
     if(!this.isOff && !this.speakers.isOn){
       this.speakers.start();
     } 

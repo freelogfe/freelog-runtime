@@ -42,7 +42,9 @@ export default class FrameTimer {
     let newFrameTime = time - excess;
 
     // first frame, do nothing
-    if (!this.lastFrameTime) {
+    if (!this.lastFrameTime || newFrameTime-this.lastFrameTime > this.interval + 1) {
+      console.log(newFrameTime-this.lastFrameTime,time, this.interval)
+
       this.lastFrameTime = newFrameTime;
       return;
     }

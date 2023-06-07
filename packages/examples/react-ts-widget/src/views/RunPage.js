@@ -20,6 +20,7 @@ class RunPage extends Component {
       romData: null,
       running: false,
       paused: false,
+      soundOff: true,
       controlsModalOpen: false,
       loading: true,
       loadedPercent: 3,
@@ -53,7 +54,7 @@ class RunPage extends Component {
                 onClick={this.toggleControlsSpeaker}
                 className="mr-3"
               >
-                声音
+               {this.state.soundOff ? "打开声音" : "关闭声音"} 
               </Button>
               <Button
                 outline
@@ -161,7 +162,7 @@ class RunPage extends Component {
     } else {
       this.setState({ romName: 'romInfo.description' });
       this.currentRequest = loadBinary(
-        'http://localhost:7001/Contra',
+        window.freelogApp ? window.freelogApp.getStaticPath('/Contra') : 'http://localhost:7001/Contra',
         (err, data) => {
           if (err) {
             this.setState({ error: `Error loading ROM: ${err.message}` });
@@ -193,8 +194,9 @@ class RunPage extends Component {
   handleLoaded = data => {
     this.setState({ running: true, loading: false, romData: data });
   };
-  toggleControlsSpeaker = ()=>{
-    this.emulator.toggleSpeaker()
+  toggleControlsSpeaker = () => {
+    const status = this.emulator.toggleSpeaker()
+    this.setState({ soundOff: status });
     console.log(this.emulator)
   }
   handlePauseResume = () => {
