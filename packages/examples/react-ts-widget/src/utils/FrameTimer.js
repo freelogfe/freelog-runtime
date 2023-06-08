@@ -42,11 +42,16 @@ export default class FrameTimer {
     let newFrameTime = time - excess;
 
     // first frame, do nothing
-    if (!this.lastFrameTime || newFrameTime-this.lastFrameTime > this.interval + 1) {
-      console.log(newFrameTime-this.lastFrameTime,time, this.interval)
-
+    if (!this.lastFrameTime) {
       this.lastFrameTime = newFrameTime;
       return;
+    }
+    // 如果新一帧时间 比 上一帧时间 多出 2倍的 固定interval间隔时间，当前固定1/60秒，2倍也就是1/30秒，所以最低支持30hz
+    // 纠正为一倍的时间差，防止产生加速
+    // 导致加速的原因：离开当前页面后newFrameTime还在增加，但lastFrameTime并没有增加，等到再次进来时，两者的时间差变大，在一帧的时间里多刷了画面
+    // 离开后为什么newFrameTime还在增加，暂时没有找到原因，
+    if(newFrameTime-this.lastFrameTime > 2*this.interval + 1){
+      this.lastFrameTime = newFrameTime - this.interval;
     }
 
     let numFrames = Math.round(
