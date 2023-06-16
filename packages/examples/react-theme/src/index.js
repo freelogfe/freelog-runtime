@@ -37,7 +37,7 @@ export async function mount(props = {}) {
 }
 
 export async function unmount(props) {
-  const { container } = props;
+  // const { container } = props;
   root.unmount()
 }
 

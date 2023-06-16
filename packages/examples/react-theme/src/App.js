@@ -1,31 +1,31 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 
 function App() {
   let app = null;
   // 加载自身依赖的插件
-  const mountSubWidget = async () => {
-    const subData = await window.freelogApp.getSubDep();
-    subData.subDep.some(async (sub, index) => {
-      if (index === 1) return true;
-      app = await window.freelogApp.mountWidget(
-        sub,
-        document.getElementById("freelog-single2"),
-        subData,
-        "",
-        "",
-        "http://localhost:7001"
-      );
-      // 插件加载完成
-      app.mountPromise.then(() => {
-        // 卸载与重载
-        // app.unmount.then(() => {
-        //   app.mount.then(() => {
-        //   })
-        // })
-      })
-    });
-  }
+  // const mountSubWidget = async () => {
+  //   const subData = await window.freelogApp.getSubDep();
+  //   subData.subDep.some(async (sub, index) => {
+  //     if (index === 1) return true;
+  //     app = await window.freelogApp.mountWidget(
+  //       sub,
+  //       document.getElementById("freelog-single2"),
+  //       subData,
+  //       "",
+  //       "",
+  //       "http://localhost:7001"
+  //     );
+  //     // 插件加载完成
+  //     app.mountPromise.then(() => {
+  //       // 卸载与重载
+  //       // app.unmount.then(() => {
+  //       //   app.mount.then(() => {
+  //       //   })
+  //       // })
+  //     })
+  //   });
+  // }
   const add = ()=>{
     app.getApi().changeMe()
   }

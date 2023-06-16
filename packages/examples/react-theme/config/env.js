@@ -13,6 +13,9 @@ if (!NODE_ENV) {
     'The NODE_ENV environment variable is required but was not specified.'
   );
 }
+process.env.HTTPS = 'true' 
+// process.env.SSL_CRT_FILE = 'certs/dev.pem' 
+// process.env.SSL_KEY_FILE = 'certs/dev.key' 
 process.env.PORT = '7000' // 端口自行定
 if (NODE_ENV === 'development') {
   process.env.WDS_SOCKET_HOST = 'localhost'

@@ -55,6 +55,7 @@
     "webpack": "^5.64.4",
     "webpack-dev-server": "^4.6.0",
     "webpack-manifest-plugin": "^4.0.2",
+    "webpack-mkcert": "^1.0.3",
     "workbox-webpack-plugin": "^6.4.1"
   },
   "scripts": {
