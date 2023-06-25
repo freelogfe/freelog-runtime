@@ -22,13 +22,7 @@ module.exports = defineConfig(async () => {
     assetsDir: 'static',
     filenameHashing: true,
     devServer: {
-      https: {
-        // ca: './path/to/server.pem',
-        // pfx: './path/to/server.pfx',
-        // key: './path/to/server.key',
-        // cert: './path/to/server.crt',
-        // passphrase: 'webpack-dev-server',
-        // requestCert: true,
+      https: { 
         ...https
       },
       hot: true,
@@ -53,30 +47,3 @@ module.exports = defineConfig(async () => {
     },
   }
 })
-// module.exports = {
-//   outputDir: 'dist',
-//   assetsDir: 'static',
-//   filenameHashing: true,
-//   devServer: {
-//     hot: true,
-//     port,
-//     headers: {
-//       'Access-Control-Allow-Origin': '*',
-//     },
-//     ...https
-//   },
-//   // 自定义webpack配置
-//   configureWebpack: {
-//     resolve: {
-//       alias: {
-//         '@': resolve('src'),
-//       },
-//     },
-//     output: {
-//       // 把子应用打包成 umd 库格式
-//       library: `${name}-[name]`,
-//       libraryTarget: 'umd',
-//       chunkLoadingGlobal: `webpackJsonp_${name}`,
-//     },
-//   },
-// };

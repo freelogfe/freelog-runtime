@@ -30,7 +30,7 @@ const mountSubWidget = async () => {
 const add = () => {
   app.getApi().changeMe();
 };
-// 加载展品类型的插件
+// 加载展品类型的插件s
 const mountExhibitWidget = async () => {
   const res = await window.freelogApp.getExhibitListByPaging({
     articleResourceTypes: "插件",
