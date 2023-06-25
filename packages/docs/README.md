@@ -173,51 +173,70 @@ const { name } = require("./package");
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
+const webpackPlugin = require("webpack-mkcert");
 
 const port = 7101; // dev port
 
-module.exports = {
-  /**
-   * You will need to set publicPath if you plan to deploy your site under a sub path,
-   * for example GitHub Pages. If you plan to deploy your site to https://foo.github.io/bar/,
-   * then publicPath should be set to "/bar/".
-   * In most cases please use '/' !!!
-   * Detail: https://cli.vuejs.org/config/#publicpath
-   */
-  outputDir: "dist",
-  assetsDir: "static",
-  filenameHashing: true,
-  // tweak internal webpack configuration.
-  // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
-  devServer: {
-    // host: '0.0.0.0',
-    hot: true,
-    disableHostCheck: true,
-    port,
-    overlay: {
-      warnings: false,
-      errors: true,
-    },
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-    },
-  },
-  // 自定义webpack配置
-  configureWebpack: {
-    resolve: {
-      alias: {
-        "@": resolve("src"),
+const { defineConfig } = require("@vue/cli-service");
+
+// https 插件 需要安装
+const webpackPlugin = require("webpack-mkcert");
+
+function resolve(dir) {
+  return path.join(__dirname, dir);
+}
+
+const port = 7105;
+module.exports = defineConfig(async () => {
+  const https = await webpackPlugin.default({
+    force: true,
+    source: "coding",
+    hosts: ["localhost", "127.0.0.1"],
+  });
+  return {
+    /**
+     * You will need to set publicPath if you plan to deploy your site under a sub path,
+     * for example GitHub Pages. If you plan to deploy your site to https://foo.github.io/bar/,
+     * then publicPath should be set to "/bar/".
+     * In most cases please use '/' !!!
+     * Detail: https://cli.vuejs.org/config/#publicpath
+     */
+    outputDir: "dist",
+    assetsDir: "static",
+    filenameHashing: true,
+    https,
+    // tweak internal webpack configuration.
+    // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
+    devServer: {
+      // host: '0.0.0.0',
+      hot: true,
+      disableHostCheck: true,
+      port,
+      overlay: {
+        warnings: false,
+        errors: true,
+      },
+      headers: {
+        "Access-Control-Allow-Origin": "*",
       },
     },
-    output: {
-      // 把子应用打包成 umd 库格式
-      library: `${name}-[name]`,
-      libraryTarget: "umd",
-      jsonpFunction: `webpackJsonp_${name}`,
-      // webpack5使用chunkLoadingGlobal: `webpackJsonp${name}`
+    // 自定义webpack配置
+    configureWebpack: {
+      resolve: {
+        alias: {
+          "@": resolve("src"),
+        },
+      },
+      output: {
+        // 把子应用打包成 umd 库格式
+        library: `${name}-[name]`,
+        libraryTarget: "umd",
+        jsonpFunction: `webpackJsonp_${name}`,
+        // webpack5使用chunkLoadingGlobal: `webpackJsonp${name}`
+      },
     },
-  },
-};
+  };
+});
 ```
 
 ### Vue3 配置示例
@@ -292,45 +311,60 @@ function storeTest(props) {
 ```ts
 const path = require("path");
 const { name } = require("./package");
+const { defineConfig } = require("@vue/cli-service");
+
+// https 插件 需要安装
+const webpackPlugin = require("webpack-mkcert");
 
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
 
 const port = 7105;
-
-module.exports = {
-  outputDir: "dist",
-  assetsDir: "static",
-  filenameHashing: true,
-  devServer: {
-    hot: true,
-    disableHostCheck: true,
-    port,
-    overlay: {
-      warnings: false,
-      errors: true,
-    },
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-    },
-  },
-  // 自定义webpack配置
-  configureWebpack: {
-    resolve: {
-      alias: {
-        "@": resolve("src"),
+module.exports = defineConfig(async () => {
+  const https = await webpackPlugin.default({
+    force: true,
+    source: "coding",
+    hosts: ["localhost", "127.0.0.1"],
+  });
+  console.log(https);
+  return {
+    transpileDependencies: true,
+    outputDir: "dist",
+    assetsDir: "static",
+    filenameHashing: true,
+    devServer: {
+      https: {
+        // ca: './path/to/server.pem',
+        // pfx: './path/to/server.pfx',
+        // key: './path/to/server.key',
+        // cert: './path/to/server.crt',
+        // passphrase: 'webpack-dev-server',
+        // requestCert: true,
+        ...https,
+      },
+      hot: true,
+      port,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
       },
     },
-    output: {
-      // 把子应用打包成 umd 库格式
-      library: `${name}-[name]`,
-      libraryTarget: "umd",
-      jsonpFunction: `webpackJsonp_${name}`,
-      // webpack5使用chunkLoadingGlobal: `webpackJsonp${name}`
+    // 自定义webpack配置
+    configureWebpack: {
+      resolve: {
+        alias: {
+          "@": resolve("src"),
+        },
+      },
+      output: {
+        // 把子应用打包成 umd 库格式
+        library: `${name}-[name]`,
+        libraryTarget: "umd",
+        chunkLoadingGlobal: `webpackJsonp_${name}`,
+      },
     },
-  },
-};
+  };
+});
 ```
 
 ### React 配置示例
@@ -534,9 +568,10 @@ module.exports = {
 
 **由于浏览器安全限制，本地开发需要本地以 https 启动**
 
-**参考以下链接，后续考虑提供官方工具自动生成带证书的模板**
+参考 webpack-mkcert 工具
+ 
 
-[https://blog.csdn.net/weixin_46383294/article/details/124047526](https://blog.csdn.net/weixin_46383294/article/details/124047526)
+[https://www.npmjs.com/package/webpack-mkcert](https://www.npmjs.com/package/webpack-mkcert)
 
 ### chrome 无法访问 localhost 问题
 
@@ -844,7 +879,7 @@ const res = await window.freelogApp.getExhibitFileStream(
 
 **参数说明**
   exhibitId: // 展品id，
-  options: { 
+  options: {
     returnUrl?: boolean; // 是否只返回url， 例如img标签图片只需要url
     config?: any; // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
     subFilePath?: string; // 漫画中的图片等子文件的路径
