@@ -3362,9 +3362,9 @@ function loadMicroApp(app, configuration, lifeCycles) {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "I": function() { return /* binding */ getMicroAppStateActions; }
+/* harmony export */   "I": function() { return /* binding */ getMicroAppStateActions; },
+/* harmony export */   "N": function() { return /* binding */ initGlobalState; }
 /* harmony export */ });
-/* unused harmony export initGlobalState */
 /* harmony import */ var lodash_es__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6440);
 /**
  * @author dbkillerf6
@@ -3390,8 +3390,8 @@ function initGlobalState(state) {
   if (state === globalState) {
     console.warn('[freelog] state has not changed！');
   } else {
-    var prevGlobalState = cloneDeep(globalState);
-    globalState = cloneDeep(state);
+    var prevGlobalState = (0,lodash_es__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .Z)(globalState);
+    globalState = (0,lodash_es__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .Z)(state);
     emitGlobal(globalState, prevGlobalState);
   }
 
@@ -8713,13 +8713,15 @@ var freelogAuth = {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "L": function() { return /* binding */ freelogApp; }
 /* harmony export */ });
-/* harmony import */ var _widget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2802);
-/* harmony import */ var _bridge_eventType__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(93);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4085);
-/* harmony import */ var _bridge_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1866);
-/* harmony import */ var _bridge_eventOn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1204);
-/* harmony import */ var _security__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8061);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9218);
+/* harmony import */ var _widget__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2802);
+/* harmony import */ var _bridge_eventType__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(93);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4085);
+/* harmony import */ var _bridge_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1866);
+/* harmony import */ var _bridge_eventOn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1204);
+/* harmony import */ var _security__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(8061);
+/* harmony import */ var _runtime_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(860);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9218);
+
 
 
 
@@ -8729,41 +8731,42 @@ var freelogAuth = {
 
 var devData = "";
 var freelogApp = {
+  initGlobalState: _runtime_index__WEBPACK_IMPORTED_MODULE_0__/* .initGlobalState */ .N,
   nodeInfo: "",
   status: {
     authUIMounted: false,
     themeMounted: false
   },
-  mountWidget: _widget__WEBPACK_IMPORTED_MODULE_0__/* .mountWidget */ .lA,
-  getExhibitListById: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitListById */ .Pd,
-  getExhibitListByPaging: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitListByPaging */ .yI,
-  getExhibitInfo: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitInfo */ .RS,
-  getExhibitSignCount: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitSignCount */ .xL,
-  getExhibitAuthStatus: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitAuthStatus */ .yr,
-  getExhibitFileStream: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitFileStream */ .ae,
-  getExhibitDepFileStream: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitDepFileStream */ .rb,
-  getExhibitInfoByAuth: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitInfoByAuth */ ._P,
-  getExhibitDepInfo: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitDepInfo */ .hz,
-  getSignStatistics: _api__WEBPACK_IMPORTED_MODULE_1__/* .getSignStatistics */ .Xg,
-  getExhibitAvailalbe: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitAvailalbe */ .Yi,
+  mountWidget: _widget__WEBPACK_IMPORTED_MODULE_1__/* .mountWidget */ .lA,
+  getExhibitListById: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitListById */ .Pd,
+  getExhibitListByPaging: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitListByPaging */ .yI,
+  getExhibitInfo: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitInfo */ .RS,
+  getExhibitSignCount: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitSignCount */ .xL,
+  getExhibitAuthStatus: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitAuthStatus */ .yr,
+  getExhibitFileStream: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitFileStream */ .ae,
+  getExhibitDepFileStream: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitDepFileStream */ .rb,
+  getExhibitInfoByAuth: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitInfoByAuth */ ._P,
+  getExhibitDepInfo: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitDepInfo */ .hz,
+  getSignStatistics: _api__WEBPACK_IMPORTED_MODULE_2__/* .getSignStatistics */ .Xg,
+  getExhibitAvailalbe: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitAvailalbe */ .Yi,
   devData: devData,
-  getStaticPath: _utils__WEBPACK_IMPORTED_MODULE_2__/* .getStaticPath */ .lg,
-  getSubDep: _utils__WEBPACK_IMPORTED_MODULE_2__/* .getSubDep */ .Jr,
-  getSelfId: _utils__WEBPACK_IMPORTED_MODULE_2__/* .getSelfId */ .RW,
-  callAuth: _bridge_index__WEBPACK_IMPORTED_MODULE_3__/* .callAuth */ .PF,
-  addAuth: _bridge_index__WEBPACK_IMPORTED_MODULE_3__/* .addAuth */ .Ei,
-  onLogin: _bridge_eventOn__WEBPACK_IMPORTED_MODULE_4__/* .onLogin */ .Sx,
-  onUserChange: _bridge_eventOn__WEBPACK_IMPORTED_MODULE_4__/* .onUserChange */ .iP,
-  callLogin: _utils__WEBPACK_IMPORTED_MODULE_2__/* .callLogin */ .rG,
-  callLoginOut: _utils__WEBPACK_IMPORTED_MODULE_2__/* .callLoginOut */ .yo,
-  getCurrentUser: _utils__WEBPACK_IMPORTED_MODULE_2__/* .getCurrentUser */ .ts,
-  setViewport: _utils__WEBPACK_IMPORTED_MODULE_2__/* .setViewport */ ._o,
-  setUserData: _utils__WEBPACK_IMPORTED_MODULE_2__/* .setUserData */ .M,
-  getUserData: _utils__WEBPACK_IMPORTED_MODULE_2__/* .getUserData */ .is,
-  getSelfConfig: _utils__WEBPACK_IMPORTED_MODULE_2__/* .getSelfConfig */ .KR,
-  isUserChange: _security__WEBPACK_IMPORTED_MODULE_5__/* .isUserChange */ .WU,
-  reload: _utils__WEBPACK_IMPORTED_MODULE_2__/* .reload */ .H5,
-  resultType: _bridge_eventType__WEBPACK_IMPORTED_MODULE_6__/* .resultType */ .uq
+  getStaticPath: _utils__WEBPACK_IMPORTED_MODULE_3__/* .getStaticPath */ .lg,
+  getSubDep: _utils__WEBPACK_IMPORTED_MODULE_3__/* .getSubDep */ .Jr,
+  getSelfId: _utils__WEBPACK_IMPORTED_MODULE_3__/* .getSelfId */ .RW,
+  callAuth: _bridge_index__WEBPACK_IMPORTED_MODULE_4__/* .callAuth */ .PF,
+  addAuth: _bridge_index__WEBPACK_IMPORTED_MODULE_4__/* .addAuth */ .Ei,
+  onLogin: _bridge_eventOn__WEBPACK_IMPORTED_MODULE_5__/* .onLogin */ .Sx,
+  onUserChange: _bridge_eventOn__WEBPACK_IMPORTED_MODULE_5__/* .onUserChange */ .iP,
+  callLogin: _utils__WEBPACK_IMPORTED_MODULE_3__/* .callLogin */ .rG,
+  callLoginOut: _utils__WEBPACK_IMPORTED_MODULE_3__/* .callLoginOut */ .yo,
+  getCurrentUser: _utils__WEBPACK_IMPORTED_MODULE_3__/* .getCurrentUser */ .ts,
+  setViewport: _utils__WEBPACK_IMPORTED_MODULE_3__/* .setViewport */ ._o,
+  setUserData: _utils__WEBPACK_IMPORTED_MODULE_3__/* .setUserData */ .M,
+  getUserData: _utils__WEBPACK_IMPORTED_MODULE_3__/* .getUserData */ .is,
+  getSelfConfig: _utils__WEBPACK_IMPORTED_MODULE_3__/* .getSelfConfig */ .KR,
+  isUserChange: _security__WEBPACK_IMPORTED_MODULE_6__/* .isUserChange */ .WU,
+  reload: _utils__WEBPACK_IMPORTED_MODULE_3__/* .reload */ .H5,
+  resultType: _bridge_eventType__WEBPACK_IMPORTED_MODULE_7__/* .resultType */ .uq
 };
 
 /***/ }),
@@ -9378,8 +9381,9 @@ function requestNodeInfo(nodeDomain) {
 /* harmony export */   "qS": function() { return /* binding */ freelogAddEventListener; },
 /* harmony export */   "wx": function() { return /* binding */ freelogLocalStorage; }
 /* harmony export */ });
-/* unused harmony exports rawFetch, nativeOpen, locationCenter */
+/* unused harmony exports rawFetch, nativeOpen, isTheme, locationCenter */
 /* harmony import */ var _widget__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2802);
+/* harmony import */ var _runtime_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(860);
 /* harmony import */ var _history__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2778);
 /* harmony import */ var _dev__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6101);
 var __assign = undefined && undefined.__assign || function () {
@@ -9567,6 +9571,7 @@ var __spreadArray = undefined && undefined.__spreadArray || function (to, from, 
 
 
 
+
 var rawDocument = document;
 var HISTORY = "history";
 var HASH = "hash";
@@ -9685,6 +9690,9 @@ function ajaxProxy(type, name) {
 }
 function isFreelogAuth(name) {
   return _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(name).isUI;
+}
+function isTheme(name) {
+  return _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(name).isTheme;
 }
 function initLocation() {
   if (rawLocation.href.includes("$freelog")) {
@@ -10087,6 +10095,14 @@ var createFreelogAppProxy = function (name, sandbox) {
       var pro = rawWindow.freelogApp[p];
 
       if (typeof pro === "function") {
+        if (p === 'initGlobalState') {
+          if (isTheme(name)) {
+            return _runtime_index__WEBPACK_IMPORTED_MODULE_3__/* .initGlobalState */ .N;
+          }
+
+          return function () {};
+        }
+
         return function () {
           // @ts-ignore
           return pro.bind(sandbox).apply(void 0, arguments);
@@ -11153,7 +11169,7 @@ function mountWidget(options) {
         case 0:
           widget = options.widget, container = options.container, topExhibitData = options.topExhibitData, config = options.config, seq = options.seq, widget_entry = options.widget_entry;
 
-          if (args && args.length) {
+          if (args === null || args === void 0 ? void 0 : args.length) {
             widget = options;
             container = args[0], topExhibitData = args[1], config = args[2], seq = args[3], widget_entry = args[4];
           }
@@ -11162,7 +11178,7 @@ function mountWidget(options) {
           that = this;
           configData = config; // TODO 为了安全，得验证是否是插件使用还是运行时使用mountWidget
 
-          if (that && that.name) {
+          if (that === null || that === void 0 ? void 0 : that.name) {
             isTheme = false;
             _widgetConfigData__WEBPACK_IMPORTED_MODULE_2__/* .defaultWidgetConfigData.historyFB */ .T.historyFB = false;
           }
