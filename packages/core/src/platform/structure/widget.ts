@@ -158,7 +158,7 @@ export async function mountWidget(
 ) {
   let { widget, container, topExhibitData, config, seq, widget_entry } =
     options; // 因为插件加载者并不使用，所以 可以当成 widget_entry}
-  if (args && args.length) {
+  if (args?.length) {
     widget = options;
     [container, topExhibitData, config, seq, widget_entry] = args;
   }
@@ -167,7 +167,7 @@ export async function mountWidget(
   const that = this;
   let configData = config;
   // TODO 为了安全，得验证是否是插件使用还是运行时使用mountWidget
-  if (that && that.name) {
+  if (that?.name) {
     isTheme = false;
     defaultWidgetConfigData.historyFB = false;
   }

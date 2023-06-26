@@ -21,6 +21,8 @@ import {
   childrenWidgets,
   flatternWidgets,
 } from "./widget";
+import {initGlobalState} from '../runtime/index'
+
 import {
   historyBack,
   historyForward,
@@ -91,7 +93,7 @@ export function freelogAddEventListener(proxy: any) {
       const func = arr[1];
       rawWindow.addEventListener(
         "message",
-        (event:any) => {
+        (event: any) => {
           if (typeof func === "function") {
             func(
               new Proxy(
@@ -106,7 +108,7 @@ export function freelogAddEventListener(proxy: any) {
                 }
               )
             );
-          }            
+          }
         },
         ...arr.slice(2)
       );
@@ -185,6 +187,10 @@ export function ajaxProxy(type: string, name: string) {
 export function isFreelogAuth(name: string) {
   return widgetsConfig.get(name).isUI;
 }
+export function isTheme(name: string) {
+  return widgetsConfig.get(name).isTheme;
+}
+
 export function initLocation() {
   if (rawLocation.href.includes("$freelog")) {
     var loc = rawLocation.href.split("freelog.com/")[1].split("$");
@@ -540,6 +546,12 @@ export const createFreelogAppProxy = function (name: string, sandbox: any) {
     get: function get(app: any, p: string) {
       const pro = rawWindow.freelogApp[p];
       if (typeof pro === "function") {
+        if(p === 'initGlobalState' ){
+          if(isTheme(name)){
+            return initGlobalState
+          }
+          return ()=>{}
+        }
         return function () {
           // @ts-ignore
           return pro.bind(sandbox)(...arguments);

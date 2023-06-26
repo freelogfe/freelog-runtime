@@ -16,6 +16,8 @@ import {
 import { callAuth, addAuth } from "../../bridge/index";
 import { onLogin, onUserChange } from "../../bridge/eventOn";
 import { isUserChange } from "../security";
+import {initGlobalState} from '../runtime/index'
+
 import {
   getExhibitListById,
   getExhibitListByPaging,
@@ -31,6 +33,7 @@ import {
 } from "./api";
 let devData = "";
 export const freelogApp: any = {
+  initGlobalState,
   nodeInfo: "",
   status: {
     authUIMounted: false,

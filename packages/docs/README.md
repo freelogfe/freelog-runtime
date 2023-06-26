@@ -569,7 +569,6 @@ module.exports = {
 **由于浏览器安全限制，本地开发需要本地以 https 启动**
 
 参考 webpack-mkcert 工具
- 
 
 [https://www.npmjs.com/package/webpack-mkcert](https://www.npmjs.com/package/webpack-mkcert)
 
@@ -619,14 +618,14 @@ const subData = await window.freelogApp.getSubDep();
 // 示范代码，这里只加载一个
 subData.subDep.some((sub, index) => {
   if (index === 1) return true;
-  let widgetController =  await window.freelogApp.mountWidget({
-    sub,  // 必传，子插件数据
-    document.getElementById("freelog-single"), // 必传，自定义一个让插件挂载的div容器
-    subData, // 必传，最外层展品数据（子孙插件都需要用）
+  let widgetController = await window.freelogApp.mountWidget({
+    widget: sub, // 必传，子插件数据
+    container: document.getElementById("freelog-single"), // 必传，自定义一个让插件挂载的div容器
+    topExhibitData: subData, // 必传，最外层展品数据（子孙插件都需要用）
     config: {}, // 子插件配置数据，需要另外获取作品上的配置数据
     seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的。
     widget_entry: string, // 本地url，dev模式下，可以使用本地url调试子插件
-});
+  });
 });
 ```
 
@@ -642,15 +641,14 @@ const widgets = res.data.data.dataList;
 widgets.some((widget, index) => {
   if (index === 1) return true;
   let widgetController = await window.freelogApp.mountWidget({
-    widget,
-    document.getElementById("freelog-single"),  // 给每一个提供不同的容器
-    null,
+    widget: widget,
+    container: document.getElementById("freelog-single"), // 给每一个提供不同的容器
+    topExhibitData: null,
     config: {},
     seq: string,
     widget_entry: string,
   });
 });
-
 ```
 
 ### 单独调试某个插件
@@ -732,6 +730,12 @@ const widgetConfig = window.freelogApp.getSelfConfig();
 
 ```ts
 **在入口处通过props修改与监听全局数据**
+const freelogApp = window.freelogApp
+// 主题独有方法，但主题可以传递给插件使用
+// 初始化全局数据，只能修改不能添加, 例如可以修改a:{} 为对象，但不能添加同级的b、c、d
+freelogApp.initGlobalState({ a: 1 })
+
+// 通过mount函数传递进来props 访问监听与设置的方法
 function storeTest(props) {
   props.onGlobalStateChange &&
     props.onGlobalStateChange(
@@ -753,6 +757,7 @@ export async function mount(props) {
   render(props);
 }
 
+// 函数说明
 props.setGlobalState(obj: 自定义对象)：
 props.onGlobalStateChange((state: 当前状态, prevState: 前数据) => void, fireImmediately:是否立即执行)
 ```

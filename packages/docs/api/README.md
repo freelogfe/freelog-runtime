@@ -45,6 +45,17 @@ const path = await window.freelogApp.getStaticPath(path);
 const data = window.freelogApp.devData;
 ```
 
+### initGlobalState
+
+**用途：设置全局数据**
+
+```ts
+**用法**
+// 主题独有方法，但主题可以传递给插件使用
+// 初始化全局数据，只能修改不能添加, 例如可以修改a:{} 为对象，但不能添加同级的b、c、d
+window.freelogApp.initGlobalState({ a: 1 });
+```
+
 ### getSelfId
 
 **用途：获取自身 Id**
@@ -144,9 +155,9 @@ getApi()  在子插件加载完成后 使用getApi()方法获取子插件的对�
 const subData = await window.freelogApp.getSubDep();
 subData.subDep.some((sub, index) => {
   await window.freelogApp.mountWidget({
-    sub,
-    document.getElementById("freelog-single"), // 注意每一个插件都需要不同容器
-    subData,
+    widget: sub,
+    container:document.getElementById("freelog-single"), // 注意每一个插件都需要不同容器
+    topExhibitData: subData,
     config: {},
     seq: string,
   });
@@ -164,8 +175,8 @@ const res = await window.freelogApp.getExhibitListById({
 const widgets = res.data.data.dataList;
 widgets.some((widget, index) => {
   await window.freelogApp.mountWidget({
-    widget,
-    document.getElementById("freelog-single"),// 注意每一个插件都需要不同容器
+    widget: widget,
+    container: document.getElementById("freelog-single"),// 注意每一个插件都需要不同容器
   });
 });
 ```
@@ -359,7 +370,7 @@ const res = await window.freelogApp.getExhibitInfo(exhibitId, query)
 ```ts
 **参数说明**
   exhibitId: 展品id，
-  options: { 
+  options: {
     returnUrl?: boolean; 是否只返回url， 例如img标签图片只需要url
     config?: any;   axios的config 目前仅支持"onUploadProgress",  "onDownloadProgress", "responseType"
     subFilePath?: string;   漫画中的图片等子文件的路径
