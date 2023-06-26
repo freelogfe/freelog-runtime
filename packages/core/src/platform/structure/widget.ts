@@ -158,7 +158,7 @@ export async function mountWidget(
 ) {
   let { widget, container, topExhibitData, config, seq, widget_entry } =
     options; // 因为插件加载者并不使用，所以 可以当成 widget_entry}
-  if (args) {
+  if (args && args.length) {
     widget = options;
     [container, topExhibitData, config, seq, widget_entry] = args;
   }
