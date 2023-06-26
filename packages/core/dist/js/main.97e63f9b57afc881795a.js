@@ -11153,7 +11153,7 @@ function mountWidget(options) {
         case 0:
           widget = options.widget, container = options.container, topExhibitData = options.topExhibitData, config = options.config, seq = options.seq, widget_entry = options.widget_entry;
 
-          if (args) {
+          if (args && args.length) {
             widget = options;
             container = args[0], topExhibitData = args[1], config = args[2], seq = args[3], widget_entry = args[4];
           }
