@@ -21,7 +21,7 @@ import {
   childrenWidgets,
   flatternWidgets,
 } from "./widget";
-import {initGlobalState} from '../runtime/index'
+import { initGlobalState } from "../runtime/index";
 
 import {
   historyBack,
@@ -193,7 +193,7 @@ export function isTheme(name: string) {
 
 export function initLocation() {
   if (rawLocation.href.includes("$freelog")) {
-    var loc = rawLocation.href.split("freelog.com/")[1].split("$");
+    let loc = rawLocation.href.split("freelog.com/")[1].split("$");
     if (rawWindow.freelogApp.devData.type === DEV_WIDGET) {
       const temp = rawLocation.search.split("$_")[1];
       // @ts-ignore
@@ -211,7 +211,7 @@ export function initLocation() {
           locations.set(id, { pathname, href: pathname + search, search });
           return;
         }
-        var l = item.split("=");
+        let l = item.split("=");
         locations.set(l[0], { pathname: l[1], href: l[1], search: "" });
       } catch (e) {
         console.error("url is error" + e);
@@ -221,7 +221,7 @@ export function initLocation() {
 }
 export function setLocation() {
   // TODO 只有在线的应用才在url上显示, 只有pathname和query需要
-  var hash = "";
+  let hash = "";
   locations.forEach((value, key) => {
     if (!activeWidgets.get(key)) {
       locations.delete(key);
@@ -253,6 +253,7 @@ export function setLocation() {
     if (url === rawLocation.href) return;
     rawWindow.history.pushState(state++, "", url);
   }
+
   // rawLocation.hash = hash; state++
 }
 // TODO pathname  search 需要不可变
@@ -304,7 +305,7 @@ export const createHistoryProxy = function (name: string) {
     let hash = "";
     let routerType = HISTORY;
     // TODO 解析query参数  search   vue3会把origin也传过来
-    let href = arguments[2].replace(rawLocation.origin, "");
+    let href = arguments[2].replace(rawLocation.origin, "").replace(rawLocation.origin.replace('http:',"https:"), "");
     if (arguments[2] && arguments[2].indexOf("#") > -1) {
       href = href.substring(1);
       routerType = HASH;
@@ -320,6 +321,7 @@ export const createHistoryProxy = function (name: string) {
       hash,
       routerType,
     });
+    console.log(pathname, href, search ? "?" + search : "", hash, routerType);
   }
   function pushPatch() {
     if (moveLock) return;
@@ -546,11 +548,11 @@ export const createFreelogAppProxy = function (name: string, sandbox: any) {
     get: function get(app: any, p: string) {
       const pro = rawWindow.freelogApp[p];
       if (typeof pro === "function") {
-        if(p === 'initGlobalState' ){
-          if(isTheme(name)){
-            return initGlobalState
+        if (p === "initGlobalState") {
+          if (isTheme(name)) {
+            return initGlobalState;
           }
-          return ()=>{}
+          return () => {};
         }
         return function () {
           // @ts-ignore
