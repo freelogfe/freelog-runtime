@@ -100,10 +100,10 @@ export function resolveUrl(path: string, params?: any): string {
   }
   return `${baseUrl}${path}?${queryStringArr.join("&")}`;
 }
-// TODO 这个根本不需要
+// TODO 调试用的widgetId，未来应该在测试节点去显示
 export async function getSelfId() {
   // @ts-ignore
-  return widgetsConfig.get(this.name)?.exhibitId;
+  return widgetsConfig.get(this.name)?.articleId;
 }
 
 export function getSelfConfig() {

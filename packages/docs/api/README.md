@@ -58,7 +58,7 @@ window.freelogApp.initGlobalState({ a: 1 });
 
 ### getSelfId
 
-**用途：获取自身 Id**
+**用途：获取自身作品 articleId**
 
 ```ts
 **用法**

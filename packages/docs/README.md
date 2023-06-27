@@ -659,7 +659,7 @@ widgets.some((widget, index) => {
 
 url: 节点地址
 
-widgetId: 插件 ID
+widgetId: 插件 ID 这里用的是插件的作品ID: articleId
 
 local_entry: 本地地址
 
