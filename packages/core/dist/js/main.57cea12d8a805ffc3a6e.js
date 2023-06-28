@@ -8556,9 +8556,9 @@ function getExhibitFileStream(exhibitId, options, config) {
         name: this.name,
         isAuth: true,
         exhibitId: exhibitId
-      })(isTest ? _services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__/* ["default"].getTestExhibitById */ .Z.getTestExhibitById : _services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__/* ["default"].getExhibitById */ .Z.getExhibitById, [exhibitId], options.subFilePath ? {
+      })(isTest ? _services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__/* ["default"].getTestExhibitById */ .Z.getTestExhibitById : _services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__/* ["default"].getExhibitById */ .Z.getExhibitById, [exhibitId], (options === null || options === void 0 ? void 0 : options.subFilePath) ? {
         subFilePath: options.subFilePath
-      } : null, typeof options === "boolean" ? options : options.returnUrl, config || options.config)];
+      } : null, typeof options === "boolean" ? options : options === null || options === void 0 ? void 0 : options.returnUrl, config || (options === null || options === void 0 ? void 0 : options.config))];
     });
   });
 }
@@ -9812,7 +9812,7 @@ var createHistoryProxy = function (name) {
     var hash = "";
     var routerType = HISTORY; // TODO 解析query参数  search   vue3会把origin也传过来
 
-    var href = arguments[2].replace(rawLocation.origin, "");
+    var href = arguments[2].replace(rawLocation.origin, "").replace(rawLocation.origin.replace('http:', "https:"), "");
 
     if (arguments[2] && arguments[2].indexOf("#") > -1) {
       href = href.substring(1);
@@ -10095,7 +10095,7 @@ var createFreelogAppProxy = function (name, sandbox) {
       var pro = rawWindow.freelogApp[p];
 
       if (typeof pro === "function") {
-        if (p === 'initGlobalState') {
+        if (p === "initGlobalState") {
           if (isTheme(name)) {
             return _runtime_index__WEBPACK_IMPORTED_MODULE_3__/* .initGlobalState */ .N;
           }
@@ -10390,7 +10390,7 @@ function resolveUrl(path, params) {
   }
 
   return "".concat(baseUrl).concat(path, "?").concat(queryStringArr.join("&"));
-} // TODO 这个根本不需要
+} // TODO 调试用的widgetId，未来应该在测试节点去显示
 
 function getSelfId() {
   var _a;
@@ -10400,7 +10400,7 @@ function getSelfId() {
       // @ts-ignore
       return [2
       /*return*/
-      , (_a = _widget__WEBPACK_IMPORTED_MODULE_0__/* .widgetsConfig.get */ .md.get(this.name)) === null || _a === void 0 ? void 0 : _a.exhibitId];
+      , (_a = _widget__WEBPACK_IMPORTED_MODULE_0__/* .widgetsConfig.get */ .md.get(this.name)) === null || _a === void 0 ? void 0 : _a.articleId];
     });
   });
 }
@@ -11227,6 +11227,7 @@ function mountWidget(options) {
           if (devData) {
             if (devData.type === _dev__WEBPACK_IMPORTED_MODULE_3__/* .DEV_TYPE_REPLACE */ .E8) {
               entry = devData.params[commonData.id] || "";
+              console.log(entry, 22222);
             }
 
             if (devData.type === _dev__WEBPACK_IMPORTED_MODULE_3__/* .DEV_WIDGET */ .gt && !firstDev) {

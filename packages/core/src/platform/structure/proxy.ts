@@ -321,7 +321,6 @@ export const createHistoryProxy = function (name: string) {
       hash,
       routerType,
     });
-    console.log(pathname, href, search ? "?" + search : "", hash, routerType);
   }
   function pushPatch() {
     if (moveLock) return;

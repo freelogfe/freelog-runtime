@@ -24,6 +24,11 @@
 
 **请不要在 html 当中直接引入 js，CDN 方式不支持，必须经过 webpack 约定配置后打包**
 
+## 案例代码仓
+
+[https://github.com/freelogfe/freelog-sample-themes.git](https://github.com/freelogfe/freelog-sample-themes.git)
+
+
 ## 框架准备
 
 ### 支持框架
@@ -659,9 +664,9 @@ widgets.some((widget, index) => {
 
 url: 节点地址
 
-widgetId: 插件 ID 这里用的是插件的作品ID: articleId
-          获取方式：插件内可以通过freelogApp.getSelfId()获取，但先有鸡才能有蛋，后续要在作品管理页面以及测试节点提供获取途径。
-                   目前开发者可以F12去找一下。
+widgetId: 插件 ID 这里用的是插件的作品 ID: articleId
+获取方式：插件内可以通过 freelogApp.getSelfId()获取，但先有鸡才能有蛋，后续要在作品管理页面以及测试节点提供获取途径。
+目前开发者可以 F12 去找一下。
 
 local_entry: 本地地址
 

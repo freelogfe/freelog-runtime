@@ -177,9 +177,9 @@ export async function getExhibitFileStream(
   })(
     isTest ? exhibit.getTestExhibitById : exhibit.getExhibitById,
     [exhibitId],
-    options.subFilePath? {subFilePath: options.subFilePath } : null,
-    typeof options === "boolean" ? options : options.returnUrl,
-    config || options.config
+    options?.subFilePath? {subFilePath: options.subFilePath } : null,
+    typeof options === "boolean" ? options : options?.returnUrl,
+    config || options?.config
   );
   // @ts-ignore
   // return getByExhibitId(
