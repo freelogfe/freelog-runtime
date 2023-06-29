@@ -950,6 +950,18 @@ const res = await window.freelogApp.getExhibitFileStream(
 }
 ```
 
+### 批量查询展品依赖的作品信息
+
+```ts
+const res = await window.freelogApp.getExhibitDepInfo(
+  exhibitId,
+  articleNids
+)
+**参数说明**
+  exhibitId: string ,  自身展品id
+  articleNids: string, 链路id
+```
+
 ### 获取子依赖作品文件
 
 ```ts

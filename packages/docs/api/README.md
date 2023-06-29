@@ -386,6 +386,22 @@ const res = await window.freelogApp.getExhibitFileStream(
 )
 ```
 
+### getExhibitDepInfo
+
+**用途：批量查询展品依赖的作品信息**
+
+```ts
+**参数说明**
+  exhibitId: string ,  自身展品id
+  articleNids: string, 链路id
+
+**用法**
+const res = await window.freelogApp.getExhibitDepInfo(
+  exhibitId,
+  articleNids
+)
+```
+
 ### getExhibitDepFileStream
 
 **用途：获取展品子依赖作品文件**
