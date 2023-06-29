@@ -74,11 +74,11 @@ export async function getExhibitDepInfo(
 ) {
   if (isTest)
     // @ts-ignore
-    return frequest(exhibit.getExhibitDepInfo, [nodeId, exhibitId], {
+    return frequest(exhibit.getTestExhibitDepInfo, [nodeId, exhibitId], {
       articleNids,
     });
   // @ts-ignore
-  return frequest(exhibit.getTestExhibitDepInfo, [nodeId, exhibitId], {
+  return frequest(exhibit.getExhibitDepInfo, [nodeId, exhibitId], {
     articleNids,
   });
 }
@@ -177,7 +177,7 @@ export async function getExhibitFileStream(
   })(
     isTest ? exhibit.getTestExhibitById : exhibit.getExhibitById,
     [exhibitId],
-    options?.subFilePath? {subFilePath: options.subFilePath } : null,
+    options?.subFilePath ? { subFilePath: options.subFilePath } : null,
     typeof options === "boolean" ? options : options?.returnUrl,
     config || options?.config
   );

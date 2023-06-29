@@ -8450,13 +8450,13 @@ function getExhibitDepInfo(exhibitId, articleNids) {
       if (isTest) // @ts-ignore
         return [2
         /*return*/
-        , (0,_services_handler__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .Z)(_services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__/* ["default"].getExhibitDepInfo */ .Z.getExhibitDepInfo, [nodeId, exhibitId], {
+        , (0,_services_handler__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .Z)(_services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__/* ["default"].getTestExhibitDepInfo */ .Z.getTestExhibitDepInfo, [nodeId, exhibitId], {
           articleNids: articleNids
         })]; // @ts-ignore
 
       return [2
       /*return*/
-      , (0,_services_handler__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .Z)(_services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__/* ["default"].getTestExhibitDepInfo */ .Z.getTestExhibitDepInfo, [nodeId, exhibitId], {
+      , (0,_services_handler__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .Z)(_services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__/* ["default"].getExhibitDepInfo */ .Z.getExhibitDepInfo, [nodeId, exhibitId], {
         articleNids: articleNids
       })];
     });
