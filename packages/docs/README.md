@@ -24,10 +24,13 @@
 
 **请不要在 html 当中直接引入 js，CDN 方式不支持，必须经过 webpack 约定配置后打包**
 
-## 案例代码仓
+## 示例节点代码仓
 
 [https://github.com/freelogfe/freelog-sample-themes.git](https://github.com/freelogfe/freelog-sample-themes.git)
 
+## 基础使用案例代码仓
+
+[https://github.com/freelogfe/freelog-developer-guide-examples.git](https://github.com/freelogfe/freelog-developer-guide-examples.git)
 
 ## 框架准备
 
