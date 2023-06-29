@@ -179,16 +179,14 @@ const exhibit: Exhibit = {
     url: `exhibits/${placeHolder}/${placeHolder}/articles/list`,
     method: "GET",
     dataModel: {
-      subjectIds: "string",
-      subjectType: "string",
+      articleNids: "string",
     },
   },
   getTestExhibitDepInfo: {
     url: `exhibits/${placeHolder}/test/${placeHolder}/articles/list`,
     method: "GET",
     dataModel: {
-      subjectIds: "string",
-      subjectType: "string",
+      articleNids: "string",
     },
   },
 };

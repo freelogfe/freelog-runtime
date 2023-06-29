@@ -67,7 +67,10 @@ export interface FreelogApp {
     }
   ) => any;
   // getExhibitInfoByAuth,
-  // getExhibitDepInfo,
+  getExhibitDepInfo: (
+    exhibitId: string,
+    articleNids: string,
+  ) => any;,
   getSignStatistics: (keywords: string | number) => any;
   getExhibitAvailalbe: (exhibitIds: string) => any;
   devData: PlainObject;

@@ -8,6 +8,7 @@ import { initUserCheck } from "../security";
 import user from "../../services/api/modules/user";
 import node from "../../services/api/modules/node";
 import { addAuth, goLogin, goLoginOut } from "../../bridge/index";
+import exhibit from '../../services/api/modules/exhibit';
 
 export function freelogFetch(url: string, options?: any) {
   options = options || {};
@@ -100,12 +101,19 @@ export function resolveUrl(path: string, params?: any): string {
   }
   return `${baseUrl}${path}?${queryStringArr.join("&")}`;
 }
-// TODO 调试用的widgetId，未来应该在测试节点去显示
-export async function getSelfId() {
+// TODO 调试用的widgetId，未来应该在测试节点去显示，目前用的是articledId
+export function getSelfWidgetId() {
   // @ts-ignore
   return widgetsConfig.get(this.name)?.articleId;
 }
-
+export function getSelfArticleId() {
+  // @ts-ignore
+  return widgetsConfig.get(this.name)?.articleId;
+}
+export function getSelfExhibitId() {
+  // @ts-ignore
+  return widgetsConfig.get(this.name)?.exhibitId;
+}
 export function getSelfConfig() {
   // @ts-ignore  由于config只有一层，所以用...就够了
   return { ...widgetsConfig.get(this.name).config };
