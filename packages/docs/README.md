@@ -1016,7 +1016,7 @@ const res = await window.freelogApp.getExhibitAvailalbe(
   exhibitIds:  用英文逗号隔开的展品id
 ```
 
-[查看 getExhibitInfo 详情](/api/#getexhibitavailalbe)
+[查看 getexhibitavailalbe 详情](/api/#getexhibitavailalbe)
 
 ### 授权错误返回值
 
