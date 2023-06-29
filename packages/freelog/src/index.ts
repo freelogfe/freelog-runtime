@@ -70,13 +70,15 @@ export interface FreelogApp {
   getExhibitDepInfo: (
     exhibitId: string,
     articleNids: string,
-  ) => any;,
+  ) => any;
   getSignStatistics: (keywords: string | number) => any;
   getExhibitAvailalbe: (exhibitIds: string) => any;
   devData: PlainObject;
   getStaticPath: (path: string) => string;
   getSubDep: () => any;
-  getSelfId: () => string;
+  getSelfArticleId: () => string;
+  getSelfExhibitId: () => string;
+  getSelfWidgetId: () => string;
   callAuth: () => void;
   addAuth: (exhibitId: string, options?: { immediate: boolean }) => void;
   onLogin: (callback: Function) => void;
