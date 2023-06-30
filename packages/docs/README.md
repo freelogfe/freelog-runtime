@@ -668,7 +668,7 @@ widgets.some((widget, index) => {
 url: 节点地址
 
 widgetId: 插件 ID 这里用的是插件的作品 ID: articleId
-获取方式：插件内可以通过 freelogApp.getSelfId()获取，但先有鸡才能有蛋，后续要在作品管理页面以及测试节点提供获取途径。
+获取方式：插件内可以通过 freelogApp.getSelfWidgetId()获取，但先有鸡才能有蛋，后续要在作品管理页面以及测试节点提供获取途径。
 目前开发者可以 F12 去找一下。
 
 local_entry: 本地地址

@@ -56,14 +56,31 @@ const data = window.freelogApp.devData;
 window.freelogApp.initGlobalState({ a: 1 });
 ```
 
-### getSelfId
+### getSelfArticleId
 
 **用途：获取自身作品 articleId**
 
 ```ts
 **用法**
-const selfId = await window.freelogApp.getSelfId();
+const selfArticleId = await window.freelogApp.getSelfArticleId();
 ```
+### getSelfWidgetId
+
+**用途：获取自身插件id**
+
+```ts
+**用法**
+const selfWidgetId = await window.freelogApp.getSelfWidgetId();
+```
+### getSelfExhibitId
+
+**用途：获取自身作品 exhibitId**
+
+```ts
+**用法**
+const selfExhibitId= await window.freelogApp.getSelfExhibitId();
+```
+
 
 ### getSelfConfig
 
