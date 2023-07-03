@@ -1,5 +1,7 @@
 import { placeHolder } from "../../base";
-const host = location.host.slice(location.host.indexOf('.')).replace('.t.','.')
+const host = location.host
+  .slice(location.host.indexOf("."))
+  .replace(".t.", ".");
 export type Exhibit = {
   getExhibitDetail: any;
   getTestExhibitDetail: any;
@@ -16,6 +18,8 @@ export type Exhibit = {
   getTestExhibitDepInfo: any;
   getExhibitById: any;
   getTestExhibitById: any;
+  getExhibitDepTree: any;
+  getTestExhibitDepTree: any;
 };
 
 const exhibit: Exhibit = {
@@ -27,7 +31,7 @@ const exhibit: Exhibit = {
       isLoadPolicyInfo: "int",
       isLoadVersionProperty: "int",
       isTranslate: "int",
-      isLoadResourceDetailInfo: 'int',
+      isLoadResourceDetailInfo: "int",
       isLoadContract: "int",
     },
   },
@@ -77,7 +81,7 @@ const exhibit: Exhibit = {
       sort: "string",
       keywords: "string",
       isLoadVersionProperty: "int",
-      isLoadResourceDetailInfo: 'int',
+      isLoadResourceDetailInfo: "int",
       isLoadPolicyInfo: "int",
       isTranslate: "int",
       tagQueryType: "int",
@@ -188,6 +192,20 @@ const exhibit: Exhibit = {
     dataModel: {
       articleNids: "string",
     },
+  },
+  getExhibitDepTree: {
+    url: `presentables/${placeHolder}/dependencyTree`,
+    method: "GET",
+    dataModel: {
+      maxDeep: "int", // 依赖树最大返回深度
+      nid: "string",// 叶子节点ID,如果需要从叶子节点开始响应,则传入此参数
+      isContainRootNode: "boolean",// 是否包含根节点,默认包含
+      version: "string", // 引用的发行版本号,默认使用锁定的最新版本
+    },
+  },
+  getTestExhibitDepTree: {
+    url: `testNodes/testResources/${placeHolder}/dependencyTree`,
+    method: "GET", 
   },
 };
 export default exhibit;

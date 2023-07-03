@@ -201,6 +201,34 @@ export async function getExhibitInfoByAuth(exhibitId: string | number) {
   // @ts-ignore
   return getByExhibitId(this.name, exhibitId, "info", "", "");
 }
+// 子依赖树
+export async function getExhibitDepTree(
+  exhibitId: string | number,
+  options: {
+    version?: string;
+    nid?: string;
+    maxDeep?: number;
+    isContainRootNode?: string;
+  }
+) {
+  return frequest.bind({
+    // @ts-ignore
+    name: this.name,
+    exhibitId: exhibitId,
+  })(
+    isTest ? exhibit.getTestExhibitDepTree : exhibit.getExhibitDepTree,
+    [exhibitId],
+    options
+      ? {
+          nid: options.nid,
+          maxDeep: options.maxDeep,
+          version: options.version,
+          isContainRootNode: options.isContainRootNode,
+        }
+      : null
+  );
+}
+
 // 子依赖
 export async function getExhibitDepFileStream(
   exhibitId: string | number,
