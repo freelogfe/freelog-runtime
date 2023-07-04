@@ -73,7 +73,7 @@ export interface FreelogApp {
       version?: string;
       nid?: string;
       maxDeep?: number;
-      isContainRootNode?: string;
+      isContainRootNode?: boolean;
     }
   ) => any;
   getExhibitDepInfo: (
