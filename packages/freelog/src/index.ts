@@ -67,6 +67,15 @@ export interface FreelogApp {
     }
   ) => any;
   // getExhibitInfoByAuth,
+  getExhibitDepTree: (
+    exhibitId: string | number,
+    options: {
+      version?: string;
+      nid?: string;
+      maxDeep?: number;
+      isContainRootNode?: string;
+    }
+  ) => any;
   getExhibitDepInfo: (
     exhibitId: string,
     articleNids: string,
