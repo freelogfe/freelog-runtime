@@ -33,7 +33,7 @@ const nodeInfo = window.freelogApp.nodeInfo;
  )
 
 **用法**
-const path = await window.freelogApp.getStaticPath(path);
+const path =  window.freelogApp.getStaticPath(path);
 ```
 
 ### devData

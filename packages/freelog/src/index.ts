@@ -17,7 +17,7 @@ export interface FreelogApp {
   };
   mountWidget: (options: {
     widget: any;
-    container: HTMLElement;
+    container: HTMLElement | null;
     config?: PlainObject;
     topExhibitData?: any;
     seq?: number | null;
