@@ -23,11 +23,11 @@ export interface FreelogApp {
     topExhibitData?: any;
     seq?: number | null;
     widget_entry?: boolean | string;
-  }) => WidgetApp;
+  }) => Promise<WidgetApp>;
   getExhibitListById: (query: {
     exhibitIds: string;
     isLoadVersionProperty?: 0 | 1;
-  }) => any;
+  }) => Promise<any>;
   getExhibitListByPaging: (query: {
     skip?: number;
     limit?: number;
@@ -42,15 +42,15 @@ export interface FreelogApp {
     isLoadPolicyInfo?: number;
     isTranslate?: number;
     tagQueryType?: number;
-  }) => any;
+  }) => Promise<any>;
   getExhibitInfo: (
     exhibitId: string,
     query?: {
       isLoadVersionProperty: 0 | 1;
     }
-  ) => any;
-  getExhibitSignCount: (exhibitId: string) => any;
-  getExhibitAuthStatus: (exhibitId: string) => any;
+  ) => Promise<any>;
+  getExhibitSignCount: (exhibitId: string) => Promise<any>;
+  getExhibitAuthStatus: (exhibitId: string) => Promise<any>;
   getExhibitFileStream: (
     exhibitId: string,
     options: { 
@@ -58,7 +58,7 @@ export interface FreelogApp {
       config?: {onUploadProgress: any,onDownloadProgress:any,responseType: any},
       subFilePath?: string
     }
-  ) => any;
+  ) => Promise<any>;
   getExhibitDepFileStream: (
     exhibitId: string,
     parentNid: string,
@@ -69,7 +69,7 @@ export interface FreelogApp {
       onDownloadProgress: any;
       responseType: any;
     }
-  ) => any;
+  ) => Promise<any>;
   // getExhibitInfoByAuth,
   getExhibitDepTree: (
     exhibitId: string | number,
@@ -79,21 +79,21 @@ export interface FreelogApp {
       maxDeep?: number;
       isContainRootNode?: boolean;
     }
-  ) => any;
+  ) => Promise<any>;
   getExhibitDepInfo: (
     exhibitId: string,
     articleNids: string,
-  ) => any;
-  getSignStatistics: (keywords: string | number) => any;
-  getExhibitAvailalbe: (exhibitIds: string) => any;
+  ) => Promise<any>;
+  getSignStatistics: (keywords: string | number) => Promise<any>;
+  getExhibitAvailalbe: (exhibitIds: string)  => Promise<any>;
   devData: PlainObject;
   getStaticPath: (path: string) => string;
-  getSubDep: () => any;
+  getSubDep: () => Promise<any>;
   getSelfArticleId: () => string;
   getSelfExhibitId: () => string;
   getSelfWidgetId: () => string;
   callAuth: () => void;
-  addAuth: (exhibitId: string, options?: { immediate: boolean }) => void;
+  addAuth: (exhibitId: string, options?: { immediate: boolean }) => Promise<any>;
   onLogin: (callback: Function) => void;
   onUserChange: (callback: Function) => void;
   callLogin: (callback: Function) => void;
@@ -108,8 +108,8 @@ export interface FreelogApp {
     'user-scalable'?: string; // available for theme
     'viewport-fit'?: string; // not supported in browser
   }) => void;
-  setUserData: (key: string | number, data: any) => any;
-  getUserData: (key: string | number) => any;
+  setUserData: (key: string | number, data: any) => Promise<any>;
+  getUserData: (key: string | number) => Promise<any>;
   getSelfConfig: () => PlainObject;
   isUserChange: () => boolean;
   reload: () => void;

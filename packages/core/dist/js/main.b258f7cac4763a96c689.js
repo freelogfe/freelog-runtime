@@ -8197,6 +8197,7 @@ function isUserChange() {
 /* harmony export */   "yr": function() { return /* binding */ getExhibitAuthStatus; },
 /* harmony export */   "ae": function() { return /* binding */ getExhibitFileStream; },
 /* harmony export */   "_P": function() { return /* binding */ getExhibitInfoByAuth; },
+/* harmony export */   "nt": function() { return /* binding */ getExhibitDepTree; },
 /* harmony export */   "rb": function() { return /* binding */ getExhibitDepFileStream; }
 /* harmony export */ });
 /* unused harmony export getExhibitResultByAuth */
@@ -8582,6 +8583,25 @@ function getExhibitInfoByAuth(exhibitId) {
       , getByExhibitId(this.name, exhibitId, "info", "", "")];
     });
   });
+} // 子依赖树
+
+function getExhibitDepTree(exhibitId, options) {
+  return __awaiter(this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+      return [2
+      /*return*/
+      , _services_handler__WEBPACK_IMPORTED_MODULE_0__/* ["default"].bind */ .Z.bind({
+        // @ts-ignore
+        name: this.name,
+        exhibitId: exhibitId
+      })(isTest ? _services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__/* ["default"].getTestExhibitDepTree */ .Z.getTestExhibitDepTree : _services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__/* ["default"].getExhibitDepTree */ .Z.getExhibitDepTree, [exhibitId], options ? {
+        nid: options.nid,
+        maxDeep: options.maxDeep,
+        version: options.version,
+        isContainRootNode: options.isContainRootNode
+      } : null)];
+    });
+  });
 } // 子依赖
 
 function getExhibitDepFileStream(exhibitId, parentNid, subArticleId, returnUrl, config) {
@@ -8748,6 +8768,7 @@ var freelogApp = {
   getExhibitDepFileStream: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitDepFileStream */ .rb,
   getExhibitInfoByAuth: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitInfoByAuth */ ._P,
   getExhibitDepInfo: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitDepInfo */ .hz,
+  getExhibitDepTree: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitDepTree */ .nt,
   getSignStatistics: _api__WEBPACK_IMPORTED_MODULE_2__/* .getSignStatistics */ .Xg,
   getExhibitAvailalbe: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitAvailalbe */ .Yi,
   devData: devData,
@@ -11470,7 +11491,7 @@ var contract = {
 /* harmony export */ });
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8317);
 
-var host = location.host.slice(location.host.indexOf('.')).replace('.t.', '.');
+var host = location.host.slice(location.host.indexOf(".")).replace(".t.", ".");
 var exhibit = {
   // placeHolder: nodeId exhibitId
   getExhibitDetail: {
@@ -11480,7 +11501,7 @@ var exhibit = {
       isLoadPolicyInfo: "int",
       isLoadVersionProperty: "int",
       isTranslate: "int",
-      isLoadResourceDetailInfo: 'int',
+      isLoadResourceDetailInfo: "int",
       isLoadContract: "int"
     }
   },
@@ -11530,7 +11551,7 @@ var exhibit = {
       sort: "string",
       keywords: "string",
       isLoadVersionProperty: "int",
-      isLoadResourceDetailInfo: 'int',
+      isLoadResourceDetailInfo: "int",
       isLoadPolicyInfo: "int",
       isTranslate: "int",
       tagQueryType: "int"
@@ -11645,6 +11666,21 @@ var exhibit = {
     dataModel: {
       articleNids: "string"
     }
+  },
+  getExhibitDepTree: {
+    url: "presentables/".concat(_base__WEBPACK_IMPORTED_MODULE_0__/* .placeHolder */ .$8, "/dependencyTree"),
+    method: "GET",
+    dataModel: {
+      maxDeep: "int",
+      nid: "string",
+      isContainRootNode: "boolean",
+      version: "string" // 引用的发行版本号,默认使用锁定的最新版本
+
+    }
+  },
+  getTestExhibitDepTree: {
+    url: "testNodes/testResources/".concat(_base__WEBPACK_IMPORTED_MODULE_0__/* .placeHolder */ .$8, "/dependencyTree"),
+    method: "GET"
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (exhibit);
