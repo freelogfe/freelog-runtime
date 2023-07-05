@@ -52,8 +52,11 @@ export interface FreelogApp {
   getExhibitAuthStatus: (exhibitId: string) => any;
   getExhibitFileStream: (
     exhibitId: string,
-    returnUrl?: boolean,
-    config?: PlainObject
+    options: { 
+      returnUrl?: boolean,
+      config?: {onUploadProgress: any,onDownloadProgress:any,responseType: any},
+      subFilePath?: string
+    }
   ) => any;
   getExhibitDepFileStream: (
     exhibitId: string,
