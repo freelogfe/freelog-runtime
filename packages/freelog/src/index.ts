@@ -10,6 +10,7 @@ const app = window.freelogApp;
 export const freelogApp: FreelogApp = app;
 
 export interface FreelogApp {
+  initGlobalState:(state: any)=>any;
   nodeInfo: NodeInfo;
   status: {
     authUIMounted: boolean;
@@ -95,7 +96,7 @@ export interface FreelogApp {
   addAuth: (exhibitId: string, options?: { immediate: boolean }) => void;
   onLogin: (callback: Function) => void;
   onUserChange: (callback: Function) => void;
-  callLogin: () => void;
+  callLogin: (callback: Function) => void;
   callLoginOut: () => void;
   getCurrentUser: () => FreelogUserInfo;
   setViewport: (options: {
@@ -107,7 +108,7 @@ export interface FreelogApp {
     'user-scalable'?: string; // available for theme
     'viewport-fit'?: string; // not supported in browser
   }) => void;
-  setUserData: (key: string | number, data: string | number) => any;
+  setUserData: (key: string | number, data: any) => any;
   getUserData: (key: string | number) => any;
   getSelfConfig: () => PlainObject;
   isUserChange: () => boolean;
