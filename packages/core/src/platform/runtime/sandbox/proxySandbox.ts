@@ -244,7 +244,7 @@ export default class ProxySandbox implements SandBox {
         return true;
       },
 
-      get(target: FakeWindow, p: PropertyKey): any {
+      get(target: FakeWindow, p: PropertyKey, receiver:any): any {
         if (typeof p === "string" && ["fetch", "XMLHttpRequest"].includes(p)) {
           return ajaxProxy(p, name);
         }
@@ -303,7 +303,7 @@ export default class ProxySandbox implements SandBox {
           return hasOwnProperty;
         }
         if (p === "addEventListener") {
-          return freelogAddEventListener(proxy);
+          return freelogAddEventListener(proxy, target);
         }
         if (p === "freelogApp") {
           freelogAppProxy =

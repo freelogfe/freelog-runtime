@@ -81,8 +81,10 @@ rawWindow.addEventListener(
   },
   true
 );
-export function freelogAddEventListener(proxy: any) {
+export function freelogAddEventListener(proxy: any, target:any) {
   return function () {
+    // @ts-ignore
+    console.log(5555, arguments)
     const arr = Array.prototype.slice.apply(arguments);
     if (arguments[0] === "popstate") {
       rawWindow.addEventListener("freelog-popstate", arr[1]);
@@ -477,8 +479,9 @@ export const createDocumentProxy = function (name: string) {
   rawDocument.getElementsByTagNameNS =
     rootDoc.getElementsByTagNameNS.bind(rootDoc);
   rawDocument.querySelectorAll = rootDoc.querySelectorAll.bind(rootDoc);
+  // react 兼容问题， 按道理应该绑定rootDoc，但react不兼容，需要记录不兼容的地方
   // rawDocument.addEventListener = rootDoc.addEventListener.bind(rootDoc);
-  rawDocument.removeEventListener = rootDoc.removeEventListener.bind(rootDoc);
+  // rawDocument.removeEventListener = rootDoc.removeEventListener.bind(rootDoc);
   rawDocument.body.appendChild = rootDoc.appendChild.bind(rootDoc);
   rawDocument.body.removeChild = rootDoc.removeChild.bind(rootDoc);
   rawDocument.querySelector = function () {

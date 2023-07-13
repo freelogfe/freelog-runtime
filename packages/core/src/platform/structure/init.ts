@@ -96,10 +96,16 @@ export function initNode() {
         init();
         const devData = dev();
         // TODO 提供一个开发者模式，能在全局创建一个VConsole
-        // window.vconsole = new VConsole()
-        // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
-        //   window.vconsole = new VConsole();
-        // }
+        // window.vconsole = new VConsole()  && devData.config.vconsole
+        if (devData.type !== DEV_FALSE) {
+          var script = document.createElement("script");
+          script.src = "https://unpkg.com/vconsole@latest/dist/vconsole.min.js";
+          document.head.appendChild(script);
+          script.onload = () => {
+            // @ts-ignore
+            window.vconsole = new window.VConsole();
+          };
+        }
         Object.freeze(devData);
         freelogApp.devData = devData;
         Object.freeze(freelogApp);
@@ -171,7 +177,11 @@ export function initNode() {
             loadingContainer.style.display = "none";
             freelogApp.status.authUIMounted = true;
             // 节点冻结
-            if ((nodeInfo.status & 5) === 5 || (nodeInfo.status & 6) === 6 || (nodeInfo.status & 12) === 12) {
+            if (
+              (nodeInfo.status & 5) === 5 ||
+              (nodeInfo.status & 6) === 6 ||
+              (nodeInfo.status & 12) === 12
+            ) {
               resolve && resolve();
               setTimeout(() => callUI(NODE_FREEZED, nodeInfo), 10);
               return;
@@ -183,7 +193,10 @@ export function initNode() {
               return;
             }
             // 私密节点
-            if ((nodeInfo.status & 2) === 2 && nodeInfo.ownerUserId !== userInfo?.userId) {
+            if (
+              (nodeInfo.status & 2) === 2 &&
+              nodeInfo.ownerUserId !== userInfo?.userId
+            ) {
               resolve && resolve();
               setTimeout(() => callUI(NODE_PRIVATE, nodeInfo), 10);
               return;

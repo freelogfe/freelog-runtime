@@ -6593,7 +6593,7 @@ function () {
 
         return true;
       },
-      get: function (target, p) {
+      get: function (target, p, receiver) {
         if (typeof p === "string" && ["fetch", "XMLHttpRequest"].includes(p)) {
           return (0,_structure_proxy__WEBPACK_IMPORTED_MODULE_1__/* .ajaxProxy */ .LD)(p, name);
         }
@@ -6654,7 +6654,7 @@ function () {
         }
 
         if (p === "addEventListener") {
-          return (0,_structure_proxy__WEBPACK_IMPORTED_MODULE_1__/* .freelogAddEventListener */ .qS)(proxy);
+          return (0,_structure_proxy__WEBPACK_IMPORTED_MODULE_1__/* .freelogAddEventListener */ .qS)(proxy, target);
         }
 
         if (p === "freelogApp") {
@@ -9114,7 +9114,7 @@ function initNode() {
         nodeDomain = getDomain(window.location.host);
         Promise.all([requestNodeInfo(nodeDomain), (0,_utils__WEBPACK_IMPORTED_MODULE_0__/* .getUserInfo */ .bG)()]).then(function (values) {
           return __awaiter(_this, void 0, void 0, function () {
-            var nodeData, userInfo, nodeInfo, devData, container, loadingContainer, mountTheme;
+            var nodeData, userInfo, nodeInfo, devData, script, container, loadingContainer, mountTheme;
 
             var _this = this;
 
@@ -9172,10 +9172,18 @@ function initNode() {
               });
               (0,_api__WEBPACK_IMPORTED_MODULE_5__/* .init */ .S1)();
               devData = (0,_dev__WEBPACK_IMPORTED_MODULE_6__/* .dev */ .WI)(); // TODO 提供一个开发者模式，能在全局创建一个VConsole
-              // window.vconsole = new VConsole()
-              // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
-              //   window.vconsole = new VConsole();
-              // }
+              // window.vconsole = new VConsole()  && devData.config.vconsole
+
+              if (devData.type !== _dev__WEBPACK_IMPORTED_MODULE_6__/* .DEV_FALSE */ .Qq) {
+                script = document.createElement("script");
+                script.src = "https://unpkg.com/vconsole@latest/dist/vconsole.min.js";
+                document.head.appendChild(script);
+
+                script.onload = function () {
+                  // @ts-ignore
+                  window.vconsole = new window.VConsole();
+                };
+              }
 
               Object.freeze(devData);
               _global__WEBPACK_IMPORTED_MODULE_1__/* .freelogApp.devData */ .L.devData = devData;
@@ -9639,8 +9647,10 @@ rawWindow.addEventListener("popstate", function (event) {
 rawWindow.addEventListener("hashchange", function () {
   initLocation();
 }, true);
-function freelogAddEventListener(proxy) {
+function freelogAddEventListener(proxy, target) {
   return function () {
+    // @ts-ignore
+    console.log(5555, arguments);
     var arr = Array.prototype.slice.apply(arguments);
 
     if (arguments[0] === "popstate") {
@@ -10040,9 +10050,10 @@ var createDocumentProxy = function (name) {
   };
 
   rawDocument.getElementsByTagNameNS = rootDoc.getElementsByTagNameNS.bind(rootDoc);
-  rawDocument.querySelectorAll = rootDoc.querySelectorAll.bind(rootDoc); // rawDocument.addEventListener = rootDoc.addEventListener.bind(rootDoc);
+  rawDocument.querySelectorAll = rootDoc.querySelectorAll.bind(rootDoc); // react 兼容问题， 按道理应该绑定rootDoc，但react不兼容，需要记录不兼容的地方
+  // rawDocument.addEventListener = rootDoc.addEventListener.bind(rootDoc);
+  // rawDocument.removeEventListener = rootDoc.removeEventListener.bind(rootDoc);
 
-  rawDocument.removeEventListener = rootDoc.removeEventListener.bind(rootDoc);
   rawDocument.body.appendChild = rootDoc.appendChild.bind(rootDoc);
   rawDocument.body.removeChild = rootDoc.removeChild.bind(rootDoc);
 
