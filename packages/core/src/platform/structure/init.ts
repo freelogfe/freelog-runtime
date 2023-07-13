@@ -96,7 +96,10 @@ export function initNode() {
         init();
         const devData = dev();
         // TODO 提供一个开发者模式，能在全局创建一个VConsole
-        // window.vconsole = new VConsole()  && devData.config.vconsole
+        // window.vconsole = new VConsole()
+        // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
+        //   window.vconsole = new VConsole();
+        // }
         if (devData.type !== DEV_FALSE) {
           var script = document.createElement("script");
           script.src = "https://unpkg.com/vconsole@latest/dist/vconsole.min.js";
