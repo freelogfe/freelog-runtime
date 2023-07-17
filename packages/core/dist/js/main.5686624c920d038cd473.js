@@ -9172,9 +9172,14 @@ function initNode() {
               });
               (0,_api__WEBPACK_IMPORTED_MODULE_5__/* .init */ .S1)();
               devData = (0,_dev__WEBPACK_IMPORTED_MODULE_6__/* .dev */ .WI)(); // TODO 提供一个开发者模式，能在全局创建一个VConsole
-              // window.vconsole = new VConsole()  && devData.config.vconsole
+              // window.vconsole = new VConsole()
+              // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
+              //   window.vconsole = new VConsole();
+              // }
 
-              if (devData.type !== _dev__WEBPACK_IMPORTED_MODULE_6__/* .DEV_FALSE */ .Qq) {
+              console.log(mobile, 123123);
+
+              if (devData.type !== _dev__WEBPACK_IMPORTED_MODULE_6__/* .DEV_FALSE */ .Qq && mobile) {
                 script = document.createElement("script");
                 script.src = "https://unpkg.com/vconsole@latest/dist/vconsole.min.js";
                 document.head.appendChild(script);
@@ -9182,6 +9187,7 @@ function initNode() {
                 script.onload = function () {
                   // @ts-ignore
                   window.vconsole = new window.VConsole();
+                  console.log(234234);
                 };
               }
 
