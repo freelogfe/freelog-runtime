@@ -100,7 +100,6 @@ export function initNode() {
         // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
         //   window.vconsole = new VConsole();
         // }
-        console.log(mobile,123123)
         if (devData.type !== DEV_FALSE && mobile) {
           var script = document.createElement("script");
           script.src = "https://unpkg.com/vconsole@latest/dist/vconsole.min.js";
@@ -108,7 +107,6 @@ export function initNode() {
           script.onload = () => {
             // @ts-ignore
             window.vconsole = new window.VConsole();
-            console.log(234234)
           };
         }
         Object.freeze(devData);
