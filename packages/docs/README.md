@@ -1129,9 +1129,12 @@ window.freelogApp.onUserChange(callback);
 ### 用户数据
 
 ```js
-// 开发者模式需要注意在入口文件加载页面加上主题或插件本身的作品名称,例如：
-window.FREELOG_RESOURCENAME = Freelog / dev - docs;
-
+/**
+ * 本地开发时： 如果本地开发的与线上主题或插件不是同一个资源，可以通过在入口文件加载页面加上主题或插件本身的作品名称,
+ * 例如：window.FREELOG_RESOURCENAME = "Freelog/dev-docs";
+ * 这样可以保证更换到线上是一致的
+ */ 
+ 
 // 更新用户数据   data 为任意对象，
 const res = await window.freelogApp.setUserData(key, data);
 // 获取用户数据

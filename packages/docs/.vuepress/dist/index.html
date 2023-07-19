@@ -8,8 +8,8 @@
     <link rel="icon" href="/freelog.ico">
     <meta name="description" content="freelog 开发者文档">
     
-    <link rel="preload" href="/assets/css/0.styles.65d8bbac.css" as="style"><link rel="preload" href="/assets/js/app.17f46c36.js" as="script"><link rel="preload" href="/assets/js/2.733019b2.js" as="script"><link rel="preload" href="/assets/js/7.262fb1c9.js" as="script"><link rel="prefetch" href="/assets/js/3.39104db2.js"><link rel="prefetch" href="/assets/js/4.fc333d27.js"><link rel="prefetch" href="/assets/js/5.bfef3080.js"><link rel="prefetch" href="/assets/js/6.2d0a63f8.js"><link rel="prefetch" href="/assets/js/8.242bff83.js"><link rel="prefetch" href="/assets/js/9.6846600c.js">
-    <link rel="stylesheet" href="/assets/css/0.styles.65d8bbac.css">
+    <link rel="preload" href="/assets/css/0.styles.e5b3790f.css" as="style"><link rel="preload" href="/assets/js/app.e670b694.js" as="script"><link rel="preload" href="/assets/js/2.733019b2.js" as="script"><link rel="preload" href="/assets/js/7.a540c615.js" as="script"><link rel="prefetch" href="/assets/js/3.613ecfcf.js"><link rel="prefetch" href="/assets/js/4.fc333d27.js"><link rel="prefetch" href="/assets/js/5.d58e9858.js"><link rel="prefetch" href="/assets/js/6.2d0a63f8.js"><link rel="prefetch" href="/assets/js/8.dc94e59e.js"><link rel="prefetch" href="/assets/js/9.6846600c.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.e5b3790f.css">
   </head>
   <body>
     <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" aria-current="page" class="home-link router-link-exact-active router-link-active"><img src="/home.jpg" alt="" class="logo"> <!----></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" aria-current="page" class="nav-link router-link-exact-active router-link-active">
@@ -768,14 +768,17 @@ window<span class="token punctuation">.</span>freelogApp<span class="token punct
 window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">onLogin</span><span class="token punctuation">(</span>callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre></div><h3 id="监听用户在其余页面切换账号或登录事件"><a href="#监听用户在其余页面切换账号或登录事件" class="header-anchor">#</a> 监听用户在其余页面切换账号或登录事件</h3> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// callback: 再次进入页面发现账号变化后会回调所有函数</span>
 window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">onUserChange</span><span class="token punctuation">(</span>callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre></div><h3 id="用户数据"><a href="#用户数据" class="header-anchor">#</a> 用户数据</h3> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// 开发者模式需要注意在入口文件加载页面加上主题或插件本身的作品名称,例如：</span>
-window<span class="token punctuation">.</span><span class="token constant">FREELOG_RESOURCENAME</span> <span class="token operator">=</span> Freelog <span class="token operator">/</span> dev <span class="token operator">-</span> docs<span class="token punctuation">;</span>
-
+</code></pre></div><h3 id="用户数据"><a href="#用户数据" class="header-anchor">#</a> 用户数据</h3> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">/**
+ * 本地开发时： 如果本地开发的与线上主题或插件不是同一个资源，可以通过在入口文件加载页面加上主题或插件本身的作品名称,
+ * 例如：window.FREELOG_RESOURCENAME = &quot;Freelog/dev-docs&quot;;
+ * 这样可以保证更换到线上是一致的
+ */</span> 
+ 
 <span class="token comment">// 更新用户数据   data 为任意对象，</span>
 <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">setUserData</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> data<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment">// 获取用户数据</span>
 <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span>freelogApp<span class="token punctuation">.</span><span class="token function">getUserData</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre></div><h2 id="打包上传"><a href="#打包上传" class="header-anchor">#</a> 打包上传</h2> <p><strong>正常 build 后，将打包后的所有文件压缩为一个 zip 文件（无根目录），作为主题 theme 或插件 widget 类型上传为作品</strong></p></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
-    <script src="/assets/js/app.17f46c36.js" defer></script><script src="/assets/js/2.733019b2.js" defer></script><script src="/assets/js/7.262fb1c9.js" defer></script>
+    <script src="/assets/js/app.e670b694.js" defer></script><script src="/assets/js/2.733019b2.js" defer></script><script src="/assets/js/7.a540c615.js" defer></script>
   </body>
 </html>
