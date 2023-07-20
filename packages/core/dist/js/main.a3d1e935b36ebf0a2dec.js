@@ -9143,8 +9143,7 @@ function initNode() {
               //   resolve();
               //   return;
               // }
-
-              document.title = nodeInfo.nodeName;
+              // document.title = nodeInfo.nodeName;
 
               if (window.isTest) {
                 document.title = "[T]" + nodeInfo.nodeName;
@@ -9162,22 +9161,21 @@ function initNode() {
                 return [2
                 /*return*/
                 ];
-              }
+              } // TODO 打开就无法微信分享，不打开就无法阻止插件修改
+              // Object.defineProperty(document, "title", {
+              //   set(msg) {},
+              //   get() {
+              //     return document.title;
+              //   },
+              // });
 
-              Object.defineProperty(document, "title", {
-                set: function (msg) {},
-                get: function () {
-                  return document.title;
-                }
-              });
+
               (0,_api__WEBPACK_IMPORTED_MODULE_5__/* .init */ .S1)();
               devData = (0,_dev__WEBPACK_IMPORTED_MODULE_6__/* .dev */ .WI)(); // TODO 提供一个开发者模式，能在全局创建一个VConsole
               // window.vconsole = new VConsole()
               // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
               //   window.vconsole = new VConsole();
               // }
-
-              console.log(mobile, 123123);
 
               if (devData.type !== _dev__WEBPACK_IMPORTED_MODULE_6__/* .DEV_FALSE */ .Qq && mobile) {
                 script = document.createElement("script");
@@ -9187,7 +9185,6 @@ function initNode() {
                 script.onload = function () {
                   // @ts-ignore
                   window.vconsole = new window.VConsole();
-                  console.log(234234);
                 };
               }
 

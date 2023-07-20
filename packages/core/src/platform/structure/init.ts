@@ -71,7 +71,7 @@ export function initNode() {
         //   resolve();
         //   return;
         // }
-        document.title = nodeInfo.nodeName;
+        // document.title = nodeInfo.nodeName;
         if (window.isTest) {
           document.title = "[T]" + nodeInfo.nodeName;
         }
@@ -87,12 +87,13 @@ export function initNode() {
           confirm("测试节点只允许节点拥有者访问！");
           return;
         }
-        Object.defineProperty(document, "title", {
-          set(msg) {},
-          get() {
-            return document.title;
-          },
-        });
+        // TODO 打开就无法微信分享，不打开就无法阻止插件修改
+        // Object.defineProperty(document, "title", {
+        //   set(msg) {},
+        //   get() {
+        //     return document.title;
+        //   },
+        // });
         init();
         const devData = dev();
         // TODO 提供一个开发者模式，能在全局创建一个VConsole
