@@ -223,7 +223,6 @@ export async function mountWidget(
   if (devData) {
     if (devData.type === DEV_TYPE_REPLACE) {
       entry = devData.params[commonData.id] || "";
-      console.log(entry,22222)
     }
     if (devData.type === DEV_WIDGET && !firstDev) {
       entry = devData.params.dev;

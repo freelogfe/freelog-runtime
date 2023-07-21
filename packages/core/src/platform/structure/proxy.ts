@@ -84,7 +84,6 @@ rawWindow.addEventListener(
 export function freelogAddEventListener(proxy: any, target:any) {
   return function () {
     // @ts-ignore
-    console.log(5555, arguments)
     const arr = Array.prototype.slice.apply(arguments);
     if (arguments[0] === "popstate") {
       rawWindow.addEventListener("freelog-popstate", arr[1]);

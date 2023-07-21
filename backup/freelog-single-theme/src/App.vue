@@ -25,22 +25,6 @@ export default {
           "",
           "",
         );
-        app.mountPromise.then(()=>{
-          // console.log(111111, app.getApi())
-          // app.unmount.then(()=>{
-          //   console.log(3333, app.getApi())
-          //   app.mount.then(()=>{
-          //     console.log(44444, app.getApi())
-          //   })
-          // })
-        })
-      
-        // setTimeout(() => {
-        //   app.unmount(() => {
-        //     console.log(33333);
-        //     app.mount();
-        //   });
-        // }, 1500);
       });
     },
   },
