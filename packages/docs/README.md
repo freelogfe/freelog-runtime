@@ -32,6 +32,10 @@
 
 [https://github.com/freelogfe/freelog-developer-guide-examples.git](https://github.com/freelogfe/freelog-developer-guide-examples.git)
 
+### 有意思的怀旧红白机
+
+[https://nes-game.freelog.com](https://nes-game.freelog.com)
+
 ## 框架准备
 
 ### 支持框架
