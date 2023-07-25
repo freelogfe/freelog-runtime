@@ -278,12 +278,21 @@ export async function mountWidget(
     },
   };
   addWidgetConfig(widgetId, widgetConfig);
+  const obj = {
+    strictStyleIsolation: false,
+    experimentalStyleIsolation: true
+  }
   // TODO 所有插件加载用promise all
+  if(configData.hasOwnProperty("shadowDom")){
+    obj.strictStyleIsolation = configData.shadowDown
+  }
+  if(configData.hasOwnProperty("scopedCss")){
+    obj.experimentalStyleIsolation = configData.scopedCss
+  }
   // @ts-ignore
   const app = loadMicroApp(widgetConfig, {
     sandbox: {
-      strictStyleIsolation: configData ? !!configData.shadowDom : false,
-      experimentalStyleIsolation: configData ? !!configData.scopedCss : true,
+      ...obj
     },
   });
   // TODO 增加是否保留数据

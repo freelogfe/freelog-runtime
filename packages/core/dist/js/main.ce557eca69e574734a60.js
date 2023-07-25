@@ -2642,7 +2642,6 @@ function reload() {
 /* harmony import */ var _structure_init__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4208);
 
 function run() {
-  console.log(1234234);
   (0,_structure_init__WEBPACK_IMPORTED_MODULE_0__/* .initNode */ .q)();
 }
 
@@ -9653,7 +9652,6 @@ rawWindow.addEventListener("hashchange", function () {
 function freelogAddEventListener(proxy, target) {
   return function () {
     // @ts-ignore
-    console.log(5555, arguments);
     var arr = Array.prototype.slice.apply(arguments);
 
     if (arguments[0] === "popstate") {
@@ -11209,7 +11207,7 @@ function mountWidget(options) {
   }
 
   return __awaiter(this, void 0, void 0, function () {
-    var widget, container, topExhibitData, config, seq, widget_entry, isTheme, that, configData, devData, commonData, entry, widgetId, fentry, once, api, widgetConfig, app, freelog_app;
+    var widget, container, topExhibitData, config, seq, widget_entry, isTheme, that, configData, devData, commonData, entry, widgetId, fentry, once, api, widgetConfig, obj, app, freelog_app;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
@@ -11273,7 +11271,6 @@ function mountWidget(options) {
           if (devData) {
             if (devData.type === _dev__WEBPACK_IMPORTED_MODULE_3__/* .DEV_TYPE_REPLACE */ .E8) {
               entry = devData.params[commonData.id] || "";
-              console.log(entry, 22222);
             }
 
             if (devData.type === _dev__WEBPACK_IMPORTED_MODULE_3__/* .DEV_WIDGET */ .gt && !firstDev) {
@@ -11347,11 +11344,21 @@ function mountWidget(options) {
             }
           };
           addWidgetConfig(widgetId, widgetConfig);
+          obj = {
+            strictStyleIsolation: false,
+            experimentalStyleIsolation: true
+          }; // TODO 所有插件加载用promise all
+
+          if (configData.hasOwnProperty("shadowDom")) {
+            obj.strictStyleIsolation = configData.shadowDown;
+          }
+
+          if (configData.hasOwnProperty("scopedCss")) {
+            obj.experimentalStyleIsolation = configData.scopedCss;
+          }
+
           app = (0,_runtime__WEBPACK_IMPORTED_MODULE_0__/* .loadMicroApp */ .Z)(widgetConfig, {
-            sandbox: {
-              strictStyleIsolation: configData ? !!configData.shadowDom : false,
-              experimentalStyleIsolation: configData ? !!configData.scopedCss : true
-            }
+            sandbox: __assign({}, obj)
           });
           freelog_app = __assign(__assign({}, app), {
             mount: function () {
