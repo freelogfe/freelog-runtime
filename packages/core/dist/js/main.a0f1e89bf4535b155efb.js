@@ -8806,6 +8806,7 @@ var freelogApp = {
 /* harmony export */   "dA": function() { return /* binding */ historyGo; }
 /* harmony export */ });
 /* unused harmony export widgetHistories */
+/* harmony import */ var _proxy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2936);
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -8820,12 +8821,14 @@ var __assign = undefined && undefined.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
+
 var widgetHistories = new Map();
 function setHistory(key, history, isReplace) {
   var obj = widgetHistories.get(key) || {
     length: 0,
     histories: [],
-    position: 0
+    position: 0,
+    state: _proxy__WEBPACK_IMPORTED_MODULE_0__/* .state */ .SB
   };
 
   if (isReplace && obj.length > 0) {
@@ -8838,41 +8841,63 @@ function setHistory(key, history, isReplace) {
     obj.position = obj.histories.length - 1;
   }
 
+  obj.state = _proxy__WEBPACK_IMPORTED_MODULE_0__/* .state */ .SB;
   widgetHistories.set(key, obj);
 }
 function getHistory(key) {
   var obj = widgetHistories.get(key) || {
     length: 0,
     histories: [],
-    position: 0
+    position: 0,
+    state: _proxy__WEBPACK_IMPORTED_MODULE_0__/* .state */ .SB
   };
   return __assign({}, obj);
-}
-function historyBack(key) {
+} // 浏览器回退的话
+
+function historyBack(key, fState) {
   var obj = widgetHistories.get(key) || {
     length: 0,
     histories: [],
-    position: 0
+    position: 0,
+    state: _proxy__WEBPACK_IMPORTED_MODULE_0__/* .state */ .SB
   };
+
+  if (fState && fState - obj.state == 1) {
+    obj.position = obj.position - 1;
+    obj.state = obj.state - 1;
+    return obj.histories[obj.position];
+  }
 
   if (obj.length > 0 && obj.position > 0) {
     obj.position = obj.position - 1;
     return obj.histories[obj.position];
   } else {
-    return false;
+    // if(isBrowser){
+    //   locations.delete(key);
+    //   widgetHistories.delete(key);
+    //   setLocation(true);
+    // }
+    return false; // return obj.histories = [];
+    // return false;
   }
 }
-function historyForward(key) {
+function historyForward(key, fState) {
   var obj = widgetHistories.get(key) || {
     length: 0,
     histories: [],
-    position: 0
+    position: 0,
+    state: _proxy__WEBPACK_IMPORTED_MODULE_0__/* .state */ .SB
   };
 
   if (obj.length > 0 && obj.position < obj.length - 1) {
     obj.position = obj.position + 1;
     return obj.histories[obj.position];
   } else {
+    // if(isBrowser){
+    //   locations.delete(key);
+    //   widgetHistories.delete(key);
+    //   setLocation(true);
+    // }
     return false;
   }
 }
@@ -8880,7 +8905,8 @@ function historyGo(key, count) {
   var obj = widgetHistories.get(key) || {
     length: 0,
     histories: [],
-    position: 0
+    position: 0,
+    state: _proxy__WEBPACK_IMPORTED_MODULE_0__/* .state */ .SB
   };
 
   if (obj.length > 0 && obj.position > 0 && obj.position + count < obj.length - 1 && obj.position + count >= 0) {
@@ -9400,6 +9426,7 @@ function requestNodeInfo(nodeDomain) {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "SB": function() { return /* binding */ state; },
 /* harmony export */   "qS": function() { return /* binding */ freelogAddEventListener; },
 /* harmony export */   "LD": function() { return /* binding */ ajaxProxy; },
 /* harmony export */   "b": function() { return /* binding */ isFreelogAuth; },
@@ -9415,10 +9442,10 @@ function requestNodeInfo(nodeDomain) {
 /* harmony export */   "ZK": function() { return /* binding */ createFreelogAppProxy; },
 /* harmony export */   "FC": function() { return /* binding */ pathATag; }
 /* harmony export */ });
-/* unused harmony exports rawFetch, nativeOpen, isTheme, locationCenter */
-/* harmony import */ var _widget__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8049);
+/* unused harmony exports locations, locationsForBrower, rawFetch, nativeOpen, isTheme, locationCenter */
+/* harmony import */ var _widget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8049);
 /* harmony import */ var _runtime_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2506);
-/* harmony import */ var _history__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3913);
+/* harmony import */ var _history__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3913);
 /* harmony import */ var _dev__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6181);
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
@@ -9615,36 +9642,85 @@ var rawLocalStorage = window["localStorage"];
 var rawWindow = window; // widgetName  {routerType: 'history' || 'hash'}
 
 var locations = new Map();
+var locationsForBrower = new Map();
 var freelogPopstate = new PopStateEvent("freelog-popstate"); // for history back and forword
 
 var state = 0;
 var moveLock = false;
+/**
+ * 应对浏览器 historyback的问题，
+ * 主题插件有自己的history.back history.forward  history.go
+ * 当浏览器back或farward，需要回退或前进最近一次
+ * 当回退或前进 当前插件没有了路由后，需要卸载插件
+ *
+ */
+
 rawWindow.addEventListener("popstate", function (event) {
-  var estate = event.state;
-  if (!estate) estate = 0;
+  return __awaiter(this, void 0, void 0, function () {
+    var estate;
 
-  if (estate < state) {
-    moveLock = true; // this is back,  make all of locations position++
-    // @ts-ignore
+    var _this = this;
 
-    locations.forEach(function (value, key) {
-      (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .historyBack */ .$i)(key);
+    return __generator(this, function (_a) {
+      estate = event.state;
+      if (!estate) estate = 0;
+      initLocation(true); // 卸载没有了路由的插件
+
+      locations.forEach(function (value, key) {
+        return __awaiter(_this, void 0, void 0, function () {
+          return __generator(this, function (_a) {
+            switch (_a.label) {
+              case 0:
+                if (!!locationsForBrower.has(key)) return [3
+                /*break*/
+                , 2];
+                return [4
+                /*yield*/
+                , _widget__WEBPACK_IMPORTED_MODULE_0__/* .activeWidgets.get */ .VP.get(key).unmount()];
+
+              case 1:
+                _a.sent();
+
+                _a.label = 2;
+
+              case 2:
+                return [2
+                /*return*/
+                ];
+            }
+          });
+        });
+      });
+      initLocation();
+
+      if (estate < state) {
+        moveLock = true; // this is back,  make all of locations position++
+        // @ts-ignore
+
+        locationsForBrower.forEach(function (value, key) {
+          var back = (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .historyBack */ .$i)(key, estate); // @ts-ignore
+
+          back && patchCommon(key, true).apply(void 0, back);
+        });
+      } else if (estate > state) {
+        moveLock = true; // this is forword make all of locations position--
+        // @ts-ignore
+
+        locationsForBrower.forEach(function (value, key) {
+          (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .historyForward */ .G1)(key, estate);
+        });
+      }
+
+      setTimeout(function () {
+        moveLock = false;
+      }, 0);
+      state = estate;
+      rawWindow.dispatchEvent(freelogPopstate);
+      return [2
+      /*return*/
+      ];
     });
-  } else if (estate > state) {
-    moveLock = true; // this is forword make all of locations position--
-    // @ts-ignore
-
-    locations.forEach(function (value, key) {
-      (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .historyForward */ .G1)(key);
-    });
-  }
-
-  setTimeout(function () {
-    moveLock = false;
-  }, 0);
-  state = estate;
-  initLocation();
-  rawWindow.dispatchEvent(freelogPopstate);
+  });
 }, true);
 rawWindow.addEventListener("hashchange", function () {
   initLocation();
@@ -9652,7 +9728,7 @@ rawWindow.addEventListener("hashchange", function () {
 function freelogAddEventListener(proxy, target) {
   return function () {
     // @ts-ignore
-    var arr = Array.prototype.slice.apply(arguments);
+    var arr = Array.prototype.slice.apply(arguments); // TODO 是否给每个插件都一个事件，这样可以提升性能，路由没有变化的就不需要执行事件了
 
     if (arguments[0] === "popstate") {
       rawWindow.addEventListener("freelog-popstate", arr[1]);
@@ -9724,12 +9800,18 @@ function ajaxProxy(type, name) {
   }
 }
 function isFreelogAuth(name) {
-  return _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(name).isUI;
+  return _widget__WEBPACK_IMPORTED_MODULE_0__/* .widgetsConfig.get */ .md.get(name).isUI;
 }
 function isTheme(name) {
-  return _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(name).isTheme;
+  return _widget__WEBPACK_IMPORTED_MODULE_0__/* .widgetsConfig.get */ .md.get(name).isTheme;
 }
-function initLocation() {
+function initLocation(flag) {
+  if (flag) {
+    locationsForBrower.clear();
+  } else {
+    locations.clear();
+  }
+
   if (rawLocation.href.includes("$freelog")) {
     var loc = rawLocation.href.split("freelog.com/")[1].split("$");
 
@@ -9753,6 +9835,15 @@ function initLocation() {
 
           var search = item.substring(index); // TODO 判断id是否存在 isExist(id) &&
 
+          if (flag) {
+            locationsForBrower.set(id, {
+              pathname: pathname,
+              href: pathname + search,
+              search: search
+            });
+            return;
+          }
+
           locations.set(id, {
             pathname: pathname,
             href: pathname + search,
@@ -9762,6 +9853,16 @@ function initLocation() {
         }
 
         var l = item.split("=");
+
+        if (flag) {
+          locationsForBrower.set(l[0], {
+            pathname: l[1],
+            href: l[1],
+            search: ""
+          });
+          return;
+        }
+
         locations.set(l[0], {
           pathname: l[1],
           href: l[1],
@@ -9773,11 +9874,15 @@ function initLocation() {
     });
   }
 }
-function setLocation() {
-  // TODO 只有在线的应用才在url上显示, 只有pathname和query需要
+function setLocation(isReplace) {
+  if (!isReplace) {
+    state++;
+  } // TODO 只有在线的应用才在url上显示, 只有pathname和query需要
+
+
   var hash = "";
   locations.forEach(function (value, key) {
-    if (!_widget__WEBPACK_IMPORTED_MODULE_1__/* .activeWidgets.get */ .VP.get(key)) {
+    if (!_widget__WEBPACK_IMPORTED_MODULE_0__/* .activeWidgets.get */ .VP.get(key)) {
       locations.delete(key);
       return;
     }
@@ -9794,17 +9899,17 @@ function setLocation() {
 
     var url = rawLocation.origin + "/" + devUrl + "$_" + hash.replace("?", "_") + rawLocation.hash;
     if (url === rawLocation.href) return;
-    rawWindow.history.pushState(state++, "", url);
+    rawWindow.history.pushState(state, "", url);
   } else {
     var url = rawLocation.origin + "/" + hash.replace("?", "_") + rawLocation.hash + rawLocation.search;
     if (url === rawLocation.href) return;
-    rawWindow.history.pushState(state++, "", url);
+    rawWindow.history.pushState(state, "", url);
   } // rawLocation.hash = hash; state++
 
 } // TODO pathname  search 需要不可变
 
 var locationCenter = {
-  set: function (name, attr) {
+  set: function (name, attr, flag) {
     var loc = locations.get(name) || {};
 
     if (attr.pathname && attr.pathname.indexOf(rawLocation.host) > -1) {
@@ -9813,7 +9918,7 @@ var locationCenter = {
     }
 
     locations.set(name, __assign(__assign({}, loc), attr));
-    setLocation();
+    !flag && setLocation();
   },
   get: function (name) {
     return locations.get(name);
@@ -9837,17 +9942,13 @@ function freelogLocalStorage(id) {
     length: 0
   };
 }
-var saveSandBox = function (name, sandBox) {
-  (0,_widget__WEBPACK_IMPORTED_MODULE_1__/* .addSandBox */ .mn)(name, sandBox);
-};
-var createHistoryProxy = function (name) {
-  var widgetConfig = _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(name);
 
-  function patch() {
+function patchCommon(name, flag) {
+  return function () {
     var hash = "";
     var routerType = HISTORY; // TODO 解析query参数  search   vue3会把origin也传过来
 
-    var href = arguments[2].replace(rawLocation.origin, "").replace(rawLocation.origin.replace('http:', "https:"), "");
+    var href = arguments[2].replace(rawLocation.origin, "").replace(rawLocation.origin.replace("http:", "https:"), "");
 
     if (arguments[2] && arguments[2].indexOf("#") > -1) {
       href = href.substring(1);
@@ -9866,20 +9967,32 @@ var createHistoryProxy = function (name) {
       search: search ? "?" + search : "",
       hash: hash,
       routerType: routerType
-    });
+    }, flag);
+  };
+}
+
+var saveSandBox = function (name, sandBox) {
+  (0,_widget__WEBPACK_IMPORTED_MODULE_0__/* .addSandBox */ .mn)(name, sandBox);
+};
+var createHistoryProxy = function (name) {
+  var widgetConfig = _widget__WEBPACK_IMPORTED_MODULE_0__/* .widgetsConfig.get */ .md.get(name);
+
+  function patch() {
+    // @ts-ignore
+    patchCommon(name).apply(void 0, arguments);
   }
 
   function pushPatch() {
     if (moveLock) return; // @ts-ignore
 
     patch.apply(void 0, arguments);
-    (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .setHistory */ .JB)(name, arguments);
+    (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .setHistory */ .JB)(name, arguments);
   }
 
   function replacePatch() {
     // @ts-ignore
     patch.apply(void 0, arguments);
-    (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .setHistory */ .JB)(name, arguments, true);
+    (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .setHistory */ .JB)(name, arguments, true);
   }
 
   function go(count) {
@@ -9887,7 +10000,7 @@ var createHistoryProxy = function (name) {
       return rawHistory.go(count);
     }
 
-    var history = (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .historyGo */ .dA)(name, count);
+    var history = (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .historyGo */ .dA)(name, count);
 
     if (history) {
       // @ts-ignore
@@ -9904,7 +10017,7 @@ var createHistoryProxy = function (name) {
       return rawHistory.back();
     }
 
-    var history = (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .historyBack */ .$i)(name);
+    var history = (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .historyBack */ .$i)(name);
 
     if (history) {
       // @ts-ignore
@@ -9918,7 +10031,7 @@ var createHistoryProxy = function (name) {
       return rawHistory.forward();
     }
 
-    var history = (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .historyForward */ .G1)(name);
+    var history = (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .historyForward */ .G1)(name);
 
     if (history) {
       // @ts-ignore
@@ -9927,8 +10040,8 @@ var createHistoryProxy = function (name) {
     }
   }
 
-  var state = (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .getHistory */ .s1)(name).histories[(0,_history__WEBPACK_IMPORTED_MODULE_0__/* .getHistory */ .s1)(name).position] ? [0] : {};
-  var length = (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .getHistory */ .s1)(name).length;
+  var state = (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .getHistory */ .s1)(name).histories[(0,_history__WEBPACK_IMPORTED_MODULE_1__/* .getHistory */ .s1)(name).position] ? [0] : {};
+  var length = (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .getHistory */ .s1)(name).length;
 
   var historyProxy = __assign(__assign({}, rawWindow.history), {
     // @ts-ignore
@@ -9945,7 +10058,7 @@ var createHistoryProxy = function (name) {
 };
 var createLocationProxy = function (name) {
   var locationProxy = {};
-  var widgetConfig = _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(name);
+  var widgetConfig = _widget__WEBPACK_IMPORTED_MODULE_0__/* .widgetsConfig.get */ .md.get(name);
   return new Proxy(locationProxy, {
     /*
         a标签的href需要拦截，// TODO 如果以http开头则不拦截
@@ -9985,9 +10098,9 @@ var createLocationProxy = function (name) {
           return function (reject) {
             return __awaiter(this, void 0, void 0, function () {
               return __generator(this, function (_a) {
-                _widget__WEBPACK_IMPORTED_MODULE_1__/* .flatternWidgets.get */ .qr.get(name).unmount();
-                _widget__WEBPACK_IMPORTED_MODULE_1__/* .flatternWidgets.get */ .qr.get(name).unmountPromise.then(function () {
-                  _widget__WEBPACK_IMPORTED_MODULE_1__/* .flatternWidgets.get */ .qr.get(name).mount();
+                _widget__WEBPACK_IMPORTED_MODULE_0__/* .flatternWidgets.get */ .qr.get(name).unmount();
+                _widget__WEBPACK_IMPORTED_MODULE_0__/* .flatternWidgets.get */ .qr.get(name).unmountPromise.then(function () {
+                  _widget__WEBPACK_IMPORTED_MODULE_0__/* .flatternWidgets.get */ .qr.get(name).mount();
                 }, reject);
                 return [2
                 /*return*/
@@ -10033,7 +10146,7 @@ var querySelector = rawDocument.querySelector; // document的代理
 
 var createDocumentProxy = function (name) {
   // TODO  firstChild还没创建,这里需要改，加载后才能
-  var doc = _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(name).container.firstChild; //  || widgetsConfig.get(name).container;
+  var doc = _widget__WEBPACK_IMPORTED_MODULE_0__/* .widgetsConfig.get */ .md.get(name).container.firstChild; //  || widgetsConfig.get(name).container;
 
   var rootDoc = doc;
   rawDocument.getElementsByClassName = rootDoc.getElementsByClassName.bind(doc);
@@ -10100,10 +10213,10 @@ var createWidgetProxy = function (name) {
     get: function get(childWidgets, property) {
       if (property === "getAll") {
         return function () {
-          var children = _widget__WEBPACK_IMPORTED_MODULE_1__/* .childrenWidgets.get */ .RH.get(name);
+          var children = _widget__WEBPACK_IMPORTED_MODULE_0__/* .childrenWidgets.get */ .RH.get(name);
           var childrenArray = [];
           children && children.forEach(function (childId) {
-            childrenArray.push(_widget__WEBPACK_IMPORTED_MODULE_1__/* .flatternWidgets.get */ .qr.get(childId));
+            childrenArray.push(_widget__WEBPACK_IMPORTED_MODULE_0__/* .flatternWidgets.get */ .qr.get(childId));
           });
           return childrenArray;
         };
@@ -10114,7 +10227,7 @@ var createWidgetProxy = function (name) {
   });
 };
 function getPublicPath(name) {
-  var config = _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(name);
+  var config = _widget__WEBPACK_IMPORTED_MODULE_0__/* .widgetsConfig.get */ .md.get(name);
 
   if (/\/$/.test(config.entry)) {
     return config.entry;
