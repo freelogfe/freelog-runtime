@@ -39,37 +39,53 @@ const rawLocation = window["location"];
 const rawLocalStorage = window["localStorage"];
 const rawWindow = window;
 // widgetName  {routerType: 'history' || 'hash'}
-const locations = new Map();
+export const locations = new Map();
+export const locationsForBrower = new Map();
 var freelogPopstate = new PopStateEvent("freelog-popstate");
 // for history back and forword
-let state = 0;
+export let state = 0;
 let moveLock = false;
-
+/**
+ * 应对浏览器 historyback的问题，
+ * 主题插件有自己的history.back history.forward  history.go
+ * 当浏览器back或farward，需要回退或前进最近一次
+ * 当回退或前进 当前插件没有了路由后，需要卸载插件
+ *
+ */
 rawWindow.addEventListener(
   "popstate",
-  function (event) {
+  async function (event) {
     let estate = event.state;
     if (!estate) estate = 0;
+    initLocation(true);
+    // 卸载没有了路由的插件
+    locations.forEach(async (value, key) => {
+      if (!locationsForBrower.has(key)) {
+        await activeWidgets.get(key).unmount();
+      }
+    });
+    initLocation();
     if (estate < state) {
       moveLock = true;
       // this is back,  make all of locations position++
       // @ts-ignore
-      locations.forEach((value, key) => {
-        historyBack(key);
+      locationsForBrower.forEach((value, key) => {
+        const back = historyBack(key, estate);
+        // @ts-ignore
+        back && patchCommon(key, true)(...back);
       });
     } else if (estate > state) {
       moveLock = true;
       // this is forword make all of locations position--
       // @ts-ignore
-      locations.forEach((value, key) => {
-        historyForward(key);
+      locationsForBrower.forEach((value, key) => {
+        historyForward(key, estate);
       });
     }
     setTimeout(() => {
       moveLock = false;
     }, 0);
     state = estate;
-    initLocation();
     rawWindow.dispatchEvent(freelogPopstate);
   },
   true
@@ -81,10 +97,11 @@ rawWindow.addEventListener(
   },
   true
 );
-export function freelogAddEventListener(proxy: any, target:any) {
+export function freelogAddEventListener(proxy: any, target: any) {
   return function () {
     // @ts-ignore
     const arr = Array.prototype.slice.apply(arguments);
+    // TODO 是否给每个插件都一个事件，这样可以提升性能，路由没有变化的就不需要执行事件了
     if (arguments[0] === "popstate") {
       rawWindow.addEventListener("freelog-popstate", arr[1]);
       return;
@@ -192,7 +209,12 @@ export function isTheme(name: string) {
   return widgetsConfig.get(name).isTheme;
 }
 
-export function initLocation() {
+export function initLocation(flag?: boolean) {
+  if (flag) {
+    locationsForBrower.clear();
+  } else {
+    locations.clear();
+  }
   if (rawLocation.href.includes("$freelog")) {
     let loc = rawLocation.href.split("freelog.com/")[1].split("$");
     if (rawWindow.freelogApp.devData.type === DEV_WIDGET) {
@@ -209,10 +231,26 @@ export function initLocation() {
           let [id, pathname] = item.substring(0, index).split("=");
           let search = item.substring(index);
           // TODO 判断id是否存在 isExist(id) &&
+          if (flag) {
+            locationsForBrower.set(id, {
+              pathname,
+              href: pathname + search,
+              search,
+            });
+            return;
+          }
           locations.set(id, { pathname, href: pathname + search, search });
           return;
         }
         let l = item.split("=");
+        if (flag) {
+          locationsForBrower.set(l[0], {
+            pathname: l[1],
+            href: l[1],
+            search: "",
+          });
+          return;
+        }
         locations.set(l[0], { pathname: l[1], href: l[1], search: "" });
       } catch (e) {
         console.error("url is error" + e);
@@ -220,7 +258,10 @@ export function initLocation() {
     });
   }
 }
-export function setLocation() {
+export function setLocation(isReplace?: boolean) {
+  if (!isReplace) {
+    state++;
+  }
   // TODO 只有在线的应用才在url上显示, 只有pathname和query需要
   let hash = "";
   locations.forEach((value, key) => {
@@ -243,7 +284,7 @@ export function setLocation() {
       hash.replace("?", "_") +
       rawLocation.hash;
     if (url === rawLocation.href) return;
-    rawWindow.history.pushState(state++, "", url);
+    rawWindow.history.pushState(state, "", url);
   } else {
     const url =
       rawLocation.origin +
@@ -252,14 +293,14 @@ export function setLocation() {
       rawLocation.hash +
       rawLocation.search;
     if (url === rawLocation.href) return;
-    rawWindow.history.pushState(state++, "", url);
+    rawWindow.history.pushState(state, "", url);
   }
 
   // rawLocation.hash = hash; state++
 }
 // TODO pathname  search 需要不可变
 export const locationCenter: any = {
-  set: function (name: string, attr: any) {
+  set: function (name: string, attr: any, flag?:boolean) {
     var loc = locations.get(name) || {};
     if (attr.pathname && attr.pathname.indexOf(rawLocation.host) > -1) {
       // for vue3
@@ -272,7 +313,7 @@ export const locationCenter: any = {
       ...loc,
       ...attr,
     });
-    setLocation();
+    !flag && setLocation();
   },
   get: function (name: string): string {
     return locations.get(name);
@@ -296,17 +337,14 @@ export function freelogLocalStorage(id: string) {
     length: 0,
   };
 }
-export const saveSandBox = function (name: string, sandBox: any) {
-  addSandBox(name, sandBox);
-};
-export const createHistoryProxy = function (name: string) {
-  const widgetConfig = widgetsConfig.get(name);
-
-  function patch() {
+function patchCommon(name: string, flag?: boolean) {
+  return function () {
     let hash = "";
     let routerType = HISTORY;
     // TODO 解析query参数  search   vue3会把origin也传过来
-    let href = arguments[2].replace(rawLocation.origin, "").replace(rawLocation.origin.replace('http:',"https:"), "");
+    let href = arguments[2]
+      .replace(rawLocation.origin, "")
+      .replace(rawLocation.origin.replace("http:", "https:"), "");
     if (arguments[2] && arguments[2].indexOf("#") > -1) {
       href = href.substring(1);
       routerType = HASH;
@@ -321,7 +359,18 @@ export const createHistoryProxy = function (name: string) {
       search: search ? "?" + search : "",
       hash,
       routerType,
-    });
+    }, flag);
+  };
+}
+export const saveSandBox = function (name: string, sandBox: any) {
+  addSandBox(name, sandBox);
+};
+export const createHistoryProxy = function (name: string) {
+  const widgetConfig = widgetsConfig.get(name);
+
+  function patch() {
+    // @ts-ignore
+    patchCommon(name)(...arguments);
   }
   function pushPatch() {
     if (moveLock) return;
