@@ -9457,9 +9457,9 @@ function requestNodeInfo(nodeDomain) {
 /* harmony export */   "FC": function() { return /* binding */ pathATag; }
 /* harmony export */ });
 /* unused harmony exports locations, locationsForBrower, rawFetch, nativeOpen, isTheme, locationCenter */
-/* harmony import */ var _widget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8049);
+/* harmony import */ var _widget__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8049);
 /* harmony import */ var _runtime_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2506);
-/* harmony import */ var _history__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3913);
+/* harmony import */ var _history__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3913);
 /* harmony import */ var _dev__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6181);
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
@@ -9687,37 +9687,19 @@ rawWindow.addEventListener("popstate", function (event) {
         return __awaiter(_this, void 0, void 0, function () {
           var widgetState;
           return __generator(this, function (_a) {
-            switch (_a.label) {
-              case 0:
-                if (!!locationsForBrower.has(key)) return [3
-                /*break*/
-                , 2];
-                return [4
-                /*yield*/
-                , _widget__WEBPACK_IMPORTED_MODULE_0__/* .activeWidgets.get */ .VP.get(key).unmount()];
+            if (!locationsForBrower.has(key)) {// await activeWidgets.get(key).unmount();
+            } else {
+              widgetState = _history__WEBPACK_IMPORTED_MODULE_0__/* .widgetHistories.get */ .ne.get(key).state;
 
-              case 1:
-                _a.sent();
-
-                return [3
-                /*break*/
-                , 3];
-
-              case 2:
-                widgetState = _history__WEBPACK_IMPORTED_MODULE_1__/* .widgetHistories.get */ .ne.get(key).state;
-
-                if (maxState < widgetState) {
-                  maxState = widgetState;
-                  maxStateWidget = _history__WEBPACK_IMPORTED_MODULE_1__/* .widgetHistories.get */ .ne.get(key);
-                }
-
-                _a.label = 3;
-
-              case 3:
-                return [2
-                /*return*/
-                ];
+              if (maxState < widgetState) {
+                maxState = widgetState;
+                maxStateWidget = _history__WEBPACK_IMPORTED_MODULE_0__/* .widgetHistories.get */ .ne.get(key);
+              }
             }
+
+            return [2
+            /*return*/
+            ];
           });
         });
       });
@@ -9739,7 +9721,7 @@ rawWindow.addEventListener("popstate", function (event) {
         // @ts-ignore
 
         locationsForBrower.forEach(function (value, key) {
-          var back = (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .historyBack */ .$i)(key, estate); // @ts-ignore
+          var back = (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .historyBack */ .$i)(key, estate); // @ts-ignore
           // back && patchCommon(key, false)(...back);
         });
       } else if (estate > state) {
@@ -9747,8 +9729,8 @@ rawWindow.addEventListener("popstate", function (event) {
         // @ts-ignore
 
         locationsForBrower.forEach(function (value, key) {
-          (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .historyForward */ .G1)(key, estate);
-          var forward = (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .historyForward */ .G1)(key, estate); // @ts-ignore
+          (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .historyForward */ .G1)(key, estate);
+          var forward = (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .historyForward */ .G1)(key, estate); // @ts-ignore
           // forward && patchCommon(key, false)(...forward);
         });
       }
@@ -9842,10 +9824,10 @@ function ajaxProxy(type, name) {
   }
 }
 function isFreelogAuth(name) {
-  return _widget__WEBPACK_IMPORTED_MODULE_0__/* .widgetsConfig.get */ .md.get(name).isUI;
+  return _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(name).isUI;
 }
 function isTheme(name) {
-  return _widget__WEBPACK_IMPORTED_MODULE_0__/* .widgetsConfig.get */ .md.get(name).isTheme;
+  return _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(name).isTheme;
 }
 function initLocation(flag) {
   if (flag) {
@@ -9924,7 +9906,7 @@ function setLocation(isReplace) {
 
   var hash = "";
   locations.forEach(function (value, key) {
-    if (!_widget__WEBPACK_IMPORTED_MODULE_0__/* .activeWidgets.get */ .VP.get(key)) {
+    if (!_widget__WEBPACK_IMPORTED_MODULE_1__/* .activeWidgets.get */ .VP.get(key)) {
       locations.delete(key);
       return;
     }
@@ -10030,10 +10012,10 @@ function patchCommon(name, isSetLocation, isReplace) {
 }
 
 var saveSandBox = function (name, sandBox) {
-  (0,_widget__WEBPACK_IMPORTED_MODULE_0__/* .addSandBox */ .mn)(name, sandBox);
+  (0,_widget__WEBPACK_IMPORTED_MODULE_1__/* .addSandBox */ .mn)(name, sandBox);
 };
 var createHistoryProxy = function (name) {
-  var widgetConfig = _widget__WEBPACK_IMPORTED_MODULE_0__/* .widgetsConfig.get */ .md.get(name);
+  var widgetConfig = _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(name);
 
   function patch() {
     // @ts-ignore
@@ -10044,13 +10026,13 @@ var createHistoryProxy = function (name) {
     if (moveLock) return; // @ts-ignore
 
     patchCommon(name, true, false).apply(void 0, arguments);
-    (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .setHistory */ .JB)(name, arguments);
+    (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .setHistory */ .JB)(name, arguments);
   }
 
   function replacePatch() {
     // @ts-ignore
     patchCommon(name, true, true).apply(void 0, arguments);
-    (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .setHistory */ .JB)(name, arguments, true);
+    (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .setHistory */ .JB)(name, arguments, true);
   }
 
   function go(count) {
@@ -10058,7 +10040,7 @@ var createHistoryProxy = function (name) {
       return rawHistory.go(count);
     }
 
-    var history = (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .historyGo */ .dA)(name, count);
+    var history = (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .historyGo */ .dA)(name, count);
 
     if (history) {
       // @ts-ignore
@@ -10075,7 +10057,7 @@ var createHistoryProxy = function (name) {
       return rawHistory.back();
     }
 
-    var history = (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .historyBack */ .$i)(name);
+    var history = (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .historyBack */ .$i)(name);
 
     if (history) {
       // @ts-ignore
@@ -10089,7 +10071,7 @@ var createHistoryProxy = function (name) {
       return rawHistory.forward();
     }
 
-    var history = (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .historyForward */ .G1)(name);
+    var history = (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .historyForward */ .G1)(name);
 
     if (history) {
       // @ts-ignore
@@ -10098,8 +10080,8 @@ var createHistoryProxy = function (name) {
     }
   }
 
-  var state = (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .getHistory */ .s1)(name).histories[(0,_history__WEBPACK_IMPORTED_MODULE_1__/* .getHistory */ .s1)(name).position] ? [0] : {};
-  var length = (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .getHistory */ .s1)(name).length;
+  var state = (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .getHistory */ .s1)(name).histories[(0,_history__WEBPACK_IMPORTED_MODULE_0__/* .getHistory */ .s1)(name).position] ? [0] : {};
+  var length = (0,_history__WEBPACK_IMPORTED_MODULE_0__/* .getHistory */ .s1)(name).length;
 
   var historyProxy = __assign(__assign({}, rawWindow.history), {
     // @ts-ignore
@@ -10116,7 +10098,7 @@ var createHistoryProxy = function (name) {
 };
 var createLocationProxy = function (name) {
   var locationProxy = {};
-  var widgetConfig = _widget__WEBPACK_IMPORTED_MODULE_0__/* .widgetsConfig.get */ .md.get(name);
+  var widgetConfig = _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(name);
   return new Proxy(locationProxy, {
     /*
         a标签的href需要拦截，// TODO 如果以http开头则不拦截
@@ -10156,9 +10138,9 @@ var createLocationProxy = function (name) {
           return function (reject) {
             return __awaiter(this, void 0, void 0, function () {
               return __generator(this, function (_a) {
-                _widget__WEBPACK_IMPORTED_MODULE_0__/* .flatternWidgets.get */ .qr.get(name).unmount();
-                _widget__WEBPACK_IMPORTED_MODULE_0__/* .flatternWidgets.get */ .qr.get(name).unmountPromise.then(function () {
-                  _widget__WEBPACK_IMPORTED_MODULE_0__/* .flatternWidgets.get */ .qr.get(name).mount();
+                _widget__WEBPACK_IMPORTED_MODULE_1__/* .flatternWidgets.get */ .qr.get(name).unmount();
+                _widget__WEBPACK_IMPORTED_MODULE_1__/* .flatternWidgets.get */ .qr.get(name).unmountPromise.then(function () {
+                  _widget__WEBPACK_IMPORTED_MODULE_1__/* .flatternWidgets.get */ .qr.get(name).mount();
                 }, reject);
                 return [2
                 /*return*/
@@ -10204,7 +10186,7 @@ var querySelector = rawDocument.querySelector; // document的代理
 
 var createDocumentProxy = function (name) {
   // TODO  firstChild还没创建,这里需要改，加载后才能
-  var doc = _widget__WEBPACK_IMPORTED_MODULE_0__/* .widgetsConfig.get */ .md.get(name).container.firstChild; //  || widgetsConfig.get(name).container;
+  var doc = _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(name).container.firstChild; //  || widgetsConfig.get(name).container;
 
   var rootDoc = doc;
   rawDocument.getElementsByClassName = rootDoc.getElementsByClassName.bind(doc);
@@ -10271,10 +10253,10 @@ var createWidgetProxy = function (name) {
     get: function get(childWidgets, property) {
       if (property === "getAll") {
         return function () {
-          var children = _widget__WEBPACK_IMPORTED_MODULE_0__/* .childrenWidgets.get */ .RH.get(name);
+          var children = _widget__WEBPACK_IMPORTED_MODULE_1__/* .childrenWidgets.get */ .RH.get(name);
           var childrenArray = [];
           children && children.forEach(function (childId) {
-            childrenArray.push(_widget__WEBPACK_IMPORTED_MODULE_0__/* .flatternWidgets.get */ .qr.get(childId));
+            childrenArray.push(_widget__WEBPACK_IMPORTED_MODULE_1__/* .flatternWidgets.get */ .qr.get(childId));
           });
           return childrenArray;
         };
@@ -10285,7 +10267,7 @@ var createWidgetProxy = function (name) {
   });
 };
 function getPublicPath(name) {
-  var config = _widget__WEBPACK_IMPORTED_MODULE_0__/* .widgetsConfig.get */ .md.get(name);
+  var config = _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(name);
 
   if (/\/$/.test(config.entry)) {
     return config.entry;
@@ -11549,6 +11531,7 @@ function mountWidget(options) {
             },
             unmount: function (keepLocation) {
               return new Promise(function (resolve, reject) {
+                deactiveWidget(widgetId);
                 app.unmount();
                 app.unmountPromise.then(function () {
                   // 卸载后可以重新注册api

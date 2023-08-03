@@ -66,7 +66,7 @@ rawWindow.addEventListener(
     // 卸载没有了路由的插件 （如果是点击按钮加载插件，但父插件没有跳转路由的情况咋整，这种情况）
     locations.forEach(async (value, key) => {
       if (!locationsForBrower.has(key)) {
-        await activeWidgets.get(key).unmount();
+        // await activeWidgets.get(key).unmount();
       } else {
         const widgetState = widgetHistories.get(key).state;
         if(maxState < widgetState){

@@ -318,6 +318,7 @@ export async function mountWidget(
     },
     unmount: (keepLocation?: boolean) => {
       return new Promise((resolve?: any, reject?: any) => {
+        deactiveWidget(widgetId);
         app.unmount();
         app.unmountPromise.then(
           () => {
