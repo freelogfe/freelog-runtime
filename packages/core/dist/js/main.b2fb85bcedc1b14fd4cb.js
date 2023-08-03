@@ -8799,13 +8799,13 @@ var freelogApp = {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ne": function() { return /* binding */ widgetHistories; },
 /* harmony export */   "JB": function() { return /* binding */ setHistory; },
 /* harmony export */   "s1": function() { return /* binding */ getHistory; },
 /* harmony export */   "$i": function() { return /* binding */ historyBack; },
 /* harmony export */   "G1": function() { return /* binding */ historyForward; },
 /* harmony export */   "dA": function() { return /* binding */ historyGo; }
 /* harmony export */ });
-/* unused harmony export widgetHistories */
 /* harmony import */ var _proxy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2936);
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
@@ -8839,9 +8839,9 @@ function setHistory(key, history, isReplace) {
     obj.histories.push(history);
     obj.length = obj.histories.length;
     obj.position = obj.histories.length - 1;
+    obj.state = _proxy__WEBPACK_IMPORTED_MODULE_0__/* .state */ .SB;
   }
 
-  obj.state = _proxy__WEBPACK_IMPORTED_MODULE_0__/* .state */ .SB;
   widgetHistories.set(key, obj);
 }
 function getHistory(key) {
@@ -8862,10 +8862,14 @@ function historyBack(key, fState) {
     state: _proxy__WEBPACK_IMPORTED_MODULE_0__/* .state */ .SB
   };
 
-  if (fState && fState - obj.state == 1) {
-    obj.position = obj.position - 1;
-    obj.state = obj.state - 1;
-    return obj.histories[obj.position];
+  if (fState) {
+    if (obj.state - fState == 1) {
+      obj.state = obj.state - 1;
+      obj.position = obj.position - 1;
+      return obj.histories[obj.position];
+    }
+
+    return false;
   }
 
   if (obj.length > 0 && obj.position > 0) {
@@ -8888,6 +8892,16 @@ function historyForward(key, fState) {
     position: 0,
     state: _proxy__WEBPACK_IMPORTED_MODULE_0__/* .state */ .SB
   };
+
+  if (fState) {
+    if (fState - obj.state == 1 && obj.histories[obj.position + 1]) {
+      obj.state = obj.state + 1;
+      obj.position = obj.position + 1;
+      return obj.histories[obj.position];
+    }
+
+    return false;
+  }
 
   if (obj.length > 0 && obj.position < obj.length - 1) {
     obj.position = obj.position + 1;
@@ -9657,17 +9671,21 @@ var moveLock = false;
 
 rawWindow.addEventListener("popstate", function (event) {
   return __awaiter(this, void 0, void 0, function () {
-    var estate;
+    var estate, maxState, maxStateWidget;
 
     var _this = this;
 
     return __generator(this, function (_a) {
       estate = event.state;
       if (!estate) estate = 0;
-      initLocation(true); // 卸载没有了路由的插件
+      initLocation(true);
+      maxState = 0;
+      maxStateWidget = null; // 如果卸载了插件，需要重新setLocation
+      // 卸载没有了路由的插件 （如果是点击按钮加载插件，但父插件没有跳转路由的情况咋整，这种情况）
 
       locations.forEach(function (value, key) {
         return __awaiter(_this, void 0, void 0, function () {
+          var widgetState;
           return __generator(this, function (_a) {
             switch (_a.label) {
               case 0:
@@ -9681,9 +9699,21 @@ rawWindow.addEventListener("popstate", function (event) {
               case 1:
                 _a.sent();
 
-                _a.label = 2;
+                return [3
+                /*break*/
+                , 3];
 
               case 2:
+                widgetState = _history__WEBPACK_IMPORTED_MODULE_1__/* .widgetHistories.get */ .ne.get(key).state;
+
+                if (maxState < widgetState) {
+                  maxState = widgetState;
+                  maxStateWidget = _history__WEBPACK_IMPORTED_MODULE_1__/* .widgetHistories.get */ .ne.get(key);
+                }
+
+                _a.label = 3;
+
+              case 3:
                 return [2
                 /*return*/
                 ];
@@ -9694,13 +9724,23 @@ rawWindow.addEventListener("popstate", function (event) {
       initLocation();
 
       if (estate < state) {
+        // 如果最大的 maxState 已经小于当前state了，证明是state值最大的插件卸载了，此时无需进行回退。
+        if (maxState < state) {
+          state = maxState; // @ts-ignore
+          // maxStateWidget.state = state
+
+          setLocation(true);
+          return [2
+          /*return*/
+          ];
+        }
+
         moveLock = true; // this is back,  make all of locations position++
         // @ts-ignore
 
         locationsForBrower.forEach(function (value, key) {
           var back = (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .historyBack */ .$i)(key, estate); // @ts-ignore
-
-          back && patchCommon(key, true).apply(void 0, back);
+          // back && patchCommon(key, false)(...back);
         });
       } else if (estate > state) {
         moveLock = true; // this is forword make all of locations position--
@@ -9708,6 +9748,8 @@ rawWindow.addEventListener("popstate", function (event) {
 
         locationsForBrower.forEach(function (value, key) {
           (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .historyForward */ .G1)(key, estate);
+          var forward = (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .historyForward */ .G1)(key, estate); // @ts-ignore
+          // forward && patchCommon(key, false)(...forward);
         });
       }
 
@@ -9899,17 +9941,27 @@ function setLocation(isReplace) {
 
     var url = rawLocation.origin + "/" + devUrl + "$_" + hash.replace("?", "_") + rawLocation.hash;
     if (url === rawLocation.href) return;
-    rawWindow.history.pushState(state, "", url);
+
+    if (isReplace) {
+      rawWindow.history.replaceState(state, "", url);
+    } else {
+      rawWindow.history.pushState(state, "", url);
+    }
   } else {
     var url = rawLocation.origin + "/" + hash.replace("?", "_") + rawLocation.hash + rawLocation.search;
     if (url === rawLocation.href) return;
-    rawWindow.history.pushState(state, "", url);
+
+    if (isReplace) {
+      rawWindow.history.replaceState(state, "", url);
+    } else {
+      rawWindow.history.pushState(state, "", url);
+    }
   } // rawLocation.hash = hash; state++
 
 } // TODO pathname  search 需要不可变
 
 var locationCenter = {
-  set: function (name, attr, flag) {
+  set: function (name, attr) {
     var loc = locations.get(name) || {};
 
     if (attr.pathname && attr.pathname.indexOf(rawLocation.host) > -1) {
@@ -9918,7 +9970,6 @@ var locationCenter = {
     }
 
     locations.set(name, __assign(__assign({}, loc), attr));
-    !flag && setLocation();
   },
   get: function (name) {
     return locations.get(name);
@@ -9942,11 +9993,17 @@ function freelogLocalStorage(id) {
     length: 0
   };
 }
+/**
+ *
+ * @param name
+ * @param flag 是否需要 setLocation
+ * @returns
+ */
 
-function patchCommon(name, flag) {
+function patchCommon(name, isSetLocation, isReplace) {
   return function () {
     var hash = "";
-    var routerType = HISTORY; // TODO 解析query参数  search   vue3会把origin也传过来
+    var routerType = HISTORY; // TODO 解析query参数  search vue3会把origin也传过来
 
     var href = arguments[2].replace(rawLocation.origin, "").replace(rawLocation.origin.replace("http:", "https:"), "");
 
@@ -9967,7 +10024,8 @@ function patchCommon(name, flag) {
       search: search ? "?" + search : "",
       hash: hash,
       routerType: routerType
-    }, flag);
+    });
+    isSetLocation && setLocation(isReplace);
   };
 }
 
@@ -9985,13 +10043,13 @@ var createHistoryProxy = function (name) {
   function pushPatch() {
     if (moveLock) return; // @ts-ignore
 
-    patch.apply(void 0, arguments);
+    patchCommon(name, true, false).apply(void 0, arguments);
     (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .setHistory */ .JB)(name, arguments);
   }
 
   function replacePatch() {
     // @ts-ignore
-    patch.apply(void 0, arguments);
+    patchCommon(name, true, true).apply(void 0, arguments);
     (0,_history__WEBPACK_IMPORTED_MODULE_1__/* .setHistory */ .JB)(name, arguments, true);
   }
 
@@ -11497,7 +11555,7 @@ function mountWidget(options) {
                   once = false;
                   api = {};
                   deactiveWidget(widgetId);
-                  !keepLocation && (0,_proxy__WEBPACK_IMPORTED_MODULE_1__/* .setLocation */ .l6)(); // TODO 验证是否是函数
+                  !keepLocation && (0,_proxy__WEBPACK_IMPORTED_MODULE_1__/* .setLocation */ .l6)(true); // TODO 验证是否是函数
 
                   resolve && resolve();
                 }, function () {

@@ -325,7 +325,7 @@ export async function mountWidget(
             once = false;
             api = {};
             deactiveWidget(widgetId);
-            !keepLocation && setLocation();
+            !keepLocation && setLocation(true);
             // TODO 验证是否是函数
             resolve && resolve();
           },

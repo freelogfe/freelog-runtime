@@ -29,6 +29,7 @@ import {
   historyGo,
   setHistory,
   getHistory,
+  widgetHistories,
 } from "./history";
 import { DEV_WIDGET } from "./dev";
 const rawDocument = document;
@@ -58,21 +59,39 @@ rawWindow.addEventListener(
     let estate = event.state;
     if (!estate) estate = 0;
     initLocation(true);
-    // 卸载没有了路由的插件
+    // 卸载后最大的 maxState
+    let maxState = 0;
+    let maxStateWidget = null;
+    // 如果卸载了插件，需要重新setLocation
+    // 卸载没有了路由的插件 （如果是点击按钮加载插件，但父插件没有跳转路由的情况咋整，这种情况）
     locations.forEach(async (value, key) => {
       if (!locationsForBrower.has(key)) {
         await activeWidgets.get(key).unmount();
+      } else {
+        const widgetState = widgetHistories.get(key).state;
+        if(maxState < widgetState){
+          maxState = widgetState;
+          maxStateWidget = widgetHistories.get(key)
+        }
       }
     });
     initLocation();
     if (estate < state) {
+      // 如果最大的 maxState 已经小于当前state了，证明是state值最大的插件卸载了，此时无需进行回退。
+      if (maxState < state) {
+        state = maxState;
+        // @ts-ignore
+        // maxStateWidget.state = state
+        setLocation(true)
+        return;
+      }
       moveLock = true;
       // this is back,  make all of locations position++
       // @ts-ignore
       locationsForBrower.forEach((value, key) => {
         const back = historyBack(key, estate);
         // @ts-ignore
-        back && patchCommon(key, true)(...back);
+        // back && patchCommon(key, false)(...back);
       });
     } else if (estate > state) {
       moveLock = true;
@@ -80,6 +99,9 @@ rawWindow.addEventListener(
       // @ts-ignore
       locationsForBrower.forEach((value, key) => {
         historyForward(key, estate);
+        const forward = historyForward(key, estate);
+        // @ts-ignore
+        // forward && patchCommon(key, false)(...forward);
       });
     }
     setTimeout(() => {
@@ -284,7 +306,11 @@ export function setLocation(isReplace?: boolean) {
       hash.replace("?", "_") +
       rawLocation.hash;
     if (url === rawLocation.href) return;
-    rawWindow.history.pushState(state, "", url);
+    if (isReplace) {
+      rawWindow.history.replaceState(state, "", url);
+    } else {
+      rawWindow.history.pushState(state, "", url);
+    }
   } else {
     const url =
       rawLocation.origin +
@@ -293,14 +319,18 @@ export function setLocation(isReplace?: boolean) {
       rawLocation.hash +
       rawLocation.search;
     if (url === rawLocation.href) return;
-    rawWindow.history.pushState(state, "", url);
+    if (isReplace) {
+      rawWindow.history.replaceState(state, "", url);
+    } else {
+      rawWindow.history.pushState(state, "", url);
+    }
   }
 
   // rawLocation.hash = hash; state++
 }
 // TODO pathname  search 需要不可变
 export const locationCenter: any = {
-  set: function (name: string, attr: any, flag?:boolean) {
+  set: function (name: string, attr: any) {
     var loc = locations.get(name) || {};
     if (attr.pathname && attr.pathname.indexOf(rawLocation.host) > -1) {
       // for vue3
@@ -313,7 +343,6 @@ export const locationCenter: any = {
       ...loc,
       ...attr,
     });
-    !flag && setLocation();
   },
   get: function (name: string): string {
     return locations.get(name);
@@ -337,11 +366,21 @@ export function freelogLocalStorage(id: string) {
     length: 0,
   };
 }
-function patchCommon(name: string, flag?: boolean) {
+/**
+ *
+ * @param name
+ * @param flag 是否需要 setLocation
+ * @returns
+ */
+function patchCommon(
+  name: string,
+  isSetLocation?: boolean,
+  isReplace?: boolean
+) {
   return function () {
     let hash = "";
     let routerType = HISTORY;
-    // TODO 解析query参数  search   vue3会把origin也传过来
+    // TODO 解析query参数  search vue3会把origin也传过来
     let href = arguments[2]
       .replace(rawLocation.origin, "")
       .replace(rawLocation.origin.replace("http:", "https:"), "");
@@ -359,7 +398,8 @@ function patchCommon(name: string, flag?: boolean) {
       search: search ? "?" + search : "",
       hash,
       routerType,
-    }, flag);
+    });
+    isSetLocation && setLocation(isReplace);
   };
 }
 export const saveSandBox = function (name: string, sandBox: any) {
@@ -375,12 +415,12 @@ export const createHistoryProxy = function (name: string) {
   function pushPatch() {
     if (moveLock) return;
     // @ts-ignore
-    patch(...arguments);
+    patchCommon(name, true, false)(...arguments);
     setHistory(name, arguments);
   }
   function replacePatch() {
     // @ts-ignore
-    patch(...arguments);
+    patchCommon(name, true, true)(...arguments);
     setHistory(name, arguments, true);
   }
   function go(count: number) {
