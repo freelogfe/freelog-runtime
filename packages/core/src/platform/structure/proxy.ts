@@ -51,7 +51,8 @@ let moveLock = false;
  * 主题插件有自己的history.back history.forward  history.go
  * 当浏览器back或farward，需要回退或前进最近一次
  * 当回退或前进 当前插件没有了路由后，需要卸载插件
- *
+ * 卸载插件会造成问题，当前插件在浏览器上前进了很多次，此时state却没有变化
+ * 此时需要使用主题插件中最大的state来replace一个url上去
  */
 rawWindow.addEventListener(
   "popstate",
@@ -122,7 +123,9 @@ rawWindow.addEventListener(
 export function freelogAddEventListener(proxy: any, target: any) {
   return function () {
     // @ts-ignore
-    const arr = Array.prototype.slice.apply(arguments);
+    const arr = Array.prototype.slice.apply(arguments);  
+
+     
     // TODO 是否给每个插件都一个事件，这样可以提升性能，路由没有变化的就不需要执行事件了
     if (arguments[0] === "popstate") {
       rawWindow.addEventListener("freelog-popstate", arr[1]);
