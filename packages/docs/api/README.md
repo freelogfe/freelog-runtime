@@ -648,3 +648,20 @@ window.freelogApp.callLoginOut()
 **用法**
 window.freelogApp.isUserChange()
 ```
+
+### pushMessage4Task
+
+**用途：推送任务消息埋点**
+
+```ts
+**参数说明**
+  data:{
+    taskConfigCode: string,  // 任务配置编号
+    meta: {} // 数据
+  }
+
+**用法**
+
+window.freelogApp.pushMessage4Task(data).then((res)=>{})
+```
+ 
