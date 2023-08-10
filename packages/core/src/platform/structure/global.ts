@@ -33,6 +33,7 @@ import {
   getExhibitDepTree,
   getSignStatistics,
   getExhibitAvailalbe,
+  pushMessage4Task
 } from "./api";
 let devData = "";
 export const freelogApp: any = {
@@ -42,6 +43,7 @@ export const freelogApp: any = {
     authUIMounted: false,
     themeMounted: false,
   },
+  pushMessage4Task,
   mountWidget,
   getExhibitListById,
   getExhibitListByPaging,

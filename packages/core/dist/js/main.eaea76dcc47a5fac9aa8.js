@@ -8197,12 +8197,14 @@ function isUserChange() {
 /* harmony export */   "ae": function() { return /* binding */ getExhibitFileStream; },
 /* harmony export */   "_P": function() { return /* binding */ getExhibitInfoByAuth; },
 /* harmony export */   "nt": function() { return /* binding */ getExhibitDepTree; },
-/* harmony export */   "rb": function() { return /* binding */ getExhibitDepFileStream; }
+/* harmony export */   "rb": function() { return /* binding */ getExhibitDepFileStream; },
+/* harmony export */   "U_": function() { return /* binding */ pushMessage4Task; }
 /* harmony export */ });
 /* unused harmony export getExhibitResultByAuth */
 /* harmony import */ var _services_handler__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9812);
 /* harmony import */ var _services_api_modules_exhibit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8229);
 /* harmony import */ var _services_api_modules_contract__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7248);
+/* harmony import */ var _services_api_modules_operation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5162);
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -8357,6 +8359,7 @@ var __generator = undefined && undefined.__generator || function (thisArg, body)
     };
   }
 };
+
 
 
 
@@ -8626,6 +8629,15 @@ function getExhibitDepFileStream(exhibitId, parentNid, subArticleId, returnUrl, 
     });
   });
 }
+function pushMessage4Task(query) {
+  return __awaiter(this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+      return [2
+      /*return*/
+      , (0,_services_handler__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .Z)(_services_api_modules_operation__WEBPACK_IMPORTED_MODULE_3__/* ["default"].pushMessage4Task */ .Z.pushMessage4Task, null, query)];
+    });
+  });
+}
 
 /***/ }),
 
@@ -8733,14 +8745,14 @@ var freelogAuth = {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "L": function() { return /* binding */ freelogApp; }
 /* harmony export */ });
-/* harmony import */ var _widget__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8049);
+/* harmony import */ var _widget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8049);
 /* harmony import */ var _bridge_eventType__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(6924);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7198);
 /* harmony import */ var _bridge_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9779);
 /* harmony import */ var _bridge_eventOn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1351);
 /* harmony import */ var _security__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(596);
 /* harmony import */ var _runtime_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2506);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(106);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(106);
 
 
 
@@ -8757,19 +8769,20 @@ var freelogApp = {
     authUIMounted: false,
     themeMounted: false
   },
-  mountWidget: _widget__WEBPACK_IMPORTED_MODULE_1__/* .mountWidget */ .lA,
-  getExhibitListById: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitListById */ .Pd,
-  getExhibitListByPaging: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitListByPaging */ .yI,
-  getExhibitInfo: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitInfo */ .RS,
-  getExhibitSignCount: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitSignCount */ .xL,
-  getExhibitAuthStatus: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitAuthStatus */ .yr,
-  getExhibitFileStream: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitFileStream */ .ae,
-  getExhibitDepFileStream: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitDepFileStream */ .rb,
-  getExhibitInfoByAuth: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitInfoByAuth */ ._P,
-  getExhibitDepInfo: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitDepInfo */ .hz,
-  getExhibitDepTree: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitDepTree */ .nt,
-  getSignStatistics: _api__WEBPACK_IMPORTED_MODULE_2__/* .getSignStatistics */ .Xg,
-  getExhibitAvailalbe: _api__WEBPACK_IMPORTED_MODULE_2__/* .getExhibitAvailalbe */ .Yi,
+  pushMessage4Task: _api__WEBPACK_IMPORTED_MODULE_1__/* .pushMessage4Task */ .U_,
+  mountWidget: _widget__WEBPACK_IMPORTED_MODULE_2__/* .mountWidget */ .lA,
+  getExhibitListById: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitListById */ .Pd,
+  getExhibitListByPaging: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitListByPaging */ .yI,
+  getExhibitInfo: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitInfo */ .RS,
+  getExhibitSignCount: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitSignCount */ .xL,
+  getExhibitAuthStatus: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitAuthStatus */ .yr,
+  getExhibitFileStream: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitFileStream */ .ae,
+  getExhibitDepFileStream: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitDepFileStream */ .rb,
+  getExhibitInfoByAuth: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitInfoByAuth */ ._P,
+  getExhibitDepInfo: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitDepInfo */ .hz,
+  getExhibitDepTree: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitDepTree */ .nt,
+  getSignStatistics: _api__WEBPACK_IMPORTED_MODULE_1__/* .getSignStatistics */ .Xg,
+  getExhibitAvailalbe: _api__WEBPACK_IMPORTED_MODULE_1__/* .getExhibitAvailalbe */ .Yi,
   devData: devData,
   getStaticPath: _utils__WEBPACK_IMPORTED_MODULE_3__/* .getStaticPath */ .lg,
   getSubDep: _utils__WEBPACK_IMPORTED_MODULE_3__/* .getSubDep */ .Jr,
@@ -9666,7 +9679,8 @@ var moveLock = false;
  * 主题插件有自己的history.back history.forward  history.go
  * 当浏览器back或farward，需要回退或前进最近一次
  * 当回退或前进 当前插件没有了路由后，需要卸载插件
- *
+ * 卸载插件会造成问题，当前插件在浏览器上前进了很多次，此时state却没有变化
+ * 此时需要使用主题插件中最大的state来replace一个url上去
  */
 
 rawWindow.addEventListener("popstate", function (event) {
@@ -11915,6 +11929,26 @@ var node = {
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (node);
+
+/***/ }),
+
+/***/ 5162:
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Z": function() { return __WEBPACK_DEFAULT_EXPORT__; }
+/* harmony export */ });
+var operation = {
+  pushMessage4Task: {
+    url: "/activities/facade/pushMessage4Task ",
+    method: "POST" // dataModel: { // 避免经常改，暂时不限制
+    //   taskConfigCode: "string" 
+    // },
+
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (operation);
 
 /***/ }),
 

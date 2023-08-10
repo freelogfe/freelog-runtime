@@ -1,6 +1,8 @@
 import frequest from "../../services/handler";
 import exhibit from "../../services/api/modules/exhibit";
 import contract from "../../services/api/modules/contract";
+import operation from "../../services/api/modules/operation";
+
 const isTest = window.isTest;
 // @ts-ignore
 let nodeId = "";
@@ -263,4 +265,9 @@ export async function getExhibitDepFileStream(
   //   returnUrl,
   //   config
   // );
+}
+
+ 
+export async function pushMessage4Task(query: any) {
+  return frequest(operation.pushMessage4Task, null, query);
 }
