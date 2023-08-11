@@ -232,7 +232,9 @@ const viewPortValue = {
   "viewport-fit": "auto", // not supported in browser
 };
 var rawDocument = window.document;
+var metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0]; 
 export function setViewport(keys: any) {
+  console.log(keys)
   // @ts-ignore
   const that = this;
   // 如果是主题
@@ -246,7 +248,6 @@ export function setViewport(keys: any) {
       viewPortValue[key] = keys[key];
     }
   });
-  var metaEl: any = rawDocument.querySelector('meta[name="viewport"]');
   let content = "";
   Object.keys(viewPortValue).forEach((key: any) => {
     if (viewPortValue.hasOwnProperty(key)) {
@@ -254,7 +255,8 @@ export function setViewport(keys: any) {
       content += key + "=" + viewPortValue[key] + ",";
     }
   });
-  metaEl.setAttribute("content", content);
+  metaEl.setAttribute("content", content.substring(0, content.length - 1));
+  console.log(content,metaEl)
 }
 
 /**
