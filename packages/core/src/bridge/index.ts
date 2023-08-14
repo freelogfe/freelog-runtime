@@ -16,6 +16,8 @@ import {
   LOGIN_OUT,
 } from "./eventType";
 import { onLogin } from "./eventOn";
+import { isMobile } from "../utils/utils";
+
 import {
   getExhibitInfo,
   getExhibitAuthStatus,
@@ -198,7 +200,15 @@ export function goLoginOut() {
 }
 const uiRoot = rawDocument.getElementById("ui-root");
 const widgetContainer = rawDocument.getElementById("freelog-plugin-container");
+const mobile = isMobile();
+var metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0]; 
+var metaViewPortContent = "";
 export function upperUI() {
+  if(mobile){
+    metaViewPortContent = metaEl.getAttribute("content");
+    // TODO 这个设置不该与运行时耦合
+    metaEl.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no");
+  }
   // @ts-ignore
   uiRoot.style.zIndex = 1;
   // uiRoot.style.opacity = 1;
@@ -207,6 +217,9 @@ export function upperUI() {
 }
 export function lowerUI() {
   uiInited = false;
+  if(mobile){
+    metaEl.setAttribute("content", metaViewPortContent);
+  }
   // @ts-ignore
   uiRoot.style.zIndex = 0;
   // // @ts-ignore

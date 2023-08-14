@@ -2248,6 +2248,7 @@ var resultType = {
 /* unused harmony export exhibitQueue */
 /* harmony import */ var _eventType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6924);
 /* harmony import */ var _eventOn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1351);
+/* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7537);
 /* harmony import */ var _platform_structure_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(106);
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
@@ -2403,6 +2404,7 @@ var __generator = undefined && undefined.__generator || function (thisArg, body)
     };
   }
 };
+
 
 
 
@@ -2610,15 +2612,29 @@ function goLoginOut() {
 }
 var uiRoot = rawDocument.getElementById("ui-root");
 var widgetContainer = rawDocument.getElementById("freelog-plugin-container");
+var mobile = (0,_utils_utils__WEBPACK_IMPORTED_MODULE_3__/* .isMobile */ .i)();
+var metaEl = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
+var metaViewPortContent = "";
 function upperUI() {
-  // @ts-ignore
+  if (mobile) {
+    metaViewPortContent = metaEl.getAttribute("content"); // TODO 这个设置不该与运行时耦合
+
+    metaEl.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no");
+  } // @ts-ignore
+
+
   uiRoot.style.zIndex = 1; // uiRoot.style.opacity = 1;
   // @ts-ignore
 
   widgetContainer.style.zIndex = 0;
 }
 function lowerUI() {
-  uiInited = false; // @ts-ignore
+  uiInited = false;
+
+  if (mobile) {
+    metaEl.setAttribute("content", metaViewPortContent);
+  } // @ts-ignore
+
 
   uiRoot.style.zIndex = 0; // // @ts-ignore
   // uiRoot.style.opacity = 0;
@@ -9120,8 +9136,6 @@ var __generator = undefined && undefined.__generator || function (thisArg, body)
   }
 };
 
-var _a;
-
 
 
 
@@ -9146,8 +9160,11 @@ if (window.location.host.includes(".testfreelog.com")) {
   window.ENV = "testfreelog.com";
 }
 
-var rawDocument = document;
-!mobile && ((_a = document.querySelector.bind(document)('meta[name="viewport"]')) === null || _a === void 0 ? void 0 : _a.setAttribute("content", "width=device-width, initial-scale=1.0"));
+var rawDocument = document; // !mobile &&
+//   document.querySelector
+//     .bind(document)('meta[name="viewport"]')
+//     ?.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no");
+
 window.freelogApp = _global__WEBPACK_IMPORTED_MODULE_1__/* .freelogApp */ .L;
 window.freelogAuth = _freelogAuth__WEBPACK_IMPORTED_MODULE_2__/* .freelogAuth */ .v;
 function initNode() {
@@ -10871,6 +10888,7 @@ var viewPortValue = {
 
 };
 var rawDocument = window.document;
+var metaEl = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
 function setViewport(keys) {
   var _a; // @ts-ignore
 
@@ -10888,7 +10906,6 @@ function setViewport(keys) {
       viewPortValue[key] = keys[key];
     }
   });
-  var metaEl = rawDocument.querySelector('meta[name="viewport"]');
   var content = "";
   Object.keys(viewPortValue).forEach(function (key) {
     if (viewPortValue.hasOwnProperty(key)) {
@@ -10896,7 +10913,8 @@ function setViewport(keys) {
       content += key + "=" + viewPortValue[key] + ",";
     }
   });
-  metaEl.setAttribute("content", content);
+  metaEl.setAttribute("content", content.substring(0, content.length - 1));
+  console.log(content, metaEl);
 }
 /**
  *
@@ -12442,9 +12460,9 @@ axios__WEBPACK_IMPORTED_MODULE_0___default().interceptors.response.use(function 
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "t": function() { return /* binding */ compareObjects; }
+/* harmony export */   "t": function() { return /* binding */ compareObjects; },
+/* harmony export */   "i": function() { return /* binding */ isMobile; }
 /* harmony export */ });
-/* unused harmony export isMobile */
 /**
  *
  * @param origin model

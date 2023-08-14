@@ -234,7 +234,6 @@ const viewPortValue = {
 var rawDocument = window.document;
 var metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0]; 
 export function setViewport(keys: any) {
-  console.log(keys)
   // @ts-ignore
   const that = this;
   // 如果是主题

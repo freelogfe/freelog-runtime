@@ -35,10 +35,10 @@ if (window.location.host.includes(".testfreelog.com")) {
   window.ENV = "testfreelog.com";
 }
 const rawDocument = document;
-!mobile &&
-  document.querySelector
-    .bind(document)('meta[name="viewport"]')
-    ?.setAttribute("content", "width=device-width, initial-scale=1.0");
+// !mobile &&
+//   document.querySelector
+//     .bind(document)('meta[name="viewport"]')
+//     ?.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no");
 window.freelogApp = freelogApp;
 window.freelogAuth = freelogAuth;
 
