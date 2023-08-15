@@ -255,7 +255,6 @@ export function setViewport(keys: any) {
     }
   });
   metaEl.setAttribute("content", content.substring(0, content.length - 1));
-  console.log(content,metaEl)
 }
 
 /**
