@@ -3556,8 +3556,9 @@ function getEmbedHTML(template, styles, opts, baseURI) {
   }
 
   var _a = opts.fetch,
-      fetch = _a === void 0 ? defaultFetch : _a;
-  var embedHTML = template; // if(/\/\/$/.test(baseURI)){
+      fetch = _a === void 0 ? defaultFetch : _a; // TODO 重要标记，这里修改 是为了解决这个问题： 浏览器加载meta会选择最后一个执行
+
+  var embedHTML = template.replace(/<meta\s*name=\"viewport\".*>/, ""); // if(/\/\/$/.test(baseURI)){
   // 	baseURI = baseURI.substr(0, baseURI.length - 1)
   // }
   // if(!/\/$/.test(baseURI)){
@@ -10914,7 +10915,6 @@ function setViewport(keys) {
     }
   });
   metaEl.setAttribute("content", content.substring(0, content.length - 1));
-  console.log(content, metaEl);
 }
 /**
  *

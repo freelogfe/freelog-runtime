@@ -43,7 +43,8 @@ function defaultGetTemplate(tpl) {
  */
 function getEmbedHTML(template, styles, opts = {}, baseURI) {
 	const { fetch = defaultFetch } = opts;
-	let embedHTML = template;
+	// TODO 重要标记，这里修改 是为了解决这个问题： 浏览器加载meta会选择最后一个执行
+	let embedHTML =  template.replace(/<meta\s*name=\"viewport\".*>/, "");
 	// if(/\/\/$/.test(baseURI)){
 	// 	baseURI = baseURI.substr(0, baseURI.length - 1)
 	// }
