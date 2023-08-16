@@ -9216,7 +9216,8 @@ function initNode() {
               //   resolve();
               //   return;
               // }
-              // document.title = nodeInfo.nodeName;
+
+              document.title = nodeInfo.nodeName;
 
               if (window.isTest) {
                 document.title = "[T]" + nodeInfo.nodeName;
