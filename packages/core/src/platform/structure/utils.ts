@@ -233,6 +233,9 @@ const viewPortValue = {
 };
 var rawDocument = window.document;
 var metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0]; 
+export function getViewport(){
+  return metaEl.getAttribute("content");
+}
 export function setViewport(keys: any) {
   // @ts-ignore
   const that = this;

@@ -13,7 +13,7 @@ import {
 	readResAsString,
 	requestIdleCallback,
 } from './utils';
-import { freelogFetch } from '../../structure/utils'
+import { freelogFetch, getViewport } from '../../structure/utils'
 const styleCache = {};
 const scriptCache = {};
 const embedHTMLCache = {};
@@ -43,8 +43,11 @@ function defaultGetTemplate(tpl) {
  */
 function getEmbedHTML(template, styles, opts = {}, baseURI) {
 	const { fetch = defaultFetch } = opts;
-	// TODO 重要标记，这里修改 是为了解决这个问题： 浏览器加载meta会选择最后一个执行
-	let embedHTML =  template.replace(/<meta\s*name=\"viewport\".*>/, "");
+	// var embedHTML =  template
+	const content = getViewport();
+	// TODO 重要标记，这里修改 是为了解决这个问题： 浏览器加载meta会选择最后一个执行 `<meta name="viewport" content="${content}"  />`
+	let embedHTML =  template.replace(/<meta\s*name=\"viewport\".*?>/, "");
+	// console.log(embedHTML)
 	// if(/\/\/$/.test(baseURI)){
 	// 	baseURI = baseURI.substr(0, baseURI.length - 1)
 	// }

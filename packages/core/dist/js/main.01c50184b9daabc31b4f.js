@@ -3556,9 +3556,12 @@ function getEmbedHTML(template, styles, opts, baseURI) {
   }
 
   var _a = opts.fetch,
-      fetch = _a === void 0 ? defaultFetch : _a; // TODO 重要标记，这里修改 是为了解决这个问题： 浏览器加载meta会选择最后一个执行
+      fetch = _a === void 0 ? defaultFetch : _a; // var embedHTML =  template
 
-  var embedHTML = template.replace(/<meta\s*name=\"viewport\".*>/, ""); // if(/\/\/$/.test(baseURI)){
+  var content = (0,_structure_utils__WEBPACK_IMPORTED_MODULE_0__/* .getViewport */ .aO)(); // TODO 重要标记，这里修改 是为了解决这个问题： 浏览器加载meta会选择最后一个执行 `<meta name="viewport" content="${content}"  />`
+
+  var embedHTML = template.replace(/<meta\s*name=\"viewport\".*?>/, ""); // console.log(embedHTML)
+  // if(/\/\/$/.test(baseURI)){
   // 	baseURI = baseURI.substr(0, baseURI.length - 1)
   // }
   // if(!/\/$/.test(baseURI)){
@@ -10363,6 +10366,7 @@ function pathATag() {
 /* harmony export */   "ps": function() { return /* binding */ setUserInfo; },
 /* harmony export */   "lg": function() { return /* binding */ getStaticPath; },
 /* harmony export */   "H5": function() { return /* binding */ reload; },
+/* harmony export */   "aO": function() { return /* binding */ getViewport; },
 /* harmony export */   "_o": function() { return /* binding */ setViewport; },
 /* harmony export */   "M": function() { return /* binding */ setUserData; },
 /* harmony export */   "is": function() { return /* binding */ getUserData; },
@@ -10890,6 +10894,9 @@ var viewPortValue = {
 };
 var rawDocument = window.document;
 var metaEl = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
+function getViewport() {
+  return metaEl.getAttribute("content");
+}
 function setViewport(keys) {
   var _a; // @ts-ignore
 
