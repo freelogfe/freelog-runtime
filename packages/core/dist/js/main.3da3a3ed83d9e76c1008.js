@@ -9253,7 +9253,7 @@ function initNode() {
 
               if (devData.type !== _dev__WEBPACK_IMPORTED_MODULE_6__/* .DEV_FALSE */ .Qq && mobile) {
                 script = document.createElement("script");
-                script.src = "https://unpkg.com/vconsole@latest/dist/vconsole.min.js";
+                script.src = "/vconsole.min.js";
                 document.head.appendChild(script);
 
                 script.onload = function () {

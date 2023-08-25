@@ -103,7 +103,7 @@ export function initNode() {
         // }
         if (devData.type !== DEV_FALSE && mobile) {
           var script = document.createElement("script");
-          script.src = "https://unpkg.com/vconsole@latest/dist/vconsole.min.js";
+          script.src = "/vconsole.min.js";
           document.head.appendChild(script);
           script.onload = () => {
             // @ts-ignore
