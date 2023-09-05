@@ -24,6 +24,10 @@ module.exports = {
                 link: '/api/'
             },
             {
+                text: '技术方案适配',
+                link: '/adapt/'
+            },
+            {
                 text: 'FAQ',
                 link: '/faq/'
             }

@@ -725,6 +725,29 @@ unmountPromise 一个promise，当插件卸载后resolve。
 getApi()   在子插件加载完成后 使用getApi()方法获取子插件的对外api， 由于子插件可能自己重载、或操作子插件重载，每次调用都需要使用方法获取，不能直接获取，
 ```
 
+### 插件卸载
+
+ 当插件挂载的容器在组件内部或与组件同生同灭时，在组件卸载前需要卸载插件，否则再次加载会有问题。方便下次使用，可以将插件对象保存到全局
+
+ vue案例：[前往示例代码](https://github.com/freelogfe/freelog-developer-guide-examples/blob/main/examples/vue3-ts-theme/src/views/widget/WidgetMount.vue)
+
+```ts
+// vue示例
+onBeforeUnmount( () => {
+   selfWidget?.unmount();
+   exhibitWidget?.unmount();
+});
+
+// react示例
+useEffect(()=>{
+  return ()=>{
+    selfWidget?.unmount();
+    exhibitWidget?.unmount();
+  }
+})  
+
+```
+
 ### 配置插件配置数据
 
 ```ts
