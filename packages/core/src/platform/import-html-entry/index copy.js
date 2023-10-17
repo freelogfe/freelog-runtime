@@ -28,8 +28,8 @@ if (!window.fetch) {
 // 		return rawFetch(url, { ...options });
 // 	}
 // };
-const defaultFetch = window.fetch; // freelogFetch.bind(window);
-// const defaultFetch = freelogFetch.bind(window);
+// const defaultFetch = window.fetch; // freelogFetch.bind(window);
+const defaultFetch =  freelogFetch.bind(window);
 
 function defaultGetTemplate(tpl) {
 	return tpl;
@@ -43,6 +43,7 @@ function defaultGetTemplate(tpl) {
  * @return embedHTML
  */
 function getEmbedHTML(template, styles, opts = {}, baseURI) {
+	console.log(opts)
 	const { fetch = defaultFetch } = opts;
 	// var embedHTML =  template
 	const content = getViewport();
