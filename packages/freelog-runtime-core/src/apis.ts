@@ -8,7 +8,7 @@ import {  getContainer, getXPathForElement, } from './utils';
 
  
 // eslint-disable-next-line import/no-mutable-exports
-export let frameworkConfiguration: FrameworkConfiguration = {};
+export let frameworkConfiguration: FrameworkConfiguration = {fetch: window.fetch};
 const appConfigPromiseGetterMap = new Map<string, Promise<ParcelConfigObjectGetter>>();
 
 export function loadMicroApp<T extends ObjectType>(
@@ -17,7 +17,7 @@ export function loadMicroApp<T extends ObjectType>(
   lifeCycles?: FrameworkLifeCycles<T>,
 ): MicroApp {
   const { props, name } = app;
-
+  frameworkConfiguration = {...frameworkConfiguration, fetch: configuration?.fetch ? configuration?.fetch : frameworkConfiguration.fetch}
   const getContainerXpath = (container: string | HTMLElement): string | void => {
     const containerElement = getContainer(container);
     if (containerElement) {
