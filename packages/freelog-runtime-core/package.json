@@ -1,14 +1,31 @@
 {
-  "name": "core",
-  "version": "0.0.0",
-  "sideEffects": false,
+  "name": "freelog-runtime-core",
+  "version": "0.0.1",
+  "description": "运行时插件管理与沙盒核心",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
   "scripts": {
-    "start": "webpack serve --progress --hot --inline --config webpack/webpack.dev.js",
-    "build": "webpack --config webpack/webpack.prod.js",
-    "test": "webpack --progress --config webpack/webpack.prod.js "
+    "dev": "father dev",
+    "build": "father build",
+    "build:deps": "father prebundle",
+    "prepublishOnly": "father doctor && npm run build"
   },
+  "keywords": [],
+  "authors": [
+    "455342265@qq.com"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist",
+    "compiled"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+ 
   "devDependencies": {
     "@babel/cli": "^7.13.16",
+    "father": "^4.3.6",
     "@babel/core": "^7.13.16",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.13.8",

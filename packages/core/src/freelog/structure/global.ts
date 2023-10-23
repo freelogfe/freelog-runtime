@@ -18,7 +18,8 @@ import {
 import { callAuth, addAuth } from "../bridge/index";
 import { onLogin, onUserChange } from "../bridge/eventOn";
 import { isUserChange } from "../security";
-import {initGlobalState} from '../../platform//index'
+import {initGlobalState} from "freelog-runtime-core"
+// import {initGlobalState} from '../../platform//index'
 
 import {
   getExhibitListById,

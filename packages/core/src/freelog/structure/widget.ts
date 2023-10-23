@@ -15,7 +15,9 @@
  *
  */
 
-import { loadMicroApp } from "../../platform";
+// import { loadMicroApp } from "../../platform";
+import { loadMicroApp } from "freelog-runtime-core";
+
 import { freelogFetch, getViewport } from './utils'
 import { setLocation } from "./proxy";
 import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";

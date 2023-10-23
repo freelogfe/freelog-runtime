@@ -21,7 +21,8 @@ import {
   childrenWidgets,
   flatternWidgets,
 } from "./widget";
-import { initGlobalState } from "../../platform//index";
+import { initGlobalState } from "freelog-runtime-core";
+// import { initGlobalState } from "../../platform//index";
 
 import {
   historyBack,
