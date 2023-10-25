@@ -1,10 +1,9 @@
 export const placeHolder = "urlPlaceHolder";
 // @ts-ignore
-let baseURL = window.baseURL;
+import {baseInfo} from "../../base"
 
-export const baseUrl = baseURL;
 export const baseConfig = {
-  baseURL,
+  baseURL: baseInfo.baseURL,
   withCredentials: true,
   timeout: 30000,
 };

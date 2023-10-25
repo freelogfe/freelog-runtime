@@ -12,13 +12,13 @@ export async function getUserData(query:any) {
   return frequest(node.getUserData, "", query); 
 }
 
- 
 export const baseInfo = {
     isTest: false,
-    nodeId: ""
+    nodeId: "",
+    baseURL: "",
 };
-export let nodeId: string | number = "";
-export function init(isTest: boolean, fnodeId: string ) {
+export function init(isTest: boolean, fnodeId: string, baseURL: string ) {
     baseInfo.isTest = isTest;
     baseInfo.nodeId = fnodeId;
+    baseInfo.baseURL = fnodeId;
 }
