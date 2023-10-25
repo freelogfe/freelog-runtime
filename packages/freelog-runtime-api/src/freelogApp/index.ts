@@ -1,5 +1,3 @@
-﻿// 需要导出 user.getCurrent   node.putUserData  node.getUserData  三个
-
 import {
   getExhibitListById,
   getExhibitListByPaging,
