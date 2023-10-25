@@ -1,272 +1,69 @@
-import frequest from "../services/handler";
-import exhibit from "../services/api/modules/exhibit";
-import contract from "../services/api/modules/contract";
-import operation from "../services/api/modules/operation";
+import frequest from "./services/handler";
+import contract from "./services/api/modules/contract";
+import event from "./services/api/modules/event";
+import transaction from "./services/api/modules/transaction";
+import user from "./services/api/modules/user";
+import {baseInfo} from "../base"
 
-// @ts-ignore
-let isTest = false;
-let nodeId: string | number = "";
-export function init(test: boolean, fnodeId: string | number) {
-  isTest = test;
-  nodeId = fnodeId;
+// contract 开始
+export async function getContractInfo(urlData: Array<any>,query: any) {
+  return frequest(contract.getContractInfo, urlData, query);
 }
-// 展品非授权信息接口
-export async function getExhibitListById(query: any): Promise<any> {
-  if (query && Object.prototype.toString.call(query) !== "[object Object]") {
-    return "query parameter must be object";
-  }
-  if (isTest)
-    //@ts-ignore
-    return frequest.bind({ name: this.name })(
-      exhibit.getTestExhibitListById,
-      [nodeId],
-      {
-        ...query,
-      }
-    );
-  //@ts-ignore
-  return frequest.bind({ name: this.name })(
-    exhibit.getExhibitListById,
-    [nodeId],
-    {
-      ...query,
-    }
-  );
+export async function getContracts(query: any) {
+  return frequest(contract.getContractInfo, "", query);
 }
-export async function getExhibitListByPaging(query: any): Promise<any> {
-  if (query && Object.prototype.toString.call(query) !== "[object Object]") {
-    return Promise.reject("query parameter must be object");
-  }
-  if (isTest)
-    // @ts-ignore
-    return frequest.bind({ name: this.name })(
-      exhibit.getTestExhibitByPaging,
-      [nodeId],
-      {
-        ...query,
-      }
-    );
-  // @ts-ignore
-  return frequest.bind({ name: this.name })(
-    exhibit.getExhibitListByPaging,
-    [nodeId],
-    {
-      ...query,
-    }
-  );
+export async function signContract(query: any) {
+  return frequest(contract.contract, "", query);
 }
-export async function getSignStatistics(query: any) {
-  // @ts-ignore
-  return frequest(contract.getSignStatistics, "", {
-    signUserIdentityType: 2,
-    nodeId,
-    ...query,
-  });
+export async function batchSign(query: any) {
+  return frequest(contract.contracts, "", query);
 }
-export async function getExhibitInfo(exhibitId: string, query: any) {
-  if (isTest)
-    // @ts-ignore
-    return frequest(exhibit.getTestExhibitDetail, [nodeId, exhibitId], query);
-  // @ts-ignore
-  return frequest(exhibit.getExhibitDetail, [nodeId, exhibitId], query);
+export async function getTransitionRecords(urlData: Array<any>,query: any) {
+  return frequest(contract.getContractInfo, urlData, query);
 }
-export async function getExhibitDepInfo(
-  exhibitId: string,
-  articleNids: string
-) {
-  if (isTest)
-    // @ts-ignore
-    return frequest(exhibit.getTestExhibitDepInfo, [nodeId, exhibitId], {
-      articleNids,
-    });
-  // @ts-ignore
-  return frequest(exhibit.getExhibitDepInfo, [nodeId, exhibitId], {
-    articleNids,
-  });
-}
+// contract 结束
 
-export async function getExhibitSignCount(exhibitId: string) {
-  // @ts-ignore
-  return frequest(exhibit.getExhibitSignCount, "", {
-    subjectIds: exhibitId,
-    subjectType: 2,
-  });
+// event 开始
+export async function pay(urlData: Array<any>,query: any) {
+  return frequest(event.pay, urlData, query);
 }
-export async function getExhibitAvailalbe(exhibitIds: string) {
-  if (isTest) {
-    return frequest(exhibit.getTestExhibitAuthStatus, [nodeId], {
-      authType: 3,
-      exhibitIds,
-    });
-  }
-  // @ts-ignore
-  return frequest(exhibit.getExhibitAuthStatus, [nodeId], {
-    authType: 3,
-    exhibitIds,
-  });
-}
-export async function getExhibitAuthStatus(exhibitIds: string) {
-  if (isTest) {
-    return frequest(exhibit.getTestExhibitAuthStatus, [nodeId], {
-      authType: isTest ? 3 : 4,
-      exhibitIds,
-    });
-  }
-  // @ts-ignore
-  return frequest(exhibit.getExhibitAuthStatus, [nodeId], {
-    authType: isTest ? 3 : 4,
-    exhibitIds,
-  });
-}
-// 展品授权信息接口
-function getByExhibitId(
-  name: string,
-  exhibitId: string | number,
-  type: string,
-  parentNid?: string,
-  subArticleIdOrName?: string,
-  returnUrl?: boolean,
-  config?: any
-): Promise<any> | string {
-  if (!exhibitId) {
-    return "exhibitId is required";
-  }
-  let form: any = {};
-  if (parentNid) {
-    form.parentNid = parentNid;
-  }
-  if (subArticleIdOrName) {
-    form.subArticleIdOrName = subArticleIdOrName;
-  }
-  if (isTest)
-    return frequest.bind({
-      name,
-      isAuth: true,
-      exhibitId: parentNid ? "" : exhibitId,
-    })(
-      exhibit.getTestExhibitAuthById,
-      [nodeId, exhibitId, type],
-      form,
-      returnUrl,
-      config
-    );
-  return frequest.bind({
-    name,
-    isAuth: true,
-    exhibitId: parentNid ? "" : exhibitId,
-  })(
-    exhibit.getExhibitAuthById,
-    [nodeId, exhibitId, type],
-    form,
-    returnUrl,
-    config
-  );
-}
-export async function getExhibitFileStream(
-  exhibitId: string | number,
-  options: {
-    returnUrl?: boolean;
-    config?: any;
-    subFilePath?: string;
-  },
-  config?: any
-) {
-  return frequest.bind({
-    // @ts-ignore
-    name: this.name,
-    isAuth: true,
-    exhibitId: exhibitId,
-  })(
-    isTest ? exhibit.getTestExhibitById : exhibit.getExhibitById,
-    [exhibitId],
-    options?.subFilePath ? { subFilePath: options.subFilePath } : null,
-    typeof options === "boolean" ? options : options?.returnUrl,
-    config || options?.config
-  );
-  // @ts-ignore
-  // return getByExhibitId(
-  //   // @ts-ignore
-  //   this.name,
-  //   exhibitId,
-  //   "fileStream",
-  //   "",
-  //   "",
-  //   returnUrl,
-  //   config
-  // );
-}
-export async function getExhibitResultByAuth(exhibitId: string | number) {
-  // @ts-ignore
-  return getByExhibitId(this.name, exhibitId, "result", "", "");
-}
-export async function getExhibitInfoByAuth(exhibitId: string | number) {
-  // @ts-ignore
-  return getByExhibitId(this.name, exhibitId, "info", "", "");
-}
-// 子依赖树
-export async function getExhibitDepTree(
-  exhibitId: string | number,
-  options: {
-    version?: string;
-    nid?: string;
-    maxDeep?: number;
-    isContainRootNode?: string;
-  }
-) {
-  return frequest.bind({
-    // @ts-ignore
-    name: this.name,
-    exhibitId: exhibitId,
-  })(
-    isTest ? exhibit.getTestExhibitDepTree : exhibit.getExhibitDepTree,
-    [exhibitId],
-    options
-      ? {
-          nid: options.nid,
-          maxDeep: options.maxDeep,
-          version: options.version,
-          isContainRootNode: options.isContainRootNode,
-        }
-      : null
-  );
-}
+// event 结束
 
-// 子依赖
-export async function getExhibitDepFileStream(
-  exhibitId: string | number,
-  parentNid: string,
-  subArticleId: string,
-  returnUrl?: boolean,
-  config?: any
-) {
-  if (!parentNid || !subArticleId) {
-    return Promise.reject("parentNid and subArticleId is required!");
-  }
-  return frequest.bind({
-    // @ts-ignore
-    name: this.name,
-    isAuth: true,
-    exhibitId: exhibitId,
-  })(
-    isTest ? exhibit.getTestExhibitById : exhibit.getExhibitById,
-    [exhibitId],
-    { parentNid, subArticleIdOrName: subArticleId },
-    returnUrl,
-    config
-  );
-  // // @ts-ignore
-  // return getByExhibitId(
-  //   // @ts-ignore
-  //   this.name,
-  //   exhibitId,
-  //   "fileStream",
-  //   parentNid,
-  //   subArticleId,
-  //   returnUrl,
-  //   config
-  // );
+// transaction 开始
+export async function getRecord(urlData: Array<any>,query?: any) {
+  return frequest(transaction.getRecord, urlData, query);
 }
-
-export async function pushMessage4Task(query: any) {
-  return frequest(operation.pushMessage4Task, null, query);
+// transaction 结束
+ 
+// user 开始
+export async function login(query: any) {
+  return frequest(user.login, "",  query);
 }
+export async function loginVerify(query: any) {
+  return frequest(user.loginVerify, "", query);
+}
+export async function loginOut(query: any) {
+  return frequest(user.loginOut, "", query);
+}
+export async function getCurrent() {
+  return frequest(user.getCurrent, "", "");
+}
+export async function getAccount(urlData: Array<any>,query: any) {
+  return frequest(user.getAccount, urlData, query);
+}
+export async function postRegister(query: any) {
+  return frequest(user.postRegister, "", query);
+}
+export async function getAuthCode(query: any) {
+  return frequest(user.getAuthCode, "", query);
+}
+export async function verifyAuthCode(query: any) {
+  return frequest(user.verifyAuthCode, "", query);
+}
+export async function putResetPassword(urlData: Array<any>,query: any) {
+  return frequest(user.putResetPassword,urlData, query);
+}
+export async function putResetPayPassword(query: any) {
+  return frequest(user.putResetPayPassword, "", query);
+}
+// user 结束

@@ -1,2 +1,2 @@
-export { freelogApp, init } from "./freelogApp";
-export { getCurrentUser, putUserData, getUserData } from "./baseApp";
+export { freelogApp  } from "./freelogApp";
+export { getCurrentUser, putUserData, getUserData, init } from "./base";

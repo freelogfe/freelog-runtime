@@ -1,8 +1,8 @@
-import axios from "./request";
+import axios from "../../request";
 import { placeHolder, baseConfig } from "./base";
-import { compareObjects } from "../utils/utils";
-import { setPresentableQueue } from "../bridge/index";
-import { isUserChange } from '../security'
+import { compareObjects } from "../../utils/utils";
+// import { setPresentableQueue } from "../bridge/index";
+// import { isUserChange } from '../security'
 const noAuthCode = [301, 302, 303, 304, 305, 306, 307];
 const authCode = [200, 201, 202, 203];
 const errorAuthCode = [401, 402, 403, 501, 502, 503, 504, 505, 900, 901];
@@ -113,19 +113,19 @@ export default function frequest(
             noAuthCode.includes(resData.authCode) &&
             (caller.exhibitId || caller.articleIdOrName)
           ) {
-            setPresentableQueue(exhibitId, {
-              widget: caller.name,
-              authCode: resData.authCode,
-              contracts: resData.data ? resData.data.contracts : [],
-              policies: resData.data ? resData.data.policies : [],
-              exhibitName,
-              exhibitId,
-              articleNid,
-              resourceType,
-              subDep,
-              versionInfo: { exhibitProperty },
-              ...resData,
-            });
+            // setPresentableQueue(exhibitId, {
+            //   widget: caller.name,
+            //   authCode: resData.authCode,
+            //   contracts: resData.data ? resData.data.contracts : [],
+            //   policies: resData.data ? resData.data.policies : [],
+            //   exhibitName,
+            //   exhibitId,
+            //   articleNid,
+            //   resourceType,
+            //   subDep,
+            //   versionInfo: { exhibitProperty },
+            //   ...resData,
+            // });
             resolve({
               authErrorType: 1, // 存在但未授权
               authCode: resData.authCode,

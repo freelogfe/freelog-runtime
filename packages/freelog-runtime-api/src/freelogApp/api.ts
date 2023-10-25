@@ -1,25 +1,19 @@
-import frequest from "../services/handler";
-import exhibit from "../services/api/modules/exhibit";
-import contract from "../services/api/modules/contract";
-import operation from "../services/api/modules/operation";
-
-// @ts-ignore
-let isTest = false;
-let nodeId: string | number = "";
-export function init(test: boolean, fnodeId: string | number) {
-  isTest = test;
-  nodeId = fnodeId;
-}
+import frequest from "./services/handler";
+import exhibit from "./services/api/modules/exhibit";
+import contract from "./services/api/modules/contract";
+import operation from "./services/api/modules/operation";
+import {baseInfo} from "../base"
+ 
 // 展品非授权信息接口
 export async function getExhibitListById(query: any): Promise<any> {
   if (query && Object.prototype.toString.call(query) !== "[object Object]") {
     return "query parameter must be object";
   }
-  if (isTest)
+  if (baseInfo.isTest)
     //@ts-ignore
     return frequest.bind({ name: this.name })(
       exhibit.getTestExhibitListById,
-      [nodeId],
+      [baseInfo.nodeId],
       {
         ...query,
       }
@@ -27,7 +21,7 @@ export async function getExhibitListById(query: any): Promise<any> {
   //@ts-ignore
   return frequest.bind({ name: this.name })(
     exhibit.getExhibitListById,
-    [nodeId],
+    [baseInfo.nodeId],
     {
       ...query,
     }
@@ -37,11 +31,11 @@ export async function getExhibitListByPaging(query: any): Promise<any> {
   if (query && Object.prototype.toString.call(query) !== "[object Object]") {
     return Promise.reject("query parameter must be object");
   }
-  if (isTest)
+  if (baseInfo.isTest)
     // @ts-ignore
     return frequest.bind({ name: this.name })(
       exhibit.getTestExhibitByPaging,
-      [nodeId],
+      [baseInfo.nodeId],
       {
         ...query,
       }
@@ -49,7 +43,7 @@ export async function getExhibitListByPaging(query: any): Promise<any> {
   // @ts-ignore
   return frequest.bind({ name: this.name })(
     exhibit.getExhibitListByPaging,
-    [nodeId],
+    [baseInfo.nodeId],
     {
       ...query,
     }
@@ -59,28 +53,28 @@ export async function getSignStatistics(query: any) {
   // @ts-ignore
   return frequest(contract.getSignStatistics, "", {
     signUserIdentityType: 2,
-    nodeId,
+    nodeId: baseInfo.nodeId,
     ...query,
   });
 }
 export async function getExhibitInfo(exhibitId: string, query: any) {
-  if (isTest)
+  if (baseInfo.isTest)
     // @ts-ignore
-    return frequest(exhibit.getTestExhibitDetail, [nodeId, exhibitId], query);
+    return frequest(exhibit.getTestExhibitDetail, [baseInfo.nodeId, exhibitId], query);
   // @ts-ignore
-  return frequest(exhibit.getExhibitDetail, [nodeId, exhibitId], query);
+  return frequest(exhibit.getExhibitDetail, [baseInfo.nodeId, exhibitId], query);
 }
 export async function getExhibitDepInfo(
   exhibitId: string,
   articleNids: string
 ) {
-  if (isTest)
+  if (baseInfo.isTest)
     // @ts-ignore
-    return frequest(exhibit.getTestExhibitDepInfo, [nodeId, exhibitId], {
+    return frequest(exhibit.getTestExhibitDepInfo, [baseInfo.nodeId, exhibitId], {
       articleNids,
     });
   // @ts-ignore
-  return frequest(exhibit.getExhibitDepInfo, [nodeId, exhibitId], {
+  return frequest(exhibit.getExhibitDepInfo, [baseInfo.nodeId, exhibitId], {
     articleNids,
   });
 }
@@ -93,28 +87,28 @@ export async function getExhibitSignCount(exhibitId: string) {
   });
 }
 export async function getExhibitAvailalbe(exhibitIds: string) {
-  if (isTest) {
-    return frequest(exhibit.getTestExhibitAuthStatus, [nodeId], {
+  if (baseInfo.isTest) {
+    return frequest(exhibit.getTestExhibitAuthStatus, [baseInfo.nodeId], {
       authType: 3,
       exhibitIds,
     });
   }
   // @ts-ignore
-  return frequest(exhibit.getExhibitAuthStatus, [nodeId], {
+  return frequest(exhibit.getExhibitAuthStatus, [baseInfo.nodeId], {
     authType: 3,
     exhibitIds,
   });
 }
 export async function getExhibitAuthStatus(exhibitIds: string) {
-  if (isTest) {
-    return frequest(exhibit.getTestExhibitAuthStatus, [nodeId], {
-      authType: isTest ? 3 : 4,
+  if (baseInfo.isTest) {
+    return frequest(exhibit.getTestExhibitAuthStatus, [baseInfo.nodeId], {
+      authType: baseInfo.isTest ? 3 : 4,
       exhibitIds,
     });
   }
   // @ts-ignore
-  return frequest(exhibit.getExhibitAuthStatus, [nodeId], {
-    authType: isTest ? 3 : 4,
+  return frequest(exhibit.getExhibitAuthStatus, [baseInfo.nodeId], {
+    authType: baseInfo.isTest ? 3 : 4,
     exhibitIds,
   });
 }
@@ -138,14 +132,14 @@ function getByExhibitId(
   if (subArticleIdOrName) {
     form.subArticleIdOrName = subArticleIdOrName;
   }
-  if (isTest)
+  if (baseInfo.isTest)
     return frequest.bind({
       name,
       isAuth: true,
       exhibitId: parentNid ? "" : exhibitId,
     })(
       exhibit.getTestExhibitAuthById,
-      [nodeId, exhibitId, type],
+      [baseInfo.nodeId, exhibitId, type],
       form,
       returnUrl,
       config
@@ -156,7 +150,7 @@ function getByExhibitId(
     exhibitId: parentNid ? "" : exhibitId,
   })(
     exhibit.getExhibitAuthById,
-    [nodeId, exhibitId, type],
+    [baseInfo.nodeId, exhibitId, type],
     form,
     returnUrl,
     config
@@ -177,7 +171,7 @@ export async function getExhibitFileStream(
     isAuth: true,
     exhibitId: exhibitId,
   })(
-    isTest ? exhibit.getTestExhibitById : exhibit.getExhibitById,
+    baseInfo.isTest ? exhibit.getTestExhibitById : exhibit.getExhibitById,
     [exhibitId],
     options?.subFilePath ? { subFilePath: options.subFilePath } : null,
     typeof options === "boolean" ? options : options?.returnUrl,
@@ -218,7 +212,7 @@ export async function getExhibitDepTree(
     name: this.name,
     exhibitId: exhibitId,
   })(
-    isTest ? exhibit.getTestExhibitDepTree : exhibit.getExhibitDepTree,
+    baseInfo.isTest ? exhibit.getTestExhibitDepTree : exhibit.getExhibitDepTree,
     [exhibitId],
     options
       ? {
@@ -248,7 +242,7 @@ export async function getExhibitDepFileStream(
     isAuth: true,
     exhibitId: exhibitId,
   })(
-    isTest ? exhibit.getTestExhibitById : exhibit.getExhibitById,
+    baseInfo.isTest ? exhibit.getTestExhibitById : exhibit.getExhibitById,
     [exhibitId],
     { parentNid, subArticleIdOrName: subArticleId },
     returnUrl,
