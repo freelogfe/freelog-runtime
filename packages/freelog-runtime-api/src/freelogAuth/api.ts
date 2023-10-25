@@ -3,7 +3,6 @@ import contract from "./services/api/modules/contract";
 import event from "./services/api/modules/event";
 import transaction from "./services/api/modules/transaction";
 import user from "./services/api/modules/user";
-import {baseInfo} from "../base"
 
 // contract 开始
 export async function getContractInfo(urlData: Array<any>,query: any) {
