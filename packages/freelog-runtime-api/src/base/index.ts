@@ -13,8 +13,8 @@ export async function getCurrentUser() {
 export async function putUserData(urlData: Array<string>, query: any) {
   return frequest(node.putUserData, urlData, query);
 }
-export async function getUserData(query: any) {
-  return frequest(node.getUserData, "", query);
+export async function getUserData(urlData: Array<string>) {
+  return frequest(node.getUserData, urlData,"");
 }
 export async function getInfoByNameOrDomain(query: any) {
   return frequest(node.getInfoByNameOrDomain, "", query);

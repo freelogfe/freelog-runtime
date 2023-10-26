@@ -17,7 +17,7 @@ import {
   putResetPassword,
   putResetPayPassword,
 } from "./api";
-export const freelogAuth: any = {
+export const freelogAuthApi: any = {
   getContractInfo,
   getContracts,
   signContract,
