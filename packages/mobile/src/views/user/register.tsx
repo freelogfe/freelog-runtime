@@ -1,5 +1,5 @@
-import user from "@/services/api/modules/user";
-import frequest from "@/services/handler";
+import { freelogAuthApi } from "freelog-runtime-api";
+
 import {
   checkPhone,
   checkEmail,
@@ -132,7 +132,7 @@ export default function Register(props: loginProps) {
     // }
     setAuthCodeLoading(true);
     setCountDown(60);
-    const authCodeRes = await frequest(user.getAuthCode, "", {
+    const authCodeRes = await freelogAuthApi.getAuthCode({
       loginName: registerType === 1 ? phone : email,
       authCodeType: "register",
     });
@@ -155,7 +155,7 @@ export default function Register(props: loginProps) {
       password,
       authCode,
     };
-    const res = await frequest(user.postRegister, "", values);
+    const res = await freelogAuthApi.postRegister(values);
     if (res.data.errCode === 0) {
       setSuccess(true);
       setLoading(false);
@@ -320,7 +320,7 @@ export default function Register(props: loginProps) {
               loading={loading}
               color="primary"
               className="mt-15"
-              loadingIcon={<SpinLoading color='white' />}
+              loadingIcon={<SpinLoading color="white" />}
               onClick={onFinish}
               disabled={!available}
               loadingText="注册中"

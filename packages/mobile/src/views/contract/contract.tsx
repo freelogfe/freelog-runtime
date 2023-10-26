@@ -6,8 +6,8 @@ import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import PolicyCode from "../policy/_components/policyCode";
 import PolicyContent from "../policy/_components/policyContent";
 import { Tabs, Badge, Button, Toast } from "antd-mobile";
-import frequest from "@/services/handler";
-import contract from "@/services/api/modules/contract";
+import { freelogAuthApi } from "freelog-runtime-api";
+
 var moment = require("moment");
 /**
  * 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
@@ -85,8 +85,7 @@ export default function Contract(props: ItemProps) {
       !init && setUnFold(true);
       return;
     }
-    const res = await frequest(
-      contract.getTransitionRecords,
+    const res = await freelogAuthApi.getTransitionRecords(
       [props.contract.contractId],
       {
         skip: records.length,

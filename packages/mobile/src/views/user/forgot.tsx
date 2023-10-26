@@ -1,5 +1,5 @@
-import user from "@/services/api/modules/user";
-import frequest from "@/services/handler";
+import { freelogAuthApi } from "freelog-runtime-api";
+
 import {
   checkPhone,
   checkEmail,
@@ -131,7 +131,7 @@ export default function Forgot(props: ForgotProps) {
   const getAuthCode = async () => {
     setAuthCodeLoading(true);
     setCountDown(60);
-    const authCodeRes = await frequest(user.getAuthCode, "", {
+    const authCodeRes = await freelogAuthApi.getAuthCode({
       loginName: registerType === 1 ? phone : email,
       authCodeType:
         props.type === PAY_PASSWORD
@@ -183,7 +183,7 @@ export default function Forgot(props: ForgotProps) {
     const values: any = {
       password: loginPassword,
     };
-    res = await frequest(user.loginVerify, "", values);
+    res = await freelogAuthApi.loginVerify(values);
     if (res.data.errCode === 0 && res.data.data.isVerifySuccessful) {
       const obj: any = { loginPassword: "" };
       setErrorTip({
@@ -217,7 +217,7 @@ export default function Forgot(props: ForgotProps) {
           : "updateTransactionAccountPwd",
       address: registerType === 1 ? phone : email,
     };
-    res = await frequest(user.verifyAuthCode, "", values);
+    res = await freelogAuthApi.verifyAuthCode(values);
     if (res.data.errCode === 0) {
       setLoading(false);
       setStep(3);
@@ -243,8 +243,7 @@ export default function Forgot(props: ForgotProps) {
         password,
         authCode,
       };
-      res = await frequest(
-        user.putResetPassword,
+      res = await freelogAuthApi.putResetPassword(
         [registerType === 1 ? phone : email],
         values
       );
@@ -255,7 +254,7 @@ export default function Forgot(props: ForgotProps) {
         loginPassword,
         messageAddress: registerType === 1 ? phone : email,
       };
-      res = await frequest(user.putResetPayPassword, "", values);
+      res = await freelogAuthApi.putResetPayPassword(values);
     }
 
     if (res.data.errCode === 0) {

@@ -1,5 +1,5 @@
-import user from "@/services/api/modules/user";
-import frequest from "@/services/handler";
+import { freelogAuthApi } from "freelog-runtime-api";
+
 import { Popup, Button, Toast, SpinLoading } from "antd-mobile";
 
 import { useState } from "react";
@@ -25,7 +25,7 @@ export default function Login(props: loginProps) {
       password,
     };
     values.isRemember = values.isRemember ? 1 : 0;
-    const res = await frequest(user.login, "", values);
+    const res = await freelogAuthApi.login(values);
     if (res.data.errCode === 0) {
       setTimeout(() => {
         setLogging(false);

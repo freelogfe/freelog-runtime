@@ -6,8 +6,8 @@ import Register from "./user/register";
 import NodeError from "./_statusComponents/nodeError";
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
-import frequest from "@/services/handler";
-import contract from "@/services/api/modules/contract";
+import { freelogAuthApi } from "freelog-runtime-api";
+
 // import getBestTopology from "./topology/data";
 import { Dialog, Toast } from "antd-mobile"; // Toast, Button
 import PolicyTip from "./_components/policyTip";
@@ -81,7 +81,7 @@ export default function Auth(props: contractProps) {
     setSelectedPolicies([]);
     if (!id) {
       const userInfo: any = getCurrentUser();
-      const con = await frequest(contract.getContracts, "", {
+      const con = await freelogAuthApi.getContracts({
         subjectIds: currentExhibit.exhibitId,
         subjectType: 2,
         licenseeIdentityType: 3,
@@ -200,7 +200,7 @@ export default function Auth(props: contractProps) {
       }
     });
     const userInfo: any = getCurrentUser();
-    const res = await frequest(contract.contracts, [], {
+    const res = await freelogAuthApi.batchSign({
       subjects,
       subjectType: 2,
       licenseeId: userInfo.userId + "",

@@ -6,9 +6,9 @@ import { Button, Space, Toast } from "antd-mobile";
 import { useEffect, useState } from "react";
 import Mobile from "./views/auth";
 import { Dialog } from "antd-mobile"; // Toast, Button
-import frequest from "@/services/handler";
+import { freelogAuthApi } from "freelog-runtime-api";
+
 import OutOf from "./views/outOf";
-import user from "@/services/api/modules/user";
 const {
   registerUI,
   clearEvent,
@@ -129,7 +129,7 @@ function App() {
   }
   async function longinOut() {
     upperUI();
-    await frequest(user.loginOut, "", "").then((res: any) => {
+    await freelogAuthApi.loginOut("").then((res: any) => {
       if (res.data.errCode === 0) {
         reload();
       }
