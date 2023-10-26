@@ -2,7 +2,7 @@ import frequest from "./services/handler";
 import exhibit from "./services/api/modules/exhibit";
 import contract from "./services/api/modules/contract";
 import operation from "./services/api/modules/operation";
-import {baseInfo} from "../base"
+import { baseInfo } from "../base/baseInfo";
  
 // 展品非授权信息接口
 export async function getExhibitListById(query: any): Promise<any> {

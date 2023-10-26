@@ -5,10 +5,10 @@ import { useState, useEffect } from "react";
 import "./auth.scss";
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
-import frequest from "@/services/handler";
 import Confirm from "./_commons/confirm";
 import Login from "./login";
-import contract from "@/services/api/modules/contract";
+import { freelogAuthApi } from "freelog-runtime-api";
+
 // import getBestTopology from "./topology/data";
 import NodeError from "./_statusComponents/nodeError";
 import Header from "./_components/header";
@@ -85,7 +85,7 @@ export default function Auth(props: contractProps) {
     // 如果没有传id 就是重新请求合约
     if (!id) {
       const userInfo: any = getCurrentUser();
-      const con = await frequest(contract.getContracts, "", {
+      const con = await freelogAuthApi.getContracts({
         subjectIds: currentExhibit.exhibitId,
         subjectType: 2,
         licenseeIdentityType: 3,
@@ -217,7 +217,7 @@ export default function Auth(props: contractProps) {
         policies.push(item);
     });
     const userInfo: any = getCurrentUser();
-    const res = await frequest(contract.contracts, [], {
+    const res = await freelogAuthApi.batchSign({
       subjects,
       subjectType: 2,
       licenseeId: userInfo.userId + "",
@@ -231,7 +231,7 @@ export default function Auth(props: contractProps) {
     setIsConfirmVisible(false);
     if (res.data.errcode) {
       setIsTipVisible(true);
-      
+
       if (res.data.msg === "subject-policy-check-failed") {
         let failedPolicies: string[] = [];
         policies.forEach((item: any) => {

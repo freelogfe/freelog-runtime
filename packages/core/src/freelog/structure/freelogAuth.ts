@@ -11,7 +11,7 @@ import {
   upperUI,
   reload,
 } from "../bridge/index";
-// import { freelogAuth as freelogAuthLib } from "freelog-runtime-api";
+// import { freelogAuthApi  } from "freelog-runtime-api";
 
 import {
   loginCallback,
@@ -36,5 +36,5 @@ export const freelogAuth = {
   getUserInfo,
   reload,
   eventType,
-  // ...freelogAuthLib
+  // ...freelogAuthApi
 };

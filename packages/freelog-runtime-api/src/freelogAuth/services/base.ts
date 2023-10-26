@@ -1,7 +1,6 @@
 export const placeHolder = "urlPlaceHolder";
 // @ts-ignore
-import {baseInfo} from "../../base"
-
+import { baseInfo } from "../../base/baseInfo";
 export const baseConfig = {
   baseURL: baseInfo.baseURL,
   withCredentials: true,

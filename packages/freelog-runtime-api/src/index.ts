@@ -1,4 +1,4 @@
-import { baseInfo } from "./base"
+import { baseInfo } from "./base/baseInfo"
 export { freelogApp } from "./freelogApp";
 export { freelogAuthApi } from "./freelogAuth";
 export const baseURL = baseInfo.baseURL;

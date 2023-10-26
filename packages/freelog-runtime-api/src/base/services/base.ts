@@ -4,9 +4,8 @@ let baseURL = window.location.protocol + '//qi.freelog.com/v2/'
 if (window.location.href.indexOf('testfreelog') > -1) {
     baseURL = window.location.protocol + '//qi.testfreelog.com/v2/'
 }
+import { baseInfo } from "../baseInfo";
 // window.baseURL = baseURL
-import { baseInfo } from "../";
-console.log(baseInfo,2345234)
 export const baseConfig = {
   baseURL: baseURL,
   withCredentials: true,

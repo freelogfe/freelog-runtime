@@ -5,11 +5,10 @@ import { useState, useEffect } from "react";
 import Button from "../_commons/button";
 import Pay from "../event/pay";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
-import PolicyGraph from "../policy/_components/policyGraph";
 import PolicyCode from "../policy/_components/policyCode";
 import PolicyContent from "../policy/_components/policyContent";
-import frequest from "@/services/handler";
-import contract from "@/services/api/modules/contract";
+import { freelogAuthApi } from "freelog-runtime-api";
+
 import { Tabs } from "antd";
 const { TabPane } = Tabs;
 
@@ -70,8 +69,7 @@ export default function Contract(props: ItemProps) {
       !init && setUnFold(true);
       return;
     }
-    const res = await frequest(
-      contract.getTransitionRecords,
+    const res = await freelogAuthApi.getTransitionRecords(
       [props.contract.contractId],
       {
         skip: records.length,

@@ -2,11 +2,10 @@ import "./App.scss";
 
 import { useEffect, useState } from "react";
 import Pc from "./views/auth";
-import frequest from "@/services/handler";
 import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import OutOf from "./views/outOf";
-import user from "@/services/api/modules/user";
+import { freelogAuthApi } from "freelog-runtime-api"
 const {
   registerUI,
   endEvent,
@@ -127,7 +126,7 @@ function App() {
 
   async function longinOut() {
     upperUI();
-    await frequest(user.loginOut, "", "").then((res: any) => {
+    await freelogAuthApi.loginOut().then((res: any) => {
       if (res.data.errCode === 0) {
         reload();
       }
@@ -143,7 +142,7 @@ function App() {
     //     top: "30%",
     //   },
     //   onOk: async () => {
-    //     await frequest(user.loginOut, "", "").then((res: any) => {
+    //     await frequest(freelogAuthApi.loginOut, "", "").then((res: any) => {
     //       if (res.data.errCode === 0) {
     //         window.freelogAuth.reload();
     //       }

@@ -3,12 +3,10 @@ import { css } from "@emotion/react";
 import { Modal, Spin } from "antd";
 import Button from "../_commons/button";
 import { useState, useEffect, useRef } from "react";
-import frequest from "@/services/handler";
-import user from "@/services/api/modules/user";
-import event from "@/services/api/modules/event";
-import transaction from "@/services/api/modules/transaction";
 import { LoadingOutlined } from "@ant-design/icons";
 import Tip, { TipTipes } from "../_commons/tip";
+import { freelogAuthApi } from "freelog-runtime-api";
+
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const { getUserInfo } = window.freelogAuth;
@@ -63,7 +61,7 @@ export default function Pay(props: PayProps) {
     // @ts-ignore
     const userInfo = await getUserInfo();
     // @ts-ignore
-    const res = await frequest(user.getAccount, [userInfo.userId], "");
+    const res = await freelogAuthApi.getAccount([userInfo.userId], "");
     setUserAccount(res.data.data);
     // @ts-ignore
     // TODO 需要trycatch  parsefloat
@@ -87,7 +85,7 @@ export default function Pay(props: PayProps) {
     if (loading) return;
     setTipType(1);
     setLoading(true);
-    const payResult = await frequest(event.pay, [props.contractId], {
+    const payResult = await freelogAuthApi.pay([props.contractId], {
       eventId: props.eventId,
       accountId: userAccount.accountId,
       transactionAmount: props.transactionAmount,
@@ -135,8 +133,7 @@ export default function Pay(props: PayProps) {
     });
     // TODO 查交易状态, flag应该设为状态，在关闭弹窗时清除
     const flag = setInterval(async () => {
-      const res: any = await frequest(
-        transaction.getRecord,
+      const res: any = await freelogAuthApi.getRecord(
         [payResult.data.data.transactionRecordId],
         ""
       );

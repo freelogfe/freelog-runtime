@@ -1,7 +1,7 @@
 import axios from "../../request";
 import { placeHolder, baseConfig } from "./base";
 import { compareObjects } from "../../utils/utils";
-import { baseInfo } from "../../base/index";
+import { baseInfo } from "../../base/baseInfo";
 // import { isUserChange } from '../security'
 const noAuthCode = [301, 302, 303, 304, 305, 306, 307];
 const authCode = [200, 201, 202, 203];
@@ -21,6 +21,7 @@ export default function frequest(
   returnUrl?: boolean,
   config?: any
 ): any {
+  console.log(baseConfig,67777)
   // if(isUserChange()){
   //   return 
   // }

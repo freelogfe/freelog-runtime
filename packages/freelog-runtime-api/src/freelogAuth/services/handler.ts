@@ -14,6 +14,7 @@ export default function frequest(
   returnUrl?: boolean,
   config?: any
 ): any {
+  console.log(baseConfig,53245233)
   // if(window.freelogApp.isUserChange()){
   //   return 
   // }
