@@ -1,5 +1,6 @@
 import { mountWidget } from "./widget";
 import { resultType, eventType } from "../bridge/eventType";
+import { freelogApp as freelogAppLib } from "freelog-runtime-api";
 import {
   getSelfConfig,
   setUserData,
@@ -19,45 +20,17 @@ import { callAuth, addAuth } from "../bridge/index";
 import { onLogin, onUserChange } from "../bridge/eventOn";
 import { isUserChange } from "../security";
 import {initGlobalState} from "freelog-runtime-core"
-// import {initGlobalState} from '../../platform//index'
 
-import {
-  getExhibitListById,
-  getExhibitListByPaging,
-  getExhibitInfo,
-  getExhibitSignCount,
-  getExhibitAuthStatus,
-  getExhibitFileStream,
-  getExhibitDepFileStream,
-  getExhibitInfoByAuth,
-  getExhibitDepInfo,
-  getExhibitDepTree,
-  getSignStatistics,
-  getExhibitAvailalbe,
-  pushMessage4Task
-} from "./api";
 let devData = "";
 export const freelogApp: any = {
+  ...freelogAppLib,
   initGlobalState,
   nodeInfo: "",
   status: {
     authUIMounted: false,
     themeMounted: false,
   },
-  pushMessage4Task,
   mountWidget,
-  getExhibitListById,
-  getExhibitListByPaging,
-  getExhibitInfo,
-  getExhibitSignCount,
-  getExhibitAuthStatus,
-  getExhibitFileStream,
-  getExhibitDepFileStream,
-  getExhibitInfoByAuth,
-  getExhibitDepInfo,
-  getExhibitDepTree,
-  getSignStatistics,
-  getExhibitAvailalbe,
   devData,
   getStaticPath,
   getSubDep,

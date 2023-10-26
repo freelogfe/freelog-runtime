@@ -4,7 +4,9 @@ import node from "../services/api/modules/node";
 import { getSubDep, getUserInfo, isMobile } from "./utils";
 import { freelogApp } from "./global";
 import { freelogAuth } from "./freelogAuth";
-import { init } from "./api";
+// import { init } from "./api";
+import { init } from "freelog-runtime-api";
+
 import { dev, DEV_FALSE } from "./dev";
 import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
@@ -18,6 +20,12 @@ import {
   USER_FREEZED,
 } from "../bridge/eventType";
 import { initWindowListener } from "../bridge/eventOn";
+const isTest =  window.location.host.split('.')[1] === 't';
+let baseURL = window.location.protocol + '//qi.freelog.com/v2/'
+if (window.location.href.indexOf('testfreelog') > -1) {
+    baseURL = window.location.protocol + '//qi.testfreelog.com/v2/'
+}
+
 // @ts-ignore
 delete window.setImmediate;
 const mobile = isMobile();
@@ -35,6 +43,7 @@ if (window.location.host.includes(".testfreelog.com")) {
   window.ENV = "testfreelog.com";
 }
 const rawDocument = document;
+freelogApp.isTest = isTest
 // !mobile &&
 //   document.querySelector
 //     .bind(document)('meta[name="viewport"]')
@@ -49,7 +58,7 @@ export function initNode() {
   return new Promise<void>(async (resolve) => {
     let nodeDomain = getDomain(window.location.host);
     Promise.all([requestNodeInfo(nodeDomain), getUserInfo()]).then(
-      async (values) => {
+      async (values:any) => {
         let nodeData = values[0];
         if (!nodeData.data) {
           confirm("节点网址不正确，请检查网址！");
@@ -59,8 +68,8 @@ export function initNode() {
         const nodeInfo = nodeData.data;
         freelogApp.nodeInfo = nodeInfo;
         // if (
-        //   (!nodeInfo.nodeThemeId && !window.isTest) ||
-        //   (!nodeInfo.nodeTestThemeId && window.isTest)
+        //   (!nodeInfo.nodeThemeId && !isTest) ||
+        //   (!nodeInfo.nodeTestThemeId && isTest)
         // ) {
         //   const nothemeTip =
         //     document.getElementById.bind(document)("freelog-no-theme");
@@ -72,17 +81,17 @@ export function initNode() {
         //   return;
         // }
         document.title = nodeInfo.nodeName;
-        if (window.isTest) {
+        if (isTest) {
           document.title = "[T]" + nodeInfo.nodeName;
         }
-        if (!userInfo && window.isTest) {
+        if (!userInfo && isTest) {
           confirm("测试节点必须登录！");
           return;
         }
         if (
           userInfo &&
           userInfo.userId !== nodeInfo.ownerUserId &&
-          window.isTest
+          isTest
         ) {
           confirm("测试节点只允许节点拥有者访问！");
           return;
@@ -94,7 +103,7 @@ export function initNode() {
         //     return document.title;
         //   },
         // });
-        init();
+        init(isTest, nodeInfo.nodeId, baseURL);
         const devData = dev();
         // TODO 提供一个开发者模式，能在全局创建一个VConsole
         // window.vconsole = new VConsole()
@@ -133,14 +142,14 @@ export function initNode() {
           }
           // 没有主题
           if (
-            (!nodeInfo.nodeThemeId && !window.isTest) ||
-            (!nodeInfo.nodeTestThemeId && window.isTest)
+            (!nodeInfo.nodeThemeId && !isTest) ||
+            (!nodeInfo.nodeTestThemeId && isTest)
           ) {
             themeResolve(false);
             return;
           }
           // const availableData = await getExhibitAvailalbe(
-          //   window.isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
+          //   isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
           // );
           // 主题冻结
           // if (availableData && availableData.authCode === 403) {
@@ -148,7 +157,7 @@ export function initNode() {
           //   return;
           // }
           const theme = await getSubDep(
-            window.isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
+            isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
           );
           // @ts-ignore
           loadingContainer.style.display = "none";
@@ -213,15 +222,15 @@ export function initNode() {
             }
             // 没有主题
             if (
-              (!nodeInfo.nodeThemeId && !window.isTest) ||
-              (!nodeInfo.nodeTestThemeId && window.isTest)
+              (!nodeInfo.nodeThemeId && !isTest) ||
+              (!nodeInfo.nodeTestThemeId && isTest)
             ) {
               resolve && resolve();
               setTimeout(() => callUI(THEME_NONE, nodeInfo), 10);
               return;
             }
             // const availableData = await getExhibitAvailalbe(
-            //   window.isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
+            //   isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
             // );
             // // 主题冻结
             // if (availableData && availableData.authCode === 403) {
@@ -229,7 +238,7 @@ export function initNode() {
             //   return;
             // }
             // const theme = await getSubDep(
-            //   window.isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
+            //   isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
             // );
             // freelogApp.mountWidget(
             //   theme,

@@ -5,8 +5,8 @@ export async function getCurrentUser() {
   return frequest(user.getCurrent, "", ""); 
 }
 // node.putUserData  node.getUserData 
-export async function putUserData(query:any) {
-  return frequest(node.putUserData, "", query); 
+export async function putUserData(urlData: Array<string>,query:any) {
+  return frequest(node.putUserData, urlData, query); 
 }
 export async function getUserData(query:any) {
   return frequest(node.getUserData, "", query); 

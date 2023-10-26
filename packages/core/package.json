@@ -71,6 +71,7 @@
     "cross-env": "^7.0.3",
     "css-minimizer-webpack-plugin": "^5.0.1",
     "doc-cookies": "^1.1.0",
+    "freelog-runtime-api": "^0.0.1",
     "freelog-runtime-core": "^0.0.1",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",

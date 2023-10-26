@@ -1,15 +1,16 @@
 // 工具utils：获取容器，生成容器，销毁容器，生成id
 
 import { baseUrl } from "../services/base";
-import { getExhibitInfoByAuth } from "./api";
-import { widgetsConfig, widgetUserData, sandBoxs, FREELOG_DEV } from "./widget";
-import frequest from "../services/handler";
-import { initUserCheck } from "../security";
-import user from "../services/api/modules/user";
-import node from "../services/api/modules/node";
-import { addAuth, goLogin, goLoginOut } from "../bridge/index";
-import exhibit from '../services/api/modules/exhibit';
+import { freelogApp as freelogAppLib } from "freelog-runtime-api";
 
+import { widgetsConfig, widgetUserData, sandBoxs, FREELOG_DEV } from "./widget";
+import { initUserCheck } from "../security";
+import { addAuth, goLogin, goLoginOut } from "../bridge/index";
+import {
+  getCurrentUser as _getCurrentUser,
+  putUserData as _putUserData,
+  getUserData as _getUserData,
+} from "freelog-runtime-api";
 export function freelogFetch(url: string, options?: any) {
   options = options || {};
   if (url.indexOf("freelog.com") > -1) {
@@ -136,7 +137,9 @@ export async function getSubDep(exhibitId?: any) {
     exhibitId = exhibitId || widgetsConfig.get(that.name).exhibitId;
   }
   // @ts-ignore
-  let response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
+  let response = await freelogAppLib.getExhibitInfoByAuth.bind(widgetSandBox)(
+    exhibitId
+  );
   if (response.authErrorType && isTheme) {
     await new Promise<void>(async (resolve, reject) => {
       if (response.authCode === 502) {
@@ -148,7 +151,9 @@ export async function getSubDep(exhibitId?: any) {
             resolve();
           });
         });
-        response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
+        response = await freelogAppLib.getExhibitInfoByAuth.bind(widgetSandBox)(
+          exhibitId
+        );
       }
       if (response.authErrorType) {
         await addAuth.bind(widgetSandBox)(exhibitId, {
@@ -157,7 +162,9 @@ export async function getSubDep(exhibitId?: any) {
       }
       resolve();
     });
-    response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
+    response = await freelogAppLib.getExhibitInfoByAuth.bind(widgetSandBox)(
+      exhibitId
+    );
     if (response.authErrorType) {
       await new Promise<void>(async (resolve, reject) => {
         await addAuth.bind(widgetSandBox)(exhibitId, {
@@ -166,7 +173,9 @@ export async function getSubDep(exhibitId?: any) {
         resolve();
       });
     }
-    response = await getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId);
+    response = await freelogAppLib.getExhibitInfoByAuth.bind(widgetSandBox)(
+      exhibitId
+    );
   }
   const exhibitName = decodeURI(response.headers["freelog-exhibit-name"]);
   const articleNid = decodeURI(response.headers["freelog-article-nid"]);
@@ -193,7 +202,7 @@ export async function getSubDep(exhibitId?: any) {
 export let userInfo: any = null;
 export async function getUserInfo() {
   if (userInfo) return userInfo;
-  const res = await frequest(user.getCurrent, "", "");
+  const res = await getCurrentUser();
   userInfo = res.data.errCode === 0 ? res.data.data : null;
   setUserInfo(userInfo);
   initUserCheck();
@@ -232,8 +241,8 @@ const viewPortValue = {
   "viewport-fit": "auto", // not supported in browser
 };
 var rawDocument = window.document;
-var metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0]; 
-export function getViewport(){
+var metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
+export function getViewport() {
   return metaEl.getAttribute("content");
 }
 export function setViewport(keys: any) {
@@ -288,7 +297,7 @@ export async function setUserData(key: string, data: any) {
   }
   const nodeId = window.freelogApp.nodeInfo.nodeId;
   // TODO 用户如果两台设备更新数据，可以做一个保存请求的数据对比最新的数据，如果不同，提示给插件（或者传递参数强制更新）
-  const res = await frequest(node.putUserData, [nodeId], {
+  const res = await _putUserData([nodeId], {
     appendOrReplaceObject: {
       [widgetId]: userData,
     },
@@ -310,7 +319,7 @@ export async function getUserData(key: string) {
     widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
   }
   const nodeId = window.freelogApp.nodeInfo.nodeId;
-  const res = await frequest(node.getUserData, [nodeId], "");
+  const res = await _getUserData([nodeId]);
   userData = res.data[widgetId] || {};
   widgetUserData.set(name, userData);
   return userData[key];
@@ -384,5 +393,3 @@ export function isMobile() {
     return false;
   }
 }
-
-
