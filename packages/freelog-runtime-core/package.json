@@ -2,7 +2,7 @@
   "name": "freelog-runtime-core",
   "version": "0.0.1",
   "description": "运行时插件管理与沙盒核心",
-  "main": "src/index.ts",
+  "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
   "scripts": {
     "dev": "father dev",

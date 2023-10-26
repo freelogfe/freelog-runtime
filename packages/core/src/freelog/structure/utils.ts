@@ -1,7 +1,7 @@
 // 工具utils：获取容器，生成容器，销毁容器，生成id
 
-import { baseUrl } from "../services/base";
-import { freelogApp as freelogAppLib } from "freelog-runtime-api";
+import { baseURL, isTest } from "./base";
+import { freelogApp } from "./global";
 
 import { widgetsConfig, widgetUserData, sandBoxs, FREELOG_DEV } from "./widget";
 import { initUserCheck } from "../security";
@@ -92,7 +92,7 @@ export function createCssLink(href: string, type?: string): Promise<any> {
 //
 export function resolveUrl(path: string, params?: any): string {
   // @ts-ignore
-  const { nodeType } = window.freelogApp.nodeInfo;
+  const { nodeType } = freelogApp.nodeInfo;
   params = Object.assign({ nodeType }, params);
   var queryStringArr = [];
   for (let key in params) {
@@ -100,7 +100,7 @@ export function resolveUrl(path: string, params?: any): string {
       queryStringArr.push(`${key}=${params[key]}`);
     }
   }
-  return `${baseUrl}${path}?${queryStringArr.join("&")}`;
+  return `${baseURL}${path}?${queryStringArr.join("&")}`;
 }
 // TODO 调试用的widgetId，未来应该在测试节点去显示，目前用的是articledId
 export function getSelfWidgetId() {
@@ -137,7 +137,7 @@ export async function getSubDep(exhibitId?: any) {
     exhibitId = exhibitId || widgetsConfig.get(that.name).exhibitId;
   }
   // @ts-ignore
-  let response = await freelogAppLib.getExhibitInfoByAuth.bind(widgetSandBox)(
+  let response = await freelogApp.getExhibitInfoByAuth.bind(widgetSandBox)(
     exhibitId
   );
   if (response.authErrorType && isTheme) {
@@ -147,11 +147,11 @@ export async function getSubDep(exhibitId?: any) {
           addAuth.bind(widgetSandBox)(exhibitId, {
             immediate: true,
           });
-          window.freelogApp.onLogin(async () => {
+          freelogApp.onLogin(async () => {
             resolve();
           });
         });
-        response = await freelogAppLib.getExhibitInfoByAuth.bind(widgetSandBox)(
+        response = await freelogApp.getExhibitInfoByAuth.bind(widgetSandBox)(
           exhibitId
         );
       }
@@ -162,7 +162,7 @@ export async function getSubDep(exhibitId?: any) {
       }
       resolve();
     });
-    response = await freelogAppLib.getExhibitInfoByAuth.bind(widgetSandBox)(
+    response = await freelogApp.getExhibitInfoByAuth.bind(widgetSandBox)(
       exhibitId
     );
     if (response.authErrorType) {
@@ -173,7 +173,7 @@ export async function getSubDep(exhibitId?: any) {
         resolve();
       });
     }
-    response = await freelogAppLib.getExhibitInfoByAuth.bind(widgetSandBox)(
+    response = await freelogApp.getExhibitInfoByAuth.bind(widgetSandBox)(
       exhibitId
     );
   }
@@ -202,7 +202,7 @@ export async function getSubDep(exhibitId?: any) {
 export let userInfo: any = null;
 export async function getUserInfo() {
   if (userInfo) return userInfo;
-  const res = await getCurrentUser();
+  const res = await _getCurrentUser();
   userInfo = res.data.errCode === 0 ? res.data.data : null;
   setUserInfo(userInfo);
   initUserCheck();
@@ -295,7 +295,7 @@ export async function setUserData(key: string, data: any) {
   if (name === FREELOG_DEV) {
     widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
   }
-  const nodeId = window.freelogApp.nodeInfo.nodeId;
+  const nodeId = freelogApp.nodeInfo.nodeId;
   // TODO 用户如果两台设备更新数据，可以做一个保存请求的数据对比最新的数据，如果不同，提示给插件（或者传递参数强制更新）
   const res = await _putUserData([nodeId], {
     appendOrReplaceObject: {
@@ -318,7 +318,7 @@ export async function getUserData(key: string) {
   if (name === FREELOG_DEV) {
     widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
   }
-  const nodeId = window.freelogApp.nodeInfo.nodeId;
+  const nodeId = freelogApp.nodeInfo.nodeId;
   const res = await _getUserData([nodeId]);
   userData = res.data[widgetId] || {};
   widgetUserData.set(name, userData);

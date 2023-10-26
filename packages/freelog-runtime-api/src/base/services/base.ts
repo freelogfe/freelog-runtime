@@ -1,14 +1,15 @@
 // window.isTest =  window.location.host.split('.')[1] === 't';
-export const placeHolder = 'urlPlaceHolder'
-// let baseURL = window.location.protocol + '//qi.freelog.com/v2/'
-// if (window.location.href.indexOf('testfreelog') > -1) {
-//     baseURL = window.location.protocol + '//qi.testfreelog.com/v2/'
-// }
+export const placeHolder = "urlPlaceHolder";
+let baseURL = window.location.protocol + '//qi.freelog.com/v2/'
+if (window.location.href.indexOf('testfreelog') > -1) {
+    baseURL = window.location.protocol + '//qi.testfreelog.com/v2/'
+}
 // window.baseURL = baseURL
-import {baseInfo} from "../index"
+import { baseInfo } from "../";
+console.log(baseInfo,2345234)
 export const baseConfig = {
-        baseURL: baseInfo.baseURL,
-        withCredentials: true,
-        timeout: 30000
-    };
-    // TODO 上传文件进度等需要配置
+  baseURL: baseURL,
+  withCredentials: true,
+  timeout: 30000,
+};
+// TODO 上传文件进度等需要配置

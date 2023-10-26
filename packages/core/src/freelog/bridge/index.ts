@@ -17,12 +17,9 @@ import {
 } from "./eventType";
 import { onLogin } from "./eventOn";
 import { isMobile } from "../utils/utils";
+import { freelogApp } from "../structure/global";
 
-import {
-  getExhibitInfo,
-  getExhibitAuthStatus,
-  getExhibitAvailalbe,
-} from "../structure/api";
+ 
 export const exhibitQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
 export const failedMap = new Map<any, any>();
@@ -63,15 +60,15 @@ export async function addAuth(exhibitId: any, options?: any) {
   const arr = eventMap.get(exhibitId)?.callBacks || [];
   return new Promise((resolve, rej) => {
     Promise.all([
-      getExhibitInfo(exhibitId, {
+      freelogApp.getExhibitInfo(exhibitId, {
         isLoadPolicyInfo: 1,
         isLoadVersionProperty: 1,
         isLoadContract: 1,
         isLoadResourceDetailInfo: 1,
         isTranslate: 1,
       }),
-      getExhibitAuthStatus(exhibitId),
-      getExhibitAvailalbe(exhibitId),
+      freelogApp.getExhibitAuthStatus(exhibitId),
+      freelogApp.getExhibitAvailalbe(exhibitId),
     ]).then((response) => {
       if (response[1].data.errCode) {
         resolve({ status: DATA_ERROR, data: response[1].data });

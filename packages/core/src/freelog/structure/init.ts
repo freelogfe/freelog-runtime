@@ -1,12 +1,9 @@
-import frequest from "../services/handler";
-import node from "../services/api/modules/node";
 
 import { getSubDep, getUserInfo, isMobile } from "./utils";
 import { freelogApp } from "./global";
 import { freelogAuth } from "./freelogAuth";
-// import { init } from "./api";
-import { init } from "freelog-runtime-api";
-
+import { init,getInfoByNameOrDomain } from "freelog-runtime-api";
+import {setPresentableQueue} from "../bridge"
 import { dev, DEV_FALSE } from "./dev";
 import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
@@ -19,12 +16,9 @@ import {
   NODE_PRIVATE,
   USER_FREEZED,
 } from "../bridge/eventType";
+import { baseURL, isTest } from "./base";
 import { initWindowListener } from "../bridge/eventOn";
-const isTest =  window.location.host.split('.')[1] === 't';
-let baseURL = window.location.protocol + '//qi.freelog.com/v2/'
-if (window.location.href.indexOf('testfreelog') > -1) {
-    baseURL = window.location.protocol + '//qi.testfreelog.com/v2/'
-}
+ 
 
 // @ts-ignore
 delete window.setImmediate;
@@ -103,7 +97,7 @@ export function initNode() {
         //     return document.title;
         //   },
         // });
-        init(isTest, nodeInfo.nodeId, baseURL);
+        init(nodeInfo.nodeId, setPresentableQueue);
         const devData = dev();
         // TODO 提供一个开发者模式，能在全局创建一个VConsole
         // window.vconsole = new VConsole()
@@ -267,9 +261,7 @@ function getDomain(url: string) {
 }
 
 async function requestNodeInfo(nodeDomain: string) {
-  let info = await frequest.bind({ name: "node" })(
-    node.getInfoByNameOrDomain,
-    "",
+  let info = await getInfoByNameOrDomain.bind({ name: "node" })(
     { nodeDomain, isLoadOwnerUserInfo: 1 }
   );
   return info.data;

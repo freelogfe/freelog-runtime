@@ -398,7 +398,7 @@ export async function loadApp<T extends ObjectType>(
         mountSandbox,
         // exec the chain after rendering to keep the behavior with beforeLoad
         async () => execHooksChain(toArray(beforeMount), app, global),
-        async (props) => mount({ ...props, container: appWrapperGetter(), setGlobalState, onGlobalStateChange }),
+        async (props:any) => mount({ ...props, container: appWrapperGetter(), setGlobalState, onGlobalStateChange }),
         // finish loading after app mounted
         async () => render({ element: appWrapperElement, loading: false, container: remountContainer }, 'mounted'),
         async () => execHooksChain(toArray(afterMount), app, global),
@@ -417,7 +417,7 @@ export async function loadApp<T extends ObjectType>(
       ],
       unmount: [
         async () => execHooksChain(toArray(beforeUnmount), app, global),
-        async (props) => unmount({ ...props, container: appWrapperGetter() }),
+        async (props:any) => unmount({ ...props, container: appWrapperGetter() }),
         unmountSandbox,
         async () => execHooksChain(toArray(afterUnmount), app, global),
         async () => {

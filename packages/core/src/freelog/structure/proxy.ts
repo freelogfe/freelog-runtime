@@ -23,6 +23,7 @@ import {
 } from "./widget";
 import { initGlobalState } from "freelog-runtime-core";
 // import { initGlobalState } from "../../platform//index";
+import { freelogApp } from "./global";
 
 import {
   historyBack,
@@ -243,7 +244,7 @@ export function initLocation(flag?: boolean) {
   }
   if (rawLocation.href.includes("$freelog")) {
     let loc = rawLocation.href.split("freelog.com/")[1].split("$");
-    if (rawWindow.freelogApp.devData.type === DEV_WIDGET) {
+    if (freelogApp.devData.type === DEV_WIDGET) {
       const temp = rawLocation.search.split("$_")[1];
       // @ts-ignore
       loc = temp ? temp.split("$") : [];
@@ -297,7 +298,7 @@ export function setLocation(isReplace?: boolean) {
     }
     hash += "$" + key + "=" + value.href || "";
   });
-  if (rawWindow.freelogApp.devData.type === DEV_WIDGET) {
+  if (freelogApp.devData.type === DEV_WIDGET) {
     let devUrl = rawLocation.search.split("$_")[0];
     if (!devUrl.endsWith("/")) {
       devUrl = devUrl + "/";
@@ -643,7 +644,7 @@ export const createFreelogAppProxy = function (name: string, sandbox: any) {
   return new Proxy(freelogAppProxy, {
     // @ts-ignore
     get: function get(app: any, p: string) {
-      const pro = rawWindow.freelogApp[p];
+      const pro = freelogApp[p];
       if (typeof pro === "function") {
         if (p === "initGlobalState") {
           if (isTheme(name)) {

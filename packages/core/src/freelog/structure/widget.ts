@@ -17,6 +17,7 @@
 
 // import { loadMicroApp } from "../../platform";
 import { loadMicroApp } from "freelog-runtime-core";
+import { freelogApp } from "./global";
 
 import { freelogFetch, getViewport } from './utils'
 import { setLocation } from "./proxy";
@@ -195,7 +196,7 @@ export async function mountWidget(
   } else {
     hbfOnlyToTheme = config.hbfOnlyToTheme;
   }
-  const devData = window.freelogApp.devData;
+  const devData = freelogApp.devData;
   // 不是开发模式禁用
   if (devData.type === DEV_FALSE) widget_entry = "";
   let commonData: any;
@@ -249,7 +250,7 @@ export async function mountWidget(
   }
   let fentry = "";
   if (commonData.articleNid) {
-    fentry = await window.freelogApp.getExhibitDepFileStream.bind(that || {})(
+    fentry = await freelogApp.getExhibitDepFileStream.bind(that || {})(
       commonData.exhibitId,
       commonData.articleNid,
       commonData.articleInfo.articleId,
@@ -257,7 +258,7 @@ export async function mountWidget(
     );
     fentry = fentry + `&subFilePath=`;
   } else {
-    fentry = await window.freelogApp.getExhibitFileStream.bind(that || {})(
+    fentry = await freelogApp.getExhibitFileStream.bind(that || {})(
       commonData.exhibitId,
       {returnUrl:true}
     );
