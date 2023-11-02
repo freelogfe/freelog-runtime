@@ -127,11 +127,9 @@ export function freelogAddEventListener(name:any, sandbox:any,proxy:any, target:
   return function () {
     // @ts-ignore
     const arr = Array.prototype.slice.apply(arguments);  
-    console.log(54353535)
      
     // TODO 是否给每个插件都一个事件，这样可以提升性能，路由没有变化的就不需要执行事件了
     if (arguments[0] === "popstate") {
-      console.log(54353535)
       rawWindow.addEventListener("freelog-popstate", arr[1]);
       return;
     }

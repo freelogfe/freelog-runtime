@@ -94,7 +94,6 @@ export default function frequest(
           const exhibitName = decodeURI(
             response.headers["freelog-exhibit-name"]
           );
-          console.log(response.headers)
           const articleNid = decodeURI(response.headers["freelog-article-nid"]);
           const resourceType = decodeURI(
             response.headers["freelog-article-resource-type"]

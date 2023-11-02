@@ -3923,11 +3923,9 @@ rawWindow.addEventListener("hashchange", function () {
 function freelogAddEventListener(name, sandbox, proxy, target) {
   return function () {
     // @ts-ignore
-    var arr = Array.prototype.slice.apply(arguments);
-    console.log(54353535); // TODO 是否给每个插件都一个事件，这样可以提升性能，路由没有变化的就不需要执行事件了
+    var arr = Array.prototype.slice.apply(arguments); // TODO 是否给每个插件都一个事件，这样可以提升性能，路由没有变化的就不需要执行事件了
 
     if (arguments[0] === "popstate") {
-      console.log(54353535);
       rawWindow.addEventListener("freelog-popstate", arr[1]);
       return;
     } // TODO onmessage需要处理, 此方法只能支持window.addEventListener
@@ -7243,8 +7241,6 @@ var import_operation = __toESM(__webpack_require__(85872));
 
 var import_baseInfo = __webpack_require__(19040);
 
-console.log(import_baseInfo.baseInfo, 666666);
-
 function getExhibitListById(query) {
   return __awaiter(this, void 0, void 0, function () {
     return __generator(this, function (_a) {
@@ -8439,7 +8435,6 @@ function frequest(action, urlData, data, returnUrl, config) {
             resData = response.data.data;
             exhibitId = response.headers["freelog-exhibit-id"];
             exhibitName = decodeURI(response.headers["freelog-exhibit-name"]);
-            console.log(response.headers);
             articleNid = decodeURI(response.headers["freelog-article-nid"]);
             resourceType = decodeURI(response.headers["freelog-article-resource-type"]);
             subDep = decodeURI(response.headers["freelog-article-sub-dependencies"]);
@@ -9506,7 +9501,6 @@ module.exports = __toCommonJS(base_exports);
 var import_baseInfo = __webpack_require__(19040);
 
 var placeHolder = "urlPlaceHolder";
-console.log(import_baseInfo.baseInfo, 666666);
 var baseConfig = {
   baseURL: import_baseInfo.baseInfo.baseURL,
   withCredentials: true,
@@ -9736,7 +9730,6 @@ var import_utils = __webpack_require__(88952);
 function frequest(action, urlData, data, returnUrl, config) {
   var _this = this;
 
-  console.log(import_base.baseConfig, 53245233);
   var api = Object.assign({}, action);
   var url = api.url;
 
