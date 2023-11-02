@@ -9,5 +9,6 @@ export {
   putUserData,
   getUserData,
   getInfoByNameOrDomain,
+  baseInit,
   init,
 } from "./base";

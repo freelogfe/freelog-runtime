@@ -21,7 +21,6 @@ export default function frequest(
   returnUrl?: boolean,
   config?: any
 ): any {
-  console.log(baseConfig,67777)
   // if(isUserChange()){
   //   return 
   // }
@@ -95,6 +94,7 @@ export default function frequest(
           const exhibitName = decodeURI(
             response.headers["freelog-exhibit-name"]
           );
+          console.log(response.headers)
           const articleNid = decodeURI(response.headers["freelog-article-nid"]);
           const resourceType = decodeURI(
             response.headers["freelog-article-resource-type"]

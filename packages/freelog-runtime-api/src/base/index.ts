@@ -21,3 +21,7 @@ export function init(fnodeId: string, setPresentableQueue: any) {
   baseInfo.nodeId = fnodeId;
   baseInfo.setPresentableQueue = setPresentableQueue;
 }
+export function baseInit(baseURL: string, isTest: boolean) {
+  baseInfo.isTest = isTest;
+  baseInfo.baseURL = baseURL;
+}

@@ -3,7 +3,7 @@ import exhibit from "./services/api/modules/exhibit";
 import contract from "./services/api/modules/contract";
 import operation from "./services/api/modules/operation";
 import { baseInfo } from "../base/baseInfo";
- 
+console.log(baseInfo,666666)
 // 展品非授权信息接口
 export async function getExhibitListById(query: any): Promise<any> {
   if (query && Object.prototype.toString.call(query) !== "[object Object]") {
