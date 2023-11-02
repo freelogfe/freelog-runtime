@@ -24,7 +24,7 @@ getHooks.set("freelogAuth", (name: any) => {
 });
 
 getHooks.set("__INJECTED_PUBLIC_PATH_BY_FREELOG__", getPublicPath);
-
+// name:any, sandbox:any,proxy:any, target:any
 getHooks.set("addEventListener", freelogAddEventListener);
 getHooks.set("freelogApp", createFreelogAppProxy);
 getHooks.set("widgetName", (name: any) => name);
