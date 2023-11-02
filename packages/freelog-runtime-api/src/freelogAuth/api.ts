@@ -9,7 +9,7 @@ export async function getContractInfo(urlData: Array<any>,query: any) {
   return frequest(contract.getContractInfo, urlData, query);
 }
 export async function getContracts(query: any) {
-  return frequest(contract.getContractInfo, "", query);
+  return frequest(contract.getContracts, "", query);
 }
 export async function signContract(query: any) {
   return frequest(contract.contract, "", query);
@@ -18,7 +18,7 @@ export async function batchSign(query: any) {
   return frequest(contract.contracts, "", query);
 }
 export async function getTransitionRecords(urlData: Array<any>,query: any) {
-  return frequest(contract.getContractInfo, urlData, query);
+  return frequest(contract.getTransitionRecords, urlData, query);
 }
 // contract 结束
 
