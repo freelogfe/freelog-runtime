@@ -2773,10 +2773,10 @@ function isUserChange() {
 // export { isTest, baseURL } from "freelog-runtime-api";
 var isTest = window.location.host.split('.')[1] === 't';
 
-var _baseURL = window.location.protocol + '//qi.freelog.com/v2/';
+var _baseURL = window.location.protocol + '//api.freelog.com/v2/';
 
 if (window.location.href.indexOf('testfreelog') > -1) {
-  _baseURL = window.location.protocol + '//qi.testfreelog.com/v2/';
+  _baseURL = window.location.protocol + '//api.testfreelog.com/v2/';
 }
 
 var baseURL = _baseURL;
@@ -3918,13 +3918,16 @@ rawWindow.addEventListener("popstate", function (event) {
 }, true);
 rawWindow.addEventListener("hashchange", function () {
   initLocation();
-}, true);
-function freelogAddEventListener(proxy, target) {
+}, true); // name, sandbox,proxy, target
+
+function freelogAddEventListener(name, sandbox, proxy, target) {
   return function () {
     // @ts-ignore
-    var arr = Array.prototype.slice.apply(arguments); // TODO 是否给每个插件都一个事件，这样可以提升性能，路由没有变化的就不需要执行事件了
+    var arr = Array.prototype.slice.apply(arguments);
+    console.log(54353535); // TODO 是否给每个插件都一个事件，这样可以提升性能，路由没有变化的就不需要执行事件了
 
     if (arguments[0] === "popstate") {
+      console.log(54353535);
       rawWindow.addEventListener("freelog-popstate", arr[1]);
       return;
     } // TODO onmessage需要处理, 此方法只能支持window.addEventListener
@@ -4127,7 +4130,7 @@ var locationCenter = {
     return locations.get(name);
   }
 };
-function freelogLocalStorage(id) {
+function freelogLocalStorage(id, sandbox, proxy, target) {
   return {
     // @ts-ignore
     clear: function (name) {},
@@ -4184,7 +4187,7 @@ function patchCommon(name, isSetLocation, isReplace) {
 var saveSandBox = function (name, sandBox) {
   (0,_widget__WEBPACK_IMPORTED_MODULE_2__/* .addSandBox */ .mn)(name, sandBox);
 };
-var createHistoryProxy = function (name) {
+var createHistoryProxy = function (name, sandbox, proxy, target) {
   var widgetConfig = _widget__WEBPACK_IMPORTED_MODULE_2__/* .widgetsConfig.get */ .md.get(name);
 
   function patch() {
@@ -4269,7 +4272,7 @@ var createHistoryProxy = function (name) {
 // TODO reload相当于重载应用，想办法把主应用的对应操控函数弄过来，发布订阅模式
 // TODO replace与reload、toString方法无法访问
 
-var createLocationProxy = function (name) {
+var createLocationProxy = function (name, sandbox, proxy, target) {
   var locationProxy = {};
   var widgetConfig = _widget__WEBPACK_IMPORTED_MODULE_2__/* .widgetsConfig.get */ .md.get(name);
   return new Proxy(locationProxy, {
@@ -4279,7 +4282,7 @@ var createLocationProxy = function (name) {
     // @ts-ignore
     set: function (target, p, value) {
       if (p === "hash") {
-        var _history = createHistoryProxy(name); // @ts-ignore
+        var _history = createHistoryProxy(name, sandbox, proxy, target); // @ts-ignore
 
 
         _history.pushState("", "", value);
@@ -4357,7 +4360,7 @@ rawDocument.writeln = function () {
 
 var querySelector = rawDocument.querySelector; // document的代理
 
-var createDocumentProxy = function (name) {
+var createDocumentProxy = function (name, sandbox, proxy, target) {
   // TODO  firstChild还没创建,这里需要改，加载后才能
   var doc = _widget__WEBPACK_IMPORTED_MODULE_2__/* .widgetsConfig.get */ .md.get(name).container.firstChild; //  || widgetsConfig.get(name).container;
 
@@ -4419,7 +4422,7 @@ var createDocumentProxy = function (name) {
 
   return rawDocument;
 };
-var createWidgetProxy = function (name) {
+var createWidgetProxy = function (name, sandbox, proxy, target) {
   var proxyWidget = {};
   return new Proxy(proxyWidget, {
     // @ts-ignore
@@ -4449,7 +4452,7 @@ function getPublicPath(name) {
   return config.entry + "/";
 } // @ts-ignore
 
-var createFreelogAppProxy = function (name, sandbox) {
+var createFreelogAppProxy = function (name, sandbox, proxy, target) {
   var freelogAppProxy = {};
   return new Proxy(freelogAppProxy, {
     // @ts-ignore
@@ -4512,9 +4515,7 @@ getHooks.set("freelogAuth", function (name) {
   return false;
 });
 getHooks.set("__INJECTED_PUBLIC_PATH_BY_FREELOG__", _proxy__WEBPACK_IMPORTED_MODULE_0__/* .getPublicPath */ .Ak);
-getHooks.set("addEventListener", function () {
-  return _proxy__WEBPACK_IMPORTED_MODULE_0__/* .freelogAddEventListener */ .qS;
-});
+getHooks.set("addEventListener", _proxy__WEBPACK_IMPORTED_MODULE_0__/* .freelogAddEventListener */ .qS);
 getHooks.set("freelogApp", _proxy__WEBPACK_IMPORTED_MODULE_0__/* .createFreelogAppProxy */ .ZK);
 getHooks.set("widgetName", function (name) {
   return name;
@@ -6528,7 +6529,7 @@ var user_default = user;
 /***/ }),
 
 /***/ 2448:
-/***/ (function(module) {
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
 "use strict";
 
@@ -6585,15 +6586,12 @@ __export(base_exports, {
 });
 
 module.exports = __toCommonJS(base_exports);
+
+var import_baseInfo = __webpack_require__(19040);
+
 var placeHolder = "urlPlaceHolder";
-var baseURL = window.location.protocol + "//qi.freelog.com/v2/";
-
-if (window.location.href.indexOf("testfreelog") > -1) {
-  baseURL = window.location.protocol + "//qi.testfreelog.com/v2/";
-}
-
 var baseConfig = {
-  baseURL: baseURL,
+  baseURL: import_baseInfo.baseInfo.baseURL,
   withCredentials: true,
   timeout: 3e4
 }; // Annotate the CommonJS export names for ESM import in node:
@@ -8798,7 +8796,7 @@ function getContracts(query) {
     return __generator(this, function (_a) {
       return [2
       /*return*/
-      , (0, import_handler.default)(import_contract.default.getContractInfo, "", query)];
+      , (0, import_handler.default)(import_contract.default.getContracts, "", query)];
     });
   });
 }
@@ -8828,7 +8826,7 @@ function getTransitionRecords(urlData, query) {
     return __generator(this, function (_a) {
       return [2
       /*return*/
-      , (0, import_handler.default)(import_contract.default.getContractInfo, urlData, query)];
+      , (0, import_handler.default)(import_contract.default.getTransitionRecords, urlData, query)];
     });
   });
 }
@@ -15244,7 +15242,7 @@ function () {
 
           if (hook) {
             if (typeof hook === "function") {
-              return hook();
+              return hook(name, _this, proxy, target);
             }
 
             return hook;

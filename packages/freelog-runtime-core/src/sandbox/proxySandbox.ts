@@ -193,7 +193,7 @@ export default class ProxySandbox implements SandBox {
           const hook = proxyHooks.setHooks.get(p);
           if (hook) {
             if (typeof hook === "function") {
-              return hook();
+              return hook(name, _this,proxy, target);
             }
             return hook;
           }
