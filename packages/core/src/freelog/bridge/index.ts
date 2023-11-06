@@ -29,7 +29,9 @@ let UI: any = null;
 let updateUI: any = null;
 let locked = false;
 let uiInited = false;
-
+export function getUISatus() {
+  return uiInited;
+}
 /**
  *
  * @param ui    签约事件型UI，登录UI，节点冻结UI，主题冻结UI，无主题UI，

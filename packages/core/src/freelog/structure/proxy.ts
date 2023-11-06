@@ -24,7 +24,7 @@ import {
 import { initGlobalState } from "freelog-runtime-core";
 // import { initGlobalState } from "../../platform//index";
 import { freelogApp } from "./global";
-
+import { getUISatus } from "../bridge";
 import {
   historyBack,
   historyForward,
@@ -48,6 +48,7 @@ var freelogPopstate = new PopStateEvent("freelog-popstate");
 // for history back and forword
 export let state = 0;
 let moveLock = false;
+let shuttleLock = false
 /**
  * 应对浏览器 historyback的问题，
  * 主题插件有自己的history.back history.forward  history.go
@@ -59,8 +60,19 @@ let moveLock = false;
 rawWindow.addEventListener(
   "popstate",
   async function (event) {
+    // console.log(rawLocation.href)
     let estate = event.state;
     if (!estate) estate = 0;
+    if(getUISatus() && !shuttleLock){
+      shuttleLock = true
+      if(estate > state){       
+        rawHistory.back();
+      }else{
+        rawHistory.forward();
+      }
+      return 
+    }
+    shuttleLock = false
     initLocation(true);
     // 卸载后最大的 maxState
     let maxState = 0;
@@ -70,11 +82,11 @@ rawWindow.addEventListener(
     locations.forEach(async (value, key) => {
       if (!locationsForBrower.has(key)) {
         // await activeWidgets.get(key).unmount();
-      } else {
+      } else if (widgetHistories.get(key)) {
         const widgetState = widgetHistories.get(key).state;
-        if(maxState < widgetState){
+        if (maxState < widgetState) {
           maxState = widgetState;
-          maxStateWidget = widgetHistories.get(key)
+          maxStateWidget = widgetHistories.get(key);
         }
       }
     });
@@ -85,7 +97,7 @@ rawWindow.addEventListener(
         state = maxState;
         // @ts-ignore
         // maxStateWidget.state = state
-        setLocation(true)
+        setLocation(true);
         return;
       }
       moveLock = true;
@@ -113,7 +125,7 @@ rawWindow.addEventListener(
     state = estate;
     rawWindow.dispatchEvent(freelogPopstate);
   },
-  true
+  false
 );
 rawWindow.addEventListener(
   "hashchange",
@@ -123,11 +135,16 @@ rawWindow.addEventListener(
   true
 );
 // name, sandbox,proxy, target
-export function freelogAddEventListener(name:any, sandbox:any,proxy:any, target:any) {
+export function freelogAddEventListener(
+  name: any,
+  sandbox: any,
+  proxy: any,
+  target: any
+) {
   return function () {
     // @ts-ignore
-    const arr = Array.prototype.slice.apply(arguments);  
-     
+    const arr = Array.prototype.slice.apply(arguments);
+
     // TODO 是否给每个插件都一个事件，这样可以提升性能，路由没有变化的就不需要执行事件了
     if (arguments[0] === "popstate") {
       rawWindow.addEventListener("freelog-popstate", arr[1]);
@@ -353,7 +370,12 @@ export const locationCenter: any = {
     return locations.get(name);
   },
 };
-export function freelogLocalStorage(id:any, sandbox:any,proxy:any, target:any) {
+export function freelogLocalStorage(
+  id: any,
+  sandbox: any,
+  proxy: any,
+  target: any
+) {
   return {
     // @ts-ignore
     clear: function (name: string) {},
@@ -410,7 +432,12 @@ function patchCommon(
 export const saveSandBox = function (name: string, sandBox: any) {
   addSandBox(name, sandBox);
 };
-export const createHistoryProxy = function (name:any, sandbox:any,proxy:any, target:any) {
+export const createHistoryProxy = function (
+  name: any,
+  sandbox: any,
+  proxy: any,
+  target: any
+) {
   const widgetConfig = widgetsConfig.get(name);
 
   function patch() {
@@ -482,9 +509,14 @@ export const createHistoryProxy = function (name:any, sandbox:any,proxy:any, tar
   return historyProxy;
 };
 // TODO 如果是单应用模式（提升性能）则不用代理, 可以设置location.href的使用权限
-          // TODO reload相当于重载应用，想办法把主应用的对应操控函数弄过来，发布订阅模式
-          // TODO replace与reload、toString方法无法访问
-export const createLocationProxy = function (name:any, sandbox:any,proxy:any, target:any) {
+// TODO reload相当于重载应用，想办法把主应用的对应操控函数弄过来，发布订阅模式
+// TODO replace与reload、toString方法无法访问
+export const createLocationProxy = function (
+  name: any,
+  sandbox: any,
+  proxy: any,
+  target: any
+) {
   const locationProxy = {};
   const widgetConfig = widgetsConfig.get(name);
   return new Proxy(locationProxy, {
@@ -494,7 +526,7 @@ export const createLocationProxy = function (name:any, sandbox:any,proxy:any, ta
     // @ts-ignore
     set: (target: any, p: PropertyKey, value: any): boolean => {
       if (p === "hash") {
-        const _history = createHistoryProxy(name, sandbox,proxy, target);
+        const _history = createHistoryProxy(name, sandbox, proxy, target);
         // @ts-ignore
         _history.pushState("", "", value);
       }
@@ -558,7 +590,12 @@ rawDocument.writeln = () => {
 const querySelector = rawDocument.querySelector;
 
 // document的代理
-export const createDocumentProxy = function (name:any, sandbox:any,proxy:any, target:any) {
+export const createDocumentProxy = function (
+  name: any,
+  sandbox: any,
+  proxy: any,
+  target: any
+) {
   // TODO  firstChild还没创建,这里需要改，加载后才能
   var doc = widgetsConfig.get(name).container.firstChild; //  || widgetsConfig.get(name).container;
   let rootDoc: any = doc;
@@ -610,7 +647,12 @@ export const createDocumentProxy = function (name:any, sandbox:any,proxy:any, ta
   };
   return rawDocument;
 };
-export const createWidgetProxy = function (name:any, sandbox:any,proxy:any, target:any) {
+export const createWidgetProxy = function (
+  name: any,
+  sandbox: any,
+  proxy: any,
+  target: any
+) {
   const proxyWidget = {};
   return new Proxy(proxyWidget, {
     // @ts-ignore
@@ -639,7 +681,12 @@ export function getPublicPath(name: string) {
   return config.entry + "/";
 }
 // @ts-ignore
-export const createFreelogAppProxy = function (name:any, sandbox:any,proxy:any, target:any) {
+export const createFreelogAppProxy = function (
+  name: any,
+  sandbox: any,
+  proxy: any,
+  target: any
+) {
   const freelogAppProxy = {};
   return new Proxy(freelogAppProxy, {
     // @ts-ignore
