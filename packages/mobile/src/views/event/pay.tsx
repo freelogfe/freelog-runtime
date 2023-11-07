@@ -96,11 +96,11 @@ export default function Pay(props: PayProps) {
             ? "支付密码错误，请重新输入"
             : "不支持向自己付款"
         );
-        // setPasswords(["", "", "", "", "", ""]);
+        setPasswords(["", "", "", "", "", ""]);
         setLoading(false);
         setTimeout(() => {
           // @ts-ignore
-          input5.current.focus();
+          input0.current.focus();
         }, 100);
         return;
       }

@@ -95,13 +95,13 @@ export default function Pay(props: PayProps) {
     if (payResult.data.errCode !== 0) {
       if (payResult.data.data && ['E1013',"E1010"].includes(payResult.data.data.code)){
         setTipType(3);
-        // setPasswords(["", "", "", "", "", ""]);
+        setPasswords(["", "", "", "", "", ""]);
         setErrorTip(payResult.data.data.code=== "E1010"? '支付密码错误，请重新输入' : '不支持向自己付款')
         setLoading(false);
         // setFocus(0)
         setTimeout(() => {
           // @ts-ignore
-          input5.current.focus();
+          input0.current.focus();
         }, 100);
         return;
       }
