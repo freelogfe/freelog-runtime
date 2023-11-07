@@ -546,6 +546,9 @@ importers:
       antd-mobile:
         specifier: ^5.24.0
         version: 5.24.0(react-dom@18.2.0)(react@18.2.0)
+      antd-mobile-icons:
+        specifier: ^0.3.0
+        version: 0.3.0
       astroturf:
         specifier: ^1.0.1
         version: 1.0.1(webpack@5.73.0)

@@ -3,8 +3,10 @@ import { freelogAuthApi } from "freelog-runtime-api";
 import { Popup, Button, Toast, SpinLoading } from "antd-mobile";
 
 import { useState } from "react";
+import { EyeInvisibleOutline, EyeOutline } from "antd-mobile-icons";
+
 import "./login.scss";
-import logoImage from "../../assets/image/logo-feather.png";
+// import logoImage from "../../assets/image/logo-feather.png";
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 
 interface loginProps {
@@ -18,6 +20,8 @@ export default function Login(props: loginProps) {
   const [logging, setLogging] = useState(false);
   const [loginName, setLoginName] = useState("");
   const [password, setPassword] = useState("");
+  const [visible, setVisible] = useState(false);
+
   const onFinish = async () => {
     setLogging(true);
     const values: any = {
@@ -90,15 +94,25 @@ export default function Login(props: loginProps) {
                 setLoginName(e.target.value);
               }}
             />
-            <input
-              type="password"
-              className="w-100x common-input mb-15"
-              value={password}
-              placeholder="密码"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
+            <div className="w-100x flex-row">
+              <input
+                type={visible? "" : "password"}
+                className="w-100x common-input mb-15"
+                value={password}
+                placeholder="密码"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+              <div className="eye">
+                {!visible ? (
+                  <EyeInvisibleOutline onClick={() => setVisible(true)} />
+                ) : (
+                  <EyeOutline onClick={() => setVisible(false)} />
+                )}
+              </div>
+            </div>
+
             <Button
               loading={logging}
               color="primary"

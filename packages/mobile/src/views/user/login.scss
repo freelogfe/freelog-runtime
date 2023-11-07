@@ -1,4 +1,17 @@
 .user-login {
+    .eye {
+        flex: none;
+        position: absolute;
+        right: 12px;
+        bottom: 26px;
+        margin-left: 8px;
+        padding: 4px;
+        cursor: pointer;
+        svg {
+            display: block;
+            font-size: var(--adm-font-size-7);
+        }
+    }
     .adm-spin-loading {
         width: 18px;
         margin-right: 5px;
@@ -6,7 +19,9 @@
 
     .login-title {
         font-size: 18px;
-        font-family: PingFangSC-Regular, PingFang SC;
+        font-family:
+            PingFangSC-Regular,
+            PingFang SC;
         font-weight: 400;
         color: #666666;
     }
@@ -38,11 +53,10 @@
     .login-container {
         width: calc(100% - 60px);
 
-
         .registry {
-            background-color: #EDF6FF;
+            background-color: #edf6ff;
 
-            color: #2784FF;
+            color: #2784ff;
         }
 
         .am-button-active {
@@ -52,16 +66,20 @@
 
     .login-forgot {
         font-size: 14px;
-        font-family: PingFangSC-Regular, PingFang SC;
+        font-family:
+            PingFangSC-Regular,
+            PingFang SC;
         font-weight: 400;
-        color: #2784FF;
+        color: #2784ff;
         justify-self: end;
 
         button {
             font-size: 14px !important;
-            font-family: PingFangSC-Regular, PingFang SC;
+            font-family:
+                PingFangSC-Regular,
+                PingFang SC;
             font-weight: 400 !important;
-            color: #2784FF;
+            color: #2784ff;
             border: 0 !important;
 
             &::before {

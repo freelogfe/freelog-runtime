@@ -16,6 +16,7 @@
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
     "antd-mobile": "^5.24.0",
+    "antd-mobile-icons": "^0.3.0",
     "astroturf": "^1.0.1",
     "axios": "^0.21.1",
     "babel-jest": "^27.4.2",
