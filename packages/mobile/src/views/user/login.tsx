@@ -1,6 +1,6 @@
 import { freelogAuthApi } from "freelog-runtime-api";
 
-import { Popup, Button, Toast, SpinLoading } from "antd-mobile";
+import { Popup, Button, Toast, SpinLoading, Checkbox } from "antd-mobile";
 
 import { useState } from "react";
 import { EyeInvisibleOutline, EyeOutline } from "antd-mobile-icons";
@@ -19,6 +19,7 @@ interface loginProps {
 export default function Login(props: loginProps) {
   const [logging, setLogging] = useState(false);
   const [loginName, setLoginName] = useState("");
+  const [isRemember, setIsRemember] = useState(0);
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
 
@@ -53,7 +54,7 @@ export default function Login(props: loginProps) {
       position="top"
       bodyClassName="user-login w-100x h-100x"
     >
-      <Popup
+      {/* <Popup
         visible={logging}
         position="top"
         bodyClassName="w-325 h-220 modal-tip"
@@ -63,7 +64,7 @@ export default function Login(props: loginProps) {
             登录中
           </Button>
         </div>
-      </Popup>
+      </Popup> */}
       <div className="w-100x h-100x flex-column align-center">
         <i
           className="iconfont login-back"
@@ -96,7 +97,7 @@ export default function Login(props: loginProps) {
             />
             <div className="w-100x flex-row">
               <input
-                type={visible? "" : "password"}
+                type={visible ? "" : "password"}
                 className="w-100x common-input mb-15"
                 value={password}
                 placeholder="密码"
@@ -112,6 +113,9 @@ export default function Login(props: loginProps) {
                 )}
               </div>
             </div>
+            {/* <div className="mb-15 flex-row justify-end">
+              <Checkbox>记住我</Checkbox>
+            </div> */}
 
             <Button
               loading={logging}
