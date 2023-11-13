@@ -1,4 +1,4 @@
-import { Form, Input, Modal } from "antd";
+import { Form, Input, Modal, Checkbox } from "antd";
 
 import Button from "./_commons/button";
 import { freelogAuthApi } from "freelog-runtime-api";
@@ -21,6 +21,7 @@ export default function Login(props: loginProps) {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [isRemember, setIsRemember] = useState(false);
   function onValuesChange(changedValues: any, allValues: any) {
     setDisabled(!allValues.loginName || !allValues.password);
   }
@@ -33,7 +34,7 @@ export default function Login(props: loginProps) {
     //   isRemember: "string",
     //   returnUrl: "string",
     //   jwtType: "string",
-    values.isRemember = values.isRemember ? 1 : 0;
+    values.isRemember = isRemember ? 1 : 0;
     const res = await freelogAuthApi.login(values);
     if (res.data.errCode === 0) {
       setLoading(false);
@@ -116,10 +117,18 @@ export default function Login(props: loginProps) {
             <Input.Password />
           </Form.Item>
 
-          {/* <Form.Item {...tailLayout} name="isRemember" valuePropName="checked" className="ml-40">
-          <Checkbox>记住我</Checkbox>
-        </Form.Item> */}
-
+          <Form.Item
+            name="remember"
+            valuePropName="checked"
+            wrapperCol={{ offset: 10, span: 16 }}
+          >
+            {/* <div className="mb-15 flex-row justify-end login-remember">
+              <Checkbox checked={isRemember} onChange={(e)=>{setIsRemember(e)}}>记住我</Checkbox>
+            </div> */}
+            <div className="mb-15 flex-row justify-end login-remember">
+              <Checkbox className="login-remember" checked={isRemember} onChange={(e)=>{setIsRemember(e.target.checked)}}>记住我</Checkbox>
+            </div>
+          </Form.Item>
           <Form.Item className="pt-30">
             <Button
               className="py-9"
@@ -136,7 +145,7 @@ export default function Login(props: loginProps) {
           <span
             className="regist-now cur-pointer"
             onClick={() => {
-              console.log(window.baseURL)
+              console.log(window.baseURL);
               if (window.baseURL.indexOf("testfreelog") > -1) {
                 window.open("http://user.testfreelog.com/logon");
                 return;

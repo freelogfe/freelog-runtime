@@ -19,7 +19,7 @@ interface loginProps {
 export default function Login(props: loginProps) {
   const [logging, setLogging] = useState(false);
   const [loginName, setLoginName] = useState("");
-  const [isRemember, setIsRemember] = useState(0);
+  const [isRemember, setIsRemember] = useState(false);
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
 
@@ -113,9 +113,9 @@ export default function Login(props: loginProps) {
                 )}
               </div>
             </div>
-            {/* <div className="mb-15 flex-row justify-end">
-              <Checkbox>记住我</Checkbox>
-            </div> */}
+            <div className="mb-15 flex-row justify-end login-remember">
+              <Checkbox checked={isRemember} onChange={(e)=>{setIsRemember(e)}}>记住我</Checkbox>
+            </div>
 
             <Button
               loading={logging}
