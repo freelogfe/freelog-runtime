@@ -327,7 +327,7 @@ export default function Pay(props: PayProps) {
               className="w-184 h-38 flex-column-center"
               type="primary brs-10"
               click={() => {
-                window.open("http://user." + window.ENV + "/logged/wallet");
+                window.open("https://user." + window.ENV + "/logged/wallet");
               }}
             >
               激活羽币账户
@@ -476,7 +476,7 @@ export default function Pay(props: PayProps) {
               }
             `}
             onClick={() => {
-              window.open("http://user." + window.ENV + "/retrievePayPassword");
+              window.open("https://user." + window.ENV + "/retrievePayPassword");
             }}
           >
             忘记支付密码

@@ -100,7 +100,7 @@ export default function Login(props: loginProps) {
               className="login-forgot select-none cur-pointer"
               onClick={() => {
                 if (window.baseURL.indexOf("testfreelog") > -1) {
-                  window.open("http://user.testfreelog.com/retrieve");
+                  window.open("https://user.testfreelog.com/retrieve");
                   return;
                 }
                 window.open("https://user.freelog.com/retrieve");
@@ -147,7 +147,7 @@ export default function Login(props: loginProps) {
             onClick={() => {
               console.log(window.baseURL);
               if (window.baseURL.indexOf("testfreelog") > -1) {
-                window.open("http://user.testfreelog.com/logon");
+                window.open("https://user.testfreelog.com/logon");
                 return;
               }
               window.open("https://user.freelog.com/logon");

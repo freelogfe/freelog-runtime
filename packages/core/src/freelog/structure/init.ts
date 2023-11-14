@@ -27,8 +27,8 @@ const mobile = isMobile();
 const uiPath =
   process.env.NODE_ENV === "development"
     ? mobile
-      ? "http://localhost:8881" // "http://ui.mobile.com"
-      : "http://localhost:8880"
+      ? "https://localhost:8881" // "http://ui.mobile.com"
+      : "https://localhost:8880"
     : mobile
     ? "/mobile"
     : "/pc";

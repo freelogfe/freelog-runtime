@@ -2777,10 +2777,10 @@ function isUserChange() {
 // export { isTest, baseURL } from "freelog-runtime-api";
 var isTest = window.location.host.split('.')[1] === 't';
 
-var _baseURL = window.location.protocol + '//api1.freelog.com/v2/';
+var _baseURL = window.location.protocol + '//api.freelog.com/v2/';
 
 if (window.location.href.indexOf('testfreelog') > -1) {
-  _baseURL = window.location.protocol + '//api1.testfreelog.com/v2/';
+  _baseURL = window.location.protocol + '//api.testfreelog.com/v2/';
 }
 
 var baseURL = _baseURL;

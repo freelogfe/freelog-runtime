@@ -236,7 +236,7 @@ export default function Pay(props: PayProps) {
               onClick={() => {
                 isActive
                   ? setInputVisible(true)
-                  : window.open("http://user." + window.ENV + "/logged/wallet");
+                  : window.open("https://user." + window.ENV + "/logged/wallet");
               }}
             >
               {loading ? (

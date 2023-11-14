@@ -69,6 +69,7 @@
     "@types/lodash-es": "^4.17.6",
     "axios": "^0.21.1",
     "cross-env": "^7.0.3",
+    "crypto": "^1.0.1",
     "css-minimizer-webpack-plugin": "^5.0.1",
     "doc-cookies": "^1.1.0",
     "freelog-runtime-api": "workspace:^",

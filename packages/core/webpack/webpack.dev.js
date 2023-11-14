@@ -25,8 +25,8 @@ const getIPAdress = () => {
     }
   }
 }
-conlg.push(chalk.blueBright.bold('Your application is running here: ') + chalk.greenBright.bold(`http://${getIPAdress()}:${process.env.port}/`));
-conlg.push(chalk.blueBright.bold('Your application is running here: ') + chalk.greenBright.bold(`http://localhost:${process.env.port}/`));
+conlg.push(chalk.blueBright.bold('Your application is running here: ') + chalk.greenBright.bold(`https://${getIPAdress()}:${process.env.port}/`));
+conlg.push(chalk.blueBright.bold('Your application is running here: ') + chalk.greenBright.bold(`https://localhost:${process.env.port}/`));
 
 module.exports = merge(common, {
   devtool: "inline-source-map",
@@ -39,6 +39,10 @@ module.exports = merge(common, {
     host: "0.0.0.0",
     overlay: true,
     stats: "errors-only",
+    https: {
+      key: "C:\\Users\\45534\\.vite-plugin-mkcert\\certs\\dev.key",
+      cert: "C:\\Users\\45534\\.vite-plugin-mkcert\\certs\\dev.pem"
+    },
     sockHost,
     publicPath: "/",
     sockPath,

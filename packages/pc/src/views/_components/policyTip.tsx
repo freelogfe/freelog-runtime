@@ -18,7 +18,7 @@ export default function PolicyTip({ currentExhibit }: policyTipProps) {
             onClick={() => {
               if (window.baseURL.indexOf("testfreelog") > -1) {
                 window.open(
-                  `http://user.testfreelog.com/logged/contract?exhibitId=${exhibitId}&nodeName=${nodeName}&status=terminated`
+                  `https://user.testfreelog.com/logged/contract?exhibitId=${exhibitId}&nodeName=${nodeName}&status=terminated`
                 );
                 return;
               }
