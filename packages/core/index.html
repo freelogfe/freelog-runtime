@@ -166,13 +166,31 @@
       }
     </script>
     <script>
+      let arr = [
+        "ssj-comics.freelog.com",
+        "ssj-comics02.freelog.com",
+        "ssj-comics03.freelog.com",
+      ];
+      // let data = ["1281315469","1281315479","1281315480"]
+      let data = {
+        "ssj-comics.freelog.com": "1281315469",
+        "ssj-comics02.freelog.com": "1281315479",
+        "ssj-comics03.freelog.com": "1281315480",
+      };
+
       var _czc = _czc || [];
-      (function () {
-        var um = document.createElement("script");
-        um.src = "https://s9.cnzz.com/z.js?id=1281181586&async=1";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(um, s);
-      })();
+      arr.forEach((item) => {
+        if (window.location.href.indexOf(item) > 0) {
+          (function () {
+            var um = document.createElement("script");
+            um.src = "https://s9.cnzz.com/z.js?id=" + data[item] +"&async=1";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(um, s);
+          })();
+        }
+      });
+
+      // var _czc = _czc || [];
     </script>
 
     <style>
