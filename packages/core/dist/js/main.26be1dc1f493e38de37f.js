@@ -2667,6 +2667,7 @@ function reload() {
 
 
 (0,freelog_runtime_api__WEBPACK_IMPORTED_MODULE_0__.baseInit)(_structure_base__WEBPACK_IMPORTED_MODULE_1__/* .baseURL */ .v, _structure_base__WEBPACK_IMPORTED_MODULE_1__/* .isTest */ .Y);
+console.log(window.location.href);
 function run() {
   (0,_structure_init__WEBPACK_IMPORTED_MODULE_2__/* .initNode */ .q)();
 }
@@ -2866,6 +2867,7 @@ function dev() {
 
 
 
+var rawWindow = window;
 var freelogAuth = {
   registerUI: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .registerUI */ .BK,
   eventMap: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .eventMap */ .Hx,
@@ -2882,7 +2884,13 @@ var freelogAuth = {
   getCurrentUser: _utils__WEBPACK_IMPORTED_MODULE_3__/* .getCurrentUser */ .ts,
   getUserInfo: _utils__WEBPACK_IMPORTED_MODULE_3__/* .getUserInfo */ .bG,
   reload: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .reload */ .H5,
-  eventType: _bridge_eventType__WEBPACK_IMPORTED_MODULE_1__/* .eventType */ .a7 // ...freelogAuthApi
+  eventType: _bridge_eventType__WEBPACK_IMPORTED_MODULE_1__/* .eventType */ .a7,
+  setHref: function (href) {
+    rawWindow.location.href = href;
+  },
+  getHref: function () {
+    return rawWindow.location.href;
+  } // ...freelogAuthApi
 
 };
 

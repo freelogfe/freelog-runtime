@@ -2,10 +2,12 @@ import { Form, Input, Modal, Checkbox } from "antd";
 
 import Button from "./_commons/button";
 import { freelogAuthApi } from "freelog-runtime-api";
+import wechatPng from "@/assets/wechat.png";
 
 import { useState } from "react";
 import "./login.scss";
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
+const { setHref,getHref } = window.freelogAuth;
 
 const layout = {
   labelCol: { span: 8 },
@@ -126,10 +128,18 @@ export default function Login(props: loginProps) {
               <Checkbox checked={isRemember} onChange={(e)=>{setIsRemember(e)}}>记住我</Checkbox>
             </div> */}
             <div className="mb-15 flex-row justify-end login-remember">
-              <Checkbox className="login-remember" checked={isRemember} onChange={(e)=>{setIsRemember(e.target.checked)}}>记住我</Checkbox>
+              <Checkbox
+                className="login-remember"
+                checked={isRemember}
+                onChange={(e) => {
+                  setIsRemember(e.target.checked);
+                }}
+              >
+                记住我
+              </Checkbox>
             </div>
           </Form.Item>
-          <Form.Item className="pt-30">
+          <Form.Item className="pt-">
             <Button
               className="py-9"
               click={onFinish}
@@ -140,7 +150,28 @@ export default function Login(props: loginProps) {
             </Button>
           </Form.Item>
         </Form>
-        <div className="flex-row  mt-30">
+        
+        <div className="flex-1 flex-column align-center">
+          <div className={"openTitle mt-10 mb-20"}>第三方账号登录</div>
+          <div
+            className={"wechat flex-column-center"}
+            onClick={() => {
+              setHref(
+                `https://open.weixin.qq.com/connect/qrconnect?appid=wx25a849d14dd44177&redirect_uri=${encodeURIComponent(
+                  `https://api.freelog.com/${
+                    window.location.host.includes("testfreelog.com")
+                      ? "test/"
+                      : ""
+                  }v2/thirdParty/weChat/codeHandle?returnUrl=` +
+                    (getHref())
+                )}&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect`
+              );
+            }}
+          >
+            <img src={wechatPng} className="w-26" />
+          </div>
+        </div>
+        <div className="flex-row  mt-30 mb-15">
           <span className="login-new">freelog新用户？</span>
           <span
             className="regist-now cur-pointer"
