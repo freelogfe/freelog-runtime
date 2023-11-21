@@ -23,7 +23,7 @@ import {
 } from "./widget";
 import { initGlobalState } from "freelog-runtime-core";
 // import { initGlobalState } from "../../platform//index";
-import { freelogApp } from "./global";
+import { freelogApp } from "./freelogApp";
 import { getUISatus } from "../bridge";
 import {
   historyBack,

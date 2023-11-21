@@ -86,6 +86,9 @@ export interface FreelogApp {
   ) => Promise<any>;
   getSignStatistics: (keywords: string | number) => Promise<any>;
   getExhibitAvailalbe: (exhibitIds: string)  => Promise<any>;
+  pushMessage4Task:  (
+    query?: PlainObject
+  ) => Promise<any>;
   devData: PlainObject;
   getStaticPath: (path: string) => string;
   getSubDep: () => Promise<any>;

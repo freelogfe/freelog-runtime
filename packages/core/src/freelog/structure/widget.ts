@@ -17,7 +17,7 @@
 
 // import { loadMicroApp } from "../../platform";
 import { loadMicroApp } from "freelog-runtime-core";
-import { freelogApp } from "./global";
+import { freelogApp } from "./freelogApp";
 
 import { freelogFetch, getViewport } from './utils'
 import { setLocation } from "./proxy";

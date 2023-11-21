@@ -17,7 +17,7 @@ import {
 } from "./eventType";
 import { onLogin } from "./eventOn";
 import { isMobile } from "../utils/utils";
-import { freelogApp } from "../structure/global";
+import { freelogApp } from "../structure/freelogApp";
 
  
 export const exhibitQueue = new Map<any, any>();

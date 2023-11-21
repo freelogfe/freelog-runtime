@@ -1,6 +1,6 @@
 
 import { getSubDep, getUserInfo, isMobile } from "./utils";
-import { freelogApp } from "./global";
+import { freelogApp } from "./freelogApp";
 import { freelogAuth } from "./freelogAuth";
 import { init,getInfoByNameOrDomain } from "freelog-runtime-api";
 import {setPresentableQueue} from "../bridge"

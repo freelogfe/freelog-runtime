@@ -1,7 +1,7 @@
 // 工具utils：获取容器，生成容器，销毁容器，生成id
 
 import { baseURL, isTest } from "./base";
-import { freelogApp } from "./global";
+import { freelogApp } from "./freelogApp";
 
 import { widgetsConfig, widgetUserData, sandBoxs, FREELOG_DEV } from "./widget";
 import { initUserCheck } from "../security";
