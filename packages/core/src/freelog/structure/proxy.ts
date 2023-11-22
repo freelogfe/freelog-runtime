@@ -25,6 +25,7 @@ import { initGlobalState } from "freelog-runtime-core";
 // import { initGlobalState } from "../../platform//index";
 import { freelogApp } from "./freelogApp";
 import { getUISatus } from "../bridge";
+import { URL_WIDGET_PREFIX, URL_WIDGET_QUERY_PREFIX } from "./const";
 import {
   historyBack,
   historyForward,
@@ -34,6 +35,7 @@ import {
   widgetHistories,
 } from "./history";
 import { DEV_WIDGET } from "./dev";
+import { getThemeId } from "./init";
 const rawDocument = document;
 const HISTORY = "history";
 const HASH = "hash";
@@ -48,7 +50,8 @@ var freelogPopstate = new PopStateEvent("freelog-popstate");
 // for history back and forword
 export let state = 0;
 let moveLock = false;
-let shuttleLock = false
+let shuttleLock = false;
+let themePrefixAndId = "";
 /**
  * 应对浏览器 historyback的问题，
  * 主题插件有自己的history.back history.forward  history.go
@@ -60,19 +63,18 @@ let shuttleLock = false
 rawWindow.addEventListener(
   "popstate",
   async function (event) {
-    // console.log(rawLocation.href)
     let estate = event.state;
     if (!estate) estate = 0;
-    if(getUISatus() && !shuttleLock){
-      shuttleLock = true
-      if(estate > state){       
+    if (getUISatus() && !shuttleLock) {
+      shuttleLock = true;
+      if (estate > state) {
         rawHistory.back();
-      }else{
+      } else {
         rawHistory.forward();
       }
-      return 
+      return;
     }
-    shuttleLock = false
+    shuttleLock = false;
     initLocation(true);
     // 卸载后最大的 maxState
     let maxState = 0;
@@ -252,55 +254,73 @@ export function isFreelogAuth(name: string) {
 export function isTheme(name: string) {
   return widgetsConfig.get(name).isTheme;
 }
-
-export function initLocation(flag?: boolean) {
-  if (flag) {
+let isStart = false;
+export function initLocation(isBrowser?: boolean, isFist?: boolean) {
+  if (isFist) {
+    isStart = true;
+  }
+  if (!isStart) return;
+  if (!themePrefixAndId) {
+    if (getThemeId()) {
+      themePrefixAndId = URL_WIDGET_PREFIX + getThemeId();
+    }
+  }
+  if (isBrowser) {
     locationsForBrower.clear();
   } else {
     locations.clear();
   }
-  if (rawLocation.href.includes("$freelog")) {
-    let loc = rawLocation.href.split("freelog.com/")[1].split("$");
-    if (freelogApp.devData.type === DEV_WIDGET) {
-      const temp = rawLocation.search.split("$_")[1];
-      // @ts-ignore
-      loc = temp ? temp.split("$") : [];
-    }
-    loc.forEach((item) => {
-      try {
-        if (!item) return;
-        item = item.replace("_", "?");
-        if (item.indexOf("?") > -1) {
-          let index = item.indexOf("?");
-          let [id, pathname] = item.substring(0, index).split("=");
-          let search = item.substring(index);
-          // TODO 判断id是否存在 isExist(id) &&
-          if (flag) {
-            locationsForBrower.set(id, {
-              pathname,
-              href: pathname + search,
-              search,
-            });
-            return;
-          }
-          locations.set(id, { pathname, href: pathname + search, search });
-          return;
-        }
-        let l = item.split("=");
-        if (flag) {
-          locationsForBrower.set(l[0], {
-            pathname: l[1],
-            href: l[1],
-            search: "",
+  const href = rawLocation.href;
+  const search = rawLocation.search;
+  // if (href.includes(URL_WIDGET_PREFIX)) {
+  let loc = href.split("freelog.com/")[1].split(URL_WIDGET_PREFIX);
+  if (freelogApp.devData.type === DEV_WIDGET) {
+    const temp = search.split(URL_WIDGET_QUERY_PREFIX)[1];
+    // @ts-ignore
+    loc = temp ? temp.split(URL_WIDGET_PREFIX) : [];
+  }
+  loc.forEach((item) => {
+    try {
+      if (!item) return;
+      if (item.indexOf(URL_WIDGET_PREFIX) !== 0 && themePrefixAndId) {
+        if(item.indexOf("/") !==0) item = "/" + item
+        item = themePrefixAndId + "=" + item;
+      }
+      item = item.replace(URL_WIDGET_QUERY_PREFIX, "?");
+      if (item.indexOf("?") > -1) {
+        let index = item.indexOf("?");
+        let [id, pathname] = item.substring(0, index).split("=");
+        id = id.replace(URL_WIDGET_PREFIX, "");
+        let search = item.substring(index);
+        // TODO 判断id是否存在 isExist(id) &&
+        if (isBrowser) {
+          locationsForBrower.set(id, {
+            pathname,
+            href: pathname + search,
+            search,
           });
           return;
         }
-        locations.set(l[0], { pathname: l[1], href: l[1], search: "" });
-      } catch (e) {
-        console.error("url is error" + e);
+        locations.set(id, { pathname, href: pathname + search, search });
+        return;
       }
-    });
-  }
+      let l = item.split("=");
+      let id = l[0].replace(URL_WIDGET_PREFIX, "");
+      if (isBrowser) {
+        locationsForBrower.set(id, {
+          pathname: l[1],
+          href: l[1],
+          search: "",
+        });
+        return;
+      }
+
+      locations.set(id, { pathname: l[1], href: l[1], search: "" });
+    } catch (e) {
+      console.error("url is error" + e);
+    }
+  });
+  // }
 }
 export function setLocation(isReplace?: boolean) {
   if (!isReplace) {
@@ -313,33 +333,37 @@ export function setLocation(isReplace?: boolean) {
       locations.delete(key);
       return;
     }
-    hash += "$" + key + "=" + value.href || "";
+    hash += URL_WIDGET_PREFIX + key + "=" + value.href || "";
   });
   if (freelogApp.devData.type === DEV_WIDGET) {
-    let devUrl = rawLocation.search.split("$_")[0];
+    let devUrl = rawLocation.search.split(URL_WIDGET_QUERY_PREFIX)[0];
     if (!devUrl.endsWith("/")) {
       devUrl = devUrl + "/";
     }
-    const url =
+    let url =
       rawLocation.origin +
       "/" +
       devUrl +
-      "$_" +
-      hash.replace("?", "_") +
+      //  +
+      hash.replace("?", URL_WIDGET_QUERY_PREFIX) +
       rawLocation.hash;
+
+    url = url.replace("/" + themePrefixAndId + "=", "");
     if (url === rawLocation.href) return;
+
     if (isReplace) {
       rawWindow.history.replaceState(state, "", url);
     } else {
       rawWindow.history.pushState(state, "", url);
     }
   } else {
-    const url =
+    let url =
       rawLocation.origin +
       "/" +
-      hash.replace("?", "_") +
+      hash.replace("?", URL_WIDGET_QUERY_PREFIX) +
       rawLocation.hash +
       rawLocation.search;
+    url = url.replace("/" + themePrefixAndId + "=", "");
     if (url === rawLocation.href) return;
     if (isReplace) {
       rawWindow.history.replaceState(state, "", url);
@@ -419,6 +443,7 @@ function patchCommon(
       // return;
     }
     let [pathname, search] = href.split("?");
+
     locationCenter.set(name, {
       pathname,
       href,

@@ -1,9 +1,8 @@
-
 import { getSubDep, getUserInfo, isMobile } from "./utils";
 import { freelogApp } from "./freelogApp";
 import { freelogAuth } from "./freelogAuth";
-import { init,getInfoByNameOrDomain } from "freelog-runtime-api";
-import {setPresentableQueue} from "../bridge"
+import { init, getInfoByNameOrDomain } from "freelog-runtime-api";
+import { setPresentableQueue } from "../bridge";
 import { dev, DEV_FALSE } from "./dev";
 import { pathATag, initLocation } from "./proxy";
 import { mountUI } from "./widget";
@@ -18,8 +17,11 @@ import {
 } from "../bridge/eventType";
 import { baseURL, isTest } from "./base";
 import { initWindowListener } from "../bridge/eventOn";
- 
 
+let themeId = "";
+export function getThemeId() {
+  return themeId;
+}
 // @ts-ignore
 delete window.setImmediate;
 const mobile = isMobile();
@@ -37,7 +39,7 @@ if (window.location.host.includes(".testfreelog.com")) {
   window.ENV = "testfreelog.com";
 }
 const rawDocument = document;
-freelogApp.isTest = isTest
+freelogApp.isTest = isTest;
 // !mobile &&
 //   document.querySelector
 //     .bind(document)('meta[name="viewport"]')
@@ -52,7 +54,7 @@ export function initNode() {
   return new Promise<void>(async (resolve) => {
     let nodeDomain = getDomain(window.location.host);
     Promise.all([requestNodeInfo(nodeDomain), getUserInfo()]).then(
-      async (values:any) => {
+      async (values: any) => {
         let nodeData = values[0];
         if (!nodeData.data) {
           confirm("节点网址不正确，请检查网址！");
@@ -82,11 +84,7 @@ export function initNode() {
           confirm("测试节点必须登录！");
           return;
         }
-        if (
-          userInfo &&
-          userInfo.userId !== nodeInfo.ownerUserId &&
-          isTest
-        ) {
+        if (userInfo && userInfo.userId !== nodeInfo.ownerUserId && isTest) {
           confirm("测试节点只允许节点拥有者访问！");
           return;
         }
@@ -117,7 +115,7 @@ export function initNode() {
         freelogApp.devData = devData;
         Object.freeze(freelogApp);
         Object.freeze(freelogApp.nodeInfo);
-        initLocation();
+        // initLocation();
         const container = document.getElementById.bind(rawDocument)(
           "freelog-plugin-container"
         );
@@ -155,6 +153,8 @@ export function initNode() {
           );
           // @ts-ignore
           loadingContainer.style.display = "none";
+          themeId = theme.articleInfo.articleId;
+          initLocation(false,true);
           const themeApp = await freelogApp.mountWidget(
             theme,
             container,
@@ -261,8 +261,9 @@ function getDomain(url: string) {
 }
 
 async function requestNodeInfo(nodeDomain: string) {
-  let info = await getInfoByNameOrDomain.bind({ name: "node" })(
-    { nodeDomain, isLoadOwnerUserInfo: 1 }
-  );
+  let info = await getInfoByNameOrDomain.bind({ name: "node" })({
+    nodeDomain,
+    isLoadOwnerUserInfo: 1,
+  });
   return info.data;
 }

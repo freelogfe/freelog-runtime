@@ -78,6 +78,7 @@ export function addSandBox(key: string, sandbox: any) {
 export function removeSandBox(key: string) {
   sandBoxs.has(key) && sandBoxs.delete(key);
 }
+
 let firstDev = false;
 let hbfOnlyToTheme = true; // 保存是否前进后退只给主题
 export function mountUI(
@@ -224,8 +225,7 @@ export async function mountWidget(
       },
     };
   }
-  // TODO freelog-需要用常量
-  let widgetId = "freelog-" + commonData.articleInfo.articleId;
+  let widgetId = commonData.articleInfo.articleId;
   widget_entry &&
     console.warn(
       "you are using widget entry " +
@@ -246,7 +246,7 @@ export async function mountWidget(
   // @ts-ignore
   entry = widget_entry || entry;
   if (seq || seq === 0) {
-    widgetId = "freelog-" + commonData.id + seq;
+    widgetId =  commonData.id + seq;
   }
   let fentry = "";
   if (commonData.articleNid) {
@@ -266,6 +266,7 @@ export async function mountWidget(
   }
   let once = false;
   let api: any = {};
+
   const widgetConfig = {
     container,
     name: widgetId, //id

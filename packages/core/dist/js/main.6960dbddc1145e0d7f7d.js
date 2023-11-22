@@ -2250,7 +2250,7 @@ var resultType = {
 /* harmony import */ var _eventType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(65301);
 /* harmony import */ var _eventOn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(48629);
 /* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4276);
-/* harmony import */ var _structure_global__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2731);
+/* harmony import */ var _structure_freelogApp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(49123);
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -2460,13 +2460,13 @@ function addAuth(exhibitId, options) {
       return [2
       /*return*/
       , new Promise(function (resolve, rej) {
-        Promise.all([_structure_global__WEBPACK_IMPORTED_MODULE_0__/* .freelogApp.getExhibitInfo */ .L.getExhibitInfo(exhibitId, {
+        Promise.all([_structure_freelogApp__WEBPACK_IMPORTED_MODULE_0__/* .freelogApp.getExhibitInfo */ .L.getExhibitInfo(exhibitId, {
           isLoadPolicyInfo: 1,
           isLoadVersionProperty: 1,
           isLoadContract: 1,
           isLoadResourceDetailInfo: 1,
           isTranslate: 1
-        }), _structure_global__WEBPACK_IMPORTED_MODULE_0__/* .freelogApp.getExhibitAuthStatus */ .L.getExhibitAuthStatus(exhibitId), _structure_global__WEBPACK_IMPORTED_MODULE_0__/* .freelogApp.getExhibitAvailalbe */ .L.getExhibitAvailalbe(exhibitId)]).then(function (response) {
+        }), _structure_freelogApp__WEBPACK_IMPORTED_MODULE_0__/* .freelogApp.getExhibitAuthStatus */ .L.getExhibitAuthStatus(exhibitId), _structure_freelogApp__WEBPACK_IMPORTED_MODULE_0__/* .freelogApp.getExhibitAvailalbe */ .L.getExhibitAvailalbe(exhibitId)]).then(function (response) {
           if (response[1].data.errCode) {
             resolve({
               status: _eventType__WEBPACK_IMPORTED_MODULE_1__/* .DATA_ERROR */ .QB,
@@ -2790,6 +2790,19 @@ window.isTest = isTest;
 
 /***/ }),
 
+/***/ 24080:
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "G": function() { return /* binding */ URL_WIDGET_QUERY_PREFIX; },
+/* harmony export */   "o": function() { return /* binding */ URL_WIDGET_PREFIX; }
+/* harmony export */ });
+var URL_WIDGET_PREFIX = "_freelog_";
+var URL_WIDGET_QUERY_PREFIX = "_query_";
+
+/***/ }),
+
 /***/ 81038:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
@@ -2851,52 +2864,7 @@ function dev() {
 
 /***/ }),
 
-/***/ 12708:
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "v": function() { return /* binding */ freelogAuth; }
-/* harmony export */ });
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(37958);
-/* harmony import */ var _bridge_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(78225);
-/* harmony import */ var _bridge_eventOn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(48629);
-/* harmony import */ var _bridge_eventType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(65301);
-
- // import { freelogAuthApi  } from "freelog-runtime-api";
-
-
-
-var rawWindow = window;
-var freelogAuth = {
-  registerUI: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .registerUI */ .BK,
-  eventMap: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .eventMap */ .Hx,
-  failedMap: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .failedMap */ .Bw,
-  endEvent: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .endEvent */ .L4,
-  updateLock: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .updateLock */ .N1,
-  updateEvent: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .updateEvent */ .eJ,
-  clearEvent: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .clearEvent */ .sf,
-  lowerUI: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .lowerUI */ .nU,
-  upperUI: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .upperUI */ .jE,
-  resultType: _bridge_eventType__WEBPACK_IMPORTED_MODULE_1__/* .resultType */ .uq,
-  loginCallback: _bridge_eventOn__WEBPACK_IMPORTED_MODULE_2__/* .loginCallback */ .IS,
-  setUserInfo: _utils__WEBPACK_IMPORTED_MODULE_3__/* .setUserInfo */ .ps,
-  getCurrentUser: _utils__WEBPACK_IMPORTED_MODULE_3__/* .getCurrentUser */ .ts,
-  getUserInfo: _utils__WEBPACK_IMPORTED_MODULE_3__/* .getUserInfo */ .bG,
-  reload: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .reload */ .H5,
-  eventType: _bridge_eventType__WEBPACK_IMPORTED_MODULE_1__/* .eventType */ .a7,
-  setHref: function (href) {
-    rawWindow.location.href = href;
-  },
-  getHref: function () {
-    return rawWindow.location.href;
-  } // ...freelogAuthApi
-
-};
-
-/***/ }),
-
-/***/ 2731:
+/***/ 49123:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2965,6 +2933,51 @@ var freelogApp = __assign(__assign({}, freelog_runtime_api__WEBPACK_IMPORTED_MOD
   reload: _utils__WEBPACK_IMPORTED_MODULE_3__/* .reload */ .H5,
   resultType: _bridge_eventType__WEBPACK_IMPORTED_MODULE_7__/* .resultType */ .uq
 });
+
+/***/ }),
+
+/***/ 12708:
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "v": function() { return /* binding */ freelogAuth; }
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(37958);
+/* harmony import */ var _bridge_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(78225);
+/* harmony import */ var _bridge_eventOn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(48629);
+/* harmony import */ var _bridge_eventType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(65301);
+
+ // import { freelogAuthApi  } from "freelog-runtime-api";
+
+
+
+var rawWindow = window;
+var freelogAuth = {
+  registerUI: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .registerUI */ .BK,
+  eventMap: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .eventMap */ .Hx,
+  failedMap: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .failedMap */ .Bw,
+  endEvent: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .endEvent */ .L4,
+  updateLock: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .updateLock */ .N1,
+  updateEvent: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .updateEvent */ .eJ,
+  clearEvent: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .clearEvent */ .sf,
+  lowerUI: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .lowerUI */ .nU,
+  upperUI: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .upperUI */ .jE,
+  resultType: _bridge_eventType__WEBPACK_IMPORTED_MODULE_1__/* .resultType */ .uq,
+  loginCallback: _bridge_eventOn__WEBPACK_IMPORTED_MODULE_2__/* .loginCallback */ .IS,
+  setUserInfo: _utils__WEBPACK_IMPORTED_MODULE_3__/* .setUserInfo */ .ps,
+  getCurrentUser: _utils__WEBPACK_IMPORTED_MODULE_3__/* .getCurrentUser */ .ts,
+  getUserInfo: _utils__WEBPACK_IMPORTED_MODULE_3__/* .getUserInfo */ .bG,
+  reload: _bridge_index__WEBPACK_IMPORTED_MODULE_0__/* .reload */ .H5,
+  eventType: _bridge_eventType__WEBPACK_IMPORTED_MODULE_1__/* .eventType */ .a7,
+  setHref: function (href) {
+    rawWindow.location.href = href;
+  },
+  getHref: function () {
+    return rawWindow.location.href;
+  } // ...freelogAuthApi
+
+};
 
 /***/ }),
 
@@ -3112,10 +3125,11 @@ function historyGo(key, count) {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "R": function() { return /* binding */ getThemeId; },
 /* harmony export */   "q": function() { return /* binding */ initNode; }
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(37958);
-/* harmony import */ var _global__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2731);
+/* harmony import */ var _freelogApp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(49123);
 /* harmony import */ var _freelogAuth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(12708);
 /* harmony import */ var freelog_runtime_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(74867);
 /* harmony import */ var freelog_runtime_api__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(freelog_runtime_api__WEBPACK_IMPORTED_MODULE_0__);
@@ -3293,7 +3307,11 @@ var __generator = undefined && undefined.__generator || function (thisArg, body)
 
 
 
- // @ts-ignore
+
+var themeId = "";
+function getThemeId() {
+  return themeId;
+} // @ts-ignore
 
 delete window.setImmediate;
 var mobile = (0,_utils__WEBPACK_IMPORTED_MODULE_1__/* .isMobile */ .tq)(); // @ts-ignore
@@ -3306,12 +3324,12 @@ if (window.location.host.includes(".testfreelog.com")) {
 }
 
 var rawDocument = document;
-_global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.isTest */ .L.isTest = _base__WEBPACK_IMPORTED_MODULE_3__/* .isTest */ .Y; // !mobile &&
+_freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.isTest */ .L.isTest = _base__WEBPACK_IMPORTED_MODULE_3__/* .isTest */ .Y; // !mobile &&
 //   document.querySelector
 //     .bind(document)('meta[name="viewport"]')
 //     ?.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no");
 
-window.freelogApp = _global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp */ .L;
+window.freelogApp = _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp */ .L;
 window.freelogAuth = _freelogAuth__WEBPACK_IMPORTED_MODULE_4__/* .freelogAuth */ .v;
 function initNode() {
   var _this = this; // TODO 这个位置问题需要可考虑，最好放到UI插件之后
@@ -3345,7 +3363,7 @@ function initNode() {
 
               userInfo = values[1];
               nodeInfo = nodeData.data;
-              _global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.nodeInfo */ .L.nodeInfo = nodeInfo; // if (
+              _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.nodeInfo */ .L.nodeInfo = nodeInfo; // if (
               //   (!nodeInfo.nodeThemeId && !isTest) ||
               //   (!nodeInfo.nodeTestThemeId && isTest)
               // ) {
@@ -3405,10 +3423,9 @@ function initNode() {
               }
 
               Object.freeze(devData);
-              _global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.devData */ .L.devData = devData;
-              Object.freeze(_global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp */ .L);
-              Object.freeze(_global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.nodeInfo */ .L.nodeInfo);
-              (0,_proxy__WEBPACK_IMPORTED_MODULE_6__/* .initLocation */ .jT)();
+              _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.devData */ .L.devData = devData;
+              Object.freeze(_freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp */ .L);
+              Object.freeze(_freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.nodeInfo */ .L.nodeInfo);
               container = document.getElementById.bind(rawDocument)("freelog-plugin-container");
               loadingContainer = document.getElementById.bind(rawDocument)("runtime-loading");
               mountTheme = new Promise(function (themeResolve) {
@@ -3449,9 +3466,11 @@ function initNode() {
                         theme = _a.sent(); // @ts-ignore
 
                         loadingContainer.style.display = "none";
+                        themeId = theme.articleInfo.articleId;
+                        (0,_proxy__WEBPACK_IMPORTED_MODULE_6__/* .initLocation */ .jT)(false, true);
                         return [4
                         /*yield*/
-                        , _global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.mountWidget */ .L.mountWidget(theme, container, "", __assign({
+                        , _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.mountWidget */ .L.mountWidget(theme, container, "", __assign({
                           shadowDom: false,
                           scopedCss: true
                         }, theme.exhibitProperty), null, true)];
@@ -3469,7 +3488,7 @@ function initNode() {
                 });
               });
               mountTheme.then(function (flag) {
-                _global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.status.themeMounted */ .L.status.themeMounted = flag;
+                _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.status.themeMounted */ .L.status.themeMounted = flag;
               });
               (0,_widget__WEBPACK_IMPORTED_MODULE_9__/* .mountUI */ .wG)("freelog-ui", document.getElementById.bind(rawDocument)("ui-root"), uiPath, {
                 shadowDom: false,
@@ -3479,7 +3498,7 @@ function initNode() {
                   return __generator(this, function (_a) {
                     // @ts-ignore
                     loadingContainer.style.display = "none";
-                    _global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.status.authUIMounted */ .L.status.authUIMounted = true; // 节点冻结
+                    _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.status.authUIMounted */ .L.status.authUIMounted = true; // 节点冻结
 
                     if ((nodeInfo.status & 5) === 5 || (nodeInfo.status & 6) === 6 || (nodeInfo.status & 12) === 12) {
                       resolve && resolve();
@@ -3637,10 +3656,12 @@ function requestNodeInfo(nodeDomain) {
 /* harmony import */ var _widget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2623);
 /* harmony import */ var freelog_runtime_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(50802);
 /* harmony import */ var freelog_runtime_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(freelog_runtime_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _global__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(2731);
+/* harmony import */ var _freelogApp__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(49123);
 /* harmony import */ var _bridge__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(78225);
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(24080);
 /* harmony import */ var _history__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(77102);
-/* harmony import */ var _dev__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(81038);
+/* harmony import */ var _dev__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(81038);
+/* harmony import */ var _init__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(2074);
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -3830,6 +3851,8 @@ var __spreadArray = undefined && undefined.__spreadArray || function (to, from, 
 
 
 
+
+
 var rawDocument = document;
 var HISTORY = "history";
 var HASH = "hash";
@@ -3845,6 +3868,7 @@ var freelogPopstate = new PopStateEvent("freelog-popstate"); // for history back
 var state = 0;
 var moveLock = false;
 var shuttleLock = false;
+var themePrefixAndId = "";
 /**
  * 应对浏览器 historyback的问题，
  * 主题插件有自己的history.back history.forward  history.go
@@ -4031,74 +4055,96 @@ function isFreelogAuth(name) {
 function isTheme(name) {
   return _widget__WEBPACK_IMPORTED_MODULE_3__/* .widgetsConfig.get */ .md.get(name).isTheme;
 }
-function initLocation(flag) {
-  if (flag) {
+var isStart = false;
+function initLocation(isBrowser, isFist) {
+  if (isFist) {
+    isStart = true;
+  }
+
+  if (!isStart) return;
+
+  if (!themePrefixAndId) {
+    if ((0,_init__WEBPACK_IMPORTED_MODULE_4__/* .getThemeId */ .R)()) {
+      themePrefixAndId = _const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_PREFIX */ .o + (0,_init__WEBPACK_IMPORTED_MODULE_4__/* .getThemeId */ .R)();
+    }
+  }
+
+  if (isBrowser) {
     locationsForBrower.clear();
   } else {
     locations.clear();
   }
 
-  if (rawLocation.href.includes("$freelog")) {
-    var loc = rawLocation.href.split("freelog.com/")[1].split("$");
+  var href = rawLocation.href;
+  var search = rawLocation.search; // if (href.includes(URL_WIDGET_PREFIX)) {
 
-    if (_global__WEBPACK_IMPORTED_MODULE_4__/* .freelogApp.devData.type */ .L.devData.type === _dev__WEBPACK_IMPORTED_MODULE_5__/* .DEV_WIDGET */ .gt) {
-      var temp = rawLocation.search.split("$_")[1]; // @ts-ignore
+  var loc = href.split("freelog.com/")[1].split(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_PREFIX */ .o);
 
-      loc = temp ? temp.split("$") : [];
-    }
+  if (_freelogApp__WEBPACK_IMPORTED_MODULE_6__/* .freelogApp.devData.type */ .L.devData.type === _dev__WEBPACK_IMPORTED_MODULE_7__/* .DEV_WIDGET */ .gt) {
+    var temp = search.split(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_QUERY_PREFIX */ .G)[1]; // @ts-ignore
 
-    loc.forEach(function (item) {
-      try {
-        if (!item) return;
-        item = item.replace("_", "?");
+    loc = temp ? temp.split(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_PREFIX */ .o) : [];
+  }
 
-        if (item.indexOf("?") > -1) {
-          var index = item.indexOf("?");
+  loc.forEach(function (item) {
+    try {
+      if (!item) return;
 
-          var _a = item.substring(0, index).split("="),
-              id = _a[0],
-              pathname = _a[1];
+      if (item.indexOf(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_PREFIX */ .o) !== 0 && themePrefixAndId) {
+        if (item.indexOf("/") !== 0) item = "/" + item;
+        item = themePrefixAndId + "=" + item;
+      }
 
-          var search = item.substring(index); // TODO 判断id是否存在 isExist(id) &&
+      item = item.replace(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_QUERY_PREFIX */ .G, "?");
 
-          if (flag) {
-            locationsForBrower.set(id, {
-              pathname: pathname,
-              href: pathname + search,
-              search: search
-            });
-            return;
-          }
+      if (item.indexOf("?") > -1) {
+        var index = item.indexOf("?");
 
-          locations.set(id, {
+        var _a = item.substring(0, index).split("="),
+            id_1 = _a[0],
+            pathname = _a[1];
+
+        id_1 = id_1.replace(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_PREFIX */ .o, "");
+        var search_1 = item.substring(index); // TODO 判断id是否存在 isExist(id) &&
+
+        if (isBrowser) {
+          locationsForBrower.set(id_1, {
             pathname: pathname,
-            href: pathname + search,
-            search: search
+            href: pathname + search_1,
+            search: search_1
           });
           return;
         }
 
-        var l = item.split("=");
+        locations.set(id_1, {
+          pathname: pathname,
+          href: pathname + search_1,
+          search: search_1
+        });
+        return;
+      }
 
-        if (flag) {
-          locationsForBrower.set(l[0], {
-            pathname: l[1],
-            href: l[1],
-            search: ""
-          });
-          return;
-        }
+      var l = item.split("=");
+      var id = l[0].replace(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_PREFIX */ .o, "");
 
-        locations.set(l[0], {
+      if (isBrowser) {
+        locationsForBrower.set(id, {
           pathname: l[1],
           href: l[1],
           search: ""
         });
-      } catch (e) {
-        console.error("url is error" + e);
+        return;
       }
-    });
-  }
+
+      locations.set(id, {
+        pathname: l[1],
+        href: l[1],
+        search: ""
+      });
+    } catch (e) {
+      console.error("url is error" + e);
+    }
+  }); // }
 }
 function setLocation(isReplace) {
   if (!isReplace) {
@@ -4113,17 +4159,19 @@ function setLocation(isReplace) {
       return;
     }
 
-    hash += "$" + key + "=" + value.href || 0;
+    hash += _const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_PREFIX */ .o + key + "=" + value.href || "";
   });
 
-  if (_global__WEBPACK_IMPORTED_MODULE_4__/* .freelogApp.devData.type */ .L.devData.type === _dev__WEBPACK_IMPORTED_MODULE_5__/* .DEV_WIDGET */ .gt) {
-    var devUrl = rawLocation.search.split("$_")[0];
+  if (_freelogApp__WEBPACK_IMPORTED_MODULE_6__/* .freelogApp.devData.type */ .L.devData.type === _dev__WEBPACK_IMPORTED_MODULE_7__/* .DEV_WIDGET */ .gt) {
+    var devUrl = rawLocation.search.split(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_QUERY_PREFIX */ .G)[0];
 
     if (!devUrl.endsWith("/")) {
       devUrl = devUrl + "/";
     }
 
-    var url = rawLocation.origin + "/" + devUrl + "$_" + hash.replace("?", "_") + rawLocation.hash;
+    var url = rawLocation.origin + "/" + devUrl + //  +
+    hash.replace("?", _const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_QUERY_PREFIX */ .G) + rawLocation.hash;
+    url = url.replace("/" + themePrefixAndId + "=", "");
     if (url === rawLocation.href) return;
 
     if (isReplace) {
@@ -4132,7 +4180,8 @@ function setLocation(isReplace) {
       rawWindow.history.pushState(state, "", url);
     }
   } else {
-    var url = rawLocation.origin + "/" + hash.replace("?", "_") + rawLocation.hash + rawLocation.search;
+    var url = rawLocation.origin + "/" + hash.replace("?", _const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_QUERY_PREFIX */ .G) + rawLocation.hash + rawLocation.search;
+    url = url.replace("/" + themePrefixAndId + "=", "");
     if (url === rawLocation.href) return;
 
     if (isReplace) {
@@ -4486,7 +4535,7 @@ var createFreelogAppProxy = function (name, sandbox, proxy, target) {
   return new Proxy(freelogAppProxy, {
     // @ts-ignore
     get: function get(app, p) {
-      var pro = _global__WEBPACK_IMPORTED_MODULE_4__/* .freelogApp */ .L[p];
+      var pro = _freelogApp__WEBPACK_IMPORTED_MODULE_6__/* .freelogApp */ .L[p];
 
       if (typeof pro === "function") {
         if (p === "initGlobalState") {
@@ -4598,7 +4647,7 @@ setHooks.set("freelogApp", false);
 /* harmony export */   "yo": function() { return /* binding */ callLoginOut; }
 /* harmony export */ });
 /* unused harmony exports getContainer, createContainer, deleteContainer, createScript, createCssLink, resolveUrl, getViewport, setTabLogo */
-/* harmony import */ var _global__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2731);
+/* harmony import */ var _freelogApp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(49123);
 /* harmony import */ var _widget__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2623);
 /* harmony import */ var _security__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(11072);
 /* harmony import */ var _bridge_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(78225);
@@ -4879,7 +4928,7 @@ function getSubDep(exhibitId) {
           if (!widgetSandBox) {
             isTheme = true;
             widgetSandBox = {
-              name: "freelog-" + exhibitId,
+              name: exhibitId,
               exhibitId: exhibitId,
               isTheme: isTheme
             };
@@ -4889,7 +4938,7 @@ function getSubDep(exhibitId) {
 
           return [4
           /*yield*/
-          , _global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.getExhibitInfoByAuth.bind */ .L.getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId)];
+          , _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.getExhibitInfoByAuth.bind */ .L.getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId)];
 
         case 1:
           response = _a.sent();
@@ -4918,7 +4967,7 @@ function getSubDep(exhibitId) {
                           _bridge_index__WEBPACK_IMPORTED_MODULE_3__/* .addAuth.bind */ .Ei.bind(widgetSandBox)(exhibitId, {
                             immediate: true
                           });
-                          _global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.onLogin */ .L.onLogin(function () {
+                          _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.onLogin */ .L.onLogin(function () {
                             return __awaiter(_this, void 0, void 0, function () {
                               return __generator(this, function (_a) {
                                 resolve();
@@ -4940,7 +4989,7 @@ function getSubDep(exhibitId) {
 
                     return [4
                     /*yield*/
-                    , _global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.getExhibitInfoByAuth.bind */ .L.getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId)];
+                    , _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.getExhibitInfoByAuth.bind */ .L.getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId)];
 
                   case 2:
                     response = _a.sent();
@@ -4976,7 +5025,7 @@ function getSubDep(exhibitId) {
 
           return [4
           /*yield*/
-          , _global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.getExhibitInfoByAuth.bind */ .L.getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId)];
+          , _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.getExhibitInfoByAuth.bind */ .L.getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId)];
 
         case 3:
           response = _a.sent();
@@ -5016,7 +5065,7 @@ function getSubDep(exhibitId) {
         case 5:
           return [4
           /*yield*/
-          , _global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.getExhibitInfoByAuth.bind */ .L.getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId)];
+          , _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.getExhibitInfoByAuth.bind */ .L.getExhibitInfoByAuth.bind(widgetSandBox)(exhibitId)];
 
         case 6:
           response = _a.sent();
@@ -5177,7 +5226,7 @@ function setUserData(key, data) {
             widgetId = _widget__WEBPACK_IMPORTED_MODULE_1__/* .sandBoxs.get */ .sF.get(name).proxy.FREELOG_RESOURCENAME;
           }
 
-          nodeId = _global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.nodeInfo.nodeId */ .L.nodeInfo.nodeId;
+          nodeId = _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.nodeInfo.nodeId */ .L.nodeInfo.nodeId;
           return [4
           /*yield*/
           , (0,freelog_runtime_api__WEBPACK_IMPORTED_MODULE_0__.putUserData)([nodeId], {
@@ -5216,7 +5265,7 @@ function getUserData(key) {
             widgetId = _widget__WEBPACK_IMPORTED_MODULE_1__/* .sandBoxs.get */ .sF.get(name).proxy.FREELOG_RESOURCENAME;
           }
 
-          nodeId = _global__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.nodeInfo.nodeId */ .L.nodeInfo.nodeId;
+          nodeId = _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.nodeInfo.nodeId */ .L.nodeInfo.nodeId;
           return [4
           /*yield*/
           , (0,freelog_runtime_api__WEBPACK_IMPORTED_MODULE_0__.getUserData)([nodeId])];
@@ -5314,7 +5363,7 @@ function isMobile() {
 /* unused harmony exports addWidget, addWidgetConfig, removeWidget, deactiveWidget, addChildWidget, removeChildWidget, removeSandBox */
 /* harmony import */ var freelog_runtime_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(50802);
 /* harmony import */ var freelog_runtime_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(freelog_runtime_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _global__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(2731);
+/* harmony import */ var _freelogApp__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(49123);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(37958);
 /* harmony import */ var _proxy__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(98368);
 /* harmony import */ var _dev__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(81038);
@@ -5666,7 +5715,7 @@ function mountWidget(options) {
             hbfOnlyToTheme = config.hbfOnlyToTheme;
           }
 
-          devData = _global__WEBPACK_IMPORTED_MODULE_6__/* .freelogApp.devData */ .L.devData; // 不是开发模式禁用
+          devData = _freelogApp__WEBPACK_IMPORTED_MODULE_6__/* .freelogApp.devData */ .L.devData; // 不是开发模式禁用
 
           if (devData.type === _dev__WEBPACK_IMPORTED_MODULE_7__/* .DEV_FALSE */ .Qq) widget_entry = "";
           entry = "";
@@ -5695,7 +5744,7 @@ function mountWidget(options) {
             };
           }
 
-          widgetId = "freelog-" + commonData.articleInfo.articleId;
+          widgetId = commonData.articleInfo.articleId;
           widget_entry && console.warn("you are using widget entry " + widget_entry + " for widget-articleId: " + commonData.articleInfo.articleId); // @ts-ignore
 
           if (devData) {
@@ -5713,7 +5762,7 @@ function mountWidget(options) {
           entry = widget_entry || entry;
 
           if (seq || seq === 0) {
-            widgetId = "freelog-" + commonData.id + seq;
+            widgetId = commonData.id + seq;
           }
 
           fentry = "";
@@ -5722,7 +5771,7 @@ function mountWidget(options) {
           , 2];
           return [4
           /*yield*/
-          , _global__WEBPACK_IMPORTED_MODULE_6__/* .freelogApp.getExhibitDepFileStream.bind */ .L.getExhibitDepFileStream.bind(that || {})(commonData.exhibitId, commonData.articleNid, commonData.articleInfo.articleId, true)];
+          , _freelogApp__WEBPACK_IMPORTED_MODULE_6__/* .freelogApp.getExhibitDepFileStream.bind */ .L.getExhibitDepFileStream.bind(that || {})(commonData.exhibitId, commonData.articleNid, commonData.articleInfo.articleId, true)];
 
         case 1:
           fentry = _a.sent();
@@ -5734,7 +5783,7 @@ function mountWidget(options) {
         case 2:
           return [4
           /*yield*/
-          , _global__WEBPACK_IMPORTED_MODULE_6__/* .freelogApp.getExhibitFileStream.bind */ .L.getExhibitFileStream.bind(that || {})(commonData.exhibitId, {
+          , _freelogApp__WEBPACK_IMPORTED_MODULE_6__/* .freelogApp.getExhibitFileStream.bind */ .L.getExhibitFileStream.bind(that || {})(commonData.exhibitId, {
             returnUrl: true
           })];
 

@@ -129,7 +129,7 @@ export async function getSubDep(exhibitId?: any) {
   if (!widgetSandBox) {
     isTheme = true;
     widgetSandBox = {
-      name: "freelog-" + exhibitId,
+      name: exhibitId,
       exhibitId,
       isTheme,
     };
