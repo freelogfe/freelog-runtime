@@ -2667,7 +2667,6 @@ function reload() {
 
 
 (0,freelog_runtime_api__WEBPACK_IMPORTED_MODULE_0__.baseInit)(_structure_base__WEBPACK_IMPORTED_MODULE_1__/* .baseURL */ .v, _structure_base__WEBPACK_IMPORTED_MODULE_1__/* .isTest */ .Y);
-console.log(window.location.href);
 function run() {
   (0,_structure_init__WEBPACK_IMPORTED_MODULE_2__/* .initNode */ .q)();
 }
@@ -2813,10 +2812,12 @@ var URL_WIDGET_QUERY_PREFIX = "_query_";
 /* harmony export */   "WI": function() { return /* binding */ dev; },
 /* harmony export */   "gt": function() { return /* binding */ DEV_WIDGET; }
 /* harmony export */ });
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24080);
 var DEV_FALSE = 0;
 var DEV_WIDGET = 1; // 插件开发模式
 
 var DEV_TYPE_REPLACE = 2; // 插件替换模式
+
 
 function dev() {
   var searchs = window.location.search ? window.location.search.split("?") : [];
@@ -2827,7 +2828,7 @@ function dev() {
     };
   }
 
-  var paramsArray = window.location.search.split("?")[1].split("&");
+  var paramsArray = window.location.search.split("?")[1].split(_const__WEBPACK_IMPORTED_MODULE_0__/* .URL_WIDGET_PREFIX */ .o)[0].split("&");
   var params = {};
   paramsArray.forEach(function (item) {
     params[item.split("=")[0]] = item.split("=")[1];
@@ -3344,7 +3345,8 @@ function initNode() {
       var _this = this;
 
       return __generator(this, function (_a) {
-        nodeDomain = getDomain(window.location.host);
+        nodeDomain = getDomain(window.location.host); // nodeDomain = getDomain("fl-reading.freelog.com");
+
         Promise.all([requestNodeInfo(nodeDomain), (0,_utils__WEBPACK_IMPORTED_MODULE_1__/* .getUserInfo */ .bG)()]).then(function (values) {
           return __awaiter(_this, void 0, void 0, function () {
             var nodeData, userInfo, nodeInfo, devData, script, container, loadingContainer, mountTheme;
@@ -3656,12 +3658,12 @@ function requestNodeInfo(nodeDomain) {
 /* harmony import */ var _widget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2623);
 /* harmony import */ var freelog_runtime_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(50802);
 /* harmony import */ var freelog_runtime_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(freelog_runtime_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _freelogApp__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(49123);
+/* harmony import */ var _freelogApp__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(49123);
 /* harmony import */ var _bridge__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(78225);
-/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(24080);
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(24080);
 /* harmony import */ var _history__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(77102);
-/* harmony import */ var _dev__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(81038);
-/* harmony import */ var _init__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(2074);
+/* harmony import */ var _dev__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(81038);
+/* harmony import */ var _init__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(2074);
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -4058,14 +4060,18 @@ function isTheme(name) {
 var isStart = false;
 function initLocation(isBrowser, isFist) {
   if (isFist) {
-    isStart = true;
+    isStart = true; // 防止新浪微博等跳转链接带了search
+
+    if (rawLocation.search && _freelogApp__WEBPACK_IMPORTED_MODULE_4__/* .freelogApp.devData.type */ .L.devData.type !== _dev__WEBPACK_IMPORTED_MODULE_5__/* .DEV_WIDGET */ .gt) {
+      rawWindow.history.replaceState(state, "", rawLocation.href.replace(rawLocation.search, ""));
+    }
   }
 
   if (!isStart) return;
 
   if (!themePrefixAndId) {
-    if ((0,_init__WEBPACK_IMPORTED_MODULE_4__/* .getThemeId */ .R)()) {
-      themePrefixAndId = _const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_PREFIX */ .o + (0,_init__WEBPACK_IMPORTED_MODULE_4__/* .getThemeId */ .R)();
+    if ((0,_init__WEBPACK_IMPORTED_MODULE_6__/* .getThemeId */ .R)()) {
+      themePrefixAndId = _const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_PREFIX */ .o + (0,_init__WEBPACK_IMPORTED_MODULE_6__/* .getThemeId */ .R)();
     }
   }
 
@@ -4078,33 +4084,42 @@ function initLocation(isBrowser, isFist) {
   var href = rawLocation.href;
   var search = rawLocation.search; // if (href.includes(URL_WIDGET_PREFIX)) {
 
-  var loc = href.split("freelog.com/")[1].split(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_PREFIX */ .o);
+  var loc = href.split("freelog.com/")[1].split(_const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_PREFIX */ .o);
 
-  if (_freelogApp__WEBPACK_IMPORTED_MODULE_6__/* .freelogApp.devData.type */ .L.devData.type === _dev__WEBPACK_IMPORTED_MODULE_7__/* .DEV_WIDGET */ .gt) {
-    var temp = search.split(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_QUERY_PREFIX */ .G)[1]; // @ts-ignore
-
-    loc = temp ? temp.split(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_PREFIX */ .o) : [];
+  if (_freelogApp__WEBPACK_IMPORTED_MODULE_4__/* .freelogApp.devData.type */ .L.devData.type === _dev__WEBPACK_IMPORTED_MODULE_5__/* .DEV_WIDGET */ .gt) {
+    // const temp = search.split(URL_WIDGET_QUERY_PREFIX)[1];
+    // @ts-ignore
+    // 如果是开发环境，主题也需要加上URL_WIDGET_PREFIX，并且这里需要去除掉dev的
+    loc = search.split(_const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_PREFIX */ .o).slice(1);
   }
 
   loc.forEach(function (item) {
     try {
       if (!item) return;
 
-      if (item.indexOf(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_PREFIX */ .o) !== 0 && themePrefixAndId) {
-        if (item.indexOf("/") !== 0) item = "/" + item;
+      if (!item.includes("=") && themePrefixAndId) {
+        // if (item.indexOf("/") !== 0) item = "/" + item;
         item = themePrefixAndId + "=" + item;
       }
 
-      item = item.replace(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_QUERY_PREFIX */ .G, "?");
+      item = item.replace(_const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_QUERY_PREFIX */ .G, "?");
 
       if (item.indexOf("?") > -1) {
         var index = item.indexOf("?");
+
+        if (item.includes("=")) {
+          if (item.indexOf("=") > index) {
+            if (themePrefixAndId) item = themePrefixAndId + "=" + item;
+          }
+        } else {
+          if (themePrefixAndId) item = themePrefixAndId + "=" + item;
+        }
 
         var _a = item.substring(0, index).split("="),
             id_1 = _a[0],
             pathname = _a[1];
 
-        id_1 = id_1.replace(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_PREFIX */ .o, "");
+        id_1 = id_1.replace(_const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_PREFIX */ .o, "");
         var search_1 = item.substring(index); // TODO 判断id是否存在 isExist(id) &&
 
         if (isBrowser) {
@@ -4124,8 +4139,12 @@ function initLocation(isBrowser, isFist) {
         return;
       }
 
+      if (!item.includes("=") && themePrefixAndId) {
+        item = themePrefixAndId + "=" + item;
+      }
+
       var l = item.split("=");
-      var id = l[0].replace(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_PREFIX */ .o, "");
+      var id = l[0].replace(_const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_PREFIX */ .o, "");
 
       if (isBrowser) {
         locationsForBrower.set(id, {
@@ -4159,19 +4178,23 @@ function setLocation(isReplace) {
       return;
     }
 
-    hash += _const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_PREFIX */ .o + key + "=" + value.href || "";
+    hash += _const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_PREFIX */ .o + key + "=" + value.href || "";
   });
 
-  if (_freelogApp__WEBPACK_IMPORTED_MODULE_6__/* .freelogApp.devData.type */ .L.devData.type === _dev__WEBPACK_IMPORTED_MODULE_7__/* .DEV_WIDGET */ .gt) {
-    var devUrl = rawLocation.search.split(_const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_QUERY_PREFIX */ .G)[0];
+  if (_freelogApp__WEBPACK_IMPORTED_MODULE_4__/* .freelogApp.devData.type */ .L.devData.type === _dev__WEBPACK_IMPORTED_MODULE_5__/* .DEV_WIDGET */ .gt) {
+    var devUrl = rawLocation.search.split(_const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_PREFIX */ .o)[0];
 
     if (!devUrl.endsWith("/")) {
       devUrl = devUrl + "/";
     }
 
     var url = rawLocation.origin + "/" + devUrl + //  +
-    hash.replace("?", _const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_QUERY_PREFIX */ .G) + rawLocation.hash;
-    url = url.replace("/" + themePrefixAndId + "=", "");
+    hash.replace("?", _const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_QUERY_PREFIX */ .G) + rawLocation.hash;
+
+    if (_freelogApp__WEBPACK_IMPORTED_MODULE_4__/* .freelogApp.devData.type */ .L.devData.type !== _dev__WEBPACK_IMPORTED_MODULE_5__/* .DEV_WIDGET */ .gt) {
+      url = url.replace("/" + themePrefixAndId + "=", "");
+    }
+
     if (url === rawLocation.href) return;
 
     if (isReplace) {
@@ -4180,8 +4203,12 @@ function setLocation(isReplace) {
       rawWindow.history.pushState(state, "", url);
     }
   } else {
-    var url = rawLocation.origin + "/" + hash.replace("?", _const__WEBPACK_IMPORTED_MODULE_5__/* .URL_WIDGET_QUERY_PREFIX */ .G) + rawLocation.hash + rawLocation.search;
-    url = url.replace("/" + themePrefixAndId + "=", "");
+    var url = rawLocation.origin + "/" + hash.replace("?", _const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_QUERY_PREFIX */ .G) + rawLocation.hash + rawLocation.search;
+
+    if (_freelogApp__WEBPACK_IMPORTED_MODULE_4__/* .freelogApp.devData.type */ .L.devData.type !== _dev__WEBPACK_IMPORTED_MODULE_5__/* .DEV_WIDGET */ .gt) {
+      url = url.replace("/" + themePrefixAndId + "=", "");
+    }
+
     if (url === rawLocation.href) return;
 
     if (isReplace) {
@@ -4535,7 +4562,7 @@ var createFreelogAppProxy = function (name, sandbox, proxy, target) {
   return new Proxy(freelogAppProxy, {
     // @ts-ignore
     get: function get(app, p) {
-      var pro = _freelogApp__WEBPACK_IMPORTED_MODULE_6__/* .freelogApp */ .L[p];
+      var pro = _freelogApp__WEBPACK_IMPORTED_MODULE_4__/* .freelogApp */ .L[p];
 
       if (typeof pro === "function") {
         if (p === "initGlobalState") {

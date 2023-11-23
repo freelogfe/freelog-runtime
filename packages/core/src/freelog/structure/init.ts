@@ -53,6 +53,7 @@ export function initNode() {
   pathATag();
   return new Promise<void>(async (resolve) => {
     let nodeDomain = getDomain(window.location.host);
+    // nodeDomain = getDomain("fl-reading.freelog.com");
     Promise.all([requestNodeInfo(nodeDomain), getUserInfo()]).then(
       async (values: any) => {
         let nodeData = values[0];
