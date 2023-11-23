@@ -4093,71 +4093,60 @@ function initLocation(isBrowser, isFist) {
     loc = search.split(_const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_PREFIX */ .o).slice(1);
   }
 
-  loc.forEach(function (item) {
+  loc.forEach(function (item, index) {
     try {
-      if (!item) return;
+      if (!item) return; // if (!item.includes(URL_WIDGET_PREFIX) && themePrefixAndId) {
+      //   // if (item.indexOf("/") !== 0) item = "/" + item;
+      //   item = getThemeId() + "=" + item;
+      // }
 
-      if (!item.includes("=") && themePrefixAndId) {
-        // if (item.indexOf("/") !== 0) item = "/" + item;
-        item = themePrefixAndId + "=" + item;
+      if (item.indexOf("/") == 0) item = item.replace("/", "");
+      item = item.replace(_const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_QUERY_PREFIX */ .G, "?"); // 主题必须有路由，如果这里的item主题路由没有id
+
+      if (index === 0 && item.indexOf((0,_init__WEBPACK_IMPORTED_MODULE_6__/* .getThemeId */ .R)()) !== 0) {
+        item = (0,_init__WEBPACK_IMPORTED_MODULE_6__/* .getThemeId */ .R)() + "=" + item;
       }
 
-      item = item.replace(_const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_QUERY_PREFIX */ .G, "?");
-
       if (item.indexOf("?") > -1) {
-        var index = item.indexOf("?");
+        var index_1 = item.indexOf("?");
+        var id_1 = item.substring(0, index_1).split("=")[0];
+        var pathname_1 = item.split(id_1 + "=")[1]; // id = id.replace(URL_WIDGET_PREFIX, "");
 
-        if (item.includes("=")) {
-          if (item.indexOf("=") > index) {
-            if (themePrefixAndId) item = themePrefixAndId + "=" + item;
-          }
-        } else {
-          if (themePrefixAndId) item = themePrefixAndId + "=" + item;
-        }
-
-        var _a = item.substring(0, index).split("="),
-            id_1 = _a[0],
-            pathname = _a[1];
-
-        id_1 = id_1.replace(_const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_PREFIX */ .o, "");
-        var search_1 = item.substring(index); // TODO 判断id是否存在 isExist(id) &&
+        var search_1 = item.substring(index_1); // TODO 判断id是否存在 isExist(id) &&
 
         if (isBrowser) {
           locationsForBrower.set(id_1, {
-            pathname: pathname,
-            href: pathname + search_1,
+            pathname: pathname_1,
+            href: pathname_1 + search_1,
             search: search_1
           });
           return;
         }
 
         locations.set(id_1, {
-          pathname: pathname,
-          href: pathname + search_1,
+          pathname: pathname_1,
+          href: pathname_1 + search_1,
           search: search_1
         });
         return;
       }
 
-      if (!item.includes("=") && themePrefixAndId) {
-        item = themePrefixAndId + "=" + item;
-      }
-
       var l = item.split("=");
-      var id = l[0].replace(_const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_PREFIX */ .o, "");
+      var id = l[0];
+      var pathname = item.split(id + "=")[1];
 
       if (isBrowser) {
         locationsForBrower.set(id, {
-          pathname: l[1],
-          href: l[1],
+          pathname: pathname,
+          href: pathname,
           search: ""
         });
         return;
       }
 
       locations.set(id, {
-        pathname: l[1],
-        href: l[1],
+        pathname: pathname,
+        href: pathname,
         search: ""
       });
     } catch (e) {
