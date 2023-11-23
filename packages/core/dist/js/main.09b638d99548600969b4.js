@@ -2797,8 +2797,8 @@ window.isTest = isTest;
 /* harmony export */   "G": function() { return /* binding */ URL_WIDGET_QUERY_PREFIX; },
 /* harmony export */   "o": function() { return /* binding */ URL_WIDGET_PREFIX; }
 /* harmony export */ });
-var URL_WIDGET_PREFIX = "_freelog_";
-var URL_WIDGET_QUERY_PREFIX = "_query_";
+var URL_WIDGET_PREFIX = "_freelog-route_";
+var URL_WIDGET_QUERY_PREFIX = "_freelog-query_";
 
 /***/ }),
 
@@ -4099,8 +4099,8 @@ function initLocation(isBrowser, isFist) {
       //   // if (item.indexOf("/") !== 0) item = "/" + item;
       //   item = getThemeId() + "=" + item;
       // }
+      // if (item.indexOf("/") == 0) item = item.replace("/", "");
 
-      if (item.indexOf("/") == 0) item = item.replace("/", "");
       item = item.replace(_const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_QUERY_PREFIX */ .G, "?"); // 主题必须有路由，如果这里的item主题路由没有id
 
       if (index === 0 && item.indexOf((0,_init__WEBPACK_IMPORTED_MODULE_6__/* .getThemeId */ .R)()) !== 0) {
@@ -4110,8 +4110,9 @@ function initLocation(isBrowser, isFist) {
       if (item.indexOf("?") > -1) {
         var index_1 = item.indexOf("?");
         var id_1 = item.substring(0, index_1).split("=")[0];
-        var pathname_1 = item.split(id_1 + "=")[1]; // id = id.replace(URL_WIDGET_PREFIX, "");
+        var pathname_1 = item.split(id_1 + "=")[1].split("?")[0]; // id = id.replace(URL_WIDGET_PREFIX, "");
 
+        if (pathname_1.indexOf("/") !== 0) pathname_1 = "/" + pathname_1;
         var search_1 = item.substring(index_1); // TODO 判断id是否存在 isExist(id) &&
 
         if (isBrowser) {
@@ -4134,6 +4135,7 @@ function initLocation(isBrowser, isFist) {
       var l = item.split("=");
       var id = l[0];
       var pathname = item.split(id + "=")[1];
+      if (pathname.indexOf("/") !== 0) pathname = "/" + pathname;
 
       if (isBrowser) {
         locationsForBrower.set(id, {
@@ -4142,7 +4144,8 @@ function initLocation(isBrowser, isFist) {
           search: ""
         });
         return;
-      }
+      } // console.log(id, { pathname: pathname, href: pathname, search: "" })
+
 
       locations.set(id, {
         pathname: pathname,
@@ -4192,7 +4195,7 @@ function setLocation(isReplace) {
       rawWindow.history.pushState(state, "", url);
     }
   } else {
-    var url = rawLocation.origin + "/" + hash.replace("?", _const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_QUERY_PREFIX */ .G) + rawLocation.hash + rawLocation.search;
+    var url = rawLocation.origin + "/" + hash.replace("?", _const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_QUERY_PREFIX */ .G) + rawLocation.hash; // + rawLocation.search;
 
     if (_freelogApp__WEBPACK_IMPORTED_MODULE_4__/* .freelogApp.devData.type */ .L.devData.type !== _dev__WEBPACK_IMPORTED_MODULE_5__/* .DEV_WIDGET */ .gt) {
       url = url.replace("/" + themePrefixAndId + "=", "");

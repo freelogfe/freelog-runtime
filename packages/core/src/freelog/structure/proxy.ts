@@ -288,24 +288,25 @@ export function initLocation(isBrowser?: boolean, isFist?: boolean) {
     // 如果是开发环境，主题也需要加上URL_WIDGET_PREFIX，并且这里需要去除掉dev的
     loc = search.split(URL_WIDGET_PREFIX).slice(1);
   }
-  loc.forEach((item,index) => {
+  loc.forEach((item, index) => {
     try {
       if (!item) return;
       // if (!item.includes(URL_WIDGET_PREFIX) && themePrefixAndId) {
       //   // if (item.indexOf("/") !== 0) item = "/" + item;
       //   item = getThemeId() + "=" + item;
       // }
-      if (item.indexOf("/") == 0) item = item.replace("/", "");
+      // if (item.indexOf("/") == 0) item = item.replace("/", "");
       item = item.replace(URL_WIDGET_QUERY_PREFIX, "?");
       // 主题必须有路由，如果这里的item主题路由没有id
-      if(index === 0 && item.indexOf(getThemeId()) !== 0){
-        item = getThemeId() + "=" + item
+      if (index === 0 && item.indexOf(getThemeId()) !== 0) {
+        item = getThemeId() + "=" + item;
       }
       if (item.indexOf("?") > -1) {
-        let index = item.indexOf("?");        
+        let index = item.indexOf("?");
         let [id] = item.substring(0, index).split("=");
-        let pathname = item.split(id+ "=")[1];
+        let pathname = item.split(id + "=")[1].split("?")[0];
         // id = id.replace(URL_WIDGET_PREFIX, "");
+        if (pathname.indexOf("/") !== 0) pathname = "/" + pathname;
         let search = item.substring(index);
         // TODO 判断id是否存在 isExist(id) &&
         if (isBrowser) {
@@ -321,7 +322,8 @@ export function initLocation(isBrowser?: boolean, isFist?: boolean) {
       }
       let l = item.split("=");
       let id = l[0];
-      let pathname = item.split(id+ "=")[1];
+      let pathname = item.split(id + "=")[1];
+      if (pathname.indexOf("/") !== 0) pathname = "/" + pathname;
       if (isBrowser) {
         locationsForBrower.set(id, {
           pathname: pathname,
@@ -330,6 +332,7 @@ export function initLocation(isBrowser?: boolean, isFist?: boolean) {
         });
         return;
       }
+      // console.log(id, { pathname: pathname, href: pathname, search: "" })
       locations.set(id, { pathname: pathname, href: pathname, search: "" });
     } catch (e) {
       console.error("url is error" + e);
@@ -377,8 +380,8 @@ export function setLocation(isReplace?: boolean) {
       rawLocation.origin +
       "/" +
       hash.replace("?", URL_WIDGET_QUERY_PREFIX) +
-      rawLocation.hash +
-      rawLocation.search;
+      rawLocation.hash;
+    // + rawLocation.search;
     if (freelogApp.devData.type !== DEV_WIDGET) {
       url = url.replace("/" + themePrefixAndId + "=", "");
     }
