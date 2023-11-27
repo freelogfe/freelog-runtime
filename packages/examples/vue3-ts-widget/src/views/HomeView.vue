@@ -1,14 +1,17 @@
 <template>
-  <div class="home" >
+  <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <div style="font-size: 50px;">{{ count }}</div> 
+    <div style="font-size: 50px">{{ count }}</div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { storeToRefs } from "pinia";
 import { useCounterStore } from "../stores/counter";
-
+import { useRouter, useRoute } from "vue-router";
+const router = useRouter();
+const route = useRoute();
+console.log( route.query, route.query.a === "就")
 const store = useCounterStore();
 // `name` and `doubleCount` are reactive refs
 // This will also extract refs for properties added by plugins

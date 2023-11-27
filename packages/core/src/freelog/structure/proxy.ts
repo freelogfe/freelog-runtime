@@ -317,6 +317,7 @@ export function initLocation(isBrowser?: boolean, isFist?: boolean) {
           });
           return;
         }
+        console.log(id, { pathname, href: pathname + search, search });
         locations.set(id, { pathname, href: pathname + search, search });
         return;
       }
@@ -463,6 +464,9 @@ function patchCommon(
       // console.warn("hash route is not suggested!");
       // return;
     }
+    href = href
+      .replace(URL_WIDGET_PREFIX, "")
+      .replace(URL_WIDGET_QUERY_PREFIX, "");
     let [pathname, search] = href.split("?");
 
     locationCenter.set(name, {

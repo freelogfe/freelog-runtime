@@ -599,21 +599,56 @@ module.exports = {
 
 创建节点后必须建一个主题作品并签约激活
 
-假设节点为https://snnaenu.freelog.com/
+假设节点为https://examples.freelog.com/
 
-用于开发的测试节点为https://t.snnaenu.freelog.com/
+用于开发的测试节点为https://t.examples.freelog.com/
 
 ### 连接节点与插件
 
 启动插件，例如‘https://localhost:7101’
 
-在节点 url 的https://t.snnaenu.freelog.com/后面加上
+在节点 url 的https://t.examples.freelog.com/后面加上
 
 ```ts
-"https://t.snnaenu.freelog.com/?dev=https://localhost:7101";
+"https://t.examples.freelog.com/?dev=https://localhost:7101";
 ```
 
 此时插件是作为节点主题（即入口）使用
+
+### 路由规则说明
+
+**开发url**
+
+https://examples.freelog.com/?dev=https://localhost:8001/_freelog-route_649d33829a0c05002f570a0e=/widget-dep
+
+**`${节点地址}?dev=${本地开发主题地址}_freelog-route_${主题作品id}=${主题的路由}_freelog-query_${主题query参数}`**
+
+如果同时有插件
+https://examples.freelog.com/?dev=https://localhost:8001/_freelog-route_649d33829a0c05002f570a0e=/widget-dep_freelog-route_62fcb64e584f02002e7e14ac=/widget/
+
+**`${节点地址}?dev=${本地开发主题地址}_freelog-route_${主题作品id}=${主题的路由}_freelog-route_${插件作品id}=${插件的路由}_freelog-query_${插件query参数}`**
+
+**正常访问url**
+
+https://examples.freelog.com/exhibit-data_freelog-route_62fcb64e584f02002e7e14ac=/widget/
+
+**`${节点地址}${主题的路由}_freelog-route_${插件作品id}=${插件路由}_freelog-query_${插件query参数}`**
+
+**分隔符说明**
+
+***主题与插件的路由不允许包含"_freelog-route_"与"_freelog-query_"***
+
+插件路由分隔符，格式：${URL_WIDGET_PREFIX}${插件作品id}=${插件路由}
+
+URL_WIDGET_PREFIX = "_freelog-route_";
+
+路由query替换符，避免多个"?"冲突，"?"会替换成"_freelog-query_"，${URL_WIDGET_PREFIX}${插件作品id}=${插件路由}_freelog-query_${插件query参数}
+
+URL_WIDGET_QUERY_PREFIX = "_freelog-query_";
+
+**路由建议**
+
+插件尽量使用抽象路由，不参与到url当中
 
 ### 获取节点信息
 
@@ -1182,4 +1217,4 @@ const res = await window.freelogApp.getUserData(key);
 
 此时无论移动端还是电脑端都会出现 vconsole
 
-https://snnaenu.freelog.com/?devconsole=https://localhost:8081 -->
+https://examples.freelog.com/?devconsole=https://localhost:8081 -->
