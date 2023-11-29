@@ -34,8 +34,10 @@ const uiPath =
     : mobile
     ? "/mobile"
     : "/pc";
+// @ts-ignore
 window.ENV = "freelog.com";
 if (window.location.host.includes(".testfreelog.com")) {
+  // @ts-ignore
   window.ENV = "testfreelog.com";
 }
 const rawDocument = document;
@@ -44,7 +46,9 @@ freelogApp.isTest = isTest;
 //   document.querySelector
 //     .bind(document)('meta[name="viewport"]')
 //     ?.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no");
+// @ts-ignore
 window.freelogApp = freelogApp;
+// @ts-ignore
 window.freelogAuth = freelogAuth;
 
 export function initNode() {
@@ -155,7 +159,7 @@ export function initNode() {
           // @ts-ignore
           loadingContainer.style.display = "none";
           themeId = theme.articleInfo.articleId;
-          initLocation(false,true);
+          initLocation(false, true);
           const themeApp = await freelogApp.mountWidget(
             theme,
             container,

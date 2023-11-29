@@ -16,10 +16,11 @@ import {
   callLoginOut,
   reload,
 } from "./utils";
+import { getShareUrl, SHARE_DETAIL, SHARE_CONTENT, mapShareUrl } from "./share";
 import { callAuth, addAuth } from "../bridge/index";
 import { onLogin, onUserChange } from "../bridge/eventOn";
 import { isUserChange } from "../security";
-import {initGlobalState} from "freelog-runtime-core"
+import { initGlobalState } from "freelog-runtime-core";
 
 let devData = "";
 export const freelogApp: any = {
@@ -51,4 +52,10 @@ export const freelogApp: any = {
   isUserChange,
   reload,
   resultType,
+  getShareUrl,
+  mapShareUrl,
+  shareRoute: {
+    SHARE_CONTENT,
+    SHARE_DETAIL,
+  },
 };

@@ -36,6 +36,7 @@ import {
 } from "./history";
 import { DEV_WIDGET } from "./dev";
 import { getThemeId } from "./init";
+
 const rawDocument = document;
 const HISTORY = "history";
 const HASH = "hash";

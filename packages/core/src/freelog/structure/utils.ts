@@ -350,12 +350,12 @@ export function setTabLogo(Url: string) {
   //   });
   // });
   var link: HTMLLinkElement =
-    document.querySelector.bind(document)('link[rel*="icon"]') ||
-    document.createElement("link");
+  rawDocument.querySelector.bind(document)('link[rel*="icon"]') ||
+  rawDocument.createElement("link");
   link.type = "image/x-icon";
   link.rel = "shortcut icon";
   link.href = Url; // 'http://www.stackoverflow.com/favicon.ico'
-  document.getElementsByTagName.bind(document)("head")[0].appendChild(link);
+  rawDocument.getElementsByTagName.bind(rawDocument)("head")[0].appendChild(link);
 }
 
 export function isMobile() {
