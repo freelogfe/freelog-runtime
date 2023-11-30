@@ -2877,6 +2877,7 @@ function dev() {
 /* harmony import */ var freelog_runtime_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(74867);
 /* harmony import */ var freelog_runtime_api__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(freelog_runtime_api__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(37958);
+/* harmony import */ var _share__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(3050);
 /* harmony import */ var _bridge_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(78225);
 /* harmony import */ var _bridge_eventOn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(48629);
 /* harmony import */ var _security__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(11072);
@@ -2895,6 +2896,7 @@ var __assign = undefined && undefined.__assign || function () {
 
   return __assign.apply(this, arguments);
 };
+
 
 
 
@@ -2932,7 +2934,13 @@ var freelogApp = __assign(__assign({}, freelog_runtime_api__WEBPACK_IMPORTED_MOD
   getSelfConfig: _utils__WEBPACK_IMPORTED_MODULE_3__/* .getSelfConfig */ .KR,
   isUserChange: _security__WEBPACK_IMPORTED_MODULE_6__/* .isUserChange */ .WU,
   reload: _utils__WEBPACK_IMPORTED_MODULE_3__/* .reload */ .H5,
-  resultType: _bridge_eventType__WEBPACK_IMPORTED_MODULE_7__/* .resultType */ .uq
+  resultType: _bridge_eventType__WEBPACK_IMPORTED_MODULE_7__/* .resultType */ .uq,
+  getShareUrl: _share__WEBPACK_IMPORTED_MODULE_8__/* .getShareUrl */ .O1,
+  mapShareUrl: _share__WEBPACK_IMPORTED_MODULE_8__/* .mapShareUrl */ .Ah,
+  shareRoute: {
+    SHARE_CONTENT: _share__WEBPACK_IMPORTED_MODULE_8__/* .SHARE_CONTENT */ .Fv,
+    SHARE_DETAIL: _share__WEBPACK_IMPORTED_MODULE_8__/* .SHARE_DETAIL */ .iP
+  }
 });
 
 /***/ }),
@@ -3317,10 +3325,12 @@ function getThemeId() {
 delete window.setImmediate;
 var mobile = (0,_utils__WEBPACK_IMPORTED_MODULE_1__/* .isMobile */ .tq)(); // @ts-ignore
 
-var uiPath =  false ? 0 : mobile ? "/mobile" : "/pc";
+var uiPath =  false ? 0 : mobile ? "/mobile" : "/pc"; // @ts-ignore
+
 window.ENV = "freelog.com";
 
 if (window.location.host.includes(".testfreelog.com")) {
+  // @ts-ignore
   window.ENV = "testfreelog.com";
 }
 
@@ -3329,8 +3339,10 @@ _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp.isTest */ .L.isTest = _ba
 //   document.querySelector
 //     .bind(document)('meta[name="viewport"]')
 //     ?.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no");
+// @ts-ignore
 
-window.freelogApp = _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp */ .L;
+window.freelogApp = _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp */ .L; // @ts-ignore
+
 window.freelogAuth = _freelogAuth__WEBPACK_IMPORTED_MODULE_4__/* .freelogAuth */ .v;
 function initNode() {
   var _this = this; // TODO 这个位置问题需要可考虑，最好放到UI插件之后
@@ -3640,6 +3652,7 @@ function requestNodeInfo(nodeDomain) {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Ak": function() { return /* binding */ getPublicPath; },
 /* harmony export */   "FC": function() { return /* binding */ pathATag; },
+/* harmony export */   "Kl": function() { return /* binding */ locations; },
 /* harmony export */   "LD": function() { return /* binding */ ajaxProxy; },
 /* harmony export */   "SB": function() { return /* binding */ state; },
 /* harmony export */   "ZK": function() { return /* binding */ createFreelogAppProxy; },
@@ -3654,7 +3667,7 @@ function requestNodeInfo(nodeDomain) {
 /* harmony export */   "qS": function() { return /* binding */ freelogAddEventListener; },
 /* harmony export */   "wx": function() { return /* binding */ freelogLocalStorage; }
 /* harmony export */ });
-/* unused harmony exports locations, locationsForBrower, rawFetch, nativeOpen, isTheme, locationCenter */
+/* unused harmony exports locationsForBrower, rawFetch, nativeOpen, isTheme, locationCenter */
 /* harmony import */ var _widget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2623);
 /* harmony import */ var freelog_runtime_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(50802);
 /* harmony import */ var freelog_runtime_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(freelog_runtime_core__WEBPACK_IMPORTED_MODULE_0__);
@@ -4124,6 +4137,11 @@ function initLocation(isBrowser, isFist) {
           return;
         }
 
+        console.log(id_1, {
+          pathname: pathname_1,
+          href: pathname_1 + search_1,
+          search: search_1
+        });
         locations.set(id_1, {
           pathname: pathname_1,
           href: pathname_1 + search_1,
@@ -4265,6 +4283,8 @@ function patchCommon(name, isSetLocation, isReplace) {
       hash = arguments[2].replace(rawLocation.origin, ""); // console.warn("hash route is not suggested!");
       // return;
     }
+
+    href = href.replace(_const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_PREFIX */ .o, "").replace(_const__WEBPACK_IMPORTED_MODULE_7__/* .URL_WIDGET_QUERY_PREFIX */ .G, "");
 
     var _a = href.split("?"),
         pathname = _a[0],
@@ -4638,6 +4658,73 @@ var setHooks = new Map();
 setHooks.set("freelogAuth", false);
 setHooks.set("freelogApp", false);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (setHooks);
+
+/***/ }),
+
+/***/ 3050:
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Ah": function() { return /* binding */ mapShareUrl; },
+/* harmony export */   "Fv": function() { return /* binding */ SHARE_CONTENT; },
+/* harmony export */   "O1": function() { return /* binding */ getShareUrl; },
+/* harmony export */   "iP": function() { return /* binding */ SHARE_DETAIL; }
+/* harmony export */ });
+/* unused harmony exports FREELOG_ROUTE_MAPS, isShareUrl */
+/* harmony import */ var _widget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2623);
+/* harmony import */ var _proxy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(98368);
+
+
+var SHARE_DETAIL = "detail";
+var SHARE_CONTENT = "content";
+var FREELOG_ROUTE_MAPS = "FREELOG_ROUTE_MAPS";
+var rawLocation = window.location;
+function getShareUrl(exhibitId, type) {
+  return "".concat(rawLocation.origin, "/").concat(exhibitId, "/").concat(type);
+}
+function mapShareUrl(routeMap) {
+  // @ts-ignore
+  var theme = _widget__WEBPACK_IMPORTED_MODULE_0__/* .widgetsConfig.get */ .md.get(this.name); // @ts-ignore
+
+  var themeLocation = _proxy__WEBPACK_IMPORTED_MODULE_1__/* .locations.get */ .Kl.get(this.name);
+  console.log(routeMap, themeLocation);
+
+  if (!theme.isTheme) {
+    console.error("mapShareUrl ", "只能主题使用");
+  }
+
+  theme[FREELOG_ROUTE_MAPS] = routeMap || {};
+  var href = themeLocation === null || themeLocation === void 0 ? void 0 : themeLocation.href;
+  var data = isShareUrl(href);
+
+  if (data && href) {
+    var func = routeMap ? routeMap[data.type] : null;
+    var route = "";
+
+    if (func instanceof Function) {
+      route = func(data.exhibitId);
+    }
+
+    themeLocation.href = route;
+    themeLocation.pathname = route;
+    console.log(func, routeMap, data, themeLocation);
+  }
+}
+var urlTest = /^\/?.{24}\/(detail|content)$/;
+function isShareUrl(url) {
+  if (urlTest.test(url)) {
+    url = url.indexOf("/") === 0 ? url.replace("/", "") : url;
+    var exhibitId = url.split("/")[0];
+    var type = url.split("/")[1];
+    return {
+      exhibitId: exhibitId,
+      type: type
+    };
+  }
+
+  return false;
+}
 
 /***/ }),
 
@@ -5323,12 +5410,12 @@ function setTabLogo(Url) {
   //     document.getElementsByTagName.bind(document)("head")[0].appendChild(link);
   //   });
   // });
-  var link = document.querySelector.bind(document)('link[rel*="icon"]') || document.createElement("link");
+  var link = rawDocument.querySelector.bind(document)('link[rel*="icon"]') || rawDocument.createElement("link");
   link.type = "image/x-icon";
   link.rel = "shortcut icon";
   link.href = Url; // 'http://www.stackoverflow.com/favicon.ico'
 
-  document.getElementsByTagName.bind(document)("head")[0].appendChild(link);
+  rawDocument.getElementsByTagName.bind(rawDocument)("head")[0].appendChild(link);
 }
 function isMobile() {
   var browser = {
