@@ -70,7 +70,6 @@ export default function Auth(props: contractProps) {
         func && func();
       });
     }
-    // TODO 重载插件需要把授权的也一并清除
     setModalType(0);
     setTimeout(() => {
       props.loginFinished(type);

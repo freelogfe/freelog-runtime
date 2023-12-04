@@ -52,7 +52,6 @@ window.freelogApp = freelogApp;
 window.freelogAuth = freelogAuth;
 
 export function initNode() {
-  // TODO 这个位置问题需要可考虑，最好放到UI插件之后
   initWindowListener();
   pathATag();
   return new Promise<void>(async (resolve) => {
@@ -102,7 +101,6 @@ export function initNode() {
         // });
         init(nodeInfo.nodeId, setPresentableQueue);
         const devData = dev();
-        // TODO 提供一个开发者模式，能在全局创建一个VConsole
         // window.vconsole = new VConsole()
         // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
         //   window.vconsole = new VConsole();

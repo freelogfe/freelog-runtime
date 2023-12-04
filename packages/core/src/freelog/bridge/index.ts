@@ -54,7 +54,6 @@ export function updateLock(status: boolean) {
 export function setPresentableQueue(name: string, value: any) {
   exhibitQueue.set(name, value);
 }
-// TODO 公共非展品事件UI， 后面考虑
 export async function addAuth(exhibitId: any, options?: any) {
   // @ts-ignore
   const that = this;
@@ -156,7 +155,6 @@ function removeEvent(eventId?: string) {
 }
 export function endEvent(eventId: string, type: number, data: any) {
   // if (eventMap.get(eventId)) {
-  // TODO 重复代码
   switch (type) {
     case SUCCESS:
       eventMap.get(eventId).callBacks.forEach((item: any) => {

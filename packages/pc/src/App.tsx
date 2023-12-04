@@ -117,7 +117,6 @@ function App() {
     if (type === USER_CANCEL && !eventId) {
       setInited(false);
       endEvent(eventId, type, data);
-      // TODO 通知所有 用户取消了
       lowerUI();
       return;
     }
@@ -146,7 +145,6 @@ function App() {
     //       if (res.data.errCode === 0) {
     //         window.freelogAuth.reload();
     //       }
-    //       // TODO 错误提示
     //     });
     //   },
     //   onCancel: () => {

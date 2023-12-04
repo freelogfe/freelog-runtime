@@ -19,7 +19,7 @@
 import { loadMicroApp } from "freelog-runtime-core";
 import { freelogApp } from "./freelogApp";
 
-import { freelogFetch, getViewport } from './utils'
+import { freelogFetch, getViewport } from "./utils";
 import { setLocation } from "./proxy";
 import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
 import { defaultWidgetConfigData } from "./widgetConfigData";
@@ -29,8 +29,8 @@ import { saveSandBox } from "./proxy";
 const proxyHooks = {
   setHooks,
   getHooks,
-  saveSandBox
-}
+  saveSandBox,
+};
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
@@ -38,7 +38,6 @@ export const activeWidgets = new Map<any, any>();
 export const childrenWidgets = new Map<any, any>();
 export const sandBoxs = new Map<any, any>(); // 沙盒不交给plugin, 因为plugin是插件可以用的
 export const widgetUserData = new Map<any, any>();
-// TODO plugin type
 export function addWidget(key: string, plugin: any) {
   if (activeWidgets.has(key)) {
     console.warn(widgetsConfig.get(key).name + " reloaded");
@@ -49,7 +48,6 @@ export function addWidget(key: string, plugin: any) {
 export function addWidgetConfig(key: string, config: any) {
   widgetsConfig.set(key, config);
 }
-// TODO error
 export function removeWidget(key: string) {
   flatternWidgets.has(key) && flatternWidgets.delete(key) && removeSandBox(key);
 }
@@ -103,7 +101,6 @@ export function mountUI(
       experimentalStyleIsolation: config ? !!config.scopedCss : true,
     },
   });
-  // TODO 增加是否保留数据
   const _app = {
     ...app,
     mount: () => {
@@ -111,11 +108,14 @@ export function mountUI(
         app.mount().then(
           () => {
             addWidget(name, _app);
-            // TODO 验证是否是函数
-            resolve && resolve();
+            if (resolve instanceof Function) {
+              resolve();
+            }
           },
           () => {
-            reject();
+            if (reject instanceof Function) {
+              reject();
+            }
           }
         );
       });
@@ -126,18 +126,20 @@ export function mountUI(
           () => {
             deactiveWidget(name);
             setLocation();
-            // TODO 验证是否是函数
-            resolve && resolve();
+            if (resolve instanceof Function) {
+              resolve();
+            }
           },
           () => {
-            reject();
+            if (reject instanceof Function) {
+              reject();
+            }
           }
         );
       });
     },
   };
   addWidget(name, _app);
-  // TODO 拦截mount做处理
   return _app;
 }
 // 可供插件自己加载子插件  widget需要验证格式
@@ -149,7 +151,7 @@ export function mountUI(
  * @param config      配置数据
  * @param seq         一个节点内可以使用多个插件，但需要传递序号，
  * @param widget_entry    用于父插件中去本地调试子插件
- * TODO 如果需要支持不同插件下使用同一个插件，需要将作品id也加在运行时管理的插件id以实现全局唯一
+ *  如果需要支持不同插件下使用同一个插件，需要将作品id也加在运行时管理的插件id以实现全局唯一
  *      这里就有了一个问题，freelogApp.getSelfId() 与 作品id是不同的，
  *      造成问题：想在url上进行调试时 无法提前知道自身id。
  *      解决方案：1.做一个插件加载树，对于同级（同一个父插件，如果没有传递seq序号区分，直接报错不允许）
@@ -181,7 +183,6 @@ export async function mountWidget(
   // @ts-ignore
   const that = this;
   let configData = config;
-  // TODO 为了安全，得验证是否是插件使用还是运行时使用mountWidget
   if (that?.name) {
     isTheme = false;
     defaultWidgetConfigData.historyFB = false;
@@ -246,7 +247,7 @@ export async function mountWidget(
   // @ts-ignore
   entry = widget_entry || entry;
   if (seq || seq === 0) {
-    widgetId =  commonData.id + seq;
+    widgetId = commonData.id + seq;
   }
   let fentry = "";
   if (commonData.articleNid) {
@@ -260,7 +261,7 @@ export async function mountWidget(
   } else {
     fentry = await freelogApp.getExhibitFileStream.bind(that || {})(
       commonData.exhibitId,
-      {returnUrl:true}
+      { returnUrl: true }
     );
     fentry = fentry + "?subFilePath="; // '/package/'
   }
@@ -295,37 +296,38 @@ export async function mountWidget(
   addWidgetConfig(widgetId, widgetConfig);
   const obj = {
     strictStyleIsolation: false,
-    experimentalStyleIsolation: true
+    experimentalStyleIsolation: true,
+  };
+  if (configData.hasOwnProperty("shadowDom")) {
+    obj.strictStyleIsolation = configData.shadowDown;
   }
-  // TODO 所有插件加载用promise all
-  if(configData.hasOwnProperty("shadowDom")){
-    obj.strictStyleIsolation = configData.shadowDown
-  }
-  if(configData.hasOwnProperty("scopedCss")){
-    obj.experimentalStyleIsolation = configData.scopedCss
+  if (configData.hasOwnProperty("scopedCss")) {
+    obj.experimentalStyleIsolation = configData.scopedCss;
   }
   // @ts-ignore
   const app = loadMicroApp(widgetConfig, {
     fetch: freelogFetch,
     proxyHooks,
     sandbox: {
-      ...obj
+      ...obj,
     },
   });
-  // TODO 增加是否保留数据
   const freelog_app = {
     ...app,
     mount: () => {
       return new Promise((resolve?: any, reject?: any) => {
-        app.mount()
+        app.mount();
         app.mountPromise.then(
           () => {
             addWidget(widgetId, freelog_app);
-            // TODO 验证是否是函数
-            resolve && resolve();
+            if (resolve instanceof Function) {
+              resolve();
+            }
           },
           () => {
-            reject && reject();
+            if (reject instanceof Function) {
+              reject();
+            }
           }
         );
       });
@@ -344,11 +346,14 @@ export async function mountWidget(
             api = {};
             deactiveWidget(widgetId);
             !keepLocation && setLocation(true);
-            // TODO 验证是否是函数
-            resolve && resolve();
+            if (resolve instanceof Function) {
+              resolve();
+            }
           },
           () => {
-            reject && reject();
+            if (reject instanceof Function) {
+              reject();
+            }
           }
         );
       });

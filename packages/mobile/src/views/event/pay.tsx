@@ -65,7 +65,6 @@ export default function Pay(props: PayProps) {
     const res = await freelogAuthApi.getAccount([userInfo.userId], "");
     setUserAccount(res.data.data);
     // @ts-ignore
-    // TODO 需要trycatch  parsefloat
     setIsAfford(res.data.data.balance >= props.transactionAmount);
     setIsActive(res.data.data.status === 1);
   }
@@ -73,7 +72,6 @@ export default function Pay(props: PayProps) {
     props.isModalVisible && getAccount();
   }, [props.isModalVisible]);
   async function pay(password: any) {
-    // TODO 防止多次点击
     if (loading) return;
     setTipType(1);
     setLoading(true);
@@ -119,7 +117,6 @@ export default function Pay(props: PayProps) {
       return;
     }
     setTipType(2);
-    // TODO 查交易状态, flag应该设为状态，在关闭弹窗时清除
     const flag = setInterval(async () => {
       const res: any = await freelogAuthApi.getRecord(
         [payResult.data.data.transactionRecordId],

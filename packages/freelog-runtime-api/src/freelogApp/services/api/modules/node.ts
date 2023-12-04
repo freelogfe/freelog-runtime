@@ -1,6 +1,5 @@
 import { placeHolder } from "../../base";
 
-// TODO  需要给data或params定义类型
 
 export type Node = {
   getInfoById: any;

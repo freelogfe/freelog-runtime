@@ -121,7 +121,6 @@ function App() {
     if (type === USER_CANCEL && !eventId) {
       setInited(false);
       endEvent(eventId, type, data);
-      // TODO 通知所有 用户取消了
       lowerUI();
       return;
     }

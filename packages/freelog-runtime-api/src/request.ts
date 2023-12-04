@@ -16,7 +16,6 @@ axios.interceptors.response.use(
         return response
     },
     error => {
-        // TODO
         console.error(error) // for debug 11
     }
 )

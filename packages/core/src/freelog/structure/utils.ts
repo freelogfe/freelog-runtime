@@ -19,7 +19,6 @@ export function freelogFetch(url: string, options?: any) {
     return fetch(url, { ...options });
   }
 }
-// TODO  此文件的方法需要整理分离出freeelogApp下的和内部使用的
 export function getContainer(
   container: string | HTMLElement
 ): HTMLElement | null | undefined {
@@ -45,7 +44,6 @@ export function createContainer(
   return child;
 }
 
-// TODO 确定返回类型
 export function deleteContainer(
   father: string | HTMLElement,
   child: string | HTMLElement
@@ -102,7 +100,6 @@ export function resolveUrl(path: string, params?: any): string {
   }
   return `${baseURL}${path}?${queryStringArr.join("&")}`;
 }
-// TODO 调试用的widgetId，未来应该在测试节点去显示，目前用的是articledId
 export function getSelfWidgetId() {
   // @ts-ignore
   return widgetsConfig.get(this.name)?.articleId;
@@ -119,8 +116,8 @@ export function getSelfConfig() {
   // @ts-ignore  由于config只有一层，所以用...就够了
   return { ...widgetsConfig.get(this.name).config };
 }
-// TODO if error  这里不需要参数，除了运行时自行调用，需要抽离出来不与插件调用混在一起
-// TODO 紧急，增加方法加载子依赖传递作品id，通过作品id查询到孙依赖插件
+//  if error  这里不需要参数，除了运行时自行调用，需要抽离出来不与插件调用混在一起
+//  紧急，增加方法加载子依赖传递作品id，通过作品id查询到孙依赖插件
 export async function getSubDep(exhibitId?: any) {
   let isTheme = false;
   // @ts-ignore
@@ -254,7 +251,7 @@ export function setViewport(keys: any) {
   }
   Object.keys(keys).forEach((key: any) => {
     if (viewPortValue.hasOwnProperty(key) && !immutableKeys.includes(key)) {
-      // TODO 开发体验最好做下验证值是否合法
+      //  开发体验最好做下验证值是否合法
       // @ts-ignore
       viewPortValue[key] = keys[key];
     }
@@ -285,7 +282,6 @@ export function setViewport(keys: any) {
 
 export async function setUserData(key: string, data: any) {
   key = window.isTest ? key + "-test" : key;
-  // TODO 必须验证格式正确
   // @ts-ignore
   const name = this.name;
   let userData = widgetUserData.get(name) || {};
@@ -296,7 +292,7 @@ export async function setUserData(key: string, data: any) {
     widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
   }
   const nodeId = freelogApp.nodeInfo.nodeId;
-  // TODO 用户如果两台设备更新数据，可以做一个保存请求的数据对比最新的数据，如果不同，提示给插件（或者传递参数强制更新）
+  // 用户如果两台设备更新数据，可以做一个保存请求的数据对比最新的数据，如果不同，提示给插件（或者传递参数强制更新）,这个后端来做？
   const res = await _putUserData([nodeId], {
     appendOrReplaceObject: {
       [widgetId]: userData,

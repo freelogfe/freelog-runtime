@@ -74,7 +74,6 @@ export default function PolicyGraph(props: GraphProps) {
     });
   });
   const edges: any = []
-  // TODO 需要在处理数据时做，不能放在这里
   props.policy.translateInfo.fsmInfos.forEach((info:any)=>{
     info.eventTranslateInfos.forEach((eventInfo:any)=>{
       eventInfo.used = false      

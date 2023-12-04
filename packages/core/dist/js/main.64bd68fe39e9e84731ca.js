@@ -2446,8 +2446,7 @@ function updateLock(status) {
 }
 function setPresentableQueue(name, value) {
   exhibitQueue.set(name, value);
-} // TODO 公共非展品事件UI， 后面考虑
-
+}
 function addAuth(exhibitId, options) {
   var _a;
 
@@ -2562,7 +2561,6 @@ function removeEvent(eventId) {
 
 function endEvent(eventId, type, data) {
   // if (eventMap.get(eventId)) {
-  // TODO 重复代码
   switch (type) {
     case _eventType__WEBPACK_IMPORTED_MODULE_1__/* .SUCCESS */ .MR:
       eventMap.get(eventId).callBacks.forEach(function (item) {
@@ -2849,9 +2847,8 @@ function dev() {
         vconsole: !!params.devconsole
       }
     };
-  } else {
-    // TODO $_是路由前缀，这里有错误，需要引用常量
-    params.dev = params.dev.split("$_")[0];
+  } else {// params.dev = params.dev.split("$_")[0];
+    // console.log(params.dev)
   }
 
   return {
@@ -3345,8 +3342,7 @@ window.freelogApp = _freelogApp__WEBPACK_IMPORTED_MODULE_2__/* .freelogApp */ .L
 
 window.freelogAuth = _freelogAuth__WEBPACK_IMPORTED_MODULE_4__/* .freelogAuth */ .v;
 function initNode() {
-  var _this = this; // TODO 这个位置问题需要可考虑，最好放到UI插件之后
-
+  var _this = this;
 
   (0,_bridge_eventOn__WEBPACK_IMPORTED_MODULE_5__/* .initWindowListener */ .Ib)();
   (0,_proxy__WEBPACK_IMPORTED_MODULE_6__/* .pathATag */ .FC)();
@@ -3419,8 +3415,7 @@ function initNode() {
 
 
               (0,freelog_runtime_api__WEBPACK_IMPORTED_MODULE_0__.init)(nodeInfo.nodeId, _bridge__WEBPACK_IMPORTED_MODULE_7__/* .setPresentableQueue */ .a9);
-              devData = (0,_dev__WEBPACK_IMPORTED_MODULE_8__/* .dev */ .WI)(); // TODO 提供一个开发者模式，能在全局创建一个VConsole
-              // window.vconsole = new VConsole()
+              devData = (0,_dev__WEBPACK_IMPORTED_MODULE_8__/* .dev */ .WI)(); // window.vconsole = new VConsole()
               // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
               //   window.vconsole = new VConsole();
               // }
@@ -3998,7 +3993,7 @@ function freelogAddEventListener(name, sandbox, proxy, target) {
     if (arguments[0] === "popstate") {
       rawWindow.addEventListener("freelog-popstate", arr[1]);
       return;
-    } // TODO onmessage需要处理, 此方法只能支持window.addEventListener
+    } // TODO onmessage 需要处理, 此方法只能支持window.addEventListener
 
 
     if (arguments[0] === "message") {
@@ -4022,14 +4017,12 @@ function freelogAddEventListener(name, sandbox, proxy, target) {
 
     rawWindow.addEventListener.apply(rawWindow, arguments);
   };
-} // TODO 如果授权UI插件想要请求之外的接口，可以通过freelogAuths放进去
-
+}
 var rawFetch = rawWindow.fetch;
 var nativeOpen = XMLHttpRequest.prototype.open;
 var whiteList = ["https://image.freelog.com", "https://image.testfreelog.com"];
 var forbiddenList = ["http://qi.testfreelog.com", "http://qi.freelog.com", "https://api.freelog.com", "https://api.testfreelog.com"];
-var authWhiteList = ["http://qi.testfreelog.com", "http://qi.freelog.com", "https://api.freelog.com", "https://api.testfreelog.com"]; // TODO 将fetch和XMLHttpRequest放到沙盒里处理
-
+var authWhiteList = ["http://qi.testfreelog.com", "http://qi.freelog.com", "https://api.freelog.com", "https://api.testfreelog.com"];
 function ajaxProxy(type, name) {
   // @ts-ignore
   if (type === "fetch") {
@@ -4055,8 +4048,7 @@ function ajaxProxy(type, name) {
       } // @ts-ignore
 
 
-      nativeOpen.bind(this)(method, url, async, user, password); // TODO 使用假错误正常返回  暂时无法使用
-      // return "can not request data from freelog.com directly!";
+      nativeOpen.bind(this)(method, url, async, user, password); // return "can not request data from freelog.com directly!";
     }; // @ts-ignore
 
 
@@ -4126,7 +4118,7 @@ function initLocation(isBrowser, isFist) {
         var pathname_1 = item.split(id_1 + "=")[1].split("?")[0]; // id = id.replace(URL_WIDGET_PREFIX, "");
 
         if (pathname_1.indexOf("/") !== 0) pathname_1 = "/" + pathname_1;
-        var search_1 = item.substring(index_1); // TODO 判断id是否存在 isExist(id) &&
+        var search_1 = item.substring(index_1);
 
         if (isBrowser) {
           locationsForBrower.set(id_1, {
@@ -4137,11 +4129,6 @@ function initLocation(isBrowser, isFist) {
           return;
         }
 
-        console.log(id_1, {
-          pathname: pathname_1,
-          href: pathname_1 + search_1,
-          search: search_1
-        });
         locations.set(id_1, {
           pathname: pathname_1,
           href: pathname_1 + search_1,
@@ -4178,8 +4165,7 @@ function initLocation(isBrowser, isFist) {
 function setLocation(isReplace) {
   if (!isReplace) {
     state++;
-  } // TODO 只有在线的应用才在url上显示, 只有pathname和query需要
-
+  }
 
   var hash = "";
   locations.forEach(function (value, key) {
@@ -4228,8 +4214,7 @@ function setLocation(isReplace) {
     }
   } // rawLocation.hash = hash; state++
 
-} // TODO pathname  search 需要不可变
-
+}
 var locationCenter = {
   set: function (name, attr) {
     var loc = locations.get(name) || {};
@@ -4273,7 +4258,7 @@ function freelogLocalStorage(id, sandbox, proxy, target) {
 function patchCommon(name, isSetLocation, isReplace) {
   return function () {
     var hash = "";
-    var routerType = HISTORY; // TODO 解析query参数  search vue3会把origin也传过来
+    var routerType = HISTORY; // 解析query参数  search vue3会把origin也传过来，这里处理一下
 
     var href = arguments[2].replace(rawLocation.origin, "").replace(rawLocation.origin.replace("http:", "https:"), "");
 
@@ -4385,16 +4370,16 @@ var createHistoryProxy = function (name, sandbox, proxy, target) {
   });
 
   return historyProxy;
-}; // TODO 如果是单应用模式（提升性能）则不用代理, 可以设置location.href的使用权限
-// TODO reload相当于重载应用，想办法把主应用的对应操控函数弄过来，发布订阅模式
-// TODO replace与reload、toString方法无法访问
+}; //  如果是单应用模式（提升性能）则不用代理, 可以设置location.href的使用权限
+// reload相当于重载应用，想办法把主应用的对应操控函数弄过来，发布订阅模式
+//  replace与 reload 、toString方法无法访问
 
 var createLocationProxy = function (name, sandbox, proxy, target) {
   var locationProxy = {};
   var widgetConfig = _widget__WEBPACK_IMPORTED_MODULE_3__/* .widgetsConfig.get */ .md.get(name);
   return new Proxy(locationProxy, {
     /*
-        a标签的href需要拦截，// TODO 如果以http开头则不拦截
+        a标签的href需要拦截，// 如果以http开头则不拦截
      */
     // @ts-ignore
     set: function (target, p, value) {
@@ -4478,7 +4463,6 @@ rawDocument.writeln = function () {
 var querySelector = rawDocument.querySelector; // document的代理
 
 var createDocumentProxy = function (name, sandbox, proxy, target) {
-  // TODO  firstChild还没创建,这里需要改，加载后才能
   var doc = _widget__WEBPACK_IMPORTED_MODULE_3__/* .widgetsConfig.get */ .md.get(name).container.firstChild; //  || widgetsConfig.get(name).container;
 
   var rootDoc = doc;
@@ -4931,8 +4915,7 @@ function freelogFetch(url, options) {
   } else {
     return fetch(url, __assign({}, options));
   }
-} // TODO  此文件的方法需要整理分离出freeelogApp下的和内部使用的
-
+}
 function getContainer(container) {
   // @ts-ignore
   return typeof container === "string" ? document.querySelector.bind(document)("#" + container) : container;
@@ -4945,8 +4928,7 @@ function createContainer(container, id) {
   child.setAttribute("id", id);
   father === null || father === void 0 ? void 0 : father.appendChild(child);
   return child;
-} // TODO 确定返回类型
-
+}
 function deleteContainer(father, child) {
   var fatherContainer = typeof father === "string" ? document.querySelector("#" + father) : father;
   var childContainer = typeof child === "string" ? document.querySelector("#" + child) : child;
@@ -4992,8 +4974,7 @@ function resolveUrl(path, params) {
   }
 
   return "".concat(baseURL).concat(path, "?").concat(queryStringArr.join("&"));
-} // TODO 调试用的widgetId，未来应该在测试节点去显示，目前用的是articledId
-
+}
 function getSelfWidgetId() {
   var _a; // @ts-ignore
 
@@ -5016,7 +4997,7 @@ function getSelfConfig() {
   // @ts-ignore  由于config只有一层，所以用...就够了
   return __assign({}, _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(this.name).config);
 } // TODO if error  这里不需要参数，除了运行时自行调用，需要抽离出来不与插件调用混在一起
-// TODO 紧急，增加方法加载子依赖传递作品id，通过作品id查询到孙依赖插件
+//  紧急，增加方法加载子依赖传递作品id，通过作品id查询到孙依赖插件
 
 function getSubDep(exhibitId) {
   return __awaiter(this, void 0, void 0, function () {
@@ -5669,8 +5650,7 @@ var activeWidgets = new Map();
 var childrenWidgets = new Map();
 var sandBoxs = new Map(); // 沙盒不交给plugin, 因为plugin是插件可以用的
 
-var widgetUserData = new Map(); // TODO plugin type
-
+var widgetUserData = new Map();
 function addWidget(key, plugin) {
   if (activeWidgets.has(key)) {
     console.warn(widgetsConfig.get(key).name + " reloaded");
@@ -5681,8 +5661,7 @@ function addWidget(key, plugin) {
 }
 function addWidgetConfig(key, config) {
   widgetsConfig.set(key, config);
-} // TODO error
-
+}
 function removeWidget(key) {
   flatternWidgets.has(key) && flatternWidgets.delete(key) && removeSandBox(key);
 }
@@ -5737,11 +5716,15 @@ function mountUI(name, container, entry, config) {
     mount: function () {
       return new Promise(function (resolve, reject) {
         app.mount().then(function () {
-          addWidget(name, _app); // TODO 验证是否是函数
+          addWidget(name, _app);
 
-          resolve && resolve();
+          if (resolve instanceof Function) {
+            resolve();
+          }
         }, function () {
-          reject();
+          if (reject instanceof Function) {
+            reject();
+          }
         });
       });
     },
@@ -5749,18 +5732,21 @@ function mountUI(name, container, entry, config) {
       return new Promise(function (resolve, reject) {
         app.unmount().then(function () {
           deactiveWidget(name);
-          (0,_proxy__WEBPACK_IMPORTED_MODULE_3__/* .setLocation */ .l6)(); // TODO 验证是否是函数
+          (0,_proxy__WEBPACK_IMPORTED_MODULE_3__/* .setLocation */ .l6)();
 
-          resolve && resolve();
+          if (resolve instanceof Function) {
+            resolve();
+          }
         }, function () {
-          reject();
+          if (reject instanceof Function) {
+            reject();
+          }
         });
       });
     }
   });
 
-  addWidget(name, _app); // TODO 拦截mount做处理
-
+  addWidget(name, _app);
   return _app;
 } // 可供插件自己加载子插件  widget需要验证格式
 
@@ -5772,7 +5758,7 @@ function mountUI(name, container, entry, config) {
  * @param config      配置数据
  * @param seq         一个节点内可以使用多个插件，但需要传递序号，
  * @param widget_entry    用于父插件中去本地调试子插件
- * TODO 如果需要支持不同插件下使用同一个插件，需要将作品id也加在运行时管理的插件id以实现全局唯一
+ *  如果需要支持不同插件下使用同一个插件，需要将作品id也加在运行时管理的插件id以实现全局唯一
  *      这里就有了一个问题，freelogApp.getSelfId() 与 作品id是不同的，
  *      造成问题：想在url上进行调试时 无法提前知道自身id。
  *      解决方案：1.做一个插件加载树，对于同级（同一个父插件，如果没有传递seq序号区分，直接报错不允许）
@@ -5805,7 +5791,7 @@ function mountWidget(options) {
 
           isTheme = typeof widget_entry === "boolean" ? widget_entry : false;
           that = this;
-          configData = config; // TODO 为了安全，得验证是否是插件使用还是运行时使用mountWidget
+          configData = config;
 
           if (that === null || that === void 0 ? void 0 : that.name) {
             isTheme = false;
@@ -5932,7 +5918,7 @@ function mountWidget(options) {
           obj = {
             strictStyleIsolation: false,
             experimentalStyleIsolation: true
-          }; // TODO 所有插件加载用promise all
+          };
 
           if (configData.hasOwnProperty("shadowDom")) {
             obj.strictStyleIsolation = configData.shadowDown;
@@ -5952,11 +5938,15 @@ function mountWidget(options) {
               return new Promise(function (resolve, reject) {
                 app.mount();
                 app.mountPromise.then(function () {
-                  addWidget(widgetId, freelog_app); // TODO 验证是否是函数
+                  addWidget(widgetId, freelog_app);
 
-                  resolve && resolve();
+                  if (resolve instanceof Function) {
+                    resolve();
+                  }
                 }, function () {
-                  reject && reject();
+                  if (reject instanceof Function) {
+                    reject();
+                  }
                 });
               });
             },
@@ -5972,11 +5962,15 @@ function mountWidget(options) {
                   once = false;
                   api = {};
                   deactiveWidget(widgetId);
-                  !keepLocation && (0,_proxy__WEBPACK_IMPORTED_MODULE_3__/* .setLocation */ .l6)(true); // TODO 验证是否是函数
+                  !keepLocation && (0,_proxy__WEBPACK_IMPORTED_MODULE_3__/* .setLocation */ .l6)(true);
 
-                  resolve && resolve();
+                  if (resolve instanceof Function) {
+                    resolve();
+                  }
                 }, function () {
-                  reject && reject();
+                  if (reject instanceof Function) {
+                    reject();
+                  }
                 });
               });
             }
@@ -6000,7 +5994,7 @@ function mountWidget(options) {
 /* harmony export */   "T": function() { return /* binding */ defaultWidgetConfigData; }
 /* harmony export */ });
 // TODO 节点配置数据优于插件传递数据
-// TODO 请求子依赖时需要配置数据
+// 请求子依赖时需要配置数据
 // 只有展品解决方案：请求子
 var defaultWidgetConfigData = {
   historyFB: true,

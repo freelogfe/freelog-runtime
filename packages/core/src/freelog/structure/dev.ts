@@ -26,8 +26,8 @@ export function dev(): any {
       config: { vconsole: !!params.devconsole },
     };
   } else {
-    // TODO $_是路由前缀，这里有错误，需要引用常量
-    params.dev = params.dev.split("$_")[0];
+    // params.dev = params.dev.split("$_")[0];
+    // console.log(params.dev)
   }
   return {
     type: DEV_WIDGET,

@@ -42,7 +42,6 @@ export default function frequest(
   }
   // filter data if there is dataModel
   if (api.dataModel && caller) {
-    // TODO 需要用deepclone
     data = Object.assign({}, data);
     compareObjects(api.dataModel, data, !!api.isDiff);
   }

@@ -153,7 +153,7 @@ export function freelogAddEventListener(
       rawWindow.addEventListener("freelog-popstate", arr[1]);
       return;
     }
-    // TODO onmessage需要处理, 此方法只能支持window.addEventListener
+    // TODO onmessage 需要处理, 此方法只能支持window.addEventListener
     if (arguments[0] === "message") {
       const func = arr[1];
       rawWindow.addEventListener(
@@ -183,7 +183,6 @@ export function freelogAddEventListener(
     rawWindow.addEventListener(...arguments);
   };
 }
-// TODO 如果授权UI插件想要请求之外的接口，可以通过freelogAuths放进去
 export const rawFetch = rawWindow.fetch;
 export const nativeOpen = XMLHttpRequest.prototype.open;
 const whiteList = [
@@ -202,7 +201,6 @@ const authWhiteList = [
   "https://api.freelog.com",
   "https://api.testfreelog.com",
 ];
-// TODO 将fetch和XMLHttpRequest放到沙盒里处理
 export function ajaxProxy(type: string, name: string) {
   // @ts-ignore
   if (type === "fetch") {
@@ -241,7 +239,6 @@ export function ajaxProxy(type: string, name: string) {
       }
       // @ts-ignore
       nativeOpen.bind(this)(method, url, async, user, password);
-      // TODO 使用假错误正常返回  暂时无法使用
       // return "can not request data from freelog.com directly!";
     };
     // @ts-ignore
@@ -309,7 +306,6 @@ export function initLocation(isBrowser?: boolean, isFist?: boolean) {
         // id = id.replace(URL_WIDGET_PREFIX, "");
         if (pathname.indexOf("/") !== 0) pathname = "/" + pathname;
         let search = item.substring(index);
-        // TODO 判断id是否存在 isExist(id) &&
         if (isBrowser) {
           locationsForBrower.set(id, {
             pathname,
@@ -318,7 +314,6 @@ export function initLocation(isBrowser?: boolean, isFist?: boolean) {
           });
           return;
         }
-        console.log(id, { pathname, href: pathname + search, search });
         locations.set(id, { pathname, href: pathname + search, search });
         return;
       }
@@ -346,7 +341,6 @@ export function setLocation(isReplace?: boolean) {
   if (!isReplace) {
     state++;
   }
-  // TODO 只有在线的应用才在url上显示, 只有pathname和query需要
   let hash = "";
   locations.forEach((value, key) => {
     if (!activeWidgets.get(key)) {
@@ -397,7 +391,6 @@ export function setLocation(isReplace?: boolean) {
 
   // rawLocation.hash = hash; state++
 }
-// TODO pathname  search 需要不可变
 export const locationCenter: any = {
   set: function (name: string, attr: any) {
     var loc = locations.get(name) || {};
@@ -454,7 +447,7 @@ function patchCommon(
   return function () {
     let hash = "";
     let routerType = HISTORY;
-    // TODO 解析query参数  search vue3会把origin也传过来
+    // 解析query参数  search vue3会把origin也传过来，这里处理一下
     let href = arguments[2]
       .replace(rawLocation.origin, "")
       .replace(rawLocation.origin.replace("http:", "https:"), "");
@@ -559,9 +552,9 @@ export const createHistoryProxy = function (
   };
   return historyProxy;
 };
-// TODO 如果是单应用模式（提升性能）则不用代理, 可以设置location.href的使用权限
-// TODO reload相当于重载应用，想办法把主应用的对应操控函数弄过来，发布订阅模式
-// TODO replace与reload、toString方法无法访问
+//  如果是单应用模式（提升性能）则不用代理, 可以设置location.href的使用权限
+// reload相当于重载应用，想办法把主应用的对应操控函数弄过来，发布订阅模式
+//  replace与 reload 、toString方法无法访问
 export const createLocationProxy = function (
   name: any,
   sandbox: any,
@@ -572,7 +565,7 @@ export const createLocationProxy = function (
   const widgetConfig = widgetsConfig.get(name);
   return new Proxy(locationProxy, {
     /* 
-        a标签的href需要拦截，// TODO 如果以http开头则不拦截
+        a标签的href需要拦截，// 如果以http开头则不拦截
      */
     // @ts-ignore
     set: (target: any, p: PropertyKey, value: any): boolean => {
@@ -647,7 +640,6 @@ export const createDocumentProxy = function (
   proxy: any,
   target: any
 ) {
-  // TODO  firstChild还没创建,这里需要改，加载后才能
   var doc = widgetsConfig.get(name).container.firstChild; //  || widgetsConfig.get(name).container;
   let rootDoc: any = doc;
   rawDocument.getElementsByClassName = rootDoc.getElementsByClassName.bind(doc);
