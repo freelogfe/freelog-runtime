@@ -4996,7 +4996,7 @@ function getSelfExhibitId() {
 function getSelfConfig() {
   // @ts-ignore  由于config只有一层，所以用...就够了
   return __assign({}, _widget__WEBPACK_IMPORTED_MODULE_1__/* .widgetsConfig.get */ .md.get(this.name).config);
-} // TODO if error  这里不需要参数，除了运行时自行调用，需要抽离出来不与插件调用混在一起
+} //  if error  这里不需要参数，除了运行时自行调用，需要抽离出来不与插件调用混在一起
 //  紧急，增加方法加载子依赖传递作品id，通过作品id查询到孙依赖插件
 
 function getSubDep(exhibitId) {
@@ -5265,7 +5265,7 @@ function setViewport(keys) {
 
   Object.keys(keys).forEach(function (key) {
     if (viewPortValue.hasOwnProperty(key) && !immutableKeys.includes(key)) {
-      // TODO 开发体验最好做下验证值是否合法
+      //  开发体验最好做下验证值是否合法
       // @ts-ignore
       viewPortValue[key] = keys[key];
     }
@@ -5710,7 +5710,7 @@ function mountUI(name, container, entry, config) {
       strictStyleIsolation: config ? !!config.shadowDom : false,
       experimentalStyleIsolation: config ? !!config.scopedCss : true
     }
-  }); // TODO 增加是否保留数据
+  });
 
   var _app = __assign(__assign({}, app), {
     mount: function () {
@@ -5993,7 +5993,7 @@ function mountWidget(options) {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "T": function() { return /* binding */ defaultWidgetConfigData; }
 /* harmony export */ });
-// TODO 节点配置数据优于插件传递数据
+// 节点配置数据优于插件传递数据
 // 请求子依赖时需要配置数据
 // 只有展品解决方案：请求子
 var defaultWidgetConfigData = {
