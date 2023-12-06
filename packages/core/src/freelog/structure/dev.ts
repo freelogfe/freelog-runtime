@@ -1,7 +1,7 @@
 export const DEV_FALSE = 0;
 export const DEV_WIDGET = 1; // 插件开发模式
 export const DEV_TYPE_REPLACE = 2; // 插件替换模式
-import { URL_WIDGET_PREFIX, URL_WIDGET_QUERY_PREFIX } from "./const";
+import { URL_WIDGET_PREFIX } from "./const";
 
 export function dev(): any {
   const searchs = window.location.search

@@ -148,7 +148,6 @@ export function freelogAddEventListener(
     // @ts-ignore
     const arr = Array.prototype.slice.apply(arguments);
 
-    // TODO 是否给每个插件都一个事件，这样可以提升性能，路由没有变化的就不需要执行事件了
     if (arguments[0] === "popstate") {
       rawWindow.addEventListener("freelog-popstate", arr[1]);
       return;
@@ -626,10 +625,10 @@ export const createLocationProxy = function (
   });
 };
 rawDocument.write = () => {
-  console.warn("please be careful");
+  console.error("document.write 不允许使用");
 };
 rawDocument.writeln = () => {
-  console.warn("please be careful");
+  console.warn("document.writeln 不允许使用");
 };
 const querySelector = rawDocument.querySelector;
 
