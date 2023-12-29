@@ -21,9 +21,9 @@ import ExhibitList from "./_components/exhibitList";
 const props = window.$wujie?.props;
 const nodeInfo = props.freelogApp.nodeInfo;
 
-const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
+const { SUCCESS, USER_CANCEL } = props.freelogAuth.resultType;
 const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
-  window.freelogAuth;
+props.freelogAuth;
 // const alert = Modal.alert;
 
 interface contractProps {

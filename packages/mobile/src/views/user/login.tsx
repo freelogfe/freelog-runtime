@@ -6,8 +6,10 @@ import { useState } from "react";
 import { EyeInvisibleOutline, EyeOutline } from "antd-mobile-icons";
 
 import "./login.scss";
+//@ts-ignore
+const props = window.$wujie?.props;
 // import logoImage from "../../assets/image/logo-feather.png";
-const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
+const { SUCCESS, USER_CANCEL } = props.freelogAuth.resultType;
 
 interface loginProps {
   loginFinished: any;

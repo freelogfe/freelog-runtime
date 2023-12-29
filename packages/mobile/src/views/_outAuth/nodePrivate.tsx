@@ -5,9 +5,10 @@ import nodePrivate from "../../assets/image/nodePrivate.png";
 import Login from "../user/login";
 
 import { Popup, Button, Toast, SpinLoading } from "antd-mobile";
-const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 //@ts-ignore
 const props = window.$wujie?.props;
+const { SUCCESS, USER_CANCEL } = props.freelogAuth.resultType;
+
 interface OutOfProps {
   outData: any;
   children?: any;
@@ -16,7 +17,7 @@ export default function NodePrivate({ outData }: OutOfProps) {
   const [loginVisible, setLoginVisible] = useState(false);
   function loginFinished(type: number, data?: any) {
     if (type === SUCCESS) {
-      window.freelogAuth.reload();
+      props.freelogAuth.reload();
     }
     if (type === USER_CANCEL) {
       setLoginVisible(false);
