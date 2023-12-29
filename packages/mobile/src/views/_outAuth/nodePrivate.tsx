@@ -6,7 +6,8 @@ import Login from "../user/login";
 
 import { Popup, Button, Toast, SpinLoading } from "antd-mobile";
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
-
+//@ts-ignore
+const props = window.$wujie?.props;
 interface OutOfProps {
   outData: any;
   children?: any;
@@ -53,11 +54,11 @@ export default function NodePrivate({ outData }: OutOfProps) {
           margin-bottom: 80px;
         `}
       >
-        {window.freelogApp.getCurrentUser()
+        {props.freelogApp.getCurrentUser()
           ? "此节点未开放访问"
           : "此节点未开放访问，如果你是节点所有者，请登录后继续访问。"}
       </div>
-      {window.freelogApp.getCurrentUser() ? null : (
+      {props.freelogApp.getCurrentUser() ? null : (
         <Button
           className="fs-14 px-40"
           color="primary"

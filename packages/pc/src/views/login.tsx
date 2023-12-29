@@ -6,8 +6,10 @@ import wechatPng from "@/assets/wechat.png";
 
 import { useState } from "react";
 import "./login.scss";
-const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
-const { setHref,getHref } = window.freelogAuth;
+//@ts-ignore
+const props = window.$wujie?.props;
+const { SUCCESS, USER_CANCEL } = props.freelogAuth.resultType;
+const { setHref,getHref } = props.freelogAuth;
 
 const layout = {
   labelCol: { span: 8 },

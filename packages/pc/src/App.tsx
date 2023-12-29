@@ -5,7 +5,9 @@ import Pc from "./views/auth";
 import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import OutOf from "./views/outOf";
-import { freelogAuthApi } from "freelog-runtime-api"
+import { freelogAuthApi } from "freelog-runtime-api";
+//@ts-ignore
+const props = window.$wujie?.props;
 const {
   registerUI,
   endEvent,
@@ -15,8 +17,8 @@ const {
   lowerUI,
   upperUI,
   reload,
-} = window.freelogAuth;
-const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
+} = props.freelogAuth;
+const { SUCCESS, USER_CANCEL } = props.freelogAuth.resultType;
 const {
   NODE_FREEZED,
   THEME_NONE,
@@ -27,7 +29,7 @@ const {
   USER_FREEZED,
   NODE_OFFLINE,
   NODE_PRIVATE,
-} = window.freelogAuth.eventType;
+} = props.freelogAuth.eventType;
 
 function App() {
   const [events, setEvents] = useState([]);
@@ -67,6 +69,7 @@ function App() {
     }
   }
   function UI(type: any, data: any) {
+    console.log(234234)
     setEventType(type);
     switch (type) {
       case NODE_FREEZED:

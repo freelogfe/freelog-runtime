@@ -6,7 +6,9 @@ import reportWebVitals from "./reportWebVitals";
 
 export async function bootstrap() {
 }
-
+//@ts-ignore
+const props = window.$wujie?.props;
+console.log(props)
 export async function mount(props:any = {}) {
   const { container } = props;
   ReactDOM.render(

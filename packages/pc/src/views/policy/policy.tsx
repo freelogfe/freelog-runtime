@@ -8,9 +8,10 @@ import PolicyContent from "./_components/policyContent";
 import Button from "../_commons/button";
 
 import { Tabs, Checkbox, Popconfirm } from "antd";
-
+//@ts-ignore
+const props = window.$wujie?.props;
 const { TabPane } = Tabs;
-const { getCurrentUser } = window.freelogAuth;
+const { getCurrentUser } = props.freelogAuth;
 interface ItemProps {
   policy: any;
   selectType: boolean;

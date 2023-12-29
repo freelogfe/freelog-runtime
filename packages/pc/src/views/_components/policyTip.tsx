@@ -5,10 +5,11 @@ interface policyTipProps {
   currentExhibit: any;
   children?: any;
 }
-
+//@ts-ignore
+const props = window.$wujie?.props;
 export default function PolicyTip({ currentExhibit }: policyTipProps) {
   const exhibitId = currentExhibit.exhibitId
-  const nodeName = window.freelogApp.nodeInfo.nodeName
+  const nodeName = props.freelogApp.nodeInfo.nodeName
   return (
     <>
       {currentExhibit._contracts.length > currentExhibit.contracts.length && (

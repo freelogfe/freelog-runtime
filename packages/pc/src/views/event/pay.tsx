@@ -6,10 +6,11 @@ import { useState, useEffect, useRef } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 import Tip, { TipTipes } from "../_commons/tip";
 import { freelogAuthApi } from "freelog-runtime-api";
-
+//@ts-ignore
+const props = window.$wujie?.props;
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-const { getUserInfo } = window.freelogAuth;
+const { getUserInfo } = props.freelogAuth;
 interface PayProps {
   isModalVisible: boolean;
   setIsModalVisible: any;

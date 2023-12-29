@@ -17,7 +17,9 @@ import ContractTip from "./_components/contractTip";
 import ExhibitOffLine from "./_statusComponents/exhibitOffLine";
 import ExhibitHeader from "./_components/exhibitHeader";
 import ExhibitList from "./_components/exhibitList";
-const nodeInfo = window.freelogApp.nodeInfo;
+//@ts-ignore
+const props = window.$wujie?.props;
+const nodeInfo = props.freelogApp.nodeInfo;
 
 const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
 const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =

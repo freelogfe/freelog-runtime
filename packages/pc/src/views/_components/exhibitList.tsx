@@ -1,6 +1,8 @@
 /* @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-const nodeInfo = window.freelogApp.nodeInfo;
+//@ts-ignore
+const props = window.$wujie?.props;
+const nodeInfo = props.freelogApp.nodeInfo;
 
 interface exhibitListProps {
   currentExhibit: any;

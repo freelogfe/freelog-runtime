@@ -21,10 +21,12 @@ import ExhibitOffLine from "./_statusComponents/exhibitOffLine";
 import ExhibitFooter from "./_components/exhibitFooter";
 import ContractTip from "./_components/contractTip";
 import PolicyTip from "./_components/policyTip";
-const { SUCCESS, USER_CANCEL } = window.freelogAuth.resultType;
-const nodeInfo = window.freelogApp.nodeInfo;
+//@ts-ignore
+const props = window.$wujie?.props;
+const { SUCCESS, USER_CANCEL } = props.freelogAuth.resultType;
+const nodeInfo = props.freelogApp.nodeInfo;
 const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
-  window.freelogAuth;
+props.freelogAuth;
 
 interface contractProps {
   events: Array<any>;

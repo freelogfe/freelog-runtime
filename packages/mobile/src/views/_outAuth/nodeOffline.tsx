@@ -1,7 +1,8 @@
 import { css } from "astroturf";
 
 import nodeOffline from "../../assets/image/nodeOffline.png";
-
+//@ts-ignore
+const props = window.$wujie?.props;
 interface OutOfProps {
   outData: any;
   children?: any;
@@ -37,7 +38,7 @@ export default function NodeOffline({ outData }: OutOfProps) {
           margin-bottom: 80px;
         `}
       >
-        {window.freelogApp.nodeInfo.nodeSuspendInfo || "筹备中，敬请期待…"}
+        {props.freelogApp.nodeInfo.nodeSuspendInfo || "筹备中，敬请期待…"}
       </div>
       <div className="flex-1"></div>
     </div>
