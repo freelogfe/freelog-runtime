@@ -100,29 +100,28 @@ export function resolveUrl(path: string, params?: any): string {
   }
   return `${baseURL}${path}?${queryStringArr.join("&")}`;
 }
-export function getSelfWidgetId() {
+export function getSelfWidgetId(name:string) {
   // @ts-ignore
-  return widgetsConfig.get(this.name)?.articleId;
+  return widgetsConfig.get(name)?.articleId;
 }
-export function getSelfArticleId() {
+export function getSelfArticleId(name:string) {
   // @ts-ignore
-  return widgetsConfig.get(this.name)?.articleId;
+  return widgetsConfig.get(name)?.articleId;
 }
-export function getSelfExhibitId() {
+export function getSelfExhibitId(name:string) {
   // @ts-ignore
-  return widgetsConfig.get(this.name)?.exhibitId;
+  return widgetsConfig.get(name)?.exhibitId;
 }
-export function getSelfConfig() {
+export function getSelfConfig(name:string) {
   // @ts-ignore  由于config只有一层，所以用...就够了
-  return { ...widgetsConfig.get(this.name).config };
+  return { ...widgetsConfig.get(name).config };
 }
 //  if error  这里不需要参数，除了运行时自行调用，需要抽离出来不与插件调用混在一起
 //  紧急，增加方法加载子依赖传递作品id，通过作品id查询到孙依赖插件
-export async function getSubDep(exhibitId?: any) {
+export async function getSubDep(name: string,exhibitId?: any) {
   let isTheme = false;
   // @ts-ignore
-  const that = this || {};
-  let widgetSandBox = sandBoxs.get(that.name);
+  let widgetSandBox = sandBoxs.get(name);
   if (!widgetSandBox) {
     isTheme = true;
     widgetSandBox = {
@@ -131,7 +130,7 @@ export async function getSubDep(exhibitId?: any) {
       isTheme,
     };
   } else {
-    exhibitId = exhibitId || widgetsConfig.get(that.name).exhibitId;
+    exhibitId = exhibitId || widgetsConfig.get(name).exhibitId;
   }
   // @ts-ignore
   let response = await freelogApp.getExhibitInfoByAuth.bind(widgetSandBox)(
@@ -212,18 +211,18 @@ export async function setUserInfo(info: any) {
   window.userId = info ? info.userId + "" : "";
   userInfo = info;
 }
-export function getStaticPath(path: string) {
+export function getStaticPath(name: string,path: string) {
   if (!/^\//.test(path)) {
     path = "/" + path;
   }
   // @ts-ignore
-  return widgetsConfig.get(this.name).entry + path;
+  return widgetsConfig.get(name).entry + path;
 }
 const rawLocation = window.location;
 
-export function reload() {
+export function reload(name: string) {
   // @ts-ignore
-  if (widgetsConfig.get(this.name).isTheme) {
+  if (widgetsConfig.get(name).isTheme) {
     rawLocation.reload();
   }
 }
@@ -242,11 +241,10 @@ var metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
 export function getViewport() {
   return metaEl.getAttribute("content");
 }
-export function setViewport(keys: any) {
+export function setViewport(name:string, keys: any) {
   // @ts-ignore
-  const that = this;
   // 如果是主题
-  if (!widgetsConfig.get(that.name)?.isTheme) {
+  if (!widgetsConfig.get(name)?.isTheme) {
     return;
   }
   Object.keys(keys).forEach((key: any) => {
@@ -280,10 +278,9 @@ export function setViewport(keys: any) {
 //   return res;
 // }
 
-export async function setUserData(key: string, data: any) {
+export async function setUserData(name:string, key: string, data: any) {
   key = window.isTest ? key + "-test" : key;
   // @ts-ignore
-  const name = this.name;
   let userData = widgetUserData.get(name) || {};
   let config = widgetsConfig.get(name);
   userData[key] = data;
@@ -301,10 +298,9 @@ export async function setUserData(key: string, data: any) {
   return res;
 }
 
-export async function getUserData(key: string) {
+export async function getUserData(name:string, key: string) {
   key = window.isTest ? key + "-test" : key;
   // @ts-ignore
-  const name = this.name;
   let userData = widgetUserData.get(name);
   if (userData) {
     return userData[key];

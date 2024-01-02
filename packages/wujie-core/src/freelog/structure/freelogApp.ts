@@ -1,5 +1,7 @@
 import { resultType, eventType } from "../bridge/eventType";
 import { freelogApp as freelogAppLib } from "freelog-runtime-api";
+import { mountWidget } from "./widget";
+
 import {
   getSelfConfig,
   setUserData,
@@ -29,6 +31,7 @@ export const freelogApp: any = {
     authUIMounted: false,
     themeMounted: false,
   },
+  mountWidget,
   devData,
   getStaticPath,
   getSubDep,

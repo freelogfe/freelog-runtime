@@ -162,7 +162,7 @@ class RunPage extends Component {
     } else {
       this.setState({ romName: 'romInfo.description' });
       this.currentRequest = loadBinary(
-        window.freelogApp ? window.freelogApp.getStaticPath('/Contra') : 'https://localhost:7001/Contra',
+        window.$wujie?.props.freelogApp ? window.$wujie?.props.freelogApp.getStaticPath('/Contra') : 'https://localhost:7001/Contra',
         (err, data) => {
           if (err) {
             this.setState({ error: `Error loading ROM: ${err.message}` });

@@ -63,7 +63,7 @@ export function initNode() {
         }
         const userInfo = values[1];
         const nodeInfo = nodeData.data;
-        freelogApp.nodeInfo = nodeInfo; 
+        freelogApp.nodeInfo = nodeInfo;
         document.title = nodeInfo.nodeName;
         if (isTest) {
           document.title = "[T]" + nodeInfo.nodeName;
@@ -75,20 +75,78 @@ export function initNode() {
         if (userInfo && userInfo.userId !== nodeInfo.ownerUserId && isTest) {
           confirm("测试节点只允许节点拥有者访问！");
           return;
-        } 
+        }
         init(nodeInfo.nodeId, setPresentableQueue);
+        const devData = dev();
+        // window.vconsole = new VConsole()
+        // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
+        //   window.vconsole = new VConsole();
+        // }
+        if (devData.type !== DEV_FALSE && mobile) {
+          var script = document.createElement("script");
+          script.src = "/vconsole.min.js";
+          document.head.appendChild(script);
+          script.onload = () => {
+            // @ts-ignore
+            window.vconsole = new window.VConsole();
+          };
+        }
+        Object.freeze(devData);
+        freelogApp.devData = devData;
         Object.freeze(freelogApp);
         Object.freeze(freelogApp.nodeInfo);
-        const container = document.getElementById(
-          "freelog-plugin-container"
-        );
-        const loadingContainer =
-          document.getElementById("runtime-loading");
-        mountUI(
-          "freelog-ui",
-          document.getElementById("ui-root"),
-          uiPath 
-        ).then(
+        const container = document.getElementById("freelog-plugin-container");
+        const loadingContainer = document.getElementById("runtime-loading");
+        const mountTheme = new Promise(async (themeResolve) => {
+          // 节点冻结
+          if ((nodeInfo.status & 4) === 4) {
+            themeResolve(false);
+            return;
+          }
+          // 用户冻结
+          if (userInfo && userInfo.status == 1) {
+            themeResolve(false);
+            return;
+          }
+          // 没有主题
+          if (
+            (!nodeInfo.nodeThemeId && !isTest) ||
+            (!nodeInfo.nodeTestThemeId && isTest)
+          ) {
+            themeResolve(false);
+            return;
+          }
+          // const availableData = await getExhibitAvailalbe(
+          //   isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
+          // );
+          // 主题冻结
+          // if (availableData && availableData.authCode === 403) {
+          //   resolve && resolve();
+          //   return;
+          // }
+          const theme = await getSubDep(
+            isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
+          );
+          // @ts-ignore
+          loadingContainer.style.display = "none";
+          themeId = theme.articleInfo.articleId;
+          const themeApp = await freelogApp.mountWidget(
+            theme,
+            container,
+            "",
+            { shadowDom: false, scopedCss: true, ...theme.exhibitProperty },
+            null,
+            true
+          );
+          console.log(themeApp)
+          // themeApp.mountPromise.then(() => {
+          //   themeResolve(true);
+          // });
+        });
+        mountTheme.then((flag) => {
+          freelogApp.status.themeMounted = flag;
+        });
+        mountUI("freelog-ui", document.getElementById("ui-root"), uiPath).then(
           async () => {
             // @ts-ignore
             loadingContainer.style.display = "none";

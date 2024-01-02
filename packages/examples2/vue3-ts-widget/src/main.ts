@@ -6,9 +6,9 @@ import routes from "./router";
 import { createPinia } from "pinia";
 import { createRouter, createWebHistory } from "vue-router";
 import { useCounterStore } from "./stores/counter";
-import { freelogApp } from "freelog-runtime";
+// import { freelogApp } from "freelog-runtime";
 let pinia: any = null;
-const freelogApp2: any = freelogApp;
+// const freelogApp2: any = freelogApp;
 // createApp(App).use(store).use(router).mount("#app")
 let router: any = null;
 let instance: any = null;
@@ -38,10 +38,10 @@ if (!window.__POWERED_BY_FREELOG__) {
 }
 
 export async function bootstrap() {
-  console.log(freelogApp)
-  freelogApp2.mapShareUrl({ 
-    detail: ()=> "/vue3/about",
-  });
+  // console.log(freelogApp)
+  // freelogApp2.mapShareUrl({ 
+  //   detail: ()=> "/vue3/about",
+  // });
   console.log("%c ", "color: green;", "vue3.0 app bootstraped");
 }
 

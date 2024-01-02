@@ -18,7 +18,7 @@ import {
 import { onLogin } from "./eventOn";
 import { isMobile } from "../utils/utils";
 import { freelogApp } from "../structure/freelogApp";
-
+import { widgetsConfig } from "../structure/widget"
  
 export const exhibitQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
@@ -54,11 +54,9 @@ export function updateLock(status: boolean) {
 export function setPresentableQueue(name: string, value: any) {
   exhibitQueue.set(name, value);
 }
-export async function addAuth(exhibitId: any, options?: any) {
-  // @ts-ignore
-  const that = this;
-  const name = that.name;
+export async function addAuth(name:string, exhibitId: any, options?: any) {
   const arr = eventMap.get(exhibitId)?.callBacks || [];
+  const widgetData = widgetsConfig.get(name)
   return new Promise((resolve, rej) => {
     Promise.all([
       freelogApp.getExhibitInfo(exhibitId, {
@@ -92,7 +90,7 @@ export async function addAuth(exhibitId: any, options?: any) {
       });
       let id = exhibitId;
       eventMap.set(id, {
-        isTheme: that.isTheme,
+        isTheme: widgetData.isTheme,
         eventId: id, // 后期evnetId是要与prsesentableId区分开来的
         ...data,
         callBacks: arr,

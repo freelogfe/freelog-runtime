@@ -6,10 +6,10 @@
 let app = null;
 // 加载自身依赖的插件
 const mountSubWidget = async () => {
-  const subData = await window.freelogApp.getSubDep();
+  const subData = await window.$wujie?.props.freelogApp.getSubDep();
   subData.subDep.some(async (sub, index) => {
     if (index === 1) return true;
-    app = await window.freelogApp.mountWidget(
+    app = await window.$wujie?.props.freelogApp.mountWidget(
       sub,
       document.getElementById("freelog-single2"),
       subData,
@@ -32,7 +32,7 @@ const add = () => {
 };
 // 加载展品类型的插件s
 const mountExhibitWidget = async () => {
-  const res = await window.freelogApp.getExhibitListByPaging({
+  const res = await window.$wujie?.props.freelogApp.getExhibitListByPaging({
     articleResourceTypes: "插件",
     isLoadVersionProperty: 1,
   });
@@ -40,7 +40,7 @@ const mountExhibitWidget = async () => {
   widgets.some(async (widget, index) => {
     if (index === 1) return true;
     // widget.exhibitId = widget.exhibitId + '111'
-    app = await window.freelogApp.mountWidget(
+    app = await window.$wujie?.props.freelogApp.mountWidget(
       widget,
       document.getElementById("freelog-single"),
       null,
