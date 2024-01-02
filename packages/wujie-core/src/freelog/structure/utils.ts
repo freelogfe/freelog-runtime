@@ -196,18 +196,18 @@ export async function getSubDep(name: string,exhibitId?: any) {
   };
 }
 export let userInfo: any = null;
-export async function getUserInfo() {
+export async function getUserInfo(name?:string) {
   if (userInfo) return userInfo;
   const res = await _getCurrentUser();
   userInfo = res.data.errCode === 0 ? res.data.data : null;
-  setUserInfo(userInfo);
+  setUserInfo(name, userInfo);
   initUserCheck();
   return userInfo;
 }
-export function getCurrentUser() {
+export function getCurrentUser(name:string) {
   return userInfo;
 }
-export async function setUserInfo(info: any) {
+export async function setUserInfo(name:string | undefined,info: any) {
   window.userId = info ? info.userId + "" : "";
   userInfo = info;
 }
@@ -238,7 +238,7 @@ const viewPortValue = {
 };
 var rawDocument = window.document;
 var metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
-export function getViewport() {
+export function getViewport(name:string) {
   return metaEl.getAttribute("content");
 }
 export function setViewport(name:string, keys: any) {
@@ -317,12 +317,12 @@ export async function getUserData(name:string, key: string) {
   return userData[key];
 }
 
-export function callLogin(resolve: Function) {
+export function callLogin(name:string,resolve: Function) {
   if (!userInfo) {
     goLogin(resolve);
   }
 }
-export function callLoginOut() {
+export function callLoginOut(name:string) {
   if (userInfo) {
     goLoginOut();
   }

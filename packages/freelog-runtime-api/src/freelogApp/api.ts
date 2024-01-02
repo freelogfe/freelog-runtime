@@ -4,13 +4,13 @@ import contract from "./services/api/modules/contract";
 import operation from "./services/api/modules/operation";
 import { baseInfo } from "../base/baseInfo";
 // 展品非授权信息接口
-export async function getExhibitListById(query: any): Promise<any> {
+export async function getExhibitListById(name: string,query: any): Promise<any> {
   if (query && Object.prototype.toString.call(query) !== "[object Object]") {
     return "query parameter must be object";
   }
   if (baseInfo.isTest)
     //@ts-ignore
-    return frequest.bind({ name: this.name })(
+    return frequest.bind({ name })(
       exhibit.getTestExhibitListById,
       [baseInfo.nodeId],
       {
@@ -18,7 +18,7 @@ export async function getExhibitListById(query: any): Promise<any> {
       }
     );
   //@ts-ignore
-  return frequest.bind({ name: this.name })(
+  return frequest.bind({ name })(
     exhibit.getExhibitListById,
     [baseInfo.nodeId],
     {
@@ -26,13 +26,13 @@ export async function getExhibitListById(query: any): Promise<any> {
     }
   );
 }
-export async function getExhibitListByPaging(query: any): Promise<any> {
+export async function getExhibitListByPaging(name: string,query: any): Promise<any> {
   if (query && Object.prototype.toString.call(query) !== "[object Object]") {
     return Promise.reject("query parameter must be object");
   }
   if (baseInfo.isTest)
     // @ts-ignore
-    return frequest.bind({ name: this.name })(
+    return frequest.bind({ name  })(
       exhibit.getTestExhibitByPaging,
       [baseInfo.nodeId],
       {
@@ -40,7 +40,7 @@ export async function getExhibitListByPaging(query: any): Promise<any> {
       }
     );
   // @ts-ignore
-  return frequest.bind({ name: this.name })(
+  return frequest.bind({ name  })(
     exhibit.getExhibitListByPaging,
     [baseInfo.nodeId],
     {
@@ -48,7 +48,7 @@ export async function getExhibitListByPaging(query: any): Promise<any> {
     }
   );
 }
-export async function getSignStatistics(query: any) {
+export async function getSignStatistics(name: string, query: any) {
   // @ts-ignore
   return frequest(contract.getSignStatistics, "", {
     signUserIdentityType: 2,
@@ -56,14 +56,14 @@ export async function getSignStatistics(query: any) {
     ...query,
   });
 }
-export async function getExhibitInfo(exhibitId: string, query: any) {
+export async function getExhibitInfo(name: string,exhibitId: string, query: any) {
   if (baseInfo.isTest)
     // @ts-ignore
     return frequest(exhibit.getTestExhibitDetail, [baseInfo.nodeId, exhibitId], query);
   // @ts-ignore
   return frequest(exhibit.getExhibitDetail, [baseInfo.nodeId, exhibitId], query);
 }
-export async function getExhibitDepInfo(
+export async function getExhibitDepInfo(name: string,
   exhibitId: string,
   articleNids: string
 ) {
@@ -78,14 +78,14 @@ export async function getExhibitDepInfo(
   });
 }
 
-export async function getExhibitSignCount(exhibitId: string) {
+export async function getExhibitSignCount(name: string,exhibitId: string) {
   // @ts-ignore
   return frequest(exhibit.getExhibitSignCount, "", {
     subjectIds: exhibitId,
     subjectType: 2,
   });
 }
-export async function getExhibitAvailalbe(exhibitIds: string) {
+export async function getExhibitAvailalbe(name: string,exhibitIds: string) {
   if (baseInfo.isTest) {
     return frequest(exhibit.getTestExhibitAuthStatus, [baseInfo.nodeId], {
       authType: 3,
@@ -98,7 +98,7 @@ export async function getExhibitAvailalbe(exhibitIds: string) {
     exhibitIds,
   });
 }
-export async function getExhibitAuthStatus(exhibitIds: string) {
+export async function getExhibitAuthStatus(name: string,exhibitIds: string) {
   if (baseInfo.isTest) {
     return frequest(exhibit.getTestExhibitAuthStatus, [baseInfo.nodeId], {
       authType: baseInfo.isTest ? 3 : 4,
@@ -155,7 +155,7 @@ function getByExhibitId(
     config
   );
 }
-export async function getExhibitFileStream(
+export async function getExhibitFileStream(name: string,
   exhibitId: string | number,
   options: {
     returnUrl?: boolean;
@@ -166,7 +166,7 @@ export async function getExhibitFileStream(
 ) {
   return frequest.bind({
     // @ts-ignore
-    name: this.name,
+    name ,
     isAuth: true,
     exhibitId: exhibitId,
   })(
@@ -179,8 +179,7 @@ export async function getExhibitFileStream(
   // @ts-ignore
   // return getByExhibitId(
   //   // @ts-ignore
-  //   this.name,
-  //   exhibitId,
+   //   exhibitId,
   //   "fileStream",
   //   "",
   //   "",
@@ -188,16 +187,16 @@ export async function getExhibitFileStream(
   //   config
   // );
 }
-export async function getExhibitResultByAuth(exhibitId: string | number) {
+export async function getExhibitResultByAuth(name: string,exhibitId: string | number) {
   // @ts-ignore
-  return getByExhibitId(this.name, exhibitId, "result", "", "");
+  return getByExhibitId(name, exhibitId, "result", "", "");
 }
-export async function getExhibitInfoByAuth(exhibitId: string | number) {
+export async function getExhibitInfoByAuth(name: string,exhibitId: string | number) {
   // @ts-ignore
-  return getByExhibitId(this.name, exhibitId, "info", "", "");
+  return getByExhibitId(name, exhibitId, "info", "", "");
 }
 // 子依赖树
-export async function getExhibitDepTree(
+export async function getExhibitDepTree(name: string,
   exhibitId: string | number,
   options: {
     version?: string;
@@ -208,7 +207,7 @@ export async function getExhibitDepTree(
 ) {
   return frequest.bind({
     // @ts-ignore
-    name: this.name,
+    name: name,
     exhibitId: exhibitId,
   })(
     baseInfo.isTest ? exhibit.getTestExhibitDepTree : exhibit.getExhibitDepTree,
@@ -225,7 +224,7 @@ export async function getExhibitDepTree(
 }
 
 // 子依赖
-export async function getExhibitDepFileStream(
+export async function getExhibitDepFileStream(name: string,
   exhibitId: string | number,
   parentNid: string,
   subArticleId: string,
@@ -237,7 +236,7 @@ export async function getExhibitDepFileStream(
   }
   return frequest.bind({
     // @ts-ignore
-    name: this.name,
+    name: name,
     isAuth: true,
     exhibitId: exhibitId,
   })(
@@ -260,6 +259,6 @@ export async function getExhibitDepFileStream(
   // );
 }
 
-export async function pushMessage4Task(query: any) {
+export async function pushMessage4Task(name: string, query: any) {
   return frequest(operation.pushMessage4Task, null, query);
 }

@@ -10,7 +10,7 @@ export function initUserCheck() {
 }
 const rawLocation = window.location
 
-export function isUserChange(){
+export function isUserChange(name:string){
   let uid = docCookies.getItem("uid");
   uid = uid ? uid : "";
   if (inited && uid !== window.userId) {

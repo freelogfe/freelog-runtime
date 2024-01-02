@@ -3,7 +3,7 @@ import { userInfo } from "../structure/utils";
 export const loginCallback: any = [];
 
 // 登录和切换用户需要触发
-export async function onLogin(callback: any) {
+export async function onLogin(name:string,callback: any) {
   if (typeof callback === "function") {
     loginCallback.push(callback);
   } else {
@@ -13,7 +13,7 @@ export async function onLogin(callback: any) {
 
 export let userChangeCallback: any = [];
 // 交给主题或插件去刷新用户，或者可以做成由节点选择是否在运行时里面控制
-export function onUserChange(callback: Function) {
+export function onUserChange(name:string, callback: Function) {
   if (typeof callback === "function") {
     userChangeCallback.push(callback);
   } else {

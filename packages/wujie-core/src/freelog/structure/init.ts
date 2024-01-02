@@ -131,6 +131,7 @@ export function initNode() {
           loadingContainer.style.display = "none";
           themeId = theme.articleInfo.articleId;
           const themeApp = await freelogApp.mountWidget(
+            null,
             theme,
             container,
             "",

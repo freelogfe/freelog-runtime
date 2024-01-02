@@ -112,7 +112,7 @@ export async function addAuth(name:string, exhibitId: any, options?: any) {
     });
   });
 }
-export function callAuth() {
+export function callAuth(name:string) {
   if (window.isTest) return;
   if (!uiInited) {
     UI && UI(CONTRACT);

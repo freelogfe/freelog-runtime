@@ -4,6 +4,7 @@ import { freelogAuth } from "./freelogAuth";
 import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
 import { defaultWidgetConfigData } from "./widgetConfigData";
 import { freelogFetch } from "./freelogFetch";
+import { bindName } from "./bind"
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
@@ -69,7 +70,7 @@ export function mountUI(
     el: container,
     url: entry,
     props: {
-      freelogApp,
+      freelogApp: bindName(name),
       freelogAuth,
     },
   });
@@ -239,10 +240,9 @@ export async function mountWidget(
     // @ts-ignore
     fetch: (input: RequestInfo, init?: RequestInit) => { return freelogFetch(widgetConfig, input, init)},
     props: {
-      freelogApp,
+      freelogApp:bindName(name),
     },
   });
-  console.log(app);
   addWidget(widgetId, app);
   return app;
 }
