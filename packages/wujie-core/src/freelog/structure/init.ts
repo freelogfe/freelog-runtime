@@ -64,9 +64,10 @@ export function initNode() {
         const userInfo = values[1];
         const nodeInfo = nodeData.data;
         freelogApp.nodeInfo = nodeInfo;
-        document.title = nodeInfo.nodeName;
+         
+        document.title = nodeInfo.nodeTitle? nodeInfo.nodeTitle : nodeInfo.nodeName;
         if (isTest) {
-          document.title = "[T]" + nodeInfo.nodeName;
+          document.title = "[T]" + document.title;
         }
         if (!userInfo && isTest) {
           confirm("测试节点必须登录！");
@@ -124,7 +125,7 @@ export function initNode() {
           //   resolve && resolve();
           //   return;
           // }
-          const theme = await getSubDep(
+          const theme = await getSubDep("",
             isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
           );
           // @ts-ignore

@@ -1,4 +1,4 @@
-import { resultType, eventType } from "../bridge/eventType";
+import { resultType } from "../bridge/eventType";
 import { freelogApp as freelogAppLib } from "freelog-runtime-api";
 import { mountWidget } from "./widget";
 

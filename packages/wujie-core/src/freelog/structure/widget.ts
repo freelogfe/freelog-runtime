@@ -10,7 +10,6 @@ export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
 export const activeWidgets = new Map<any, any>();
 export const childrenWidgets = new Map<any, any>();
-export const sandBoxs = new Map<any, any>(); // 沙盒不交给plugin, 因为plugin是插件可以用的
 export const widgetUserData = new Map<any, any>();
 export function addWidget(key: string, plugin: any) {
   if (activeWidgets.has(key)) {
@@ -23,7 +22,7 @@ export function addWidgetConfig(key: string, config: any) {
   widgetsConfig.set(key, config);
 }
 export function removeWidget(key: string) {
-  flatternWidgets.has(key) && flatternWidgets.delete(key) && removeSandBox(key);
+  flatternWidgets.has(key) && flatternWidgets.delete(key) ;
 }
 export function deactiveWidget(key: string) {
   activeWidgets.has(key) && activeWidgets.delete(key);
@@ -40,16 +39,7 @@ export function removeChildWidget(key: string, childKey: string) {
     childrenWidgets.set(key, arr);
   }
 }
-// maybe plugin is not exists in flatternWidgets
-export function addSandBox(key: string, sandbox: any) {
-  if (sandBoxs.has(key)) {
-    console.warn(widgetsConfig.get(key).name + " reloaded");
-  }
-  sandBoxs.set(key, sandbox);
-}
-export function removeSandBox(key: string) {
-  sandBoxs.has(key) && sandBoxs.delete(key);
-}
+  
 export function mountUI(
   name: string,
   container: any,
@@ -240,6 +230,7 @@ export async function mountWidget(
     // @ts-ignore
     fetch: (input: RequestInfo, init?: RequestInit) => { return freelogFetch(widgetConfig, input, init)},
     props: {
+      ...config,
       freelogApp:bindName(name),
     },
   });

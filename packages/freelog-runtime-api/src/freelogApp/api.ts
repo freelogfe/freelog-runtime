@@ -192,6 +192,7 @@ export async function getExhibitResultByAuth(name: string,exhibitId: string | nu
   return getByExhibitId(name, exhibitId, "result", "", "");
 }
 export async function getExhibitInfoByAuth(name: string,exhibitId: string | number) {
+  console.log(99999,name, exhibitId)
   // @ts-ignore
   return getByExhibitId(name, exhibitId, "info", "", "");
 }

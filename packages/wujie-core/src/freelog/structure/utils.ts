@@ -3,7 +3,7 @@
 import { baseURL, isTest } from "./base";
 import { freelogApp } from "./freelogApp";
 
-import { widgetsConfig, widgetUserData, sandBoxs, FREELOG_DEV } from "./widget";
+import { widgetsConfig, widgetUserData,   FREELOG_DEV } from "./widget";
 import { initUserCheck } from "../security";
 import { addAuth, goLogin, goLoginOut } from "../bridge/index";
 import {
@@ -121,7 +121,8 @@ export function getSelfConfig(name:string) {
 export async function getSubDep(name: string,exhibitId?: any) {
   let isTheme = false;
   // @ts-ignore
-  let widgetSandBox = sandBoxs.get(name);
+  let widgetSandBox = widgetsConfig.get(name);
+
   if (!widgetSandBox) {
     isTheme = true;
     widgetSandBox = {
@@ -132,10 +133,13 @@ export async function getSubDep(name: string,exhibitId?: any) {
   } else {
     exhibitId = exhibitId || widgetsConfig.get(name).exhibitId;
   }
+  console.log(exhibitId, widgetSandBox)
+
   // @ts-ignore
-  let response = await freelogApp.getExhibitInfoByAuth.bind(widgetSandBox)(
+  let response = await freelogApp.getExhibitInfoByAuth.bind(widgetSandBox)(name,
     exhibitId
   );
+  console.log(response)
   if (response.authErrorType && isTheme) {
     await new Promise<void>(async (resolve, reject) => {
       if (response.authCode === 502) {
@@ -285,9 +289,9 @@ export async function setUserData(name:string, key: string, data: any) {
   let config = widgetsConfig.get(name);
   userData[key] = data;
   let widgetId = btoa(encodeURI(config.articleName));
-  if (name === FREELOG_DEV) {
-    widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
-  }
+  // if (name === FREELOG_DEV) {
+  //   widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
+  // }
   const nodeId = freelogApp.nodeInfo.nodeId;
   // 用户如果两台设备更新数据，可以做一个保存请求的数据对比最新的数据，如果不同，提示给插件（或者传递参数强制更新）,这个后端来做？
   const res = await _putUserData([nodeId], {
@@ -307,9 +311,9 @@ export async function getUserData(name:string, key: string) {
   }
   let config = widgetsConfig.get(name);
   let widgetId = btoa(encodeURI(config.articleName));
-  if (name === FREELOG_DEV) {
-    widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
-  }
+  // if (name === FREELOG_DEV) {
+  //   widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
+  // }
   const nodeId = freelogApp.nodeInfo.nodeId;
   const res = await _getUserData([nodeId]);
   userData = res.data[widgetId] || {};
