@@ -80,9 +80,9 @@ export function initNode() {
         //   resolve();
         //   return;
         // }
-        document.title = nodeInfo.nodeName;
+        document.title = nodeInfo.nodeTitle? nodeInfo.nodeTitle : nodeInfo.nodeName;
         if (isTest) {
-          document.title = "[T]" + nodeInfo.nodeName;
+          document.title = "[T]" + document.title;
         }
         if (!userInfo && isTest) {
           confirm("测试节点必须登录！");

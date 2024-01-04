@@ -1,0 +1,17 @@
+export declare function getContractInfo(urlData: Array<any>, query: any): Promise<any>;
+export declare function getContracts(query: any): Promise<any>;
+export declare function signContract(query: any): Promise<any>;
+export declare function batchSign(query: any): Promise<any>;
+export declare function getTransitionRecords(urlData: Array<any>, query: any): Promise<any>;
+export declare function pay(urlData: Array<any>, query: any): Promise<any>;
+export declare function getRecord(urlData: Array<any>, query?: any): Promise<any>;
+export declare function login(query: any): Promise<any>;
+export declare function loginVerify(query: any): Promise<any>;
+export declare function loginOut(query: any): Promise<any>;
+export declare function getCurrent(): Promise<any>;
+export declare function getAccount(urlData: Array<any>, query: any): Promise<any>;
+export declare function postRegister(query: any): Promise<any>;
+export declare function getAuthCode(query: any): Promise<any>;
+export declare function verifyAuthCode(query: any): Promise<any>;
+export declare function putResetPassword(urlData: Array<any>, query: any): Promise<any>;
+export declare function putResetPayPassword(query: any): Promise<any>;

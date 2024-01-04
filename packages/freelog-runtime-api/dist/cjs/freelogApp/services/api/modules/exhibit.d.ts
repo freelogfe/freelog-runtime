@@ -1,0 +1,21 @@
+export type Exhibit = {
+    getExhibitDetail: any;
+    getTestExhibitDetail: any;
+    getExhibitListById: any;
+    getTestExhibitListById: any;
+    getExhibitListByPaging: any;
+    getTestExhibitByPaging: any;
+    getExhibitAuthById: any;
+    getTestExhibitAuthById: any;
+    getExhibitAuthStatus: any;
+    getTestExhibitAuthStatus: any;
+    getExhibitSignCount: any;
+    getExhibitDepInfo: any;
+    getTestExhibitDepInfo: any;
+    getExhibitById: any;
+    getTestExhibitById: any;
+    getExhibitDepTree: any;
+    getTestExhibitDepTree: any;
+};
+declare const exhibit: Exhibit;
+export default exhibit;

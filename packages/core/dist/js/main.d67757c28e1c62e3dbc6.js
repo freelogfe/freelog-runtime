@@ -3387,10 +3387,10 @@ function initNode() {
               //   return;
               // }
 
-              document.title = nodeInfo.nodeName;
+              document.title = nodeInfo.nodeTitle ? nodeInfo.nodeTitle : nodeInfo.nodeName;
 
               if (_base__WEBPACK_IMPORTED_MODULE_3__/* .isTest */ .Y) {
-                document.title = "[T]" + nodeInfo.nodeName;
+                document.title = "[T]" + document.title;
               }
 
               if (!userInfo && _base__WEBPACK_IMPORTED_MODULE_3__/* .isTest */ .Y) {
@@ -3988,7 +3988,7 @@ rawWindow.addEventListener("hashchange", function () {
 function freelogAddEventListener(name, sandbox, proxy, target) {
   return function () {
     // @ts-ignore
-    var arr = Array.prototype.slice.apply(arguments); // TODO 是否给每个插件都一个事件，这样可以提升性能，路由没有变化的就不需要执行事件了
+    var arr = Array.prototype.slice.apply(arguments);
 
     if (arguments[0] === "popstate") {
       rawWindow.addEventListener("freelog-popstate", arr[1]);
@@ -4453,11 +4453,11 @@ var createLocationProxy = function (name, sandbox, proxy, target) {
 };
 
 rawDocument.write = function () {
-  console.warn("please be careful");
+  console.error("document.write 不允许使用");
 };
 
 rawDocument.writeln = function () {
-  console.warn("please be careful");
+  console.warn("document.writeln 不允许使用");
 };
 
 var querySelector = rawDocument.querySelector; // document的代理
