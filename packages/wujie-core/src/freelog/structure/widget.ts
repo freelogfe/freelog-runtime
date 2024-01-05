@@ -232,7 +232,7 @@ export async function mountWidget(
     fetch: (input: RequestInfo, init?: RequestInit) => { return freelogFetch(widgetConfig, input, init)},
     props: {
       ...config,
-      freelogApp:bindName(name),
+      freelogApp:bindName(widgetId),
     },
   });
   addWidget(widgetId, app);

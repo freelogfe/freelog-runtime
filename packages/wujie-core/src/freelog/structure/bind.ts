@@ -7,9 +7,9 @@ export const bindName = (name:string)=>{
     get: function (target, propKey, receiver) {
          // @ts-ignore
        if(typeof freelogApp[propKey] == "function"){
-          return  ()=>{
-            console.log(8889999,freelogApp,propKey,name,arguments)
-            freelogApp[propKey](name,...arguments)
+          return  function(){
+            console.log(8889999,freelogApp,propKey,name,arguments,...arguments)
+            return freelogApp[propKey](name,...arguments)
           }
        } 
     }
