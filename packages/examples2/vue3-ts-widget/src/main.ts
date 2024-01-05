@@ -1,7 +1,6 @@
 import "./public-path";
 import { createApp } from "vue";
 import App from "./App.vue";
-import "./registerServiceWorker";
 import routes from "./router";
 import { createPinia } from "pinia";
 import { createRouter, createWebHistory } from "vue-router";
@@ -16,7 +15,7 @@ let instance: any = null;
 function render(props: any = {}) {
   const { container } = props;
   router = createRouter({
-    history: createWebHistory(window.__POWERED_BY_FREELOG__ ? "/vue3" : "/"),
+    history: createWebHistory("/vue3"),
     routes,
   });
   instance = createApp(App);
@@ -24,13 +23,13 @@ function render(props: any = {}) {
   instance.use(router);
   instance.use(pinia);
   instance.mount(container ? container.querySelector("#app") : "#app");
-  props.registerApi({
-    // 这个对象会给到父插件
-    changeMe: () => {
-      const store = useCounterStore();
-      store.increment();
-    },
-  });
+  // props.registerApi({
+  //   // 这个对象会给到父插件
+  //   changeMe: () => {
+  //     const store = useCounterStore();
+  //     store.increment();
+  //   },
+  // });
 }
 
 if (!window.__POWERED_BY_FREELOG__) {

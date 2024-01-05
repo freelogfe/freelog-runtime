@@ -140,7 +140,6 @@ export function initNode() {
             null,
             true
           );
-          console.log(themeApp)
           // themeApp.mountPromise.then(() => {
           //   themeResolve(true);
           // });

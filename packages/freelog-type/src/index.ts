@@ -8,7 +8,8 @@ import { WidgetApp, PlainObject, NodeInfo, FreelogUserInfo } from './interface';
 // @ts-ignore
 const app = window.$wujie?.props.freelogApp || window.freelogApp;
 export const freelogApp: FreelogApp = app;
-
+// @ts-ignore
+window.freelogApp = app
 export interface FreelogApp {
   initGlobalState:(state: any)=>any;
   nodeInfo: NodeInfo;

@@ -227,6 +227,7 @@ export async function mountWidget(
     name: widgetId,
     el: widgetConfig.container,
     url: widgetConfig.entry,
+    sync:true,
     // @ts-ignore
     fetch: (input: RequestInfo, init?: RequestInit) => { return freelogFetch(widgetConfig, input, init)},
     props: {
