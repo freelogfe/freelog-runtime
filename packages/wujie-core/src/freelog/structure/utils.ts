@@ -133,13 +133,11 @@ export async function getSubDep(name: string,exhibitId?: any) {
   } else {
     exhibitId = exhibitId || widgetsConfig.get(name).exhibitId;
   }
-  console.log(exhibitId, widgetSandBox)
 
   // @ts-ignore
   let response = await freelogApp.getExhibitInfoByAuth.bind(widgetSandBox)(name,
     exhibitId
   );
-  console.log(response)
   if (response.authErrorType && isTheme) {
     await new Promise<void>(async (resolve, reject) => {
       if (response.authCode === 502) {

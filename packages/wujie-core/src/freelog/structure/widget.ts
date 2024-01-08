@@ -64,7 +64,6 @@ export function mountUI(
       freelogAuth,
     },
   });
-  console.log(app);
   addWidget(name, app);
   return app;
 }

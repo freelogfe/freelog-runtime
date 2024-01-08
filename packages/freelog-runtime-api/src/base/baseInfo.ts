@@ -1,7 +1,7 @@
 ﻿// @ts-ignore
-const isTest = window.isTest;
+const isTest = window.parent.isTest;
 // @ts-ignore
-let baseURL = window.baseURL;
+let baseURL = window.parent.baseURL;
 export const baseInfo = {
   isTest: isTest,
   nodeId: "",
