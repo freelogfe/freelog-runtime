@@ -140,9 +140,9 @@ export function initNode() {
             null,
             true
           );
-          // themeApp.mountPromise.then(() => {
-          //   themeResolve(true);
-          // });
+          themeApp.mountPromise.then(() => {
+            themeResolve(true);
+          });
         });
         mountTheme.then((flag) => {
           freelogApp.status.themeMounted = flag;

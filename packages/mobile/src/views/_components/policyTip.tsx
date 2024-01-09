@@ -1,4 +1,4 @@
-import { css } from "astroturf";
+
 
 interface policyTipProps {
   currentExhibit: any;
@@ -34,11 +34,11 @@ export default function PolicyTip({ currentExhibit }: policyTipProps) {
       )}
       {currentExhibit.policiesActive.some((item: any) => !item.contracted) ? (
         <div
-          css={css`
-            color: #7a869a;
-            font-size: 12px;
-            font-weight: 600;
-          `}
+          style={{
+            fontSize: "12px",
+            fontWeight: "600",
+            color: "#7a869a",
+          }}
           className="flex-1 fw-bold mt-20 ml-15"
         >
           可签约的策略

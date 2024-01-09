@@ -1,4 +1,4 @@
-import { css } from "astroturf";
+
 
 interface exhibitHeaderProps {
   currentExhibit: any;
@@ -26,10 +26,7 @@ export default function ExhibitHeader({
           <div className="flex-1"></div>
           {/* <i
             className="iconfont"
-            css={css`
-              color: red;
-              font-size: 16px;
-            `}
+            
           >
             &#xe62f;
           </i> */}
@@ -42,25 +39,13 @@ export default function ExhibitHeader({
 
       {currentExhibit.isTheme ? (
         <>
-          <div
-            css={css`
-              font-size: 14px;
-              font-weight: 400;
-              color: #999999;
-              line-height: 20px;
-            `}
-            className="flex-column-center"
+          <div 
+            className="flex-column-center fs-14 lh-20 fw-regular fc-less"
           >
             当前节点主题未开放授权，
           </div>
-          <div
-            css={css`
-              font-size: 14px;
-              font-weight: 400;
-              color: #999999;
-              line-height: 20px;
-            `}
-            className="mb-20 flex-column-center"
+          <div 
+            className="mb-20 flex-column-center fs-14 lh-20 fw-regular fc-less"
           >
             {currentExhibit &&
             currentExhibit.contracts &&
@@ -74,13 +59,7 @@ export default function ExhibitHeader({
       403 ? null : // <div className="flex-column-center">
       //   <span
       //     className="iconfont"
-      //     css={css`
-      //       color: red;
-      //       font-size: 16px;
-      //       font-weight: 400;
-      //       color: #ee4040;
-      //       line-height: 18px;
-      //     `}
+      //      
       //   >
       //     已封禁
       //   </span>
@@ -90,32 +69,33 @@ export default function ExhibitHeader({
           {currentExhibit.contracts.map((contract: any, index: number) => {
             return (
               <div
-                css={css`
-                  padding: 2px 5px;
-                  height: 24px;
-                  background: #e9f2ff;
-                  border-radius: 2px;
-                  border: 1px solid #aed0ff;
-                `}
+              style={{
+                padding: "2px 5px",                
+                height: "24px",
+                background: "#e9f2ff",
+                borderRadius: "2px",
+                border: "1px solid #aed0ff"
+              }} 
                 className={"flex-row align-center mr-5"}
                 key={index}
               >
                 <div
-                  css={css`
-                    font-size: 12px;
-                    font-weight: 400;
-                    color: #2784ff;
-                    line-height: 18px;
-                  `}
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "400",
+                  color: "#2784ff",
+                  lineHeight: "18px"
+                }} 
                 >
                   {contract.contractName}
                 </div>
                 <div
-                  css={css`
-                    width: 6px;
-                    height: 6px;
-                    border-radius: 50%;
-                  `}
+                style={{
+                  width: "6px",
+                  height: "6px",
+                  borderRadius: "50% "
+                }} 
+                   
                   className={
                     "ml-6 " +
                     (contract.authStatus === 128

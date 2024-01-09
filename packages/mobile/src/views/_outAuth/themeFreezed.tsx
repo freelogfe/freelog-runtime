@@ -1,4 +1,4 @@
-import { css } from "astroturf";
+
 
 interface OutOfProps {
   outData: any;
@@ -7,33 +7,20 @@ interface OutOfProps {
 export default function OutOf({ outData }: OutOfProps) {
   return (
     <div
-      className="flex-column align-center"
-      css={css`
-        height: 100%;
-        text-align: center;
-        background: #ffffff;
-      `}
+      className="flex-column align-center text-align-center h-100x"
+      style={{
+        background: "#ffffff",
+      }}
     >
       <div className="flex-2"></div>
       <div>
-        <i
-          className="iconfont"
-          css={css`
-            color: red;
-            font-size: 76px;
-          `}
-        >
-          &#xe62f;
-        </i>
+        <i className="iconfont fc-red fs-76">&#xe62f;</i>
       </div>
       <div
-        css={css`
-          font-size: 20px;
-          font-weight: 600;
-          color: #222222;
-          line-height: 30px;
-          margin-top: 40px;
-        `}
+        className="lh-30 mt-40 fs-20 fw-bold"
+        style={{
+          color: "#222222",
+        }}
       >
         节点主题违规，暂时无法加载内容
       </div>

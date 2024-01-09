@@ -1,4 +1,4 @@
-import { css } from "astroturf";
+
 import { useState, useEffect } from "react";
 import Login from "./user/login";
 import Forgot, { LOGIN_PASSWORD, PAY_PASSWORD } from "./user/forgot";
@@ -7,6 +7,7 @@ import NodeError from "./_statusComponents/nodeError";
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
 import { freelogAuthApi } from "freelog-runtime-api";
+import "./auth.scss";
 
 // import getBestTopology from "./topology/data";
 import { Dialog, Toast } from "antd-mobile"; // Toast, Button
@@ -23,7 +24,7 @@ const nodeInfo = props.freelogApp.nodeInfo;
 
 const { SUCCESS, USER_CANCEL } = props.freelogAuth.resultType;
 const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
-props.freelogAuth;
+  props.freelogAuth;
 // const alert = Modal.alert;
 
 interface contractProps {
@@ -214,17 +215,7 @@ export default function Auth(props: contractProps) {
         policy._disabled = true;
         setCurrentExhibit({ ...currentExhibit });
         Toast.show({
-          icon: (
-            <i
-              className="iconfont"
-              css={css`
-                color: red;
-                font-size: 50px;
-              `}
-            >
-              &#xe62f;
-            </i>
-          ),
+          icon: <i className="iconfont auth-tip">&#xe62f;</i>,
           content: "策略已下线无法签约",
           duration: 1500,
         });
@@ -326,24 +317,10 @@ export default function Auth(props: contractProps) {
                 events={events}
               />
               {currentExhibit.availableData.authCode === 403 ? (
-                <div
-                  className="flex-row align-center mx-15 py-5"
-                  css={css`
-                    background: #fdebec;
-                    border-radius: 4px;
-                    color: #ee4040;
-                    font-size: 12px;
-                    padding: 0 10px;
-                    margin-top: 10px;
-                  `}
-                >
+                <div className="flex-row align-center mx-15 py-5 auth-forbidden">
                   {/* <i
                     className="iconfont"
-                    css={css`
-                      color: red;
-                      font-size: 16px;
-                      margin-right: 5px;
-                    `}
+                    
                   >
                     &#xe62f;
                   </i> */}
@@ -351,24 +328,8 @@ export default function Auth(props: contractProps) {
                 </div>
               ) : null}
               {nodeInfo.ownerUserStatus === 1 ? (
-                <div
-                  className="flex-row align-center py-5 px-10 mx-15 fs-12"
-                  css={css`
-                    background: #fbf5ea;
-                    border-radius: 4px;
-                    color: #e9a923;
-                    font-size: 12px;
-                    margin-top: 15px;
-                    line-height: 100%;
-                  `}
-                >
-                  <div
-                    className="w-16 h-16 over-h flex-column-center"
-                    css={css`
-                      font-size: 16px;
-                      margin-right: 5px;
-                    `}
-                  >
+                <div className="flex-row align-center py-5 px-10 mx-15 fs-12 auth-freeze">
+                  <div className="w-16 h-16 over-h flex-column-center mr-5 fs-16">
                     <img src="/warn.svg" alt="" className="w-100x" />
                   </div>
                   <span>该展品运营方账号因违规已被冻结，请谨慎处理授权。</span>

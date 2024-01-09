@@ -1,0 +1,97 @@
+.pay-container {
+    .titleItem {
+        text-align: left;
+        padding: 20px 0 5px 0;
+        font-size: 14px;
+        font-weight: 400;
+        color: #222222;
+        line-height: 20px;
+    }
+    .contentItem {
+        font-size: 16px;
+        font-weight: 600;
+        color: #222222;
+        line-height: 22px;
+    }
+    .span-a {
+        font-size: 50px;
+        font-weight: 600;
+        color: #222222;
+        line-height: 56px;
+    }
+    .span-b {
+        font-size: 14px;
+        font-weight: 400;
+        color: #666666;
+        line-height: 20px;
+    }
+    .span-c {
+        font-size: 16px;
+        font-weight: 600;
+        color: #999999;
+        line-height: 22px;
+    }
+    .paying {
+        border: none !important;
+        font-size: 20px;
+        font-weight: 400;
+        color: #2784ff;
+
+        &::before {
+            border: none !important;
+        }
+    }
+    .pay-success {
+        font-size: 16px;
+        font-weight: 400;
+        color: #222222;
+
+        i {
+            color: #44c28c;
+            font-size: 24px;
+        }
+    }
+    .pay-loading {
+        font-size: 20px;
+        font-weight: 400;
+        color: #222222;
+    }
+}
+.pay-password-container {
+    .pay-input-tip {
+        font-size: 16px;
+        font-weight: 600;
+        color: #222222;
+        padding: 30px 0 40px 0;
+    }
+    .pay-input {
+        font-size: 14px !important;
+        font-weight: 400 !important;
+        width: 40px;
+        height: 48px;
+        caret-color: transparent;
+        overflow: hidden;
+        box-sizing: border-box;
+        line-height: 48px;
+        font-size: 42px;
+        background: #ffffff;
+        text-align: center;
+        border-radius: 4px;
+
+        outline: none;
+
+        &:focus {
+            border: 1px solid #2784ff !important;
+        }
+    }
+    .pay-tip-3 {
+        font-size: 14px;
+        font-weight: 400;
+        color: #ee4040;
+    }
+    .pay-forgot {
+        font-size: 14px;
+        font-weight: 400;
+        color: #999999;
+    }
+}

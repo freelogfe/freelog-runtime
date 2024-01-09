@@ -1,4 +1,3 @@
-import { css } from "astroturf";
 
 import nodeOffline from "../../assets/image/nodeOffline.png";
 //@ts-ignore
@@ -10,17 +9,11 @@ interface OutOfProps {
 export default function NodeOffline({ outData }: OutOfProps) {
   return (
     <div
-      className="flex-column align-center"
-      css={css`
-        width: 100%;
-        height: 100%;
-        font-size: 30px;
-        font-weight: 400;
-        color: #666666;
-        line-height: 36px;
-        text-align: center;
-        background: #ffffff;
-      `}
+      className="flex-column align-center w-100x h-100x fs-30 fw-regular lh-36 text-align-center"
+      style={{
+        background: "#ffffff",
+        color: "#666666",
+      }}
     >
       <div className="flex-1"></div>
 
@@ -28,15 +21,10 @@ export default function NodeOffline({ outData }: OutOfProps) {
         <img src={nodeOffline} alt="" className="w-100x" />
       </div>
       <div
-        className="text-breakAll "
-        css={css`
-          font-size: 18px;
-          font-weight: 400;
-          color: #666666;
-          line-height: 36px;
-          margin-top: 10px;
-          margin-bottom: 80px;
-        `}
+        className="text-breakAll fs-18 fw-regular lh-36 mt-10 mb-80 "
+        style={{
+          color: "#666666",
+        }}
       >
         {props.freelogApp.nodeInfo.nodeSuspendInfo || "筹备中，敬请期待…"}
       </div>

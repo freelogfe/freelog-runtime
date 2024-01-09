@@ -2,6 +2,7 @@
 
 import { baseURL, isTest } from "./base";
 import { freelogApp } from "./freelogApp";
+import { rawWindow } from "./rawObjects"
 
 import { widgetsConfig, widgetUserData,   FREELOG_DEV } from "./widget";
 import { initUserCheck } from "../security";
@@ -135,7 +136,7 @@ export async function getSubDep(name: string,exhibitId?: any) {
   }
 
   // @ts-ignore
-  let response = await freelogApp.getExhibitInfoByAuth.bind(widgetSandBox)(name,
+  let response = await freelogApp.getExhibitInfoByAuth(name,
     exhibitId
   );
   if (response.authErrorType && isTheme) {
@@ -149,7 +150,7 @@ export async function getSubDep(name: string,exhibitId?: any) {
             resolve();
           });
         });
-        response = await freelogApp.getExhibitInfoByAuth.bind(widgetSandBox)(
+        response = await freelogApp.getExhibitInfoByAuth(name,
           exhibitId
         );
       }
@@ -160,7 +161,7 @@ export async function getSubDep(name: string,exhibitId?: any) {
       }
       resolve();
     });
-    response = await freelogApp.getExhibitInfoByAuth.bind(widgetSandBox)(
+    response = await freelogApp.getExhibitInfoByAuth(name,
       exhibitId
     );
     if (response.authErrorType) {
@@ -171,7 +172,7 @@ export async function getSubDep(name: string,exhibitId?: any) {
         resolve();
       });
     }
-    response = await freelogApp.getExhibitInfoByAuth.bind(widgetSandBox)(
+    response = await freelogApp.getExhibitInfoByAuth(name,
       exhibitId
     );
   }
@@ -198,19 +199,19 @@ export async function getSubDep(name: string,exhibitId?: any) {
   };
 }
 export let userInfo: any = null;
-export async function getUserInfo(name?:string) {
+export async function getUserInfo() {
   if (userInfo) return userInfo;
   const res = await _getCurrentUser();
   userInfo = res.data.errCode === 0 ? res.data.data : null;
-  setUserInfo(name, userInfo);
+  setUserInfo(userInfo);
   initUserCheck();
   return userInfo;
 }
 export function getCurrentUser(name:string) {
   return userInfo;
 }
-export async function setUserInfo(name:string | undefined,info: any) {
-  window.userId = info ? info.userId + "" : "";
+export async function setUserInfo(info: any) {
+  rawWindow.userId = info ? info.userId + "" : "";
   userInfo = info;
 }
 export function getStaticPath(name: string,path: string) {
@@ -220,7 +221,7 @@ export function getStaticPath(name: string,path: string) {
   // @ts-ignore
   return widgetsConfig.get(name).entry + path;
 }
-const rawLocation = window.location;
+const rawLocation = rawWindow.location;
 
 export function reload(name: string) {
   // @ts-ignore
@@ -238,7 +239,7 @@ const viewPortValue = {
   "user-scalable": "no", // available for theme
   "viewport-fit": "auto", // not supported in browser
 };
-var rawDocument = window.document;
+var rawDocument = rawWindow.document;
 var metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
 export function getViewport(name:string) {
   return metaEl.getAttribute("content");
@@ -272,7 +273,7 @@ export function setViewport(name:string, keys: any) {
  *
  */
 // export async function createUserData(userNodeData: any) {
-//   const nodeId = window.freelogApp.nodeInfo.nodeId
+//   const nodeId = rawWindow.freelogApp.nodeInfo.nodeId
 //   const res = await frequest(node.postUserData, "", {
 //     nodeId,
 //     userNodeData
@@ -281,7 +282,7 @@ export function setViewport(name:string, keys: any) {
 // }
 
 export async function setUserData(name:string, key: string, data: any) {
-  key = window.isTest ? key + "-test" : key;
+  key = rawWindow.isTest ? key + "-test" : key;
   // @ts-ignore
   let userData = widgetUserData.get(name) || {};
   let config = widgetsConfig.get(name);
@@ -301,7 +302,7 @@ export async function setUserData(name:string, key: string, data: any) {
 }
 
 export async function getUserData(name:string, key: string) {
-  key = window.isTest ? key + "-test" : key;
+  key = rawWindow.isTest ? key + "-test" : key;
   // @ts-ignore
   let userData = widgetUserData.get(name);
   if (userData) {

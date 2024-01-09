@@ -1,5 +1,4 @@
 
-import { css } from "astroturf";
 
 interface nodeErrorProps {
   currentExhibit: any;
@@ -12,45 +11,30 @@ export default function NodeError({
 }: nodeErrorProps) {
   return (
     <div
-      className="w-100x h-100x"
-      css={css`
-        width: 100%;
-        height: 100%;
-        z-index: 3;
-        display: flex;
-        flex-flow: column;
-        font-size: 30px;
-        font-weight: 400;
-        color: #666666;
-        line-height: 36px;
-        text-align: center;
-        padding-top: 30vh;
-        position: absolute;
-        background: #f2f2f2;
-      `}
+      className="w-100x h-100x z-3 flex-column fs-30 fw-regular lh-36 text-align-center"
+      style={{
+        color: "#666666",
+        paddingTop: "30vh",
+        position: "absolute",
+        background: "#f2f2f2",
+      }}
     >
       <div>
         <img src="/failed.svg" alt="" />
       </div>
       <div
-        css={css`
-          font-size: 20px;
-          font-weight: 400;
-          color: #666666;
-          line-height: 36px;
-          margin-bottom: 30px;
-          margin-top: 40px;
-        `}
+        className="fs-20 fw-regular lh-36 mt-40 mb-30"
+        style={{
+          color: "#666666",
+        }}
       >
         节点异常，无法正常访问
       </div>
       <div
-        css={css`
-          font-size: 16px;
-          font-weight: 400;
-          color: #666666;
-          line-height: 22px;
-        `}
+        className="fs-16 fw-regular lh-22 "
+        style={{
+          color: "#666666",
+        }}
       >
         异常原因：主题授权链异常
       </div>
@@ -59,23 +43,18 @@ export default function NodeError({
       currentExhibit.contracts.length ? (
         <div className="mt-100">
           <span
-            css={css`
-              font-size: 14px;
-              font-weight: 400;
-              color: #666666;
-              line-height: 20px;
-            `}
+            className="fs-14 fw-regular lh-20 "
+            style={{
+              color: "#666666",
+            }}
           >
             已与当前主题签约
           </span>
           <span
-            className="ml-5 cur-pointer link"
-            css={css`
-              font-size: 14px;
-              font-weight: 400;
-              color: #2784ff;
-              line-height: 20px;
-            `}
+            className="ml-5 cur-pointer link fs-14 fw-regular lh-20"
+            style={{
+              color: "#2784ff",
+            }}
             onClick={() => {
               setThemeCancel(false);
             }}

@@ -1,5 +1,3 @@
-
-import { css } from "astroturf";
 import { Button } from "antd-mobile"; // Toast, Button
 
 interface ThemeCancelProps {
@@ -14,22 +12,18 @@ export default function ThemeCancel({
   return (
     <div className=" h-100x flex-column-center ">
       <div
-        css={css`
-          font-size: 20px;
-          font-weight: 400;
-          color: #666666;
-        `}
-        className="mb-15 flex-column-center"
+        style={{
+          color: "#666666",
+        }}
+        className="mb-15 flex-column-center fs-20 fw-regular"
       >
         当前节点主题未开放授权
       </div>
       <div
-        css={css`
-          font-size: 20px;
-          font-weight: 400;
-          color: #666666;
-        `}
-        className=" mb-30 flex-column-center"
+        style={{
+          color: "#666666",
+        }}
+        className=" mb-30 flex-column-center fs-20 fw-regular"
       >
         {currentExhibit &&
         currentExhibit.contracts &&
@@ -38,18 +32,17 @@ export default function ThemeCancel({
           : "继续浏览请签约并获取授权"}
       </div>
       <Button
-        css={css`
-          font-size: 16px;
-          width: 132px !important;
-          height: 48px !important;
-          border-radius: 4px !important;
-        `}
+        style={{
+          width: "132px !important",
+          height: "48px !important",
+          borderRadius: "4px !important",
+        }}
         color="primary"
         onClick={() => {
           setThemeCancel(false);
         }}
         size="small"
-        className="theme-tip-button "
+        className="theme-tip-button fs-16"
       >
         {currentExhibit &&
         currentExhibit.contracts &&

@@ -10,6 +10,8 @@ export const bindName = (name:string)=>{
           return  function(){
             return freelogApp[propKey](name,...arguments)
           }
+       }else{
+        return freelogApp[propKey]
        } 
     }
   });

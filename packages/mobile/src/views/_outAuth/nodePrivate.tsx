@@ -1,4 +1,3 @@
-import { css } from "astroturf";
 import { useState } from "react";
 
 import nodePrivate from "../../assets/image/nodePrivate.png";
@@ -25,17 +24,11 @@ export default function NodePrivate({ outData }: OutOfProps) {
   }
   return (
     <div
-      className="flex-column align-center"
-      css={css`
-        width: 100%;
-        height: 100%;
-        font-size: 30px;
-        font-weight: 400;
-        color: #666666;
-        line-height: 36px;
-        text-align: center;
-        background: #ffffff;
-      `}
+      className="flex-column align-center w-100x h-100x fs-30 fw-regular lh-36 text-align-center"
+      style={{
+        background: "#ffffff",
+        color: "#666666",
+      }}
     >
       {loginVisible && (
         <Login onlyLogin={true} loginFinished={loginFinished}></Login>
@@ -45,15 +38,11 @@ export default function NodePrivate({ outData }: OutOfProps) {
       <div className="w-280">
         <img src={nodePrivate} alt="" className="w-100x" />
       </div>
-      <div
-        css={css`
-          font-size: 18px;
-          font-weight: 400;
-          color: #666666;
-          line-height: 36px;
-          margin-top: 10px;
-          margin-bottom: 80px;
-        `}
+      <div 
+        className="fs-18 fw-regular lh-36 mt-10 mb-80"
+        style={{
+          color: "#666666",
+        }}
       >
         {props.freelogApp.getCurrentUser()
           ? "此节点未开放访问"

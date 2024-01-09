@@ -18,8 +18,8 @@ import {
 import { onLogin } from "./eventOn";
 import { isMobile } from "../utils/utils";
 import { freelogApp } from "../structure/freelogApp";
-import { widgetsConfig } from "../structure/widget"
- 
+import { widgetsConfig } from "../structure/widget";
+
 export const exhibitQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
 export const failedMap = new Map<any, any>();
@@ -54,20 +54,21 @@ export function updateLock(status: boolean) {
 export function setPresentableQueue(name: string, value: any) {
   exhibitQueue.set(name, value);
 }
-export async function addAuth(name:string, exhibitId: any, options?: any) {
+export async function addAuth(name: string, exhibitId: any, options?: any) {
   const arr = eventMap.get(exhibitId)?.callBacks || [];
-  const widgetData = widgetsConfig.get(name)
+  console.log(name, exhibitId);
+  const widgetData = widgetsConfig.get(name);
   return new Promise((resolve, rej) => {
     Promise.all([
-      freelogApp.getExhibitInfo(exhibitId, {
+      freelogApp.getExhibitInfo(name, exhibitId, {
         isLoadPolicyInfo: 1,
         isLoadVersionProperty: 1,
         isLoadContract: 1,
         isLoadResourceDetailInfo: 1,
         isTranslate: 1,
       }),
-      freelogApp.getExhibitAuthStatus(exhibitId),
-      freelogApp.getExhibitAvailalbe(exhibitId),
+      freelogApp.getExhibitAuthStatus(name, exhibitId),
+      freelogApp.getExhibitAvailalbe(name, exhibitId),
     ]).then((response) => {
       if (response[1].data.errCode) {
         resolve({ status: DATA_ERROR, data: response[1].data });
@@ -89,8 +90,9 @@ export async function addAuth(name:string, exhibitId: any, options?: any) {
         widgetName: name,
       });
       let id = exhibitId;
+      console.log(widgetData);
       eventMap.set(id, {
-        isTheme: widgetData.isTheme,
+        isTheme: name ? false : widgetData.isTheme,
         eventId: id, // 后期evnetId是要与prsesentableId区分开来的
         ...data,
         callBacks: arr,
@@ -112,7 +114,7 @@ export async function addAuth(name:string, exhibitId: any, options?: any) {
     });
   });
 }
-export function callAuth(name:string) {
+export function callAuth(name: string) {
   if (window.isTest) return;
   if (!uiInited) {
     UI && UI(CONTRACT);
@@ -196,13 +198,16 @@ export function goLoginOut() {
 const uiRoot = rawDocument.getElementById("ui-root");
 const widgetContainer = rawDocument.getElementById("freelog-plugin-container");
 const mobile = isMobile();
-var metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0]; 
+var metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
 var metaViewPortContent = "";
 export function upperUI() {
-  if(mobile){
+  if (mobile) {
     metaViewPortContent = metaEl.getAttribute("content");
     // TODO 这个设置不该与运行时耦合
-    metaEl.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no");
+    metaEl.setAttribute(
+      "content",
+      "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    );
   }
   // @ts-ignore
   uiRoot.style.zIndex = 1;
@@ -212,7 +217,7 @@ export function upperUI() {
 }
 export function lowerUI() {
   uiInited = false;
-  if(mobile){
+  if (mobile) {
     metaEl.setAttribute("content", metaViewPortContent);
   }
   // @ts-ignore
@@ -221,6 +226,7 @@ export function lowerUI() {
   // uiRoot.style.opacity = 0;
   // @ts-ignore
   widgetContainer.style.zIndex = 1;
+  debugger;
 }
 
 export function reload() {

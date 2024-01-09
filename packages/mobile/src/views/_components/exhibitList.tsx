@@ -1,4 +1,4 @@
-import { css } from "astroturf";
+
 import { Dialog, Popup } from "antd-mobile"; // Toast, Button
 
 interface exhibitListProps {
@@ -26,35 +26,35 @@ export default function exhibitList({
       onMaskClick={() => {
         setIsListVisible(!isListVisible);
       }}
-      css={css`
-        .adm-popup-body {
-          width: 335px !important;
-          height: 100%;
-          border-radius: 0px 10px 10px 0px;
-        }
-      `}
+      // css={css`
+      //   .adm-popup-body {
+      //     width: 335px !important;
+      //     height: 100%;
+      //     border-radius: 0px 10px 10px 0px;
+      //   }
+      // `}
     >
       <div
-        css={css`
-          border-bottom: 1px solid #e4e7eb;
-        `}
+        style={{
+          borderBottom: "1px solid #e4e7eb",
+        }}
         className="flex-row space-between px-15 py-20"
       >
         <div
-          css={css`
-            font-size: 16px;
-            font-weight: 600;
-            color: #222222;
-          `}
+          style={{
+            fontSize: "16px",
+            fontWeight: "600",
+            color: "#222222",
+          }}
         >
           展品列表
         </div>
         <div
-          css={css`
-            font-size: 16px;
-            font-weight: 400;
-            color: #2784ff;
-          `}
+          style={{
+            fontSize: "16px",
+            fontWeight: "400",
+            color: "#2784ff",
+          }}
           onClick={() => {
             setIsListVisible(!isListVisible);
             // Dialog.confirm({
@@ -72,13 +72,14 @@ export default function exhibitList({
         ? events.map((item: any, index: number) => {
             return (
               <div
-                css={css`
-                  padding: 0 15px;
-                  ${currentExhibit &&
-                  currentExhibit.exhibitId === item.exhibitId
-                    ? css``
-                    : css``}
-                `}
+                // {css`
+                //   padding: 0 15px;
+                //   ${currentExhibit &&
+                //   currentExhibit.exhibitId === item.exhibitId
+                //     ? css``
+                //     : css``}
+                // `}
+                className="px-15"
                 key={item}
               >
                 <div
@@ -87,60 +88,35 @@ export default function exhibitList({
                     setIsListVisible(false);
                     setCurrentExhibit(item);
                   }}
-                  css={css`
-                    border-bottom: 1px solid #e4e7eb;
-                  `}
+                  style={{
+                    borderBottom: "1px solid #e4e7eb",
+                  }}
                   className={" py-15 flex-row space-between algin-center"}
                 >
                   <div className="flex-1 flex-column over-h">
                     <div
-                      css={css`
-                        line-height: 100%;
-                        font-size: 16px;
-                        font-weight: 600;
-                        color: #222222;
-                      `}
+                      style={{
+                        lineHeight: "100%",
+                        fontSize: "16px",
+                        fontWeight: "600",
+                        color: "#222222",
+                      }}
                       className=" text-ellipsis flex-1 flex-row align-center"
                       title={item.exhibitName}
                     >
                       {item.availableData.authCode === 403 ? (
-                        <i
-                          className="iconfont ml-5"
-                          css={css`
-                            color: red;
-                            font-size: 16px;
-                          `}
-                        >
-                          &#xe62f;
-                        </i>
+                        <i className="iconfont ml-5 fc-red fs-16">&#xe62f;</i>
                       ) : null}
                       <span className="text-ellipsis ml-5">
                         {item.exhibitName}
                       </span>
                     </div>
                     {!item.contracts.length ? (
-                      <span
-                        css={css`
-                          padding-top: 10px;
-                          font-size: 14px;
-                          font-weight: 600;
-                          color: #999999;
-                          line-height: 20px;
-                        `}
-                      >
+                      <span className="fc-less fw-bold lh-20 pt-10 fs-14">
                         未签约
                       </span>
                     ) : item.availableData.authCode === 403 ? (
-                      <span
-                        className="iconfont mt-5"
-                        css={css`
-                          color: red;
-                          font-size: 12px;
-                          font-weight: 400;
-                          color: #ee4040;
-                          line-height: 18px;
-                        `}
-                      >
+                      <span className="iconfont mt-5 fc-error fw-regular lh-18  fs-12 ">
                         已封禁
                       </span>
                     ) : (
@@ -148,32 +124,32 @@ export default function exhibitList({
                         {item.contracts.map((contract: any, index: number) => {
                           return (
                             <div
-                              css={css`
-                                padding: 2px 5px;
-                                height: 24px;
-                                background: #e9f2ff;
-                                border-radius: 2px;
-                                border: 1px solid #aed0ff;
-                              `}
+                              style={{
+                                padding: "2px 5px",
+                                height: "24px",
+                                background: "#e9f2ff",
+                                border: "1px solid #aed0ff",
+                                borderRadius: "2px",
+                              }}
                               className={"flex-row align-center mr-5"}
                               key={index}
                             >
                               <div
-                                css={css`
-                                  font-size: 12px;
-                                  font-weight: 400;
-                                  color: #2784ff;
-                                  line-height: 18px;
-                                `}
+                                style={{
+                                  lineHeight: "18px",
+                                  fontSize: "12px",
+                                  fontWeight: "400",
+                                  color: "#2784ff",
+                                }}
                               >
                                 {contract.contractName}
                               </div>
                               <div
-                                css={css`
-                                  width: 6px;
-                                  height: 6px;
-                                  border-radius: 50%;
-                                `}
+                                style={{
+                                  width: "6px",
+                                  height: "6px",
+                                  borderRadius: "50%",
+                                }}
                                 className={
                                   " ml-6 " +
                                   (contract.authStatus === 128
@@ -193,9 +169,9 @@ export default function exhibitList({
 
                   <div
                     className="shrink-0 flex-column-center pl-10 "
-                    css={css`
-                      color: #666666;
-                    `}
+                    style={{
+                      color: "#666666",
+                    }}
                   >
                     <i className="iconfont fs-14">&#xe65b;</i>
                   </div>

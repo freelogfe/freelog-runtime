@@ -1,7 +1,6 @@
-import { css } from "astroturf";
 // import PolicyGraph from "./_components/policyGraph";
 import PolicyCode from "./_components/policyCode";
-
+import "./policy.scss";
 import PolicyContent from "./_components/policyContent";
 import { Tabs, Dialog, Button, Checkbox } from "antd-mobile";
 //@ts-ignore
@@ -38,19 +37,12 @@ export default function Policy(props: ItemProps) {
 
   return (
     <div
-      css={css`
-        .adm-auto-center-content {
-          padding: 20px 10px 5px 10px;
-          font-size: 16px;
-        }
-        .adm-tabs-tab-list {
-          margin-right: 190px;
-        }
-        cursor: ${props.disabled ? 'not-allowed' : 'normal'};
-        opacity: ${props.disabled ? '40%' : '1'};
-        pointer-event: ${props.disabled ? 'none' : 'auto'};
-      `}
-      className="flex-column brs-10 b-1 mx-10 mt-15"
+      style={{
+        cursor: props.disabled ? "not-allowed" : "normal",
+        opacity: props.disabled ? "40%" : "1",
+        pointerEvents: props.disabled ? "none" : "auto",
+      }}
+      className="flex-column brs-10 b-1 mx-10 mt-15 policy-container"
     >
       {/* 上：策略名称与操作 */}
       <div className="flex-row space-between px-15 py-15">

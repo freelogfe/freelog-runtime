@@ -1,4 +1,3 @@
-import { css } from "astroturf";
 interface exhibitOffLineProps {
   length: number;
   type: "offline" | "freezed";
@@ -15,35 +14,29 @@ export default function ExhibitOffLine(props: exhibitOffLineProps) {
       <div className="flex-2"></div>
       <i
         className="iconfont"
-        css={css`
-          color: rgb(208 208 209 / 70%);
-          font-size: 128px !important;
-        `}
+        style={{
+          color: "rgb(208 208 209 / 70%)",
+          fontSize: "128px !important",
+        }}
       >
         &#xe62f;
       </i>
       {props.type === "offline" && (
         <div
-          css={css`
-            margin-top: 30px;
-            font-size: 30px;
-            font-weight: 400;
-            color: #666666;
-            line-height: 42px;
-          `}
+          className="mt-30 fs-30 fw-regular lh-42"
+          style={{
+            color: "#666666",
+          }}
         >
           该展品未上架，无法获取授权
         </div>
       )}
       {props.type === "freezed" && (
         <div
-          css={css`
-            margin-top: 30px;
-            font-size: 30px;
-            font-weight: 400;
-            color: #666666;
-            line-height: 42px;
-          `}
+          className="mt-30 fs-30 fw-regular lh-42"
+          style={{
+            color: "#666666",
+          }} 
         >
           该展品已冻结，无法获取授权
         </div>

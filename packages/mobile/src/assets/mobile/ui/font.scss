@@ -1,17 +1,15 @@
 // size
 @for $i from 1 through 100 {
-
   .fs-#{$i} {
-    font-size: (1px * $i)  !important;
+    font-size: (1px * $i) !important;
   }
   .lh-#{$i} {
-    line-height: (1px * $i)  !important;
+    line-height: (1px * $i) !important;
   }
   .ls-#{$i} {
-    letter-spacing: (1px * $i)  !important;
+    letter-spacing: (1px * $i) !important;
   }
 }
-
 
 // color
 .fc-red {
@@ -19,7 +17,7 @@
 }
 
 .fc-white {
-  color: $fc-white
+  color: $fc-white;
 }
 
 .fc-green {
@@ -31,17 +29,17 @@
 }
 
 .fc-grey {
-  color: $fc-grey
+  color: $fc-grey;
 }
 .fc-nav-normal {
   color: $fc-nav-normal;
 }
 
 .fc-nav-active {
-  color: $fc-nav-active
+  color: $fc-nav-active;
 }
  
-.fc-black{
+.fc-black {
   color: #333333;
 }
 .fc-success {
@@ -54,7 +52,7 @@
 
 .fc-error {
   color: $error;
-} 
+}
 $weight-regular: 400;
 
 $weight-medium: 500;
@@ -74,7 +72,7 @@ $weight-bold: 600;
   font-weight: $weight-bold;
 }
 
-// content 
+// content
 .f-regular {
   font-weight: $weight-regular;
   color: $fc-regular;
@@ -151,10 +149,10 @@ $weight-bold: 600;
   color: $fc-nav-active;
 }
 
-.f-italic{
+.f-italic {
   font-style: italic;
 }
 
-.f-oblique{
+.f-oblique {
   font-style: oblique;
 }

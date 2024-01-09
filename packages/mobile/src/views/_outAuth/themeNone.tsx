@@ -1,4 +1,4 @@
-import { css } from "astroturf";
+
 
 interface OutOfProps {
   outData: any;
@@ -7,47 +7,32 @@ interface OutOfProps {
 export default function OutOf({ outData }: OutOfProps) {
   return (
     <div
-      className="flex-column align-center"
-      css={css`
-        width: 100%;
-        height: 100%;
-        text-align: center;
-        background: #ffffff;
-      `}
+      className="flex-column align-center text-align-center w-100x h-100x "
+      style={{
+        background: "#ffffff",
+      }}
     >
       <div className="flex-2"></div>
-      <div
-        css={css`
-          width: 76px;
-        `}
-      >
+      <div className="w-76">
         <img
           src="/failed.svg"
-          alt=""
-          css={css`
-            width: 100%;
-          `}
+          alt="" 
+          className="w-100x"
         />
       </div>
-      <div
-        css={css`
-          font-size: 20px;
-          font-weight: 600;
-          color: #222222;
-          line-height: 30px;
-          margin-top: 40px;
-        `}
+      <div 
+        style={{
+          color: "#222222",
+        }}
+        className="fs-20 fw-bold lh-30 mt-40"
       >
         节点异常，无法正常访问
       </div>
-      <div
-        css={css`
-          font-size: 16px;
-          font-weight: 400;
-          color: #666666;
-          line-height: 26px;
-          margin-top: 40px;
-        `}
+      <div 
+        style={{
+          color: "#666666",
+        }}
+        className="fs-16 fw-regular lh-26 mt-40"
       >
         异常原因：未设置主题
       </div>

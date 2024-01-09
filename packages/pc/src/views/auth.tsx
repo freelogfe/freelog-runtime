@@ -67,7 +67,7 @@ export default function Auth(props: contractProps) {
   function loginFinished(type: number, data?: any) {
     if (type === SUCCESS) {
       setUserInfo(data);
-      console.log(2342424, loginCallback)
+      console.log(9999, data)
       if (loginCallback.length === 0) {
         reload();
       }

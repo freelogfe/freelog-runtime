@@ -1,4 +1,3 @@
-import { css } from "astroturf";
 import { useState, useEffect } from "react";
 import Pay from "../event/pay";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
@@ -7,7 +6,7 @@ import PolicyCode from "../policy/_components/policyCode";
 import PolicyContent from "../policy/_components/policyContent";
 import { Tabs, Badge, Button, Toast } from "antd-mobile";
 import { freelogAuthApi } from "freelog-runtime-api";
-
+import "./contract.scss";
 var moment = require("moment");
 /**
  * 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
@@ -29,19 +28,6 @@ const tabs = [
 ];
 
 export default function Contract(props: ItemProps) {
-  const authStatusCss = css`
-    padding: 5px 10px;
-    margin-right: 5px;
-    border-radius: 10px;
-    font-size: 11px;
-    font-weight: 500;
-    color: #ffffff;
-  `;
-  const authTime = css`
-    font-size: 12px;
-    font-weight: 400;
-    color: #222222;
-  `;
   const [eventIndex, setEventIndex] = useState(-1);
   const [unfold, setUnFold] = useState(false);
   const [records, setRecords] = useState<any>([]);
@@ -165,29 +151,7 @@ export default function Contract(props: ItemProps) {
     props.paymentFinish();
   }
   return (
-    <div
-      className="flex-column brs-10 b-1 mx-10 mt-15 pb-12"
-      css={css`
-        background: #ffffff;
-        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        .adm-tabs-tab-list {
-          margin-right: 80px;
-        }
-        .adm-tabs-content {
-          padding: 0 15px 0 15px !important;
-        }
-        .ant-radio-group {
-          width: 100%;
-        }
-
-        .ant-radio-wrapper {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-        }
-      `}
-    >
+    <div className="flex-column brs-10 b-1 mx-10 mt-15 pb-12 contract-container">
       {eventIndex > -1 && isModalVisible && (
         <Pay
           contractId={props.contract.contractId}
@@ -220,41 +184,25 @@ export default function Contract(props: ItemProps) {
       </div>
       <Tabs defaultActiveKey="contract">
         <Tabs.Tab title="合约流转记录" key="contract">
-          <div className="">
+          <div className="contract-flow-container">
             {/* 状态整体 */}
-            <div
-              css={css`
-                background: #fafbfc;
-                border-radius: 6px;
-              `}
-              className="p-15"
-            >
+            <div className="p-15 contract-flow-top">
               <div className="flex-row align-center">
                 <div
                   className={
-                    authStatusCss +
-                    " flex-column-center select-none " +
-                    authClass
+                    "authStatusCss flex-column-center select-none " + authClass
                   }
                 >
                   {authStatus}
                 </div>
-                <div className={authTime}>
+                <div className="authTime">
                   {moment(props.contract.updateDate).format(
                     "YYYY-MM-DD HH:mm:ss"
                   )}
                 </div>
               </div>
               <div className="flex-row pt-15 pb-5 space-between align-center">
-                <div
-                  css={css`
-                    font-size: 12px;
-                    font-weight: 600;
-                    color: #7a869a;
-                    line-height: 18px;
-                  `}
-                  className="flex-column"
-                >
+                <div className="flex-column contract-flow-tip">
                   <div>{records[0] && records[0].stateInfoStr}</div>
                   <div className="mt-5">
                     {currentStatus.tec > 1 &&
@@ -288,36 +236,16 @@ export default function Contract(props: ItemProps) {
                           // origin.eventId  name
                           return (
                             <div
-                              css={css`
-                                label {
-                                  width: 100%;
-                                }
-                                ${index !== eventIndex ||
-                                currentStatus.tec === 1
-                                  ? css``
-                                  : css`
-                                      background: rgba(39, 132, 255, 0.08);
-                                      border: 1px solid rgba(39, 132, 255, 0.6) !important;
-                                    `}
-                                ${currentStatus.tec === 1 ||
+                              className={
+                                "flex-row contract-flow-event" +
+                                (index !== eventIndex || currentStatus.tec === 1
+                                  ? ""
+                                  : "contract-flow-event-tec") +
+                                (currentStatus.tec === 1 ||
                                 event.origin.name !== "TransactionEvent"
-                                  ? css`
-                                      input {
-                                        display: none;
-                                      }
-
-                                      label {
-                                        margin-left: -10px;
-                                      }
-                                    `
-                                  : css`
-                                      padding: 10px;
-                                      margin-top: 10px;
-                                      border-radius: 4px;
-                                      border: 1px solid rgba(0, 0, 0, 0.15);
-                                    `}
-                              `}
-                              className="flex-row"
+                                  ? "contract-flow-TransactionEvent"
+                                  : "contract-flow-TransactionEvent2")
+                              }
                               key={index}
                               // onClick={()=>setEventIndex()}
                             >
@@ -337,15 +265,7 @@ export default function Contract(props: ItemProps) {
                                 }
                               />
                               <label htmlFor={event.origin.id}>
-                                <div
-                                  css={css`
-                                    font-size: 14px;
-                                    font-weight: 600;
-                                    color: #222222;
-                                    line-height: 20px;
-                                  `}
-                                  className="flex-row align-center  "
-                                >
+                                <div className="flex-row align-center contract-flow-tip2  ">
                                   <div className="mx-10 flex-row align-center pe-none ">
                                     <span
                                       className={event.content ? "mr-10 " : ""}
@@ -353,9 +273,7 @@ export default function Contract(props: ItemProps) {
                                       {event.content}
                                     </span>
                                     {/* <span
-                                      css={css`
-                                        color: #42c28c;
-                                      `}
+                                       
                                       className="shrink-0"
                                     >
                                       {event.nextState && event.nextState.isAuth
@@ -383,25 +301,12 @@ export default function Contract(props: ItemProps) {
                                   }
                                 </div>
                                 {/* 执行完成后下一个状态的所有事件 */}
-                                <div
-                                  css={css`
-                                    font-size: 12px;
-                                    font-weight: 600;
-                                    color: #7a869a;
-                                    line-height: 20px;
-                                  `}
-                                  className="flex-column pt-5 ml-12 pe-none"
-                                >
+                                <div className="flex-column pt-5 ml-12 pe-none contract-flow-tip3">
                                   {/** 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
                                    * event.origin.toState
                                    */}
                                   {/* <div
-                                    css={css`
-                                      font-size: 12px;
-                                      font-weight: 600;
-                                      color: #7a869a;
-                                      line-height: 20px;
-                                    `}
+                                    
                                   >
                                     {event.nextState && event.nextState.isAuth
                                       ? "获得授权后"
@@ -416,15 +321,7 @@ export default function Contract(props: ItemProps) {
                                             key={index}
                                             className="flex-row align-center"
                                           >
-                                            <div
-                                              css={css`
-                                                width: 4px;
-                                                height: 4px;
-                                                background: #7a869a;
-                                                border-radius: 50%;
-                                              `}
-                                              className="mr-5"
-                                            ></div>
+                                            <div className="mr-5 contract-flow-tip4"></div>
                                             <span>{nextEvent.content}</span>
                                           </div>
                                         );
@@ -443,26 +340,17 @@ export default function Contract(props: ItemProps) {
               {unfold &&
                 records.slice(1).map((item: any, index: number) => {
                   return (
-                    <div
-                      className=" mt-15 "
-                      css={css`
-                        background: #fafbfc;
-                        border-radius: 6px;
-                        opacity: 0.4;
-                      `}
-                      key={index}
-                    >
+                    <div className=" mt-15 contract-flow-history" key={index}>
                       <div className="flex-row">
                         <div
                           className={
-                            authStatusCss +
-                            " flex-column-center select-none " +
+                            "authStatusCss flex-column-center select-none " +
                             item.authClass
                           }
                         >
                           {item.authStatus}
                         </div>
-                        <div className={authTime}>
+                        <div className="authTime">
                           {moment(item.time).format("YYYY-MM-DD HH:mm:ss")}
                         </div>
                       </div>
@@ -473,15 +361,7 @@ export default function Contract(props: ItemProps) {
                   );
                 })}
               {totalItem > 1 && (
-                <div
-                  css={css`
-                    font-size: 12px;
-                    font-weight: 400;
-                    color: #7a869a;
-                    line-height: 18px;
-                  `}
-                  className="text-align-center cur-pointer select-none mt-20"
-                >
+                <div className="contract-flow-history1 text-align-center cur-pointer select-none mt-20">
                   {!unfold ? (
                     <div
                       onClick={(e) => {
@@ -503,15 +383,7 @@ export default function Contract(props: ItemProps) {
                 </div>
               )}
             </div>
-            <div
-              css={css`
-                font-size: 12px;
-                font-weight: 400;
-                color: #999999;
-                line-height: 18px;
-              `}
-              className="contract-code pt-12"
-            >
+            <div className="contract-code pt-12 contract-flow-foot">
               <div>合同编号： {props.contract.contractId}</div>
               <div>
                 签约时间：

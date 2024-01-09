@@ -1,5 +1,3 @@
-import { css } from "astroturf";
-
 interface OutOfProps {
   outData: any;
   children?: any;
@@ -7,45 +5,28 @@ interface OutOfProps {
 export default function OutOf({ outData }: OutOfProps) {
   return (
     <div
-      className="flex-column align-center"
-      css={css`
-        height: 100%;
-        text-align: center;
-        background: #ffffff;
-        padding: 0 40px;
-      `}
+      className="flex-column align-center h-100 text-align-center px-40"
+      style={{
+        background: "#ffffff",
+      }}
     >
       <div className="flex-2"></div>
       <div>
-        <i
-          className="iconfont"
-          css={css`
-            color: red;
-            font-size: 76px;
-          `}
-        >
-          &#xe62f;
-        </i>
+        <i className="iconfont fc-red fs-76">&#xe62f;</i>
       </div>
       <div
-        css={css`
-          font-size: 20px;
-          font-weight: 600;
-          color: #222222;
-          line-height: 30px;
-          margin-top: 40px;
-        `}
+        className="lh-30 fw-bold fs-20 mt-40"
+        style={{
+          color: "#222222",
+        }}
       >
         节点已经被封停
       </div>
       <div
-        css={css`
-          font-size: 14px;
-          font-weight: 400;
-          color: #666666;
-          line-height: 20px;
-          margin-top: 40px;
-        `}
+        className="lh-20 fw-regular fs-14 mt-40"
+        style={{
+          color: "#666666",
+        }}
       >
         经核实，节点{outData.nodeName}，严重违反平台规范&nbsp;
         <a
