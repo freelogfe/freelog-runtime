@@ -64,8 +64,10 @@ export function initNode() {
         const userInfo = values[1];
         const nodeInfo = nodeData.data;
         freelogApp.nodeInfo = nodeInfo;
-         
-        document.title = nodeInfo.nodeTitle? nodeInfo.nodeTitle : nodeInfo.nodeName;
+
+        document.title = nodeInfo.nodeTitle
+          ? nodeInfo.nodeTitle
+          : nodeInfo.nodeName;
         if (isTest) {
           document.title = "[T]" + document.title;
         }
@@ -125,25 +127,27 @@ export function initNode() {
           //   resolve && resolve();
           //   return;
           // }
-          const theme = await getSubDep("",
+          const theme = await getSubDep(
+            "",
             isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
           );
           // @ts-ignore
           loadingContainer.style.display = "none";
           themeId = theme.articleInfo.articleId;
-          const themeApp = await freelogApp.mountWidget(
-            null,
-            theme,
-            container,
-            "",
-            { shadowDom: false, scopedCss: true, ...theme.exhibitProperty },
-            null,
-            true
-          );
-          console.log()
-          themeApp.mountPromise.then(() => {
-            themeResolve(true);
+          await freelogApp.mountWidget(null, {
+            widget: theme,
+            container: container,
+            widget_entry: true,
+            wujieConfig: {
+              loadError: ()=>{
+                themeResolve(false)
+              },
+              beforeLoad: (data:any)=>{
+                // console.log(data)
+              },
+            }
           });
+          themeResolve(true);
         });
         mountTheme.then((flag) => {
           freelogApp.status.themeMounted = flag;

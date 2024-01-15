@@ -98,6 +98,7 @@ export async function mountWidget(
     container: any;
     topExhibitData: any;
     config: any;
+    wujieConfig?: any;
     seq?: number | null | undefined;
     widget_entry?: boolean | string; // 因为插件加载者并不使用，所以 可以当成 widget_entry
   },
@@ -222,7 +223,8 @@ export async function mountWidget(
     },
   };
   addWidgetConfig(widgetId, widgetConfig);
-  const app = startApp({
+  const app = await startApp({
+    ...options.wujieConfig,
     name: widgetId,
     el: widgetConfig.container,
     url: widgetConfig.entry,

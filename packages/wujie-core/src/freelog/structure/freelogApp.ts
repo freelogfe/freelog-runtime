@@ -1,6 +1,7 @@
 import { resultType } from "../bridge/eventType";
 import { freelogApp as freelogAppLib } from "freelog-runtime-api";
 import { mountWidget } from "./widget";
+import { bus } from "wujie";
 
 import {
   getSelfConfig,
@@ -52,4 +53,5 @@ export const freelogApp: any = {
   isUserChange,
   reload,
   resultType,
+  bus
 };
