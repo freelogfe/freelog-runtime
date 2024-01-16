@@ -139,6 +139,7 @@ export function initNode() {
             container: container,
             widget_entry: true,
             wujieConfig: {
+              alive: true,
               loadError: ()=>{
                 themeResolve(false)
               },

@@ -1,4 +1,4 @@
-import { startApp } from "wujie";
+import { startApp, destroyApp, preloadApp, setupApp } from "wujie";
 import { freelogApp } from "./freelogApp";
 import { freelogAuth } from "./freelogAuth";
 import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
@@ -98,6 +98,7 @@ export async function mountWidget(
     container: any;
     topExhibitData: any;
     config: any;
+    setupOnly?: boolean;
     wujieConfig?: any;
     seq?: number | null | undefined;
     widget_entry?: boolean | string; // 因为插件加载者并不使用，所以 可以当成 widget_entry
@@ -223,7 +224,8 @@ export async function mountWidget(
     },
   };
   addWidgetConfig(widgetId, widgetConfig);
-  const app = await startApp({
+  const way = options.setupOnly? setupApp : startApp
+  const app = await way({
     ...options.wujieConfig,
     name: widgetId,
     el: widgetConfig.container,
@@ -237,5 +239,7 @@ export async function mountWidget(
     },
   });
   addWidget(widgetId, app);
+  // @ts-ignore
+  // destroyApp(widgetId)
   return app;
 }
