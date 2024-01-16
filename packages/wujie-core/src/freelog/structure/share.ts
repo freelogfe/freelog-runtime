@@ -6,7 +6,7 @@ export const FREELOG_ROUTE_MAPS = "FREELOG_ROUTE_MAPS";
 export function getShareUrl(name:string, exhibitId: string, type: "detail" | "content") {
   return `${rawLocation.origin}/${exhibitId}/${type}`;
 }
-// 只有在vue路由之前使用才有效
+// 只有在vue路由之前使用才有效, 但这种十分不合理，不应该在运行时来做
 export function mapShareUrl(name: string, routeMap: any) {
   // @ts-ignore
   const theme = widgetsConfig.get(name);
