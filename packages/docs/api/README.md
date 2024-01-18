@@ -2,7 +2,7 @@
 
 ### 阅读说明
 
-**下面所有接口都挂在 window.freelogApp 对象上**
+**下面所有接口都挂在 freelogApp 对象上**
 
 **文中参数说明“:”后面的为类型，类型后面是具体解释**
 
@@ -17,24 +17,10 @@
 ```ts
 // 目前没有权限控制，主题和插件都可以获取到，后期整体考虑权限时会限制插件使用
 // 如果使用到了节点信息，插件开发者应当在使用说明里明确使用到了节点信息以及无法获取到的影响
-const nodeInfo = window.freelogApp.nodeInfo;
+const nodeInfo = freelogApp.nodeInfo;
 ```
 
-## 插件相关
-
-### getStaticPath
-
-**用途：获取图片字体等静态作品的正确路径**
-
-```ts
-**参数说明**
- (
-  path: string  以/开头的正常路径
- )
-
-**用法**
-const path =  window.freelogApp.getStaticPath(path);
-```
+ 
 
 ### devData
 
@@ -42,19 +28,10 @@ const path =  window.freelogApp.getStaticPath(path);
 
 ```ts
 **用法**
-const data = window.freelogApp.devData;
+const data = freelogApp.devData;
 ```
 
-### initGlobalState
-
-**用途：设置全局数据**
-
-```ts
-**用法**
-// 主题独有方法，但主题可以传递给插件使用
-// 初始化全局数据，只能修改不能添加, 例如可以修改a:{} 为对象，但不能添加同级的b、c、d
-window.freelogApp.initGlobalState({ a: 1 });
-```
+ 
 
 ### getSelfArticleId
 
@@ -62,7 +39,7 @@ window.freelogApp.initGlobalState({ a: 1 });
 
 ```ts
 **用法**
-const selfArticleId = await window.freelogApp.getSelfArticleId();
+const selfArticleId = await freelogApp.getSelfArticleId();
 ```
 ### getSelfWidgetId
 
@@ -70,7 +47,7 @@ const selfArticleId = await window.freelogApp.getSelfArticleId();
 
 ```ts
 **用法**
-const selfWidgetId = await window.freelogApp.getSelfWidgetId();
+const selfWidgetId = await freelogApp.getSelfWidgetId();
 ```
 ### getSelfExhibitId
 
@@ -78,7 +55,7 @@ const selfWidgetId = await window.freelogApp.getSelfWidgetId();
 
 ```ts
 **用法**
-const selfExhibitId= await window.freelogApp.getSelfExhibitId();
+const selfExhibitId= await freelogApp.getSelfExhibitId();
 ```
 
 
@@ -88,7 +65,7 @@ const selfExhibitId= await window.freelogApp.getSelfExhibitId();
 
 ```ts
 **用法**
-const widgetConfig =  window.freelogApp.getSelfConfig()
+const widgetConfig =  freelogApp.getSelfConfig()
 ```
 
 ### getSubDep
@@ -97,7 +74,7 @@ const widgetConfig =  window.freelogApp.getSelfConfig()
 
 ```ts
 **用法**
-const res = await window.freelogApp.getSubDep()
+const res = await freelogApp.getSubDep()
 
 **返回值**
 {
@@ -127,7 +104,7 @@ const res = await window.freelogApp.getSubDep()
   }
 
 **返回对象说明**
-let widgetController = await window.freelogApp.mountWidget(paramObj)
+let widgetController = await freelogApp.mountWidget(paramObj)
 
 widgetController: {
   mount
@@ -169,9 +146,9 @@ getApi()  在子插件加载完成后 使用getApi()方法获取子插件的对�
 
 ```ts
 **用法**
-const subData = await window.freelogApp.getSubDep();
+const subData = await freelogApp.getSubDep();
 subData.subDep.some((sub, index) => {
-  await window.freelogApp.mountWidget({
+  await freelogApp.mountWidget({
     widget: sub,
     container:document.getElementById("freelog-single"), // 注意每一个插件都需要不同容器
     topExhibitData: subData,
@@ -185,13 +162,13 @@ subData.subDep.some((sub, index) => {
 
 ```ts
 **用法**
-const res = await window.freelogApp.getExhibitListById({
+const res = await freelogApp.getExhibitListById({
   articleResourceTypes: "widget",
   isLoadVersionProperty: 1
 });
 const widgets = res.data.data.dataList;
 widgets.some((widget, index) => {
-  await window.freelogApp.mountWidget({
+  await freelogApp.mountWidget({
     widget: widget,
     container: document.getElementById("freelog-single"),// 注意每一个插件都需要不同容器
   });
@@ -204,7 +181,7 @@ widgets.some((widget, index) => {
 
 ```ts
 **用法**
-window.freelogApp.reload()
+freelogApp.reload()
 ```
 
 ### setViewport
@@ -213,7 +190,7 @@ window.freelogApp.reload()
 
 ```ts
 **用法**
-window.freelogApp.setViewport(keys: any)
+freelogApp.setViewport(keys: any)
 keys = {
   width: "device-width", // immutable
   height: "device-height", // not supported in browser
@@ -233,7 +210,7 @@ keys = {
 
 ```ts
 **用法**
-const res = await window.freelogApp.getExhibitListByPaging({
+const res = await freelogApp.getExhibitListByPaging({
   skip: 0,
   limit: 20,
 });
@@ -300,7 +277,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
   }
 
 **用法**
-const res = await window.freelogApp.getExhibitListById(query)
+const res = await freelogApp.getExhibitListById(query)
 ```
 
 **返回说明**
@@ -346,7 +323,7 @@ const res = await window.freelogApp.getExhibitListById(query)
   }
 
 **用法**
-const res = await window.freelogApp.getExhibitInfo(exhibitId, query)
+const res = await freelogApp.getExhibitInfo(exhibitId, query)
 ```
 
 **返回说明**
@@ -394,7 +371,7 @@ const res = await window.freelogApp.getExhibitInfo(exhibitId, query)
   },
 
 **用法**
-const res = await window.freelogApp.getExhibitFileStream(
+const res = await freelogApp.getExhibitFileStream(
   exhibitId,
   {
     returnUrl,
@@ -413,7 +390,7 @@ const res = await window.freelogApp.getExhibitFileStream(
   articleNids: string, 链路id
 
 **用法**
-const res = await window.freelogApp.getExhibitDepInfo(
+const res = await freelogApp.getExhibitDepInfo(
   exhibitId,
   articleNids
 )
@@ -432,7 +409,7 @@ const res = await window.freelogApp.getExhibitDepInfo(
   config?: object,    axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
 
 **用法**
-const res = await window.freelogApp.getExhibitDepFileStream(
+const res = await freelogApp.getExhibitDepFileStream(
   exhibitId,
   parentNid,
   subArticleIdOrName,
@@ -450,7 +427,7 @@ const res = await window.freelogApp.getExhibitDepFileStream(
   exhibitIds: string,  用英文逗号隔开的展品id
 
 **用法**
-const res = await window.freelogApp.getExhibitSignCount(exhibitIds)
+const res = await freelogApp.getExhibitSignCount(exhibitIds)
 ```
 
 ### getExhibitAuthStatus
@@ -462,7 +439,7 @@ const res = await window.freelogApp.getExhibitSignCount(exhibitIds)
   exhibitIds: string, 用英文逗号隔开的展品id
 
 **用法**
-const res = await window.freelogApp.getExhibitAuthStatus(exhibitIds)
+const res = await freelogApp.getExhibitAuthStatus(exhibitIds)
 ```
 
 ### getExhibitAvailalbe
@@ -474,7 +451,7 @@ const res = await window.freelogApp.getExhibitAuthStatus(exhibitIds)
   exhibitIds:: string,  用英文逗号隔开的展品id
 
 **用法**
-const res = await window.freelogApp.getExhibitAvailalbe(exhibitIds)
+const res = await freelogApp.getExhibitAvailalbe(exhibitIds)
 ```
 
 **返回说明**
@@ -498,7 +475,7 @@ const res = await window.freelogApp.getExhibitAvailalbe(exhibitIds)
     keywords: string | number 搜索关键字
 
 **用法**
-const res = await window.freelogApp.getSignStatistics(keywords)
+const res = await freelogApp.getSignStatistics(keywords)
 ```
 
 **返回说明**
@@ -519,7 +496,7 @@ const res = await window.freelogApp.getSignStatistics(keywords)
 
 ```ts
 **用法说明：当addAuth多个未授权展品且没有立刻呼出（或者存在未授权展品且已经addAuth 但用户关闭了，插件想要用户签约时）可以通过callAuth()唤出**
-window.freelogApp.callAuth();
+freelogApp.callAuth();
 ```
 
 ### addAuth
@@ -534,17 +511,17 @@ window.freelogApp.callAuth();
   }
 
 **用法**
-const res =  await window.freelogApp.addAuth(exhibitId,options)
+const res =  await freelogApp.addAuth(exhibitId,options)
 
 **返回值说明**
 res: {status: SUCCESS, data}
 
 status 枚举判断：
-  status === window.freelogApp.resultType.SUCCESS;  // 成功
-  status === window.freelogApp.resultType.FAILED;   // 失败
-  status === window.freelogApp.resultType.USER_CANCEL; // 用户取消
-  status === window.freelogApp.resultType.DATA_ERROR;  // 数据错误
-  status === = window.freelogApp.resultType.OFFLINE; // 展品已经下线
+  status === freelogApp.resultType.SUCCESS;  // 成功
+  status === freelogApp.resultType.FAILED;   // 失败
+  status === freelogApp.resultType.USER_CANCEL; // 用户取消
+  status === freelogApp.resultType.DATA_ERROR;  // 数据错误
+  status === = freelogApp.resultType.OFFLINE; // 展品已经下线
 data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
 ```
 
@@ -554,17 +531,17 @@ data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
 
 ```ts
 **用法**
-const res =  await window.freelogApp.addAuth(exhibitId,options)
+const res =  await freelogApp.addAuth(exhibitId,options)
 
 **返回值说明**
 res: {status: SUCCESS, data}
 
 status 枚举判断：
-  status === window.freelogApp.resultType.SUCCESS;  // 成功
-  status === window.freelogApp.resultType.FAILED;   // 失败
-  status === window.freelogApp.resultType.USER_CANCEL; // 用户取消
-  status === window.freelogApp.resultType.DATA_ERROR;  // 数据错误
-  status === = window.freelogApp.resultType.OFFLINE; // 展品已经下线
+  status === freelogApp.resultType.SUCCESS;  // 成功
+  status === freelogApp.resultType.FAILED;   // 失败
+  status === freelogApp.resultType.USER_CANCEL; // 用户取消
+  status === freelogApp.resultType.DATA_ERROR;  // 数据错误
+  status === = freelogApp.resultType.OFFLINE; // 展品已经下线
 data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
 ```
 
@@ -577,7 +554,7 @@ data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
 ```ts
 **用法**
 // callback: 登录成功的回调，登录失败不会回调,这里需要考虑一下，
-window.freelogApp.onLogin(callback);
+freelogApp.onLogin(callback);
 ```
 
 ### onUserChange
@@ -587,7 +564,7 @@ window.freelogApp.onLogin(callback);
 ```js
 **用法**
 // 监听用户在其余页面切换账号或登录事件  callback: 再次进入页面发现账号变化后会回调所有函数
-window.freelogApp.onUserChange(callback);
+freelogApp.onUserChange(callback);
 ```
 
 ### getCurrentUser
@@ -596,7 +573,7 @@ window.freelogApp.onUserChange(callback);
 
 ```ts
 **用法**
-const loginUser = await window.freelogApp.getCurrentUser();
+const loginUser = await freelogApp.getCurrentUser();
 
 // TODO
 **返回值说明**
@@ -609,7 +586,7 @@ const loginUser = await window.freelogApp.getCurrentUser();
 
 ```ts
 **用法**
-const res = await window.freelogApp.setUserData(key, data);
+const res = await freelogApp.setUserData(key, data);
 ```
 
 ### getUserData
@@ -618,7 +595,7 @@ const res = await window.freelogApp.setUserData(key, data);
 
 ```ts
 **用法**
-const userData = await window.freelogApp.getUserData(key);
+const userData = await freelogApp.getUserData(key);
 ```
 
 ### callLogin
@@ -628,7 +605,7 @@ const userData = await window.freelogApp.getUserData(key);
 ```ts
 **用法**
 // callback: 登录成功的回调，登录失败不会回调,这里需要考虑一下，
-window.freelogApp.callLogin(callBack)
+freelogApp.callLogin(callBack)
 ```
 
 ### callLoginOut
@@ -637,7 +614,7 @@ window.freelogApp.callLogin(callBack)
 
 ```ts
 **用法**
-window.freelogApp.callLoginOut()
+freelogApp.callLoginOut()
 ```
 
 ### isUserChange
@@ -646,7 +623,7 @@ window.freelogApp.callLoginOut()
 
 ```ts
 **用法**
-window.freelogApp.isUserChange()
+freelogApp.isUserChange()
 ```
 
 ### pushMessage4Task
@@ -662,6 +639,6 @@ window.freelogApp.isUserChange()
 
 **用法**
 
-window.freelogApp.pushMessage4Task(data).then((res)=>{})
+freelogApp.pushMessage4Task(data).then((res)=>{})
 ```
  

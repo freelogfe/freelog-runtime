@@ -16,13 +16,8 @@
 
 ### 运行原理
 
-**插件打包后的文件是放在我司平台的，运行时通过解析 index.html 和修改 webpack_public_path 获取 js 和 css 等作品文件**
-
-**同时从 js 中获取导出的插件生命周期来启动、加载、卸载插件**
-
-### 重要说明
-
-**请不要在 html 当中直接引入 js，CDN 方式不支持，必须经过 webpack 约定配置后打包**
+**本平台使用腾讯无界微前端框架**
+[https://wujie-micro.github.io/doc/guide/](https://wujie-micro.github.io/doc/guide/)
 
 ## 示例节点代码仓
 
@@ -36,543 +31,10 @@
 
 [https://nes-game.freelog.com](https://nes-game.freelog.com)
 
-## 框架准备
+### 插件改造
 
-### 支持框架
-
-**vue、react（两个框架都仅支持以 webpack 打包）,**
-**jquery**
-
-### 生命周期
-
-**平台运行时所需要入口文件 export 的三个生命周期，用来供平台启动准备、加载、卸载插件**
-
-```
-bootstrap-->mount-->unmount
-
-bootstrap: 加载未运行，目前不建议进行
-
-mount: 放置插件启动代码
-
-unmount: 将所有实例置为null，回收内存
-```
-
-### webpack 通用配置
-
-**webpack 属于唯一支持打包工具**
-
-**入口配置**
-
-由于插件所有文件都交给平台管理，平台运行时替代了类似 nginx 的功能，插件文件访问插件文件都通过运行时，例如 index.html 中的 js，css，或 js 中的图片
-
-运行时会替换 **\_ **webpack_public_path** \_** 让打包后的文件访问能指向正确的插件文件访问路径
-
-```
-// 建一个包含一下内容的public-path.js文件，在应用入口文件开头引入
-
-if (window.__POWERED_BY_FREELOG__) {
-  // eslint-disable-next-line no-undef
-  __webpack_public_path__ = window.__INJECTED_PUBLIC_PATH_BY_FREELOG__;
-}
-```
-
-**打包配置文件配置**
-
-```ts
-// 开发模式需配置headers
-
-devServer: {
-    hot: true,
-    disableHostCheck: true,
-    port,
-    overlay: {
-        warnings: false,
-        errors: true,
-    },
-    headers: {
-        'Access-Control-Allow-Origin': '*',
-    },
-},
-// 将以下属性合并到webpack配置当中 其中name是package.json中的name，自行引入
-output: {
-    // 把子应用打包成 umd 库格式
-    library: `${name}-[name]`,
-    libraryTarget: 'umd',
-    jsonpFunction: `webpackJsonp_${name}`,
-    // webpack5使用chunkLoadingGlobal: `webpackJsonp${name}`
-},
-```
-
-### Vue2 配置示例
-
-**入口配置**
-
-```ts
-import "./public-path";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import Vue from "vue";
-import VueRouter from "vue-router";
-import App from "./App.vue";
-import routes from "./router";
-import store from "./store";
-
-Vue.config.productionTip = false;
-
-Vue.use(ElementUI);
-
-let router = null;
-let instance = null;
-
-function render(props = {}) {
-  const { container } = props;
-  router = new VueRouter({
-    base: "/",
-    mode: "history",
-    routes,
-  });
-
-  instance = new Vue({
-    router,
-    store,
-    render: (h) => h(App),
-  }).$mount(container ? container.querySelector("#app") : "#app");
-}
-
-if (!window.__POWERED_BY_FREELOG__) {
-  render();
-}
-
-function storeTest(props) {
-  props.onGlobalStateChange &&
-    props.onGlobalStateChange(
-      (value, prev) =>
-        console.log(`[onGlobalStateChange - ${props.name}]:`, value, prev),
-      true
-    );
-  props.setGlobalState &&
-    props.setGlobalState({
-      ignore: props.name,
-      user: {
-        name: props.name,
-      },
-    });
-}
-export async function bootstrap() {
-  console.log("[vue] vue app bootstraped");
-}
-
-export async function mount(props) {
-  console.log("[vue] props from main framework", props);
-  storeTest(props);
-  render(props);
-}
-
-export async function unmount() {
-  instance.$destroy();
-  instance.$el.innerHTML = "";
-  instance = null;
-  router = null;
-}
-```
-
-**webpack 配置**
-
-```ts
-const path = require("path");
-const { name } = require("./package");
-
-function resolve(dir) {
-  return path.join(__dirname, dir);
-}
-const webpackPlugin = require("webpack-mkcert");
-
-const port = 7101; // dev port
-
-const { defineConfig } = require("@vue/cli-service");
-
-// https 插件 需要安装
-const webpackPlugin = require("webpack-mkcert");
-
-function resolve(dir) {
-  return path.join(__dirname, dir);
-}
-
-const port = 7105;
-module.exports = defineConfig(async () => {
-  const https = await webpackPlugin.default({
-    force: true,
-    source: "coding",
-    hosts: ["localhost", "127.0.0.1"],
-  });
-  return {
-    /**
-     * You will need to set publicPath if you plan to deploy your site under a sub path,
-     * for example GitHub Pages. If you plan to deploy your site to https://foo.github.io/bar/,
-     * then publicPath should be set to "/bar/".
-     * In most cases please use '/' !!!
-     * Detail: https://cli.vuejs.org/config/#publicpath
-     */
-    outputDir: "dist",
-    assetsDir: "static",
-    filenameHashing: true,
-    https,
-    // tweak internal webpack configuration.
-    // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
-    devServer: {
-      // host: '0.0.0.0',
-      hot: true,
-      disableHostCheck: true,
-      port,
-      overlay: {
-        warnings: false,
-        errors: true,
-      },
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    },
-    // 自定义webpack配置
-    configureWebpack: {
-      resolve: {
-        alias: {
-          "@": resolve("src"),
-        },
-      },
-      output: {
-        // 把子应用打包成 umd 库格式
-        library: `${name}-[name]`,
-        libraryTarget: "umd",
-        jsonpFunction: `webpackJsonp_${name}`,
-        // webpack5使用chunkLoadingGlobal: `webpackJsonp${name}`
-      },
-    },
-  };
-});
-```
-
-### Vue3 配置示例
-
-**入口配置**
-
-```ts
-import "./public-path"; // 入口配置
-import { createApp } from "vue";
-import { createRouter, createWebHistory } from "vue-router";
-import App from "./App.vue";
-import routes from "./router";
-import store from "./store";
-
-let router = null;
-let instance = null;
-
-function render(props = {}) {
-  const { container } = props;
-  router = createRouter({
-    history: createWebHistory("/"),
-    routes,
-  });
-
-  instance = createApp(App);
-  instance.use(router);
-  instance.use(store);
-  instance.mount(container ? container.querySelector("#app") : "#app");
-}
-
-if (!window.__POWERED_BY_FREELOG__) {
-  render();
-}
-
-export async function bootstrap() {
-  console.log("%c ", "color: green;", "vue3.0 app bootstraped");
-}
-export async function mount(props) {
-  storeTest(props);
-  render(props);
-  instance.config.globalProperties.$onGlobalStateChange =
-    props.onGlobalStateChange;
-  instance.config.globalProperties.$setGlobalState = props.setGlobalState;
-}
-
-export async function unmount() {
-  instance.unmount();
-  instance._container.innerHTML = "";
-  instance = null;
-  router = null;
-}
-// 插件通信功能
-function storeTest(props) {
-  props.onGlobalStateChange &&
-    props.onGlobalStateChange(
-      (value, prev) =>
-        console.log(`[onGlobalStateChange - ${props.name}]:`, value, prev),
-      true
-    );
-  props.setGlobalState &&
-    props.setGlobalState({
-      ignore: props.name,
-      user: {
-        name: props.name,
-      },
-    });
-}
-```
-
-**webpack 配置**
-
-```ts
-const path = require("path");
-const { name } = require("./package");
-const { defineConfig } = require("@vue/cli-service");
-
-// https 插件 需要安装
-const webpackPlugin = require("webpack-mkcert");
-
-function resolve(dir) {
-  return path.join(__dirname, dir);
-}
-
-const port = 7105;
-module.exports = defineConfig(async () => {
-  const https = await webpackPlugin.default({
-    force: true,
-    source: "coding",
-    hosts: ["localhost", "127.0.0.1"],
-  });
-  console.log(https);
-  return {
-    transpileDependencies: true,
-    outputDir: "dist",
-    assetsDir: "static",
-    filenameHashing: true,
-    devServer: {
-      https: {
-        // ca: './path/to/server.pem',
-        // pfx: './path/to/server.pfx',
-        // key: './path/to/server.key',
-        // cert: './path/to/server.crt',
-        // passphrase: 'webpack-dev-server',
-        // requestCert: true,
-        ...https,
-      },
-      hot: true,
-      port,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    },
-    // 自定义webpack配置
-    configureWebpack: {
-      resolve: {
-        alias: {
-          "@": resolve("src"),
-        },
-      },
-      output: {
-        // 把子应用打包成 umd 库格式
-        library: `${name}-[name]`,
-        libraryTarget: "umd",
-        chunkLoadingGlobal: `webpackJsonp_${name}`,
-      },
-    },
-  };
-});
-```
-
-### React 配置示例
-
-**入口配置**
-
-```ts
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.scss";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import "./public-path";
-import "./utils/flexible";
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
-export async function bootstrap() {
-  console.log("[react17] react app bootstraped");
-}
-//     </React.StrictMode>,
-
-export async function mount(props = {}) {
-  const { container } = props;
-  ReactDOM.render(<App />, document.getElementById("root"));
-}
-
-export async function unmount(props) {
-  const { container } = props;
-  ReactDOM.unmountComponentAtNode(
-    container
-      ? container.querySelector("#root")
-      : document.getElementById("root")
-  );
-}
-
-if (!window.__POWERED_BY_FREELOG__) {
-  bootstrap().then(mount);
-}
-```
-
-**create react app 创建项目的配置**
-
-```ts
- **通过npm run eject, 释放出webpack配置**
-
-  ***webpack 配置***
-  /**
-    *
-    * 修改webpack.config.js
-    * output处添加三个属性，name为package.json的name
-    */
-      library: `${name}-[name]`,
-      libraryTarget: 'umd',
-      jsonpFunction: `webpackJsonp_${name}`,
-      // webpack5使用chunkLoadingGlobal: `webpackJsonp${name}`
-  /**
-    * 修改webpackDevServer.config.js
-    * 添加跨域headers
-    */
-    port: process.env.PORT,
-    headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-
-  ***热更新配置***
-  /**
-    * 修改env.js
-    * 添加websocket所需的
-    */
-     process.env.PORT = '7102' // 端口自行定
-    if (NODE_ENV === 'development') {
-      process.env.WDS_SOCKET_HOST = 'localhost'
-      process.env.WDS_SOCKET_PATH = 'localhost:'+ process.env.PORT // webpack5设置为空 ''
-      process.env.WDS_SOCKET_PORT = process.env.PORT
-    }
-  ***热更白屏问题处理***
-  // 把html中根节点的同级iframe隐藏
-  /**  #root~iframe{
-        display: none !important;
-    }
-  */
-```
-
-### jquery 配置
-
-```ts
-// entry.js  在index.html中引入
-const render = ($) => {
-  $("#purehtml-container").html("Hello, render with jQuery");
-  return Promise.resolve();
-};
-
-((global) => {
-  global["purehtml"] = {
-    bootstrap: () => {
-      console.log("purehtml bootstrap");
-      return Promise.resolve();
-    },
-    mount: () => {
-      console.log("purehtml mount");
-      return render($);
-    },
-    unmount: () => {
-      console.log("purehtml unmount");
-      return Promise.resolve();
-    },
-  };
-})(window);
-```
-
-### 静态文件处理
-
-**打包之后 css 中的字体文件和图片加载 404**
-
-原因是 freelog 将外链样式改成了内联样式，但是字体文件和背景图片的加载路径是相对路径。
-
-而 css 文件一旦打包完成，就无法通过动态修改 publicPath 来修正其中的字体文件和背景图片的路径。
-
-解决方案：
-
-1. 大图片与大字体处理方式：
-
-   大图片：放在不需要 webpack 打包的 public 目录下，通过 **window.freelogApp.getStaticPath(path)** 获取正确地址，
-   其中 path 为以/开头的正常开发时的路径。
-
-   大字体：（暂未实现）如果路径写在 css 中则无需刻意放在 public 目录下，如果使用 js 去赋值，则同图片一样处理。
-
-2. 小文件处理方式：借助 webpack 的 url-loader 将字体文件和图片打包成 base64（适用于字体文件和图片体积小的项目）
-
-```js
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.(png|jpe?g|gif|webp|woff2?|eot|ttf|otf)$/i,
-        use: [
-          {
-            loader: "url-loader",
-            options: {},
-          },
-        ],
-      },
-    ],
-  },
-};
-```
-
-**vue-cli3 项目写法：**
-
-```js
-module.exports = {
-  chainWebpack: (config) => {
-    config.module
-      .rule("fonts")
-      .use("url-loader")
-      .loader("url-loader")
-      .options({})
-      .end();
-    config.module
-      .rule("images")
-      .use("url-loader")
-      .loader("url-loader")
-      .options({})
-      .end();
-  },
-};
-```
-
-**vue-cli3 项目可以将 css 打包到 js 里面，不单独生成文件(不推荐，仅适用于 css 较少的项目)**
-
-配置参考 [vue-cli3 官网](https://cli.vuejs.org/zh/config/#css-extract):
-
-```js
-module.exports = {
-  css: {
-    extract: false,
-  },
-};
-```
-
-### 路由支持
-
-**仅支持 history 路由或不由运行时管的 abstract 路由，hash 路由还有问题需要改进**
-
-### 配置总结
-
-**由于运行时是通过 index.html 解析获取 js，css 文件，再进行运行插件的**
-
-**所以:**
-
-**1.让运行时具备动态修改的**_webpack_public_path_**的能力**
-
-**2.将 js 打包成库，让运行时能够获取到 bootstrap,mount,unmount 来启动卸载插件**
+**参考下面链接**
+[https://wujie-micro.github.io/doc/guide/start.html](https://wujie-micro.github.io/doc/guide/start.html)
 
 ## 开发
 
@@ -615,57 +77,32 @@ module.exports = {
 
 此时插件是作为节点主题（即入口）使用
 
-### 路由规则说明
+### 安装 api 库
 
-**开发url**
-
-https://examples.freelog.com/?dev=https://localhost:8001/_freelog-route_649d33829a0c05002f570a0e=/widget-dep
-
-**`${节点地址}?dev=${本地开发主题地址}_freelog-route_${主题作品id}=${主题的路由}_freelog-query_${主题query参数}`**
-
-如果同时有插件
-https://examples.freelog.com/?dev=https://localhost:8001/_freelog-route_649d33829a0c05002f570a0e=/widget-dep_freelog-route_62fcb64e584f02002e7e14ac=/widget/
-
-**`${节点地址}?dev=${本地开发主题地址}_freelog-route_${主题作品id}=${主题的路由}_freelog-route_${插件作品id}=${插件的路由}_freelog-query_${插件query参数}`**
-
-**正常访问url**
-
-https://examples.freelog.com/exhibit-data_freelog-route_62fcb64e584f02002e7e14ac=/widget/
-
-**`${节点地址}${主题的路由}_freelog-route_${插件作品id}=${插件路由}_freelog-query_${插件query参数}`**
-
-**分隔符说明**
-
-***主题与插件的路由不允许包含"_freelog-route_"与"_freelog-query_"***
-
-插件路由分隔符，格式：${URL_WIDGET_PREFIX}${插件作品id}=${插件路由}
-
-URL_WIDGET_PREFIX = "_freelog-route_";
-
-路由query替换符，避免多个"?"冲突，"?"会替换成"_freelog-query_"，${URL_WIDGET_PREFIX}${插件作品id}=${插件路由}_freelog-query_${插件query参数}
-
-URL_WIDGET_QUERY_PREFIX = "_freelog-query_";
-
-**路由建议**
-
-插件尽量使用抽象路由，不参与到url当中
+```js
+ npm install freelog-runtime
+ // 使用前导入
+ import { freelogApp } from "freelog-runtime"
+```
 
 ### 获取节点信息
 
 ```ts
+import { freelogApp } from "freelog-runtime";
 // 目前没有权限控制，主题和插件都可以获取到，后期整体考虑权限时会限制插件使用
 // 如果使用到了节点信息，插件开发者应当在使用说明里明确使用到了节点信息以及无法获取到的影响
-const nodeInfo = window.freelogApp.nodeInfo;
+const nodeInfo = freelogApp.nodeInfo;
 ```
 
 ### 加载自身的子依赖插件
 
 ```ts
-const subData = await window.freelogApp.getSubDep();
+import { freelogApp } from "freelog-runtime";
+const subData = await freelogApp.getSubDep();
 // 示范代码，这里只加载一个
 subData.subDep.some((sub, index) => {
   if (index === 1) return true;
-  let widgetController = await window.freelogApp.mountWidget({
+  let widgetController = await freelogApp.mountWidget({
     widget: sub, // 必传，子插件数据
     container: document.getElementById("freelog-single"), // 必传，自定义一个让插件挂载的div容器
     topExhibitData: subData, // 必传，最外层展品数据（子孙插件都需要用）
@@ -679,7 +116,8 @@ subData.subDep.some((sub, index) => {
 ### 加载展品插件
 
 ```ts
-const res = await window.freelogApp.getExhibitListById({
+import { freelogApp } from "freelog-runtime";
+const res = await freelogApp.getExhibitListById({
   articleResourceTypes: "widget",
   isLoadVersionProperty: 1,
 });
@@ -687,11 +125,14 @@ const widgets = res.data.data.dataList;
 // 示范代码，这里只加载一个
 widgets.some((widget, index) => {
   if (index === 1) return true;
-  let widgetController = await window.freelogApp.mountWidget({
+  // mountWidget最终使用wujie的startApp或setupApp
+  let widgetController = await freelogApp.mountWidget({
     widget: widget,
     container: document.getElementById("freelog-single"), // 给每一个提供不同的容器
     topExhibitData: null,
     config: {},
+    setupOnly: false, // 默认false, 当为true时使用wujie的setupApp，之后通过freelogApp.preloadWidget(widgetId)预加载
+    wujieConfig: {}, // 配置将合并到startApp或setupApp的配置项中
     seq: string,
     widget_entry: string,
   });
@@ -718,91 +159,40 @@ local_entry: 本地地址
 https://nes-common.freelog.com/?dev=replace&62270c5cf670b2002e800193=https://localhost:7107/
 ```
 
-### 控制插件
-
-```ts
-let widgetController = await window.freelogApp.mountWidget
-
-widgetController: {
-  mount
-  unmount
-  update
-  getStatus
-  loadPromise
-  bootstrapPromise
-  mountPromise
-  unmountPromise
-  getApi
-}
-
-** 使用说明 **
-
-unmount( keeplocation: Boolean) 卸载插件，返回一个promise。 keeplocation： 布尔值 是否保持url（即路由），false不保持时该插件对应的url清空
-
-mount()  可用于卸载后重新加载插件，返回一个promise
-
-getStatus() 返回一个字符串代表插件的状态。所有状态如下：
-    NOT_BOOTSTRAPPED: 未初始化
-    BOOTSTRAPPING: 初始化中
-    NOT_MOUNTED: 完成初始化，未挂载
-    MOUNTED: 激活状态，且已挂载至DOM
-    UNMOUNTING: 卸载中
-    SKIP_BECAUSE_BROKEN: 在初始化、挂载、卸载或更新时发生异常。其他插件可能会被正常使用，但当前插件会被跳过。
-
-loadPromise  一个promise，当插件被装载(loaded)后resolve。
-
-bootstrapPromise 一个promise，当插件初始化后resolve。
-
-mountPromise  一个promise，当插件加载后resolve。通常用于检测插件生成的DOM是否已经挂载。
-
-unmountPromise 一个promise，当插件卸载后resolve。
-
-getApi()   在子插件加载完成后 使用getApi()方法获取子插件的对外api， 由于子插件可能自己重载、或操作子插件重载，每次调用都需要使用方法获取，不能直接获取，
-```
-
 ### 插件卸载
 
- 当插件挂载的容器在组件内部或与组件同生同灭时，在组件卸载前需要卸载插件，否则再次加载会有问题。方便下次使用，可以将插件对象保存到全局
+当插件挂载的容器在组件内部或与组件同生同灭时，在组件卸载前需要卸载插件，否则再次加载会有问题。方便下次使用，可以将插件对象保存到全局
 
- vue案例：[前往示例代码](https://github.com/freelogfe/freelog-developer-guide-examples/blob/main/examples/vue3-ts-theme/src/views/widget/WidgetMount.vue)
+vue 案例：[前往示例代码](https://github.com/freelogfe/freelog-developer-guide-examples/blob/main/examples/vue3-ts-theme/src/views/widget/WidgetMount.vue)
 
 ```ts
 // vue示例
-onBeforeUnmount( () => {
-   selfWidget?.unmount();
-   exhibitWidget?.unmount();
+onBeforeUnmount(() => {
+  freelogApp.destroyWidget(exhibitWidget.widgetId);
 });
 
 // react示例
-useEffect(()=>{
-  return ()=>{
-    selfWidget?.unmount();
-    exhibitWidget?.unmount();
-  }
-})  
-
+useEffect(() => {
+  return () => {
+    freelogApp.destroyWidget(exhibitWidget.widgetId);
+  };
+});
 ```
 
-### 配置插件配置数据
-
-```ts
-// 通过作品或展品的meta属性配置指定key作为配置数据, 目前运行时占用的key如下（皆为默认值）
-hbfOnlyToTheme: true // 历史记录整体前进后退是否只给主题权限
-historyFB: true, // 历史记录整体前进后退是否有权限
-```
+ 
 
 ### 获取插件自身配置数据
 
 ```ts
 // 父插件的传递过来的config数据也会在这里
-const widgetConfig = window.freelogApp.getSelfConfig();
+const widgetConfig = freelogApp.getSelfConfig();
 ```
 
 ### 插件通信方式一：全局通信
 
 ```ts
 **在入口处通过props修改与监听全局数据**
-const freelogApp = window.freelogApp
+const freelogApp = freelogApp
 // 主题独有方法，但主题可以传递给插件使用
 // 初始化全局数据，只能修改不能添加, 例如可以修改a:{} 为对象，但不能添加同级的b、c、d
 freelogApp.initGlobalState({ a: 1 })
@@ -838,7 +228,7 @@ props.onGlobalStateChange((state: 当前状态, prevState: 前数据) => void, f
 
 ```ts
 **在config中传递数据或方法提供给子插件访问，同时子插件可以通过调用方法传递数据给父插件**
-await window.freelogApp.mountWidget(
+await freelogApp.mountWidget(
   sub,
   document.getElementById("freelog-single"),
   subData,
@@ -846,30 +236,7 @@ await window.freelogApp.mountWidget(
   seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号
 );
 ```
-
-### 插件之间通信方式三：插件对外发布 api
-
-```ts
-// 子插件在mount时使用props.resisterApi注册api
-export async function mount(props = {}) {
-  const { container } = props;
-  props.registerApi({
-    // 这个对象会给到父插件
-    show: () => {},
-  });
-  ReactDOM.render(
-    <App />,
-    container
-      ? container.querySelector("#root")
-      : document.querySelector("#root")
-  );
-}
-// 在子插件加载完成后，父插件可以使用app.getApi() 获取子插件的api
-app.mountPromise.then(() => {
-  app.getApi().show();
-});
-```
-
+ 
 ### 插件自身重载
 
 ```js
@@ -891,7 +258,7 @@ window.location.currentURL;
 
 ```ts
 **viewport修改用法**
-window.freelogApp.setViewport(keys: any)
+freelogApp.setViewport(keys: any)
 keys = {
   width: "device-width", // immutable
   height: "device-height", // not supported in browser
@@ -910,7 +277,7 @@ keys = {
 **分页列表**
 
 ```ts
-const res = await window.freelogApp.getExhibitListByPaging({
+const res = await freelogApp.getExhibitListByPaging({
   skip: 0,
   limit: 20,
 });
@@ -921,7 +288,7 @@ const res = await window.freelogApp.getExhibitListByPaging({
 **查找展品**
 
 ```ts
-const res = window.freelogApp.getExhibitListById(query)
+const res = freelogApp.getExhibitListById(query)
 
 **参数说明**
   query:{
@@ -935,7 +302,7 @@ const res = window.freelogApp.getExhibitListById(query)
 ### 获取单个展品详情
 
 ```ts
-const res = await  window.freelogApp.getExhibitInfo(exhibitId, query)
+const res = await  freelogApp.getExhibitInfo(exhibitId, query)
 
 **参数说明**
   exhibitId: 展品id，
@@ -949,7 +316,7 @@ const res = await  window.freelogApp.getExhibitInfo(exhibitId, query)
 ### 获取展品作品
 
 ```ts
-const res = await window.freelogApp.getExhibitFileStream(
+const res = await freelogApp.getExhibitFileStream(
   exhibitId,
   options
 )
@@ -1015,7 +382,7 @@ const res = await window.freelogApp.getExhibitFileStream(
 ### 批量查询展品依赖的作品信息
 
 ```ts
-const res = await window.freelogApp.getExhibitDepInfo(
+const res = await freelogApp.getExhibitDepInfo(
   exhibitId,
   articleNids
 )
@@ -1027,7 +394,7 @@ const res = await window.freelogApp.getExhibitDepInfo(
 ### 获取子依赖作品文件
 
 ```ts
-const res = await window.freelogApp.getExhibitDepFileStream(
+const res = await freelogApp.getExhibitDepFileStream(
   exhibitId: string ,
   parentNid: string,
   subArticleIdOrName: string,
@@ -1048,7 +415,7 @@ const res = await window.freelogApp.getExhibitDepFileStream(
 **同一个用户的多次签约只计算一次**
 
 ```ts
-const res = await window.freelogApp.getExhibitSignCount(
+const res = await freelogApp.getExhibitSignCount(
   exhibitIds: string
 )
 
@@ -1059,7 +426,7 @@ const res = await window.freelogApp.getExhibitSignCount(
 ### 批量查询展品授权
 
 ```ts
-const res = await window.freelogApp.getExhibitAuthStatus(
+const res = await freelogApp.getExhibitAuthStatus(
   exhibitIds: string
 )
 
@@ -1070,7 +437,7 @@ const res = await window.freelogApp.getExhibitAuthStatus(
 ### 批量查询展品是否可用（即能否提供给用户签约）
 
 ```ts
-const res = await window.freelogApp.getExhibitAvailalbe(
+const res = await freelogApp.getExhibitAvailalbe(
   exhibitIds: string
 )
 
@@ -1115,7 +482,7 @@ const res = await window.freelogApp.getExhibitAvailalbe(
 
 ```ts
 // 根据展品id获取展品作品
-let ch = await window.freelogApp.getExhibitFileStream(
+let ch = await freelogApp.getExhibitFileStream(
   chapters[index].exhibitId
 );
 
@@ -1129,18 +496,18 @@ if (ch.authErrorType) {
       }
   */
   const data = await new Promise((resolve, rej) => {
-    const res = await window.freelogApp.addAuth(ch.data.exhibitId, {
+    const res = await freelogApp.addAuth(ch.data.exhibitId, {
       immediate: true,
     });
 
      **res返回值说明**
    {status: SUCCESS, data}
    status 枚举判断：
-     status === window.freelogApp.resultType.SUCCESS;  // 成功
-     status === window.freelogApp.resultType.FAILED;   // 失败
-     status === window.freelogApp.resultType.USER_CANCEL; // 用户取消
-     status === window.freelogApp.resultType.DATA_ERROR;  // 数据错误
-     status === = window.freelogApp.resultType.OFFLINE; // 展品已经下线
+     status === freelogApp.resultType.SUCCESS;  // 成功
+     status === freelogApp.resultType.FAILED;   // 失败
+     status === freelogApp.resultType.USER_CANCEL; // 用户取消
+     status === freelogApp.resultType.DATA_ERROR;  // 数据错误
+     status === = freelogApp.resultType.OFFLINE; // 展品已经下线
    data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
   });
 }
@@ -1150,7 +517,7 @@ if (ch.authErrorType) {
 
 ```ts
 // 当addAuth多个未授权展品且没有立刻呼出（或者存在未授权展品且已经addAuth 但用户关闭了，插件想要用户签约时）可以通过callAuth()唤出
-window.freelogApp.callAuth();
+freelogApp.callAuth();
 ```
 
 ## 用户相关
@@ -1159,33 +526,33 @@ window.freelogApp.callAuth();
 
 ```ts
 // callback: 登录成功的回调，登录失败不会回调,这里需要考虑一下，
-window.freelogApp.callLogin(callback);
+freelogApp.callLogin(callback);
 ```
 
 ### 唤起退出登录
 
 ```ts
-window.freelogApp.callLoginOut();
+freelogApp.callLoginOut();
 ```
 
 ### 获取当前登录用户信息
 
 ```js
-const res = await window.freelogApp.getCurrentUser();
+const res = await freelogApp.getCurrentUser();
 ```
 
 ### 监听用户登录事件
 
 ```js
 // callback: 登录成功的回调，登录失败不会回调
-window.freelogApp.onLogin(callback);
+freelogApp.onLogin(callback);
 ```
 
 ### 监听用户在其余页面切换账号或登录事件
 
 ```js
 // callback: 再次进入页面发现账号变化后会回调所有函数
-window.freelogApp.onUserChange(callback);
+freelogApp.onUserChange(callback);
 ```
 
 ### 用户数据
@@ -1195,12 +562,12 @@ window.freelogApp.onUserChange(callback);
  * 本地开发时： 如果本地开发的与线上主题或插件不是同一个资源，可以通过在入口文件加载页面加上主题或插件本身的作品名称,
  * 例如：window.FREELOG_RESOURCENAME = "Freelog/dev-docs";
  * 这样可以保证更换到线上是一致的
- */ 
- 
+ */
+
 // 更新用户数据   data 为任意对象，
-const res = await window.freelogApp.setUserData(key, data);
+const res = await freelogApp.setUserData(key, data);
 // 获取用户数据
-const res = await window.freelogApp.getUserData(key);
+const res = await freelogApp.getUserData(key);
 ```
 
 ## 打包上传
