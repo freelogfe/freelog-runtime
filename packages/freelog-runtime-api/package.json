@@ -2,8 +2,8 @@
   "name": "freelog-runtime-api",
   "version": "0.0.1",
   "description": "freelogApp与freelogAuth下面的api",
-  "main": "dist/cjs/index.js",
-  "types": "dist/cjs/index.d.ts",
+  "main": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "scripts": {
     "start": "father dev",
     "build": "father build",

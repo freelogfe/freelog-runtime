@@ -238,8 +238,8 @@ export async function mountWidget(
       freelogApp:bindName(widgetId),
     },
   });
-  addWidget(widgetId, app);
+  addWidget(widgetId, {destory: app});
   // @ts-ignore
   // destroyApp(widgetId)
-  return app;
+  return {destory: app, widgetId};
 }
