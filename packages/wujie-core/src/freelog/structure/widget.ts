@@ -4,7 +4,7 @@ import { freelogAuth } from "./freelogAuth";
 import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
 import { defaultWidgetConfigData } from "./widgetConfigData";
 import { freelogFetch } from "./freelogFetch";
-import { bindName } from "./bind"
+import { bindName } from "./bind";
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
@@ -22,7 +22,7 @@ export function addWidgetConfig(key: string, config: any) {
   widgetsConfig.set(key, config);
 }
 export function removeWidget(key: string) {
-  flatternWidgets.has(key) && flatternWidgets.delete(key) ;
+  flatternWidgets.has(key) && flatternWidgets.delete(key);
 }
 export function deactiveWidget(key: string) {
   activeWidgets.has(key) && activeWidgets.delete(key);
@@ -39,7 +39,7 @@ export function removeChildWidget(key: string, childKey: string) {
     childrenWidgets.set(key, arr);
   }
 }
-  
+
 export function mountUI(
   name: string,
   container: any,
@@ -181,7 +181,8 @@ export async function mountWidget(
   }
   let fentry = "";
   if (commonData.articleNid) {
-    fentry = await freelogApp.getExhibitDepFileStream(name,
+    fentry = await freelogApp.getExhibitDepFileStream(
+      name,
       commonData.exhibitId,
       commonData.articleNid,
       commonData.articleInfo.articleId,
@@ -189,10 +190,9 @@ export async function mountWidget(
     );
     fentry = fentry + `&subFilePath=`;
   } else {
-    fentry = await freelogApp.getExhibitFileStream(name,
-      commonData.exhibitId,
-      { returnUrl: true }
-    );
+    fentry = await freelogApp.getExhibitFileStream(name, commonData.exhibitId, {
+      returnUrl: true,
+    });
     fentry = fentry + "?subFilePath="; // '/package/'
   }
   let once = false;
@@ -223,23 +223,27 @@ export async function mountWidget(
       },
     },
   };
+  const wujieConfig = options.wujieConfig ? options.wujieConfig : {};
   addWidgetConfig(widgetId, widgetConfig);
-  const way = options.setupOnly? setupApp : startApp
+  const way = options.setupOnly ? setupApp : startApp;
   const app = await way({
     ...options.wujieConfig,
     name: widgetId,
     el: widgetConfig.container,
     url: widgetConfig.entry,
-    sync:true,
+    sync: true,
     // @ts-ignore
-    fetch: (input: RequestInfo, init?: RequestInit) => { return freelogFetch(widgetConfig, input, init)},
+    fetch: (input: RequestInfo, init?: RequestInit) => {
+      // @ts-ignore
+      return freelogFetch(widgetConfig, input, init);
+    },
     props: {
-      ...config,
-      freelogApp:bindName(widgetId),
+      ...(wujieConfig.props ? wujieConfig.props : {}),
+      freelogApp: bindName(widgetId),
     },
   });
-  addWidget(widgetId, {destory: app});
+  addWidget(widgetId, { destory: app });
   // @ts-ignore
   // destroyApp(widgetId)
-  return {destory: app, widgetId};
+  return { destory: app, widgetId };
 }

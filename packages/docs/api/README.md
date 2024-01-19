@@ -98,6 +98,8 @@ const res = await freelogApp.getSubDep()
     widget: object,      必传，插件数据
     container: htmlElement, 必传，挂载容器
     topExhibitData: object,  最外层展品数据（子孙插件都需要用）
+    setupOnly: false,   默认false使用wujie的startApp加载插件, 当为true时使用wujie的setupApp加载插件，之后通过freelogApp.preloadWidget(widgetId)预加载
+    wujieConfig: {},    配置将合并到startApp或setupApp的配置项中
     config: object,      给到子插件的配置数据，可传递方法用于通信
     seq: string,         如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的
     widget_entry: string, 本地url，dev模式下，可以使用本地url调试子插件
@@ -106,40 +108,12 @@ const res = await freelogApp.getSubDep()
 **返回对象说明**
 let widgetController = await freelogApp.mountWidget(paramObj)
 
-widgetController: {
-  mount
-  unmount
-  update
-  getStatus
-  loadPromise
-  bootstrapPromise
-  mountPromise
-  unmountPromise
-  getApi
-}
+widgetController: {destory, widgetId}
 
 **具体解释**
-unmount( keeplocation: Boolean) 卸载插件，返回一个promise。 keeplocation： 布尔值 是否保持url（即路由），false不保持时该插件对应的url清空
+destory()  通过widgetController.destory() 卸载插件，但需要插件配置了生命周期，否则请使用 freelogApp.destroyWidget(widgetId),注意widgetId要通过widgetController获取
 
-mount()  重新插件，返回一个promise
-
-getStatus() 返回一个字符串代表插件的状态。所有状态如下：
-    NOT_BOOTSTRAPPED: 未初始化
-    BOOTSTRAPPING: 初始化中
-    NOT_MOUNTED: 完成初始化，未挂载
-    MOUNTED: 激活状态，且已挂载至DOM
-    UNMOUNTING: 卸载中
-    SKIP_BECAUSE_BROKEN: 在初始化、挂载、卸载或更新时发生异常。其他插件可能会被正常使用，但当前插件会被跳过。
-
-loadPromise  一个promise，当插件被装载(loaded)后resolve。
-
-bootstrapPromise 一个promise，当插件初始化后resolve。
-
-mountPromise  一个promise，当插件加载后resolve。通常用于检测插件生成的DOM是否已经挂载。
-
-unmountPromise 一个promise，当插件卸载后resolve。
-
-getApi()  在子插件加载完成后 使用getApi()方法获取子插件的对外api， 由于子插件可能自己重载、或操作子插件重载，每次调用都需要使用方法获取，不能直接获取
+widgetId: 如果设置了isSetup为true, 通过widgetController.widgetId 获取 widgetId，调用 preloadWidget(widgetId)来预加载
 ```
 
 **加载自身依赖的插件**
@@ -148,6 +122,7 @@ getApi()  在子插件加载完成后 使用getApi()方法获取子插件的对�
 **用法**
 const subData = await freelogApp.getSubDep();
 subData.subDep.some((sub, index) => {
+  // 参数同上，这里没有一一列出
   await freelogApp.mountWidget({
     widget: sub,
     container:document.getElementById("freelog-single"), // 注意每一个插件都需要不同容器
@@ -173,6 +148,26 @@ widgets.some((widget, index) => {
     container: document.getElementById("freelog-single"),// 注意每一个插件都需要不同容器
   });
 });
+```
+
+### preloadWidget
+
+**用途：整个网页重载（仅主题可用，插件可访问主题开发者提供的方法进行全局刷新）**
+
+```ts
+**用法**
+// 注意 widgetId 要通过widgetController获取 此方法将调用 wujie的preloadApp,并合并config配置
+freelogApp.preloadWidget(widgetId,config)
+```
+
+### destroyWidget
+
+**用途：整个网页重载（仅主题可用，插件可访问主题开发者提供的方法进行全局刷新）**
+
+```ts
+**用法**
+// 注意 widgetId 要通过widgetController获取, 此方法将调用 wujie的destroyApp
+freelogApp.destroyWidget(widgetId)
 ```
 
 ### reload

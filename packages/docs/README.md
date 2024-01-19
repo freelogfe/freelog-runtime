@@ -106,7 +106,9 @@ subData.subDep.some((sub, index) => {
     widget: sub, // 必传，子插件数据
     container: document.getElementById("freelog-single"), // 必传，自定义一个让插件挂载的div容器
     topExhibitData: subData, // 必传，最外层展品数据（子孙插件都需要用）
-    config: {}, // 子插件配置数据，需要另外获取作品上的配置数据
+    setupOnly: false, // 默认false, 当为true时使用wujie的setupApp，之后通过freelogApp.preloadWidget(widgetId)预加载
+    wujieConfig: {}, // 配置将合并到startApp或setupApp的配置项中
+    config: {}, // 子插件配置数据, 子插件可以通过freelogApp.getSelfConfig()获取配置数据
     seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的。
     widget_entry: string, // 本地url，dev模式下，可以使用本地url调试子插件
   });
@@ -161,7 +163,7 @@ https://nes-common.freelog.com/?dev=replace&62270c5cf670b2002e800193=https://loc
 
 ### 插件卸载
 
-当插件挂载的容器在组件内部或与组件同生同灭时，在组件卸载前需要卸载插件，否则再次加载会有问题。方便下次使用，可以将插件对象保存到全局
+当插件挂载的容器在组件内部或与组件同生同灭时，在组件卸载前需要卸载插件，否则再次加载会有问题。
 
 vue 案例：[前往示例代码](https://github.com/freelogfe/freelog-developer-guide-examples/blob/main/examples/vue3-ts-theme/src/views/widget/WidgetMount.vue)
 
@@ -179,75 +181,11 @@ useEffect(() => {
 });
 ```
 
- 
-
 ### 获取插件自身配置数据
 
 ```ts
 // 父插件的传递过来的config数据也会在这里
 const widgetConfig = freelogApp.getSelfConfig();
-```
-
-### 插件通信方式一：全局通信
-
-```ts
-**在入口处通过props修改与监听全局数据**
-const freelogApp = freelogApp
-// 主题独有方法，但主题可以传递给插件使用
-// 初始化全局数据，只能修改不能添加, 例如可以修改a:{} 为对象，但不能添加同级的b、c、d
-freelogApp.initGlobalState({ a: 1 })
-
-// 通过mount函数传递进来props 访问监听与设置的方法
-function storeTest(props) {
-  props.onGlobalStateChange &&
-    props.onGlobalStateChange(
-      (value, prev) =>
-        console.log(`[onGlobalStateChange - ${props.name}]:`, value, prev),
-      true
-    );
-  props.setGlobalState &&
-    props.setGlobalState({
-      ignore: props.name,
-      user: {
-        name: props.name,
-      },
-    });
-}
-export async function mount(props) {
-  console.log("[vue] props from main framework", props);
-  storeTest(props);
-  render(props);
-}
-
-// 函数说明
-props.setGlobalState(obj: 自定义对象)：
-props.onGlobalStateChange((state: 当前状态, prevState: 前数据) => void, fireImmediately:是否立即执行)
-```
-
-### 插件之间通信方式二：配置数据中传递 config
-
-```ts
-**在config中传递数据或方法提供给子插件访问，同时子插件可以通过调用方法传递数据给父插件**
-await freelogApp.mountWidget(
-  sub,
-  document.getElementById("freelog-single"),
-  subData,
-  config: {}, // 子插件配置数据，这里会和子插件自身数据合并，必须为对象
-  seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号
-);
-```
- 
-### 插件自身重载
-
-```js
-// 目前重载后挂载在window的数据没变，后期增加参数可选是否保留，以及返回重载失败可由插件决定是否刷新页面、但需要主题授权
-window.location.reload();
-```
-
-### 获取当前完整 URL
-
-```ts
-window.location.currentURL;
 ```
 
 ### 移动端适配

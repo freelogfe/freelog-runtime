@@ -9,8 +9,9 @@ export async function destroyWidget(
 
 export async function preloadWidget(
   name: string | undefined,
-  widgetId: string
+  widgetId: string,
+  config: any,
 ) {
   // @ts-ignore
-  return preloadApp({ name: widgetId });
+  return preloadApp({ ...config,name: widgetId });
 }
