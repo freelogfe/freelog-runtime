@@ -2,9 +2,9 @@
 
 import { baseURL, isTest } from "./base";
 import { freelogApp } from "./freelogApp";
-import { rawWindow } from "./rawObjects"
+import { rawWindow } from "./rawObjects";
 
-import { widgetsConfig, widgetUserData,   FREELOG_DEV } from "./widget";
+import { widgetsConfig, widgetUserData, FREELOG_DEV } from "./widget";
 import { initUserCheck } from "../security";
 import { addAuth, goLogin, goLoginOut } from "../bridge/index";
 import {
@@ -101,25 +101,29 @@ export function resolveUrl(path: string, params?: any): string {
   }
   return `${baseURL}${path}?${queryStringArr.join("&")}`;
 }
-export function getSelfWidgetId(name:string) {
+export function getSelfWidgetId(name: string) {
   // @ts-ignore
   return widgetsConfig.get(name)?.articleId;
 }
-export function getSelfArticleId(name:string) {
+export function setSelfResourceNameForDev(name: string, resourceName: string) {
+  // @ts-ignore
+  return (widgetsConfig.get(name)?.DevResourceName = resourceName);
+}
+export function getSelfArticleId(name: string) {
   // @ts-ignore
   return widgetsConfig.get(name)?.articleId;
 }
-export function getSelfExhibitId(name:string) {
+export function getSelfExhibitId(name: string) {
   // @ts-ignore
   return widgetsConfig.get(name)?.exhibitId;
 }
-export function getSelfConfig(name:string) {
+export function getSelfConfig(name: string) {
   // @ts-ignore  由于config只有一层，所以用...就够了
   return { ...widgetsConfig.get(name).config };
 }
 //  if error  这里不需要参数，除了运行时自行调用，需要抽离出来不与插件调用混在一起
 //  紧急，增加方法加载子依赖传递作品id，通过作品id查询到孙依赖插件
-export async function getSubDep(name: string,exhibitId?: any) {
+export async function getSubDep(name: string, exhibitId?: any) {
   let isTheme = false;
   // @ts-ignore
   let widgetSandBox = widgetsConfig.get(name);
@@ -136,9 +140,7 @@ export async function getSubDep(name: string,exhibitId?: any) {
   }
 
   // @ts-ignore
-  let response = await freelogApp.getExhibitInfoByAuth(name,
-    exhibitId
-  );
+  let response = await freelogApp.getExhibitInfoByAuth(name, exhibitId);
   if (response.authErrorType && isTheme) {
     await new Promise<void>(async (resolve, reject) => {
       if (response.authCode === 502) {
@@ -150,9 +152,7 @@ export async function getSubDep(name: string,exhibitId?: any) {
             resolve();
           });
         });
-        response = await freelogApp.getExhibitInfoByAuth(name,
-          exhibitId
-        );
+        response = await freelogApp.getExhibitInfoByAuth(name, exhibitId);
       }
       if (response.authErrorType) {
         await addAuth.bind(widgetSandBox)(exhibitId, {
@@ -161,9 +161,7 @@ export async function getSubDep(name: string,exhibitId?: any) {
       }
       resolve();
     });
-    response = await freelogApp.getExhibitInfoByAuth(name,
-      exhibitId
-    );
+    response = await freelogApp.getExhibitInfoByAuth(name, exhibitId);
     if (response.authErrorType) {
       await new Promise<void>(async (resolve, reject) => {
         await addAuth.bind(widgetSandBox)(exhibitId, {
@@ -172,9 +170,7 @@ export async function getSubDep(name: string,exhibitId?: any) {
         resolve();
       });
     }
-    response = await freelogApp.getExhibitInfoByAuth(name,
-      exhibitId
-    );
+    response = await freelogApp.getExhibitInfoByAuth(name, exhibitId);
   }
   const exhibitName = decodeURI(response.headers["freelog-exhibit-name"]);
   const articleNid = decodeURI(response.headers["freelog-article-nid"]);
@@ -207,14 +203,14 @@ export async function getUserInfo() {
   initUserCheck();
   return userInfo;
 }
-export function getCurrentUser(name:string) {
+export function getCurrentUser(name: string) {
   return userInfo;
 }
 export async function setUserInfo(info: any) {
   rawWindow.userId = info ? info.userId + "" : "";
   userInfo = info;
 }
-export function getStaticPath(name: string,path: string) {
+export function getStaticPath(name: string, path: string) {
   if (!/^\//.test(path)) {
     path = "/" + path;
   }
@@ -241,10 +237,10 @@ const viewPortValue = {
 };
 var rawDocument = rawWindow.document;
 var metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
-export function getViewport(name:string) {
+export function getViewport(name: string) {
   return metaEl.getAttribute("content");
 }
-export function setViewport(name:string, keys: any) {
+export function setViewport(name: string, keys: any) {
   // @ts-ignore
   // 如果是主题
   if (!widgetsConfig.get(name)?.isTheme) {
@@ -281,16 +277,21 @@ export function setViewport(name:string, keys: any) {
 //   return res;
 // }
 
-export async function setUserData(name:string, key: string, data: any) {
+export async function setUserData(name: string, key: string, data: any) {
   key = rawWindow.isTest ? key + "-test" : key;
   // @ts-ignore
   let userData = widgetUserData.get(name) || {};
   let config = widgetsConfig.get(name);
   userData[key] = data;
   let widgetId = btoa(encodeURI(config.articleName));
-  // if (name === FREELOG_DEV) {
-  //   widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
-  // }
+  /**
+   * 本地开发时： 如果本地开发的与线上主题或插件不是同一个资源，可以通过在入口文件加载页面加上主题或插件本身的作品名称,
+   * 例如： freelogApp.setSelfResourceNameForDev("Freelog/dev-docs");
+   * 这样可以保证更换到线上是一致的
+   */
+  if (config.isDev) {
+    widgetId = config.DevResourceName ? config.DevResourceName : widgetId;
+  }
   const nodeId = freelogApp.nodeInfo.nodeId;
   // 用户如果两台设备更新数据，可以做一个保存请求的数据对比最新的数据，如果不同，提示给插件（或者传递参数强制更新）,这个后端来做？
   const res = await _putUserData([nodeId], {
@@ -301,7 +302,7 @@ export async function setUserData(name:string, key: string, data: any) {
   return res;
 }
 
-export async function getUserData(name:string, key: string) {
+export async function getUserData(name: string, key: string) {
   key = rawWindow.isTest ? key + "-test" : key;
   // @ts-ignore
   let userData = widgetUserData.get(name);
@@ -310,9 +311,10 @@ export async function getUserData(name:string, key: string) {
   }
   let config = widgetsConfig.get(name);
   let widgetId = btoa(encodeURI(config.articleName));
-  // if (name === FREELOG_DEV) {
-  //   widgetId = sandBoxs.get(name).proxy.FREELOG_RESOURCENAME;
-  // }
+
+  if (config.isDev) {
+    widgetId = config.DevResourceName ? config.DevResourceName : widgetId;
+  }
   const nodeId = freelogApp.nodeInfo.nodeId;
   const res = await _getUserData([nodeId]);
   userData = res.data[widgetId] || {};
@@ -320,12 +322,12 @@ export async function getUserData(name:string, key: string) {
   return userData[key];
 }
 
-export function callLogin(name:string,resolve: Function) {
+export function callLogin(name: string, resolve: Function) {
   if (!userInfo) {
     goLogin(resolve);
   }
 }
-export function callLoginOut(name:string) {
+export function callLoginOut(name: string) {
   if (userInfo) {
     goLoginOut();
   }
@@ -345,12 +347,14 @@ export function setTabLogo(Url: string) {
   //   });
   // });
   var link: HTMLLinkElement =
-  rawDocument.querySelector.bind(document)('link[rel*="icon"]') ||
-  rawDocument.createElement("link");
+    rawDocument.querySelector.bind(document)('link[rel*="icon"]') ||
+    rawDocument.createElement("link");
   link.type = "image/x-icon";
   link.rel = "shortcut icon";
   link.href = Url; // 'http://www.stackoverflow.com/favicon.ico'
-  rawDocument.getElementsByTagName.bind(rawDocument)("head")[0].appendChild(link);
+  rawDocument.getElementsByTagName
+    .bind(rawDocument)("head")[0]
+    .appendChild(link);
 }
 
 export function isMobile() {

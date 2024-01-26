@@ -18,6 +18,7 @@ import {
   callLogin,
   callLoginOut,
   reload,
+  setSelfResourceNameForDev
 } from "./utils";
 import { callAuth, addAuth } from "../bridge/index";
 import { onLogin, onUserChange } from "../bridge/eventOn";
@@ -56,5 +57,6 @@ export const freelogApp: any = {
   resultType,
   bus,
   destroyWidget,
-  preloadWidget
+  preloadWidget,
+  setSelfResourceNameForDev
 };

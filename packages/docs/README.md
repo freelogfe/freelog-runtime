@@ -497,8 +497,7 @@ freelogApp.onUserChange(callback);
 
 ```js
 /**
- * 本地开发时： 如果本地开发的与线上主题或插件不是同一个资源，可以通过在入口文件加载页面加上主题或插件本身的作品名称,
- * 例如：window.FREELOG_RESOURCENAME = "Freelog/dev-docs";
+ * 本地开发时： 如果本地开发的与线上主题或插件不是同一个资源，可以通过freelogApp.setSelfResourceNameForDev("Freelog/dev-docs") 主题或插件本身的作品名称,
  * 这样可以保证更换到线上是一致的
  */
 
