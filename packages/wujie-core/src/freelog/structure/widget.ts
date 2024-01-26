@@ -213,14 +213,7 @@ export async function mountWidget(
     config, // 主题插件配置数据
     isUI: false,
     props: {
-      registerApi: (apis: any) => {
-        if (once) {
-          console.error("registerApi 只能在加在时使用一次");
-          return "只能使用一次";
-        }
-        api = apis;
-        once = true;
-      },
+      
     },
   };
   const wujieConfig = options.wujieConfig ? options.wujieConfig : {};
@@ -240,10 +233,18 @@ export async function mountWidget(
     props: {
       ...(wujieConfig.props ? wujieConfig.props : {}),
       freelogApp: bindName(widgetId),
+      registerApi: (apis: any) => {
+        if (once) {
+          console.error("registerApi 只能在加在时使用一次");
+          return "只能使用一次";
+        }
+        api = apis;
+        once = true;
+      },
     },
   });
   addWidget(widgetId, { destory: app });
   // @ts-ignore
   // destroyApp(widgetId)
-  return { destory: app, widgetId };
+  return { destory: app, widgetId, getApi: ()=> api };
 }
