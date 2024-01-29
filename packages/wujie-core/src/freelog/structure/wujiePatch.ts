@@ -15,3 +15,11 @@ export async function preloadWidget(
   // @ts-ignore
   return preloadApp({ ...config,name: widgetId });
 }
+export async function startWdiget(
+  name: string | undefined,
+  widgetId: string,
+  config: any,
+) {
+  // @ts-ignore
+  return startApp({ ...config,name: widgetId });
+}

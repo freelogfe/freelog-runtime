@@ -101,14 +101,15 @@ export function resolveUrl(path: string, params?: any): string {
   }
   return `${baseURL}${path}?${queryStringArr.join("&")}`;
 }
+export function setSelfResourceNameForDev(name: string, resourceName: string) {
+  // @ts-ignore
+  widgetsConfig.get(name).DevResourceName = resourceName;
+}
 export function getSelfWidgetId(name: string) {
   // @ts-ignore
   return widgetsConfig.get(name)?.articleId;
 }
-export function setSelfResourceNameForDev(name: string, resourceName: string) {
-  // @ts-ignore
-  return (widgetsConfig.get(name)?.DevResourceName = resourceName);
-}
+
 export function getSelfArticleId(name: string) {
   // @ts-ignore
   return widgetsConfig.get(name)?.articleId;

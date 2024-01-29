@@ -21,6 +21,7 @@ export interface FreelogApp {
     widget: any;
     container: HTMLElement | null;
     config?: PlainObject;
+    wujieConfig?: PlainObject;
     topExhibitData?: any;
     seq?: number | null;
     widget_entry?: boolean | string;
