@@ -40,12 +40,12 @@ export function removeChildWidget(key: string, childKey: string) {
   }
 }
 
-export function mountUI(
+export async function mountUI(
   name: string,
   container: any,
   entry: string,
   config?: any
-): any {
+) {
   const widgetConfig = {
     container,
     name, //id
@@ -54,11 +54,15 @@ export function mountUI(
     config, // 主题插件配置数据
   };
   addWidgetConfig(name, widgetConfig);
-
-  const app = startApp({
+  const app = await startApp({
     name,
     el: container,
     url: entry,
+    // alive: true,
+    fetch: (input: RequestInfo, init?: RequestInit) => {
+      // @ts-ignore
+      return freelogFetch(widgetConfig, input, init);
+    },
     props: {
       freelogApp: bindName(name),
       freelogAuth,
@@ -212,9 +216,7 @@ export async function mountWidget(
     isDev: !!entry,
     config, // 主题插件配置数据
     isUI: false,
-    props: {
-      
-    },
+    props: {},
   };
   const wujieConfig = options.wujieConfig ? options.wujieConfig : {};
   addWidgetConfig(widgetId, widgetConfig);
@@ -246,5 +248,5 @@ export async function mountWidget(
   addWidget(widgetId, { destory: app });
   // @ts-ignore
   // destroyApp(widgetId)
-  return { destory: app, widgetId, getApi: ()=> api };
+  return { destory: app, widgetId, getApi: () => api };
 }

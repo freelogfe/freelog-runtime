@@ -56,7 +56,6 @@ export function setPresentableQueue(name: string, value: any) {
 }
 export async function addAuth(name: string, exhibitId: any, options?: any) {
   const arr = eventMap.get(exhibitId)?.callBacks || [];
-  console.log(name, exhibitId);
   const widgetData = widgetsConfig.get(name);
   return new Promise((resolve, rej) => {
     Promise.all([
@@ -90,7 +89,6 @@ export async function addAuth(name: string, exhibitId: any, options?: any) {
         widgetName: name,
       });
       let id = exhibitId;
-      console.log(widgetData);
       eventMap.set(id, {
         isTheme: name ? false : widgetData.isTheme,
         eventId: id, // 后期evnetId是要与prsesentableId区分开来的
@@ -226,7 +224,6 @@ export function lowerUI() {
   // uiRoot.style.opacity = 0;
   // @ts-ignore
   widgetContainer.style.zIndex = 1;
-  debugger;
 }
 
 export function reload() {

@@ -1,4 +1,5 @@
-﻿export function freelogFetch(
+﻿const origin = window.location.origin;
+export function freelogFetch(
   widgetConfig: any,
   url: string,
   options?: RequestInit
@@ -8,11 +9,17 @@
     // TODO 这里需要处理，可能后缀不是html
     url += "index.html";
   }
-  // 这里干啥的？
-  if(!url.includes(widgetConfig.entry) && url.includes("freelog.com")){
+  console.log(widgetConfig, url, 8888)
+  if(widgetConfig.name === "freelog-ui" && !url.includes(widgetConfig.entry)){
+    const urlObj = new URL(url);
+    // url = widgetConfig.entry + url
+    url = origin + widgetConfig.entry+ urlObj.pathname + urlObj.search;
+    console.log(url, 90909, widgetConfig)
+  }else if(!url.includes(widgetConfig.entry) && url.includes("freelog.com")){
     const urlObj = new URL(url);
     url = widgetConfig.entry + urlObj.pathname;
   }
+
   if (url.indexOf("freelog.com") > -1) {
     return fetch(url, { ...options, credentials: "include" });
   } else {

@@ -30,7 +30,7 @@ const uiPath =
   process.env.NODE_ENV === "development"
     ? mobile
       ? "https://localhost:8881" // "http://ui.mobile.com"
-      : "https://localhost:8880"
+      : "https://localhost:8880"// "/pc" //"https://localhost:8880"
     : mobile
     ? "/mobile"
     : "/pc";
@@ -144,7 +144,6 @@ export function initNode() {
                 themeResolve(false)
               },
               beforeLoad: (data:any)=>{
-                // console.log(data)
               },
             }
           });

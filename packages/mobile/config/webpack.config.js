@@ -461,10 +461,7 @@ module.exports = function (webpackEnv) {
                   cacheCompression: false,
                   compact: isEnvProduction,
                 }
-              }, {
-                loader: 'astroturf/loader',
-                options: { extension: '.module.scss' },
-              },]
+              },  ]
 
             },
             // Process any JS outside of the app with Babel.

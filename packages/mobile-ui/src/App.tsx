@@ -1,7 +1,11 @@
 // import logo from './logo.svg';
+// @ts-ignore
+import { Button } from "antd-mobile"
+
 import "./App.scss";
 import "@/assets/mobile/index.scss";
-
+// import "antd-mobile/es/global/global.css"
+// import "antd-mobile/es/global/theme-default.css"
 import { useEffect, useState } from "react";
 import Mobile from "./views/auth";
 import { freelogAuthApi } from "freelog-runtime-api";
@@ -155,6 +159,7 @@ function App() {
         <OutOf eventType={eventType} outData={outData}></OutOf>
       ) : inited || isLogin ? (
         <div className="w-100x h-100x bg-white">
+          <Button color="primary" className="d-none"></Button>
           <Mobile
             events={events}
             isAuths={inited}
