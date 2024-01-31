@@ -44,21 +44,20 @@ export async function mountUI(
   name: string,
   container: any,
   entry: string,
-  config?: any
+  wujieConfig?: any
 ) {
   const widgetConfig = {
     container,
     name, //id
     entry,
     isUI: true,
-    config, // 主题插件配置数据
   };
   addWidgetConfig(name, widgetConfig);
   const app = await startApp({
+    ...wujieConfig,
     name,
     el: container,
     url: entry,
-    // alive: true,
     fetch: (input: RequestInfo, init?: RequestInit) => {
       // @ts-ignore
       return freelogFetch(widgetConfig, input, init);
@@ -222,11 +221,11 @@ export async function mountWidget(
   addWidgetConfig(widgetId, widgetConfig);
   const way = options.setupOnly ? setupApp : startApp;
   const app = await way({
+    sync: true,
     ...options.wujieConfig,
     name: widgetId,
     el: widgetConfig.container,
     url: widgetConfig.entry,
-    sync: true,
     // @ts-ignore
     fetch: (input: RequestInfo, init?: RequestInit) => {
       // @ts-ignore

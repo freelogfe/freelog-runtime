@@ -29,7 +29,7 @@ const mobile = isMobile();
 const uiPath =
   process.env.NODE_ENV === "development"
     ? mobile
-      ? "https://localhost:8881" // "https://localhost:8881" // "http://ui.mobile.com"
+      ? "https://localhost:4173" // "https://localhost:8881" // "http://ui.mobile.com"
       : "https://localhost:8880" // "/pc" //"https://localhost:8880"
     : mobile
     ? "https://runtime-freelog-test.oss-cn-shenzhen.aliyuncs.com/mobile"
@@ -134,18 +134,18 @@ export function initNode() {
           // @ts-ignore
           loadingContainer.style.display = "none";
           themeId = theme.articleInfo.articleId;
-          await freelogApp.mountWidget(null, {
-            widget: theme,
-            container: container,
-            widget_entry: true,
-            wujieConfig: {
-              alive: true,
-              loadError: () => {
-                themeResolve(false);
-              },
-              beforeLoad: (data: any) => {},
-            },
-          });
+          // await freelogApp.mountWidget(null, {
+          //   widget: theme,
+          //   container: container,
+          //   widget_entry: true,
+          //   wujieConfig: {
+          //     alive: true,
+          //     loadError: () => {
+          //       themeResolve(false);
+          //     },
+          //     beforeLoad: (data: any) => {},
+          //   },
+          // });
           themeResolve(true);
         });
         mountTheme.then((flag) => {
@@ -153,9 +153,8 @@ export function initNode() {
         });
         mountUI("freelog-ui", document.getElementById("ui-root"), uiPath, {
           alive: true,
-          // sync: true,
-          loadError: (e:any) => {
-          },
+          sync: true,
+          loadError: () => {},
           afterMount: (data: any) => {
             async () => {
               // @ts-ignore

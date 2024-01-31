@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "antd-mobile": "^5.34.0",
+    "antd-mobile-icons": "^0.3.0",
     "copy-to-clipboard": "^3.3.2",
     "freelog-runtime-api": "workspace:^",
     "moment": "^2.29.1",

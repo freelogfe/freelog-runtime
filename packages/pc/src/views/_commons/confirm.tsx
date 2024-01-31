@@ -64,7 +64,7 @@ export default function Confirm(props: ConfirmProps) {
         <div className="flex-row justify-center">
           <Button
             type="cancel"
-            click={(e) => {
+            click={() => {
               props.setIsModalVisible(false);
             }}
             className="mr-10"
@@ -72,7 +72,7 @@ export default function Confirm(props: ConfirmProps) {
             取消
           </Button>
           <Button
-            click={(e) => {
+            click={() => {
               props.getAuth();
             }}
             type="main"

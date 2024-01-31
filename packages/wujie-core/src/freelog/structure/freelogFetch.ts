@@ -10,12 +10,13 @@ export function freelogFetch(
     url += "index.html";
   }
   console.log(widgetConfig, url, 8888)
-  if(widgetConfig.name === "freelog-ui" && !url.includes(widgetConfig.entry)){
+  if(widgetConfig.name === "freelog-ui" && !url.includes(widgetConfig.entry) && !url.includes("localhost")){
     const urlObj = new URL(url);
     // url = widgetConfig.entry + url
-    url = origin + widgetConfig.entry+ urlObj.pathname + urlObj.search;
+    url = widgetConfig.entry+ urlObj.pathname + urlObj.search;
     console.log(url, 90909, widgetConfig)
-  }else if(!url.includes(widgetConfig.entry) && url.includes("freelog.com")){
+  }else
+   if(!url.includes(widgetConfig.entry) && url.includes("freelog.com")){
     const urlObj = new URL(url);
     url = widgetConfig.entry + urlObj.pathname;
   }

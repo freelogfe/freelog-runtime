@@ -1,7 +1,6 @@
 import App from "./App";
 // @ts-ignore
 import reportWebVitals from "./reportWebVitals";
-
 // import React from "react";
 import ReactDOM from "react-dom/client";
 
@@ -14,9 +13,13 @@ const root = ReactDOM.createRoot(
 //   </React.StrictMode>
 // );
 
+// console.log(window.__POWERED_BY_WUJIE__,909090)
 if (window.__POWERED_BY_WUJIE__) {
+  root.render(<App />);
   window.__WUJIE_MOUNT = () => {
-    root.render(<App />);
+    // console.log(window.__POWERED_BY_WUJIE__,8888)
+
+    // root.render(<App />);
   };
   window.__WUJIE_UNMOUNT = () => {
     root.unmount();

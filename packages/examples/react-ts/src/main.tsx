@@ -13,11 +13,13 @@ const root = ReactDOM.createRoot(
 //     <App />
 //   </React.StrictMode>
 // );
-
+console.log(window.__POWERED_BY_WUJIE__, 9999)
 if (window.__POWERED_BY_WUJIE__) {
-  window.__WUJIE_MOUNT = () => {
-    root.render(<App />);
-  };
+  debugger
+  root.render(<App />)
+  // window.__WUJIE_MOUNT = () => {
+  //   root.render(<App />);
+  // };
   window.__WUJIE_UNMOUNT = () => {
     root.unmount();
   };

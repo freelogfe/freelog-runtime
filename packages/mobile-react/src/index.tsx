@@ -2,27 +2,30 @@ import App from "./App";
 // @ts-ignore
 import reportWebVitals from "./reportWebVitals";
 
-// import React from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-// root.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>
-// );
 
 if (window.__POWERED_BY_WUJIE__) {
   window.__WUJIE_MOUNT = () => {
-    root.render(<App />);
+    root.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    );
   };
   window.__WUJIE_UNMOUNT = () => {
     root.unmount();
   };
 } else {
-  root.render(<App />);
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
 }
 // setTimeout(()=>{run();},0)
 // If you want to start measuring performance in your app, pass a function

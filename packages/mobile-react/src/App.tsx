@@ -1,6 +1,5 @@
 // import logo from './logo.svg';
-// @ts-ignore
-import { Button } from "antd-mobile"
+
 
 import "./App.scss";
 import "@/assets/mobile/index.scss";
@@ -159,7 +158,6 @@ function App() {
         <OutOf eventType={eventType} outData={outData}></OutOf>
       ) : inited || isLogin ? (
         <div className="w-100x h-100x bg-white">
-          <Button color="primary" className="d-none"></Button>
           <Mobile
             events={events}
             isAuths={inited}

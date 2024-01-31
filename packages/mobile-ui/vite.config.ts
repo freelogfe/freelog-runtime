@@ -10,7 +10,8 @@ export default defineConfig({
     basicSsl(),
     react(),
     legacy({
-      targets: ["defaults", "not IE 11"],
+      renderLegacyChunks: true,
+      renderModernChunks: false,
     }),
   ],
   server: {
