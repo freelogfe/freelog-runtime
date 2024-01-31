@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Pay from "../event/pay";
-import { DownOutlined, UpOutlined } from "@ant-design/icons";
+import { DownOutline, UpOutline } from "antd-mobile-icons";
 // import PolicyGraph from "../policy/_components/policyGraph";
 import PolicyCode from "../policy/_components/policyCode";
 import PolicyContent from "../policy/_components/policyContent";
@@ -369,7 +369,7 @@ export default function Contract(props: ItemProps) {
                       }}
                     >
                       展开完整流转记录
-                      <DownOutlined />
+                      <DownOutline />
                     </div>
                   ) : (
                     <div
@@ -377,7 +377,7 @@ export default function Contract(props: ItemProps) {
                         setUnFold(false);
                       }}
                     >
-                      收起流转记录 <UpOutlined />
+                      收起流转记录 <UpOutline/>
                     </div>
                   )}
                 </div>

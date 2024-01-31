@@ -1,29 +1,28 @@
 // @ts-ignore
 import App from "./App";
-import "./public-path";
 import reportWebVitals from "./reportWebVitals";
 
-import React from "react";
 import ReactDOM from "react-dom/client";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-root.render(
-  <React.StrictMode >
-    <App />
-  </React.StrictMode>
-);
-export async function bootstrap() {}
 
-export async function mount(props: any = {}) {
+// root.render(
+//   <React.StrictMode>
+//     <App />
+//   </React.StrictMode>
+// );
+
+if (window.__POWERED_BY_WUJIE__) {
+  window.__WUJIE_MOUNT = () => {
+    root.render(<App />);
+  };
+  window.__WUJIE_UNMOUNT = () => {
+    root.unmount();
+  };
+} else {
   root.render(<App />);
-}
-export async function unmount(props: any) {
-  root.unmount();
-}
-if (!window.__POWERED_BY_FREELOG__) {
-  bootstrap().then(mount);
 }
 // setTimeout(()=>{run();},0)
 // If you want to start measuring performance in your app, pass a function
