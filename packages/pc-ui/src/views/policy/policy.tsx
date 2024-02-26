@@ -1,0 +1,115 @@
+/* @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+import PolicyCode from "./_components/policyCode";
+import { useState } from "react";
+
+import PolicyContent from "./_components/policyContent";
+import Button from "../_commons/button";
+
+import { Tabs, Checkbox, Popconfirm } from "antd";
+const props = window.$wujie?.props;
+const { TabPane } = Tabs;
+const { getCurrentUser } = props.freelogAuth;
+interface ItemProps {
+  policy: any;
+  selectType: boolean;
+  policySelect: any;
+  disabled: boolean;
+  seq: number;
+  isAvailable: boolean;
+  getAuth: any;
+  children?: any;
+}
+export default function Policy(props: ItemProps) {
+  const [visible, setVisible] = useState(false);
+  function callback() {}
+  function onChange(e: any) {
+    props.policySelect(props.policy.policyId, e.target.checked);
+  }
+  async function confirm() {
+    props.getAuth();
+    setVisible(false);
+  }
+
+  function cancel() {
+    props.policySelect();
+    setVisible(false);
+  }
+  return (
+    <div
+      className="flex-column policy-card w-100x"
+      css={css`
+        margin-top: 15px;
+        background: #ffffff;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        cursor: ${props.disabled ? "not-allowed" : "normal"};
+        opacity: ${props.disabled ? "40%" : "1"};
+        pointer-event: ${props.disabled ? "none" : "auto"};
+        .ant-tabs-nav {
+          margin: 0 !important;
+        }
+      `}
+    >
+      {/* 上：策略名称与操作 */}
+      <div className="flex-row space-between px-20 pt-15">
+        <div
+          className="flex-1 policy-name  text-ellipsis"
+          css={css`
+            font-size: 14px;
+            font-family: PingFangSC-Semibold, PingFang SC;
+            font-weight: 600;
+            color: #333333;
+            line-height: 20px;
+          `}
+        >
+          {props.policy.policyName}
+        </div>
+        {props.selectType ? (
+          <Popconfirm
+            title="确定使用此策略与展品签约？"
+            onConfirm={confirm}
+            onCancel={cancel}
+            open={visible}
+            // icon={<span className="d-none"></span>}
+            okText="确定"
+            cancelText="取消"
+            zIndex={1400}
+          >
+            <Button
+              className="fs-13"
+              click={() => {
+                props.policySelect(props.policy.policyId, true, true);
+                setVisible(true);
+              }}
+              disabled={!props.isAvailable || props.disabled}
+            >
+              签约
+            </Button>
+          </Popconfirm>
+        ) : (
+          <Checkbox
+            onChange={onChange}
+            disabled={!getCurrentUser() || props.disabled}
+          ></Checkbox>
+        )}
+      </div>
+      {/* 下：tab */}
+      <div className="flex-column px-20">
+        <Tabs defaultActiveKey="1" onChange={callback} className="select-none">
+          <TabPane tab="策略内容" key="1">
+            <PolicyContent
+              translateInfo={props.policy.translateInfo}
+            ></PolicyContent>
+          </TabPane>
+          {/* <TabPane tab="状态机视图" key="2">
+            <PolicyGraph policy={props.policy}></PolicyGraph>
+          </TabPane> */}
+          <TabPane tab="策略代码" key="3">
+            <PolicyCode policyText={props.policy.policyText}></PolicyCode>
+          </TabPane>
+        </Tabs>
+      </div>
+    </div>
+  );
+}

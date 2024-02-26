@@ -9,7 +9,7 @@ export function freelogFetch(
     // TODO 这里需要处理，可能后缀不是html
     url += "index.html";
   }
-  console.log(widgetConfig, url, 8888)
+  // console.log(widgetConfig, url, 8888)
   if(widgetConfig.name === "freelog-ui" && !url.includes(widgetConfig.entry) && !url.includes("localhost")){
     const urlObj = new URL(url);
     // url = widgetConfig.entry + url

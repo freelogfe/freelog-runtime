@@ -1,0 +1,55 @@
+@import "../assets/css/index.scss";
+
+.ant-tabs-tab {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.ant-tabs-tab+.ant-tabs-tab {
+  margin: -1px 0px 0px 20px;
+}
+
+
+.freelog-login {
+  .ant-modal-root {
+    z-index: 1200;
+  }
+}
+
+.freelog-contract {
+  .ant-modal-body {
+    padding: 0 !important;
+  }
+
+  .ant-modal-header>.ant-modal-title {
+    color: #222222 !important;
+    font-size: 18px !important;
+    text-align: center !important;
+    font-weight: bold !important;
+  }
+}
+
+.ant-modal-content {
+  border-radius: 4px !important;
+  overflow: hidden;
+  background: white;
+}
+
+.freelog-confirm {
+  .ant-modal-content {
+    border-radius: 4px !important;
+    overflow: hidden;
+  }
+
+  .ant-modal-header {
+    padding: 30px 24px !important;
+    border-bottom: none !important;
+
+    .ant-modal-title {
+      color: #222222 !important;
+      font-size: 18px !important;
+      text-align: center !important;
+      font-weight: normal !important;
+    }
+  }
+}
