@@ -22,6 +22,7 @@ interface PayProps {
   transactionAmount?: number;
   eventId: any;
   paymentFinish: any;
+  children?: any;
 }
 
 export default function Pay(props: PayProps) {

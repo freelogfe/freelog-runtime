@@ -29,7 +29,7 @@ export default function Tip(props: ConfirmProps) {
       zIndex={1301}
       centered
       footer={null}
-      visible={props.isModalVisible}
+      open={props.isModalVisible}
       className="w-312"
       mask={!!props.mask}
       closable={false}

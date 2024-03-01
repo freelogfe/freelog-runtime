@@ -37,7 +37,7 @@ export default function Confirm(props: ConfirmProps) {
       zIndex={1201}
       centered
       footer={null}
-      visible={props.isModalVisible}
+      open={props.isModalVisible}
       className="w-560"
       onOk={handleOk}
       onCancel={handleCancel}

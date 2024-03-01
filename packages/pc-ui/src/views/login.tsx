@@ -6,7 +6,6 @@ import wechatPng from "@/assets/wechat.png";
 
 import { useState } from "react";
 import "./login.scss";
-//@ts-ignore
 const props = window.$wujie?.props;
 const { SUCCESS, USER_CANCEL } = props.freelogAuth.resultType;
 const { setHref,getHref } = props.freelogAuth;
@@ -56,7 +55,7 @@ export default function Login(props: loginProps) {
     }
   };
 
-  const onFinishFailed = (errorInfo: any) => {};
+  const onFinishFailed = () => {};
 
   const handleOk = () => {
     props.setIsLoginVisible(false);
@@ -71,7 +70,7 @@ export default function Login(props: loginProps) {
       zIndex={1200}
       centered
       footer={null}
-      visible={true}
+      open={true}
       closable={true}
       className=""
       onOk={handleOk}

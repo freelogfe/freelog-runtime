@@ -10,46 +10,49 @@
 }
 
 
-.freelog-login {
-  .ant-modal-root {
-    z-index: 1200;
-  }
-}
+// .freelog-login {
+//   .ant-modal-root {
+//     z-index: 1200;
+//   }
+// }
+// // .ant-modal-root{
+// //   width: 100vw;
+// //   height: 100vh;
+// // }
+// .freelog-contract {
+//   .ant-modal-body {
+//     padding: 0 !important;
+//   }
+  
+//   .ant-modal-header>.ant-modal-title {
+//     color: #222222 !important;
+//     font-size: 18px !important;
+//     text-align: center !important;
+//     font-weight: bold !important;
+//   }
+// }
 
-.freelog-contract {
-  .ant-modal-body {
-    padding: 0 !important;
-  }
+// .ant-modal-content {
+//   border-radius: 4px !important;
+//   overflow: hidden;
+//   background: white;
+// }
 
-  .ant-modal-header>.ant-modal-title {
-    color: #222222 !important;
-    font-size: 18px !important;
-    text-align: center !important;
-    font-weight: bold !important;
-  }
-}
+// .freelog-confirm {
+//   .ant-modal-content {
+//     border-radius: 4px !important;
+//     overflow: hidden;
+//   }
 
-.ant-modal-content {
-  border-radius: 4px !important;
-  overflow: hidden;
-  background: white;
-}
+//   .ant-modal-header {
+//     padding: 30px 24px !important;
+//     border-bottom: none !important;
 
-.freelog-confirm {
-  .ant-modal-content {
-    border-radius: 4px !important;
-    overflow: hidden;
-  }
-
-  .ant-modal-header {
-    padding: 30px 24px !important;
-    border-bottom: none !important;
-
-    .ant-modal-title {
-      color: #222222 !important;
-      font-size: 18px !important;
-      text-align: center !important;
-      font-weight: normal !important;
-    }
-  }
-}
+//     .ant-modal-title {
+//       color: #222222 !important;
+//       font-size: 18px !important;
+//       text-align: center !important;
+//       font-weight: normal !important;
+//     }
+//   }
+// }

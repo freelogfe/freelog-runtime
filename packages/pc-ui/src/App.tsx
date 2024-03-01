@@ -1,4 +1,5 @@
 import "./App.scss";
+import { Modal,Button } from "antd";
 
 import { useEffect, useState } from "react";
 import Pc from "./views/auth";
@@ -152,8 +153,29 @@ function App() {
     // });
   }
   registerUI(UI, updateUI);
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div id="freelog-pc-auth" className="w-100x h-100x over-h">
+      <Button type="primary" onClick={showModal}>
+        Open Modal
+      </Button>
+      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
       {isOut ? (
         <OutOf eventType={eventType} outData={outData}></OutOf>
       ) : inited || isLogin ? (

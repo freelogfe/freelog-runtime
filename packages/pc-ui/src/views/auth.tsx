@@ -21,12 +21,11 @@ import ExhibitOffLine from "./_statusComponents/exhibitOffLine";
 import ExhibitFooter from "./_components/exhibitFooter";
 import ContractTip from "./_components/contractTip";
 import PolicyTip from "./_components/policyTip";
-//@ts-ignore
 const props = window.$wujie?.props;
 const { SUCCESS, USER_CANCEL } = props.freelogAuth.resultType;
 const nodeInfo = props.freelogApp.nodeInfo;
 const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
-props.freelogAuth;
+  props.freelogAuth;
 
 interface contractProps {
   events: Array<any>;
@@ -43,7 +42,6 @@ export default function Auth(props: contractProps) {
   const [isLoginVisible, setIsLoginVisible] = useState(false);
   const [isTipVisible, setIsTipVisible] = useState(false);
   const [themeCancel, setThemeCancel] = useState(false);
-  const [exhibitOnline, setExhibitOnline] = useState(false);
   const [tipConfig, setTipConfig] = useState<{
     content: string;
     type: TipTipes["type"];
@@ -67,7 +65,7 @@ export default function Auth(props: contractProps) {
   function loginFinished(type: number, data?: any) {
     if (type === SUCCESS) {
       setUserInfo(data);
-      console.log(9999, data)
+      console.log(9999, data);
       if (loginCallback.length === 0) {
         reload();
       }
@@ -171,6 +169,7 @@ export default function Auth(props: contractProps) {
 
   // 用户取消签约
   const userCancel = () => {
+    console.log(1211)
     if (currentExhibit.isTheme) {
       setThemeCancel(true);
     } else {
@@ -209,7 +208,7 @@ export default function Auth(props: contractProps) {
   // 签约发起
   const getAuth = async () => {
     const subjects: any = [];
-    let policies: any = [];
+    const policies: any = [];
     currentExhibit.policiesActive.forEach((item: any) => {
       selectedPolicies.includes(item.policyId) &&
         subjects.push({
@@ -235,7 +234,7 @@ export default function Auth(props: contractProps) {
       setIsTipVisible(true);
 
       if (res.data.msg === "subject-policy-check-failed") {
-        let failedPolicies: string[] = [];
+        const failedPolicies: string[] = [];
         policies.forEach((item: any) => {
           res.data.data.forEach((f: any) => {
             if (f.policyId === item.policyId) {
@@ -318,37 +317,36 @@ export default function Auth(props: contractProps) {
         )
       ) : (
         <div className="runtime-pc bg-white" id="runtime-pc">
-          <>
-            {isConfirmVisible && (
-              <Confirm
-                setIsModalVisible={setIsConfirmVisible}
-                isModalVisible={isConfirmVisible}
-                getAuth={getAuth}
-                selectedPolicies={selectedPolicies}
-                policies={currentExhibit.policiesActive}
-                currentExhibit={currentExhibit}
-              />
-            )}
-            {isLoginVisible && (
-              <Login
-                loginFinished={loginFinished}
-                setIsLoginVisible={setIsLoginVisible}
-              ></Login>
-            )}
-            <Tip
-              content={tipConfig.content}
-              isModalVisible={isTipVisible}
-              type={tipConfig.type}
-              setIsModalVisible={setIsTipVisible}
+          {isConfirmVisible && (
+            <Confirm
+              setIsModalVisible={setIsConfirmVisible}
+              isModalVisible={isConfirmVisible}
+              getAuth={getAuth}
+              selectedPolicies={selectedPolicies}
+              policies={currentExhibit.policiesActive}
+              currentExhibit={currentExhibit}
             />
-          </>
-          {props.isAuths && currentExhibit && (
+          )}
+          {isLoginVisible && (
+            <Login
+              loginFinished={loginFinished}
+              setIsLoginVisible={setIsLoginVisible}
+            ></Login>
+          )}
+          <Tip
+            content={tipConfig.content}
+            isModalVisible={isTipVisible}
+            type={tipConfig.type}
+            setIsModalVisible={setIsTipVisible}
+          />
+          {props.isAuths && currentExhibit ? (
             <Modal
               zIndex={1200}
               centered
               footer={null}
-              visible={props.isAuths}
+              open={props.isAuths}
               onCancel={userCancel}
+              mask={true}
               className={
                 currentExhibit.isTheme || events.length === 1
                   ? "h-620"
@@ -393,30 +391,30 @@ export default function Auth(props: contractProps) {
                             <ExhibitHeader currentExhibit={currentExhibit} />
                           ) : null}
                           {/* {currentExhibit.availableData.authCode === 403 ? (
-                            <div
-                              className="flex-row align-center py-5 w-100x"
+                          <div
+                            className="flex-row align-center py-5 w-100x"
+                            css={css`
+                              background: #fdebec;
+                              border-radius: 4px;
+                              color: #ee4040;
+                              padding: 0 10px;
+                              font-size: 12px;
+                              margin-top: 10px;
+                            `}
+                          >
+                            <i
+                              className="iconfont"
                               css={css`
-                                background: #fdebec;
-                                border-radius: 4px;
-                                color: #ee4040;
-                                padding: 0 10px;
-                                font-size: 12px;
-                                margin-top: 10px;
+                                color: red;
+                                font-size: 16px;
+                                margin-right: 5px;
                               `}
                             >
-                              <i
-                                className="iconfont"
-                                css={css`
-                                  color: red;
-                                  font-size: 16px;
-                                  margin-right: 5px;
-                                `}
-                              >
-                                &#xe62f;
-                              </i>
-                              <span>授权异常：此展品因违规授权相关操作已被禁用</span>
-                            </div>
-                          ) : null} */}
+                              &#xe62f;
+                            </i>
+                            <span>授权异常：此展品因违规授权相关操作已被禁用</span>
+                          </div>
+                        ) : null} */}
                           {nodeInfo.ownerUserStatus === 1 ? (
                             <div
                               className="flex-row align-center py-5 px-10 w-100x"
@@ -514,7 +512,7 @@ export default function Auth(props: contractProps) {
                 </div>
               )}
             </Modal>
-          )}
+          ) : null}
         </div>
       )}
     </>
