@@ -10,8 +10,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@micro-zoe/micro-app": "1.0.0-rc.4",
+    "@types/node": "^20.11.24",
+    "axios": "^0.21.1",
+    "cross-env": "^7.0.3",
+    "crypto": "^1.0.1",
+    "css-minimizer-webpack-plugin": "^5.0.1",
+    "doc-cookies": "^1.1.0",
+    "freelog-runtime-api": "workspace:^",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "moment": "^2.29.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "vconsole": "^3.11.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",
