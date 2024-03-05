@@ -32,21 +32,12 @@ import OutOf from "./views/outOf";
  *         1.针对单个展品，采用promise函数，可选是否立即弹出授权UI，await后返回状态，，
  *         2.针对单个或多个展品，采用回调函数，可选是否立即弹出授权UI，可以选择多次回调或一次回调，当有一个展品获得授权后（以后看是否支持取消单个展品）
  *           立即回调函数，主题插件就可以即时刷新呈现数据，，当只要一次回调，暂时不考虑只进行一次回调。
- *         3.
  *     授权UI根据提交的展品再次请求是否授权，维持一个待授权的列表
  *     授权成功后
- * 6.登录操作 
+ * 6.登录操作
  */
-const {
-  registerUI,
-  clearEvent,
-  endEvent,
-  updateLock,
-  updateEvent,
-  lowerUI,
-  upperUI,
-  reload,
-} = freelogAuth;
+const { registerUI, clearEvent, endEvent, updateLock, updateEvent, reload } =
+  freelogAuth;
 const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
 const {
   NODE_FREEZED,
@@ -67,6 +58,7 @@ function App() {
   const [inited, setInited] = useState(false);
   const [eventType, setEventType] = useState(0);
   const [isOut, setIsOut] = useState(false);
+  const [showUI, setShowUI] = useState(false);
   const [outData, setOutData] = useState<any>(null);
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
@@ -118,11 +110,13 @@ function App() {
           (nodeInfo.status & 6) === 6 ||
           (nodeInfo.status & 12) === 12
         ) {
+          setShowUI(true);
           setEventType(NODE_FREEZED);
           return;
         }
         // 节点下线
         if ((nodeInfo.status & 8) === 8) {
+          setShowUI(true);
           setEventType(NODE_OFFLINE);
           return;
         }
@@ -131,11 +125,13 @@ function App() {
           (nodeInfo.status & 2) === 2 &&
           nodeInfo.ownerUserId !== userInfo?.userId
         ) {
+          setShowUI(true);
           setEventType(NODE_PRIVATE);
           return;
         }
         // 用户冻结
         if (userInfo && userInfo.status == 1) {
+          setShowUI(true);
           setEventType(USER_FREEZED);
           return;
         }
@@ -144,6 +140,7 @@ function App() {
           (!nodeInfo.nodeThemeId && !isTest) ||
           (!nodeInfo.nodeTestThemeId && isTest)
         ) {
+          setShowUI(true);
           setEventType(THEME_NONE);
           return;
         }
@@ -168,8 +165,9 @@ function App() {
     if (type === SUCCESS) {
       setInited(false);
       clearEvent();
+      setShowUI(false);
     } else if (type === USER_CANCEL && !inited) {
-      lowerUI();
+      setShowUI(false);
     }
   }
 
@@ -184,9 +182,9 @@ function App() {
     });
     setEvents(arr);
     if (!arr.length) {
-      lowerUI();
+      setShowUI(false);
     } else {
-      upperUI();
+      setShowUI(true);
       setInited(true);
     }
   }
@@ -227,13 +225,13 @@ function App() {
   function outOfContent(data: any) {
     setOutData(data);
     setIsOut(true);
-    upperUI();
+    setShowUI(true);
   }
   function updateUI() {
     updateEvents();
   }
   function login() {
-    upperUI();
+    setShowUI(true);
     setIsLogin(true);
   }
 
@@ -241,19 +239,19 @@ function App() {
     if (type === USER_CANCEL && !eventId) {
       setInited(false);
       endEvent(eventId, type, data);
-      lowerUI();
+      setShowUI(false);
       return;
     }
     endEvent(eventId, type, data);
   }
   async function longinOut() {
-    upperUI();
+    setShowUI(true);
     await freelogAuthApi.loginOut("").then((res: any) => {
       if (res.data.errCode === 0) {
         reload();
       }
     });
-    lowerUI();
+    setShowUI(false);
     // Dialog.confirm({
     //   content: "确定退出登录？页面会被刷新",
     //   onConfirm: async () => {
@@ -270,23 +268,32 @@ function App() {
   }
   registerUI(UI, updateUI);
   return (
-    <div id="freelog-mobile-auth" className="w-100x h-100x over-h">
-      {isOut ? (
-        <OutOf eventType={eventType} outData={outData}></OutOf>
-      ) : inited || isLogin ? (
-        <div className="w-100x h-100x bg-white">
-          <Button color="primary" className="d-none"></Button>
-          <Mobile
-            events={events}
-            isAuths={inited}
-            isLogin={isLogin}
-            contractFinished={contractFinished}
-            updateEvents={updateEvents}
-            loginFinished={loginFinished}
-          ></Mobile>
+    <>
+      {showUI ? (
+        <div id="freelog-mobile-auth" className="w-100x h-100x over-h">
+          {isOut ? (
+            <OutOf eventType={eventType} outData={outData}></OutOf>
+          ) : inited || isLogin ? (
+            <div className="w-100x h-100x bg-white">
+              <Button color="primary" className="d-none"></Button>
+              <Mobile
+                events={events}
+                isAuths={inited}
+                isLogin={isLogin}
+                contractFinished={contractFinished}
+                updateEvents={updateEvents}
+                loginFinished={loginFinished}
+              ></Mobile>
+            </div>
+          ) : null}
         </div>
       ) : null}
-    </div>
+      <micro-app
+        name="vite4"
+        url="http://localhost:7002/micro-app/vite4/"
+        iframe
+      ></micro-app>
+    </>
   );
 }
 

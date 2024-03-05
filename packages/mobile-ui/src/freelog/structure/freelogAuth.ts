@@ -7,8 +7,6 @@ import {
   clearEvent,
   updateLock,
   updateEvent,
-  lowerUI,
-  upperUI,
   reload,
 } from "../bridge/index";
 // import { freelogAuthApi  } from "freelog-runtime-api";
@@ -25,8 +23,6 @@ export const freelogAuth = {
   updateLock,
   updateEvent,
   clearEvent,
-  lowerUI,
-  upperUI,
   resultType,
   loginCallback,
   setUserInfo,

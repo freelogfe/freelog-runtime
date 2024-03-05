@@ -1,20 +1,21 @@
-import {
-  SUCCESS,
-  FAILED,
-  USER_CANCEL,
-  DATA_ERROR,
-} from "./eventType";
-import {
+import { SUCCESS, FAILED, USER_CANCEL, DATA_ERROR } from "./eventType";
+import { 
+  LOGIN,
   CONTRACT,
+  LOGIN_OUT,
 } from "./eventType";
 import { onLogin } from "./eventOn";
+import { isMobile } from "../utils/utils";
 import { freelogApp } from "../structure/freelogApp";
 import { widgetsConfig } from "../structure/widget";
 
 export const exhibitQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
 export const failedMap = new Map<any, any>();
+const rawDocument = document;
 const rawWindow = window;
+let UI: any = null;
+let updateUI: any = null;
 let locked = false;
 let uiInited = false;
 export function getUISatus() {
@@ -29,7 +30,13 @@ export function getUISatus() {
  *
  *
  */
- 
+export function registerUI(ui: any, update: any) {
+  UI = ui;
+  updateUI = update;
+}
+export function callUI(type: any, data: any) {
+  UI && UI(type, data);
+}
 export function updateLock(status: boolean) {
   locked = !!status;
 }
@@ -79,14 +86,14 @@ export async function addAuth(name: string, exhibitId: any, options?: any) {
       });
       if (options && options.immediate) {
         if (!uiInited) {
-          // UI && UI(CONTRACT);
+          UI && UI(CONTRACT);
         } else {
           if (locked) {
             setTimeout(() => {
-              // updateUI && updateUI();
+              updateUI && updateUI();
             }, 0);
           } else {
-            // updateUI && updateUI();
+            updateUI && updateUI();
           }
         }
       }
@@ -97,20 +104,19 @@ export async function addAuth(name: string, exhibitId: any, options?: any) {
 export function callAuth() {
   if (window.isTest) return;
   if (!uiInited) {
-    // UI && UI(CONTRACT);
+    UI && UI(CONTRACT);
   } else {
     if (locked) {
       setTimeout(() => {
-        // updateUI && updateUI();
+        updateUI && updateUI();
       }, 0);
     } else {
-      // updateUI && updateUI();
+      updateUI && updateUI();
     }
   }
 }
 export function clearEvent() {
   eventMap.clear();
-  // lowerUI();
   uiInited = false;
 }
 export function updateEvent(event: any) {
@@ -127,10 +133,10 @@ function removeEvent(eventId?: string) {
   }
   if (locked) {
     setTimeout(() => {
-      // updateUI && updateUI();
+      updateUI && updateUI();
     }, 0);
   } else {
-    // updateUI && updateUI();
+    updateUI && updateUI();
   }
 }
 export function endEvent(eventId: string, type: number, data: any) {
@@ -170,16 +176,16 @@ export function goLogin(resolve: any) {
     return "ui has been launched, can not callLogin";
   }
   resolve && onLogin("", resolve);
-  // UI && UI(LOGIN);
+  UI && UI(LOGIN);
 }
 export function goLoginOut() {
-  // UI && UI(LOGIN_OUT);
+  UI && UI(LOGIN_OUT);
 }
 // const uiRoot = rawDocument.getElementById("ui-root");
 // const widgetContainer = rawDocument.getElementById("freelog-plugin-container");
 // const mobile = isMobile();
-// var metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
-// var metaViewPortContent = "";
+// const metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
+// let metaViewPortContent = "";
 // export function upperUI() {
 //   if (mobile) {
 //     metaViewPortContent = metaEl.getAttribute("content");
@@ -194,6 +200,18 @@ export function goLoginOut() {
 //   // uiRoot.style.opacity = 1;
 //   // @ts-ignore
 //   widgetContainer.style.zIndex = 0;
+// }
+// export function lowerUI() {
+//   uiInited = false;
+//   if (mobile) {
+//     metaEl.setAttribute("content", metaViewPortContent);
+//   }
+//   // @ts-ignore
+//   uiRoot.style.zIndex = 0;
+//   // // @ts-ignore
+//   // uiRoot.style.opacity = 0;
+//   // @ts-ignore
+//   widgetContainer.style.zIndex = 1;
 // }
 
 export function reload() {
