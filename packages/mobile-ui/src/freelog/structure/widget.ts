@@ -1,6 +1,5 @@
-import { startApp, destroyApp, preloadApp, setupApp } from "wujie";
 import { freelogApp } from "./freelogApp";
-import { freelogAuth } from "./freelogAuth";
+import microApp from "@micro-zoe/micro-app";
 import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
 import { defaultWidgetConfigData } from "./widgetConfigData";
 import { freelogFetch } from "./freelogFetch";
@@ -34,41 +33,10 @@ export function addChildWidget(key: string, childKey: any) {
 }
 export function removeChildWidget(key: string, childKey: string) {
   if (childrenWidgets.has(key)) {
-    let arr = childrenWidgets.get(key) || [];
+    const arr = childrenWidgets.get(key) || [];
     arr.contains(childKey) && arr.splice(arr.indexOf(childKey), 1);
     childrenWidgets.set(key, arr);
   }
-}
-
-export async function mountUI(
-  name: string,
-  container: any,
-  entry: string,
-  wujieConfig?: any
-) {
-  const widgetConfig = {
-    container,
-    name, //id
-    entry,
-    isUI: true,
-  };
-  addWidgetConfig(name, widgetConfig);
-  const app = await startApp({
-    ...wujieConfig,
-    name,
-    el: container,
-    url: entry,
-    fetch: (input: RequestInfo, init?: RequestInit) => {
-      // @ts-ignore
-      return freelogFetch(widgetConfig, input, init);
-    },
-    props: {
-      freelogApp: bindName(name),
-      freelogAuth,
-    },
-  });
-  addWidget(name, app);
-  return app;
 }
 
 let firstDev = false;
@@ -102,7 +70,7 @@ export async function mountWidget(
     topExhibitData: any;
     config: any;
     setupOnly?: boolean;
-    wujieConfig?: any;
+    jdConfig?: any;
     seq?: number | null | undefined;
     widget_entry?: boolean | string; // 因为插件加载者并不使用，所以 可以当成 widget_entry
   },
@@ -217,22 +185,27 @@ export async function mountWidget(
     isUI: false,
     props: {},
   };
-  const wujieConfig = options.wujieConfig ? options.wujieConfig : {};
+  const jdConfig = options.jdConfig ? options.jdConfig : {};
   addWidgetConfig(widgetId, widgetConfig);
-  const way = options.setupOnly ? setupApp : startApp;
-  const app = await way({
-    sync: true,
-    ...options.wujieConfig,
+  // const app = await way({
+  //   sync: true,
+  //   ...options.jdConfig,
+  //   name: widgetId,
+  //   el: widgetConfig.container,
+  //   url: widgetConfig.entry,
+  //   // @ts-ignore
+  //   fetch: (input: RequestInfo, init?: RequestInit) => {
+  //     // @ts-ignore
+  //     return freelogFetch(widgetConfig, input, init);
+  //   },
+  //   props: {},
+  // });
+  const app = await microApp.renderApp({
     name: widgetId,
-    el: widgetConfig.container,
     url: widgetConfig.entry,
-    // @ts-ignore
-    fetch: (input: RequestInfo, init?: RequestInit) => {
-      // @ts-ignore
-      return freelogFetch(widgetConfig, input, init);
-    },
-    props: {
-      ...(wujieConfig.props ? wujieConfig.props : {}),
+    container: widgetConfig.container,
+    data: {
+      ...(jdConfig.props ? jdConfig.props : {}),
       freelogApp: bindName(widgetId),
       registerApi: (apis: any) => {
         if (once) {

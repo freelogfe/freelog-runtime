@@ -6,7 +6,7 @@ import { WidgetApp, PlainObject, NodeInfo, FreelogUserInfo } from './interface';
 //   return a + b;
 // };
 // @ts-ignore
-const app = window.$wujie?.props.freelogApp || window.freelogApp;
+const app = window.microApp.getData().freelogApp || window.freelogApp;
 export const freelogApp: FreelogApp = app;
 // @ts-ignore
 window.freelogApp = app
