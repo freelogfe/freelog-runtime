@@ -1,8 +1,10 @@
-﻿export function freelogFetch(
-  widgetConfig: any,
+﻿import { widgetsConfig } from "./widget"
+export function freelogFetch(
   url: string,
-  options?: any
+  options: any,
+  appName: string,
 ): any {
+  const widgetConfig = widgetsConfig.get(appName);
   options = options || {};
   if (url.indexOf("subFilePath=") == url.length - 12) {
     // TODO 这里需要处理，可能后缀不是html
@@ -17,7 +19,6 @@
     const urlObj = new URL(url);
     // url = widgetConfig.entry + url
     url = widgetConfig.entry + urlObj.pathname + urlObj.search;
-    console.log(url, 90909, widgetConfig);
   } else if (!url.includes(widgetConfig.entry) && url.includes("freelog.com")) {
     const urlObj = new URL(url);
     url = widgetConfig.entry + urlObj.pathname;

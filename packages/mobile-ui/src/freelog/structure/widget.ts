@@ -2,7 +2,6 @@ import { freelogApp } from "./freelogApp";
 import microApp from "@micro-zoe/micro-app";
 import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
 import { defaultWidgetConfigData } from "./widgetConfigData";
-import { freelogFetch } from "./freelogFetch";
 import { bindName } from "./bind";
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<any, any>();
@@ -201,11 +200,12 @@ export async function mountWidget(
   //   props: {},
   // });
   const app = await microApp.renderApp({
+    ...options.jdConfig,
     name: widgetId,
     url: widgetConfig.entry,
     container: widgetConfig.container,
     data: {
-      ...(jdConfig.props ? jdConfig.props : {}),
+      ...(jdConfig.data ? jdConfig.data : {}),
       freelogApp: bindName(widgetId),
       registerApi: (apis: any) => {
         if (once) {
