@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import { freelogAuthApi } from "freelog-runtime-api";
 import "./pay.scss"
 import { Popup, Button, Toast, Loading } from "antd-mobile";
-//@ts-ignore
-const props = window.$wujie?.props;
-const { getUserInfo } = props.freelogAuth;
+import { freelogAuth } from "@/freelog/structure/freelogAuth";
+
+const { getUserInfo } = freelogAuth;
 interface PayProps {
   isModalVisible: boolean;
   setIsModalVisible: any;

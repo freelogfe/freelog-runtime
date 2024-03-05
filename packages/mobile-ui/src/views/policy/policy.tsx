@@ -3,9 +3,9 @@ import PolicyCode from "./_components/policyCode";
 import "./policy.scss";
 import PolicyContent from "./_components/policyContent";
 import { Tabs, Dialog, Button, Checkbox } from "antd-mobile";
-//@ts-ignore
-const props = window.$wujie?.props;
-const { getCurrentUser } = props.freelogAuth;
+import { freelogAuth } from "@/freelog/structure/freelogAuth";
+
+const { getCurrentUser } =  freelogAuth;
 interface ItemProps {
   policy: any;
   selectType: boolean;

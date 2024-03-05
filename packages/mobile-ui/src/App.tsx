@@ -62,6 +62,12 @@ function App() {
   const [outData, setOutData] = useState<any>(null);
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
+    window.ENV = "freelog.com";
+    if (window.location.host.includes(".testfreelog.com")) {
+      // @ts-ignore
+      window.ENV = "testfreelog.com";
+    }
+    freelogApp.isTest = isTest;
     const nodeDomain = getDomain(window.location.host);
     // nodeDomain = getDomain("fl-reading.freelog.com");
     Promise.all([requestNodeInfo(nodeDomain), getUserInfo()]).then(
@@ -148,9 +154,11 @@ function App() {
           "",
           isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
         );
+        const container = document.getElementById("freelog-plugin-container");
         await freelogApp.mountWidget(null, {
           widget: theme,
           widget_entry: true,
+          container
         });
         // freelogApp.status.themeMounted = flag;
       }
@@ -288,11 +296,6 @@ function App() {
           ) : null}
         </div>
       ) : null}
-      <micro-app
-        name="vite4"
-        url="http://localhost:7002/micro-app/vite4/"
-        iframe
-      ></micro-app>
     </>
   );
 }

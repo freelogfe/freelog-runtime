@@ -17,13 +17,14 @@ import ContractTip from "./_components/contractTip";
 import ExhibitOffLine from "./_statusComponents/exhibitOffLine";
 import ExhibitHeader from "./_components/exhibitHeader";
 import ExhibitList from "./_components/exhibitList";
-//@ts-ignore
-const props = window.$wujie?.props;
-const nodeInfo = props.freelogApp.nodeInfo;
+import { freelogAuth } from "@/freelog/structure/freelogAuth";
+import { freelogApp } from "@/freelog/structure/freelogApp";
 
-const { SUCCESS, USER_CANCEL } = props.freelogAuth.resultType;
+const nodeInfo = freelogApp.nodeInfo;
+
+const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
 const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
-  props.freelogAuth;
+  freelogAuth;
 // const alert = Modal.alert;
 
 interface contractProps {

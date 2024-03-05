@@ -1,7 +1,10 @@
 import App from "./App";
 import ReactDOM from "react-dom/client";
-import microApp from '@micro-zoe/micro-app'
+import microApp from "@micro-zoe/micro-app";
 import { freelogFetch } from "./freelog/structure/freelogFetch";
+import { baseURL, isTest } from "@/freelog/structure/base";
+import { baseInit } from "freelog-runtime-api";
+baseInit(baseURL, isTest);
 
 window.ENV = "freelog.com";
 if (window.location.host.includes(".testfreelog.com")) {
@@ -10,24 +13,22 @@ if (window.location.host.includes(".testfreelog.com")) {
 microApp.start({
   lifeCycles: {
     created() {
-      console.log('created 全局监听')
+      console.log("created 全局监听");
     },
     beforemount() {
-      console.log('beforemount 全局监听')
+      console.log("beforemount 全局监听");
     },
     mounted() {
-      console.log('mounted 全局监听')
+      console.log("mounted 全局监听");
     },
     unmount() {
-      console.log('unmount 全局监听')
+      console.log("unmount 全局监听");
     },
     error() {
-      console.log('error 全局监听')
-    }
+      console.log("error 全局监听");
+    },
   },
-  plugins: {
-  
-  },
+  plugins: {},
   /**
    * 自定义fetch
    * @param url 静态资源地址
@@ -36,15 +37,15 @@ microApp.start({
    */
   // @ts-ignore
   fetch(url: string, options: any, appName: string) {
-    
-    return freelogFetch(url, options, appName)
+    return freelogFetch(url, options, appName).then((res:any) => {
+      return res.text();
+    });
     // return fetch(url, Object.assign(options, config)).then((res) => {
     //   return res.text()
     // })
-  }
-})
+  },
+});
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(<App />);
- 

@@ -1,14 +1,12 @@
-
+import { freelogApp } from "@/freelog/structure/freelogApp";
 
 interface policyTipProps {
   currentExhibit: any;
   children?: any;
 }
-//@ts-ignore
-const props = window.$wujie?.props;
 export default function PolicyTip({ currentExhibit }: policyTipProps) {
   const exhibitId = currentExhibit.exhibitId;
-  const nodeName = props.freelogApp.nodeInfo.nodeName;
+  const nodeName = freelogApp.nodeInfo.nodeName;
   return (
     <>
       {currentExhibit._contracts.length > currentExhibit.contracts.length && (

@@ -5,14 +5,12 @@ import {
   LOGIN_OUT,
 } from "./eventType";
 import { onLogin } from "./eventOn";
-import { isMobile } from "../utils/utils";
 import { freelogApp } from "../structure/freelogApp";
 import { widgetsConfig } from "../structure/widget";
 
 export const exhibitQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
 export const failedMap = new Map<any, any>();
-const rawDocument = document;
 const rawWindow = window;
 let UI: any = null;
 let updateUI: any = null;

@@ -4,7 +4,6 @@ import { freelogAuth } from "./freelogAuth";
 import { init, getInfoByNameOrDomain } from "freelog-runtime-api";
 import { setPresentableQueue } from "../bridge";
 import { dev, DEV_FALSE } from "./dev";
-import { mountUI } from "./widget";
 // import VConsole from "vconsole";
 import { callUI } from "../bridge/index";
 import {
@@ -98,6 +97,7 @@ export function initNode() {
         Object.freeze(freelogApp.nodeInfo);
         const container = document.getElementById("freelog-plugin-container");
         const loadingContainer = document.getElementById("runtime-loading");
+        
         const mountTheme = new Promise(async (themeResolve) => {
           // 节点冻结
           if ((nodeInfo.status & 4) === 4) {

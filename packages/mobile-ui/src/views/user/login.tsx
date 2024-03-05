@@ -4,12 +4,12 @@ import { Popup, Button, Toast, SpinLoading, Checkbox } from "antd-mobile";
 
 import { useState } from "react";
 import { EyeInvisibleOutline, EyeOutline } from "antd-mobile-icons";
+import { freelogAuth } from "@/freelog/structure/freelogAuth";
 
 import "./login.scss";
-//@ts-ignore
-const props = window.$wujie?.props;
 // import logoImage from "../../assets/image/logo-feather.png";
-const { SUCCESS, USER_CANCEL } = props.freelogAuth.resultType;
+
+const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
 
 interface loginProps {
   loginFinished: any;
@@ -116,7 +116,14 @@ export default function Login(props: loginProps) {
               </div>
             </div>
             <div className="mb-15 flex-row justify-end login-remember">
-              <Checkbox checked={isRemember} onChange={(e)=>{setIsRemember(e)}}>记住我</Checkbox>
+              <Checkbox
+                checked={isRemember}
+                onChange={(e) => {
+                  setIsRemember(e);
+                }}
+              >
+                记住我
+              </Checkbox>
             </div>
 
             <Button

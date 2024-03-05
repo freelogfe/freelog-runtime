@@ -2,18 +2,19 @@ import { useState } from "react";
 
 import nodePrivate from "../../assets/image/nodePrivate.png";
 import Login from "../user/login";
+import { freelogAuth } from "@/freelog/structure/freelogAuth";
+import { freelogApp } from "@/freelog/structure/freelogApp";
+
 
 import { Button} from "antd-mobile";
-//@ts-ignore
-const props = window.$wujie?.props;
-const { SUCCESS, USER_CANCEL } = props.freelogAuth.resultType;
+const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
 
 
 export default function NodePrivate() {
   const [loginVisible, setLoginVisible] = useState(false);
   function loginFinished(type: number) {
     if (type === SUCCESS) {
-      props.freelogAuth.reload();
+      freelogAuth.reload();
     }
     if (type === USER_CANCEL) {
       setLoginVisible(false);
@@ -41,11 +42,11 @@ export default function NodePrivate() {
           color: "#666666",
         }}
       >
-        {props.freelogApp.getCurrentUser()
+        {freelogApp.getCurrentUser()
           ? "此节点未开放访问"
           : "此节点未开放访问，如果你是节点所有者，请登录后继续访问。"}
       </div>
-      {props.freelogApp.getCurrentUser() ? null : (
+      {freelogApp.getCurrentUser() ? null : (
         <Button
           className="fs-14 px-40"
           color="primary"

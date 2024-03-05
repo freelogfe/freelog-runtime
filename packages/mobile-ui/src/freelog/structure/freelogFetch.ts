@@ -1,25 +1,16 @@
-﻿import { widgetsConfig } from "./widget"
-export function freelogFetch(
-  url: string,
-  options: any,
-  appName: string,
-): any {
+﻿import { widgetsConfig } from "./widget";
+export function freelogFetch(url: string, options: any, appName: string): any {
   const widgetConfig = widgetsConfig.get(appName);
   options = options || {};
+  console.log(widgetConfig, url);
   if (url.indexOf("subFilePath=") == url.length - 12) {
+    console.log(4344, widgetConfig, url);
     // TODO 这里需要处理，可能后缀不是html
     url += "index.html";
   }
   // console.log(widgetConfig, url, 8888)
-  if (
-    widgetConfig.name === "freelog-ui" &&
-    !url.includes(widgetConfig.entry) &&
-    !url.includes("localhost")
-  ) {
-    const urlObj = new URL(url);
-    // url = widgetConfig.entry + url
-    url = widgetConfig.entry + urlObj.pathname + urlObj.search;
-  } else if (!url.includes(widgetConfig.entry) && url.includes("freelog.com")) {
+  if (!url.includes(widgetConfig.entry) && url.includes("freelog.com")) {
+    console.log(5555, widgetConfig, url);
     const urlObj = new URL(url);
     url = widgetConfig.entry + urlObj.pathname;
   }

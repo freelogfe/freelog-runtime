@@ -204,7 +204,7 @@ export async function getUserInfo() {
   initUserCheck();
   return userInfo;
 }
-export function getCurrentUser(name: string) {
+export function getCurrentUser(name?: string) {
   return userInfo;
 }
 export async function setUserInfo(info: any) {
@@ -236,8 +236,8 @@ const viewPortValue = {
   "user-scalable": "no", // available for theme
   "viewport-fit": "auto", // not supported in browser
 };
-var rawDocument = rawWindow.document;
-var metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
+const rawDocument = rawWindow.document;
+const metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
 export function getViewport(name: string) {
   return metaEl.getAttribute("content");
 }

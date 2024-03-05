@@ -5,8 +5,9 @@ export const placeHolder = "urlPlaceHolder";
 // }
 // window.baseURL = baseURL
 import { baseInfo } from "../../base/baseInfo";
-export const baseConfig = {
+export const  baseConfig = () => {
+  return {
   baseURL: baseInfo.baseURL,
   withCredentials: true,
   timeout: 30000,
-};
+} };

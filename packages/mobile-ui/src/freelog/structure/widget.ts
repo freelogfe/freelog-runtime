@@ -126,7 +126,7 @@ export async function mountWidget(
       },
     };
   }
-  let widgetId = commonData.articleInfo.articleId;
+  let widgetId = "freelog" + commonData.articleInfo.articleId;
   widget_entry &&
     console.warn(
       "you are using widget entry " +

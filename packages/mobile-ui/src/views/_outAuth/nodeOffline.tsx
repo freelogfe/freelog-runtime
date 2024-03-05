@@ -1,7 +1,7 @@
 
 import nodeOffline from "../../assets/image/nodeOffline.png";
-//@ts-ignore
-const props = window.$wujie?.props;
+import { freelogApp } from "@/freelog/structure/freelogApp";
+ 
 
 export default function NodeOffline() {
   return (
@@ -23,7 +23,7 @@ export default function NodeOffline() {
           color: "#666666",
         }}
       >
-        {props.freelogApp.nodeInfo.nodeSuspendInfo || "筹备中，敬请期待…"}
+        {freelogApp.nodeInfo.nodeSuspendInfo || "筹备中，敬请期待…"}
       </div>
       <div className="flex-1"></div>
     </div>

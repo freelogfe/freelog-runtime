@@ -555,6 +555,9 @@ importers:
       copy-to-clipboard:
         specifier: ^3.3.2
         version: 3.3.3
+      doc-cookies:
+        specifier: ^1.1.0
+        version: 1.1.0
       freelog-runtime-api:
         specifier: workspace:^
         version: link:../freelog-runtime-api
@@ -567,6 +570,9 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
+      vconsole:
+        specifier: ^3.11.0
+        version: 3.11.0
       web-vitals:
         specifier: ^3.5.2
         version: 3.5.2

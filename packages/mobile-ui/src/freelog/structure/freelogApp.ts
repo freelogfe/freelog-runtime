@@ -1,7 +1,6 @@
 import { resultType } from "../bridge/eventType";
 import { freelogApp as freelogAppLib } from "freelog-runtime-api";
 import { mountWidget } from "./widget";
-import { destroyWidget, preloadWidget, startWdiget } from "./wujiePatch";
 
 import {
   getSelfConfig,
@@ -54,8 +53,5 @@ export const freelogApp: any = {
   isUserChange,
   reload,
   resultType,
-  destroyWidget,
-  preloadWidget,
-  startWdiget,
   setSelfResourceNameForDev,
 };
