@@ -2,7 +2,7 @@
 export function freelogFetch(url: string, options: any, appName: string): any {
   const widgetConfig = widgetsConfig.get(appName);
   options = options || {};
-  console.log(widgetConfig, url);
+  console.log(widgetConfig, url, appName);
   if (url.indexOf("subFilePath=") == url.length - 12) {
     console.log(4344, widgetConfig, url);
     // TODO 这里需要处理，可能后缀不是html
@@ -10,7 +10,7 @@ export function freelogFetch(url: string, options: any, appName: string): any {
   }
   // console.log(widgetConfig, url, 8888)
   if (!url.includes(widgetConfig.entry) && url.includes("freelog.com")) {
-    console.log(5555, widgetConfig, url);
+    console.log(5555, widgetConfig.entry, url);
     const urlObj = new URL(url);
     url = widgetConfig.entry + urlObj.pathname;
   }

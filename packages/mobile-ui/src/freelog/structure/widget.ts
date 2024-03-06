@@ -126,7 +126,6 @@ export async function mountWidget(
       },
     };
   }
-  let widgetId = "freelog" + commonData.articleInfo.articleId;
   widget_entry &&
     console.warn(
       "you are using widget entry " +
@@ -146,8 +145,9 @@ export async function mountWidget(
   }
   // @ts-ignore
   entry = widget_entry || entry;
+  let widgetId = "freelog" + commonData.articleInfo.articleId;
   if (seq || seq === 0) {
-    widgetId = commonData.id + seq;
+    widgetId = "freelog" + commonData.id + seq;
   }
   let fentry = "";
   if (commonData.articleNid) {
@@ -163,7 +163,7 @@ export async function mountWidget(
     fentry = await freelogApp.getExhibitFileStream(name, commonData.exhibitId, {
       returnUrl: true,
     });
-    fentry = fentry + "?subFilePath="; // '/package/'
+    fentry = fentry + "/?subFilePath="; // '/package/'
   }
   let once = false;
   let api: any = {};
