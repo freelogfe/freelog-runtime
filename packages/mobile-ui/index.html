@@ -38,6 +38,50 @@
       #root ~ iframe {
         display: none !important;
       }
+      
+    </style>
+     <style>
+      #ui-root {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        background: transparent;
+      }
+
+      #ui-root > div {
+        background: transparent !important;
+      }
+
+      body {
+        width: 100%;
+        height: 100vh;
+        overflow: hidden !important;
+      }
+
+      #freelog-plugin-container {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        margin: 0 !important;
+        padding: 0 !important;
+        z-index: 1;
+      }
+      #runtime-loading {
+        display: flex;
+        position: relative;
+        flex-flow: column;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        justify-content: center;
+        align-content: center;
+        background: rgb(237, 237, 243);
+      }
     </style>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
