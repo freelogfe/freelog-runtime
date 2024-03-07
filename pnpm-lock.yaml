@@ -234,215 +234,13 @@ importers:
     devDependencies:
       father:
         specifier: ^4.3.6
-        version: 4.3.6(@types/node@14.14.41)(webpack-dev-server@3.11.2)(webpack@5.90.0)
+        version: 4.3.6(webpack@5.90.0)
 
   packages/freelog-runtime-core:
-    dependencies:
-      '@types/lodash':
-        specifier: ^4.14.178
-        version: 4.14.178
-      '@types/lodash-es':
-        specifier: ^4.17.6
-        version: 4.17.6
-      axios:
-        specifier: ^0.21.1
-        version: 0.21.4(debug@4.3.4)
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
-      css-minimizer-webpack-plugin:
-        specifier: ^5.0.1
-        version: 5.0.1(webpack@5.90.0)
-      doc-cookies:
-        specifier: ^1.1.0
-        version: 1.1.0
-      freelog-runtime-core:
-        specifier: ^0.0.1
-        version: 'link:'
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
-      moment:
-        specifier: ^2.29.1
-        version: 2.30.1
-      npm-run-all:
-        specifier: ^4.1.5
-        version: 4.1.5
-      vconsole:
-        specifier: ^3.11.0
-        version: 3.11.0
     devDependencies:
-      '@babel/cli':
-        specifier: ^7.13.16
-        version: 7.13.16(@babel/core@7.23.9)
-      '@babel/core':
-        specifier: ^7.13.16
-        version: 7.23.9
-      '@babel/plugin-proposal-class-properties':
-        specifier: ^7.13.0
-        version: 7.13.0(@babel/core@7.23.9)
-      '@babel/plugin-proposal-object-rest-spread':
-        specifier: ^7.13.8
-        version: 7.13.8(@babel/core@7.23.9)
-      '@babel/plugin-transform-runtime':
-        specifier: ^7.13.15
-        version: 7.13.15(@babel/core@7.23.9)
-      '@babel/preset-env':
-        specifier: ^7.13.15
-        version: 7.13.15(@babel/core@7.23.9)
-      '@babel/preset-typescript':
-        specifier: ^7.13.0
-        version: 7.13.0(@babel/core@7.23.9)
-      '@commitlint/cli':
-        specifier: ^12.1.1
-        version: 12.1.1
-      '@commitlint/config-conventional':
-        specifier: ^12.1.1
-        version: 12.1.1
-      '@types/node':
-        specifier: ^14.14.41
-        version: 14.14.41
-      '@types/webpack-env':
-        specifier: ^1.16.0
-        version: 1.16.0
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^4.22.0
-        version: 4.22.0(@typescript-eslint/parser@4.22.0)(eslint@7.32.0)(typescript@4.5.5)
-      '@typescript-eslint/parser':
-        specifier: ^4.22.0
-        version: 4.22.0(eslint@7.32.0)(typescript@4.5.5)
-      '@vue/compiler-sfc':
-        specifier: ^3.0.11
-        version: 3.0.11(lodash@4.17.21)(vue@3.0.11)
-      autoprefixer:
-        specifier: ^10.2.5
-        version: 10.2.5(postcss@8.4.35)
-      babel-eslint:
-        specifier: ^10.1.0
-        version: 10.1.0(eslint@7.32.0)
-      babel-loader:
-        specifier: ^8.2.2
-        version: 8.3.0(@babel/core@7.23.9)(webpack@5.90.0)
-      copy-webpack-plugin:
-        specifier: ^8.1.1
-        version: 8.1.1(webpack@5.90.0)
-      custom-event:
-        specifier: ^1.0.1
-        version: 1.0.1
-      dayjs:
-        specifier: ^1.10.4
-        version: 1.10.4
-      eslint:
-        specifier: ^7.24.0
-        version: 7.32.0
-      eslint-config-airbnb-base:
-        specifier: ^14.2.1
-        version: 14.2.1(eslint-plugin-import@2.22.1)(eslint@7.32.0)
-      eslint-config-prettier:
-        specifier: ^8.3.0
-        version: 8.3.0(eslint@7.32.0)
-      eslint-plugin-import:
-        specifier: ^2.22.1
-        version: 2.22.1(@typescript-eslint/parser@4.22.0)(eslint@7.32.0)
-      eslint-plugin-prettier:
-        specifier: ^3.4.0
-        version: 3.4.0(eslint-config-prettier@8.3.0)(eslint@7.32.0)(prettier@2.4.1)
-      eslint-plugin-vue:
-        specifier: ^7.9.0
-        version: 7.9.0(eslint@7.32.0)
       father:
         specifier: ^4.3.6
-        version: 4.3.6(@types/node@14.14.41)(webpack-dev-server@3.11.2)(webpack@5.90.0)
-      file-loader:
-        specifier: ^6.2.0
-        version: 6.2.0(webpack@5.90.0)
-      fork-ts-checker-webpack-plugin:
-        specifier: ^6.2.4
-        version: 6.2.4(eslint@7.32.0)(typescript@4.5.5)(webpack@5.90.0)
-      friendly-errors-webpack-plugin:
-        specifier: ^1.7.0
-        version: 1.7.0(webpack@5.90.0)
-      gh-pages:
-        specifier: ^3.1.0
-        version: 3.1.0
-      happypack:
-        specifier: ^5.0.1
-        version: 5.0.1
-      hard-source-webpack-plugin:
-        specifier: ^0.13.1
-        version: 0.13.1(webpack@5.90.0)
-      html-webpack-plugin:
-        specifier: ^5.3.1
-        version: 5.6.0(webpack@5.90.0)
-      husky:
-        specifier: ^6.0.0
-        version: 6.0.0
-      inquirer:
-        specifier: ^8.0.0
-        version: 8.0.0
-      lint-staged:
-        specifier: ^10.5.4
-        version: 10.5.4
-      mini-css-extract-plugin:
-        specifier: ^1.4.1
-        version: 1.4.1(webpack@5.90.0)
-      optimize-css-assets-webpack-plugin:
-        specifier: ^5.0.4
-        version: 5.0.4(webpack@5.90.0)
-      pinst:
-        specifier: ^2.1.6
-        version: 2.1.6
-      prettier:
-        specifier: ^2.2.1
-        version: 2.4.1
-      shelljs:
-        specifier: ^0.8.4
-        version: 0.8.4
-      stylelint:
-        specifier: ^13.13.0
-        version: 13.13.0
-      stylelint-config-standard:
-        specifier: ^22.0.0
-        version: 22.0.0(stylelint@13.13.0)
-      stylelint-order:
-        specifier: ^4.1.0
-        version: 4.1.0(stylelint@13.13.0)
-      ts-loader:
-        specifier: ^8.1.0
-        version: 8.1.0(typescript@4.5.5)(webpack@5.90.0)
-      typescript:
-        specifier: ^4.2.4
-        version: 4.5.5
-      uglifyjs-webpack-plugin:
-        specifier: ^2.2.0
-        version: 2.2.0(webpack@5.90.0)
-      url-loader:
-        specifier: ^4.1.1
-        version: 4.1.1(file-loader@6.2.0)(webpack@5.90.0)
-      webpack:
-        specifier: ^5.33.2
-        version: 5.90.0(webpack-cli@4.6.0)
-      webpack-bundle-analyzer:
-        specifier: ^4.5.0
-        version: 4.5.0
-      webpack-cli:
-        specifier: ^4.6.0
-        version: 4.6.0(webpack-bundle-analyzer@4.5.0)(webpack-dev-server@3.11.2)(webpack@5.90.0)
-      webpack-dev-server:
-        specifier: ^3.11.2
-        version: 3.11.2(webpack-cli@4.6.0)(webpack@5.90.0)
-      webpack-merge:
-        specifier: ^5.7.3
-        version: 5.7.3
-      webpack-mkcert:
-        specifier: ^1.0.3
-        version: 1.0.3(@types/node@14.14.41)
-      workbox-webpack-plugin:
-        specifier: ^6.1.5
-        version: 6.6.0(webpack@5.90.0)
+        version: 4.3.6(webpack@5.90.0)
 
   packages/freelog-type:
     devDependencies:
@@ -5228,24 +5026,24 @@ packages:
     resolution: {integrity: sha512-8ZDCwV0w3m11xlECFCA9VJYInNIPqt6kfiH1+/ODoupPSSrKNPzUnmhqYRAKZQP1MrXa0w9O60DT2/mPFctwdw==}
     dev: false
 
-  /@microsoft/api-extractor-model@7.27.5(@types/node@14.14.41):
+  /@microsoft/api-extractor-model@7.27.5:
     resolution: {integrity: sha512-9/tBzYMJitR+o+zkPr1lQh2+e8ClcaTF6eZo7vZGDqRt2O5XmXWPbYJZmxyM3wb5at6lfJNEeGZrQXLjsQ0Nbw==}
     dependencies:
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.59.6(@types/node@14.14.41)
+      '@rushstack/node-core-library': 3.59.6
     transitivePeerDependencies:
       - '@types/node'
     dev: true
 
-  /@microsoft/api-extractor@7.36.3(@types/node@14.14.41):
+  /@microsoft/api-extractor@7.36.3:
     resolution: {integrity: sha512-u0H6362AQq+r55X8drHx4npgkrCfJnMzRRHfQo8PMNKB8TcBnrTLfXhXWi+xnTM6CzlU/netEN8c4bq581Rnrg==}
     hasBin: true
     dependencies:
-      '@microsoft/api-extractor-model': 7.27.5(@types/node@14.14.41)
+      '@microsoft/api-extractor-model': 7.27.5
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.59.6(@types/node@14.14.41)
+      '@rushstack/node-core-library': 3.59.6
       '@rushstack/rig-package': 0.4.0
       '@rushstack/ts-command-line': 4.15.1
       colors: 1.2.5
@@ -5920,7 +5718,7 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@rushstack/node-core-library@3.59.6(@types/node@14.14.41):
+  /@rushstack/node-core-library@3.59.6:
     resolution: {integrity: sha512-bMYJwNFfWXRNUuHnsE9wMlW/mOB4jIwSUkRKtu02CwZhQdmzMsUbxE0s1xOLwTpNIwlzfW/YT7OnOHgDffLgYg==}
     peerDependencies:
       '@types/node': '*'
@@ -5928,7 +5726,6 @@ packages:
       '@types/node':
         optional: true
     dependencies:
-      '@types/node': 14.14.41
       colors: 1.2.5
       fs-extra: 7.0.1
       import-lazy: 4.0.0
@@ -7348,7 +7145,7 @@ packages:
       - supports-color
     dev: true
 
-  /@umijs/bundler-webpack@4.1.1(typescript@5.0.4)(webpack-dev-server@3.11.2)(webpack@5.90.0):
+  /@umijs/bundler-webpack@4.1.1(typescript@5.0.4)(webpack@5.90.0):
     resolution: {integrity: sha512-LL+ZmPmSIGOMo1+OHsBtMARqr+dTZEqDkTbQ/ZPrrrtxK27rXi/lHFEUnzKjPeHVL+xtJ4m9QR13zGWlhLT+UA==}
     hasBin: true
     dependencies:
@@ -7360,7 +7157,7 @@ packages:
       '@umijs/bundler-utils': 4.1.1
       '@umijs/case-sensitive-paths-webpack-plugin': 1.0.1
       '@umijs/mfsu': 4.1.1
-      '@umijs/react-refresh-webpack-plugin': 0.5.11(react-refresh@0.14.0)(webpack-dev-server@3.11.2)(webpack@5.90.0)
+      '@umijs/react-refresh-webpack-plugin': 0.5.11(react-refresh@0.14.0)(webpack@5.90.0)
       '@umijs/utils': 4.1.1
       cors: 2.8.5
       css-loader: 6.7.1(webpack@5.90.0)
@@ -7410,7 +7207,7 @@ packages:
       - supports-color
     dev: true
 
-  /@umijs/react-refresh-webpack-plugin@0.5.11(react-refresh@0.14.0)(webpack-dev-server@3.11.2)(webpack@5.90.0):
+  /@umijs/react-refresh-webpack-plugin@0.5.11(react-refresh@0.14.0)(webpack@5.90.0):
     resolution: {integrity: sha512-RtFvB+/GmjRhpHcqNgnw8iWZpTlxOnmNxi8eDcecxMmxmSgeDj25LV0jr4Q6rOhv3GTIfVGBhkwz+khGT5tfmg==}
     engines: {node: '>= 10.13'}
     peerDependencies:
@@ -7447,7 +7244,6 @@ packages:
       schema-utils: 3.3.0
       source-map: 0.7.4
       webpack: 5.90.0(webpack-cli@4.6.0)
-      webpack-dev-server: 3.11.2(webpack-cli@4.6.0)(webpack@5.90.0)
     dev: true
 
   /@umijs/utils@4.1.1:
@@ -13912,14 +13708,14 @@ packages:
     dependencies:
       reusify: 1.0.4
 
-  /father@4.3.6(@types/node@14.14.41)(webpack-dev-server@3.11.2)(webpack@5.90.0):
+  /father@4.3.6(webpack@5.90.0):
     resolution: {integrity: sha512-7WyZnoQM4HzLvIghdX+s2bf91/EDrwdN+CFy/zbUosxWzNzfR4bkbtCKurJWNi082V7/zeglsB5+dIFho2x3fA==}
     hasBin: true
     dependencies:
-      '@microsoft/api-extractor': 7.36.3(@types/node@14.14.41)
+      '@microsoft/api-extractor': 7.36.3
       '@umijs/babel-preset-umi': 4.1.1
       '@umijs/bundler-utils': 4.1.1
-      '@umijs/bundler-webpack': 4.1.1(typescript@5.0.4)(webpack-dev-server@3.11.2)(webpack@5.90.0)
+      '@umijs/bundler-webpack': 4.1.1(typescript@5.0.4)(webpack@5.90.0)
       '@umijs/case-sensitive-paths-webpack-plugin': 1.0.1
       '@umijs/core': 4.1.1
       '@umijs/utils': 4.1.1
