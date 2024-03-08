@@ -1,7 +1,7 @@
-import axios from "../../../../freelog-runtime-core/src/request";
+import axios from "../../request";
 import { placeHolder, baseConfig } from "./base";
 import { compareObjects } from "../../utils/utils";
-// import { setPresentableQueue } from "../bridge/index";
+import { baseInfo } from "../../base/baseInfo";
 // import { isUserChange } from '../security'
 const noAuthCode = [301, 302, 303, 304, 305, 306, 307];
 const authCode = [200, 201, 202, 203];
@@ -112,19 +112,20 @@ export default function frequest(
             noAuthCode.includes(resData.authCode) &&
             (caller.exhibitId || caller.articleIdOrName)
           ) {
-            // setPresentableQueue(exhibitId, {
-            //   widget: caller.name,
-            //   authCode: resData.authCode,
-            //   contracts: resData.data ? resData.data.contracts : [],
-            //   policies: resData.data ? resData.data.policies : [],
-            //   exhibitName,
-            //   exhibitId,
-            //   articleNid,
-            //   resourceType,
-            //   subDep,
-            //   versionInfo: { exhibitProperty },
-            //   ...resData,
-            // });
+            // @ts-ignore
+            baseInfo.setPresentableQueue(exhibitId, {
+              widget: caller.name,
+              authCode: resData.authCode,
+              contracts: resData.data ? resData.data.contracts : [],
+              policies: resData.data ? resData.data.policies : [],
+              exhibitName,
+              exhibitId,
+              articleNid,
+              resourceType,
+              subDep,
+              versionInfo: { exhibitProperty },
+              ...resData,
+            });
             resolve({
               authErrorType: 1, // 存在但未授权
               authCode: resData.authCode,

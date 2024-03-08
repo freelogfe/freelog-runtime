@@ -1,4 +1,4 @@
-import axios from "../../../../freelog-runtime-core/src/request";
+import axios from "../../request";
 import { placeHolder, baseConfig } from "./base";
 import { compareObjects } from "../../utils/utils";
 /**

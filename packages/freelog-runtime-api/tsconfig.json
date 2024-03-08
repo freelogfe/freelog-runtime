@@ -25,5 +25,5 @@
   },
   "include": [
     "src"
-  ] 
+, "../freelog-runtime-core/src/request.ts"  ] 
 }
