@@ -1,6 +1,6 @@
 import { baseInfo } from "./base/baseInfo"
-export { freelogApp } from "./freelogApp";
-export { freelogAuthApi } from "./freelogAuth";
+export { freelogApp } from "./structure/freelogApp";
+export { freelogAuth } from "./structure/freelogAuth";
 export const baseURL = baseInfo.baseURL;
 export const isTest = baseInfo.isTest;
 

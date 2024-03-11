@@ -14,13 +14,14 @@
     "antd-mobile": "^5.34.0",
     "antd-mobile-icons": "^0.3.0",
     "copy-to-clipboard": "^3.3.2",
+    "doc-cookies": "^1.1.0",
     "freelog-runtime-api": "workspace:^",
+    "freelog-runtime-core": "^2.7.51",
     "moment": "^2.29.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "web-vitals": "^3.5.2",
-    "doc-cookies": "^1.1.0",
-    "vconsole": "^3.11.0"
+    "vconsole": "^3.11.0",
+    "web-vitals": "^3.5.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

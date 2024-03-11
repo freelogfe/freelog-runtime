@@ -1,7 +1,7 @@
 import { resultType } from "../bridge/eventType";
-import { freelogApp as freelogAppLib } from "freelog-runtime-api";
+import { freelogApp as freelogAppLib } from "../freelogApp";
 import { mountWidget } from "./widget";
-
+import { isTest } from "../base/baseInfo"
 import {
   getSelfConfig,
   setUserData,
@@ -21,9 +21,8 @@ import {
 import { callAuth, addAuth } from "../bridge/index";
 import { onLogin, onUserChange } from "../bridge/eventOn";
 import { isUserChange } from "../security";
-// import { initGlobalState } from "freelog-runtime-core";
-
-const devData = "";
+import { dev }from "./dev"
+const devData = dev();
 export const freelogApp: any = {
   ...freelogAppLib,
   // initGlobalState,
@@ -54,4 +53,5 @@ export const freelogApp: any = {
   reload,
   resultType,
   setSelfResourceNameForDev,
+  isTest
 };

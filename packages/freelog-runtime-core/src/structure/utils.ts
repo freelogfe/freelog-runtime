@@ -5,7 +5,7 @@ import { freelogApp } from "./freelogApp";
 import { rawWindow } from "./rawObjects";
 
 import { widgetsConfig, widgetUserData, FREELOG_DEV } from "./widget";
-import { initUserCheck } from "../security";
+import { initUserCheck } from "../freelog/security";
 import { addAuth, goLogin, goLoginOut } from "../bridge/index";
 import {
   getCurrentUser as _getCurrentUser,

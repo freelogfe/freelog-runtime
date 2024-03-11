@@ -1,4 +1,4 @@
-import docCookies from "doc-cookies";
+import * as docCookies from "doc-cookies";
 import { userInfo } from "../structure/utils";
 export const loginCallback: any = [];
 
@@ -11,9 +11,9 @@ export async function onLogin(name:string,callback: any) {
   }
 }
 
-export let userChangeCallback: any = [];
+export const userChangeCallback: any = [];
 // 交给主题或插件去刷新用户，或者可以做成由节点选择是否在运行时里面控制
-export function onUserChange(name:string, callback: Function) {
+export function onUserChange(name:string, callback: any) {
   if (typeof callback === "function") {
     userChangeCallback.push(callback);
   } else {

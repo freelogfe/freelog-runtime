@@ -2,14 +2,7 @@ import App from "./App";
 import ReactDOM from "react-dom/client";
 import microApp from "@micro-zoe/micro-app";
 import { freelogFetch } from "./freelog/structure/freelogFetch";
-import { baseURL, isTest } from "@/freelog/structure/base";
-import { baseInit } from "freelog-runtime-api";
-baseInit(baseURL, isTest);
 
-window.ENV = "freelog.com";
-if (window.location.host.includes(".testfreelog.com")) {
-  window.ENV = "testfreelog.com";
-}
 microApp.start({
   lifeCycles: {
     created() {
@@ -37,7 +30,7 @@ microApp.start({
    */
   // @ts-ignore
   fetch(url: string, options: any, appName: string) {
-    return freelogFetch(url, options, appName).then((res:any) => {
+    return freelogFetch(url, options, appName).then((res: any) => {
       return res.text();
     });
     // return fetch(url, Object.assign(options, config)).then((res) => {
@@ -46,6 +39,6 @@ microApp.start({
   },
 });
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById("ui-root") as HTMLElement
 );
 root.render(<App />);

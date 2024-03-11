@@ -2,20 +2,20 @@ import axios from 'axios'
 
 
 axios.interceptors.request.use(
-        config => {
+    (        config: any) => {
             return config
         },
-        error => {
+    (        error: any) => {
             console.error(error) // for debug 11
             Promise.reject(error)
         }
     )
     // response 拦截器
 axios.interceptors.response.use(
-    response => {
+    (    response: any) => {
         return response
     },
-    error => {
+    (    error: any) => {
         console.error(error) // for debug 11
     }
 )

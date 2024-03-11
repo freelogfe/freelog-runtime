@@ -15,7 +15,6 @@ import { freelogAuthApi, init } from "freelog-runtime-api";
 import { getSubDep, getUserInfo } from "./freelog/structure/utils";
 import { freelogApp } from "./freelog/structure/freelogApp";
 import { freelogAuth } from "./freelog/structure/freelogAuth";
-import { dev } from "./freelog/structure/dev";
 import { isTest } from "./freelog/structure/base";
 
 import OutOf from "./views/outOf";
@@ -62,12 +61,6 @@ function App() {
   const [outData, setOutData] = useState<any>(null);
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
-    window.ENV = "freelog.com";
-    if (window.location.host.includes(".testfreelog.com")) {
-      // @ts-ignore
-      window.ENV = "testfreelog.com";
-    }
-    freelogApp.isTest = isTest;
     const nodeDomain = getDomain(window.location.host);
     // nodeDomain = getDomain("fl-reading.freelog.com");
     Promise.all([requestNodeInfo(nodeDomain), getUserInfo()]).then(
@@ -88,7 +81,6 @@ function App() {
           document.title = "[T]" + document.title;
         }
         init(nodeInfo.nodeId, setPresentableQueue);
-        const devData = dev();
         // window.vconsole = new VConsole()
         // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
         //   window.vconsole = new VConsole();
@@ -102,9 +94,6 @@ function App() {
         //     window.vconsole = new window.VConsole();
         //   };
         // }
-        Object.freeze(devData);
-        freelogApp.devData = devData;
-        Object.freeze(freelogApp);
         Object.freeze(freelogApp.nodeInfo);
 
         // @ts-ignore

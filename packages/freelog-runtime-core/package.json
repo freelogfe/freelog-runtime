@@ -24,10 +24,11 @@
   },
   "dependencies": {
     "@micro-zoe/micro-app": "1.0.0-rc.4",
+    "axios": "^0.21.1",
     "copy-to-clipboard": "^3.3.2",
+    "doc-cookies": "^1.1.0",
     "freelog-runtime-api": "workspace:^",
     "moment": "^2.29.1",
-    "doc-cookies": "^1.1.0",
     "vconsole": "^3.11.0"
   },
   "devDependencies": {

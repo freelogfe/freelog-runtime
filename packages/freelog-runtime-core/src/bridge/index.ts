@@ -1,29 +1,13 @@
-import {
-  SUCCESS,
-  FAILED,
-  USER_CANCEL,
-  DATA_ERROR,
-  TEST_NODE,
-  OFFLINE,
-} from "./eventType";
-import {
-  NODE_FREEZED,
-  THEME_NONE,
-  THEME_FREEZED,
-  USER_FREEZED,
-  LOGIN,
-  CONTRACT,
-  LOGIN_OUT,
-} from "./eventType";
+import { SUCCESS, FAILED, USER_CANCEL, DATA_ERROR } from "./eventType";
+import { LOGIN, CONTRACT, LOGIN_OUT } from "./eventType";
 import { onLogin } from "./eventOn";
-import { isMobile } from "../utils/utils";
 import { freelogApp } from "../structure/freelogApp";
 import { widgetsConfig } from "../structure/widget";
+import { isMobile } from "../utils/utils";
 
 export const exhibitQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
 export const failedMap = new Map<any, any>();
-const rawDocument = document;
 const rawWindow = window;
 let UI: any = null;
 let updateUI: any = null;
@@ -57,7 +41,7 @@ export function setPresentableQueue(name: string, value: any) {
 export async function addAuth(name: string, exhibitId: any, options?: any) {
   const arr = eventMap.get(exhibitId)?.callBacks || [];
   const widgetData = widgetsConfig.get(name);
-  return new Promise((resolve, rej) => {
+  return new Promise((resolve) => {
     Promise.all([
       freelogApp.getExhibitInfo(name, exhibitId, {
         isLoadPolicyInfo: 1,
@@ -88,7 +72,7 @@ export async function addAuth(name: string, exhibitId: any, options?: any) {
         options,
         widgetName: name,
       });
-      let id = exhibitId;
+      const id = exhibitId;
       eventMap.set(id, {
         isTheme: name ? false : widgetData.isTheme,
         eventId: id, // 后期evnetId是要与prsesentableId区分开来的
@@ -112,7 +96,7 @@ export async function addAuth(name: string, exhibitId: any, options?: any) {
     });
   });
 }
-export function callAuth(name: string) {
+export function callAuth() {
   if (window.isTest) return;
   if (!uiInited) {
     UI && UI(CONTRACT);
@@ -182,7 +166,7 @@ export function endEvent(eventId: string, type: number, data: any) {
   // }
 }
 
-export function goLogin(resolve: Function) {
+export function goLogin(resolve: any) {
   if (uiInited) {
     console.error("ui has been launched, can not callLogin");
     return "ui has been launched, can not callLogin";
@@ -193,11 +177,11 @@ export function goLogin(resolve: Function) {
 export function goLoginOut() {
   UI && UI(LOGIN_OUT);
 }
-const uiRoot = rawDocument.getElementById("ui-root");
-const widgetContainer = rawDocument.getElementById("freelog-plugin-container");
+const uiRoot = document.getElementById("ui-root");
+const widgetContainer = document.getElementById("freelog-plugin-container");
 const mobile = isMobile();
-var metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
-var metaViewPortContent = "";
+const metaEl: any = document.querySelectorAll('meta[name="viewport"]')[0];
+let metaViewPortContent = "";
 export function upperUI() {
   if (mobile) {
     metaViewPortContent = metaEl.getAttribute("content");

@@ -1,9 +1,4 @@
-import docCookies from "doc-cookies";
-
- 
- 
-
- 
+import * as docCookies from "doc-cookies";
 let inited = false;
 export function initUserCheck() {
   inited = true;
