@@ -7,7 +7,6 @@ import Contract from "./contract/contract";
 import Policy from "./policy/policy";
 import Confirm from "./_commons/confirm";
 import Login from "./login";
-import { freelogAuthApi } from "freelog-runtime-api";
 
 // import getBestTopology from "./topology/data";
 import NodeError from "./_statusComponents/nodeError";
@@ -21,11 +20,11 @@ import ExhibitOffLine from "./_statusComponents/exhibitOffLine";
 import ExhibitFooter from "./_components/exhibitFooter";
 import ContractTip from "./_components/contractTip";
 import PolicyTip from "./_components/policyTip";
-const props = window.$wujie?.props;
-const { SUCCESS, USER_CANCEL } = props.freelogAuth.resultType;
-const nodeInfo = props.freelogApp.nodeInfo;
+import { freelogAuth, freelogApp } from "freelog-runtime-core";
+const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
+const nodeInfo = freelogApp.nodeInfo;
 const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
-  props.freelogAuth;
+  freelogAuth;
 
 interface contractProps {
   events: Array<any>;
@@ -85,7 +84,7 @@ export default function Auth(props: contractProps) {
     // 如果没有传id 就是重新请求合约
     if (!id) {
       const userInfo: any = getCurrentUser();
-      const con = await freelogAuthApi.getContracts({
+      const con = await freelogAuth.getContracts({
         subjectIds: currentExhibit.exhibitId,
         subjectType: 2,
         licenseeIdentityType: 3,
@@ -169,7 +168,7 @@ export default function Auth(props: contractProps) {
 
   // 用户取消签约
   const userCancel = () => {
-    console.log(1211)
+    console.log(1211);
     if (currentExhibit.isTheme) {
       setThemeCancel(true);
     } else {
@@ -218,7 +217,7 @@ export default function Auth(props: contractProps) {
         policies.push(item);
     });
     const userInfo: any = getCurrentUser();
-    const res = await freelogAuthApi.batchSign({
+    const res = await freelogAuth.batchSign({
       subjects,
       subjectType: 2,
       licenseeId: userInfo.userId + "",

@@ -1,7 +1,8 @@
 /* @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import nodeOffline from "../../assets/image/nodeOffline.png";
-const props = window.$wujie?.props;
+import {  freelogApp } from "freelog-runtime-core";
+
 
 export default function OutOf() {
   return (
@@ -34,7 +35,7 @@ export default function OutOf() {
           margin-bottom: 80px;
         `}
       >
-        {props.freelogApp.nodeInfo.nodeSuspendInfo || "筹备中，敬请期待…"}
+        {freelogApp.nodeInfo.nodeSuspendInfo || "筹备中，敬请期待…"}
       </div>
       <div className="flex-1"></div>
     </div>

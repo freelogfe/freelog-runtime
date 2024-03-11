@@ -6,12 +6,11 @@ import Button from "../_commons/button";
 import { useState, useEffect, useRef } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 import Tip, { TipTipes } from "../_commons/tip";
-import { freelogAuthApi } from "freelog-runtime-api";
-//@ts-ignore
-const props = window.$wujie?.props;
+import { freelogAuth } from "freelog-runtime-core";
+ 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-const { getUserInfo } = props.freelogAuth;
+const { getUserInfo } =  freelogAuth;
 interface PayProps {
   isModalVisible: boolean;
   setIsModalVisible: any;
@@ -63,7 +62,7 @@ export default function Pay(props: PayProps) {
     // @ts-ignore
     const userInfo = await getUserInfo();
     // @ts-ignore
-    const res = await freelogAuthApi.getAccount([userInfo.userId], "");
+    const res = await freelogAuth.getAccount([userInfo.userId], "");
     setUserAccount(res.data.data);
     // @ts-ignore
     setIsAfford(res.data.data.balance >= props.transactionAmount);
@@ -85,7 +84,7 @@ export default function Pay(props: PayProps) {
     if (loading) return;
     setTipType(1);
     setLoading(true);
-    const payResult = await freelogAuthApi.pay([props.contractId], {
+    const payResult = await freelogAuth.pay([props.contractId], {
       eventId: props.eventId,
       accountId: userAccount.accountId,
       transactionAmount: props.transactionAmount,
@@ -132,7 +131,7 @@ export default function Pay(props: PayProps) {
       mask: true,
     });
     const flag = setInterval(async () => {
-      const res: any = await freelogAuthApi.getRecord(
+      const res: any = await freelogAuth.getRecord(
         [payResult.data.data.transactionRecordId],
         ""
       );

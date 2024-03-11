@@ -1,15 +1,14 @@
 /* @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { freelogApp } from "freelog-runtime-core";
 
 interface policyTipProps {
   currentExhibit: any;
   children?: any;
 }
-//@ts-ignore
-const props = window.$wujie?.props;
 export default function PolicyTip({ currentExhibit }: policyTipProps) {
-  const exhibitId = currentExhibit.exhibitId
-  const nodeName = props.freelogApp.nodeInfo.nodeName
+  const exhibitId = currentExhibit.exhibitId;
+  const nodeName = freelogApp.nodeInfo.nodeName;
   return (
     <>
       {currentExhibit._contracts.length > currentExhibit.contracts.length && (
@@ -23,7 +22,9 @@ export default function PolicyTip({ currentExhibit }: policyTipProps) {
                 );
                 return;
               }
-              window.open(`https://user.freelog.com/logged/contract?exhibitId=${exhibitId}&nodeName=${nodeName}&status=terminated`);
+              window.open(
+                `https://user.freelog.com/logged/contract?exhibitId=${exhibitId}&nodeName=${nodeName}&status=terminated`
+              );
             }}
             className="ml-10 fs-14 fc-blue cur-pointer link"
           >

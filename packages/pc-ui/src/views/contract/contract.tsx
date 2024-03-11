@@ -8,7 +8,7 @@ import Pay from "../event/pay";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import PolicyCode from "../policy/_components/policyCode";
 import PolicyContent from "../policy/_components/policyContent";
-import { freelogAuthApi } from "freelog-runtime-api";
+import { freelogAuth } from "freelog-runtime-core";
 import moment from "moment";
 import { Tabs } from "antd";
 const { TabPane } = Tabs;
@@ -69,7 +69,7 @@ export default function Contract(props: ItemProps) {
       !init && setUnFold(true);
       return;
     }
-    const res = await freelogAuthApi.getTransitionRecords(
+    const res = await freelogAuth.getTransitionRecords(
       [props.contract.contractId],
       {
         skip: records.length,

@@ -5,11 +5,11 @@ import { useState } from "react";
 
 import PolicyContent from "./_components/policyContent";
 import Button from "../_commons/button";
+import { freelogAuth } from "freelog-runtime-core";
 
 import { Tabs, Checkbox, Popconfirm } from "antd";
-const props = window.$wujie?.props;
 const { TabPane } = Tabs;
-const { getCurrentUser } = props.freelogAuth;
+const { getCurrentUser } = freelogAuth;
 interface ItemProps {
   policy: any;
   selectType: boolean;

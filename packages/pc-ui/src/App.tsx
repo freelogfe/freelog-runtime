@@ -1,11 +1,17 @@
 import "./App.scss";
-import { Modal,Button } from "antd";
+import { Modal, Button } from "antd";
 
 import { useEffect, useState } from "react";
 import Pc from "./views/auth";
 import OutOf from "./views/outOf";
-import { freelogAuthApi } from "freelog-runtime-api";
-const props = window.$wujie?.props;
+import {
+  freelogAuth,
+  freelogApp,
+  init,
+  getInfoByNameOrDomain,
+} from "freelog-runtime-core";
+const isTest = window.isTest;
+
 const {
   registerUI,
   endEvent,
@@ -15,8 +21,8 @@ const {
   lowerUI,
   upperUI,
   reload,
-} = props.freelogAuth;
-const { SUCCESS, USER_CANCEL } = props.freelogAuth.resultType;
+} = freelogAuth;
+const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
 const {
   NODE_FREEZED,
   THEME_NONE,
@@ -27,7 +33,7 @@ const {
   USER_FREEZED,
   NODE_OFFLINE,
   NODE_PRIVATE,
-} = props.freelogAuth.eventType;
+} = freelogAuth.eventType;
 
 function App() {
   const [events, setEvents] = useState([]);
@@ -36,6 +42,100 @@ function App() {
   const [isOut, setIsOut] = useState(false);
   const [outData, setOutData] = useState<any>(null);
   const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    const nodeDomain = getDomain(window.location.host);
+    // nodeDomain = getDomain("fl-reading.freelog.com");
+    Promise.all([requestNodeInfo(nodeDomain), freelogAuth.getUserInfo()]).then(
+      async (values: any) => {
+        const nodeData = values[0];
+        if (!nodeData.data) {
+          confirm("节点网址不正确，请检查网址！");
+          return;
+        }
+        const userInfo = values[1];
+        const nodeInfo = nodeData.data;
+        freelogApp.nodeInfo = nodeInfo;
+
+        document.title = nodeInfo.nodeTitle
+          ? nodeInfo.nodeTitle
+          : nodeInfo.nodeName;
+        if (isTest) {
+          document.title = "[T]" + document.title;
+        }
+        init(nodeInfo.nodeId);
+        // window.vconsole = new VConsole()
+        // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
+        //   window.vconsole = new VConsole();
+        // }
+        // if (devData.type !== DEV_FALSE) {
+        //   const script = document.createElement("script");
+        //   script.src = "/vconsole.min.js";
+        //   document.head.appendChild(script);
+        //   script.onload = () => {
+        //     // @ts-ignore
+        //     window.vconsole = new window.VConsole();
+        //   };
+        // }
+        Object.freeze(freelogApp.nodeInfo);
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        freelogApp.status.authUIMounted = true;
+        setOutData(nodeInfo);
+        // 节点冻结
+        if (
+          (nodeInfo.status & 5) === 5 ||
+          (nodeInfo.status & 6) === 6 ||
+          (nodeInfo.status & 12) === 12
+        ) {
+          upperUI();
+          setEventType(NODE_FREEZED);
+          return;
+        }
+        // 节点下线
+        if ((nodeInfo.status & 8) === 8) {
+          upperUI();
+          setEventType(NODE_OFFLINE);
+          return;
+        }
+        // 私密节点
+        if (
+          (nodeInfo.status & 2) === 2 &&
+          nodeInfo.ownerUserId !== userInfo?.userId
+        ) {
+          upperUI();
+          setEventType(NODE_PRIVATE);
+          return;
+        }
+        // 用户冻结
+        if (userInfo && userInfo.status == 1) {
+          upperUI();
+          setEventType(USER_FREEZED);
+          return;
+        }
+        // 没有主题
+        if (
+          (!nodeInfo.nodeThemeId && !isTest) ||
+          (!nodeInfo.nodeTestThemeId && isTest)
+        ) {
+          upperUI();
+          setEventType(THEME_NONE);
+          return;
+        }
+        const theme = await freelogApp.getSubDep(
+          "",
+          isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
+        );
+        const container = document.getElementById("freelog-plugin-container");
+        await freelogApp.mountWidget(null, {
+          widget: theme,
+          widget_entry: true,
+          container,
+        });
+        // freelogApp.status.themeMounted = flag;
+      }
+    );
+  }, []);
   useEffect(() => {
     updateLock(false);
   }, [events]);
@@ -125,7 +225,7 @@ function App() {
 
   async function longinOut() {
     upperUI();
-    await freelogAuthApi.loginOut().then((res: any) => {
+    await freelogAuth.loginOut().then((res: any) => {
       if (res.data.errCode === 0) {
         reload();
       }
@@ -141,7 +241,7 @@ function App() {
     //     top: "30%",
     //   },
     //   onOk: async () => {
-    //     await frequest(freelogAuthApi.loginOut, "", "").then((res: any) => {
+    //     await frequest(freelogAuth.loginOut, "", "").then((res: any) => {
     //       if (res.data.errCode === 0) {
     //         window.freelogAuth.reload();
     //       }
@@ -171,7 +271,12 @@ function App() {
       <Button type="primary" onClick={showModal}>
         Open Modal
       </Button>
-      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal
+        title="Basic Modal"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
         <p>Some contents...</p>
         <p>Some contents...</p>
         <p>Some contents...</p>
@@ -193,3 +298,17 @@ function App() {
 }
 
 export default App;
+async function requestNodeInfo(nodeDomain: string) {
+  const info = await getInfoByNameOrDomain.bind({ name: "node" })({
+    nodeDomain,
+    isLoadOwnerUserInfo: 1,
+  });
+  return info.data;
+}
+
+function getDomain(url: string) {
+  if (url.split(".")[0] === "t") {
+    return url.split(".")[1];
+  }
+  return url.split(".")[0];
+}

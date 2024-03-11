@@ -1,14 +1,13 @@
 import { Form, Input, Modal, Checkbox } from "antd";
 
 import Button from "./_commons/button";
-import { freelogAuthApi } from "freelog-runtime-api";
+import { freelogAuth } from "freelog-runtime-core";
 import wechatPng from "@/assets/wechat.png";
 
 import { useState } from "react";
 import "./login.scss";
-const props = window.$wujie?.props;
-const { SUCCESS, USER_CANCEL } = props.freelogAuth.resultType;
-const { setHref,getHref } = props.freelogAuth;
+const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
+const { setHref,getHref } = freelogAuth;
 
 const layout = {
   labelCol: { span: 8 },
@@ -38,7 +37,7 @@ export default function Login(props: loginProps) {
     //   returnUrl: "string",
     //   jwtType: "string",
     values.isRemember = isRemember ? 1 : 0;
-    const res = await freelogAuthApi.login(values);
+    const res = await freelogAuth.login(values);
     if (res.data.errCode === 0) {
       setLoading(false);
       props.loginFinished(SUCCESS, res.data.data);
