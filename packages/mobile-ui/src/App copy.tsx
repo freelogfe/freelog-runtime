@@ -8,7 +8,7 @@ import "@/assets/mobile/index.scss";
 // import "antd-mobile/es/global/theme-default.css"
 import { useEffect, useState } from "react";
 import Mobile from "./views/auth";
-import { freelogAuthApi } from "freelog-runtime-api";
+import { freelogAuth } from "freelog-runtime-core";
 import OutOf from "./views/outOf";
 
 //@ts-ignore
@@ -132,7 +132,7 @@ function App() {
   }
   async function longinOut() {
     upperUI();
-    await freelogAuthApi.loginOut("").then((res: any) => {
+    await freelogAuth.loginOut("").then((res: any) => {
       if (res.data.errCode === 0) {
         reload();
       }

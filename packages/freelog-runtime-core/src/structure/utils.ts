@@ -1,17 +1,16 @@
 // 工具utils：获取容器，生成容器，销毁容器，生成id
 
-import { baseURL, isTest } from "./base";
+import { baseURL, isTest } from "../base/baseInfo";
 import { freelogApp } from "./freelogApp";
-import { rawWindow } from "./rawObjects";
 
 import { widgetsConfig, widgetUserData, FREELOG_DEV } from "./widget";
-import { initUserCheck } from "../freelog/security";
+import { initUserCheck } from "../security";
 import { addAuth, goLogin, goLoginOut } from "../bridge/index";
 import {
   getCurrentUser as _getCurrentUser,
   putUserData as _putUserData,
   getUserData as _getUserData,
-} from "freelog-runtime-api";
+} from "../base";
 export function freelogFetch(url: string, options?: any) {
   options = options || {};
   if (url.indexOf("freelog.com") > -1) {
@@ -208,7 +207,7 @@ export function getCurrentUser(name?: string) {
   return userInfo;
 }
 export async function setUserInfo(info: any) {
-  rawWindow.userId = info ? info.userId + "" : "";
+  window.userId = info ? info.userId + "" : "";
   userInfo = info;
 }
 export function getStaticPath(name: string, path: string) {
@@ -218,7 +217,7 @@ export function getStaticPath(name: string, path: string) {
   // @ts-ignore
   return widgetsConfig.get(name).entry + path;
 }
-const rawLocation = rawWindow.location;
+const rawLocation = window.location;
 
 export function reload(name: string) {
   // @ts-ignore
@@ -236,7 +235,7 @@ const viewPortValue = {
   "user-scalable": "no", // available for theme
   "viewport-fit": "auto", // not supported in browser
 };
-const rawDocument = rawWindow.document;
+const rawDocument = window.document;
 const metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
 export function getViewport(name: string) {
   return metaEl.getAttribute("content");
@@ -270,7 +269,7 @@ export function setViewport(name: string, keys: any) {
  *
  */
 // export async function createUserData(userNodeData: any) {
-//   const nodeId = rawWindow.freelogApp.nodeInfo.nodeId
+//   const nodeId = window.freelogApp.nodeInfo.nodeId
 //   const res = await frequest(node.postUserData, "", {
 //     nodeId,
 //     userNodeData
@@ -279,7 +278,7 @@ export function setViewport(name: string, keys: any) {
 // }
 
 export async function setUserData(name: string, key: string, data: any) {
-  key = rawWindow.isTest ? key + "-test" : key;
+  key = window.isTest ? key + "-test" : key;
   // @ts-ignore
   let userData = widgetUserData.get(name) || {};
   let config = widgetsConfig.get(name);
@@ -304,7 +303,7 @@ export async function setUserData(name: string, key: string, data: any) {
 }
 
 export async function getUserData(name: string, key: string) {
-  key = rawWindow.isTest ? key + "-test" : key;
+  key = window.isTest ? key + "-test" : key;
   // @ts-ignore
   let userData = widgetUserData.get(name);
   if (userData) {

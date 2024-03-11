@@ -5,7 +5,6 @@ import Register from "./user/register";
 import NodeError from "./_statusComponents/nodeError";
 import Contract from "./contract/contract";
 import Policy from "./policy/policy";
-import { freelogAuthApi } from "freelog-runtime-api";
 import "./auth.scss";
 
 // import getBestTopology from "./topology/data";
@@ -17,8 +16,7 @@ import ContractTip from "./_components/contractTip";
 import ExhibitOffLine from "./_statusComponents/exhibitOffLine";
 import ExhibitHeader from "./_components/exhibitHeader";
 import ExhibitList from "./_components/exhibitList";
-import { freelogAuth } from "@/freelog/structure/freelogAuth";
-import { freelogApp } from "@/freelog/structure/freelogApp";
+import { freelogApp, freelogAuth } from "freelog-runtime-core";
 
 const nodeInfo = freelogApp.nodeInfo;
 
@@ -83,7 +81,7 @@ export default function Auth(props: contractProps) {
     setSelectedPolicies([]);
     if (!id) {
       const userInfo: any = getCurrentUser();
-      const con = await freelogAuthApi.getContracts({
+      const con = await freelogAuth.getContracts({
         subjectIds: currentExhibit.exhibitId,
         subjectType: 2,
         licenseeIdentityType: 3,
@@ -202,7 +200,7 @@ export default function Auth(props: contractProps) {
       }
     });
     const userInfo: any = getCurrentUser();
-    const res = await freelogAuthApi.batchSign({
+    const res = await freelogAuth.batchSign({
       subjects,
       subjectType: 2,
       licenseeId: userInfo.userId + "",

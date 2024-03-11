@@ -3,7 +3,7 @@ import PolicyCode from "./_components/policyCode";
 import "./policy.scss";
 import PolicyContent from "./_components/policyContent";
 import { Tabs, Dialog, Button, Checkbox } from "antd-mobile";
-import { freelogAuth } from "@/freelog/structure/freelogAuth";
+import { freelogAuth } from "freelog-runtime-core";
 
 const { getCurrentUser } =  freelogAuth;
 interface ItemProps {

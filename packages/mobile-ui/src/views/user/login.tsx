@@ -1,10 +1,9 @@
-import { freelogAuthApi } from "freelog-runtime-api";
+import { freelogAuth } from "freelog-runtime-core";
 
 import { Popup, Button, Toast, SpinLoading, Checkbox } from "antd-mobile";
 
 import { useState } from "react";
 import { EyeInvisibleOutline, EyeOutline } from "antd-mobile-icons";
-import { freelogAuth } from "@/freelog/structure/freelogAuth";
 
 import "./login.scss";
 // import logoImage from "../../assets/image/logo-feather.png";
@@ -32,7 +31,7 @@ export default function Login(props: loginProps) {
       password,
     };
     values.isRemember = values.isRemember ? 1 : 0;
-    const res = await freelogAuthApi.login(values);
+    const res = await freelogAuth.login(values);
     if (res.data.errCode === 0) {
       setTimeout(() => {
         setLogging(false);

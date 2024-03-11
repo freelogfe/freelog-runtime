@@ -11,7 +11,7 @@ export const baseURL = _baseURL
 window.baseURL = _baseURL;
 window.isTest = isTest
 // @ts-ignore
-export const baseInfo = {
+export const baseInfo:any = {
   isTest: isTest,
   nodeId: "",
   baseURL: baseURL,

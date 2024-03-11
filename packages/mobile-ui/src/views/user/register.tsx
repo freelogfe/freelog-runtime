@@ -1,4 +1,4 @@
-import { freelogAuthApi } from "freelog-runtime-api";
+import { freelogAuth } from "freelog-runtime-core";
 
 import {
   checkPhone,
@@ -132,7 +132,7 @@ export default function Register(props: loginProps) {
     // }
     setAuthCodeLoading(true);
     setCountDown(60);
-    const authCodeRes = await freelogAuthApi.getAuthCode({
+    const authCodeRes = await freelogAuth.getAuthCode({
       loginName: registerType === 1 ? phone : email,
       authCodeType: "register",
     });
@@ -155,7 +155,7 @@ export default function Register(props: loginProps) {
       password,
       authCode,
     };
-    const res = await freelogAuthApi.postRegister(values);
+    const res = await freelogAuth.postRegister(values);
     if (res.data.errCode === 0) {
       setSuccess(true);
       setLoading(false);

@@ -8,9 +8,9 @@ export const bindName = (name:string)=>{
     get: function (target, propKey) {
          // @ts-ignore
        if(typeof freelogApp[propKey] == "function"){
-          return  function(){
+          return  (...rest: any)=>{
             // eslint-disable-next-line prefer-rest-params
-            return freelogApp[propKey](name,...arguments)
+            return freelogApp[propKey](name,...rest)
           }
        }else{
         return freelogApp[propKey]

@@ -1,6 +1,6 @@
 
 import nodeOffline from "../../assets/image/nodeOffline.png";
-import { freelogApp } from "@/freelog/structure/freelogApp";
+import { freelogApp } from "freelog-runtime-core";
  
 
 export default function NodeOffline() {

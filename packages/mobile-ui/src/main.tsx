@@ -1,7 +1,7 @@
 import App from "./App";
 import ReactDOM from "react-dom/client";
 import microApp from "@micro-zoe/micro-app";
-import { freelogFetch } from "./freelog/structure/freelogFetch";
+import { freelogFetch } from "freelog-runtime-core";
 
 microApp.start({
   lifeCycles: {

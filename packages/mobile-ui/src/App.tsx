@@ -6,16 +6,15 @@ import "./App.scss";
 import "@/assets/mobile/index.scss";
 // import "antd-mobile/es/global/global.css"
 // import "antd-mobile/es/global/theme-default.css"
-import { getInfoByNameOrDomain } from "freelog-runtime-api";
-import { setPresentableQueue } from "./freelog/bridge";
 
 import { useEffect, useState } from "react";
 import Mobile from "./views/auth";
-import { freelogAuthApi, init } from "freelog-runtime-api";
-import { getSubDep, getUserInfo } from "./freelog/structure/utils";
-import { freelogApp } from "./freelog/structure/freelogApp";
-import { freelogAuth } from "./freelog/structure/freelogAuth";
-import { isTest } from "./freelog/structure/base";
+import {
+  freelogAuth,
+  freelogApp,
+  init,
+  getInfoByNameOrDomain,
+} from "freelog-runtime-core";
 
 import OutOf from "./views/outOf";
 /**
@@ -35,8 +34,17 @@ import OutOf from "./views/outOf";
  *     授权成功后
  * 6.登录操作
  */
-const { registerUI, clearEvent, endEvent, updateLock, updateEvent, reload } =
-  freelogAuth;
+const isTest = window.isTest;
+const {
+  registerUI,
+  clearEvent,
+  endEvent,
+  updateLock,
+  updateEvent,
+  reload,
+  lowerUI,
+  upperUI,
+} = freelogAuth;
 const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
 const {
   NODE_FREEZED,
@@ -57,13 +65,12 @@ function App() {
   const [inited, setInited] = useState(false);
   const [eventType, setEventType] = useState(0);
   const [isOut, setIsOut] = useState(false);
-  const [showUI, setShowUI] = useState(false);
   const [outData, setOutData] = useState<any>(null);
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
     const nodeDomain = getDomain(window.location.host);
     // nodeDomain = getDomain("fl-reading.freelog.com");
-    Promise.all([requestNodeInfo(nodeDomain), getUserInfo()]).then(
+    Promise.all([requestNodeInfo(nodeDomain), freelogAuth.getUserInfo()]).then(
       async (values: any) => {
         const nodeData = values[0];
         if (!nodeData.data) {
@@ -80,7 +87,7 @@ function App() {
         if (isTest) {
           document.title = "[T]" + document.title;
         }
-        init(nodeInfo.nodeId, setPresentableQueue);
+        init(nodeInfo.nodeId);
         // window.vconsole = new VConsole()
         // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
         //   window.vconsole = new VConsole();
@@ -105,13 +112,13 @@ function App() {
           (nodeInfo.status & 6) === 6 ||
           (nodeInfo.status & 12) === 12
         ) {
-          setShowUI(true);
+          upperUI();
           setEventType(NODE_FREEZED);
           return;
         }
         // 节点下线
         if ((nodeInfo.status & 8) === 8) {
-          setShowUI(true);
+          upperUI();
           setEventType(NODE_OFFLINE);
           return;
         }
@@ -120,13 +127,13 @@ function App() {
           (nodeInfo.status & 2) === 2 &&
           nodeInfo.ownerUserId !== userInfo?.userId
         ) {
-          setShowUI(true);
+          upperUI();
           setEventType(NODE_PRIVATE);
           return;
         }
         // 用户冻结
         if (userInfo && userInfo.status == 1) {
-          setShowUI(true);
+          upperUI();
           setEventType(USER_FREEZED);
           return;
         }
@@ -135,11 +142,11 @@ function App() {
           (!nodeInfo.nodeThemeId && !isTest) ||
           (!nodeInfo.nodeTestThemeId && isTest)
         ) {
-          setShowUI(true);
+          upperUI();
           setEventType(THEME_NONE);
           return;
         }
-        const theme = await getSubDep(
+        const theme = await freelogApp.getSubDep(
           "",
           isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
         );
@@ -147,7 +154,7 @@ function App() {
         await freelogApp.mountWidget(null, {
           widget: theme,
           widget_entry: true,
-          container
+          container,
         });
         // freelogApp.status.themeMounted = flag;
       }
@@ -162,9 +169,9 @@ function App() {
     if (type === SUCCESS) {
       setInited(false);
       clearEvent();
-      setShowUI(false);
+      lowerUI();
     } else if (type === USER_CANCEL && !inited) {
-      setShowUI(false);
+      lowerUI();
     }
   }
 
@@ -179,9 +186,9 @@ function App() {
     });
     setEvents(arr);
     if (!arr.length) {
-      setShowUI(false);
+      lowerUI();
     } else {
-      setShowUI(true);
+      upperUI();
       setInited(true);
     }
   }
@@ -222,13 +229,13 @@ function App() {
   function outOfContent(data: any) {
     setOutData(data);
     setIsOut(true);
-    setShowUI(true);
+    upperUI();
   }
   function updateUI() {
     updateEvents();
   }
   function login() {
-    setShowUI(true);
+    upperUI();
     setIsLogin(true);
   }
 
@@ -236,19 +243,19 @@ function App() {
     if (type === USER_CANCEL && !eventId) {
       setInited(false);
       endEvent(eventId, type, data);
-      setShowUI(false);
+      lowerUI();
       return;
     }
     endEvent(eventId, type, data);
   }
   async function longinOut() {
-    setShowUI(true);
-    await freelogAuthApi.loginOut("").then((res: any) => {
+    upperUI();
+    await freelogAuth.loginOut("").then((res: any) => {
       if (res.data.errCode === 0) {
         reload();
       }
     });
-    setShowUI(false);
+    lowerUI();
     // Dialog.confirm({
     //   content: "确定退出登录？页面会被刷新",
     //   onConfirm: async () => {
@@ -265,27 +272,23 @@ function App() {
   }
   registerUI(UI, updateUI);
   return (
-    <>
-      {showUI ? (
-        <div id="freelog-mobile-auth" className="w-100x h-100x over-h">
-          {isOut ? (
-            <OutOf eventType={eventType} outData={outData}></OutOf>
-          ) : inited || isLogin ? (
-            <div className="w-100x h-100x bg-white">
-              <Button color="primary" className="d-none"></Button>
-              <Mobile
-                events={events}
-                isAuths={inited}
-                isLogin={isLogin}
-                contractFinished={contractFinished}
-                updateEvents={updateEvents}
-                loginFinished={loginFinished}
-              ></Mobile>
-            </div>
-          ) : null}
+    <div id="freelog-mobile-auth" className="w-100x h-100x over-h">
+      {isOut ? (
+        <OutOf eventType={eventType} outData={outData}></OutOf>
+      ) : inited || isLogin ? (
+        <div className="w-100x h-100x bg-white">
+          <Button color="primary" className="d-none"></Button>
+          <Mobile
+            events={events}
+            isAuths={inited}
+            isLogin={isLogin}
+            contractFinished={contractFinished}
+            updateEvents={updateEvents}
+            loginFinished={loginFinished}
+          ></Mobile>
         </div>
       ) : null}
-    </>
+    </div>
   );
 }
 

@@ -1,4 +1,4 @@
-import { freelogApp } from "@/freelog/structure/freelogApp";
+import { freelogApp } from "freelog-runtime-core";
 
 interface policyTipProps {
   currentExhibit: any;

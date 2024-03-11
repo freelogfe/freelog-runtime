@@ -6,7 +6,7 @@ import { DownOutline, UpOutline } from "antd-mobile-icons";
 import PolicyCode from "../policy/_components/policyCode";
 import PolicyContent from "../policy/_components/policyContent";
 import { Tabs, Button, Toast } from "antd-mobile";
-import { freelogAuthApi } from "freelog-runtime-api";
+import { freelogAuth } from "freelog-runtime-core";
 import "./contract.scss";
 import moment from 'moment';
 /**
@@ -72,7 +72,7 @@ export default function Contract(props: ItemProps) {
       !init && setUnFold(true);
       return;
     }
-    const res = await freelogAuthApi.getTransitionRecords(
+    const res = await freelogAuth.getTransitionRecords(
       [props.contract.contractId],
       {
         skip: records.length,

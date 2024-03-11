@@ -2,8 +2,7 @@ import { useState } from "react";
 
 import nodePrivate from "../../assets/image/nodePrivate.png";
 import Login from "../user/login";
-import { freelogAuth } from "@/freelog/structure/freelogAuth";
-import { freelogApp } from "@/freelog/structure/freelogApp";
+import { freelogApp, freelogAuth } from "freelog-runtime-core";
 
 
 import { Button} from "antd-mobile";
