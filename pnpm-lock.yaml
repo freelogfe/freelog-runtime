@@ -640,6 +640,9 @@ importers:
 
   packages/pc-ui:
     dependencies:
+      '@ant-design/cssinjs':
+        specifier: ^1.18.4
+        version: 1.18.4(react-dom@18.2.0)(react@18.2.0)
       '@ant-design/icons':
         specifier: ^4.6.2
         version: 4.7.0(react-dom@18.2.0)(react@18.2.0)

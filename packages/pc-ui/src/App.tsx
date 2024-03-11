@@ -1,5 +1,9 @@
 import "./App.scss";
-import { Modal, Button } from "antd";
+import {
+  StyleProvider,
+  legacyLogicalPropertiesTransformer,
+} from "@ant-design/cssinjs";
+import { App as AppAnt } from "antd";
 
 import { useEffect, useState } from "react";
 import Pc from "./views/auth";
@@ -255,20 +259,27 @@ function App() {
   registerUI(UI, updateUI);
 
   return (
-    <div id="freelog-pc-auth" className="w-100x h-100x over-h">
-      {isOut ? (
-        <OutOf eventType={eventType} outData={outData}></OutOf>
-      ) : inited || isLogin ? (
-        <Pc
-          events={events}
-          isAuths={inited}
-          isLogin={isLogin}
-          contractFinished={contractFinished}
-          updateEvents={updateEvents}
-          loginFinished={loginFinished}
-        ></Pc>
-      ) : null}
-    </div>
+    <StyleProvider
+      hashPriority="high"
+      transformers={[legacyLogicalPropertiesTransformer]}
+    >
+      <AppAnt>
+        <div id="freelog-pc-auth" className="w-100x h-100x over-h">
+          {isOut ? (
+            <OutOf eventType={eventType} outData={outData}></OutOf>
+          ) : inited || isLogin ? (
+            <Pc
+              events={events}
+              isAuths={inited}
+              isLogin={isLogin}
+              contractFinished={contractFinished}
+              updateEvents={updateEvents}
+              loginFinished={loginFinished}
+            ></Pc>
+          ) : null}
+        </div>
+      </AppAnt>
+    </StyleProvider>
   );
 }
 
