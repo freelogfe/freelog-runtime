@@ -46,6 +46,11 @@ function App() {
   const [isOut, setIsOut] = useState(false);
   const [outData, setOutData] = useState<any>(null);
   const [isLogin, setIsLogin] = useState(false);
+  function loadingClose() {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    document.getElementById("runtime-loading").style.display = "none";
+  }
   useEffect(() => {
     const nodeDomain = getDomain(window.location.host);
     // nodeDomain = getDomain("fl-reading.freelog.com");
@@ -93,12 +98,14 @@ function App() {
           (nodeInfo.status & 12) === 12
         ) {
           upperUI();
+          loadingClose()
           setEventType(NODE_FREEZED);
           return;
         }
         // 节点下线
         if ((nodeInfo.status & 8) === 8) {
           upperUI();
+          loadingClose()
           setEventType(NODE_OFFLINE);
           return;
         }
@@ -108,12 +115,14 @@ function App() {
           nodeInfo.ownerUserId !== userInfo?.userId
         ) {
           upperUI();
+          loadingClose()
           setEventType(NODE_PRIVATE);
           return;
         }
         // 用户冻结
         if (userInfo && userInfo.status == 1) {
           upperUI();
+          loadingClose()
           setEventType(USER_FREEZED);
           return;
         }
@@ -123,6 +132,7 @@ function App() {
           (!nodeInfo.nodeTestThemeId && isTest)
         ) {
           upperUI();
+          loadingClose()
           setEventType(THEME_NONE);
           return;
         }
@@ -136,6 +146,7 @@ function App() {
           widget_entry: true,
           container,
         });
+        loadingClose()
         // freelogApp.status.themeMounted = flag;
       }
     );
