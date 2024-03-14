@@ -1,7 +1,3 @@
-/* @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-
-
 interface headerProps {
   currentExhibit: any;
   children?: any;
@@ -10,22 +6,19 @@ export default function Header({ currentExhibit }: headerProps) {
   return (
     <div className="flex-column py-20 align-center bb-1">
       <div
-        css={css`
-          font-size: 18px;
-          font-weight: 600;
-          color: #222222;
-        `}
+        className="fs-18 fw-bold"
+        style={{
+          color: "#222222",
+        }}
       >
         {currentExhibit.isTheme ? "节点主题授权" : "展品授权"}
       </div>
       {currentExhibit.isTheme ? (
         <div
-          className="mt-15"
-          css={css`
-            font-size: 14px;
-            font-weight: 400;
-            color: #999999;
-          `}
+          className="mt-15 fs-14 fw-regular"
+          style={{
+            color: "#999999",
+          }}
         >
           {currentExhibit &&
           currentExhibit.contracts &&

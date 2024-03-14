@@ -1,5 +1,3 @@
-/* @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import Button from "../_commons/button";
 
 interface ThemeCancelProps {
@@ -14,16 +12,16 @@ export default function ThemeCancel({
   return (
     <div
       className="w-100x h-100x flex-column-center"
-      css={css`
-        background: #f2f2f2;
-      `}
+      style={{
+        background: "#f2f2f2",
+      }}
     >
       <div
-        className="mb-30 fs-30"
-        css={css`
-          font-weight: 400;
-          color: #666666;
-        `}
+        className="mb-30 fs-30" 
+        style={{
+          color: "#666666",
+          fontWeight: "400"
+        }}
       >
         {currentExhibit &&
         currentExhibit.contracts &&

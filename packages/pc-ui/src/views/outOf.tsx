@@ -1,5 +1,3 @@
-/* @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import NodeFreezed from "./_outAuth/nodeFreezed";
 import ThemeFreezed from "./_outAuth/themeFreezed";
 import ThemeNone from "./_outAuth/themeNone";
@@ -29,15 +27,15 @@ export default function OutOf({ eventType, outData }: OutOfProps) {
           case NODE_FREEZED:
             return <NodeFreezed outData={outData} />;
           case THEME_NONE:
-            return <ThemeNone outData={outData} />;
+            return <ThemeNone />;
           case THEME_FREEZED:
-            return <ThemeFreezed outData={outData} />;
+            return <ThemeFreezed />;
           case USER_FREEZED:
             return <UserFreezed outData={outData} />;
           case NODE_OFFLINE:
-            return <NodeOffline outData={outData} />;
+            return <NodeOffline />;
           case NODE_PRIVATE:
-            return <NodePrivate outData={outData} />;
+            return <NodePrivate />;
           default:
             return null;
         }

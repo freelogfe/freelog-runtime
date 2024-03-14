@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-/* @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+
 import { Radio, Modal } from "antd";
 import { useState, useEffect } from "react";
 import Button from "../_commons/button";
 import Pay from "../event/pay";
+import "./contract.scss"
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import PolicyCode from "../policy/_components/policyCode";
 import PolicyContent from "../policy/_components/policyContent";
@@ -147,13 +147,10 @@ export default function Contract(props: ItemProps) {
   return (
     <div
       className="contract-card px-20 py-15 mt-15 w-100x brs-10"
-      css={css`
-        background: #ffffff;
-        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
-        .ant-tabs-nav {
-          margin: 0 !important;
-        }
-      `}
+      style={{
+        background: "#ffffff",
+        boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.1)",
+      }}
     >
       {eventIndex > -1 && isModalVisible && (
         <Pay
@@ -181,11 +178,10 @@ export default function Contract(props: ItemProps) {
       )}
       <div className="flex-row w-100x">
         <div
-          className="fs-14 lh-20 text-ellipsis"
-          css={css`
-            font-weight: 600;
-            color: #333333;
-          `}
+          className="fs-14 lh-20 text-ellipsis fw-bold"
+          style={{
+            color: "#333333",
+          }}
         >
           {props.contract.contractName}
         </div>
@@ -196,9 +192,9 @@ export default function Contract(props: ItemProps) {
           {/* 状态整体 */}
           <div
             className="p-15 brs-6"
-            css={css`
-              background: #fafbfc;
-            `}
+            style={{
+              background: "#fafbfc",
+            }}
           >
             <div className="flex-row">
               {/* <div className="status-dot"></div> */}
@@ -207,19 +203,19 @@ export default function Contract(props: ItemProps) {
                   "px-10 mr-5 brs-10 fs-11 h-20 lh-16 flex-column-center select-none " +
                   authClass
                 }
-                css={css`
-                  font-weight: 500;
-                  color: #ffffff;
-                `}
+                style={{
+                  fontWeight: 500,
+                  color: "#ffffff",
+                }}
               >
                 {authStatus}
               </div>
               <div
                 className="fs-12 lh-18"
-                css={css`
-                  font-weight: 400;
-                  color: rgb(34, 34, 34);
-                `}
+                style={{
+                  fontWeight: 400,
+                  color: "rgb(34, 34, 34)",
+                }}
               >
                 {moment(props.contract.updateDate).format(
                   "YYYY-MM-DD HH:mm:ss"
@@ -229,10 +225,10 @@ export default function Contract(props: ItemProps) {
             <div className="flex-row pt-15 pb-5 space-between align-center">
               <div
                 className="fs-12 lh-20"
-                css={css`
-                  font-weight: 600;
-                  color: #222222;
-                `}
+                style={{
+                  fontWeight: 600,
+                  color: "#222222",
+                }}
               >
                 {records[0] && records[0].stateInfoStr} &nbsp; &nbsp; &nbsp;{" "}
                 {currentStatus.tec > 1 &&
@@ -253,14 +249,7 @@ export default function Contract(props: ItemProps) {
               }
             </div>
             {/* 可选事件 */}
-            <div
-              className="flex-row"
-              css={css`
-                .ant-radio-group {
-                  width: 100%;
-                }
-              `}
-            >
+            <div className="flex-row contract-available-event">
               <Radio.Group onChange={onChange} value={eventIndex}>
                 <div className="flex-column">
                   {
@@ -282,40 +271,6 @@ export default function Contract(props: ItemProps) {
                                   ? ""
                                   : "event-selected")
                               }
-                              css={css`
-                                label {
-                                  width: 100%;
-
-                                  & > span:nth-of-type(2) {
-                                    width: 100%;
-                                  }
-                                }
-
-                                ${index !== eventIndex ||
-                                currentStatus.tec === 1
-                                  ? css``
-                                  : css`
-                                      background: rgba(39, 132, 255, 0.08);
-                                      border: 1px solid rgba(39, 132, 255, 0.6) !important;
-                                    `}
-                                ${currentStatus.tec === 1 ||
-                                event.origin.name !== "TransactionEvent"
-                                  ? css`
-                                      .ant-radio {
-                                        display: none !important;
-                                      }
-
-                                      span {
-                                        padding: 0 !important;
-                                      }
-                                    `
-                                  : css`
-                                      padding: 10px;
-                                      margin-top: 10px;
-                                      border-radius: 4px;
-                                      border: 1px solid rgba(0, 0, 0, 0.15);
-                                    `}
-                              `}
                               key={index}
                             >
                               <Radio
@@ -327,24 +282,13 @@ export default function Contract(props: ItemProps) {
                               >
                                 <div
                                   className="flex-row fs-14 lh-20 align-center "
-                                  css={css`
-                                    font-weight: 600;
-                                    color: #222222;
-                                  `}
+                                  style={{
+                                    fontWeight: 600,
+                                    color: "#222222",
+                                  }}
                                 >
                                   <div className="mr-10 ml-5 flex-row align-center">
                                     <span>{event.content}</span>
-                                    {/* <span
-                                      className="ml-10 shrink-0"
-                                      css={css`
-                                        color: #42c28c;
-                                      `}
-                                    >
-                                      {event.nextState &&
-                                      event.nextState.commonAuth
-                                        ? "获得授权"
-                                        : ""}
-                                    </span> */}
                                   </div>
                                   {currentStatus.tec === 1 &&
                                     event.origin.name ===
@@ -361,10 +305,10 @@ export default function Contract(props: ItemProps) {
                                 {/* 执行完成后下一个状态的所有事件 */}
                                 <div
                                   className="flex-column  pt-5  fs-12 lh-20"
-                                  css={css`
-                                    font-weight: 600;
-                                    color: #7a869a;
-                                  `}
+                                  style={{
+                                    fontWeight: 600,
+                                    color: "#7a869a",
+                                  }}
                                 >
                                   {/** 事件执行后：分情况，如果是获得授权的事件，那就是---获得授权后
                                    * event.origin.toState
@@ -386,10 +330,10 @@ export default function Contract(props: ItemProps) {
                                           >
                                             <div
                                               className="mr-5 w-4 h-4"
-                                              css={css`
-                                                background: #7a869a;
-                                                border-radius: 50%;
-                                              `}
+                                              style={{
+                                                borderRadius: "50%",
+                                                background: "#7a869a",
+                                              }}
                                             ></div>
                                             <span>{nextEvent.content}</span>
                                           </div>
@@ -412,10 +356,10 @@ export default function Contract(props: ItemProps) {
                 return (
                   <div
                     className="brs-6 mt-15 contract-records"
-                    css={css`
-                      background: #fafbfc;
-                      opacity: 0.4;
-                    `}
+                    style={{
+                      opacity: "0.4",
+                      background: "#fafbfc",
+                    }}
                     key={index}
                   >
                     <div className="flex-row">
@@ -424,19 +368,19 @@ export default function Contract(props: ItemProps) {
                           "px-10 mr-5 brs-10 fs-11 h-20 lh-16 flex-column-center select-none " +
                           item.authClass
                         }
-                        css={css`
-                          font-weight: 500;
-                          color: #ffffff;
-                        `}
+                        style={{
+                          fontWeight: "500",
+                          color: "#ffffff",
+                        }}
                       >
                         {item.authStatus}
                       </div>
                       <div
                         className="fs-12 lh-18"
-                        css={css`
-                          font-weight: 400;
-                          color: #222222;
-                        `}
+                        style={{
+                          fontWeight: "400",
+                          color: "#222222",
+                        }}
                       >
                         {moment(item.time).format("YYYY-MM-DD HH:mm:ss")}
                       </div>
@@ -451,14 +395,14 @@ export default function Contract(props: ItemProps) {
             {totalItem > 1 && (
               <div
                 className="fs-12 lh-18 text-align-center cur-pointer select-none mt-20"
-                css={css`
-                  font-weight: 400;
-                  color: #7a869a;
-                `}
+                style={{
+                  fontWeight: "400",
+                  color: "#7a869a",
+                }}
               >
                 {!unfold ? (
                   <div
-                    onClick={(e) => {
+                    onClick={() => {
                       getRecords();
                     }}
                   >
@@ -479,10 +423,10 @@ export default function Contract(props: ItemProps) {
           </div>
           <div
             className="contract-code pt-12 fs-12 lh-18"
-            css={css`
-              font-weight: 400;
-              color: #999999;
-            `}
+            style={{
+              fontWeight: "400",
+              color: "#999999",
+            }}
           >
             合同编号 {props.contract.contractId} | 签约时间{" "}
             {moment(props.contract.updateDate).format("YYYY-MM-DD HH:mm")}

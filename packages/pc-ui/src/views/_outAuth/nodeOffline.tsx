@@ -1,23 +1,15 @@
-/* @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import nodeOffline from "../../assets/image/nodeOffline.png";
-import {  freelogApp } from "freelog-runtime-core";
-
+import { freelogApp } from "freelog-runtime-core";
 
 export default function OutOf() {
   return (
     <div
-      className="flex-column align-center"
-      css={css`
-        width: 100%;
-        height: 100%;
-        font-size: 30px;
-        font-weight: 400;
-        color: #666666;
-        line-height: 36px;
-        text-align: center;
-        background: #ffffff;
-      `}
+      className="flex-column align-center w-100x h-100x fs-30 fw-regular lh-36 "
+      style={{
+        color: "#666666",
+        background: "#ffffff",
+        textAlign: "center",
+      }}
     >
       <div className="flex-1"></div>
 
@@ -25,15 +17,10 @@ export default function OutOf() {
         <img src={nodeOffline} alt="" className="w-100x" />
       </div>
       <div
-        className="text-breakAll"
-        css={css`
-          font-size: 30px;
-          font-weight: 400;
-          color: #666666;
-          line-height: 36px;
-          margin-top: 10px;
-          margin-bottom: 80px;
-        `}
+        className="text-breakAll  fs-30 fw-regular lh-36 mt-10 mb-80"
+        style={{
+          color: "#666666",
+        }} 
       >
         {freelogApp.nodeInfo.nodeSuspendInfo || "筹备中，敬请期待…"}
       </div>

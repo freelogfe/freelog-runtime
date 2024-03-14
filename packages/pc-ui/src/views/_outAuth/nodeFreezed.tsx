@@ -1,6 +1,3 @@
-/* @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-
 interface OutOfProps {
   outData: any;
   children?: any;
@@ -8,49 +5,37 @@ interface OutOfProps {
 export default function OutOf({ outData }: OutOfProps) {
   return (
     <div
-      className="flex-column align-center"
-      css={css`
-        width: 100%;
-        height: 100%;
-        font-size: 30px;
-        font-weight: 400;
-        color: #666666;
-        line-height: 36px;
-        text-align: center;
-        background: #ffffff;
-      `}
+      className="flex-column align-center w-100x h-100x fs-30 fw-regular lh-36"
+      style={{
+        textAlign: "center",
+        background: "#ffffff",
+        color: "#666666",
+      }}
     >
       <div className="flex-1"></div>
       <div>
         <i
-          className="iconfont"
-          css={css`
-            color: red;
-            font-size: 100px !important;
-          `}
+          className="iconfont fs-100"
+          style={{
+            color: "red",
+          }}
         >
           &#xe62f;
         </i>
       </div>
       <div
-        css={css`
-          font-size: 30px;
-          font-weight: 400;
-          color: #666666;
-          line-height: 36px;
-          margin-top: 34px;
-        `}
+        className="fs-30 fw-regular lh-36 mt-34"
+        style={{
+          color: "#666666",
+        }}
       >
         节点已经被封停
       </div>
       <div
-        css={css`
-          font-size: 14px;
-          font-weight: 400;
-          color: #666666;
-          line-height: 20px;
-          margin-top: 80px;
-        `}
+        className="fs-14 fw-regular lh-2. mt-80"
+        style={{
+          color: "#666666",
+        }}
       >
         经核实，节点{outData.nodeName}，严重违反平台规范&nbsp;
         <a

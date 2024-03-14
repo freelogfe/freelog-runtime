@@ -1,6 +1,6 @@
 import { Modal } from "antd";
 import Button from "./button";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 interface ConfirmProps {
   isModalVisible: boolean;
@@ -18,19 +18,19 @@ export default function Confirm(props: ConfirmProps) {
   const handleCancel = () => {
     props.setIsModalVisible(false);
   };
-  const [policNames, setPolicNames] = useState<any>('');
+  const [policNames, setPolicNames] = useState<any>("");
 
   useEffect(() => {
     if (props.isModalVisible) {
-      let names = ''
+      let names = "";
       props.policies.forEach((item: any) => {
         if (props.selectedPolicies.includes(item.policyId)) {
-          names += names ? names + '，' + item.policyName : item.policyName
+          names += names ? names + "，" + item.policyName : item.policyName;
         }
       });
-      setPolicNames(names)
+      setPolicNames(names);
     }
-  }, [props.isModalVisible])
+  }, [props.isModalVisible]);
   return (
     <Modal
       title="签约确认"
@@ -47,9 +47,7 @@ export default function Confirm(props: ConfirmProps) {
         <div className="flex-row fc-grey mb-20 fs-14 justify-center">
           <span className="pr-10 shrink-0">展品名称</span>
           {props.currentExhibit ? (
-            <span>
-              {props.currentExhibit.exhibitName}
-            </span>
+            <span>{props.currentExhibit.exhibitName}</span>
           ) : (
             ""
           )}

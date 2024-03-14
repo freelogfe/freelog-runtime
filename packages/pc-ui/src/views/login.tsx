@@ -24,7 +24,7 @@ export default function Login(props: loginProps) {
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [isRemember, setIsRemember] = useState(false);
-  function onValuesChange(changedValues: any, allValues: any) {
+  function onValuesChange(_changedValues: any, allValues: any) {
     setDisabled(!allValues.loginName || !allValues.password);
   }
 

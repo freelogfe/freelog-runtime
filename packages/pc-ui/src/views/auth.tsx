@@ -1,5 +1,4 @@
-/* @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+ 
 import { Modal } from "antd";
 import { useState, useEffect } from "react";
 import "./auth.scss";
@@ -389,49 +388,19 @@ export default function Auth(props: contractProps) {
                           {events.length === 1 && !currentExhibit.isTheme ? (
                             <ExhibitHeader currentExhibit={currentExhibit} />
                           ) : null}
-                          {/* {currentExhibit.availableData.authCode === 403 ? (
-                          <div
-                            className="flex-row align-center py-5 w-100x"
-                            css={css`
-                              background: #fdebec;
-                              border-radius: 4px;
-                              color: #ee4040;
-                              padding: 0 10px;
-                              font-size: 12px;
-                              margin-top: 10px;
-                            `}
-                          >
-                            <i
-                              className="iconfont"
-                              css={css`
-                                color: red;
-                                font-size: 16px;
-                                margin-right: 5px;
-                              `}
-                            >
-                              &#xe62f;
-                            </i>
-                            <span>授权异常：此展品因违规授权相关操作已被禁用</span>
-                          </div>
-                        ) : null} */}
+
                           {nodeInfo.ownerUserStatus === 1 ? (
                             <div
                               className="flex-row align-center py-5 px-10 w-100x"
-                              css={css`
-                                background: #fbf5ea;
-                                border-radius: 4px;
-                                color: #e9a923;
-                                font-size: 12px;
-                                margin-top: 15px;
-                              `}
+                              style={{
+                                background: "#fbf5ea",
+                                borderRadius: "4px",
+                                color: "#e9a923",
+                                fontSize: "12px",
+                                marginTop: "15px",
+                              }}
                             >
-                              <div
-                                className="w-16 h-16 over-h flex-column-center"
-                                css={css`
-                                  font-size: 16px;
-                                  margin-right: 5px;
-                                `}
-                              >
+                              <div className="w-16 h-16 fs-16 over-h flex-column-center mr-5">
                                 <img
                                   src="/warn.svg"
                                   alt=""

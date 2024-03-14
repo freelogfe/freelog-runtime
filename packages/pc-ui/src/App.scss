@@ -1,12 +1,12 @@
 // @import 'antd/dist/antd.css';
 
-
 @font-face {
-	font-family: 'freelog';
+	font-family: "freelog";
 	/* Project id 1522685 */
-	src: url('//at.alicdn.com/t/font_1522685_jcgmo30dh8j.woff2?t=1634204578444') format('woff2'),
-		url('//at.alicdn.com/t/font_1522685_jcgmo30dh8j.woff?t=1634204578444') format('woff'),
-		url('//at.alicdn.com/t/font_1522685_jcgmo30dh8j.ttf?t=1634204578444') format('truetype');
+	src:
+		url("//at.alicdn.com/t/font_1522685_jcgmo30dh8j.woff2?t=1634204578444") format("woff2"),
+		url("//at.alicdn.com/t/font_1522685_jcgmo30dh8j.woff?t=1634204578444") format("woff"),
+		url("//at.alicdn.com/t/font_1522685_jcgmo30dh8j.ttf?t=1634204578444") format("truetype");
 }
 
 .iconfont {
@@ -17,6 +17,12 @@
 	-webkit-text-stroke-width: 0.2px;
 	-moz-osx-font-smoothing: grayscale;
 }
-body{
+body {
 	background-color: transparent !important;
 }
+.policy-card {
+	.ant-tabs-nav {
+		margin: 0 !important;
+	}
+}
+

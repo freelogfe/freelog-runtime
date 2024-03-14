@@ -1,5 +1,3 @@
-/* @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import PolicyCode from "./_components/policyCode";
 import { useState } from "react";
 
@@ -37,31 +35,22 @@ export default function Policy(props: ItemProps) {
   }
   return (
     <div
-      className="flex-column policy-card w-100x"
-      css={css`
-        margin-top: 15px;
-        background: #ffffff;
-        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        cursor: ${props.disabled ? "not-allowed" : "normal"};
-        opacity: ${props.disabled ? "40%" : "1"};
-        pointer-event: ${props.disabled ? "none" : "auto"};
-        .ant-tabs-nav {
-          margin: 0 !important;
-        }
-      `}
+      className={"flex-column policy-card w-100x mt-15 brs-10 "}
+      style={{
+        background: "#ffffff",
+        boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.1)",
+        cursor: props.disabled ? "not-allowed" : "normal",
+        opacity: props.disabled ? "40%" : "1",
+        pointerEvents: props.disabled ? "none" : "auto",
+      }}
     >
       {/* 上：策略名称与操作 */}
       <div className="flex-row space-between px-20 pt-15">
         <div
-          className="flex-1 policy-name  text-ellipsis"
-          css={css`
-            font-size: 14px;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
-            color: #333333;
-            line-height: 20px;
-          `}
+          className="flex-1 policy-name  text-ellipsis fs-14 lh-20 fw-bold"
+          style={{
+            color: "#333333",
+          }}
         >
           {props.policy.policyName}
         </div>

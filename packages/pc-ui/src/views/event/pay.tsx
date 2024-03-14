@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-/* @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+
 import { Modal, Spin } from "antd";
 import Button from "../_commons/button";
 import { useState, useEffect, useRef } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 import Tip, { TipTipes } from "../_commons/tip";
 import { freelogAuth } from "freelog-runtime-core";
- 
+import "./pay.scss";
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-const { getUserInfo } =  freelogAuth;
+const { getUserInfo } = freelogAuth;
 interface PayProps {
   isModalVisible: boolean;
   setIsModalVisible: any;
@@ -30,7 +29,7 @@ export default function Pay(props: PayProps) {
   const [isAfford, setIsAfford] = useState(true);
   // 1: 支付中  2: 支付成功  3: 错误信息   4: 支付失败：需要考虑网络超时
   const [tipType, setTipType] = useState(0);
-  const [errorTip, setErrorTip] = useState('');
+  const [errorTip, setErrorTip] = useState("");
   const [focus, setFocus] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -92,10 +91,17 @@ export default function Pay(props: PayProps) {
     });
     // 这里考虑支付超时
     if (payResult.data.errCode !== 0) {
-      if (payResult.data.data && ['E1013',"E1010"].includes(payResult.data.data.code)){
+      if (
+        payResult.data.data &&
+        ["E1013", "E1010"].includes(payResult.data.data.code)
+      ) {
         setTipType(3);
         setPasswords(["", "", "", "", "", ""]);
-        setErrorTip(payResult.data.data.code=== "E1010"? '支付密码错误，请重新输入' : '不支持向自己付款')
+        setErrorTip(
+          payResult.data.data.code === "E1010"
+            ? "支付密码错误，请重新输入"
+            : "不支持向自己付款"
+        );
         setLoading(false);
         // setFocus(0)
         setTimeout(() => {
@@ -147,23 +153,7 @@ export default function Pay(props: PayProps) {
       }
     }, 2000);
   }
-  const leftItem = css`
-    margin-top: 14px;
-    margin-right: 30px;
-    font-size: 14px;
-    font-family: PingFangSC-Regular, PingFang SC;
-    font-weight: 400;
-    color: #222222;
-    line-height: 20px;
-  `;
-  const rightItem = css`
-    margin-top: 14px;
-    font-size: 14px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
-    color: #222222;
-    line-height: 20px;
-  `;
+
   return (
     <Modal
       title="支付"
@@ -176,30 +166,6 @@ export default function Pay(props: PayProps) {
       onOk={handleOk}
       onCancel={handleCancel}
       wrapClassName="freelog-pay"
-      css={css`
-        .ant-modal-title {
-          font-size: 18px !important;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600 !important;
-          color: #222222 !important;
-          line-height: 42px !important;
-          text-align: center;
-        }
-
-        .ant-modal-body {
-          padding: 0 !important;
-        }
-
-        .ant-modal-content {
-          background: #ffffff !important;
-          border-radius: 10px !important;
-        }
-
-        .ant-modal-header {
-          height: 75px !important;
-          border-radius: 10px 10px 0 0 !important;
-        }
-      `}
     >
       <Tip
         {...tipConfig}
@@ -209,26 +175,18 @@ export default function Pay(props: PayProps) {
       <div className="flex-column">
         {/* 金额 */}
         <div
-          className="amount flex-column-center my-40 px-80"
-          css={css`
-            font-size: 50px;
-            font-weight: 600;
-            color: #222222;
-            line-height: 56px;
-          `}
+          className="amount flex-column-center my-40 px-80 fw-bold fs-50 lh-56"
+          style={{
+            color: "#222222",
+          }}
         >
           <span className="ml-30">
             {props.transactionAmount}
             <span
-              className="type ml-10"
-              css={css`
-                width: 28px;
-                height: 20px;
-                font-size: 14px;
-                font-weight: 400;
-                color: #666666;
-                line-height: 20px;
-              `}
+              className="type ml-10 w-28 h-20 fs-14 fw-regular lh-20"
+              style={{
+                color: "#666666",
+              }}
             >
               羽币
             </span>
@@ -236,74 +194,22 @@ export default function Pay(props: PayProps) {
         </div>
         <div className="flex-row px-80 over-h">
           <div className="flex-column shrink-0">
-            <div
-              css={css`
-                ${leftItem}
-              `}
-            >
-              标的物
-            </div>
-            <div
-              css={css`
-                ${leftItem}
-              `}
-            >
-              授权合约
-            </div>
-            <div
-              css={css`
-                ${leftItem}
-              `}
-            >
-              收款方
-            </div>
-            <div
-              css={css`
-                ${leftItem}
-              `}
-            >
-              支付方式
-            </div>
+            <div className="left-item">标的物</div>
+            <div className="left-item">授权合约</div>
+            <div className="left-item">收款方</div>
+            <div className="left-item">支付方式</div>
           </div>
           <div className="flex-column flex-1 over-h">
-            <div
-              className="text-ellipsis"
-              css={css`
-                ${rightItem}
-              `}
-            >
-              {props.subjectName}
-            </div>
-            <div
-              className="text-ellipsis"
-              css={css`
-                ${rightItem}
-              `}
-            >
-              {props.contractName}
-            </div>
-            <div
-              className="text-ellipsis"
-              css={css`
-                ${rightItem}
-              `}
-            >
-              {props.receiver}
-            </div>
-            <div
-              className="text-ellipsis"
-              css={css`
-                ${rightItem}
-              `}
-            >
+            <div className="text-ellipsis right-item">{props.subjectName}</div>
+            <div className="text-ellipsis right-item">{props.contractName}</div>
+            <div className="text-ellipsis right-item">{props.receiver}</div>
+            <div className="text-ellipsis right-item">
               <span className="">羽币账户</span>
               <span
-                css={css`
-                  font-size: 14px;
-                  font-weight: 600;
-                  color: #999999;
-                  line-height: 20px;
-                `}
+                className="fs-14 fw-bold lh-20"
+                style={{
+                  color: "#999999",
+                }}
               >
                 （余额{userAccount.balance}枚）
               </span>
@@ -313,11 +219,10 @@ export default function Pay(props: PayProps) {
         {!isActive ? (
           <div className={"flex-column-center my-40"}>
             <div
-              className="enter-tip mb-20 h-18 fs-12 lh-18"
-              css={css`
-                font-weight: 400;
-                color: #222222;
-              `}
+              className="enter-tip mb-20 h-18 fs-12 lh-18 fw-regular"
+              style={{
+                color: "#222222",
+              }}
             >
               如需支付请先激活羽币账户
             </div>
@@ -344,11 +249,10 @@ export default function Pay(props: PayProps) {
             >
               {" "}
               <div
-                className="mb-20 fs-12 lh-18"
-                css={css`
-                  font-weight: 400;
-                  color: #ee4040;
-                `}
+                className="mb-20 fs-12 lh-18 fw-regular"
+                style={{
+                  color: "#ee4040",
+                }}
               >
                 余额不足无法支付
               </div>
@@ -363,12 +267,10 @@ export default function Pay(props: PayProps) {
                 style={{ fontSize: "12px !important" }}
               />
               <span
-                className="flex-1 ml-5 w-60 h-18 fs-12"
-                css={css`
-                  font-weight: 600;
-                  color: #2784ff;
-                  line-height: 18px;
-                `}
+                className="flex-1 ml-5 w-60 h-18 fs-12 fw-bold lh-18"
+                style={{
+                  color: "#2784ff",
+                }}
               >
                 正在支付中...
               </span>
@@ -376,17 +278,16 @@ export default function Pay(props: PayProps) {
           ) : null}
           {tipType === 3 ? (
             <div
-              className=" mt-5 mb-20 fs-14"
-              css={css`
-                font-weight: 400;
-                color: #ee4040;
-              `}
+              className=" mt-5 mb-20 fs-14 fw-regular"
+              style={{
+                color: "#ee4040",
+              }}
             >
               {errorTip}
             </div>
           ) : null}
           <div className={!isAfford ? "not-afford-input" : ""}>
-            {[0, 0, 0, 0, 0, 0].map((item: any, index: any) => {
+            {[0, 0, 0, 0, 0, 0].map((_item: any, index: any) => {
               return (
                 <input
                   type="password"
@@ -395,23 +296,15 @@ export default function Pay(props: PayProps) {
                   key={index}
                   ref={inputs[index]}
                   disabled={!isAfford}
-                  className="w-42 h-38 brs-4 lh-38 fs-38 pb-5 over-h"
-                  css={css`
-                    background: ${!isAfford ? "#F7F7F7" : "#ffffff"};
-                    caret-color: transparent;
-                    margin: 0 10px !important;
-                    box-sizing: border-box;
-                    text-align: center;
-                    border: ${!isAfford
+                  className="w-42 h-38 brs-4 lh-38 fs-38 pb-5 over-h pay-input"
+                  style={{
+                    background: !isAfford ? "#F7F7F7" : "#ffffff",
+                    border: !isAfford
                       ? "none"
                       : tipType === 3
                       ? "1px solid #ee4040 !important"
-                      : "1px solid #d4d4d4"};
-                    outline: none;
-                    &:focus {
-                      border: 1px solid #2784ff !important;
-                    }
-                  `}
+                      : "1px solid #d4d4d4",
+                  }}
                   value={passwords[index]}
                   onChange={() => {}}
                   onClick={() => {
@@ -460,55 +353,16 @@ export default function Pay(props: PayProps) {
             })}
           </div>
           <div
-            className="cur-pointer"
-            css={css`
-              width: 72px;
-              height: 18px;
-              font-size: 12px;
-              font-weight: 400;
-              color: #999999;
-              margin: 20px 0 40px 0;
-              line-height: 18px;
-              &:hover {
-                color: #2784ff !important;
-              }
-            `}
+            className="cur-pointer forgot-password"
             onClick={() => {
-              window.open("https://user." + window.ENV + "/retrievePayPassword");
+              window.open(
+                "https://user." + window.ENV + "/retrievePayPassword"
+              );
             }}
           >
             忘记支付密码
           </div>
         </div>
-
-        {/* <div className="px-80 pt-5">
-          <Input.Password
-            size="large"
-            ref={inputP}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            maxLength={6}
-            value={password}
-            placeholder="输入6位支付密码"
-          />
-        </div> */}
-        {/* <div className="px-80 pt-20">
-          <Button
-            click={pay}
-            disabled={password.length !== 6 || loading}
-            className="py-9"
-          >
-            {loading ? (
-              <span>
-                支付中...
-                <Spin />
-              </span>
-            ) : (
-              "确认支付"
-            )}
-          </Button>
-        </div> */}
       </div>
     </Modal>
   );

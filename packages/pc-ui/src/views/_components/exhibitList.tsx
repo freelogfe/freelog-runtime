@@ -1,5 +1,3 @@
-/* @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import { freelogApp } from "freelog-runtime-core";
 
 const nodeInfo = freelogApp.nodeInfo;
@@ -25,46 +23,29 @@ export default function exhibitList({
                 onClick={() => {
                   setCurrentExhibit(item);
                 }}
-                css={css`
-                  width: 344px;
-                  height: 84px;
-                  ${currentExhibit.exhibitId === item.exhibitId
-                    ? "background: #fafbfc;"
-                    : ""}
-                `}
+                style={
+                  currentExhibit.exhibitId === item.exhibitId
+                    ? { background: "#fafbfc" }
+                    : {}
+                }
                 className={
-                  " px-20 py-15 w-100x b-box x-auto  cur-pointer select-none flex-column"
+                  "w-344 h-84 px-20 py-15 w-100x b-box x-auto  cur-pointer select-none flex-column"
                 }
               >
                 <div className="flex-row align-center">
                   {item.availableData.authCode === 403 ? (
-                    <i
-                      className="iconfont"
-                      css={css`
-                        color: red;
-                        font-size: 16px;
-                      `}
-                    >
-                      &#xe62f;
-                    </i>
+                    <i className="iconfont fs-16 fc-red">&#xe62f;</i>
                   ) : null}
                   {nodeInfo.ownerUserStatus === 1 ? (
-                    <div
-                      className="w-16 h-16 over-h flex-column-center"
-                      css={css`
-                        font-size: 16px;
-                        margin-right: 5px;
-                      `}
-                    >
+                    <div className="w-16 h-16 over-h flex-column-center mr-5 fs-16">
                       <img src="/warn.svg" alt="" className="w-100x" />
                     </div>
                   ) : null}
                   <div
-                    className="fs-14 lh-20 w-304 text-ellipsis flex-1 flex-row align-center"
-                    css={css`
-                      font-weight: 600;
-                      color: #222222;
-                    `}
+                    className="fs-14 lh-20 w-304 text-ellipsis flex-1 flex-row align-center fw-bold"
+                    style={{
+                      color: "#222222",
+                    }}
                     title={item.exhibitName}
                   >
                     {item.exhibitName}
@@ -72,14 +53,10 @@ export default function exhibitList({
                 </div>
                 {item.availableData.authCode === 403 ? (
                   <span
-                    className="iconfont"
-                    css={css`
-                      color: red;
-                      font-size: 12px;
-                      font-weight: 400;
-                      color: #ee4040;
-                      line-height: 18px;
-                    `}
+                    className="iconfont fc-red fs-12 fw-regular lh-18"
+                    style={{
+                      color: "#ee4040",
+                    }}
                   >
                     已封禁
                   </span>
@@ -88,34 +65,28 @@ export default function exhibitList({
                     {item.contracts.map((contract: any, index: number) => {
                       return (
                         <div
-                          css={css`
-                            padding: 3px 5px;
-                            height: 24px;
-                            background: #e9f2ff;
-                            border-radius: 2px;
-                            border: 1px solid #aed0ff;
-                          `}
-                          className={" flex-row align-center mr-5"}
+                          style={{
+                            border: "1px solid #aed0ff",
+                          }}
+                          className={
+                            " flex-row align-center mr-5 h-24 brs-2 py-3 px-5"
+                          }
                           key={index}
                         >
                           <div
-                            css={css`
-                              font-size: 12px;
-                              font-weight: 400;
-                              color: #2784ff;
-                              line-height: 18px;
-                            `}
+                            className="lh-18 fw-regular fs-12"
+                            style={{
+                              color: "#2784ff",
+                            }}
                           >
                             {contract.contractName}
                           </div>
                           <div
-                            css={css`
-                              width: 6px;
-                              height: 6px;
-                              border-radius: 50%;
-                            `}
+                            style={{
+                              borderRadius: "50%",
+                            }}
                             className={
-                              " ml-6 " +
+                              "w-6 h-6 ml-6 " +
                               (contract.authStatus === 128
                                 ? "bg-auth-none"
                                 : !window.isTest && contract.authStatus === 1

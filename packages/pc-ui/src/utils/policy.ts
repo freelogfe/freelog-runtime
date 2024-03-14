@@ -85,9 +85,9 @@ export function getPolicyMaps(policy: any): any {
   const policyPyramid: Array<any> = [];
   function findNext(status: any, route: any) {
     // 准备下一层的
-    status.transitions.forEach((to: any, index: number) => {
+    status.transitions.forEach((to: any) => {
       // cycle test
-      let isExist = route.some((x: any) => x[0] === to.toState);
+      const isExist = route.some((x: any) => x[0] === to.toState);
       const event = to;
       event.translation = getEventDes(event.name, event.args);
       // prepare for next route

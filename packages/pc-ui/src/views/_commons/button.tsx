@@ -6,7 +6,7 @@ interface buttonProps {
   className?: string;
   type?: string;
 }
-const buttonTypes = {
+const buttonTypes:any = {
   main: {
     common: "text-align-center px-10 py-5 brs-4 cur-pointer select-none fw-medium fc-white",
     normal: "bg-main",
@@ -24,10 +24,9 @@ const buttonTypes = {
 };
 export default function Button(props: buttonProps) {
   const [status, setStatus] = useState(0);
-  const [buttonClass, setButtonClass] = useState(buttonTypes.main);
+  const [buttonClass, setButtonClass] = useState<any>(buttonTypes.main);
   useEffect(() => {
     setStatus(props.disabled ? 3 : 0);
-    // @ts-ignore
     setButtonClass(buttonTypes[props.type || 'main'] || buttonClass)
   });
   return (
@@ -36,13 +35,13 @@ export default function Button(props: buttonProps) {
         !props.disabled && props.click && props.click(e);
         return true
       }}
-      onMouseDown={(e) => {
+      onMouseDown={() => {
         !props.disabled && setStatus(2);
       }}
-      onMouseUp={(e) => {
+      onMouseUp={() => {
         !props.disabled && setStatus(0);
       }}
-      onMouseEnter={(e) => {
+      onMouseEnter={() => {
         !props.disabled && setStatus(1);
       }}
       onMouseLeave={() => {

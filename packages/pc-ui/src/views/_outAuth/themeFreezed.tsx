@@ -1,42 +1,22 @@
-/* @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-
-
 export default function OutOf() {
   return (
     <div
-      className="flex-column align-center"
-      css={css`
-        width: 100%;
-        height: 100%;
-        font-size: 30px;
-        font-weight: 400;
-        color: #666666;
-        line-height: 36px;
-        text-align: center;
-        background: #FFFFFF;
-      `}
+      className="flex-column align-center w-100x h-100x fs-30 fw-regular lh-36"
+      style={{
+        color: "#666666",
+        background: "#ffffff",
+        textAlign: "center",
+      }}
     >
       <div className="flex-1"></div>
       <div>
-        <i
-          className="iconfont"
-          css={css`
-            color: red;
-            font-size: 100px !important;
-          `}
-        >
-          &#xe62f;
-        </i>
+        <i className="iconfont fs-100 fc-red">&#xe62f;</i>
       </div>
       <div
-        css={css`
-          font-size: 30px;
-          font-weight: 400;
-          color: #666666;
-          line-height: 36px;
-          margin-top: 40px;
-        `}
+        className=" fs-30 fw-regular lh-36 mt-40 "
+        style={{
+          color: "#666666",
+        }}
       >
         节点主题违规，暂时无法加载内容
       </div>

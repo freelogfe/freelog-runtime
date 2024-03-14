@@ -1,55 +1,30 @@
-/* @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-
-
 export default function OutOf() {
   return (
     <div
-      className="flex-column align-center"
-      css={css`
-        width: 100%;
-        height: 100%;
-        font-size: 30px;
-        font-weight: 400;
-        color: #666666;
-        line-height: 36px;
-        text-align: center;
-        background: #FFFFFF;
-      `}
+      className="flex-column align-center w-100x h-100x fs-30 fw-regular lh-36"
+      style={{
+        color: "#666666",
+        background: "#ffffff",
+        textAlign: "center",
+      }}
     >
       <div className="flex-1"></div>
-      <div
-        css={css`
-          width: 100px  !important;
-        `}
-      >
-        <img
-          src="/failed.svg"
-          alt=""
-          css={css`
-            width: 100%;
-          `}
-        />
+      <div className="w-100">
+        <img src="/failed.svg" alt="" className="w-100x" />
       </div>
       <div
-        css={css`
-          font-size: 30px;
-          font-weight: 400;
-          color: #666666;
-          line-height: 36px;
-          margin-bottom: 30px;
-          margin-top: 40px;
-        `}
+        className=" fs-30 fw-regular lh-36 mt-40 mb-30"
+        style={{
+          color: "#666666",
+        }}
       >
         节点异常，无法正常访问
       </div>
       <div
-        css={css`
-          font-size: 16px;
-          font-weight: 400;
-          color: #666666;
-          line-height: 22px;
-        `}
+        className=" fs-16 fw-regular lh-22"
+        style={{
+          color: "#666666",
+        }}
       >
         异常原因：未设置主题
       </div>
