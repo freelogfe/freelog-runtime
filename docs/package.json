@@ -1,0 +1,14 @@
+{
+  "name": "freelog-docs",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "vuepress dev",
+    "build": "vuepress build"
+  },
+  "devDependencies": {
+    "vuepress": "^1.9.9"
+  },
+  "dependencies": {
+    "@vuepress/core": "^1.9.9"
+  }
+}
