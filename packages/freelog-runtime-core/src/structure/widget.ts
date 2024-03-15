@@ -202,7 +202,7 @@ export async function mountWidget(
   const app = await microApp.renderApp({
     ...options.jdConfig,
     name: widgetId,
-    url: widgetConfig.entry,
+    url: entry || "https://file.freelog.com" , // widgetConfig.entry,
     container: widgetConfig.container,
     data: {
       ...(jdConfig.data ? jdConfig.data : {}),

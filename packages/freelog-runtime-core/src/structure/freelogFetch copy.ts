@@ -1,12 +1,13 @@
 ﻿import { widgetsConfig } from "./widget";
 export function freelogFetch(url: string, options: any, appName: string): any {
   const widgetConfig = widgetsConfig.get(appName);
-  console.log(widgetConfig, url)
   options = options || {};
-  if (url == "https://file.freelog.com" || url == "https://file.freelog.com/") {
+  if (url.indexOf("subFilePath=") == url.length - 12) {
     // TODO 这里需要处理，可能后缀不是html
-    url  = widgetConfig.entry + "/index.html";
-  }else  if (url.includes("https://file.freelog.com") ) {
+    url += "index.html";
+  }
+  console.log(widgetConfig, url, 8888)
+  if (!url.includes(widgetConfig.entry) && url.includes("freelog.com")) {
     const urlObj = new URL(url);
     url = widgetConfig.entry + urlObj.pathname;
   }
