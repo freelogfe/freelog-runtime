@@ -98,8 +98,7 @@ const res = await freelogApp.getSubDep()
     widget: object,      必传，插件数据
     container: htmlElement, 必传，挂载容器
     topExhibitData: object,  最外层展品数据（子孙插件都需要用）
-    setupOnly: false,   默认false使用wujie的startApp加载插件, 当为true时使用wujie的setupApp加载插件，之后通过freelogApp.preloadWidget(widgetId)预加载
-    wujieConfig: {},    配置将合并到startApp或setupApp的配置项中
+    jdConfig: {},    配置将合并到microApp.renderApp的配置项中
     config: object,      给到子插件的配置数据，可传递方法用于通信
     seq: string,         如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的
     widget_entry: string, 本地url，dev模式下，可以使用本地url调试子插件
@@ -156,7 +155,7 @@ widgets.some((widget, index) => {
 
 ```ts
 **用法**
-// 注意 widgetId 要通过widgetController获取 此方法将调用 wujie的preloadApp,并合并config配置
+// 注意 widgetId 要通过widgetController获取 此方法将调用 jd的preloadApp,并合并config配置
 freelogApp.preloadWidget(widgetId,config)
 ```
 
@@ -166,7 +165,7 @@ freelogApp.preloadWidget(widgetId,config)
 
 ```ts
 **用法**
-// 注意 widgetId 要通过widgetController获取, 此方法将调用 wujie的destroyApp
+// 注意 widgetId 要通过widgetController获取, 此方法将调用 jd的destroyApp
 freelogApp.destroyWidget(widgetId)
 ```
 

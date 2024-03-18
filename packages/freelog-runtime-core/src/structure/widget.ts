@@ -68,7 +68,6 @@ export async function mountWidget(
     container: any;
     topExhibitData: any;
     config: any;
-    setupOnly?: boolean;
     jdConfig?: any;
     seq?: number | null | undefined;
     widget_entry?: boolean | string; // 因为插件加载者并不使用，所以 可以当成 widget_entry

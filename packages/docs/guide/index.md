@@ -19,8 +19,8 @@ outline: deep
 
 ### 运行原理
 
-**本平台使用腾讯无界微前端框架**
-[https://wujie-micro.github.io/doc/guide/](https://wujie-micro.github.io/doc/guide/)
+**本平台使用腾讯京东微前端框架**
+[https://micro-zoe.github.io/micro-app/docs.html#/](https://micro-zoe.github.io/micro-app/docs.html#/)
 
 ## 示例节点代码仓
 
@@ -34,10 +34,10 @@ outline: deep
 
 [https://nes-game.freelog.com](https://nes-game.freelog.com)
 
-### 插件改造
+### 框架改造
 
 **参考下面链接**
-[https://wujie-micro.github.io/doc/guide/start.html](https://wujie-micro.github.io/doc/guide/start.html)
+[https://micro-zoe.github.io/micro-app/docs.html#/zh-cn/framework/introduce](https://micro-zoe.github.io/micro-app/docs.html#/zh-cn/framework/introduce)
 
 ## 开发
 
@@ -45,9 +45,13 @@ outline: deep
 
 **由于浏览器安全限制，本地开发需要本地以 https 启动**
 
-参考 webpack-mkcert 工具
+webpack请参考 webpack-mkcert 工具
 
 [https://www.npmjs.com/package/webpack-mkcert](https://www.npmjs.com/package/webpack-mkcert)
+
+vite请参考 @vitejs/plugin-basic-ssl 插件
+
+[https://github.com/vitejs/vite-plugin-basic-ssl](https://github.com/vitejs/vite-plugin-basic-ssl)
 
 ### chrome 无法访问 localhost 问题
 
@@ -109,8 +113,7 @@ subData.subDep.some((sub, index) => {
     widget: sub, // 必传，子插件数据
     container: document.getElementById("freelog-single"), // 必传，自定义一个让插件挂载的div容器
     topExhibitData: subData, // 必传，最外层展品数据（子孙插件都需要用）
-    setupOnly: false, // 默认false, 当为true时使用wujie的setupApp，之后通过freelogApp.preloadWidget(widgetId)预加载
-    wujieConfig: {}, // 配置将合并到startApp或setupApp的配置项中
+    jdConfig: {}, // 配置将合并到microApp.renderApp的配置项中
     config: {}, // 子插件配置数据, 子插件可以通过freelogApp.getSelfConfig()获取配置数据
     seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的。
     widget_entry: string, // 本地url，dev模式下，可以使用本地url调试子插件
@@ -130,14 +133,13 @@ const widgets = res.data.data.dataList;
 // 示范代码，这里只加载一个
 widgets.some((widget, index) => {
   if (index === 1) return true;
-  // mountWidget最终使用wujie的startApp或setupApp
+  // mountWidget最终使用jd的microApp.renderApp来加载主题插件
   let widgetController = await freelogApp.mountWidget({
     widget: widget,
     container: document.getElementById("freelog-single"), // 给每一个提供不同的容器
     topExhibitData: null,
     config: {},
-    setupOnly: false, // 默认false, 当为true时使用wujie的setupApp，之后通过freelogApp.preloadWidget(widgetId)预加载
-    wujieConfig: {}, // 配置将合并到startApp或setupApp的配置项中
+    jdConfig: {}, // 配置将合并到microApp.renderApp的配置项中
     seq: string,
     widget_entry: string,
   });
