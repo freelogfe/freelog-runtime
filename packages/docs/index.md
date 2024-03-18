@@ -3,23 +3,23 @@
 layout: home
 
 hero:
-  name: "freelog-runtime-docs"
-  text: "freelog运行时文档"
-  tagline: My great project tagline
+  name: "freelog运行时文档"
+  text: ""
+  tagline: "主题插件开发者参考文档"
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: "进入指南"
+      link: /guide/index
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: "参考API"
+      link: /api/index
 
-features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+# features:
+#   - title: Feature A
+#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+#   - title: Feature B
+#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+#   - title: Feature C
+#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
 
