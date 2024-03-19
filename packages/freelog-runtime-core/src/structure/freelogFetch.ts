@@ -1,7 +1,6 @@
 ﻿import { widgetsConfig } from "./widget";
 export function freelogFetch(url: string, options: any, appName: string): any {
   const widgetConfig = widgetsConfig.get(appName);
-  console.log(widgetConfig, url)
   options = options || {};
   if (url == "https://file.freelog.com" || url == "https://file.freelog.com/") {
     // TODO 这里需要处理，可能后缀不是html

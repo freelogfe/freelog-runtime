@@ -198,6 +198,14 @@ export async function mountWidget(
   //   },
   //   props: {},
   // });
+  const registerApi = (apis: any) => {
+    if (once) {
+      console.error("registerApi 只能在加在时使用一次");
+      return "只能使用一次";
+    }
+    api = apis;
+    once = true;
+  }
   const app = await microApp.renderApp({
     ...options.jdConfig,
     name: widgetId,
@@ -205,15 +213,15 @@ export async function mountWidget(
     container: widgetConfig.container,
     data: {
       ...(jdConfig.data ? jdConfig.data : {}),
-      freelogApp: bindName(widgetId),
-      registerApi: (apis: any) => {
-        if (once) {
-          console.error("registerApi 只能在加在时使用一次");
-          return "只能使用一次";
-        }
-        api = apis;
-        once = true;
-      },
+      freelogApp: bindName(widgetId, registerApi),
+      // registerApi: (apis: any) => {
+      //   if (once) {
+      //     console.error("registerApi 只能在加在时使用一次");
+      //     return "只能使用一次";
+      //   }
+      //   api = apis;
+      //   once = true;
+      // },
     },
   });
   addWidget(widgetId, { destory: app });

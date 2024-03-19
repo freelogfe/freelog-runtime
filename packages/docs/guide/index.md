@@ -1,6 +1,7 @@
 ---
 outline: deep
 ---
+
 # 指南
 
 ## 介绍
@@ -45,11 +46,11 @@ outline: deep
 
 **由于浏览器安全限制，本地开发需要本地以 https 启动**
 
-webpack请参考 webpack-mkcert 工具
+webpack 请参考 webpack-mkcert 工具
 
 [https://www.npmjs.com/package/webpack-mkcert](https://www.npmjs.com/package/webpack-mkcert)
 
-vite请参考 @vitejs/plugin-basic-ssl 插件
+vite 请参考 @vitejs/plugin-basic-ssl 插件
 
 [https://github.com/vitejs/vite-plugin-basic-ssl](https://github.com/vitejs/vite-plugin-basic-ssl)
 
@@ -146,6 +147,42 @@ widgets.some((widget, index) => {
 });
 ```
 
+### 父子插件入口通信
+
+```ts
+// 父插件（或主题）
+import { freelogApp } from "freelog-runtime";
+const res = await freelogApp.getExhibitListById({
+  articleResourceTypes: "widget",
+  isLoadVersionProperty: 1,
+});
+const widgets = res.data.data.dataList;
+// 示范代码，这里只加载一个
+widgets.some((widget, index) => {
+  if (index === 1) return true;
+  // mountWidget最终使用jd的microApp.renderApp来加载主题插件
+  let widgetController = await freelogApp.mountWidget({
+    widget: widget,
+    container: document.getElementById("freelog-single"), // 给每一个提供不同的容器
+    topExhibitData: null,
+    config: {},
+    jdConfig: {}, // 配置将合并到microApp.renderApp的配置项中
+    seq: string,
+    widget_entry: string,
+  });
+});
+// 父插件获取子插件注册的api
+widgets.getApi().changeMe();
+
+// 子插件，在入口处执行
+freelogApp.registerApi({
+  changeMe: () => {
+    const store = useCounterStore();
+    store.increment();
+  },
+});
+```
+
 ### 单独调试某个插件
 
 当需要跳过主题直接调试正在运行的子插件或展品插件
@@ -166,7 +203,7 @@ local_entry: 本地地址
 https://nes-common.freelog.com/?dev=replace&62270c5cf670b2002e800193=https://localhost:7107/
 ```
 
-### 插件卸载
+<!-- ### 插件卸载
 
 当插件挂载的容器在组件内部或与组件同生同灭时，在组件卸载前需要卸载插件，否则再次加载会有问题。
 
@@ -184,7 +221,7 @@ useEffect(() => {
     freelogApp.destroyWidget(exhibitWidget.widgetId);
   };
 });
-```
+``` -->
 
 ### 获取插件自身配置数据
 
