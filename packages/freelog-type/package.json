@@ -14,7 +14,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "pub": "tsdx build & npm publish",
+    "pub": "tsdx build & npm publish --registry http://registry.npmjs.org",
     "test": "tsdx test",
     "lint": "tsdx lint",
     "size": "size-limit",
