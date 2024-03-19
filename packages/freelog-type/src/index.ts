@@ -6,12 +6,13 @@ import { WidgetApp, PlainObject, NodeInfo, FreelogUserInfo } from './interface';
 //   return a + b;
 // };
 // @ts-ignore
-const app = window.microApp.getData().freelogApp || window.$wujie?.props ||  window.freelogApp;
+const app =  window.microApp?.getData().freelogApp || window.$wujie?.props ||  window.freelogApp;
 export const freelogApp: FreelogApp = app;
 // @ts-ignore
-window.freelogApp = app
+window.freelogApp = app;
 export interface FreelogApp {
-  initGlobalState:(state: any)=>any;
+  initGlobalState: (state: any) => any;
+  registerApi: (obj: any) => any;
   nodeInfo: NodeInfo;
   status: {
     authUIMounted: boolean;
@@ -55,10 +56,14 @@ export interface FreelogApp {
   getExhibitAuthStatus: (exhibitId: string) => Promise<any>;
   getExhibitFileStream: (
     exhibitId: string,
-    options: { 
-      returnUrl?: boolean,
-      config?: {onUploadProgress: any,onDownloadProgress:any,responseType: any},
-      subFilePath?: string
+    options: {
+      returnUrl?: boolean;
+      config?: {
+        onUploadProgress: any;
+        onDownloadProgress: any;
+        responseType: any;
+      };
+      subFilePath?: string;
     }
   ) => Promise<any>;
   getExhibitDepFileStream: (
@@ -82,15 +87,10 @@ export interface FreelogApp {
       isContainRootNode?: boolean;
     }
   ) => Promise<any>;
-  getExhibitDepInfo: (
-    exhibitId: string,
-    articleNids: string,
-  ) => Promise<any>;
+  getExhibitDepInfo: (exhibitId: string, articleNids: string) => Promise<any>;
   getSignStatistics: (keywords: string | number) => Promise<any>;
-  getExhibitAvailalbe: (exhibitIds: string)  => Promise<any>;
-  pushMessage4Task:  (
-    query?: PlainObject
-  ) => Promise<any>;
+  getExhibitAvailalbe: (exhibitIds: string) => Promise<any>;
+  pushMessage4Task: (query?: PlainObject) => Promise<any>;
   devData: PlainObject;
   getStaticPath: (path: string) => string;
   getSubDep: () => Promise<any>;
@@ -98,7 +98,10 @@ export interface FreelogApp {
   getSelfExhibitId: () => string;
   getSelfWidgetId: () => string;
   callAuth: () => void;
-  addAuth: (exhibitId: string, options?: { immediate: boolean }) => Promise<any>;
+  addAuth: (
+    exhibitId: string,
+    options?: { immediate: boolean }
+  ) => Promise<any>;
   onLogin: (callback: Function) => void;
   onUserChange: (callback: Function) => void;
   callLogin: (callback: Function) => void;
