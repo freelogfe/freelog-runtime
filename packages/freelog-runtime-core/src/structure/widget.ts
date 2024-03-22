@@ -7,7 +7,7 @@ export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
 export const activeWidgets = new Map<any, any>();
-export const childrenWidgets = new Map<any, any>();
+export const childWidgets = new Map<any, any>();
 export const widgetUserData = new Map<any, any>();
 export function addWidget(key: string, plugin: any) {
   if (activeWidgets.has(key)) {
@@ -26,15 +26,15 @@ export function deactiveWidget(key: string) {
   activeWidgets.has(key) && activeWidgets.delete(key);
 }
 export function addChildWidget(key: string, childKey: any) {
-  const arr = childrenWidgets.get(key) || [];
-  !arr.contains(childKey) && arr.push(childKey);
-  childrenWidgets.set(key, arr);
+  const arr = childWidgets.get(key) || [];
+  !arr.includes(childKey) && arr.push(childKey);
+  childWidgets.set(key, arr);
 }
 export function removeChildWidget(key: string, childKey: string) {
-  if (childrenWidgets.has(key)) {
-    const arr = childrenWidgets.get(key) || [];
-    arr.contains(childKey) && arr.splice(arr.indexOf(childKey), 1);
-    childrenWidgets.set(key, arr);
+  if (childWidgets.has(key)) {
+    const arr = childWidgets.get(key) || [];
+    arr.includes(childKey) && arr.splice(arr.indexOf(childKey), 1);
+    childWidgets.set(key, arr);
   }
 }
 
@@ -74,8 +74,14 @@ export async function mountWidget(
   },
   ...args: any[]
 ) {
-  let { widget, container, topExhibitData, config, seq, widget_entry } =
-    options; // 因为插件加载者并不使用，所以 可以当成 widget_entry}
+  let {
+    widget,
+    container,
+    topExhibitData,
+    config,
+    seq,
+    widget_entry,
+  } = options; // 因为插件加载者并不使用，所以 可以当成 widget_entry}
   if (args?.length) {
     widget = options;
     [container, topExhibitData, config, seq, widget_entry] = args;
@@ -205,11 +211,11 @@ export async function mountWidget(
     }
     api = apis;
     once = true;
-  }
+  };
   const app = await microApp.renderApp({
     ...options.jdConfig,
     name: widgetId,
-    url: entry || "https://file.freelog.com" , // widgetConfig.entry,
+    url: entry || "https://file.freelog.com", // widgetConfig.entry,
     container: widgetConfig.container,
     data: {
       ...(jdConfig.data ? jdConfig.data : {}),
@@ -225,7 +231,39 @@ export async function mountWidget(
     },
   });
   addWidget(widgetId, { destory: app });
-  // @ts-ignore
-  // destroyApp(widgetId)
-  return { destory: app, widgetId, getApi: () => api };
+  const unmount = (options: {
+    destroy?: boolean;
+    clearAliveState?: boolean;
+  }) => {
+    return microApp.unmountApp.apply(null, [widgetId, options]);
+  };
+  const reload = (destroy?: boolean) => {
+    once = false
+    return microApp.reload.apply(null, [widgetId, destroy]);
+  };
+  const setData = (data: Record<PropertyKey, unknown>) => {
+    return microApp.setData(widgetId, data);
+  };
+  const addDataListener = (dataListener: Function, autoTrigger?: boolean) => {
+    return microApp.addDataListener(widgetId, dataListener, autoTrigger);
+  };
+  const removeDataListener = (dataListener: Function) => {
+    return microApp.removeDataListener(widgetId, dataListener);
+  };
+  const clearDataListener = () => {
+    return microApp.clearDataListener(widgetId);
+  };
+  const widgetControl = {
+    destory: app,
+    widgetId,
+    getApi: () => api,
+    unmount,
+    reload,
+    setData,
+    addDataListener,
+    removeDataListener,
+    clearDataListener,
+  };
+  name && addChildWidget(name, widgetControl);
+  return widgetControl;
 }

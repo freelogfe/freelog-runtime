@@ -1,7 +1,7 @@
 import { resultType } from "../bridge/eventType";
 import { freelogApp as freelogAppLib } from "../freelogApp";
 import { mountWidget } from "./widget";
-import { isTest } from "../base/baseInfo"
+import { isTest } from "../base/baseInfo";
 import {
   getSelfConfig,
   setUserData,
@@ -21,7 +21,8 @@ import {
 import { callAuth, addAuth } from "../bridge/index";
 import { onLogin, onUserChange } from "../bridge/eventOn";
 import { isUserChange } from "../security";
-import { dev }from "./dev"
+import { dev } from "./dev";
+import { getActiveWidget, getAllWidget } from "./jdPatch";
 const devData = dev();
 export const freelogApp: any = {
   ...freelogAppLib,
@@ -53,5 +54,7 @@ export const freelogApp: any = {
   reload,
   resultType,
   setSelfResourceNameForDev,
-  isTest
+  isTest,
+  getActiveWidget,
+  getAllWidget
 };

@@ -13,7 +13,7 @@ export const bindName = (name: string, registerApi: any) => {
       if (typeof freelogApp[propKey] == "function") {
         return (...rest: any) => {
           // eslint-disable-next-line prefer-rest-params
-          return freelogApp[propKey](name, ...rest);
+          return freelogApp[propKey].apply(null, [name, ...rest]);
         };
       } else {
         return freelogApp[propKey];
