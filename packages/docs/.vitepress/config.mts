@@ -10,19 +10,23 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: '指南', link: '/guide/index.md' },
+      { text: '基础指南', link: '/guide/index.md' },
+      { text: '框架改造指南', link: '/framework/react.md' },
       { text: 'API', link: '/api/index.md' }
     ],
-
-    // sidebar: [
-    //   {
-    //     text: 'Examples',
-    //     items: [
-    //       { text: 'Mark down Examples', link: '/markdown-examples' },
-    //       { text: 'Runtime API Examples', link: '/api-examples' }
-    //     ]
-    //   }
-    // ],
+    sidebar: [
+      {
+        text: '框架改造指南',
+        items: [
+          { text: 'react', link: '/framework/react' },
+          { text: 'vue', link: '/framework/vue' },
+          { text: 'vite', link: '/framework/vite' },
+          { text: 'nexjts', link: '/framework/nextjs' },
+          { text: 'nuxtjs', link: '/framework/nuxtjs' },
+          { text: 'angular', link: '/framework/angular' },
+        ]
+      }
+    ],
 
     // socialLinks: [
     //   { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
