@@ -28,6 +28,8 @@ export interface WidgetApp {
   getApi: () => PlainObject;
   unmount: (widgetId: string, options?: unmountAppParams) => Promise<boolean>;
   reload: (destroy?: boolean) => Promise<boolean>;
+  getData: () => any;
+  clearData: () => any;
   setData: (data: Record<PropertyKey, unknown>) => any;
   addDataListener: (dataListener: Function, autoTrigger?: boolean) => any;
   removeDataListener: (dataListener: Function) => any;

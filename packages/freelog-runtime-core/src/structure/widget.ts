@@ -238,11 +238,17 @@ export async function mountWidget(
     destroy?: boolean;
     clearAliveState?: boolean;
   }) => {
-    return microApp.unmountApp.apply(null, [widgetId, options]);
+    return microApp.unmountApp(widgetId, options);
   };
   const reload = (destroy?: boolean) => {
     once = false
-    return microApp.reload.apply(null, [widgetId, destroy]);
+    return microApp.reload(widgetId, destroy);
+  };
+  const getData = () => {
+    return microApp.getData(widgetId);
+  };
+  const clearData = () => {
+    return microApp.clearData(widgetId);
   };
   const setData = (data: Record<PropertyKey, unknown>) => {
     return microApp.setData(widgetId, data);
@@ -263,6 +269,8 @@ export async function mountWidget(
     unmount,
     reload,
     setData,
+    getData,
+    clearData,
     addDataListener,
     removeDataListener,
     clearDataListener,

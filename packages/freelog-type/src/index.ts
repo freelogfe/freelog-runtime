@@ -8,7 +8,7 @@ import { WidgetApp, PlainObject, NodeInfo, FreelogUserInfo } from './interface';
 // @ts-ignore
 const app =  window.microApp?.getData().freelogApp || window.$wujie?.props ||  window.freelogApp;
 export const freelogApp: FreelogApp = app;
-// @ts-ignore
+freelogApp.clearData = window.microApp.clearData;
 freelogApp.getData = window.microApp.getData;
 freelogApp.addDataListener = window.microApp.addDataListener;
 freelogApp.removeDataListener = window.microApp.removeDataListener;
@@ -22,9 +22,9 @@ freelogApp.setGlobalData = window.microApp.setGlobalData;
 // @ts-ignore
 window.freelogApp = app;
 export interface FreelogApp {
-  initGlobalState: (state: any) => any;
-  registerApi: (obj: any) => any;
+  registerApi: (obj: PlainObject) => any;
   getData: ()=>any;
+  clearData: ()=>any;
   addDataListener: (dataListener: Function, autoTrigger?: boolean)=>any;
   removeDataListener: (dataListener: Function)=>any;
   clearDataListener: ()=>any;

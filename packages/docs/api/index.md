@@ -12,7 +12,7 @@ outline: deep
 
 **文中参数类型为 int 的'是否'都用 1 和 0 传递**
 
-## 节点相关
+## 插件
 
 ### nodeInfo
 
@@ -101,7 +101,7 @@ const res = await freelogApp.getSubDep()
     topExhibitData?: any;  // 最外层展品数据（子孙插件都需要用）
     container: HTMLElement | null; // 挂载容器
     config?: PlainObject;  // 给到子插件的配置数据，可传递方法用于通信
-    renderWidgetOptions?: RenderWidgetOptions; // 配置将合并到microApp.renderApp的配置项中
+    renderWidgetOptions?: RenderWidgetOptions; // 插件渲染配置
     seq?: number | null;  // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的
     widget_entry?: boolean | string; // 本地url，dev模式下，可以使用本地url调试子插件
   }) => Promise<WidgetApp>;
@@ -153,7 +153,7 @@ interface WidgetApp {
   removeDataListener: (dataListener: Function) => any;
   clearDataListener: () => any;
 }
- 
+
 ```
 
 **加载自身依赖的插件**
@@ -190,26 +190,6 @@ widgets.some((widget, index) => {
 });
 ```
 
-### preloadWidget
-
-**用途：整个网页重载（仅主题可用，插件可访问主题开发者提供的方法进行全局刷新）**
-
-```ts
-**用法**
-// 注意 widgetId 要通过widgetController获取 此方法将调用 jd的preloadApp,并合并config配置
-freelogApp.preloadWidget(widgetId,config)
-```
-
-### destroyWidget
-
-**用途：整个网页重载（仅主题可用，插件可访问主题开发者提供的方法进行全局刷新）**
-
-```ts
-**用法**
-// 注意 widgetId 要通过widgetController获取, 此方法将调用 jd的destroyApp
-freelogApp.destroyWidget(widgetId)
-```
-
 ### reload
 
 **用途：整个网页重载（仅主题可用，插件可访问主题开发者提供的方法进行全局刷新）**
@@ -217,6 +197,160 @@ freelogApp.destroyWidget(widgetId)
 ```ts
 **用法**
 freelogApp.reload()
+```
+
+### registerApi
+
+**用途：在插件入口处使用一次，注册 api 给父插件使用**
+
+```ts
+**用法**
+// obj只能是object
+freelogApp.registerApi(obj)
+```
+
+### getData
+
+**用途：获取父插件下发的 data 数据**
+
+**用法**
+
+```js
+const data = freelogApp.getData(); // 返回父插件下发的data数据
+```
+
+### addDataListener
+
+**用途：**绑定数据监听函数
+
+**介绍：**
+
+```js
+/**
+ * 绑定监听函数，监听函数只有在数据变化时才会触发
+ * dataListener: 绑定函数
+ * autoTrigger: 在初次绑定监听函数时如果有缓存数据，是否需要主动触发一次，默认为false
+ * !!!重要说明: 因为子应用是异步渲染的，而父插件发送数据是同步的，
+ * 如果在子应用渲染结束前父插件发送数据，则在绑定监听函数前数据已经发送，在初始化后不会触发绑定函数，
+ * 但这个数据会放入缓存中，此时可以设置autoTrigger为true主动触发一次监听函数来获取数据。
+ */
+freelogApp.addDataListener(dataListener: Function, autoTrigger?: boolean)
+```
+
+**用法**
+
+```js
+function dataListener(data) {
+  console.log("来自父插件的数据", data);
+}
+
+freelogApp.addDataListener(dataListener);
+```
+
+### removeDataListener
+
+**用途：解绑数据监听函数**
+
+**用法**
+
+```js
+function dataListener(data) {
+  console.log("来自父插件的数据", data);
+}
+
+freelogApp.removeDataListener(dataListener);
+```
+
+### clearDataListener
+
+**用途：**清空当前子应用的所有数据监听函数(全局数据函数除外)
+
+**用法**
+
+```js
+freelogApp.clearDataListener();
+```
+
+### dispatch
+
+**用途：向父插件发送数据**
+
+**用法**
+
+```js
+// dispatch只接受对象作为参数
+freelogApp.dispatch({ type: "子应用发送的数据" });
+```
+
+### getGlobalData
+
+**用途：获取全局数据**
+
+**用法**
+
+```js
+const globalData = freelogApp.getGlobalData(); // 返回全局数据
+```
+
+### addGlobalDataListener
+
+**用途：绑定数据监听函数**
+
+**介绍：**
+
+```js
+/**
+ * 绑定监听函数
+ * dataListener: 绑定函数
+ * autoTrigger: 在初次绑定监听函数时如果有缓存数据，是否需要主动触发一次，默认为false
+ */
+freelogApp.addGlobalDataListener(dataListener: Function, autoTrigger?: boolean)
+
+```
+
+**用法**
+
+```js
+function dataListener(data) {
+  console.log("全局数据", data);
+}
+
+freelogApp.addGlobalDataListener(dataListener);
+```
+
+### removeGlobalDataListener
+
+**用途：解绑全局数据监听函数**
+
+**用法**
+
+```js
+function dataListener(data) {
+  console.log("全局数据", data);
+}
+
+freelogApp.removeGlobalDataListener(dataListener);
+```
+
+### clearGlobalDataListener
+
+**用途：清空当前子应用绑定的所有全局数据监听函数**
+
+**用法**
+
+```js
+freelogApp.clearGlobalDataListener();
+```
+
+### setGlobalData
+
+**用途：发送全局数据**
+
+**用法**
+
+```js
+// setGlobalData只接受对象作为参数
+freelogApp.setGlobalData({ type: "全局数据" });
 ```
 
 ### setViewport
