@@ -9,10 +9,31 @@ import { WidgetApp, PlainObject, NodeInfo, FreelogUserInfo } from './interface';
 const app =  window.microApp?.getData().freelogApp || window.$wujie?.props ||  window.freelogApp;
 export const freelogApp: FreelogApp = app;
 // @ts-ignore
+freelogApp.getData = window.microApp.getData;
+freelogApp.addDataListener = window.microApp.addDataListener;
+freelogApp.removeDataListener = window.microApp.removeDataListener;
+freelogApp.clearDataListener = window.microApp.clearDataListener;
+freelogApp.dispatch = window.microApp.dispatch;
+freelogApp.getGlobalData = window.microApp.getGlobalData;
+freelogApp.addGlobalDataListener = window.microApp.addGlobalDataListener;
+freelogApp.removeGlobalDataListener = window.microApp.removeGlobalDataListener;
+freelogApp.clearGlobalDataListener = window.microApp.clearGlobalDataListener;
+freelogApp.setGlobalData = window.microApp.setGlobalData;
+// @ts-ignore
 window.freelogApp = app;
 export interface FreelogApp {
   initGlobalState: (state: any) => any;
   registerApi: (obj: any) => any;
+  getData: ()=>any;
+  addDataListener: (dataListener: Function, autoTrigger?: boolean)=>any;
+  removeDataListener: (dataListener: Function)=>any;
+  clearDataListener: ()=>any;
+  dispatch: (obj: any)=>any;
+  getGlobalData: ()=>any;
+  addGlobalDataListener: (dataListener: Function, autoTrigger?: boolean)=>any;
+  removeGlobalDataListener: (dataListener: Function)=>any;
+  clearGlobalDataListener: ()=>any;
+  setGlobalData: (data:PlainObject)=>any;
   nodeInfo: NodeInfo;
   status: {
     authUIMounted: boolean;
@@ -22,7 +43,7 @@ export interface FreelogApp {
     widget: any;
     container: HTMLElement | null;
     config?: PlainObject;
-    wujieConfig?: PlainObject;
+    renderWidgetOptions?: RenderWidgetOptions;
     topExhibitData?: any;
     seq?: number | null;
     widget_entry?: boolean | string;
@@ -129,4 +150,38 @@ export interface FreelogApp {
     TEST_NODE: number;
     OFFLINE: number;
   };
+}
+
+
+interface RenderWidgetOptions {
+  name: string, // 应用名称，必传
+  url: string, // 应用地址，必传
+  container: string | Element, // 应用容器或选择器，必传
+  iframe?: boolean, // 是否切换为iframe沙箱，可选
+  inline?: boolean, // 开启内联模式运行js，可选
+  // 'disable-scopecss'?: boolean, // 关闭样式隔离，可选
+  // 'disable-sandbox'?: boolean, // 关闭沙箱，可选
+  'disable-memory-router'?: boolean, // 关闭虚拟路由系统，可选
+  'default-page'?: string, // 指定默认渲染的页面，可选
+  'keep-router-state'?: boolean, // 保留路由状态，可选
+  'disable-patch-request'?: boolean, // 关闭子应用请求的自动补全功能，可选
+  'keep-alive'?: boolean, // 开启keep-alive模式，可选
+  destroy?: boolean, // 卸载时强制删除缓存资源，可选
+  fiber?: boolean, // 开启fiber模式，可选
+  baseroute?: string, // 设置子应用的基础路由，可选
+  ssr?: boolean, // 开启ssr模式，可选
+  // shadowDOM?: boolean, // 开启shadowDOM，可选
+  data?: Object, // 传递给子应用的数据，可选
+  onDataChange?: Function, // 获取子应用发送数据的监听函数，可选
+  // 注册子应用的生命周期
+  lifeCycles?: {
+    created(e: CustomEvent): void, // 加载资源前触发
+    beforemount(e: CustomEvent): void, // 加载资源完成后，开始渲染之前触发
+    mounted(e: CustomEvent): void, // 子应用渲染结束后触发
+    unmount(e: CustomEvent): void, // 子应用卸载时触发
+    error(e: CustomEvent): void, // 子应用渲染出错时触发
+    beforeshow(e: CustomEvent): void, // 子应用推入前台之前触发（keep-alive模式特有）
+    aftershow(e: CustomEvent): void, // 子应用推入前台之后触发（keep-alive模式特有）
+    afterhidden(e: CustomEvent): void, // 子应用推入后台时触发（keep-alive模式特有）
+  },
 }

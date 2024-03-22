@@ -68,7 +68,7 @@ export async function mountWidget(
     container: any;
     topExhibitData: any;
     config: any;
-    jdConfig?: any;
+    renderWidgetOptions?: any;
     seq?: number | null | undefined;
     widget_entry?: boolean | string; // 因为插件加载者并不使用，所以 可以当成 widget_entry
   },
@@ -189,11 +189,14 @@ export async function mountWidget(
     isUI: false,
     props: {},
   };
-  const jdConfig = options.jdConfig ? options.jdConfig : {};
+  const renderWidgetOptions = options.renderWidgetOptions ? {...options.renderWidgetOptions,
+  'disable-scopecss': false, // 不允许关闭样式隔离
+  'disable-sandbox': false, // 不允许关闭沙箱
+ }: {};
   addWidgetConfig(widgetId, widgetConfig);
   // const app = await way({
   //   sync: true,
-  //   ...options.jdConfig,
+  //   ...options.renderWidgetOptions,
   //   name: widgetId,
   //   el: widgetConfig.container,
   //   url: widgetConfig.entry,
@@ -212,13 +215,13 @@ export async function mountWidget(
     api = apis;
     once = true;
   };
-  const app = await microApp.renderApp({
-    ...options.jdConfig,
+  const flag = await microApp.renderApp({
+    ...options.renderWidgetOptions,
     name: widgetId,
     url: entry || "https://file.freelog.com", // widgetConfig.entry,
     container: widgetConfig.container,
     data: {
-      ...(jdConfig.data ? jdConfig.data : {}),
+      ...(renderWidgetOptions.data ? renderWidgetOptions.data : {}),
       freelogApp: bindName(widgetId, registerApi),
       // registerApi: (apis: any) => {
       //   if (once) {
@@ -230,7 +233,7 @@ export async function mountWidget(
       // },
     },
   });
-  addWidget(widgetId, { destory: app });
+  // TODO 加载失败问题
   const unmount = (options: {
     destroy?: boolean;
     clearAliveState?: boolean;
@@ -254,7 +257,7 @@ export async function mountWidget(
     return microApp.clearDataListener(widgetId);
   };
   const widgetControl = {
-    destory: app,
+    success: flag,
     widgetId,
     getApi: () => api,
     unmount,
@@ -264,6 +267,7 @@ export async function mountWidget(
     removeDataListener,
     clearDataListener,
   };
+  addWidget(widgetId, widgetControl);
   name && addChildWidget(name, widgetControl);
   return widgetControl;
 }

@@ -35,7 +35,6 @@ export const getAllWidget = function(name: string, ...rest: any) {
   const widgets = childWidgets.get(name) || [];
   return apps.filter((id: string) => widgets.some((id2: string) => id === id2));
 };
-
 /**
  * 当前情况是授权UI作为主应用，但加载子插件的主题或插件 需要作为主应用行权，
  * 1.全局通信 microApp.setGlobalData microApp.getGlobalData   mciroApp.addGlobalDataListener  mciroApp.removeGlobalDataListener mciroApp.clearGlobalDataListener
