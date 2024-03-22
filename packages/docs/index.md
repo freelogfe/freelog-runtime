@@ -8,8 +8,11 @@ hero:
   tagline: "主题插件开发者参考文档"
   actions:
     - theme: brand
-      text: "进入指南"
+      text: "指南"
       link: /guide/index
+    - theme: alt
+      text: "框架改造"
+      link: /api/index
     - theme: alt
       text: "参考API"
       link: /api/index
@@ -22,4 +25,3 @@ hero:
 #   - title: Feature C
 #     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
-
