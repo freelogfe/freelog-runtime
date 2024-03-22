@@ -24,7 +24,6 @@ export interface FreelogUserInfo {
 }
 export interface WidgetApp {
   success: boolean;
-  mount(): Promise<null>;
   widgetId: string;
   getApi: () => PlainObject;
   unmount: (widgetId: string, options?: unmountAppParams) => Promise<boolean>;

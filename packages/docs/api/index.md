@@ -1,6 +1,7 @@
 ---
 outline: deep
 ---
+
 # freelogApp
 
 ### 阅读说明
@@ -93,26 +94,66 @@ const res = await freelogApp.getSubDep()
 **用途：加载插件**
 
 ```ts
+
 **参数说明**
-  paramObj: {
-    widget: object,      必传，插件数据
-    container: htmlElement, 必传，挂载容器
-    topExhibitData: object,  最外层展品数据（子孙插件都需要用）
-    jdConfig: {},    配置将合并到microApp.renderApp的配置项中
-    config: object,      给到子插件的配置数据，可传递方法用于通信
-    seq: string,         如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的
-    widget_entry: string, 本地url，dev模式下，可以使用本地url调试子插件
+  mountWidget: (options: {
+    widget: any;  // 插件数据
+    topExhibitData?: any;  // 最外层展品数据（子孙插件都需要用）
+    container: HTMLElement | null; // 挂载容器
+    config?: PlainObject;  // 给到子插件的配置数据，可传递方法用于通信
+    renderWidgetOptions?: RenderWidgetOptions; // 配置将合并到microApp.renderApp的配置项中
+    seq?: number | null;  // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的
+    widget_entry?: boolean | string; // 本地url，dev模式下，可以使用本地url调试子插件
+  }) => Promise<WidgetApp>;
+
+  // 子插件渲染配置
+  interface RenderWidgetOptions {
+    name: string, // 应用名称，必传
+    url: string, // 应用地址，必传
+    container: string | Element, // 应用容器或选择器，必传
+    iframe?: boolean, // 是否切换为iframe沙箱，可选
+    inline?: boolean, // 开启内联模式运行js，可选
+    'disable-memory-router'?: boolean, // 关闭虚拟路由系统，可选
+    'default-page'?: string, // 指定默认渲染的页面，可选
+    'keep-router-state'?: boolean, // 保留路由状态，可选
+    'disable-patch-request'?: boolean, // 关闭子应用请求的自动补全功能，可选
+    'keep-alive'?: boolean, // 开启keep-alive模式，可选
+    destroy?: boolean, // 卸载时强制删除缓存资源，可选
+    fiber?: boolean, // 开启fiber模式，可选
+    baseroute?: string, // 设置子应用的基础路由，可选
+    ssr?: boolean, // 开启ssr模式，可选
+    // shadowDOM?: boolean, // 开启shadowDOM，可选
+    data?: Object, // 传递给子应用的数据，可选
+    onDataChange?: Function, // 获取子应用发送数据的监听函数，可选
+    // 注册子应用的生命周期
+    lifeCycles?: {
+      created(e: CustomEvent): void, // 加载资源前触发
+      beforemount(e: CustomEvent): void, // 加载资源完成后，开始渲染之前触发
+      mounted(e: CustomEvent): void, // 子应用渲染结束后触发
+      unmount(e: CustomEvent): void, // 子应用卸载时触发
+      error(e: CustomEvent): void, // 子应用渲染出错时触发
+      beforeshow(e: CustomEvent): void, // 子应用推入前台之前触发（keep-alive模式特有）
+      aftershow(e: CustomEvent): void, // 子应用推入前台之后触发（keep-alive模式特有）
+      afterhidden(e: CustomEvent): void, // 子应用推入后台时触发（keep-alive模式特有）
+    },
   }
 
 **返回对象说明**
-let widgetController = await freelogApp.mountWidget(paramObj)
 
-widgetController: {destory, widgetId}
+let widgetController: WidgetApp = await freelogApp.mountWidget(paramObj)
 
-**具体解释**
-destory()  通过widgetController.destory() 卸载插件，但需要插件配置了生命周期，否则请使用 freelogApp.destroyWidget(widgetId),注意widgetId要通过widgetController获取
-
-widgetId: 如果设置了isSetup为true, 通过widgetController.widgetId 获取 widgetId，调用 preloadWidget(widgetId)来预加载
+interface WidgetApp {
+  success: boolean;
+  widgetId: string;
+  getApi: () => PlainObject; // 获取子插件入口处注册的对象
+  unmount: (widgetId: string, options?: unmountAppParams) => Promise<boolean>;// 卸载插件
+  reload: (destroy?: boolean) => Promise<boolean>; // 重载插件
+  setData: (data: Record<PropertyKey, unknown>) => any; // 发送数据给子插件，子插件通过freelogApp.addDataListener监听获取
+  addDataListener: (dataListener: Function, autoTrigger?: boolean) => any;// 监听子插件dipatch过来的数据
+  removeDataListener: (dataListener: Function) => any;
+  clearDataListener: () => any;
+}
+ 
 ```
 
 **加载自身依赖的插件**

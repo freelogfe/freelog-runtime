@@ -104,6 +104,8 @@ const nodeInfo = freelogApp.nodeInfo;
 
 ### 加载自身的子依赖插件
 
+[查看 mountWidget 详情](/api/#mountwidget)
+
 ```ts
 import { freelogApp } from "freelog-runtime";
 const subData = await freelogApp.getSubDep();
@@ -114,7 +116,7 @@ subData.subDep.some((sub, index) => {
     widget: sub, // 必传，子插件数据
     container: document.getElementById("freelog-single"), // 必传，自定义一个让插件挂载的div容器
     topExhibitData: subData, // 必传，最外层展品数据（子孙插件都需要用）
-    jdConfig: {}, // 配置将合并到microApp.renderApp的配置项中
+    renderWidgetOptions: {}, // 配置将合并到microApp.renderApp的配置项中
     config: {}, // 子插件配置数据, 子插件可以通过freelogApp.getSelfConfig()获取配置数据
     seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的。
     widget_entry: string, // 本地url，dev模式下，可以使用本地url调试子插件
@@ -123,6 +125,8 @@ subData.subDep.some((sub, index) => {
 ```
 
 ### 加载展品插件
+
+[查看 mountWidget 详情](/api/#mountwidget)
 
 ```ts
 import { freelogApp } from "freelog-runtime";
@@ -140,7 +144,7 @@ widgets.some((widget, index) => {
     container: document.getElementById("freelog-single"), // 给每一个提供不同的容器
     topExhibitData: null,
     config: {},
-    jdConfig: {}, // 配置将合并到microApp.renderApp的配置项中
+    renderWidgetOptions: {}, // 配置将合并到microApp.renderApp的配置项中
     seq: string,
     widget_entry: string,
   });
@@ -166,7 +170,7 @@ widgets.some((widget, index) => {
     container: document.getElementById("freelog-single"), // 给每一个提供不同的容器
     topExhibitData: null,
     config: {},
-    jdConfig: {}, // 配置将合并到microApp.renderApp的配置项中
+    renderWidgetOptions: {}, // 配置将合并到microApp.renderApp的配置项中
     seq: string,
     widget_entry: string,
   });
