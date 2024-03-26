@@ -189,10 +189,13 @@ export async function mountWidget(
     isUI: false,
     props: {},
   };
-  const renderWidgetOptions = options.renderWidgetOptions ? {...options.renderWidgetOptions,
-  'disable-scopecss': false, // 不允许关闭样式隔离
-  'disable-sandbox': false, // 不允许关闭沙箱
- }: {};
+  const renderWidgetOptions = options.renderWidgetOptions
+    ? {
+        ...options.renderWidgetOptions,
+        "disable-scopecss": false, // 不允许关闭样式隔离
+        "disable-sandbox": false, // 不允许关闭沙箱
+      }
+    : {};
   addWidgetConfig(widgetId, widgetConfig);
   // const app = await way({
   //   sync: true,
@@ -232,6 +235,8 @@ export async function mountWidget(
       //   once = true;
       // },
     },
+    "disable-scopecss": false, // 是否关闭样式隔离，可选
+    "disable-sandbox": false, // 是否关闭沙盒，可选
   });
   // TODO 加载失败问题
   const unmount = (options: {
@@ -241,7 +246,7 @@ export async function mountWidget(
     return microApp.unmountApp(widgetId, options);
   };
   const reload = (destroy?: boolean) => {
-    once = false
+    once = false;
     return microApp.reload(widgetId, destroy);
   };
   const getData = () => {
