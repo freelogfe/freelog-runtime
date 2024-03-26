@@ -35,7 +35,7 @@ export default defineConfig({
           { text: 'vite', link: '/framework/vite' },
           { text: 'nexjts', link: '/framework/nextjs' },
           { text: 'nuxtjs', link: '/framework/nuxtjs' },
-          { text: 'angular', link: '/framework/angular' },
+          // { text: 'angular', link: '/framework/angular' },
         ]
       },
       {
