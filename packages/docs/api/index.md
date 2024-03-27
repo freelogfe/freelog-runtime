@@ -795,7 +795,7 @@ freelogApp.callLoginOut()
 freelogApp.isUserChange()
 ```
 
-### pushMessage4Task
+<!-- ### pushMessage4Task
 
 **用途：推送任务消息埋点**
 
@@ -809,4 +809,48 @@ freelogApp.isUserChange()
 **用法**
 
 freelogApp.pushMessage4Task(data).then((res)=>{})
+``` -->
+
+## 特殊功能：通用分享链接
+
+### getShareUrl
+
+**用途：获取某个展品的通用分享链接**
+
+```ts
+**参数说明**
+  exhibitId： 展品ID
+  type: "detail" | "content"
+
+**用法**
+freelogApp.getShareUrl(exhibitId, type)
+```
+
+### mapShareUrl
+
+**用途：调用此方法发现用户切换后会刷新网页，否则返回 false**
+
+```ts
+**参数说明**
+  // 映射详情与内容对应的路由
+  routeMap: {
+    // 详情对应的路由，运行时获取返回值后会修改url
+    detail?: (exhibitId)=>{
+      return `/mydetailroute/${exhibitId}`
+    }
+    // 内容对应的路由，运行时获取返回值后会修改url
+    content?: (exhibitId)=>{
+      return `/mycontentroute/${exhibitId}`
+    }
+  }
+
+**用法**
+  freelogApp.mapShareUrl({
+    detail: (exhibitId)=>{
+      return `/mydetailroute/${exhibitId}`
+    }
+    content: (exhibitId)=>{
+      return `/mycontentroute/${exhibitId}`
+    }
+  })
 ```

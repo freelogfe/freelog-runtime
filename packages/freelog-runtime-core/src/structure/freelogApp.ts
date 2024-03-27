@@ -18,6 +18,7 @@ import {
   reload,
   setSelfResourceNameForDev,
 } from "./utils";
+import { getShareUrl, mapShareUrl } from "./share";
 import { callAuth, addAuth } from "../bridge/index";
 import { onLogin, onUserChange } from "../bridge/eventOn";
 import { isUserChange } from "../security";
@@ -56,5 +57,7 @@ export const freelogApp: any = {
   setSelfResourceNameForDev,
   isTest,
   getActiveWidget,
-  getAllWidget
+  getAllWidget,
+  getShareUrl,
+  mapShareUrl
 };

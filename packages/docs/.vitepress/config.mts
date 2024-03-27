@@ -30,6 +30,7 @@ export default defineConfig({
       {
         text: '框架改造',
         items: [
+          { text: '说明', link: '/framework/index.md' },
           { text: 'react', link: '/framework/react' },
           { text: 'vue', link: '/framework/vue' },
           { text: 'vite', link: '/framework/vite' },
