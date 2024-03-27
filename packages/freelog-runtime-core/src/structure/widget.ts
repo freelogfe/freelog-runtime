@@ -150,9 +150,9 @@ export async function mountWidget(
   }
   // @ts-ignore
   entry = widget_entry || entry;
-  let widgetId = "freelog" + commonData.articleInfo.articleId;
+  let widgetRenderName = "freelog" + commonData.articleInfo.articleId;
   if (seq || seq === 0) {
-    widgetId = "freelog" + commonData.id + seq;
+    widgetRenderName = "freelog" + commonData.id + seq;
   }
   let fentry = "";
   if (commonData.articleNid) {
@@ -175,7 +175,7 @@ export async function mountWidget(
 
   const widgetConfig = {
     container,
-    name: widgetId, //id
+    name: widgetRenderName, //id
     isTheme: !!isTheme,
     exhibitId: commonData.exhibitId, // 展品id为空的都是插件依赖的插件
     widgetName: commonData.articleInfo.articleName.replace("/", "-"),
@@ -196,7 +196,7 @@ export async function mountWidget(
         "disable-sandbox": false, // 不允许关闭沙箱
       }
     : {};
-  addWidgetConfig(widgetId, widgetConfig);
+  addWidgetConfig(widgetRenderName, widgetConfig);
   // const app = await way({
   //   sync: true,
   //   ...options.renderWidgetOptions,
@@ -218,14 +218,30 @@ export async function mountWidget(
     api = apis;
     once = true;
   };
+  // TODO 十分重要
+  /**
+   *   <micro-app name='my-app' url='xxx' disable-scopecss></micro-app>
+   *   支持自定义元素的方案
+   *   提供获取插件widgetRenderName和url的方法
+   *      // name：必传参数，必须以字母开头，且不可以带特殊符号(中划线、下划线除外)
+   *      1.widgetRenderName获取： 多个相同id的插件需要传递不同seq 
+   * 
+   *      // url：必传参数，必须指向子应用的index.html，如：http://localhost:3000/ 或 http://localhost:3000/index.html
+   *      // const widgetFakeDomain = "widgetfiles"
+   *      2.url获取：定义一个过度的url: https://${widgetFakeDomain}.${widgetRenderName}.com 
+   *        同样通过fretch拦截， 
+   *      
+   *      3.数据传递问题呢？需要拦截一层自定义元素
+   *                    
+   */       
   const flag = await microApp.renderApp({
     ...options.renderWidgetOptions,
-    name: widgetId,
+    name: widgetRenderName,
     url: entry || "https://file.freelog.com", // widgetConfig.entry,
     container: widgetConfig.container,
     data: {
       ...(renderWidgetOptions.data ? renderWidgetOptions.data : {}),
-      freelogApp: bindName(widgetId, registerApi),
+      freelogApp: bindName(widgetRenderName, registerApi),
       // registerApi: (apis: any) => {
       //   if (once) {
       //     console.error("registerApi 只能在加在时使用一次");
@@ -243,33 +259,33 @@ export async function mountWidget(
     destroy?: boolean;
     clearAliveState?: boolean;
   }) => {
-    return microApp.unmountApp(widgetId, options);
+    return microApp.unmountApp(widgetRenderName, options);
   };
   const reload = (destroy?: boolean) => {
     once = false;
-    return microApp.reload(widgetId, destroy);
+    return microApp.reload(widgetRenderName, destroy);
   };
   const getData = () => {
-    return microApp.getData(widgetId);
+    return microApp.getData(widgetRenderName);
   };
   const clearData = () => {
-    return microApp.clearData(widgetId);
+    return microApp.clearData(widgetRenderName);
   };
   const setData = (data: Record<PropertyKey, unknown>) => {
-    return microApp.setData(widgetId, data);
+    return microApp.setData(widgetRenderName, data);
   };
   const addDataListener = (dataListener: Function, autoTrigger?: boolean) => {
-    return microApp.addDataListener(widgetId, dataListener, autoTrigger);
+    return microApp.addDataListener(widgetRenderName, dataListener, autoTrigger);
   };
   const removeDataListener = (dataListener: Function) => {
-    return microApp.removeDataListener(widgetId, dataListener);
+    return microApp.removeDataListener(widgetRenderName, dataListener);
   };
   const clearDataListener = () => {
-    return microApp.clearDataListener(widgetId);
+    return microApp.clearDataListener(widgetRenderName);
   };
   const widgetControl = {
     success: flag,
-    widgetId,
+    widgetRenderName,
     getApi: () => api,
     unmount,
     reload,
@@ -280,7 +296,7 @@ export async function mountWidget(
     removeDataListener,
     clearDataListener,
   };
-  addWidget(widgetId, widgetControl);
+  addWidget(widgetRenderName, widgetControl);
   name && addChildWidget(name, widgetControl);
   return widgetControl;
 }

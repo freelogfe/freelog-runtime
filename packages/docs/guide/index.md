@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# 指南
+# 本文档同时适用于主题与插件
 
 ## 介绍
 
@@ -18,22 +18,22 @@ outline: deep
 
 **后面出现的运行时皆指平台运行时**
 
-### 运行原理
+<!-- ### 运行原理
 
 **本平台使用京东微前端框架**
-[https://micro-zoe.github.io/micro-app/docs.html#/](https://micro-zoe.github.io/micro-app/docs.html#/)
+[https://micro-zoe.github.io/micro-app/docs.html#/](https://micro-zoe.github.io/micro-app/docs.html#/) -->
 
-## 示例节点代码仓
+<!-- ## 示例节点代码仓
 
-[https://github.com/freelogfe/freelog-sample-themes.git](https://github.com/freelogfe/freelog-sample-themes.git)
+[https://github.com/freelogfe/freelog-sample-themes.git](https://github.com/freelogfe/freelog-sample-themes.git) -->
 
-## 基础使用案例代码仓
+<!-- ## 基础使用案例代码仓
 
 [https://github.com/freelogfe/freelog-developer-guide-examples.git](https://github.com/freelogfe/freelog-developer-guide-examples.git)
 
 ### 有意思的怀旧红白机
 
-[https://nes-game.freelog.com](https://nes-game.freelog.com)
+[https://nes-game.freelog.com](https://nes-game.freelog.com) -->
 
 ### 框架改造
 

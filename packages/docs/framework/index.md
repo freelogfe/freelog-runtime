@@ -5,6 +5,5 @@
 - react
 - vue
 - vite
-- angular
 - nextjs
 - nuxtjs
