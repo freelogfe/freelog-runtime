@@ -26,7 +26,7 @@ export interface WidgetApp {
   success: boolean;
   widgetId: string;
   getApi: () => PlainObject;
-  unmount: (widgetId: string, options?: unmountAppParams) => Promise<boolean>;
+  unmount: (options?: unmountAppParams) => Promise<boolean>;
   reload: (destroy?: boolean) => Promise<boolean>;
   getData: () => any;
   clearData: () => any;
