@@ -79,7 +79,7 @@ export interface FreelogApp {
   getExhibitAuthStatus: (exhibitId: string) => Promise<any>;
   getExhibitFileStream: (
     exhibitId: string,
-    options: {
+    options?: {
       returnUrl?: boolean;
       config?: {
         onUploadProgress: any;
@@ -111,7 +111,7 @@ export interface FreelogApp {
     }
   ) => Promise<any>;
   getExhibitDepInfo: (exhibitId: string, articleNids: string) => Promise<any>;
-  getSignStatistics: (keywords: string | number) => Promise<any>;
+  getSignStatistics: (query: any) => Promise<any>;
   getExhibitAvailalbe: (exhibitIds: string) => Promise<any>;
   pushMessage4Task: (query?: PlainObject) => Promise<any>;
   devData: PlainObject;
@@ -127,7 +127,7 @@ export interface FreelogApp {
   ) => Promise<any>;
   onLogin: (callback: Function) => void;
   onUserChange: (callback: Function) => void;
-  callLogin: (callback: Function) => void;
+  callLogin: (callback?: Function) => void;
   callLoginOut: () => void;
   getCurrentUser: () => FreelogUserInfo;
   setViewport: (options: {
@@ -152,6 +152,7 @@ export interface FreelogApp {
     TEST_NODE: number;
     OFFLINE: number;
   };
+  getCurrentUrl: () => string;
   getShareUrl: (exhibitId: string) => string;
   mapShareUrl: (routeMap: {
     // 详情对应的路由，运行时获取返回值后会修改url

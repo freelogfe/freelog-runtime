@@ -6,6 +6,7 @@ import { freelogApp } from "./freelogApp";
 import { widgetsConfig, widgetUserData, FREELOG_DEV } from "./widget";
 import { initUserCheck } from "../security";
 import { addAuth, goLogin, goLoginOut } from "../bridge/index";
+import { isTheme } from "../../../../backup/core/src/freelog/structure/proxy";
 import {
   getCurrentUser as _getCurrentUser,
   putUserData as _putUserData,
@@ -356,10 +357,16 @@ export function setTabLogo(Url: string) {
     .bind(rawDocument)("head")[0]
     .appendChild(link);
 }
-
+export function getCurrentUrl(name: string) {
+  if (!widgetsConfig.get(name).isTheme) {
+    console.error("仅主题可用");
+    return "";
+  }
+  return rawLocation.href;
+}
 export function isMobile() {
   var browser = {
-    versions: (function () {
+    versions: (function() {
       var u = navigator.userAgent;
       // app = navigator.appVersion;
       return {

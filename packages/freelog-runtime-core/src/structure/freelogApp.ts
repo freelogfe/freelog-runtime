@@ -17,6 +17,7 @@ import {
   callLoginOut,
   reload,
   setSelfResourceNameForDev,
+  getCurrentUrl
 } from "./utils";
 import { getShareUrl, mapShareUrl } from "./share";
 import { callAuth, addAuth } from "../bridge/index";
@@ -59,5 +60,6 @@ export const freelogApp: any = {
   getActiveWidget,
   getAllWidget,
   getShareUrl,
-  mapShareUrl
+  mapShareUrl,
+  getCurrentUrl
 };
