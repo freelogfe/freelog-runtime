@@ -1,5 +1,4 @@
 import { WidgetApp, PlainObject, NodeInfo, FreelogUserInfo } from './interface';
-import exhibit from '../../freelog-runtime-core/dist/esm/freelogApp/services/api/modules/exhibit';
 // export const sum = (a: number, b: number) => {
 //   if ('development' === process.env.NODE_ENV) {
 //     console.log('boop');
