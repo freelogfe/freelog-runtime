@@ -6,19 +6,19 @@ import { freelogFetch } from "freelog-runtime-core";
 microApp.start({
   lifeCycles: {
     created() {
-      console.log("created 全局监听");
+      // console.log("created 全局监听");
     },
     beforemount() {
-      console.log("beforemount 全局监听");
+      // console.log("beforemount 全局监听");
     },
     mounted() {
-      console.log("mounted 全局监听");
+      // console.log("mounted 全局监听");
     },
     unmount() {
-      console.log("unmount 全局监听");
+      // console.log("unmount 全局监听");
     },
     error() {
-      console.log("error 全局监听");
+      // console.log("error 全局监听");
     },
   },
   plugins: {},
