@@ -6,11 +6,9 @@ import exhibit from '../../freelog-runtime-core/dist/esm/freelogApp/services/api
 //   }
 //   return a + b;
 // };
+//  || window.$wujie?.props || window.freelogApp
 // @ts-ignore
-const app =
-  window.microApp?.getData().freelogApp ||
-  window.$wujie?.props ||
-  window.freelogApp;
+const app = window.microApp?.getData().freelogApp;
 export const freelogApp: FreelogApp = app;
 freelogApp.clearData = window.microApp.clearData;
 freelogApp.getData = window.microApp.getData;
