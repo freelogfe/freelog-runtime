@@ -47,9 +47,10 @@ function App() {
   const [outData, setOutData] = useState<any>(null);
   const [isLogin, setIsLogin] = useState(false);
   function loadingClose() {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    document.getElementById("runtime-loading").style.display = "none";
+    setTimeout(() => {
+      const loadingContainer = document.getElementById("runtime-loading");
+      loadingContainer ? (loadingContainer.style.display = "none") : "";
+    }, 0);
   }
   useEffect(() => {
     const nodeDomain = getDomain(window.location.host);
@@ -98,14 +99,14 @@ function App() {
           (nodeInfo.status & 12) === 12
         ) {
           upperUI();
-          loadingClose()
+          loadingClose();
           setEventType(NODE_FREEZED);
           return;
         }
         // 节点下线
         if ((nodeInfo.status & 8) === 8) {
           upperUI();
-          loadingClose()
+          loadingClose();
           setEventType(NODE_OFFLINE);
           return;
         }
@@ -115,14 +116,14 @@ function App() {
           nodeInfo.ownerUserId !== userInfo?.userId
         ) {
           upperUI();
-          loadingClose()
+          loadingClose();
           setEventType(NODE_PRIVATE);
           return;
         }
         // 用户冻结
         if (userInfo && userInfo.status == 1) {
           upperUI();
-          loadingClose()
+          loadingClose();
           setEventType(USER_FREEZED);
           return;
         }
@@ -132,7 +133,7 @@ function App() {
           (!nodeInfo.nodeTestThemeId && isTest)
         ) {
           upperUI();
-          loadingClose()
+          loadingClose();
           setEventType(THEME_NONE);
           return;
         }
@@ -146,7 +147,7 @@ function App() {
           widget_entry: true,
           container,
         });
-        loadingClose()
+        loadingClose();
         // freelogApp.status.themeMounted = flag;
       }
     );

@@ -68,9 +68,10 @@ function App() {
   const [outData, setOutData] = useState<any>(null);
   const [isLogin, setIsLogin] = useState(false);
   function loadingClose() {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    document.getElementById("runtime-loading").style.display = "none";
+    setTimeout(() => {
+      const loadingContainer = document.getElementById("runtime-loading");
+      loadingContainer ? (loadingContainer.style.display = "none") : "";
+    }, 0);
   }
   useEffect(() => {
     const nodeDomain = getDomain(window.location.host);

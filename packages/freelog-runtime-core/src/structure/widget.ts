@@ -216,7 +216,6 @@ export async function mountWidget(
       console.error("registerApi 只能在加在时使用一次");
       return "只能使用一次";
     }
-    console.log(api,apis);
     api.apis = apis;
     once = true;
   };
