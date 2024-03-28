@@ -6,22 +6,27 @@ import { WidgetApp, PlainObject, NodeInfo, FreelogUserInfo } from './interface';
 //   return a + b;
 // };
 //  || window.$wujie?.props || window.freelogApp
-// @ts-ignore
-const app = window.microApp?.getData().freelogApp;
-export const freelogApp: FreelogApp = app;
-freelogApp.clearData = window.microApp.clearData;
-freelogApp.getData = window.microApp.getData;
-freelogApp.addDataListener = window.microApp.addDataListener;
-freelogApp.removeDataListener = window.microApp.removeDataListener;
-freelogApp.clearDataListener = window.microApp.clearDataListener;
-freelogApp.dispatch = window.microApp.dispatch;
-freelogApp.getGlobalData = window.microApp.getGlobalData;
-freelogApp.addGlobalDataListener = window.microApp.addGlobalDataListener;
-freelogApp.removeGlobalDataListener = window.microApp.removeGlobalDataListener;
-freelogApp.clearGlobalDataListener = window.microApp.clearGlobalDataListener;
-freelogApp.setGlobalData = window.microApp.setGlobalData;
-// @ts-ignore
-window.freelogApp = app;
+
+export let freelogApp: FreelogApp = {} as FreelogApp;
+export const initFreelogApp = () => {
+  const app = window.microApp?.getData().freelogApp;
+  freelogApp = app;
+  // @ts-ignore
+  freelogApp.clearData = window.microApp.clearData;
+  freelogApp.getData = window.microApp.getData;
+  freelogApp.addDataListener = window.microApp.addDataListener;
+  freelogApp.removeDataListener = window.microApp.removeDataListener;
+  freelogApp.clearDataListener = window.microApp.clearDataListener;
+  freelogApp.dispatch = window.microApp.dispatch;
+  freelogApp.getGlobalData = window.microApp.getGlobalData;
+  freelogApp.addGlobalDataListener = window.microApp.addGlobalDataListener;
+  freelogApp.removeGlobalDataListener =
+    window.microApp.removeGlobalDataListener;
+  freelogApp.clearGlobalDataListener = window.microApp.clearGlobalDataListener;
+  freelogApp.setGlobalData = window.microApp.setGlobalData;
+  return freelogApp;
+};
+
 export interface FreelogApp {
   registerApi: (obj: PlainObject) => any;
   getData: () => any;

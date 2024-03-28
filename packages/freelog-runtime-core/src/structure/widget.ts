@@ -171,7 +171,6 @@ export async function mountWidget(
     fentry = fentry + "/?subFilePath="; // '/package/'
   }
   let once = false;
-  let api: any = {};
 
   const widgetConfig = {
     container,
@@ -210,12 +209,15 @@ export async function mountWidget(
   //   },
   //   props: {},
   // });
-  const registerApi = (apis: any) => {
-    if (once) {
-      console.error("registerApi 只能在加在时使用一次");
-      return "只能使用一次";
-    }
-    api = apis;
+  let api: any = { apis: {} };
+
+  const registerApi = function(apis: any) {
+    // if (once) {
+    //   console.error("registerApi 只能在加在时使用一次");
+    //   return "只能使用一次";
+    // }
+    console.log(api,apis);
+    api.apis = apis;
     once = true;
   };
   // TODO 十分重要
@@ -224,18 +226,20 @@ export async function mountWidget(
    *   支持自定义元素的方案
    *   提供获取插件widgetRenderName和url的方法
    *      // name：必传参数，必须以字母开头，且不可以带特殊符号(中划线、下划线除外)
-   *      1.widgetRenderName获取： 多个相同id的插件需要传递不同seq 
-   * 
+   *      1.widgetRenderName获取： 多个相同id的插件需要传递不同seq
+   *
    *      // url：必传参数，必须指向子应用的index.html，如：http://localhost:3000/ 或 http://localhost:3000/index.html
    *      // const widgetFakeDomain = "widgetfiles"
-   *      2.url获取：定义一个过度的url: https://${widgetFakeDomain}.${widgetRenderName}.com 
-   *        同样通过fretch拦截， 
-   *      
+   *      2.url获取：定义一个过度的url: https://${widgetFakeDomain}.${widgetRenderName}.com
+   *        同样通过fretch拦截，
+   *
    *      3.数据传递问题呢？需要拦截一层自定义元素
-   *                    
-   */       
+   *
+   */
+
   const flag = await microApp.renderApp({
     ...options.renderWidgetOptions,
+    // iframe: true,
     name: widgetRenderName,
     url: entry || "https://file.freelog.com", // widgetConfig.entry,
     container: widgetConfig.container,
@@ -259,6 +263,7 @@ export async function mountWidget(
     destroy?: boolean;
     clearAliveState?: boolean;
   }) => {
+    once = false;
     return microApp.unmountApp(widgetRenderName, options);
   };
   const reload = (destroy?: boolean) => {
@@ -275,7 +280,11 @@ export async function mountWidget(
     return microApp.setData(widgetRenderName, data);
   };
   const addDataListener = (dataListener: Function, autoTrigger?: boolean) => {
-    return microApp.addDataListener(widgetRenderName, dataListener, autoTrigger);
+    return microApp.addDataListener(
+      widgetRenderName,
+      dataListener,
+      autoTrigger
+    );
   };
   const removeDataListener = (dataListener: Function) => {
     return microApp.removeDataListener(widgetRenderName, dataListener);
@@ -286,7 +295,10 @@ export async function mountWidget(
   const widgetControl = {
     success: flag,
     widgetRenderName,
-    getApi: () => api,
+    getApi: () => {
+      console.log(api, 8888);
+      return api.apis;
+    },
     unmount,
     reload,
     setData,

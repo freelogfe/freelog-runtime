@@ -33,6 +33,15 @@ const nodeInfo = freelogApp.nodeInfo;
 const data = freelogApp.devData;
 ```
 
+### getCurrentUrl
+
+**用途：获取当前 完整url**
+
+```ts
+**用法**
+const data = freelogApp.getCurrentUrl();
+```
+
 ### getSelfArticleId
 
 **用途：获取自身作品 articleId**

@@ -89,7 +89,19 @@ vite 请参考 @vitejs/plugin-basic-ssl 插件
 ```ts
  npm install freelog-runtime
  // 使用前导入
- import { freelogApp } from "freelog-runtime"
+ import { initFreelogApp,freelogApp } from "freelog-runtime"
+ // 👇 将渲染操作放入 mount 函数，子应用初始化时会自动执行
+window.mount = () => {
+  initFreelogApp()
+  freelogApp.registerApi({
+    setData: (key: string, value: any) => {
+      console.log(key, value)
+      const store = useStore();
+      store.setData(key, value);
+    },
+  });
+  render();
+};
 ```
 
 ### 获取节点信息

@@ -358,10 +358,10 @@ export function setTabLogo(Url: string) {
     .appendChild(link);
 }
 export function getCurrentUrl(name: string) {
-  if (!widgetsConfig.get(name).isTheme) {
-    console.error("仅主题可用");
-    return "";
-  }
+  // if (!widgetsConfig.get(name).isTheme) {
+  //   console.error("仅主题可用");
+  //   return "";
+  // }
   return rawLocation.href;
 }
 export function isMobile() {
