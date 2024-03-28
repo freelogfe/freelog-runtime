@@ -212,10 +212,10 @@ export async function mountWidget(
   let api: any = { apis: {} };
 
   const registerApi = function(apis: any) {
-    // if (once) {
-    //   console.error("registerApi 只能在加在时使用一次");
-    //   return "只能使用一次";
-    // }
+    if (once) {
+      console.error("registerApi 只能在加在时使用一次");
+      return "只能使用一次";
+    }
     console.log(api,apis);
     api.apis = apis;
     once = true;
@@ -296,7 +296,6 @@ export async function mountWidget(
     success: flag,
     widgetRenderName,
     getApi: () => {
-      console.log(api, 8888);
       return api.apis;
     },
     unmount,

@@ -92,6 +92,7 @@ vite 请参考 @vitejs/plugin-basic-ssl 插件
  import { initFreelogApp,freelogApp } from "freelog-runtime"
  // 👇 将渲染操作放入 mount 函数，子应用初始化时会自动执行
 window.mount = () => {
+  // 必须在mount中初始化
   initFreelogApp()
   freelogApp.registerApi({
     setData: (key: string, value: any) => {
