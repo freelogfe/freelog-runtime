@@ -1,6 +1,7 @@
 import { resultType } from "../bridge/eventType";
 import { freelogApp as freelogAppLib } from "../freelogApp";
 import { mountWidget } from "./widget";
+import microApp from '@micro-zoe/micro-app'
 import { isTest } from "../base/baseInfo";
 import {
   getSelfConfig,
@@ -61,5 +62,6 @@ export const freelogApp: any = {
   getAllWidget,
   getShareUrl,
   mapShareUrl,
-  getCurrentUrl
+  getCurrentUrl,
+  router: microApp.router
 };

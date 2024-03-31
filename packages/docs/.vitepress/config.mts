@@ -19,12 +19,10 @@ export default defineConfig({
         text: '指南',
         items: [
           { text: '基础', link: '/guide/index' },
-          // { text: '生命周期', link: '/guide/life-cycles' },
+          { text: '生命周期', link: '/guide/life-cycles' },
           { text: '数据通信', link: '/guide/data' },
-          // { text: 'vite', link: '/framework/vite' },
-          // { text: 'nexjts', link: '/framework/nextjs' },
-          // { text: 'nuxtjs', link: '/framework/nuxtjs' },
-          // { text: 'angular', link: '/framework/angular' },
+          { text: '虚拟路由系统', link: '/guide/router' },
+          { text: 'keep-alive', link: '/guide/keep-alive' },
         ]
       },
       {

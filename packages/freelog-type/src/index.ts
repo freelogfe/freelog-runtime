@@ -11,7 +11,6 @@ export let freelogApp: FreelogApp = {} as FreelogApp;
 export const initFreelogApp = () => {
   const app = window.microApp?.getData().freelogApp;
   freelogApp = app;
-  // @ts-ignore
   freelogApp.clearData = window.microApp.clearData;
   freelogApp.getData = window.microApp.getData;
   freelogApp.addDataListener = window.microApp.addDataListener;
