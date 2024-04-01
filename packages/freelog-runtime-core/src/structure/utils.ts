@@ -126,16 +126,10 @@ export function getSelfConfig(name: string) {
 //  紧急，增加方法加载子依赖传递作品id，通过作品id查询到孙依赖插件
 export async function getSubDep(name: string, exhibitId?: any) {
   let isTheme = false;
-  // @ts-ignore
-  let widgetSandBox = widgetsConfig.get(name);
+  let widgetConfig = widgetsConfig.get(name);
 
-  if (!widgetSandBox) {
+  if (!widgetConfig) {
     isTheme = true;
-    widgetSandBox = {
-      name: exhibitId,
-      exhibitId,
-      isTheme,
-    };
   } else {
     exhibitId = exhibitId || widgetsConfig.get(name).exhibitId;
   }
@@ -146,7 +140,7 @@ export async function getSubDep(name: string, exhibitId?: any) {
     await new Promise<void>(async (resolve, reject) => {
       if (response.authCode === 502) {
         await new Promise<void>(async (resolve, reject) => {
-          addAuth.bind(widgetSandBox)(exhibitId, {
+          addAuth(name, exhibitId, {
             immediate: true,
           });
           freelogApp.onLogin(async () => {
@@ -156,7 +150,7 @@ export async function getSubDep(name: string, exhibitId?: any) {
         response = await freelogApp.getExhibitInfoByAuth(name, exhibitId);
       }
       if (response.authErrorType) {
-        await addAuth.bind(widgetSandBox)(exhibitId, {
+        await addAuth(name, exhibitId, {
           immediate: true,
         });
       }
@@ -165,7 +159,7 @@ export async function getSubDep(name: string, exhibitId?: any) {
     response = await freelogApp.getExhibitInfoByAuth(name, exhibitId);
     if (response.authErrorType) {
       await new Promise<void>(async (resolve, reject) => {
-        await addAuth.bind(widgetSandBox)(exhibitId, {
+        await addAuth(name, exhibitId, {
           immediate: true,
         });
         resolve();

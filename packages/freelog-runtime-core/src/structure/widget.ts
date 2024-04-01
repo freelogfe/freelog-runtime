@@ -237,8 +237,8 @@ export async function mountWidget(
    */
   const flag = await microApp.renderApp({
     "router-mode": isTheme ? "native" : "search",
-    ...options.renderWidgetOptions,
     // iframe: true,
+    ...options.renderWidgetOptions,
     name: widgetRenderName,
     url: entry || "https://file.freelog.com", // widgetConfig.entry,
     container: widgetConfig.container,

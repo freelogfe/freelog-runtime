@@ -38,7 +38,7 @@ export function updateLock(status: boolean) {
 export function setPresentableQueue(name: string, value: any) {
   exhibitQueue.set(name, value);
 }
-export async function addAuth(name: string, exhibitId: any, options?: any) {
+export async function addAuth(name: string, exhibitId: string, options?: any) {
   const arr = eventMap.get(exhibitId)?.callBacks || [];
   const widgetData = widgetsConfig.get(name);
   return new Promise((resolve) => {
