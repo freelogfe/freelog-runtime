@@ -22,7 +22,7 @@ export default defineConfig({
           { text: '生命周期', link: '/guide/life-cycles' },
           { text: '数据通信', link: '/guide/data' },
           { text: '虚拟路由系统', link: '/guide/router' },
-          { text: 'keep-alive', link: '/guide/keep-alive' },
+          // { text: 'keep-alive', link: '/guide/keep-alive' },
         ]
       },
       {

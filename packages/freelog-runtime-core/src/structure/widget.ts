@@ -235,8 +235,8 @@ export async function mountWidget(
    *      3.数据传递问题呢？需要拦截一层自定义元素
    *
    */
-
   const flag = await microApp.renderApp({
+    "router-mode": isTheme ? "native" : "search",
     ...options.renderWidgetOptions,
     // iframe: true,
     name: widgetRenderName,
