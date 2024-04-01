@@ -141,7 +141,6 @@ function App() {
           "",
           isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
         );
-        console.log(theme)
         const container = document.getElementById("freelog-plugin-container");
         await freelogApp.mountWidget(null, {
           widget: theme,

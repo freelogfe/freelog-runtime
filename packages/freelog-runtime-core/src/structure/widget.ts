@@ -151,6 +151,7 @@ export async function mountWidget(
   // @ts-ignore
   entry = widget_entry || entry;
   let widgetRenderName = "freelog" + commonData.articleInfo.articleId;
+  // TODO 这个seq不合理，如果不同插件加载相同子插件，无法保证唯一
   if (seq || seq === 0) {
     widgetRenderName = "freelog" + commonData.id + seq;
   }
@@ -196,21 +197,7 @@ export async function mountWidget(
       }
     : {};
   addWidgetConfig(widgetRenderName, widgetConfig);
-  // const app = await way({
-  //   sync: true,
-  //   ...options.renderWidgetOptions,
-  //   name: widgetId,
-  //   el: widgetConfig.container,
-  //   url: widgetConfig.entry,
-  //   // @ts-ignore
-  //   fetch: (input: RequestInfo, init?: RequestInit) => {
-  //     // @ts-ignore
-  //     return freelogFetch(widgetConfig, input, init);
-  //   },
-  //   props: {},
-  // });
   let api: any = { apis: {} };
-
   const registerApi = function(apis: any) {
     if (once) {
       console.error("registerApi 只能在加在时使用一次");
@@ -235,11 +222,16 @@ export async function mountWidget(
    *      3.数据传递问题呢？需要拦截一层自定义元素
    *
    */
+  // TODO 更新文档说明bundleTool
+  const bundleTool = widget.versionInfo
+    ? widget.versionInfo.exhibitProperty.bundleTool
+    : widget.articleProperty.bundleTool;
   const flag = await microApp.renderApp({
     "router-mode": isTheme ? "native" : "search",
-    // iframe: true,
+    iframe: bundleTool === "vite" ? true : false,
     ...options.renderWidgetOptions,
     name: widgetRenderName,
+    // TODO "https://file.freelog.com" 要定义一个常量来替换
     url: entry || "https://file.freelog.com", // widgetConfig.entry,
     container: widgetConfig.container,
     data: {
