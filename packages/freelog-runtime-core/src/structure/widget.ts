@@ -3,6 +3,7 @@ import microApp from "@micro-zoe/micro-app";
 import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
 import { defaultWidgetConfigData } from "./widgetConfigData";
 import { bindName } from "./bind";
+import { sha256, sha224 } from "js-sha256";
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
@@ -37,7 +38,26 @@ export function removeChildWidget(key: string, childKey: string) {
     childWidgets.set(key, arr);
   }
 }
-
+export function generateWidgetRenderId(
+  parentWidgetId: string,
+  subWidgetId: string,
+  seq: number
+) {
+  // 根据3个参数生成一个只要参数不同就不同的字符串
+}
+function generateUniqueWidgetRenderId(
+  parentWidgetId: string,
+  subWidgetId: string,
+  seq: number
+) {
+  const conditions = [parentWidgetId, subWidgetId, seq].join("");
+  // 使用内置的hash函数生成哈希值
+  const hash = sha256
+    .create()
+    .update(conditions)
+    .hex();
+  return hash;
+}
 let firstDev = false;
 let hbfOnlyToTheme = true; // 保存是否前进后退只给主题
 
