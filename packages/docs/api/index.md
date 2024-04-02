@@ -168,6 +168,7 @@ interface WidgetApp {
   unmount: (widgetId: string, options?: unmountAppParams) => Promise<boolean>;// 卸载插件
   reload: (destroy?: boolean) => Promise<boolean>; // 重载插件
   setData: (data: Record<PropertyKey, unknown>) => any; // 发送数据给子插件，子插件通过freelogApp.addDataListener监听获取
+  getData:()=>any; // 返回父插件下发的data数据
   addDataListener: (dataListener: Function, autoTrigger?: boolean) => any;// 监听子插件dipatch过来的数据
   removeDataListener: (dataListener: Function) => any;
   clearDataListener: () => any;

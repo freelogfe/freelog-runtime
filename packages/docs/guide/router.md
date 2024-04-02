@@ -125,16 +125,16 @@ router.push({
 **示例：**
 
 ```js
-// 不带域名的地址，控制子插件my-app跳转/page1
+// 不带域名的地址，控制子插件widgetRenderName跳转/page1
 freelogApp.router.push({ name: widgetRenderName, path: "/page1" });
 
-// 带查询参数，控制子插件my-app跳转/page1?id=9527
+// 带查询参数，控制子插件widgetRenderName跳转/page1?id=9527
 freelogApp.router.push({ name: widgetRenderName, path: "/page1?id=9527" });
 
-// 带hash，控制子插件my-app跳转/page1#hash
+// 带hash，控制子插件widgetRenderName跳转/page1#hash
 freelogApp.router.push({ name: widgetRenderName, path: "/page1#hash" });
 
-// 使用replace模式，等同于 router.replace({name: 'my-app', path: '/page1'})
+// 使用replace模式，等同于 router.replace({name: 'widgetRenderName', path: '/page1'})
 freelogApp.router.push({
   name: widgetRenderName,
   path: "/page1",
@@ -177,7 +177,7 @@ freelogApp.router.replace({ name: widgetRenderName, path: "/page1?id=9527" });
 // 带hash
 freelogApp.router.replace({ name: widgetRenderName, path: "/page1#hash" });
 
-// 关闭replace模式，等同于 router.push({name: 'my-app', path: '/page1'})
+// 关闭replace模式，等同于 router.push({name: 'widgetRenderName', path: '/page1'})
 freelogApp.router.replace({
   name: widgetRenderName,
   path: "/page1",
@@ -283,22 +283,22 @@ router.push({
 **示例：**
 
 ```js
-// 不带域名的地址，控制子插件my-app跳转/page1
+// 不带域名的地址，控制子插件widgetRenderName跳转/page1
 freelogApp.router.push({ name: widgetRenderName, path: "/page1" });
 
-// 带域名的地址，控制子插件my-app跳转/page1
+// 带域名的地址，控制子插件widgetRenderName跳转/page1
 freelogApp.router.push({
   name: widgetRenderName,
   path: "http://localhost:3000/page1",
 });
 
-// 带查询参数，控制子插件my-app跳转/page1?id=9527
+// 带查询参数，控制子插件widgetRenderName跳转/page1?id=9527
 freelogApp.router.push({ name: widgetRenderName, path: "/page1?id=9527" });
 
-// 带hash，控制子插件my-app跳转/page1#hash
+// 带hash，控制子插件widgetRenderName跳转/page1#hash
 freelogApp.router.push({ name: widgetRenderName, path: "/page1#hash" });
 
-// 使用replace模式，等同于 router.replace({name: 'my-app', path: '/page1'})
+// 使用replace模式，等同于 router.replace({name: 'widgetRenderName', path: '/page1'})
 freelogApp.router.push({
   name: widgetRenderName,
   path: "/page1",
@@ -341,7 +341,7 @@ freelogApp.router.replace({ name: widgetRenderName, path: "/page1?id=9527" });
 // 带hash
 freelogApp.router.replace({ name: widgetRenderName, path: "/page1#hash" });
 
-// 关闭replace模式，等同于 router.push({name: 'my-app', path: '/page1'})
+// 关闭replace模式，等同于 router.push({name: 'widgetRenderName', path: '/page1'})
 freelogApp.router.replace({
   name: widgetRenderName,
   path: "/page1",
@@ -504,11 +504,11 @@ freelogApp.router.setDefaultPage({
   path: "/page1#hash",
 });
 
-// 删除子插件my-app的默认页面
-router.removeDefaultPage("my-app");
+// 删除子插件widgetRenderName的默认页面
+router.removeDefaultPage(widgetRenderName);
 
-// 获取子插件my-app的默认页面
-const defaultPage = router.getDefaultPage("my-app");
+// 获取子插件widgetRenderName的默认页面
+const defaultPage = router.getDefaultPage(widgetRenderName);
 ```
 
 ## 导航守卫
@@ -619,15 +619,15 @@ router.current.get(name);
 #### ** 父插件 **
 
 ```js
-// 获取子插件my-app的路由信息，返回值与子插件的location相同
-const routeInfo = freelogApp.router.current.get("my-app");
+// 获取子插件widgetRenderName的路由信息，返回值与子插件的location相同
+const routeInfo = freelogApp.router.current.get(widgetRenderName);
 ```
 
 #### ** 子插件 **
 
 ```js
-// 获取子插件my-app的路由信息，返回值与子插件的location相同
-const routeInfo = freelogApp.router.current.get("my-app");
+// 获取子插件widgetRenderName的路由信息，返回值与子插件的location相同
+const routeInfo = freelogApp.router.current.get(widgetRenderName);
 ```
 
 <!-- tabs:end -->
@@ -709,8 +709,8 @@ router.attachAllToURL({
 **示例：**
 
 ```js
-// 将my-app的路由信息同步到浏览器地址上
-freelogApp.router.attachToURL("my-app");
+// 将widgetRenderName的路由信息同步到浏览器地址上
+freelogApp.router.attachToURL(widgetRenderName);
 
 // 将所有正在运行的子插件路由信息同步到浏览器地址上，不包含处于隐藏状态的keep-alive应用和预渲染应用
 freelogApp.router.attachAllToURL();
