@@ -3,7 +3,7 @@ import microApp from "@micro-zoe/micro-app";
 import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
 import { defaultWidgetConfigData } from "./widgetConfigData";
 import { bindName } from "./bind";
-import { sha256, sha224 } from "js-sha256";
+import { digestMessage } from "./hashc";
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
@@ -38,26 +38,7 @@ export function removeChildWidget(key: string, childKey: string) {
     childWidgets.set(key, arr);
   }
 }
-export function generateWidgetRenderId(
-  parentWidgetId: string,
-  subWidgetId: string,
-  seq: number
-) {
-  // 根据3个参数生成一个只要参数不同就不同的字符串
-}
-function generateUniqueWidgetRenderId(
-  parentWidgetId: string,
-  subWidgetId: string,
-  seq: number
-) {
-  const conditions = [parentWidgetId, subWidgetId, seq].join("");
-  // 使用内置的hash函数生成哈希值
-  const hash = sha256
-    .create()
-    .update(conditions)
-    .hex();
-  return hash;
-}
+
 let firstDev = false;
 let hbfOnlyToTheme = true; // 保存是否前进后退只给主题
 
@@ -128,6 +109,7 @@ export async function mountWidget(
   if (devData.type === DEV_FALSE) widget_entry = "";
   let commonData: any;
   let entry = "";
+  let widgetRenderName = "";
   if (!topExhibitData) {
     commonData = {
       id: widget.articleInfo.articleId,
@@ -139,6 +121,8 @@ export async function mountWidget(
         articleName: widget.articleInfo.name || widget.articleInfo.articleName,
       },
     };
+    const hash = await digestMessage(widget.exhibitId);
+    widgetRenderName = "f" + hash + (seq || "");
   } else {
     commonData = {
       id: widget.id,
@@ -150,6 +134,8 @@ export async function mountWidget(
         articleName: widget.name,
       },
     };
+    const hash = await digestMessage(topExhibitData.exhibitId + widget.id);
+    widgetRenderName = "f" + hash + (seq || "");
   }
   widget_entry &&
     console.warn(
@@ -158,7 +144,6 @@ export async function mountWidget(
         " for widget-articleId: " +
         commonData.articleInfo.articleId
     );
-  // @ts-ignore
   if (devData) {
     if (devData.type === DEV_TYPE_REPLACE) {
       entry = devData.params[commonData.id] || "";
@@ -170,11 +155,7 @@ export async function mountWidget(
   }
   // @ts-ignore
   entry = widget_entry || entry;
-  let widgetRenderName = "freelog" + commonData.articleInfo.articleId;
-  // TODO 这个seq不合理，如果不同插件加载相同子插件，无法保证唯一
-  if (seq || seq === 0) {
-    widgetRenderName = "freelog" + commonData.id + seq;
-  }
+
   let fentry = "";
   if (commonData.articleNid) {
     fentry = await freelogApp.getExhibitDepFileStream(
@@ -245,7 +226,7 @@ export async function mountWidget(
   // TODO 更新文档说明bundleTool
   const bundleTool = widget.versionInfo
     ? widget.versionInfo.exhibitProperty.bundleTool
-    : widget.articleProperty.bundleTool;
+    : widget.articleProperty?.bundleTool;
   const flag = await microApp.renderApp({
     "router-mode": isTheme ? "native" : "search",
     iframe: bundleTool === "vite" ? true : false,
@@ -257,14 +238,6 @@ export async function mountWidget(
     data: {
       ...(renderWidgetOptions.data ? renderWidgetOptions.data : {}),
       freelogApp: bindName(widgetRenderName, registerApi),
-      // registerApi: (apis: any) => {
-      //   if (once) {
-      //     console.error("registerApi 只能在加在时使用一次");
-      //     return "只能使用一次";
-      //   }
-      //   api = apis;
-      //   once = true;
-      // },
     },
     "disable-scopecss": false, // 是否关闭样式隔离，可选
     "disable-sandbox": false, // 是否关闭沙盒，可选

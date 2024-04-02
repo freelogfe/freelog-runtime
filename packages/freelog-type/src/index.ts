@@ -39,6 +39,7 @@ export interface FreelogApp {
   removeGlobalDataListener: (dataListener: Function) => any;
   clearGlobalDataListener: () => any;
   setGlobalData: (data: PlainObject) => any;
+  setUserDataKeyForDev: (resourceName: string) => undefined;
   nodeInfo: NodeInfo;
   status: {
     authUIMounted: boolean;

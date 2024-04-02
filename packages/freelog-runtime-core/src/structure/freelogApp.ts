@@ -17,7 +17,7 @@ import {
   callLogin,
   callLoginOut,
   reload,
-  setSelfResourceNameForDev,
+  setUserDataKeyForDev,
   getCurrentUrl
 } from "./utils";
 import { getShareUrl, mapShareUrl } from "./share";
@@ -56,7 +56,7 @@ export const freelogApp: any = {
   isUserChange,
   reload,
   resultType,
-  setSelfResourceNameForDev,
+  setUserDataKeyForDev,
   isTest,
   getActiveWidget,
   getAllWidget,

@@ -101,25 +101,22 @@ export function resolveUrl(path: string, params?: any): string {
   }
   return `${baseURL}${path}?${queryStringArr.join("&")}`;
 }
-export function setSelfResourceNameForDev(name: string, resourceName: string) {
-  // @ts-ignore
+// 这里的key使用的是资源名称
+export function setUserDataKeyForDev(name: string, resourceName: string) {
   widgetsConfig.get(name).DevResourceName = resourceName;
 }
 export function getSelfWidgetId(name: string) {
-  // @ts-ignore
   return widgetsConfig.get(name)?.articleId;
 }
 
 export function getSelfArticleId(name: string) {
-  // @ts-ignore
   return widgetsConfig.get(name)?.articleId;
 }
 export function getSelfExhibitId(name: string) {
-  // @ts-ignore
   return widgetsConfig.get(name)?.exhibitId;
 }
 export function getSelfConfig(name: string) {
-  // @ts-ignore  由于config只有一层，所以用...就够了
+  //  由于config只有一层，所以用...就够了
   return { ...widgetsConfig.get(name).config };
 }
 //  if error  这里不需要参数，除了运行时自行调用，需要抽离出来不与插件调用混在一起
@@ -299,7 +296,6 @@ export async function setUserData(name: string, key: string, data: any) {
 
 export async function getUserData(name: string, key: string) {
   key = window.isTest ? key + "-test" : key;
-  // @ts-ignore
   let userData = widgetUserData.get(name);
   if (userData) {
     return userData[key];
