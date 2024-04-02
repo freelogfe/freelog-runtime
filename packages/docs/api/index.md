@@ -33,9 +33,19 @@ const nodeInfo = freelogApp.nodeInfo;
 const data = freelogApp.devData;
 ```
 
+### setUserDataKeyForDev
+
+**用途：用于开发模式时，非节点内部主题或插件（外部未签约的资源）开发时设置用户数据保存的 key，等签约后线上用户数据与开发时一致**
+
+```ts
+**用法**
+// 必须使用资源名称
+const data = freelogApp.setUserDataKeyForDev("snnaenu/插件开发演示代码主题");
+```
+
 ### getCurrentUrl
 
-**用途：获取当前 完整url**
+**用途：获取当前 完整 url**
 
 ```ts
 **用法**
