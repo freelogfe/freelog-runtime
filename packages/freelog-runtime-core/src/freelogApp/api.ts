@@ -85,7 +85,7 @@ export async function getExhibitSignCount(name: string,exhibitId: string) {
     subjectType: 2,
   });
 }
-export async function getExhibitAvailalbe(name: string,exhibitIds: string) {
+export async function getExhibitAvailable(name: string,exhibitIds: string) {
   if (baseInfo.isTest) {
     return frequest(exhibit.getTestExhibitAuthStatus, [baseInfo.nodeId], {
       authType: 3,

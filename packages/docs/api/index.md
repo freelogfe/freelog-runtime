@@ -631,7 +631,7 @@ const res = await freelogApp.getExhibitSignCount(exhibitIds)
 const res = await freelogApp.getExhibitAuthStatus(exhibitIds)
 ```
 
-### getExhibitAvailalbe
+### getExhibitAvailable
 
 **用途：批量查询展品是否可用（即能否提供给用户签约）**
 
@@ -640,7 +640,7 @@ const res = await freelogApp.getExhibitAuthStatus(exhibitIds)
   exhibitIds:: string,  用英文逗号隔开的展品id
 
 **用法**
-const res = await freelogApp.getExhibitAvailalbe(exhibitIds)
+const res = await freelogApp.getExhibitAvailable(exhibitIds)
 ```
 
 **返回说明**

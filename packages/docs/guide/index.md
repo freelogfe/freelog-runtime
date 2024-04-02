@@ -435,7 +435,7 @@ const res = await freelogApp.getExhibitAuthStatus(
 ### 批量查询展品是否可用（即能否提供给用户签约）
 
 ```ts
-const res = await freelogApp.getExhibitAvailalbe(
+const res = await freelogApp.getExhibitAvailable(
   exhibitIds: string
 )
 
@@ -443,7 +443,7 @@ const res = await freelogApp.getExhibitAvailalbe(
   exhibitIds:  用英文逗号隔开的展品id
 ```
 
-[查看 getexhibitavailalbe 详情](/api/#getexhibitavailalbe)
+[查看 getExhibitAvailable 详情](/api/#getExhibitAvailable)
 
 ### 授权错误返回值
 

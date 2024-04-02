@@ -116,7 +116,7 @@ export interface FreelogApp {
   ) => Promise<any>;
   getExhibitDepInfo: (exhibitId: string, articleNids: string) => Promise<any>;
   getSignStatistics: (query: any) => Promise<any>;
-  getExhibitAvailalbe: (exhibitIds: string) => Promise<any>;
+  getExhibitAvailable: (exhibitIds: string) => Promise<any>;
   pushMessage4Task: (query?: PlainObject) => Promise<any>;
   devData: PlainObject;
   getStaticPath: (path: string) => string;

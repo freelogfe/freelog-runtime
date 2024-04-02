@@ -1,12 +1,9 @@
-// 工具utils：获取容器，生成容器，销毁容器，生成id
-
-import { baseURL, isTest } from "../base/baseInfo";
+import { baseURL } from "../base/baseInfo";
 import { freelogApp } from "./freelogApp";
 
-import { widgetsConfig, widgetUserData, FREELOG_DEV } from "./widget";
+import { widgetsConfig, widgetUserData } from "./widget";
 import { initUserCheck } from "../security";
 import { addAuth, goLogin, goLoginOut } from "../bridge/index";
-import { isTheme } from "../../../../backup/core/src/freelog/structure/proxy";
 import {
   getCurrentUser as _getCurrentUser,
   putUserData as _putUserData,

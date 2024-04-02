@@ -29,7 +29,6 @@ import { getActiveWidget, getAllWidget } from "./jdPatch";
 const devData = dev();
 export const freelogApp: any = {
   ...freelogAppLib,
-  // initGlobalState,
   nodeInfo: "",
   status: {
     authUIMounted: false,
