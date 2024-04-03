@@ -2,7 +2,7 @@ import { baseURL } from "../base/baseInfo";
 import { freelogApp } from "./freelogApp";
 
 import { widgetsConfig, widgetUserData } from "./widget";
-import { initUserCheck } from "../security";
+import { initWindowListener } from "../bridge/eventOn";
 import { addAuth, goLogin, goLoginOut } from "../bridge/index";
 import {
   getCurrentUser as _getCurrentUser,
@@ -185,11 +185,11 @@ export async function getSubDep(name: string, exhibitId?: any) {
 }
 export let userInfo: any = null;
 export async function getUserInfo() {
+  initWindowListener();
   if (userInfo) return userInfo;
   const res = await _getCurrentUser();
   userInfo = res.data.errCode === 0 ? res.data.data : null;
   setUserInfo(userInfo);
-  initUserCheck();
   return userInfo;
 }
 export function getCurrentUser(name?: string) {
