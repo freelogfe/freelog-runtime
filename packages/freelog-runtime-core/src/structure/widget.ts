@@ -186,6 +186,7 @@ export async function mountWidget(
     articleId: commonData.articleInfo.articleId, // id可以重复，name不可以, 这里暂时这样
     entry: entry || fentry,
     isDev: !!entry,
+    seq,
     config, // 主题插件配置数据
     isUI: false,
     props: {},
