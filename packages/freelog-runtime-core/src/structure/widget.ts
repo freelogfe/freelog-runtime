@@ -2,7 +2,6 @@ import { freelogApp } from "./freelogApp";
 import microApp from "@micro-zoe/micro-app";
 import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
 import { defaultWidgetConfigData } from "./widgetConfigData";
-import { bindName } from "./bind";
 import { digestMessage } from "./hashc";
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<any, any>();
@@ -296,3 +295,26 @@ export async function mountWidget(
   name && addChildWidget(name, widgetControl);
   return widgetControl;
 }
+
+// 需要name的名单，或者不需要的名单
+// const whiteList = []
+const obj = {};
+export const bindName = (name: string, registerApi: any) => {
+  return new Proxy(obj, {
+    // @ts-ignore
+    get: function(target, propKey) {
+      if (propKey === "registerApi") {
+        return registerApi;
+      }
+      // @ts-ignore
+      if (typeof freelogApp[propKey] == "function") {
+        return (...rest: any) => {
+          // eslint-disable-next-line prefer-rest-params
+          return freelogApp[propKey].apply(null, [name, ...rest]);
+        };
+      } else {
+        return freelogApp[propKey];
+      }
+    },
+  });
+};

@@ -2,7 +2,6 @@ import { baseInfo } from "./base/baseInfo";
 export { freelogApp } from "./structure/freelogApp";
 export { freelogAuth } from "./structure/freelogAuth";
 export { freelogFetch } from "./structure/freelogFetch";
-export { isUserChange } from "./security";
 export { initWindowListener } from "./bridge/eventOn";
 
 export const baseURL = baseInfo.baseURL;

@@ -1,6 +1,6 @@
 import axios from "../../request";
 import { placeHolder, baseConfig } from "./base";
-import { compareObjects } from "../../utils/utils";
+import { compareObjects } from "../../utils";
 import { baseInfo } from "../../base/baseInfo";
 // import { isUserChange } from '../security'
 const noAuthCode = [301, 302, 303, 304, 305, 306, 307];

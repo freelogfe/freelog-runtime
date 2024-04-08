@@ -1,6 +1,6 @@
 import axios from "../../request";
 import { placeHolder, baseConfig } from "./base";
-import { compareObjects } from "../../utils/utils";
+import { compareObjects } from "../../utils";
 /**
  *
  * @param action api namespace.apiName

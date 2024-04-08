@@ -3,7 +3,7 @@ import { LOGIN, CONTRACT, LOGIN_OUT } from "./eventType";
 import { onLogin } from "./eventOn";
 import { freelogApp } from "../structure/freelogApp";
 import { widgetsConfig } from "../structure/widget";
-import { isMobile } from "../utils/utils";
+import { isMobile } from "../utils";
 
 export const exhibitQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
