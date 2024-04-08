@@ -27,12 +27,7 @@ export function mapShareUrl(name: string, routeMap: any) {
     if (func instanceof Function) {
       route = func(data.exhibitId);
     }
-    // TODO 这里需要处理，主题不用search
-    const url =
-      rawLocation.origin +
-      (rawLocation.search
-        ? rawLocation.search + `&${name}=${encodeURIComponent(route)}`
-        : `?${name}=${route}`);
+    const url = rawLocation.origin + `/${route}` + rawLocation.search;
     rawHistory.replaceState(rawHistory.state, "", url);
   }
 }
