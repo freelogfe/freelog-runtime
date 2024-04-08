@@ -1,5 +1,5 @@
 import * as docCookies from "doc-cookies";
-import { getCurrentUser } from "../structure/widgetUtils";
+import { getCurrentUser } from "../structure/user";
 export const loginCallback: any = [];
 
 // 登录和切换用户需要触发
@@ -23,7 +23,8 @@ export function onUserChange(name: string, callback: any) {
 export const initWindowListener = () => {
   window.document.addEventListener("visibilitychange", function() {
     const userInfo = getCurrentUser();
-    if (docCookies.getItem("uid") != userInfo?.userId) {
+    const uid = docCookies.getItem("uid") || "";
+    if (uid != userInfo?.userId) {
       userChangeCallback.forEach((func: any) => {
         func && func();
       });
