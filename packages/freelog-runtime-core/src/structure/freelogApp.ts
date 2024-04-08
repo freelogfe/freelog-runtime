@@ -14,7 +14,7 @@ import {
   reload,
   setUserDataKeyForDev,
   getCurrentUrl,
-} from "./utils";
+} from "./widgetUtils";
 import {
   setUserData,
   getUserData,

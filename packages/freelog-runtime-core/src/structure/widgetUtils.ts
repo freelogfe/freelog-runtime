@@ -1,11 +1,6 @@
 import { freelogApp } from "./freelogApp";
 import { widgetsConfig } from "./widget";
 import { addAuth } from "../bridge/index";
-import {
-  getCurrentUser as _getCurrentUser,
-  putUserData as _putUserData,
-  getUserData as _getUserData,
-} from "../base";
 
 // 这里的key使用的是资源名称
 export function setUserDataKeyForDev(name: string, resourceName: string) {

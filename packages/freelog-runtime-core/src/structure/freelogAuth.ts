@@ -1,4 +1,4 @@
-import { getCurrentUser, getUserInfo, setUserInfo } from "./utils";
+import { getCurrentUser, getUserInfo, setUserInfo } from "./widgetUtils";
 import {
   registerUI,
   eventMap,

@@ -1,5 +1,5 @@
 import * as docCookies from "doc-cookies";
-import { getCurrentUser } from "../structure/utils";
+import { getCurrentUser } from "../structure/widgetUtils";
 export const loginCallback: any = [];
 
 // 登录和切换用户需要触发

@@ -29,16 +29,14 @@ export async function isUserChange(name: string) {
   let uid = docCookies.getItem("uid");
   const userInfo = getCurrentUser();
   uid = uid ? uid : "";
-  const userId = userInfo?.userId || "";
+  const userId = userInfo?.userId ? userInfo?.userId : "";
   // 用户变化, 从无到有，从有到另有
   if (uid !== userId) {
     rawLocation.reload();
-    // return true;
   }
   // 用户变化, 从有到无，有页面登出后，还处于登录状态的页面处理方式
   if (userInfo?.userId && !uid) {
     rawLocation.reload();
-    // return true;
   }
   return false;
 }
@@ -58,7 +56,7 @@ export async function setUserData(name: string, key: string, data: any) {
   let widgetId = btoa(encodeURI(config.articleName));
   /**
    * 本地开发时： 如果本地开发的与线上主题或插件不是同一个资源，可以通过在入口文件加载页面加上主题或插件本身的作品名称,
-   * 例如： freelogApp.setSelfResourceNameForDev("Freelog/dev-docs");
+   * 例如： freelogApp.setUserDataKeyForDev("Freelog/dev-docs");
    * 这样可以保证更换到线上是一致的
    */
   if (config.isDev) {
