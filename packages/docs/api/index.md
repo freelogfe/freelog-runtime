@@ -61,13 +61,13 @@ const data = freelogApp.getCurrentUrl();
 const selfArticleId = await freelogApp.getSelfArticleId();
 ```
 
-### getSelfWidgetId
+### getSelfWidgetRenderName
 
 **用途：获取自身插件 id**
 
 ```ts
 **用法**
-const selfWidgetId = await freelogApp.getSelfWidgetId();
+const selfWidgetId = await freelogApp.getSelfWidgetRenderName();
 ```
 
 ### getSelfExhibitId

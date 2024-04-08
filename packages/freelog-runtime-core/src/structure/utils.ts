@@ -11,8 +11,8 @@ import {
 export function setUserDataKeyForDev(name: string, resourceName: string) {
   widgetsConfig.get(name).DevResourceName = resourceName;
 }
-export function getSelfWidgetId(name: string) {
-  return widgetsConfig.get(name)?.articleId;
+export function getSelfWidgetRenderName(name: string) {
+  return widgetsConfig.get(name)?.widgetRenderName;
 }
 
 export function getSelfArticleId(name: string) {

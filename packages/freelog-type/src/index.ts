@@ -123,7 +123,7 @@ export interface FreelogApp {
   getSubDep: () => Promise<any>;
   getSelfArticleId: () => string;
   getSelfExhibitId: () => string;
-  getSelfWidgetId: () => string;
+  getSelfWidgetRenderName: () => string;
   callAuth: () => void;
   addAuth: (
     exhibitId: string,
