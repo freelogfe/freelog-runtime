@@ -23,8 +23,9 @@ export function onUserChange(name: string, callback: any) {
 export const initWindowListener = () => {
   window.document.addEventListener("visibilitychange", function() {
     const userInfo = getCurrentUser();
-    const uid = docCookies.getItem("uid") || "";
-    if (uid != userInfo?.userId) {
+    const userId = userInfo?.userId ? userInfo.userId + "" : "";
+    const uid = docCookies.getItem("uid") ? docCookies.getItem("uid") + "" : "";
+    if (uid != userId) {
       userChangeCallback.forEach((func: any) => {
         func && func();
       });

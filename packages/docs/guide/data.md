@@ -13,12 +13,15 @@
 ### 方式 1：直接获取数据
 
 ```ts
-const data = freelogApp.getData(); // 返回父插件下发的data数据
+import { widgetApi } from "freelog-runtime";
+const data = widgetApi.getData(); // 返回父插件下发的data数据
 ```
 
 ### 方式 2：绑定监听函数
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 /**
  * 绑定监听函数，监听函数只有在数据变化时才会触发
  * dataListener: 绑定函数
@@ -27,41 +30,45 @@ const data = freelogApp.getData(); // 返回父插件下发的data数据
  * 如果在子插件渲染结束前父插件发送数据，则在绑定监听函数前数据已经发送，在初始化后不会触发绑定函数，
  * 但这个数据会放入缓存中，此时可以设置autoTrigger为true主动触发一次监听函数来获取数据。
  */
-freelogApp.addDataListener(dataListener: (data: Object) => any, autoTrigger?: boolean)
+widgetApi.addDataListener(dataListener: (data: Object) => any, autoTrigger?: boolean)
 
 // 解绑监听函数
-freelogApp.removeDataListener(dataListener: (data: Object) => any)
+widgetApi.removeDataListener(dataListener: (data: Object) => any)
 
 // 清空当前子插件的所有绑定函数(全局数据函数除外)
-freelogApp.clearDataListener()
+widgetApi.clearDataListener()
 ```
 
 **使用方式：**
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 监听函数
 function dataListener(data) {
   console.log("来自父插件的数据", data);
 }
 
 // 监听数据变化
-freelogApp.addDataListener(dataListener);
+widgetApi.addDataListener(dataListener);
 
 // 监听数据变化，初始化时如果有数据则主动触发一次
-freelogApp.addDataListener(dataListener, true);
+widgetApi.addDataListener(dataListener, true);
 
 // 解绑监听函数
-freelogApp.removeDataListener(dataListener);
+widgetApi.removeDataListener(dataListener);
 
 // 清空当前子插件的所有绑定函数(全局数据函数除外)
-freelogApp.clearDataListener();
+widgetApi.clearDataListener();
 ```
 
 ## 子插件向父插件发送数据
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // dispatch只接受对象作为参数
-freelogApp.dispatch({ type: "子插件发送给父插件的数据" });
+widgetApi.dispatch({ type: "子插件发送给父插件的数据" });
 ```
 
 dispatch 只接受对象作为参数，它发送的数据都会被缓存下来。
@@ -71,18 +78,20 @@ micro-app 会遍历新旧值中的每个 key 判断值是否有变化，如果�
 例如：
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 第一次发送数据，记入缓存值 {name: 'jack'}，然后发送
-freelogApp.dispatch({ name: "jack" });
+widgetApi.dispatch({ name: "jack" });
 ```
 
 ```ts
 // 第二次发送数据，将新旧值合并为 {name: 'jack', age: 20}，记入缓存值，然后发送
-freelogApp.dispatch({ age: 20 });
+widgetApi.dispatch({ age: 20 });
 ```
 
 ```ts
 // 第三次发送数据，新旧值合并为 {name: 'jack', age: 20}，与缓存值相同，不再发送
-freelogApp.dispatch({ age: 20 });
+widgetApi.dispatch({ age: 20 });
 ```
 
 #### dispatch 是异步执行的，多个 dispatch 会在下一帧合并为一次执行
@@ -90,8 +99,10 @@ freelogApp.dispatch({ age: 20 });
 例如：
 
 ```ts
-freelogApp.dispatch({ name: "jack" });
-freelogApp.dispatch({ age: 20 });
+import { widgetApi } from "freelog-runtime";
+
+widgetApi.dispatch({ name: "jack" });
+widgetApi.dispatch({ age: 20 });
 
 // 上面的数据会在下一帧合并为对象{name: 'jack', age: 20}一次性发送给父插件
 ```
@@ -101,7 +112,9 @@ freelogApp.dispatch({ age: 20 });
 例如：
 
 ```ts
-freelogApp.dispatch({ city: "HK" }, () => {
+import { widgetApi } from "freelog-runtime";
+
+widgetApi.dispatch({ city: "HK" }, () => {
   console.log("数据已经发送完成");
 });
 ```
@@ -113,14 +126,14 @@ freelogApp.dispatch({ city: "HK" }, () => {
 _父插件：_
 
 ```ts
-// widgetController为freelogApp.mountWidget的返回对象
+// widgetController为widgetApi.mountWidget的返回对象
 widgetController.addDataListener((data) => {
   console.log("来自子插件my-app的数据", data);
 
   return "返回值1";
 });
 
-// widgetController为freelogApp.mountWidget的返回对象
+// widgetController为widgetApi.mountWidget的返回对象
 widgetController.addDataListener((data) => {
   console.log("来自子插件my-app的数据", data);
 
@@ -131,8 +144,10 @@ widgetController.addDataListener((data) => {
 _子插件：_
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 返回值会放入数组中传递给dispatch的回调函数
-freelogApp.dispatch({ city: "HK" }, (res: any[]) => {
+widgetApi.dispatch({ city: "HK" }, (res: any[]) => {
   console.log(res); // ['返回值1', '返回值2']
 });
 ```
@@ -144,8 +159,10 @@ forceDispatch 方法拥有和 dispatch 一样的参数和行为，唯一不同�
 例如：
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 强制发送数据，无论缓存中是否已经存在 name: 'jack' 的值
-freelogApp.forceDispatch({ name: "jack" }, () => {
+widgetApi.forceDispatch({ name: "jack" }, () => {
   console.log("数据已经发送完成");
 });
 ```
@@ -161,13 +178,13 @@ freelogApp.forceDispatch({ name: "jack" }, () => {
 **开始使用**
 
 ```ts
-let widgetController = await freelogApp.mountWidget({
+let widgetController = await widgetApi.mountWidget({
   widget: widget,
   container: document.getElementById("freelog-single"), // 给每一个提供不同的容器
   topExhibitData: null,
   config: {},
   renderWidgetOptions: {
-    data: { type: "新的数据" }, // 我是data数据，子插件通过freelogApp.getData()获取
+    data: { type: "新的数据" }, // 我是data数据，子插件通过widgetApi.getData()获取
   }, // 插件渲染配置
   seq: string,
   widget_entry: string,
@@ -181,7 +198,7 @@ let widgetController = await freelogApp.mountWidget({
 手动发送数据需要通过`name`指定接受数据的子插件，此值和`<micro-app>`元素中的`name`一致。
 
 ```ts
-// widgetController为freelogApp.mountWidget的返回对象
+// widgetController为widgetApi.mountWidget的返回对象
 widgetController.setData({ type: "新的数据" });
 ```
 
@@ -234,13 +251,15 @@ widgetController.setData({ city: "HK" }, () => {
 _子插件：_
 
 ```ts
-freelogApp.addDataListener((data) => {
+import { widgetApi } from "freelog-runtime";
+
+widgetApi.addDataListener((data) => {
   console.log("来自父插件的数据", data);
 
   return "返回值1";
 });
 
-freelogApp.addDataListener((data) => {
+widgetApi.addDataListener((data) => {
   console.log("来自父插件的数据", data);
 
   return "返回值2";
@@ -286,13 +305,13 @@ const childData = widgetController.getData(); // 返回子插件的data数据
 **开始使用**
 
 ```ts
-let widgetController = await freelogApp.mountWidget({
+let widgetController = await widgetApi.mountWidget({
   widget: widget,
   container: document.getElementById("freelog-single"), // 给每一个提供不同的容器
   topExhibitData: null,
   config: {},
   renderWidgetOptions: {
-    data: { type: "新的数据" }, // 我是data数据，子插件通过freelogApp.getData()获取
+    data: { type: "新的数据" }, // 我是data数据，子插件通过widgetApi.getData()获取
     onDataChange: (e) => console.log("来自子插件的数据：", e.detail.data), // 我是监听来自子插件的数据
   }, // 插件渲染配置
   seq: string,
@@ -371,8 +390,10 @@ widgetController.clearData();
 #### 手动清空 - clearData
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 清空当前子插件发送给父插件的数据
-freelogApp.clearData();
+widgetApi.clearData();
 ```
 
 <!-- tabs:end -->
@@ -388,15 +409,20 @@ freelogApp.clearData();
 **父插件**
 
 ```ts
+// 全局数据直接使用widgetApi调用
+import { widgetApi } from "freelog-runtime";
+
 // setGlobalData只接受对象作为参数
-freelogApp.setGlobalData({ type: "全局数据" });
+widgetApi.setGlobalData({ type: "全局数据" });
 ```
 
 **子插件**
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // setGlobalData只接受对象作为参数
-freelogApp.setGlobalData({ type: "全局数据" });
+widgetApi.setGlobalData({ type: "全局数据" });
 ```
 
 <!-- tabs:end -->
@@ -412,35 +438,47 @@ micro-app 会遍历新旧值中的每个 key 判断值是否有变化，如果�
 **父插件**
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 第一次发送数据，记入缓存值 {name: 'jack'}，然后发送
-freelogApp.setGlobalData({ name: "jack" });
+widgetApi.setGlobalData({ name: "jack" });
 ```
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 第二次发送数据，将新旧值合并为 {name: 'jack', age: 20}，记入缓存值，然后发送
-freelogApp.setGlobalData({ age: 20 });
+widgetApi.setGlobalData({ age: 20 });
 ```
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 第三次发送数据，新旧值合并为 {name: 'jack', age: 20}，与缓存值相同，不再发送
-freelogApp.setGlobalData({ age: 20 });
+widgetApi.setGlobalData({ age: 20 });
 ```
 
 **子插件**
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 第一次发送数据，记入缓存值 {name: 'jack'}，然后发送
-freelogApp.setGlobalData({ name: "jack" });
+widgetApi.setGlobalData({ name: "jack" });
 ```
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 第二次发送数据，将新旧值合并为 {name: 'jack', age: 20}，记入缓存值，然后发送
-freelogApp.setGlobalData({ age: 20 });
+widgetApi.setGlobalData({ age: 20 });
 ```
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 第三次发送数据，新旧值合并为 {name: 'jack', age: 20}，与缓存值相同，不再发送
-freelogApp.setGlobalData({ age: 20 });
+widgetApi.setGlobalData({ age: 20 });
 ```
 
 <!-- tabs:end -->
@@ -454,8 +492,10 @@ freelogApp.setGlobalData({ age: 20 });
 **父插件**
 
 ```ts
-freelogApp.setGlobalData({ name: "jack" });
-freelogApp.setGlobalData({ age: 20 });
+import { widgetApi } from "freelog-runtime";
+
+widgetApi.setGlobalData({ name: "jack" });
+widgetApi.setGlobalData({ age: 20 });
 
 // 上面的数据会在下一帧合并为对象{name: 'jack', age: 20}一次性发送给父插件
 ```
@@ -463,8 +503,10 @@ freelogApp.setGlobalData({ age: 20 });
 **子插件**
 
 ```ts
-freelogApp.setGlobalData({ name: "jack" });
-freelogApp.setGlobalData({ age: 20 });
+import { widgetApi } from "freelog-runtime";
+
+widgetApi.setGlobalData({ name: "jack" });
+widgetApi.setGlobalData({ age: 20 });
 
 // 上面的数据会在下一帧合并为对象{name: 'jack', age: 20}一次性发送给父插件
 ```
@@ -480,7 +522,9 @@ freelogApp.setGlobalData({ age: 20 });
 **父插件**
 
 ```ts
-freelogApp.setGlobalData({ city: "HK" }, () => {
+import { widgetApi } from "freelog-runtime";
+
+widgetApi.setGlobalData({ city: "HK" }, () => {
   console.log("数据已经发送完成");
 });
 ```
@@ -488,7 +532,9 @@ freelogApp.setGlobalData({ city: "HK" }, () => {
 **子插件**
 
 ```ts
-freelogApp.setGlobalData({ city: "HK" }, () => {
+import { widgetApi } from "freelog-runtime";
+
+widgetApi.setGlobalData({ city: "HK" }, () => {
   console.log("数据已经发送完成");
 });
 ```
@@ -504,13 +550,15 @@ freelogApp.setGlobalData({ city: "HK" }, () => {
 **父插件**
 
 ```ts
-freelogApp.addGlobalDataListener((data) => {
+import { widgetApi } from "freelog-runtime";
+
+widgetApi.addGlobalDataListener((data) => {
   console.log("全局数据", data);
 
   return "返回值1";
 });
 
-freelogApp.addGlobalDataListener((data) => {
+widgetApi.addGlobalDataListener((data) => {
   console.log("全局数据", data);
 
   return "返回值2";
@@ -518,8 +566,10 @@ freelogApp.addGlobalDataListener((data) => {
 ```
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 返回值会放入数组中传递给setGlobalData的回调函数
-freelogApp.setGlobalData({ city: "HK" }, (res: any[]) => {
+widgetApi.setGlobalData({ city: "HK" }, (res: any[]) => {
   console.log(res); // ['返回值1', '返回值2']
 });
 ```
@@ -527,13 +577,15 @@ freelogApp.setGlobalData({ city: "HK" }, (res: any[]) => {
 **子插件**
 
 ```ts
-freelogApp.addGlobalDataListener((data) => {
+import { widgetApi } from "freelog-runtime";
+
+widgetApi.addGlobalDataListener((data) => {
   console.log("全局数据", data);
 
   return "返回值1";
 });
 
-freelogApp.addGlobalDataListener((data) => {
+widgetApi.addGlobalDataListener((data) => {
   console.log("全局数据", data);
 
   return "返回值2";
@@ -541,8 +593,10 @@ freelogApp.addGlobalDataListener((data) => {
 ```
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 返回值会放入数组中传递给setGlobalData的回调函数
-freelogApp.setGlobalData({ city: "HK" }, (res: any[]) => {
+widgetApi.setGlobalData({ city: "HK" }, (res: any[]) => {
   console.log(res); // ['返回值1', '返回值2']
 });
 ```
@@ -560,8 +614,10 @@ forceSetGlobalData 方法拥有和 setGlobalData 一样的参数和行为，唯�
 **父插件**
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 强制发送数据，无论缓存中是否已经存在 name: 'jack' 的值
-freelogApp.forceSetGlobalData({ name: "jack" }, () => {
+widgetApi.forceSetGlobalData({ name: "jack" }, () => {
   console.log("数据已经发送完成");
 });
 ```
@@ -569,8 +625,10 @@ freelogApp.forceSetGlobalData({ name: "jack" }, () => {
 **子插件**
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 强制发送数据，无论缓存中是否已经存在 name: 'jack' 的值
-freelogApp.forceSetGlobalData({ name: "jack" }, () => {
+widgetApi.forceSetGlobalData({ name: "jack" }, () => {
   console.log("数据已经发送完成");
 });
 ```
@@ -584,8 +642,10 @@ freelogApp.forceSetGlobalData({ name: "jack" }, () => {
 #### 父插件
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 直接获取数据
-const globalData = freelogApp.getGlobalData() // 返回全局数据
+const globalData = widgetApi.getGlobalData() // 返回全局数据
 
 function dataListener (data) {
   console.log('全局数据', data)
@@ -596,20 +656,22 @@ function dataListener (data) {
  * dataListener: 绑定函数
  * autoTrigger: 在初次绑定监听函数时如果有缓存数据，是否需要主动触发一次，默认为false
  */
-freelogApp.addGlobalDataListener(dataListener: (data: Object) => any, autoTrigger?: boolean)
+widgetApi.addGlobalDataListener(dataListener: (data: Object) => any, autoTrigger?: boolean)
 
 // 解绑监听函数
-freelogApp.removeGlobalDataListener(dataListener: (data: Object) => any)
+widgetApi.removeGlobalDataListener(dataListener: (data: Object) => any)
 
 // 清空父插件绑定的所有全局数据监听函数
-freelogApp.clearGlobalDataListener()
+widgetApi.clearGlobalDataListener()
 ```
 
 #### 子插件
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 直接获取数据
-const globalData = freelogApp.getGlobalData() // 返回全局数据
+const globalData = widgetApi.getGlobalData() // 返回全局数据
 
 function dataListener (data) {
   console.log('全局数据', data)
@@ -620,13 +682,13 @@ function dataListener (data) {
  * dataListener: 绑定函数
  * autoTrigger: 在初次绑定监听函数时如果有缓存数据，是否需要主动触发一次，默认为false
  */
-freelogApp.addGlobalDataListener(dataListener: (data: Object) => any, autoTrigger?: boolean)
+widgetApi.addGlobalDataListener(dataListener: (data: Object) => any, autoTrigger?: boolean)
 
 // 解绑监听函数
-freelogApp.removeGlobalDataListener(dataListener: (data: Object) => any)
+widgetApi.removeGlobalDataListener(dataListener: (data: Object) => any)
 
 // 清空当前子插件绑定的所有全局数据监听函数
-freelogApp.clearGlobalDataListener()
+widgetApi.clearGlobalDataListener()
 ```
 
 <!-- tabs:end -->
@@ -638,13 +700,17 @@ freelogApp.clearGlobalDataListener()
 #### 父插件
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 清空全局数据
-freelogApp.clearGlobalData();
+widgetApi.clearGlobalData();
 ```
 
 #### 子插件
 
 ```ts
+import { widgetApi } from "freelog-runtime";
+
 // 清空全局数据
-freelogApp.clearGlobalData();
+widgetApi.clearGlobalData();
 ```

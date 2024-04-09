@@ -6,28 +6,50 @@ import { WidgetApp, PlainObject, NodeInfo, FreelogUserInfo } from './interface';
 //   return a + b;
 // };
 //  || window.$wujie?.props || window.freelogApp
-
+export let widgetApi: WidgetApi = {} as WidgetApi;
 export let freelogApp: FreelogApp = {} as FreelogApp;
 export const initFreelogApp = () => {
   const app = window.microApp?.getData().freelogApp;
   freelogApp = app;
-  freelogApp.clearData = window.microApp.clearData;
-  freelogApp.getData = window.microApp.getData;
-  freelogApp.addDataListener = window.microApp.addDataListener;
-  freelogApp.removeDataListener = window.microApp.removeDataListener;
-  freelogApp.clearDataListener = window.microApp.clearDataListener;
-  freelogApp.dispatch = window.microApp.dispatch;
-  freelogApp.getGlobalData = window.microApp.getGlobalData;
-  freelogApp.addGlobalDataListener = window.microApp.addGlobalDataListener;
-  freelogApp.removeGlobalDataListener =
-    window.microApp.removeGlobalDataListener;
-  freelogApp.clearGlobalDataListener = window.microApp.clearGlobalDataListener;
-  freelogApp.setGlobalData = window.microApp.setGlobalData;
-  return freelogApp;
+  const clearData = window.microApp.clearData;
+  const getData = window.microApp.getData;
+  const addDataListener = window.microApp.addDataListener;
+  const removeDataListener = window.microApp.removeDataListener;
+  const clearDataListener = window.microApp.clearDataListener;
+  const dispatch = window.microApp.dispatch;
+  const getGlobalData = window.microApp.getGlobalData;
+  const addGlobalDataListener = window.microApp.addGlobalDataListener;
+  const removeGlobalDataListener = window.microApp.removeGlobalDataListener;
+  const clearGlobalDataListener = window.microApp.clearGlobalDataListener;
+  const setGlobalData = window.microApp.setGlobalData;
+  widgetApi = {
+    clearData,
+    getData,
+    addDataListener,
+    removeDataListener,
+    clearDataListener,
+    dispatch,
+    getGlobalData,
+    addGlobalDataListener,
+    removeGlobalDataListener,
+    clearGlobalDataListener,
+    setGlobalData,
+  };
+  return { freelogApp, widgetApi };
 };
-
-export interface FreelogApp {
-  registerApi: (obj: PlainObject) => any;
+export const clearData = window.microApp.clearData;
+export const getData = window.microApp.getData;
+export const addDataListener = window.microApp.addDataListener;
+export const removeDataListener = window.microApp.removeDataListener;
+export const clearDataListener = window.microApp.clearDataListener;
+export const dispatch = window.microApp.dispatch;
+export const getGlobalData = window.microApp.getGlobalData;
+export const addGlobalDataListener = window.microApp.addGlobalDataListener;
+export const removeGlobalDataListener =
+  window.microApp.removeGlobalDataListener;
+export const clearGlobalDataListener = window.microApp.clearGlobalDataListener;
+export const setGlobalData = window.microApp.setGlobalData;
+export interface WidgetApi {
   getData: () => any;
   clearData: () => any;
   addDataListener: (dataListener: Function, autoTrigger?: boolean) => any;
@@ -39,12 +61,16 @@ export interface FreelogApp {
   removeGlobalDataListener: (dataListener: Function) => any;
   clearGlobalDataListener: () => any;
   setGlobalData: (data: PlainObject) => any;
+}
+export interface FreelogApp {
+  registerApi: (obj: PlainObject) => any;
+
   setUserDataKeyForDev: (resourceName: string) => undefined;
   nodeInfo: NodeInfo;
-  status: {
-    authUIMounted: boolean;
-    themeMounted: boolean;
-  };
+  // status: {
+  //   authUIMounted: boolean;
+  //   themeMounted: boolean;
+  // };
   mountWidget: (options: {
     widget: any;
     container: HTMLElement | null;
@@ -115,11 +141,11 @@ export interface FreelogApp {
     }
   ) => Promise<any>;
   getExhibitDepInfo: (exhibitId: string, articleNids: string) => Promise<any>;
-  getSignStatistics: (query: any) => Promise<any>;
+  getSignStatistics: (query: { keywords: string }) => Promise<any>;
   getExhibitAvailable: (exhibitIds: string) => Promise<any>;
   pushMessage4Task: (query?: PlainObject) => Promise<any>;
   devData: PlainObject;
-  getStaticPath: (path: string) => string;
+  // getStaticPath: (path: string) => string;
   getSubDep: () => Promise<any>;
   getSelfArticleId: () => string;
   getSelfExhibitId: () => string;

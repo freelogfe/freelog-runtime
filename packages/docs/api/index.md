@@ -607,6 +607,32 @@ const res = await freelogApp.getExhibitDepFileStream(
 )
 ```
 
+### getExhibitDepTree
+
+**用途：获取展品依赖树**
+
+```ts
+**参数说明**
+ exhibitId: string , // 展品id
+  options: {
+    version?: string; // 引用的发行版本号,默认使用锁定的最新版本
+    nid?: string; // 叶子节点ID,如果需要从叶子节点开始响应,则传入此参数
+    maxDeep?: number; // 依赖树最大返回深度
+    isContainRootNode?: string; // 是否包含根节点,默认包含
+  }
+
+**用法**
+const res = await freelogApp.getExhibitDepTree(
+  exhibitId,
+  options: {
+    version,
+    nid,
+    maxDeep,
+    isContainRootNode,
+  }
+)
+```
+
 ### getExhibitSignCount
 
 **用途：查找展品签约数量（同一个用户的多次签约只计算一次）**
@@ -661,10 +687,12 @@ const res = await freelogApp.getExhibitAvailable(exhibitIds)
 
 ```ts
 **参数说明**
-    keywords: string | number 搜索关键字
+   query: {
+     keywords: string // 搜索关键字
+    }
 
 **用法**
-const res = await freelogApp.getSignStatistics(keywords)
+const res = await freelogApp.getSignStatistics(query)
 ```
 
 **返回说明**
@@ -751,8 +779,11 @@ freelogApp.onLogin(callback);
 **用途：监听用户登录变化**
 
 ```js
+**参数说明**
+  callback: Function // 一个函数
+
 **用法**
-// 监听用户在其余页面切换账号或登录事件  callback: 再次进入页面发现账号变化后会回调所有函数
+// 当用户在其余页面切换账号或登录后登录后，会回调所有函数
 freelogApp.onUserChange(callback);
 ```
 
@@ -808,7 +839,7 @@ freelogApp.callLoginOut()
 
 ### isUserChange
 
-**用途：调用此方法发现用户切换后会刷新网页，否则返回 false**
+**用途：用户变化后返回 true，没有变则返回 false**
 
 ```ts
 **用法**

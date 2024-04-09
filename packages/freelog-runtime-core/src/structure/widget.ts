@@ -228,7 +228,8 @@ export async function mountWidget(
     ? widget.versionInfo.exhibitProperty.bundleTool
     : widget.articleProperty?.bundleTool;
   const flag = await microApp.renderApp({
-    "router-mode": isTheme ? "native" : "search",
+    // "router-mode": isTheme ? "native" : "search",
+    "router-mode": "search",
     iframe: bundleTool === "vite" ? true : false,
     ...options.renderWidgetOptions,
     name: widgetRenderName,
@@ -298,6 +299,7 @@ export async function mountWidget(
 
 // 需要name的名单，或者不需要的名单
 // const whiteList = []
+
 const obj = {};
 export const bindName = (name: string, registerApi: any) => {
   return new Proxy(obj, {
@@ -318,3 +320,4 @@ export const bindName = (name: string, registerApi: any) => {
     },
   });
 };
+
