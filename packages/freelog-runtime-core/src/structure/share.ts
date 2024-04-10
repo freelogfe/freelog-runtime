@@ -27,16 +27,22 @@ export function mapShareUrl(name: string, routeMap: any) {
     if (func instanceof Function) {
       route = func(data.exhibitId);
     }
-    const url = rawLocation.origin + `/${route}` + rawLocation.search;
+    const last = rawLocation.search
+      ? rawLocation.search + `&${theme.name}${route}`
+      : `?${theme.name}${route}`;
+    const url = rawLocation.origin + last;
     rawHistory.replaceState(rawHistory.state, "", url);
   }
 }
-const urlTest = /^\/?.{24}\/(detail|content)$/;
+const urlTest = /^\/?.{24}\/(detail|content)\/?$/;
 export function isShareUrl(url: string) {
-  if (urlTest.test(url)) {
-    url = url.indexOf("/") === 0 ? url.replace("/", "") : url;
-    const exhibitId = url.split("/")[0];
-    const type = url.split("/")[1];
+  const urlObj = new URL(url);
+  let urltrim = url.replace(urlObj.search, "").replace(urlObj.origin, "");
+  if (urlTest.test(urltrim)) {
+    urltrim = urltrim.indexOf("/") === 0 ? urltrim.replace("/", "") : urltrim;
+    const exhibitId = urltrim.split("/")[0];
+    const type = urltrim.split("/")[1];
+    debugger
     return {
       exhibitId,
       type,

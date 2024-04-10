@@ -1,7 +1,6 @@
 import { freelogApp } from "./freelogApp";
 import microApp from "@micro-zoe/micro-app";
 import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
-import { defaultWidgetConfigData } from "./widgetConfigData";
 import { digestMessage } from "./hashc";
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<any, any>();
@@ -39,7 +38,6 @@ export function removeChildWidget(key: string, childKey: string) {
 }
 
 let firstDev = false;
-let hbfOnlyToTheme = true; // 保存是否前进后退只给主题
 
 // 可供插件自己加载子插件  widget需要验证格式
 /**
@@ -70,7 +68,7 @@ export async function mountWidget(
     config: any;
     renderWidgetOptions?: any;
     seq?: number | null | undefined;
-    widget_entry?: boolean | string; // 因为插件加载者并不使用，所以 可以当成 widget_entry
+    widget_entry?: boolean | string;
   },
   ...args: any[]
 ) {
@@ -81,28 +79,18 @@ export async function mountWidget(
     config,
     seq,
     widget_entry,
-  } = options; // 因为插件加载者并不使用，所以 可以当成 widget_entry}
-  if (args?.length) {
-    widget = options;
-    [container, topExhibitData, config, seq, widget_entry] = args;
-  }
-  let isTheme = typeof widget_entry === "boolean" ? widget_entry : false;
+  } = options;
+  let isTheme = true;
   // @ts-ignore
   if (name) {
     isTheme = false;
-    defaultWidgetConfigData.historyFB = false;
   }
   isTheme && (widget_entry = "");
   config = {
-    ...defaultWidgetConfigData,
     ...(widget.versionInfo ? widget.versionInfo.exhibitProperty : {}), // exhibitProperty 展品里面的，可以freeze widget数据，防止加载时篡改
     ...config,
   };
-  if (!isTheme) {
-    config.historyFB = hbfOnlyToTheme ? false : config.historyFB;
-  } else {
-    hbfOnlyToTheme = config.hbfOnlyToTheme;
-  }
+
   const devData = freelogApp.devData;
   // 不是开发模式禁用
   if (devData.type === DEV_FALSE) widget_entry = "";
@@ -320,4 +308,3 @@ export const bindName = (name: string, registerApi: any) => {
     },
   });
 };
-

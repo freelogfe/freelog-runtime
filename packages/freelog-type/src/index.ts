@@ -73,12 +73,12 @@ export interface FreelogApp {
   // };
   mountWidget: (options: {
     widget: any;
-    container: HTMLElement | null;
+    container: HTMLElement;
     config?: PlainObject;
     renderWidgetOptions?: RenderWidgetOptions;
     topExhibitData?: any;
-    seq?: number | null;
-    widget_entry?: boolean | string;
+    seq?: number;
+    widget_entry?: string;
   }) => Promise<WidgetApp>;
   getExhibitListById: (query: {
     exhibitIds: string;

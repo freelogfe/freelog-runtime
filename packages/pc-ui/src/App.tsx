@@ -144,7 +144,6 @@ function App() {
         const container = document.getElementById("freelog-plugin-container");
         await freelogApp.mountWidget(null, {
           widget: theme,
-          widget_entry: true,
           container,
         });
         loadingClose();
