@@ -15,7 +15,7 @@ export default function frequest(
   config?: any
 ): any {
   // if(window.freelogApp.isUserChange()){
-  //   return 
+  //   return
   // }
   let api = Object.assign({}, action);
   // type Api2 = Exclude<Api, 'url' | 'before' | 'after'>
@@ -47,15 +47,8 @@ export default function frequest(
   ["url", "before", "after"].forEach((item) => {
     delete api[item];
   });
-  let _config: any = {};
-  if (config) {
-    ["onUploadProgress", "onDownloadProgress", "responseType"].forEach(
-      (key) => {
-        if (config[key]) _config[key] = config[key];
-      }
-    );
-  }
-  let _api = Object.assign(_config, baseConfig(), api);
+  config = config || {};
+  let _api = Object.assign(config, baseConfig(), api);
   if (returnUrl && _api.method.toLowerCase() === "get") {
     let query = "";
     if (_api.params) {
@@ -72,19 +65,12 @@ export default function frequest(
   return new Promise((resolve, reject) => {
     axios(url, _api)
       .then(async (response) => {
-         /** 301 合同未获得授权
-         *  303 标的物未签约
-         *  502 未登录的用户
-         */
-        api.after && api.after(response);   
-        resolve(response)    
+        api.after && api.after(response);
+        resolve(response);
       })
       .catch((error) => {
         // 防止error为空
         reject({ error });
-        if (typeof error === "string") {
-        } else {
-        }
       });
   });
 }

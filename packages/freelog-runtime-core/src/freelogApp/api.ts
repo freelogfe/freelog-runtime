@@ -6,18 +6,21 @@ import { baseInfo } from "../base/baseInfo";
 // 展品非授权信息接口
 export async function getExhibitListById(
   name: string,
-  query: any
-): Promise<any> {
-  if (query && Object.prototype.toString.call(query) !== "[object Object]") {
-    return "query parameter must be object";
+  options?: {
+    exhibitIds?: string; // 展品ID,多个用逗号分隔
+    isLoadVersionProperty?: number; // 是否响应展品版本属性
+    isLoadPolicyInfo?: number; // 是否加载策略信息.测试环境自动忽略此参数
+    isTranslate?: number; // 是否同步翻译.测试环境自动忽略此参数
   }
+): Promise<any> {
+  options = options || {};
   if (baseInfo.isTest)
     //@ts-ignore
     return frequest.bind({ name })(
       exhibit.getTestExhibitListById,
       [baseInfo.nodeId],
       {
-        ...query,
+        ...options,
       }
     );
   //@ts-ignore
@@ -25,37 +28,46 @@ export async function getExhibitListById(
     exhibit.getExhibitListById,
     [baseInfo.nodeId],
     {
-      ...query,
+      ...options,
     }
   );
 }
 export async function getExhibitListByPaging(
   name: string,
-  query: any
-): Promise<any> {
-  if (query && Object.prototype.toString.call(query) !== "[object Object]") {
-    return Promise.reject("query parameter must be object");
+  options?: {
+    skip?: number; // 跳过的数量.默认为0.
+    limit?: number; // 本次请求获取的数据条数.一般不允许超过100
+    sort?: string; // 排序,格式为{排序字段}:{1|-1},1是正序,-1是倒序
+    articleResourceTypes?: string; // 作品资源类型,多个用逗号分隔
+    omitArticleResourceType?: string; // 忽略的作品资源类型,与resourceType参数互斥
+    onlineStatus?: number; // 上线状态 (0:下线 1:上线 2:全部) 默认1
+    tags?: string; // 用户创建presentable时设置的自定义标签,多个用","分割
+    tagQueryType?: number; // tags的查询方式1:任意匹配一个标签 2:全部匹配所有标签 默认:1
+    projection?: string; // 指定返回的字段,多个用逗号分隔
+    keywords?: string; // 搜索关键字,目前支持模糊搜索节点资源名称和资源名称
+    isLoadVersionProperty?: number; // 是否响应展品版本属性
+    isLoadPolicyInfo?: number; // 是否加载策略信息.测试环境自动忽略此参数
+    isTranslate?: number; // 是否同步翻译.测试环境自动忽略此参数
   }
+): Promise<any> {
+  options = options || {};
   if (baseInfo.isTest)
-    // @ts-ignore
     return frequest.bind({ name })(
       exhibit.getTestExhibitByPaging,
       [baseInfo.nodeId],
       {
-        ...query,
+        ...options,
       }
     );
-  // @ts-ignore
   return frequest.bind({ name })(
     exhibit.getExhibitListByPaging,
     [baseInfo.nodeId],
     {
-      ...query,
+      ...options,
     }
   );
 }
 export async function getSignStatistics(name: string, query: any) {
-  // @ts-ignore
   return frequest(contract.getSignStatistics, "", {
     signUserIdentityType: 2,
     nodeId: baseInfo.nodeId,
@@ -65,31 +77,35 @@ export async function getSignStatistics(name: string, query: any) {
 export async function getExhibitInfo(
   name: string,
   exhibitId: string,
-  query: any
+  options?: {
+    isLoadPolicyInfo?: number; // 是否响应展品版本属性
+    isLoadVersionProperty?: number; // 是否加载策略信息.测试环境自动忽略此参数
+    isTranslate?: number; // 是否同步翻译.测试环境自动忽略此参数
+    isLoadContract?: number; // 是否加载合约信息
+  }
 ) {
+  options = options || {};
   if (baseInfo.isTest)
-    // @ts-ignore
     return frequest(
       exhibit.getTestExhibitDetail,
       [baseInfo.nodeId, exhibitId],
-      query
+      options
     );
-  // @ts-ignore
+
   return frequest(
     exhibit.getExhibitDetail,
     [baseInfo.nodeId, exhibitId],
-    query
+    options
   );
 }
 export async function getExhibitDepInfo(
   name: string,
   exhibitId: string,
   query: {
-    articleNids: string;
+    articleNids: string; // 展品依赖的作品ID,多个用逗号分隔
   }
 ) {
   if (baseInfo.isTest)
-    // @ts-ignore
     return frequest(
       exhibit.getTestExhibitDepInfo,
       [baseInfo.nodeId, exhibitId],
@@ -97,14 +113,13 @@ export async function getExhibitDepInfo(
         articleNids: query.articleNids,
       }
     );
-  // @ts-ignore
+
   return frequest(exhibit.getExhibitDepInfo, [baseInfo.nodeId, exhibitId], {
     articleNids: query.articleNids,
   });
 }
 
 export async function getExhibitSignCount(name: string, exhibitId: string) {
-  // @ts-ignore
   return frequest(exhibit.getExhibitSignCount, "", {
     subjectIds: exhibitId,
     subjectType: 2,
@@ -117,7 +132,7 @@ export async function getExhibitAvailable(name: string, exhibitIds: string) {
       exhibitIds,
     });
   }
-  // @ts-ignore
+
   return frequest(exhibit.getExhibitAuthStatus, [baseInfo.nodeId], {
     authType: 3,
     exhibitIds,
@@ -130,7 +145,7 @@ export async function getExhibitAuthStatus(name: string, exhibitIds: string) {
       exhibitIds,
     });
   }
-  // @ts-ignore
+
   return frequest(exhibit.getExhibitAuthStatus, [baseInfo.nodeId], {
     authType: baseInfo.isTest ? 3 : 4,
     exhibitIds,
@@ -183,15 +198,14 @@ function getByExhibitId(
 export async function getExhibitFileStream(
   name: string,
   exhibitId: string | number,
-  options: {
+  options?: {
     returnUrl?: boolean;
     config?: any;
-    subFilePath?: string;
+    subFilePath?: string; // 主题或插件的压缩包内部子作品,需要带相对路径
   }
 ) {
   options = options || {};
   return frequest.bind({
-    // @ts-ignore
     name,
     isAuth: true,
     exhibitId: exhibitId,
@@ -207,29 +221,26 @@ export async function getExhibitResultByAuth(
   name: string,
   exhibitId: string | number
 ) {
-  // @ts-ignore
   return getByExhibitId(name, exhibitId, "result", "", "");
 }
 export async function getExhibitInfoByAuth(
   name: string,
   exhibitId: string | number
 ) {
-  // @ts-ignore
   return getByExhibitId(name, exhibitId, "info", "", "");
 }
 // 子依赖树
 export async function getExhibitDepTree(
   name: string,
   exhibitId: string | number,
-  options: {
-    version?: string;
-    nid?: string;
-    maxDeep?: number;
-    isContainRootNode?: string;
+  options?: {
+    version?: string; // 引用的发行版本号,默认使用锁定的最新版本
+    nid?: string; // 叶子节点ID,如果需要从叶子节点开始响应,则传入此参数
+    maxDeep?: number; // 依赖树最大返回深度
+    isContainRootNode?: string; // 是否包含根节点,默认包含
   }
 ) {
   return frequest.bind({
-    // @ts-ignore
     name: name,
     exhibitId: exhibitId,
   })(
@@ -250,27 +261,23 @@ export async function getExhibitDepTree(
 export async function getExhibitDepFileStream(
   name: string,
   exhibitId: string | number,
-  options: {
-    parentNid: string;
-    subArticleId: string;
+  query: {
+    parentNid: string; // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
+    subArticleId: string; // 子依赖的作品ID
     returnUrl?: boolean;
     config?: any;
   }
-) {
-  if (!options.parentNid || !options.subArticleId) {
-    return Promise.reject("parentNid and subArticleId is required!");
-  }
+) { 
   return frequest.bind({
-    // @ts-ignore
     name: name,
     isAuth: true,
     exhibitId: exhibitId,
   })(
     baseInfo.isTest ? exhibit.getTestExhibitById : exhibit.getExhibitById,
     [exhibitId],
-    { parentNid: options.parentNid, subArticleIdOrName: options.subArticleId },
-    options.returnUrl,
-    options.config
+    { parentNid: query.parentNid, subArticleIdOrName: query.subArticleId },
+    query.returnUrl,
+    query.config
   );
 }
 

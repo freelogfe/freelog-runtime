@@ -148,9 +148,11 @@ export async function mountWidget(
     fentry = await freelogApp.getExhibitDepFileStream(
       name,
       commonData.exhibitId,
-      commonData.articleNid,
-      commonData.articleInfo.articleId,
-      true
+      {
+        parentNid: commonData.articleNid,
+        subArticleId: commonData.articleInfo.articleId,
+        returnUrl: true,
+      }
     );
     fentry = fentry + `&subFilePath=`;
   } else {

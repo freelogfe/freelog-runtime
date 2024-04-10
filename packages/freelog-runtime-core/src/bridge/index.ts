@@ -35,9 +35,10 @@ export function callUI(type: any, data: any) {
 export function updateLock(status: boolean) {
   locked = !!status;
 }
-export function setPresentableQueue(name: string, value: any) {
-  exhibitQueue.set(name, value);
-}
+// TODO 原本这里用于在请求展品时发现没有授权就缓存起来，后续要求授权时 如果在一段时间内就不再请求，加快授权界面展示速度
+// export function setPresentableQueue(name: string, value: any) {
+//   exhibitQueue.set(name, value);
+// }
 export async function addAuth(name: string, exhibitId: string, options?: any) {
   const arr = eventMap.get(exhibitId)?.callBacks || [];
   const widgetData = widgetsConfig.get(name);
@@ -142,14 +143,12 @@ export function endEvent(eventId: string, type: number, data: any) {
       eventMap.get(eventId).callBacks.forEach((item: any) => {
         item.resolve({ status: SUCCESS, data });
       });
-      exhibitQueue.delete(eventId);
       removeEvent(eventId);
       break;
     case FAILED:
       eventMap.get(eventId).callBacks.forEach((item: any) => {
         item.resolve({ status: FAILED, data });
       });
-      exhibitQueue.delete(eventId);
       removeEvent(eventId);
       break;
     case USER_CANCEL:
@@ -159,7 +158,6 @@ export function endEvent(eventId: string, type: number, data: any) {
           item.resolve({ status: USER_CANCEL, data });
         });
       });
-      exhibitQueue.clear();
       removeEvent();
       break;
   }

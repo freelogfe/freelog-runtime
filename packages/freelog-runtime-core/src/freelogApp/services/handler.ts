@@ -22,7 +22,7 @@ export default function frequest(
   config?: any
 ): any {
   // if(isUserChange()){
-  //   return 
+  //   return
   // }
   // @ts-ignore
   XMLHttpRequest.prototype.open = nativeOpen;
@@ -112,20 +112,6 @@ export default function frequest(
             noAuthCode.includes(resData.authCode) &&
             (caller.exhibitId || caller.articleIdOrName)
           ) {
-            // @ts-ignore
-            baseInfo.setPresentableQueue(exhibitId, {
-              widget: caller.name,
-              authCode: resData.authCode,
-              contracts: resData.data ? resData.data.contracts : [],
-              policies: resData.data ? resData.data.policies : [],
-              exhibitName,
-              exhibitId,
-              articleNid,
-              resourceType,
-              subDep,
-              versionInfo: { exhibitProperty },
-              ...resData,
-            });
             resolve({
               authErrorType: 1, // 存在但未授权
               authCode: resData.authCode,

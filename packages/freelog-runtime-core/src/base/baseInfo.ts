@@ -15,5 +15,4 @@ export const baseInfo:any = {
   isTest: isTest,
   nodeId: "",
   baseURL: baseURL,
-  setPresentableQueue: null,
 };

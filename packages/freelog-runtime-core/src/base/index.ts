@@ -2,7 +2,6 @@
 import frequest from "./services/handler";
 import user from "./services/api/modules/user";
 import node from "./services/api/modules/node";
-import { setPresentableQueue } from "../bridge";
 export async function getCurrentUser() {
   return frequest(user.getCurrent, "", "");
 }
@@ -19,7 +18,6 @@ export async function getInfoByNameOrDomain(query: any) {
 
 export function init(fnodeId: string) {
   baseInfo.nodeId = fnodeId;
-  baseInfo.setPresentableQueue = setPresentableQueue;
 }
 export function baseInit(baseURL: string, isTest: boolean) {
   baseInfo.isTest = isTest;

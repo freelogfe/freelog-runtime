@@ -1,12 +1,6 @@
 import axios from "../../request";
 import { placeHolder, baseConfig } from "./base";
 import { compareObjects } from "../../utils";
-// import { setPresentableQueue } from "../bridge/index";
-// import { isUserChange } from '../security'
-const noAuthCode = [301, 302, 303, 304, 305, 306, 307];
-const authCode = [200, 201, 202, 203];
-const errorAuthCode = [401, 402, 403, 501, 502, 503, 504, 505, 900, 901];
-export const nativeOpen = XMLHttpRequest.prototype.open;
 
 /**
  *
@@ -21,13 +15,6 @@ export default function frequest(
   returnUrl?: boolean,
   config?: any
 ): any {
-  // if(isUserChange()){
-  //   return 
-  // }
-  // @ts-ignore
-  XMLHttpRequest.prototype.open = nativeOpen;
-  // @ts-ignore
-  const caller = this;
   let api = Object.assign({}, action);
   // type Api2 = Exclude<Api, 'url' | 'before' | 'after'>
   let url = api.url;
@@ -41,7 +28,7 @@ export default function frequest(
     });
   }
   // filter data if there is dataModel
-  if (api.dataModel && caller) {
+  if (api.dataModel) {
     data = Object.assign({}, data);
     compareObjects(api.dataModel, data, !!api.isDiff);
   }
@@ -59,13 +46,6 @@ export default function frequest(
     delete api[item];
   });
   let _config: any = {};
-  if (config) {
-    ["onUploadProgress", "onDownloadProgress", "responseType"].forEach(
-      (key) => {
-        if (config[key]) _config[key] = config[key];
-      }
-    );
-  }
   let _api = Object.assign(_config, baseConfig(), api);
   if (returnUrl && _api.method.toLowerCase() === "get") {
     let query = "";
@@ -81,82 +61,13 @@ export default function frequest(
     }
     return _api.baseURL + url + query;
   }
-  // show msg
   return new Promise((resolve, reject) => {
     axios(url, _api)
       .then(async (response) => {
         api.after && api.after(response);
-        // 如果是授权接口，而且有数据
-        if (caller && caller.isAuth && response.data && response.data.data) {
-          const resData = response.data.data;
-          const exhibitId = response.headers["freelog-exhibit-id"];
-          const exhibitName = decodeURI(
-            response.headers["freelog-exhibit-name"]
-          );
-          const articleNid = decodeURI(response.headers["freelog-article-nid"]);
-          const resourceType = decodeURI(
-            response.headers["freelog-article-resource-type"]
-          );
-          let subDep = decodeURI(
-            response.headers["freelog-article-sub-dependencies"]
-          );
-          subDep = subDep ? JSON.parse(decodeURIComponent(subDep)) : [];
-
-          let exhibitProperty = decodeURI(
-            response.headers["freelog-exhibit-property"]
-          );
-          exhibitProperty = exhibitProperty
-            ? JSON.parse(decodeURIComponent(exhibitProperty))
-            : {};
-          if (
-            noAuthCode.includes(resData.authCode) &&
-            (caller.exhibitId || caller.articleIdOrName)
-          ) {
-            // setPresentableQueue(exhibitId, {
-            //   widget: caller.name,
-            //   authCode: resData.authCode,
-            //   contracts: resData.data ? resData.data.contracts : [],
-            //   policies: resData.data ? resData.data.policies : [],
-            //   exhibitName,
-            //   exhibitId,
-            //   articleNid,
-            //   resourceType,
-            //   subDep,
-            //   versionInfo: { exhibitProperty },
-            //   ...resData,
-            // });
-            resolve({
-              authErrorType: 1, // 存在但未授权
-              authCode: resData.authCode,
-              exhibitName,
-              exhibitId,
-              articleNid,
-              resourceType,
-              subDep,
-              versionInfo: { exhibitProperty },
-              ...resData,
-            });
-          } else if (errorAuthCode.includes(resData.authCode)) {
-            resolve({
-              authErrorType: 2,
-              authCode: resData.authCode,
-              exhibitName,
-              exhibitId,
-              articleNid,
-              resourceType,
-              subDep,
-              versionInfo: { exhibitProperty },
-              ...resData,
-            });
-          } else {
-            resolve(response);
-          }
-        } else {
-          resolve(response);
-        }
+        resolve(response);
       })
       .catch((error) => {
-        // 防止error为空
         reject({ error });
       });
   });

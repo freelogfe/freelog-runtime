@@ -1,53 +1,164 @@
-export interface PlainObject {
-  [str: string]: any;
-  [num: number]: any;
-}
-export interface NodeInfo {
-  nodeId: number;
-  nodeName: string;
-  nodeDomain: string;
-  ownerUserId: number;
-  ownerUserName: string;
-  nodeThemeId?: string;
-  status?: number;
-  uniqueKey?: string;
+import {
+  ContractLicenseeIdentityTypeEnum,
+  ContractStatusEnum,
+  FreelogUserInfo,
+  PageResult,
+  SubjectTypeEnum,
+} from 'egg-freelog-base';
+import {
+  ArticleTypeEnum,
+  PresentableAuthStatusEnum,
+  PresentableOnlineStatusEnum,
+} from './enum';
+
+/**
+ * 展品信息
+ */
+export interface ExhibitInfo {
+  exhibitId: string;
+  exhibitName: string;
+  exhibitTitle: string;
+  exhibitIntro?: string;
+  exhibitSubjectType: SubjectTypeEnum; // 展品或展品组合
   tags: string[];
-  nodeLogo?: string;
-  nodeTitle?: string;
-  nodeShortDescription?: string;
-  nodeSuspendInfo?: string;
-}
-export interface FreelogUserInfo {
-  [key: string]: any;
+  coverImages: string[];
+  version: string; // 默认使用的资源版本号
+  status: number; // 备用
+  onlineStatus: number;
+  nodeId: number;
   userId: number;
-  username: string;
+  policies: BasePolicyInfo[];
+  // createDate: Date;
+  // updateDate: Date;
+  articleInfo: MountArticleInfo; // article(作品)指广义上的资源(单品资源,组合资源,节点组合资源)+存储对象
+  versionInfo?: ExhibitVersionInfo;
+  createDate?: Date;
+  updateDate?: Date;
+  contracts?: ContractInfo[];
 }
-export interface WidgetApp {
-  success: boolean;
-  widgetId: string;
-  getApi: () => PlainObject;
-  unmount: (options?: unmountAppParams) => Promise<boolean>;
-  reload: (destroy?: boolean) => Promise<boolean>;
-  getData: () => any;
-  clearData: () => any;
-  setData: (data: Record<PropertyKey, unknown>) => any;
-  addDataListener: (dataListener: Function, autoTrigger?: boolean) => any;
-  removeDataListener: (dataListener: Function) => any;
-  clearDataListener: () => any;
+export interface BasePolicyInfo {
+  policyId: string;
+  policyText: string;
+  subjectType?: number;
+  fsmDescriptionInfo: FsmDescriptionInfo;
+  fsmDeclarationInfo?: any;
+  translateInfo?: any;
 }
-// unmountApp 参数配置
-interface unmountAppParams {
-  /**
-   * destroy: 是否强制卸载应用并删除缓存资源，默认值：false
-   * 优先级: 高于 clearAliveState
-   * 对于已经卸载的应用: 当子应用已经卸载或keep-alive应用已经推入后台，则清除应用状态及缓存资源
-   * 对于正在运行的应用: 当子应用正在运行，则卸载应用并删除状态及缓存资源
-   */
-  destroy?: boolean;
-  /**
-   * clearAliveState: 是否清空应用的缓存状态，默认值：false
-   * 解释: 如果子应用是keep-alive，则卸载并清空状态，并保留缓存资源，如果子应用不是keep-alive，则执行正常卸载流程，并保留缓存资源
-   * 补充: 无论keep-alive应用正在运行还是已经推入后台，都将执行卸载操作，清空应用缓存状态，并保留缓存资源
-   */
-  clearAliveState?: boolean;
+/**
+ * 展品挂载的作品信息
+ */
+export interface MountArticleInfo {
+  articleId: string;
+  articleName: string;
+  articleType: ArticleTypeEnum; // 1:独立资源 2:组合资源 3:节点组合资源 4:存储对象
+  articleOwnerId: number;
+  articleOwnerName: string;
+  resourceType: string[];
+  otherInfo?: {
+    [key: string]: any;
+  };
+}
+/**
+ * 展品版本信息
+ */
+export interface ExhibitVersionInfo {
+  exhibitId: string;
+  version: string;
+  articleId: string;
+  articleSystemProperty?: {
+    [key: string]: number | string | boolean | null | object;
+  };
+  articleCustomPropertyDescriptors?: any[];
+  exhibitRewriteProperty?: any[];
+  exhibitProperty?: {
+    [key: string]: number | string | boolean | null | object;
+  };
+  authTree: ExhibitAuthNodeInfo[];
+  dependencyTree: ExhibitDependencyNodeInfo[];
+  // createDate: Date;
+  // updateDate: Date;
+}
+
+export interface ContractInfo {
+  contractId: string;
+  contractName: string;
+
+  // 甲方相关信息
+  licensorId: string | number;
+  licensorName: string;
+  licensorOwnerId: number;
+  licensorOwnerName: string;
+
+  // 乙方相关信息
+  licenseeId: string | number;
+  licenseeName: string;
+  licenseeOwnerId: number;
+  licenseeOwnerName: string;
+  licenseeIdentityType: ContractLicenseeIdentityTypeEnum;
+
+  // 标的物相关信息
+  subjectId: string;
+  subjectName: string;
+  subjectType: SubjectTypeEnum;
+
+  // 合同状态机部分
+  fsmCurrentState?: string | null;
+  fsmRunningStatus?: number;
+  fsmDeclarations?: object;
+
+  // 其他信息
+  policyId: string;
+  status?: ContractStatusEnum;
+  authStatus: number;
+  createDate?: Date;
+
+  isAuth?: boolean;
+  isTestAuth?: boolean;
+}
+
+export interface FsmDescriptionInfo {
+  [stateName: string]: FsmStateDescriptionInfo;
+}
+
+export interface FsmStateDescriptionInfo {
+  isAuth: boolean;
+  isTestAuth: boolean;
+  isInitial?: boolean;
+  isTerminate?: boolean;
+  serviceStates: string[];
+  transitions: PolicyEventInfo[];
+}
+export interface ExhibitAuthNodeInfo {
+  nid: string; // 树节点ID
+  articleId: string;
+  articleName: string;
+  articleType: ArticleTypeEnum;
+  resourceType: string[];
+  version: string;
+  versionId: string;
+  parentNid: string;
+  deep: number;
+}
+export interface ExhibitDependencyNodeInfo {
+  nid: string; // 树节点ID
+  articleId: string;
+  articleName: string;
+  articleType: ArticleTypeEnum;
+  version: string;
+  versionRange: string;
+  resourceType: string[];
+  versionId: string;
+  deep: number;
+  parentNid: string;
+}
+
+export interface PolicyEventInfo {
+  code: string;
+  service: string;
+  name: string;
+  eventId: string;
+  toState: string;
+  args?: {
+    [paramName: string]: any;
+  };
 }
