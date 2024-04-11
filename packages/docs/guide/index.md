@@ -72,16 +72,16 @@ vite 请参考 @vitejs/plugin-basic-ssl 插件
 
 假设节点为https://examples.freelog.com/
 
-用于开发的测试节点为https://t.examples.freelog.com/
+用于开发的测试节点为https://examples.freelog.com/
 
 ### 连接节点与插件
 
 启动插件，例如‘https://localhost:7101’
 
-在节点 url 的https://t.examples.freelog.com/后面加上
+在节点 url 的https://examples.freelog.com/后面加上
 
 ```ts
-"https://t.examples.freelog.com/?dev=https://localhost:7101";
+"https://examples.freelog.com/?dev=https://localhost:7101";
 ```
 
 此时插件是作为节点主题（即入口）使用

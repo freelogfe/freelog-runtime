@@ -724,7 +724,7 @@ freelogApp.pushMessage4Task(data).then((res)=>{})
 
 **用途：获取某个展品的通用分享链接**
 
-**注意：只支持detail详情与content内容**
+**注意：只支持 detail 详情与 content 内容**
 
 ```ts
 **参数说明**
@@ -737,7 +737,7 @@ freelogApp.getShareUrl(exhibitId, type)
 
 ### mapShareUrl
 
-**用途：调用此方法发现用户切换后会刷新网页，否则返回 false**
+**用途：映射分享链接到自身正确的路由，运行时会转换分享链接到返回的对应路由**
 
 **注意：只有在路由加载之前使用才有效**
 
