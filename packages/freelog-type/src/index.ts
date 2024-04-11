@@ -65,6 +65,7 @@ export interface FreelogApp {
   setUserDataKeyForDev: (resourceName: string) => void;
   nodeInfo: NodeInfo;
   devData: PlainObject;
+  getCurrentUser: () => FreelogUserInfo;
   mountWidget: (options: {
     widget: any;
     container: HTMLElement;
@@ -128,6 +129,9 @@ export interface FreelogApp {
   getExhibitAuthStatus: (
     exhibitIds: string
   ) => Promise<AxiosResponse<IApiDataFormat<AuthResult[]>>>;
+  getExhibitAvailalbe: (
+    exhibitIds: string
+  ) => Promise<AxiosResponse<IApiDataFormat<AuthResult[]>>>;
   getExhibitDepTree: (
     exhibitId: string | number,
     options: {
@@ -151,6 +155,7 @@ export interface FreelogApp {
     resourceType: string;
     subDep: any[];
     versionInfo: PlainObject;
+    data: AuthResult | ExhibitInfo;
   }>;
   setUserData: (key: string | number, data: any) => Promise<any>;
   getUserData: (key: string | number) => Promise<any>;
@@ -165,9 +170,9 @@ export interface FreelogApp {
   ) => Promise<any>;
   onLogin: (callback: Function) => void;
   onUserChange: (callback: Function) => void;
+  isUserChange: () => boolean;
   callLogin: (callback?: Function) => void;
   callLoginOut: () => void;
-  getCurrentUser: () => FreelogUserInfo;
   setViewport: (options: {
     width?: string; // immutable
     height?: string; // not supported in browser
@@ -177,8 +182,6 @@ export interface FreelogApp {
     'user-scalable'?: string; // available for theme
     'viewport-fit'?: string; // not supported in browser
   }) => void;
-
-  isUserChange: () => boolean;
   reload: () => void;
   resultType: {
     SUCCESS: number;
