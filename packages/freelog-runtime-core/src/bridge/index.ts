@@ -52,6 +52,7 @@ export async function addAuth(name: string, exhibitId: string, options?: any) {
         isTranslate: 1,
       }),
       freelogApp.getExhibitAuthStatus(name, exhibitId),
+      freelogApp.getExhibitAvailalbe(exhibitId),
     ]).then((response) => {
       if (response[1].data.errCode) {
         resolve({ status: DATA_ERROR, data: response[1].data });
@@ -65,8 +66,8 @@ export async function addAuth(name: string, exhibitId: string, options?: any) {
       const data = response[0].data.data;
       data.contracts = data.contracts || [];
       data.defaulterIdentityType = response[1].data.data[0].authCode;
-      data.isAvailable = response[1].data.data[0].isAuth;
-      data.availableData = response[1].data.data[0];
+      data.isAvailable = response[2].data.data[0].isAuth;
+      data.availableData = response[2].data.data[0];
       arr.push({
         resolve,
         options,

@@ -102,7 +102,7 @@ export async function getExhibitDepInfo(
   name: string,
   exhibitId: string,
   query: {
-    articleNids: string; // 展品依赖的作品ID,多个用逗号分隔
+    articleNids: string; // 展品依赖的作品NID,多个用逗号分隔
   }
 ) {
   if (baseInfo.isTest)
@@ -125,7 +125,20 @@ export async function getExhibitSignCount(name: string, exhibitIds: string) {
     subjectType: 2,
   });
 }
-
+// 获取展示是否授权链正常
+export async function getExhibitAvailalbe(exhibitIds: string) {
+  if (baseInfo.isTest) {
+    return frequest(exhibit.getTestExhibitAuthStatus, [baseInfo.nodeId], {
+      authType: 3,
+      exhibitIds,
+    });
+  }
+  // @ts-ignore
+  return frequest(exhibit.getExhibitAuthStatus, [baseInfo.nodeId], {
+    authType: 3,
+    exhibitIds,
+  });
+}
 export async function getExhibitAuthStatus(name: string, exhibitIds: string) {
   if (baseInfo.isTest) {
     return frequest(exhibit.getTestExhibitAuthStatus, [baseInfo.nodeId], {

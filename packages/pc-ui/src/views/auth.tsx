@@ -142,7 +142,6 @@ export default function Auth(props: contractProps) {
   useEffect(() => {
     if (props.isLogin) return;
     setThemeCancel(false);
-    console.log(events);
     const isExist =
       currentExhibit &&
       events.some((item: any) => {
