@@ -26,7 +26,7 @@ const nodeInfo = freelogApp.nodeInfo;
 
 ### devData
 
-**用途：获取当前 dev 数据（url 数据）**
+**用途：开发过程中获取当前 url 中 dev 后面的开发数据**
 
 ```ts
 **用法**
@@ -58,7 +58,7 @@ const data = freelogApp.getCurrentUrl();
 
 ```ts
 **用法**
-const selfArticleId = await freelogApp.getSelfArticleId();
+const selfArticleId = freelogApp.getSelfArticleId();
 ```
 
 ### getSelfWidgetRenderName
@@ -67,7 +67,7 @@ const selfArticleId = await freelogApp.getSelfArticleId();
 
 ```ts
 **用法**
-const selfWidgetId = await freelogApp.getSelfWidgetRenderName();
+const selfWidgetId = freelogApp.getSelfWidgetRenderName();
 ```
 
 ### getSelfExhibitId
@@ -76,7 +76,7 @@ const selfWidgetId = await freelogApp.getSelfWidgetRenderName();
 
 ```ts
 **用法**
-const selfExhibitId= await freelogApp.getSelfExhibitId();
+const selfExhibitId=  freelogApp.getSelfExhibitId();
 ```
 
 ### getSelfConfig
@@ -104,7 +104,7 @@ const res = await freelogApp.getSubDep()
   resourceType, 作品类型
   subDep,  子依赖数组
   versionInfo: { exhibitProperty }, 版本信息
-  ...response.data.data,  其它信息
+  data: AuthResult | ExhibitInfo,  有授权时data为展品信息，无授权时data为授权信息
 }
 ```
 
@@ -227,150 +227,6 @@ freelogApp.reload()
 **用法**
 // obj只能是object
 freelogApp.registerApi(obj)
-```
-
-### getData
-
-**用途：获取父插件下发的 data 数据**
-
-**用法**
-
-```js
-const data = freelogApp.getData(); // 返回父插件下发的data数据
-```
-
-### addDataListener
-
-**用途：**绑定数据监听函数
-
-**介绍：**
-
-```js
-/**
- * 绑定监听函数，监听函数只有在数据变化时才会触发
- * dataListener: 绑定函数
- * autoTrigger: 在初次绑定监听函数时如果有缓存数据，是否需要主动触发一次，默认为false
- * !!!重要说明: 因为子应用是异步渲染的，而父插件发送数据是同步的，
- * 如果在子应用渲染结束前父插件发送数据，则在绑定监听函数前数据已经发送，在初始化后不会触发绑定函数，
- * 但这个数据会放入缓存中，此时可以设置autoTrigger为true主动触发一次监听函数来获取数据。
- */
-freelogApp.addDataListener(dataListener: Function, autoTrigger?: boolean)
-```
-
-**用法**
-
-```js
-function dataListener(data) {
-  console.log("来自父插件的数据", data);
-}
-
-freelogApp.addDataListener(dataListener);
-```
-
-### removeDataListener
-
-**用途：解绑数据监听函数**
-
-**用法**
-
-```js
-function dataListener(data) {
-  console.log("来自父插件的数据", data);
-}
-
-freelogApp.removeDataListener(dataListener);
-```
-
-### clearDataListener
-
-**用途：**清空当前子应用的所有数据监听函数(全局数据函数除外)
-
-**用法**
-
-```js
-freelogApp.clearDataListener();
-```
-
-### dispatch
-
-**用途：向父插件发送数据**
-
-**用法**
-
-```js
-// dispatch只接受对象作为参数
-freelogApp.dispatch({ type: "子应用发送的数据" });
-```
-
-### getGlobalData
-
-**用途：获取全局数据**
-
-**用法**
-
-```js
-const globalData = freelogApp.getGlobalData(); // 返回全局数据
-```
-
-### addGlobalDataListener
-
-**用途：绑定数据监听函数**
-
-**介绍：**
-
-```js
-/**
- * 绑定监听函数
- * dataListener: 绑定函数
- * autoTrigger: 在初次绑定监听函数时如果有缓存数据，是否需要主动触发一次，默认为false
- */
-freelogApp.addGlobalDataListener(dataListener: Function, autoTrigger?: boolean)
-
-```
-
-**用法**
-
-```js
-function dataListener(data) {
-  console.log("全局数据", data);
-}
-
-freelogApp.addGlobalDataListener(dataListener);
-```
-
-### removeGlobalDataListener
-
-**用途：解绑全局数据监听函数**
-
-**用法**
-
-```js
-function dataListener(data) {
-  console.log("全局数据", data);
-}
-
-freelogApp.removeGlobalDataListener(dataListener);
-```
-
-### clearGlobalDataListener
-
-**用途：清空当前子应用绑定的所有全局数据监听函数**
-
-**用法**
-
-```js
-freelogApp.clearGlobalDataListener();
-```
-
-### setGlobalData
-
-**用途：发送全局数据**
-
-**用法**
-
-```js
-// setGlobalData只接受对象作为参数
-freelogApp.setGlobalData({ type: "全局数据" });
 ```
 
 ### setViewport
@@ -793,7 +649,7 @@ freelogApp.onUserChange(callback);
 
 ```ts
 **用法**
-const loginUser = await freelogApp.getCurrentUser();
+const loginUser =  freelogApp.getCurrentUser();
 
 // TODO
 **返回值说明**
@@ -867,6 +723,8 @@ freelogApp.pushMessage4Task(data).then((res)=>{})
 ### getShareUrl
 
 **用途：获取某个展品的通用分享链接**
+
+**注意：只支持detail详情与content内容**
 
 ```ts
 **参数说明**

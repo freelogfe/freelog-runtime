@@ -445,7 +445,7 @@ const res = await freelogApp.getExhibitAvailable(
 
 [查看 getExhibitAvailable 详情](/api/#getExhibitAvailable)
 
-### 授权错误返回值
+<!-- ### 授权错误返回值
 
 ```ts
   **存在但未授权**
@@ -472,7 +472,7 @@ const res = await freelogApp.getExhibitAvailable(
     versionInfo: {exhibitProperty},
     ...resData, // 原始数据
   }
-```
+``` -->
 
 ### 授权处理
 
@@ -557,7 +557,7 @@ freelogApp.onUserChange(callback);
 
 ```ts
 /**
- * 本地开发时： 如果本地开发的与线上主题或插件不是同一个资源，可以通过freelogApp.setSelfResourceNameForDev("Freelog/dev-docs") 主题或插件本身的作品名称,
+ * 本地开发时： 如果本地开发的与线上主题或插件不是同一个资源，可以通过freelogApp.setUserDataKeyForDev("Freelog/dev-docs") 主题或插件本身的作品名称,
  * 这样可以保证更换到线上是一致的
  */
 

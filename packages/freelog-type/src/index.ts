@@ -35,18 +35,7 @@ export const initFreelogApp = () => {
   };
   return { freelogApp, widgetApi };
 };
-export const clearData = window.microApp.clearData;
-export const getData = window.microApp.getData;
-export const addDataListener = window.microApp.addDataListener;
-export const removeDataListener = window.microApp.removeDataListener;
-export const clearDataListener = window.microApp.clearDataListener;
-export const dispatch = window.microApp.dispatch;
-export const getGlobalData = window.microApp.getGlobalData;
-export const addGlobalDataListener = window.microApp.addGlobalDataListener;
-export const removeGlobalDataListener =
-  window.microApp.removeGlobalDataListener;
-export const clearGlobalDataListener = window.microApp.clearGlobalDataListener;
-export const setGlobalData = window.microApp.setGlobalData;
+
 export interface WidgetApi {
   getData: () => any;
   clearData: () => any;
@@ -129,7 +118,7 @@ export interface FreelogApp {
   getExhibitAuthStatus: (
     exhibitIds: string
   ) => Promise<AxiosResponse<IApiDataFormat<AuthResult[]>>>;
-  getExhibitAvailalbe: (
+  getExhibitAvailable: (
     exhibitIds: string
   ) => Promise<AxiosResponse<IApiDataFormat<AuthResult[]>>>;
   getExhibitDepTree: (

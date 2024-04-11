@@ -52,7 +52,7 @@ export async function addAuth(name: string, exhibitId: string, options?: any) {
         isTranslate: 1,
       }),
       freelogApp.getExhibitAuthStatus(name, exhibitId),
-      freelogApp.getExhibitAvailalbe(exhibitId),
+      freelogApp.getExhibitAvailable(exhibitId),
     ]).then((response) => {
       if (response[1].data.errCode) {
         resolve({ status: DATA_ERROR, data: response[1].data });
