@@ -2,6 +2,10 @@ import { freelogApp } from "./freelogApp";
 import microApp from "@micro-zoe/micro-app";
 import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
 import { digestMessage } from "./hashc";
+import {
+  getExhibitDepFileStream,
+  getExhibitFileStream,
+} from "../freelogApp/api";
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
@@ -145,18 +149,14 @@ export async function mountWidget(
 
   let fentry = "";
   if (commonData.articleNid) {
-    fentry = await freelogApp.getExhibitDepFileStream(
-      name,
-      commonData.exhibitId,
-      {
-        parentNid: commonData.articleNid,
-        subArticleId: commonData.articleInfo.articleId,
-        returnUrl: true,
-      }
-    );
+    fentry = await getExhibitDepFileStream(name, commonData.exhibitId, {
+      parentNid: commonData.articleNid,
+      subArticleId: commonData.articleInfo.articleId,
+      returnUrl: true,
+    });
     fentry = fentry + `&subFilePath=`;
   } else {
-    fentry = await freelogApp.getExhibitFileStream(name, commonData.exhibitId, {
+    fentry = await getExhibitFileStream(name, commonData.exhibitId, {
       returnUrl: true,
     });
     fentry = fentry + "/?subFilePath="; // '/package/'

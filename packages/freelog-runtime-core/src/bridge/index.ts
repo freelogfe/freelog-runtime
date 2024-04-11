@@ -74,7 +74,7 @@ export async function addAuth(name: string, exhibitId: string, options?: any) {
       });
       const id = exhibitId;
       eventMap.set(id, {
-        isTheme: name ? false : widgetData.isTheme,
+        isTheme: name ? widgetData.isTheme : true,
         eventId: id, // 后期evnetId是要与prsesentableId区分开来的
         ...data,
         callBacks: arr,

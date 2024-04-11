@@ -1,5 +1,5 @@
 import { WidgetApp, PlainObject, NodeInfo } from './widget';
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, ResponseType } from 'axios';
 import { FreelogUserInfo, PageResult } from 'egg-freelog-base';
 import { IApiDataFormat } from './base';
 import { ExhibitInfo, PresentableDependencyTree } from './interface';
@@ -99,6 +99,29 @@ export interface FreelogApp {
       isLoadVersionProperty: 0 | 1;
     }
   ) => Promise<AxiosResponse<IApiDataFormat<ExhibitInfo>>>;
+  getExhibitFileStream: (
+    exhibitId: string,
+    options?: {
+      returnUrl?: boolean;
+      config?: {
+        onUploadProgress?: any;
+        onDownloadProgress?: any;
+        responseType?: ResponseType;
+      };
+      subFilePath?: string;
+    }
+  ) => Promise<any | string>;
+  getExhibitDepFileStream: (
+    exhibitId: string,
+    parentNid: string,
+    subArticleIdOrName: string,
+    returnUrl?: boolean,
+    config?: {
+      onUploadProgress?: (progressEvent: any) => void;
+      onDownloadProgress?: (progressEvent: any) => void;
+      responseType?: ResponseType;
+    }
+  ) => Promise<any | string>;
   getExhibitSignCount: (
     exhibitIds: string
   ) => Promise<AxiosResponse<IApiDataFormat<SignItem[]>>>;
@@ -121,7 +144,14 @@ export interface FreelogApp {
   getSignStatistics: (query: {
     keywords: string;
   }) => Promise<IApiDataFormat<SignCount[]>>;
-  getSubDep: () => Promise<any>;
+  getSubDep: () => Promise<{
+    exhibitName: string;
+    exhibitId: string;
+    articleNid: string;
+    resourceType: string;
+    subDep: any[];
+    versionInfo: PlainObject;
+  }>;
   setUserData: (key: string | number, data: any) => Promise<any>;
   getUserData: (key: string | number) => Promise<any>;
   getSelfArticleId: () => string;

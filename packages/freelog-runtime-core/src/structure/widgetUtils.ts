@@ -1,7 +1,7 @@
 import { freelogApp } from "./freelogApp";
 import { widgetsConfig } from "./widget";
 import { addAuth } from "../bridge/index";
-
+import { getExhibitInfoByAuth } from "../freelogApp/api";
 // 这里的key使用的是资源名称
 export function setUserDataKeyForDev(name: string, resourceName: string) {
   widgetsConfig.get(name).DevResourceName = resourceName;
@@ -33,12 +33,13 @@ export async function getSubDep(name: string, exhibitId?: any) {
   }
 
   // @ts-ignore
-  let response = await freelogApp.getExhibitInfoByAuth(name, exhibitId);
-  debugger
-  if (response.authErrorType && isTheme) {
-    await new Promise<void>(async (resolve, reject) => {
-      if (response.authCode === 502) {
-        await new Promise<void>(async (resolve, reject) => {
+  let response = await getExhibitInfoByAuth(name, exhibitId);
+  const data = response.data.data;
+  // TODO 不合理的判断
+  if (!data.isAuth && data.authCode && isTheme) {
+    await new Promise<void>(async (resolve) => {
+      if (data.authCode === 502) {
+        await new Promise<void>(async (resolve) => {
           addAuth(name, exhibitId, {
             immediate: true,
           });
@@ -46,17 +47,17 @@ export async function getSubDep(name: string, exhibitId?: any) {
             resolve();
           });
         });
-        response = await freelogApp.getExhibitInfoByAuth(name, exhibitId);
+        response = await getExhibitInfoByAuth(name, exhibitId);
       }
-      if (response.authErrorType) {
+      if (!data.isAuth) {
         await addAuth(name, exhibitId, {
           immediate: true,
         });
       }
       resolve();
     });
-    response = await freelogApp.getExhibitInfoByAuth(name, exhibitId);
-    if (response.authErrorType) {
+    response = await getExhibitInfoByAuth(name, exhibitId);
+    if (!response.data.data.isAuth) {
       await new Promise<void>(async (resolve, reject) => {
         await addAuth(name, exhibitId, {
           immediate: true,
@@ -64,7 +65,7 @@ export async function getSubDep(name: string, exhibitId?: any) {
         resolve();
       });
     }
-    response = await freelogApp.getExhibitInfoByAuth(name, exhibitId);
+    response = await getExhibitInfoByAuth(name, exhibitId);
   }
   const exhibitName = decodeURI(response.headers["freelog-exhibit-name"]);
   const articleNid = decodeURI(response.headers["freelog-article-nid"]);
@@ -78,6 +79,15 @@ export async function getSubDep(name: string, exhibitId?: any) {
   exhibitProperty = exhibitProperty
     ? JSON.parse(decodeURIComponent(exhibitProperty))
     : {};
+  console.log({
+    exhibitName,
+    exhibitId,
+    articleNid,
+    resourceType,
+    subDep,
+    versionInfo: { exhibitProperty },
+    ...response.data.data,
+  });
   return {
     exhibitName,
     exhibitId,

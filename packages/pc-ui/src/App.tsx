@@ -173,6 +173,7 @@ function App() {
     eventMap.forEach((val: any) => {
       arr.push(val);
     });
+    console.log();
     setEvents(arr);
     if (!arr.length) {
       lowerUI();
@@ -182,6 +183,7 @@ function App() {
     }
   }
   function UI(type: any, data: any) {
+    loadingClose();
     setEventType(type);
     switch (type) {
       case NODE_FREEZED:

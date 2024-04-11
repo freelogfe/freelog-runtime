@@ -1,4 +1,3 @@
- 
 import { Modal } from "antd";
 import { useState, useEffect } from "react";
 import "./auth.scss";
@@ -7,7 +6,6 @@ import Policy from "./policy/policy";
 import Confirm from "./_commons/confirm";
 import Login from "./login";
 
-// import getBestTopology from "./topology/data";
 import NodeError from "./_statusComponents/nodeError";
 import Header from "./_components/header";
 import ThemeCancel from "./_statusComponents/themeCancel";
@@ -22,8 +20,13 @@ import PolicyTip from "./_components/policyTip";
 import { freelogAuth, freelogApp } from "freelog-runtime-core";
 const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
 const nodeInfo = freelogApp.nodeInfo;
-const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
-  freelogAuth;
+const {
+  setUserInfo,
+  loginCallback,
+  getCurrentUser,
+  updateEvent,
+  reload,
+} = freelogAuth;
 
 interface contractProps {
   events: Array<any>;
@@ -139,6 +142,7 @@ export default function Auth(props: contractProps) {
   useEffect(() => {
     if (props.isLogin) return;
     setThemeCancel(false);
+    console.log(events);
     const isExist =
       currentExhibit &&
       events.some((item: any) => {
