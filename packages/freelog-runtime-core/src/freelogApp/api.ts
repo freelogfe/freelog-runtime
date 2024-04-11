@@ -119,25 +119,13 @@ export async function getExhibitDepInfo(
   });
 }
 
-export async function getExhibitSignCount(name: string, exhibitId: string) {
+export async function getExhibitSignCount(name: string, exhibitIds: string) {
   return frequest(exhibit.getExhibitSignCount, "", {
-    subjectIds: exhibitId,
+    subjectIds: exhibitIds,
     subjectType: 2,
   });
 }
-export async function getExhibitAvailable(name: string, exhibitIds: string) {
-  if (baseInfo.isTest) {
-    return frequest(exhibit.getTestExhibitAuthStatus, [baseInfo.nodeId], {
-      authType: 3,
-      exhibitIds,
-    });
-  }
 
-  return frequest(exhibit.getExhibitAuthStatus, [baseInfo.nodeId], {
-    authType: 3,
-    exhibitIds,
-  });
-}
 export async function getExhibitAuthStatus(name: string, exhibitIds: string) {
   if (baseInfo.isTest) {
     return frequest(exhibit.getTestExhibitAuthStatus, [baseInfo.nodeId], {
@@ -267,7 +255,7 @@ export async function getExhibitDepFileStream(
     returnUrl?: boolean;
     config?: any;
   }
-) { 
+) {
   return frequest.bind({
     name: name,
     isAuth: true,

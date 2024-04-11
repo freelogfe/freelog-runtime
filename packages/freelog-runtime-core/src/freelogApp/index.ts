@@ -10,7 +10,6 @@ import {
   getExhibitDepInfo,
   getExhibitDepTree,
   getSignStatistics,
-  getExhibitAvailable,
   pushMessage4Task,
 } from "./api";
 export const freelogApp: any = {
@@ -26,5 +25,4 @@ export const freelogApp: any = {
   getExhibitDepInfo,
   getExhibitDepTree,
   getSignStatistics,
-  getExhibitAvailable,
 };

@@ -2,7 +2,7 @@ import { WidgetApp, PlainObject, NodeInfo } from './widget';
 import { AxiosResponse } from 'axios';
 import { FreelogUserInfo, PageResult } from 'egg-freelog-base';
 import { IApiDataFormat } from './base';
-import { ExhibitInfo, PresentableDependencyTree } from './interface';
+import { ExhibitInfo } from './interface';
 
 export let widgetApi: WidgetApi = {} as WidgetApi;
 export let freelogApp: FreelogApp = {} as FreelogApp;
@@ -61,10 +61,13 @@ export interface WidgetApi {
   setGlobalData: (data: PlainObject) => any;
 }
 export interface FreelogApp {
-  registerApi: (obj: PlainObject) => void;
-  setUserDataKeyForDev: (resourceName: string) => void;
+  registerApi: (obj: PlainObject) => any;
+  setUserDataKeyForDev: (resourceName: string) => undefined;
   nodeInfo: NodeInfo;
-  devData: PlainObject;
+  // status: {
+  //   authUIMounted: boolean;
+  //   themeMounted: boolean;
+  // };
   mountWidget: (options: {
     widget: any;
     container: HTMLElement;
@@ -77,7 +80,7 @@ export interface FreelogApp {
   getExhibitListById: (query: {
     exhibitIds: string;
     isLoadVersionProperty?: 0 | 1;
-  }) => Promise<AxiosResponse<IApiDataFormat<ExhibitInfo[]>>>;
+  }) => Promise<any>;
   getExhibitListByPaging: (options?: {
     skip?: number; // 跳过的数量.默认为0.
     limit?: number; // 本次请求获取的数据条数.一般不允许超过100
@@ -92,19 +95,39 @@ export interface FreelogApp {
     isLoadVersionProperty?: 0 | 1; // 是否响应展品版本属性
     isLoadPolicyInfo?: 0 | 1; // 是否加载策略信息.测试环境自动忽略此参数
     isTranslate?: 0 | 1; // 是否同步翻译.测试环境自动忽略此参数
-  }) => Promise<AxiosResponse<IApiDataFormat<PageResult<ExhibitInfo>>>>;
+  }) => Promise<IApiDataFormat<AxiosResponse<PageResult<ExhibitInfo>>>>;
   getExhibitInfo: (
     exhibitId: string,
     query?: {
       isLoadVersionProperty: 0 | 1;
     }
-  ) => Promise<AxiosResponse<IApiDataFormat<ExhibitInfo>>>;
-  getExhibitSignCount: (
-    exhibitIds: string
-  ) => Promise<AxiosResponse<IApiDataFormat<SignItem[]>>>;
-  getExhibitAuthStatus: (
-    exhibitIds: string
-  ) => Promise<AxiosResponse<IApiDataFormat<AuthResult[]>>>;
+  ) => Promise<any>;
+  getExhibitSignCount: (exhibitId: string) => Promise<any>;
+  getExhibitAuthStatus: (exhibitId: string) => Promise<any>;
+  // getExhibitFileStream: (
+  //   exhibitId: string,
+  //   options?: {
+  //     returnUrl?: boolean;
+  //     config?: {
+  //       onUploadProgress: any;
+  //       onDownloadProgress: any;
+  //       responseType: any;
+  //     };
+  //     subFilePath?: string;
+  //   }
+  // ) => Promise<any>;
+  // getExhibitDepFileStream: (
+  //   exhibitId: string,
+  //   parentNid: string,
+  //   subArticleIdOrName: string,
+  //   returnUrl?: boolean,
+  //   config?: {
+  //     onUploadProgress: any;
+  //     onDownloadProgress: any;
+  //     responseType: any;
+  //   }
+  // ) => Promise<any>;
+  // getExhibitInfoByAuth,
   getExhibitDepTree: (
     exhibitId: string | number,
     options: {
@@ -113,21 +136,16 @@ export interface FreelogApp {
       maxDeep?: number;
       isContainRootNode?: boolean;
     }
-  ) => Promise<AxiosResponse<IApiDataFormat<PresentableDependencyTree[]>>>;
-  getExhibitDepInfo: (
-    exhibitId: string,
-    articleNids: string
-  ) => Promise<IApiDataFormat<DependArticleInfo[]>>;
-  getSignStatistics: (query: {
-    keywords: string;
-  }) => Promise<IApiDataFormat<SignCount[]>>;
+  ) => Promise<any>;
+  getExhibitDepInfo: (exhibitId: string, articleNids: string) => Promise<any>;
+  getSignStatistics: (query: { keywords: string }) => Promise<any>;
+  pushMessage4Task: (query?: PlainObject) => Promise<any>;
+  devData: PlainObject;
+  // getStaticPath: (path: string) => string;
   getSubDep: () => Promise<any>;
-  setUserData: (key: string | number, data: any) => Promise<any>;
-  getUserData: (key: string | number) => Promise<any>;
   getSelfArticleId: () => string;
   getSelfExhibitId: () => string;
   getSelfWidgetRenderName: () => string;
-  getSelfConfig: () => PlainObject;
   callAuth: () => void;
   addAuth: (
     exhibitId: string,
@@ -147,7 +165,9 @@ export interface FreelogApp {
     'user-scalable'?: string; // available for theme
     'viewport-fit'?: string; // not supported in browser
   }) => void;
-
+  setUserData: (key: string | number, data: any) => Promise<any>;
+  getUserData: (key: string | number) => Promise<any>;
+  getSelfConfig: () => PlainObject;
   isUserChange: () => boolean;
   reload: () => void;
   resultType: {
@@ -165,7 +185,7 @@ export interface FreelogApp {
     detail?: (exhibitId: string) => string;
     // 内容对应的路由，运行时获取返回值后会修改url
     content?: (exhibitId: string) => string;
-  }) => void;
+  }) => null;
 }
 
 interface RenderWidgetOptions {
@@ -199,36 +219,4 @@ interface RenderWidgetOptions {
     aftershow(e: CustomEvent): void; // 子应用推入前台之后触发（keep-alive模式特有）
     afterhidden(e: CustomEvent): void; // 子应用推入后台时触发（keep-alive模式特有）
   };
-}
-interface SignItem {
-  subjectId: string;
-  count: number;
-}
-interface AuthResult {
-  exhibitId: string;
-  exhibitName: string;
-  authCode: number;
-  referee: number;
-  defaulterIdentityType: number;
-  isAuth: boolean;
-  errorMsg: string;
-}
-interface DependArticleInfo {
-  nid: string;
-  articleId: string;
-  articleName: string;
-  articleType: 1;
-  version: string;
-  resourceType: string;
-  articleProperty: {
-    fileSize: number;
-    mime: string;
-  };
-}
-interface SignCount {
-  subjectId: string;
-  subjectName: string;
-  policyIds: string[];
-  latestSignDate: string;
-  count: number;
 }

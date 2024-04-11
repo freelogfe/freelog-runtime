@@ -86,7 +86,61 @@ export default function frequest(
     axios(url, _api)
       .then(async (response) => {
         api.after && api.after(response);
-        resolve(response);
+        // 如果是授权接口，而且有数据
+        if (caller && caller.isAuth && response.data && response.data.data) {
+          const resData = response.data.data;
+          const exhibitId = response.headers["freelog-exhibit-id"];
+          const exhibitName = decodeURI(
+            response.headers["freelog-exhibit-name"]
+          );
+          const articleNid = decodeURI(response.headers["freelog-article-nid"]);
+          const resourceType = decodeURI(
+            response.headers["freelog-article-resource-type"]
+          );
+          let subDep = decodeURI(
+            response.headers["freelog-article-sub-dependencies"]
+          );
+          subDep = subDep ? JSON.parse(decodeURIComponent(subDep)) : [];
+
+          let exhibitProperty = decodeURI(
+            response.headers["freelog-exhibit-property"]
+          );
+          exhibitProperty = exhibitProperty
+            ? JSON.parse(decodeURIComponent(exhibitProperty))
+            : {};
+          if (
+            noAuthCode.includes(resData.authCode) &&
+            (caller.exhibitId || caller.articleIdOrName)
+          ) {
+            resolve({
+              authErrorType: 1, // 存在但未授权
+              authCode: resData.authCode,
+              exhibitName,
+              exhibitId,
+              articleNid,
+              resourceType,
+              subDep,
+              versionInfo: { exhibitProperty },
+              ...resData,
+            });
+          } else if (errorAuthCode.includes(resData.authCode)) {
+            resolve({
+              authErrorType: 2,
+              authCode: resData.authCode,
+              exhibitName,
+              exhibitId,
+              articleNid,
+              resourceType,
+              subDep,
+              versionInfo: { exhibitProperty },
+              ...resData,
+            });
+          } else {
+            resolve(response);
+          }
+        } else {
+          resolve(response);
+        }
       })
       .catch((error) => {
         // 防止error为空

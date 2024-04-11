@@ -162,3 +162,30 @@ export interface PolicyEventInfo {
     [paramName: string]: any;
   };
 }
+
+
+export interface ResourceDependencyTree {
+    resourceId: string;
+    resourceName: string;
+    version: string;
+    versions: string[];
+    versionRange: string;
+    resourceType: string[];
+    resourceTypeCode?: string;
+    versionId: string;
+    fileSha1: string;
+    baseUpcastResources: any[];
+    dependencies: ResourceDependencyTree[];
+}
+
+export interface PresentableDependencyTree {
+    nid?: string;
+    resourceId: string;
+    resourceName: string;
+    version: string;
+    versionRange: string;
+    resourceType: string[];
+    versionId: string;
+    fileSha1: string;
+    dependencies: PresentableDependencyTree[];
+}

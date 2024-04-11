@@ -17,11 +17,7 @@ export interface NodeInfo {
   nodeShortDescription?: string;
   nodeSuspendInfo?: string;
 }
-export interface FreelogUserInfo {
-  [key: string]: any;
-  userId: number;
-  username: string;
-}
+
 export interface WidgetApp {
   success: boolean;
   widgetId: string;

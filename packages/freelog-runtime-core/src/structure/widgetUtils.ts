@@ -34,6 +34,7 @@ export async function getSubDep(name: string, exhibitId?: any) {
 
   // @ts-ignore
   let response = await freelogApp.getExhibitInfoByAuth(name, exhibitId);
+  debugger
   if (response.authErrorType && isTheme) {
     await new Promise<void>(async (resolve, reject) => {
       if (response.authCode === 502) {

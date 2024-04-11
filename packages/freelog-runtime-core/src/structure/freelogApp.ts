@@ -65,4 +65,7 @@ export const freelogApp: any = {
   mapShareUrl,
   getCurrentUrl,
   router: microApp.router,
+  noAuthCode: [301, 302, 303, 304, 305, 306, 307],
+  authCode: [200, 201, 202, 203],
+  errorAuthCode: [401, 402, 403, 501, 502, 503, 504, 505, 900, 901],
 };
