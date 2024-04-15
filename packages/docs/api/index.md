@@ -1327,6 +1327,33 @@ const res = await freelogApp.getExhibitDepTree(
 const res = await freelogApp.getExhibitSignCount(exhibitIds)
 ```
 
+**返回说明**
+
+| 返回值字段 | 字段类型 | 字段说明                 |
+| :--------- | :------- | :----------------------- |
+| subjectId  | string   | 标的物 ID，这里是展品 id |
+| count      | int      | 已签约的总数(已去重)     |
+
+**返回示例**
+
+```json
+{
+  "ret": 0,
+  "errCode": 0,
+  "msg": "success",
+  "data": [
+    {
+      "subjectId": "60a754e0587d2500392a2874",
+      "count": 5
+    },
+    {
+      "subjectId": "61400b2940808e002e482d32",
+      "count": 4
+    }
+  ]
+}
+```
+
 ### getExhibitAuthStatus
 
 **用途：批量查询展品授权**
@@ -1337,6 +1364,39 @@ const res = await freelogApp.getExhibitSignCount(exhibitIds)
 
 **用法**
 const res = await freelogApp.getExhibitAuthStatus(exhibitIds)
+```
+
+**返回说明**
+
+| 返回值字段            | 字段类型 | 字段说明                                                   |
+| :-------------------- | :------- | :--------------------------------------------------------- |
+| exhibitId             | string   | 展品 ID                                                    |
+| exhibitName           | string   | 展品名称                                                   |
+| referee               | int      | 做出授权结果的标的物服务类型(1:资源服务 2:展品服务)        |
+| defaulterIdentityType | int      | 授权不通过责任方(0:无 1:资源 2:节点 4:c 端消费者 128:未知) |
+| authCode              | int      | 授权码                                                     |
+| isAuth                | boolean  | 是否授权通过                                               |
+| errorMsg              | string   | 错误信息                                                   |
+
+**返回示例**
+
+```json
+{
+  "ret": 0,
+  "errCode": 0,
+  "msg": "success",
+  "data": [
+    {
+      "exhibitId": "608667da52abf900867dfd48",
+      "exhibitName": "novel-theme",
+      "authCode": 200,
+      "referee": 2,
+      "defaulterIdentityType": 0,
+      "isAuth": true,
+      "errorMsg": ""
+    }
+  ]
+}
 ```
 
 ### getExhibitAvailable
@@ -1362,6 +1422,27 @@ const res = await freelogApp.getExhibitAvailable(exhibitIds)
 | authCode              | number   | 授权码                                                     |
 | isAuth                | boolean  | 是否授权通过                                               |
 | errorMsg              | string   | 错误信息                                                   |
+
+**返回示例**
+
+```json
+{
+  "ret": 0,
+  "errCode": 0,
+  "msg": "success",
+  "data": [
+    {
+      "exhibitId": "608667da52abf900867dfd48",
+      "exhibitName": "novel-theme",
+      "authCode": 200,
+      "referee": 2,
+      "defaulterIdentityType": 0,
+      "isAuth": true,
+      "errorMsg": ""
+    }
+  ]
+}
+```
 
 ### getSignStatistics
 
@@ -1611,7 +1692,7 @@ data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
 
 ```ts
 **用法**
-// callback: 登录成功的回调，登录失败不会回调,这里需要考虑一下，
+// callback: 登录成功的回调，登录失败不会回调
 freelogApp.onLogin(callback);
 ```
 
@@ -1624,7 +1705,7 @@ freelogApp.onLogin(callback);
   callback: Function // 一个函数
 
 **用法**
-// 当用户在其余页面切换账号或登录后登录后，会回调所有函数
+// 当用户在其余页面切换账号，会回调所有函数
 freelogApp.onUserChange(callback);
 ```
 
@@ -1635,26 +1716,28 @@ freelogApp.onUserChange(callback);
 ```ts
 **用法**
 const loginUser =  freelogApp.getCurrentUser();
-
-// TODO
-**返回值说明**
-
 ```
 
 ### setUserData
 
-**用途：改变当前登录的用户在当前插件保存的数据**
+**用途：创建或改变当前登录的用户在当前插件对应 key 的数据**
 
 ```ts
+**参数说明**
+  key: string, // 自定义key
+
 **用法**
 const res = await freelogApp.setUserData(key, data);
 ```
 
 ### getUserData
 
-**用途：获取当前登录的用户在当前插件保存的数据**
+**用途：获取当前登录的用户在当前插件保存的对应 key 的数据**
 
 ```ts
+**参数说明**
+  key: string, // 自定义key
+
 **用法**
 const userData = await freelogApp.getUserData(key);
 ```
@@ -1664,8 +1747,10 @@ const userData = await freelogApp.getUserData(key);
 **用途：唤起登录 UI**
 
 ```ts
+**参数说明**
+callback: Function // 登录成功的回调，若没有传递callBack回调, 登录成功后会自动刷新整个页面，
+
 **用法**
-// callback: 登录成功的回调，登录失败不会回调,这里需要考虑一下，
 freelogApp.callLogin(callBack)
 ```
 
@@ -1675,6 +1760,7 @@ freelogApp.callLogin(callBack)
 
 ```ts
 **用法**
+// 登出后会刷新整个页面
 freelogApp.callLoginOut()
 ```
 
@@ -1684,7 +1770,7 @@ freelogApp.callLoginOut()
 
 ```ts
 **用法**
-freelogApp.isUserChange()
+const flag = freelogApp.isUserChange()
 ```
 
 <!-- ### pushMessage4Task
