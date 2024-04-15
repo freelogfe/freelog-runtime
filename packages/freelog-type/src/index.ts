@@ -135,7 +135,7 @@ export interface FreelogApp {
     articleNids: string
   ) => Promise<IApiDataFormat<DependArticleInfo[]>>;
   getSignStatistics: (query: {
-    keywords: string;
+    keywords: string; // 标的物名称，这里指展品名称
   }) => Promise<IApiDataFormat<SignCount[]>>;
   getSubDep: () => Promise<{
     exhibitName: string;
@@ -163,13 +163,13 @@ export interface FreelogApp {
   callLogin: (callback?: Function) => void;
   callLoginOut: () => void;
   setViewport: (options: {
-    width?: string; // immutable
-    height?: string; // not supported in browser
-    'initial-scale'?: number; // 0.0-10.0   available for theme
-    'maximum-scale'?: number; // 0.0-10.0   available for theme
-    'minimum-scale'?: number; // 0.0-10.0   available for theme
-    'user-scalable'?: string; // available for theme
-    'viewport-fit'?: string; // not supported in browser
+    width?: string;
+    height?: string;
+    'initial-scale'?: number;
+    'maximum-scale'?: number;
+    'minimum-scale'?: number;
+    'user-scalable'?: string;
+    'viewport-fit'?: string;
   }) => void;
   reload: () => void;
   resultType: {

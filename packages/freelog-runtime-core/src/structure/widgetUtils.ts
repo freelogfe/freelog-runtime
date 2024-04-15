@@ -132,7 +132,7 @@ export function getViewport(name: string) {
 }
 export function setViewport(name: string, keys: any) {
   // @ts-ignore
-  // 如果是主题
+  // 如果不是主题
   if (!widgetsConfig.get(name)?.isTheme) {
     return;
   }

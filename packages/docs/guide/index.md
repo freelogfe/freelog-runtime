@@ -188,9 +188,9 @@ widgets.some((widget, index) => {
     seq: string,
     widget_entry: string,
   });
+  // 父插件获取子插件注册的api
+  widgetController.getApi().changeMe();
 });
-// 父插件获取子插件注册的api
-widgets.getApi().changeMe();
 
 // 子插件，在入口处执行
 freelogApp.registerApi({
