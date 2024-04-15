@@ -19,7 +19,6 @@ export default defineConfig({
         text: '指南',
         items: [
           { text: '基础', link: '/guide/index' },
-          { text: '生命周期', link: '/guide/life-cycles' },
           { text: '资源系统', link: '/guide/static-source' },
           { text: '数据通信', link: '/guide/data' },
           { text: '虚拟路由系统', link: '/guide/router' },

@@ -4,7 +4,7 @@
 
 ## 路由模式
 
-虚拟路由系统分为2种模式：`search`、`pure`
+虚拟路由系统分为 2 种模式：`search`、`pure`
 
 <!-- tabs:start -->
 
@@ -115,7 +115,7 @@ await freelogApp.mountWidget({
  * @param {string} path 必填，子插件除域名外的全量地址(也可以带上域名)
  * @param {boolean} replace 可选，是否使用replace模式，不新增堆栈记录，默认为false
  */
-router.push({
+freelogApp.router.push({
   name: widgetRenderName,
   path: "页面地址",
   replace: 是否使用replace模式,
@@ -152,7 +152,7 @@ freelogApp.router.push({
  * @param {string} path 必填，子插件除域名外的全量地址(也可以带上域名)
  * @param {boolean} replace 可选，是否使用replace模式，默认为true
  */
-router.replace({
+freelogApp.router.replace({
   name: widgetRenderName,
   path: "页面地址",
   replace: 是否使用replace模式,
@@ -193,7 +193,7 @@ freelogApp.router.replace({
 /**
  * @param {number} n 前进或后退多少步
  */
-router.go(n);
+freelogApp.router.go(n);
 ```
 
 **示例：**
@@ -211,7 +211,7 @@ freelogApp.router.go(3);
 **介绍：**它的功能和 window.history.back()一致，表示在历史堆栈中后退一步。
 
 ```js
-router.back();
+freelogApp.router.back();
 ```
 
 **示例：**
@@ -226,7 +226,7 @@ freelogApp.router.back();
 **介绍：**它的功能和 window.history.forward()一致，表示在历史堆栈中前进一步。
 
 ```js
-router.forward();
+freelogApp.router.forward();
 ```
 
 **示例：**
@@ -273,7 +273,7 @@ baseRouter.父插件路由的方法(...)
  * @param {string} path 必填，子插件除域名外的全量地址(也可以带上域名)
  * @param {boolean} replace 可选，是否使用replace模式，不新增堆栈记录，默认为false
  */
-router.push({
+freelogApp.router.push({
   name: widgetRenderName,
   path: "页面地址",
   replace: 是否使用replace模式,
@@ -316,7 +316,7 @@ freelogApp.router.push({
  * @param {string} path 必填，子插件除域名外的全量地址(也可以带上域名)
  * @param {boolean} replace 可选，是否使用replace模式，默认为true
  */
-router.replace({
+freelogApp.router.replace({
   name: widgetRenderName,
   path: "页面地址",
   replace: 是否使用replace模式,
@@ -357,7 +357,7 @@ freelogApp.router.replace({
 /**
  * @param {number} n 前进或后退多少步
  */
-router.go(n);
+freelogApp.router.go(n);
 ```
 
 **示例：**
@@ -375,7 +375,7 @@ freelogApp.router.go(3);
 **介绍：**它的功能和 window.history.back()一致，表示在历史堆栈中后退一步。
 
 ```js
-router.back();
+freelogApp.router.back();
 ```
 
 **示例：**
@@ -390,7 +390,7 @@ freelogApp.router.back();
 **介绍：**它的功能和 window.history.forward()一致，表示在历史堆栈中前进一步。
 
 ```js
-router.forward();
+freelogApp.router.forward();
 ```
 
 **示例：**
@@ -443,7 +443,7 @@ await freelogApp.mountWidget({
    "default-page": "/page1?id=9527",
   }
   seq: 1,
- }); 
+ });
 
 <!-- 带hash -->
 await freelogApp.mountWidget({
@@ -454,7 +454,7 @@ await freelogApp.mountWidget({
    "default-page": "/page1#hash",
   }
   seq: 1,
- });  
+ });
 ```
 
 **方式二：通过 router API 设置**
@@ -465,19 +465,19 @@ await freelogApp.mountWidget({
  * @param {string} name 必填，子插件的name
  * @param {string} path 必填，页面地址
  */
-router.setDefaultPage({ name: widgetRenderName, path: "页面地址" });
+freelogApp.router.setDefaultPage({ name: widgetRenderName, path: "页面地址" });
 
 /**
  * 删除子插件默认页面
  * @param {string} name 必填，子插件的name
  */
-router.removeDefaultPage((name: widgetRenderName));
+freelogApp.router.removeDefaultPage((name: widgetRenderName));
 
 /**
  * 获取子插件默认页面
  * @param {string} name 必填，子插件的name
  */
-router.getDefaultPage((name: widgetRenderName));
+freelogApp.router.getDefaultPage((name: widgetRenderName));
 ```
 
 **示例：**
@@ -505,10 +505,10 @@ freelogApp.router.setDefaultPage({
 });
 
 // 删除子插件widgetRenderName的默认页面
-router.removeDefaultPage(widgetRenderName);
+freelogApp.router.removeDefaultPage(widgetRenderName);
 
 // 获取子插件widgetRenderName的默认页面
-const defaultPage = router.getDefaultPage(widgetRenderName);
+const defaultPage = freelogApp.router.getDefaultPage(widgetRenderName);
 ```
 
 ## 导航守卫
@@ -528,7 +528,7 @@ const defaultPage = router.getDefaultPage(widgetRenderName);
  * @param {string} name 子插件的name
  * @return cancel function 解绑路由监听函数
  */
-router.beforeEach((to, from, name) => {} | { name: (to, from) => {} })
+freelogApp.router.beforeEach((to, from, name) => {} | { name: (to, from) => {} })
 ```
 
 **示例：**
@@ -571,7 +571,7 @@ cancelCallback();
  * @param {string} name 子插件的name
  * @return cancel function 解绑路由监听函数
  */
-router.afterEach((to, from, name) => {} | { name: (to, from) => {} })
+freelogApp.router.afterEach((to, from, name) => {} | { name: (to, from) => {} })
 ```
 
 **示例：**
@@ -609,7 +609,7 @@ cancelCallback();
 /**
  * @param {string} name 必填，子插件的name
  */
-router.current.get(name);
+freelogApp.router.current.get(name);
 ```
 
 **示例：**
@@ -643,13 +643,13 @@ const routeInfo = freelogApp.router.current.get(widgetRenderName);
  * 编码
  * @param {string} path 必填，页面地址
  */
-router.encode((path: string));
+freelogApp.router.encode((path: string));
 
 /**
  * 解码
  * @param {string} path 必填，页面地址
  */
-router.decode((path: string));
+freelogApp.router.decode((path: string));
 ```
 
 **示例：**
@@ -692,7 +692,7 @@ const encodeResult = freelogApp.router.decode("%2Fpage1%2F");
  * 如果应用未渲染或已经卸载，则方法无效
  * @param {string} name 子插件的名称
  */
-router.attachToURL(name: string)
+freelogApp.router.attachToURL(name: string)
 
 /**
  * 将所有正在运行的子插件路由信息同步到浏览器地址上
@@ -700,7 +700,7 @@ router.attachToURL(name: string)
  * @param {boolean} includeHiddenApp 是否包含已经隐藏的keep-alive应用，默认为false
  * @param {boolean} includePreRender 是否包含预渲染应用，默认为false
  */
-router.attachAllToURL({
+freelogApp.router.attachAllToURL({
   includeHiddenApp?: boolean,
   includePreRender?: boolean,
 })
