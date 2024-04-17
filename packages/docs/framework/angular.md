@@ -48,7 +48,7 @@ window.unmount = () => {
 };
 ```
 
-完成以上步骤微前端即可正常渲染。
+完成以上步骤在运行时即可正常渲染。
 
 ### 可选设置
 
@@ -56,7 +56,7 @@ window.unmount = () => {
 
 #### 1、开启 umd 模式，优化内存和性能
 
-MicroApp 支持两种渲染微前端的模式，默认模式和 umd 模式。
+MicroApp 支持两种渲染在运行时的模式，默认模式和 umd 模式。
 
 - **默认模式：**子应用在初次渲染和后续渲染时会顺序执行所有 js，以保证多次渲染的一致性。
 - **umd 模式：**子应用暴露出`mount`、`unmount`方法，此时只在初次渲染时执行所有 js，后续渲染只会执行这两个方法，在多次渲染时具有更好的性能和内存表现。
@@ -96,7 +96,7 @@ window.unmount = () => {
   app = undefined;
 }
 
-// 如果不在微前端环境，则直接执行mount渲染
+// 如果不在运行时环境，则直接执行mount渲染
 if (!window.__MICRO_APP_ENVIRONMENT__) {
   window.mount();
 }
@@ -104,7 +104,7 @@ if (!window.__MICRO_APP_ENVIRONMENT__) {
 
 #### 2、设置 webpack.jsonpFunction
 
-如果微前端正常运行，则可以忽略这一步。
+如果在运行时正常运行，则可以忽略这一步。
 
 如果子应用资源加载混乱导致渲染失败，可以尝试设置`jsonpFunction`来解决，因为相同的`jsonpFunction`名称会导致资源污染。
 

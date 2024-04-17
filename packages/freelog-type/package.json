@@ -1,56 +1,30 @@
 {
-  "version": "3.5.3",
+  "name": "freelog-type",
+  "version": "3.5.4",
+  "description": "freelog-runtime类型文件",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "scripts": {
+    "start": "father dev",
+    "build": "father build",
+    "build:deps": "father prebundle",
+    "prepublishOnly": "father doctor && npm run build",
+    "pub": "father build & npm publish --registry https://registry.npmjs.org"
+  },
+  "keywords": [],
+  "authors": [
+    "455342265@qq.com"
+  ],
   "license": "MIT",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "types": "./types",
   "files": [
     "dist",
-    "src"
+    "compiled"
   ],
-  "engines": {
-    "node": ">=10"
+  "publishConfig": {
+    "access": "public"
   },
-  "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "pub": "tsdx build & npm publish --registry https://registry.npmjs.org",
-    "test": "tsdx test",
-    "lint": "tsdx lint",
-    "size": "size-limit",
-    "analyze": "size-limit --why"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
-  "name": "freelog-runtime",
-  "author": "snnaenu",
-  "module": "dist/freelog.esm.js",
-  "size-limit": [
-    {
-      "path": "dist/freelog.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/freelog.esm.js",
-      "limit": "10 KB"
-    }
-  ],
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^8.2.4",
-    "husky": "^8.0.3",
-    "size-limit": "^8.2.4",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.5.0",
-    "typescript": "^5.0.4"
+    "father": "^4.3.6"
   },
   "dependencies": {
     "axios": "^0.21.1",

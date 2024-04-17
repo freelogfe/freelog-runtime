@@ -1,15 +1,23 @@
-## 安装
+# freelog-type
+
+[![NPM version](https://img.shields.io/npm/v/freelog-type.svg?style=flat)](https://npmjs.org/package/freelog-type)
+[![NPM downloads](http://img.shields.io/npm/dm/freelog-type.svg?style=flat)](https://npmjs.org/package/freelog-type)
+
+## Install
 
 ```bash
-# npm
-npm install freelog-runtime --dev
-
-# yarn
-yarn add freelog-runtime -D
+$ pnpm install
 ```
 
-## 使用
-
-```js
- import { freelogApp } from 'freelog-runtime';
+```bash
+$ npm run dev
+$ npm run build
 ```
+
+## Options
+
+TODO
+
+## LICENSE
+
+MIT

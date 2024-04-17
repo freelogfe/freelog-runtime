@@ -22,7 +22,7 @@ outline: deep
 
 <!-- ### 运行原理
 
-**本平台使用京东微前端框架**
+**本平台使用京东在运行时框架**
 [https://micro-zoe.github.io/micro-app/docs.html#/](https://micro-zoe.github.io/micro-app/docs.html#/) -->
 
 <!-- ## 示例节点代码仓
