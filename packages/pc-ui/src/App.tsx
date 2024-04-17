@@ -145,6 +145,9 @@ function App() {
         await freelogApp.mountWidget(null, {
           widget: theme,
           container,
+          renderWidgetOptions: {
+            iframe: true,
+          },
         });
         loadingClose();
         // freelogApp.status.themeMounted = flag;
