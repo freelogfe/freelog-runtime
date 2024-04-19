@@ -9,30 +9,44 @@ export let freelogApp: FreelogApp = {} as FreelogApp;
 export const initFreelogApp = () => {
   const app = window.microApp?.getData().freelogApp;
   freelogApp = app;
-  const clearData = window.microApp.clearData;
-  const getData = window.microApp.getData;
-  const addDataListener = window.microApp.addDataListener;
-  const removeDataListener = window.microApp.removeDataListener;
-  const clearDataListener = window.microApp.clearDataListener;
-  const dispatch = window.microApp.dispatch;
-  const getGlobalData = window.microApp.getGlobalData;
-  const addGlobalDataListener = window.microApp.addGlobalDataListener;
-  const removeGlobalDataListener = window.microApp.removeGlobalDataListener;
-  const clearGlobalDataListener = window.microApp.clearGlobalDataListener;
-  const setGlobalData = window.microApp.setGlobalData;
-  widgetApi = {
-    clearData,
-    getData,
-    addDataListener,
-    removeDataListener,
-    clearDataListener,
-    dispatch,
-    getGlobalData,
-    addGlobalDataListener,
-    removeGlobalDataListener,
-    clearGlobalDataListener,
-    setGlobalData,
-  };
+  widgetApi = window.microApp;
+  // const clearData = window.microApp.clearData;
+  // const getData = window.microApp.getData;
+  // const addDataListener = window.microApp.addDataListener;
+  // const removeDataListener = window.microApp.removeDataListener;
+  // const clearDataListener = window.microApp.clearDataListener;
+  // const dispatch = window.microApp.dispatch;
+  // const getGlobalData = window.microApp.getGlobalData;
+  // const addGlobalDataListener = window.microApp.addGlobalDataListener;
+  // const removeGlobalDataListener = window.microApp.removeGlobalDataListener;
+  // const clearGlobalDataListener = window.microApp.clearGlobalDataListener;
+  // const setGlobalData = window.microApp.setGlobalData;
+  // Object.assign(widgetApi, {
+  //   clearData,
+  //   getData,
+  //   addDataListener,
+  //   removeDataListener,
+  //   clearDataListener,
+  //   dispatch,
+  //   getGlobalData,
+  //   addGlobalDataListener,
+  //   removeGlobalDataListener,
+  //   clearGlobalDataListener,
+  //   setGlobalData,
+  // });
+  // widgetApi = {
+  //   clearData,
+  //   getData,
+  //   addDataListener,
+  //   removeDataListener,
+  //   clearDataListener,
+  //   dispatch,
+  //   getGlobalData,
+  //   addGlobalDataListener,
+  //   removeGlobalDataListener,
+  //   clearGlobalDataListener,
+  //   setGlobalData,
+  // };
   return { freelogApp, widgetApi };
 };
 
@@ -196,9 +210,6 @@ export interface FreelogApp {
 }
 
 interface RenderWidgetOptions {
-  name: string; // 应用名称，必传
-  url: string; // 应用地址，必传
-  container: string | Element; // 应用容器或选择器，必传
   iframe?: boolean; // 是否切换为iframe沙箱，可选
   inline?: boolean; // 开启内联模式运行js，可选
   // 'disable-scopecss'?: boolean, // 关闭样式隔离，可选
@@ -217,14 +228,14 @@ interface RenderWidgetOptions {
   onDataChange?: Function; // 获取子应用发送数据的监听函数，可选
   // 注册子应用的生命周期
   lifeCycles?: {
-    created(e: CustomEvent): void; // 加载资源前触发
-    beforemount(e: CustomEvent): void; // 加载资源完成后，开始渲染之前触发
-    mounted(e: CustomEvent): void; // 子应用渲染结束后触发
-    unmount(e: CustomEvent): void; // 子应用卸载时触发
-    error(e: CustomEvent): void; // 子应用渲染出错时触发
-    beforeshow(e: CustomEvent): void; // 子应用推入前台之前触发（keep-alive模式特有）
-    aftershow(e: CustomEvent): void; // 子应用推入前台之后触发（keep-alive模式特有）
-    afterhidden(e: CustomEvent): void; // 子应用推入后台时触发（keep-alive模式特有）
+    created?(e: CustomEvent): void; // 加载资源前触发
+    beforemount?(e: CustomEvent): void; // 加载资源完成后，开始渲染之前触发
+    mounted?(e: CustomEvent): void; // 子应用渲染结束后触发
+    unmount?(e: CustomEvent): void; // 子应用卸载时触发
+    error?(e: CustomEvent): void; // 子应用渲染出错时触发
+    beforeshow?(e: CustomEvent): void; // 子应用推入前台之前触发（keep-alive模式特有）
+    aftershow?(e: CustomEvent): void; // 子应用推入前台之后触发（keep-alive模式特有）
+    afterhidden?(e: CustomEvent): void; // 子应用推入后台时触发（keep-alive模式特有）
   };
 }
 interface SignItem {

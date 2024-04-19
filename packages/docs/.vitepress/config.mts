@@ -32,8 +32,8 @@ export default defineConfig({
           { text: 'react', link: '/framework/react' },
           { text: 'vue', link: '/framework/vue' },
           { text: 'vite', link: '/framework/vite' },
-          { text: 'nexjts', link: '/framework/nextjs' },
-          { text: 'nuxtjs', link: '/framework/nuxtjs' },
+          // { text: 'nexjts', link: '/framework/nextjs' },
+          // { text: 'nuxtjs', link: '/framework/nuxtjs' },
           // { text: 'angular', link: '/framework/angular' },
         ]
       },

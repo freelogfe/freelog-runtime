@@ -1,0 +1,1 @@
+import{_ as s,c as i,o as a,a2 as n}from"./chunks/framework.AHPLLXzo.js";const y=JSON.parse('{"title":"插件数据通信","description":"","frontmatter":{},"headers":[],"relativePath":"guide/data.md","filePath":"guide/data.md"}'),t={name:"guide/data.md"},h=n("",142),l=[h];function p(k,e,E,d,r,g){return a(),i("div",null,l)}const c=s(t,[["render",p]]);export{y as __pageData,c as default};
