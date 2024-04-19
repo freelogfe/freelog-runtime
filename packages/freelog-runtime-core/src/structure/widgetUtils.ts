@@ -7,7 +7,7 @@ export function setUserDataKeyForDev(name: string, resourceName: string) {
   widgetsConfig.get(name).DevResourceName = resourceName;
 }
 export function getSelfWidgetRenderName(name: string) {
-  return widgetsConfig.get(name)?.widgetRenderName;
+  return widgetsConfig.get(name)?.name;
 }
 
 export function getSelfArticleId(name: string) {
@@ -127,6 +127,7 @@ const viewPortValue = {
 };
 const rawDocument = window.document;
 const metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
+console.log(metaEl, 9999)
 export function getViewport(name: string) {
   return metaEl.getAttribute("content");
 }

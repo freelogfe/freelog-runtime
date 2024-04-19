@@ -1,8 +1,8 @@
-import { WidgetApp, PlainObject, NodeInfo } from './widget';
-import { AxiosResponse, ResponseType } from 'axios';
-import { FreelogUserInfo, PageResult } from 'egg-freelog-base';
-import { IApiDataFormat } from './base';
-import { ExhibitInfo, PresentableDependencyTree } from './interface';
+import { WidgetApp, PlainObject, NodeInfo } from "./widget";
+import { AxiosResponse, ResponseType } from "axios";
+import { FreelogUserInfo, PageResult } from "egg-freelog-base";
+import { IApiDataFormat } from "./base";
+import { ExhibitInfo, PresentableDependencyTree } from "./interface";
 
 export let widgetApi: WidgetApi = {} as WidgetApi;
 export let freelogApp: FreelogApp = {} as FreelogApp;
@@ -82,7 +82,7 @@ export interface FreelogApp {
     isLoadVersionProperty?: 0 | 1; // 是否响应展品版本属性
     isLoadPolicyInfo?: 0 | 1; // 是否加载策略信息.测试环境自动忽略此参数
     isTranslate?: 0 | 1; // 是否同步翻译.测试环境自动忽略此参数
-  }) => Promise<AxiosResponse<IApiDataFormat<PageResult<ExhibitInfo>>>>;
+  }) => Promise<AxiosResponse<IApiDataFormat<PageResult<ExhibitInfo[]>>>>;
   getExhibitInfo: (
     exhibitId: string,
     query?: {
@@ -103,13 +103,16 @@ export interface FreelogApp {
   ) => Promise<any | string>;
   getExhibitDepFileStream: (
     exhibitId: string,
-    parentNid: string,
-    subArticleIdOrName: string,
-    returnUrl?: boolean,
-    config?: {
-      onUploadProgress?: (progressEvent: any) => void;
-      onDownloadProgress?: (progressEvent: any) => void;
-      responseType?: ResponseType;
+    options: {
+      parentNid: string; // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
+      subArticleId: string; // 子依赖的作品ID
+      returnUrl?: boolean;
+      config?: {
+        onUploadProgress?: any;
+        onDownloadProgress?: any;
+        responseType?: ResponseType;
+      };
+      subFilePath?: string;
     }
   ) => Promise<any | string>;
   getExhibitSignCount: (
@@ -132,9 +135,11 @@ export interface FreelogApp {
   ) => Promise<AxiosResponse<IApiDataFormat<PresentableDependencyTree[]>>>;
   getExhibitDepInfo: (
     exhibitId: string,
-    articleNids: string
+    query: {
+      articleNids: string;
+    }
   ) => Promise<IApiDataFormat<DependArticleInfo[]>>;
-  getSignStatistics: (query: {
+  getSignStatistics: (query?: {
     keywords: string; // 标的物名称，这里指展品名称
   }) => Promise<IApiDataFormat<SignCount[]>>;
   getSubDep: () => Promise<{
@@ -165,11 +170,11 @@ export interface FreelogApp {
   setViewport: (options: {
     width?: string;
     height?: string;
-    'initial-scale'?: number;
-    'maximum-scale'?: number;
-    'minimum-scale'?: number;
-    'user-scalable'?: string;
-    'viewport-fit'?: string;
+    "initial-scale"?: number;
+    "maximum-scale"?: number;
+    "minimum-scale"?: number;
+    "user-scalable"?: string;
+    "viewport-fit"?: string;
   }) => void;
   reload: () => void;
   resultType: {
@@ -181,7 +186,7 @@ export interface FreelogApp {
     OFFLINE: number;
   };
   getCurrentUrl: () => string;
-  getShareUrl: (exhibitId: string) => string;
+  getShareUrl: (exhibitId: string, type: "detail" | "content") => string;
   mapShareUrl: (routeMap: {
     // 详情对应的路由，运行时获取返回值后会修改url
     detail?: (exhibitId: string) => string;
@@ -198,11 +203,11 @@ interface RenderWidgetOptions {
   inline?: boolean; // 开启内联模式运行js，可选
   // 'disable-scopecss'?: boolean, // 关闭样式隔离，可选
   // 'disable-sandbox'?: boolean, // 关闭沙箱，可选
-  'disable-memory-router'?: boolean; // 关闭虚拟路由系统，可选
-  'default-page'?: string; // 指定默认渲染的页面，可选
-  'keep-router-state'?: boolean; // 保留路由状态，可选
-  'disable-patch-request'?: boolean; // 关闭子应用请求的自动补全功能，可选
-  'keep-alive'?: boolean; // 开启keep-alive模式，可选
+  "disable-memory-router"?: boolean; // 关闭虚拟路由系统，可选
+  "default-page"?: string; // 指定默认渲染的页面，可选
+  "keep-router-state"?: boolean; // 保留路由状态，可选
+  "disable-patch-request"?: boolean; // 关闭子应用请求的自动补全功能，可选
+  "keep-alive"?: boolean; // 开启keep-alive模式，可选
   destroy?: boolean; // 卸载时强制删除缓存资源，可选
   fiber?: boolean; // 开启fiber模式，可选
   baseroute?: string; // 设置子应用的基础路由，可选

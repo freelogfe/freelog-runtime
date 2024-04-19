@@ -1,4 +1,5 @@
 ﻿import { widgetsConfig, widgetUserData, FREELOG_DEV } from "./widget";
+import { freelogApp } from "./freelogApp";
 export const SHARE_DETAIL = "detail";
 export const SHARE_CONTENT = "content";
 export const FREELOG_ROUTE_MAPS = "FREELOG_ROUTE_MAPS";
@@ -24,14 +25,29 @@ export function mapShareUrl(name: string, routeMap: any) {
   if (data && href) {
     const func = routeMap ? routeMap[data.type] : null;
     let route = "";
-    if (func instanceof Function) {
+    if (func) {
       route = func(data.exhibitId);
+      setTimeout(() => {
+        freelogApp.router.replace({
+          name: theme.name,
+          path: route,
+          replace: true,
+        });
+      }, 0);
     }
-    const last = rawLocation.search
-      ? rawLocation.search + `&${theme.name}${route}`
-      : `?${theme.name}${route}`;
-    const url = rawLocation.origin + last;
-    rawHistory.replaceState(rawHistory.state, "", url);
+    // console.log(rawLocation.search, route);
+    // let search = rawLocation.search;
+    // if (search) {
+    //   search = search
+    //     .split("&")
+    //     .filter((item) => !item.startsWith(theme.name))
+    //     .join("&");
+    // }
+    // const last = search
+    //   ? search + `&${theme.name}=${encodeURIComponent(route)}`
+    //   : `?${theme.name}=${encodeURIComponent(route)}`;
+    // const url = rawLocation.origin + last;
+    // rawHistory.replaceState(rawHistory.state, "", url);
   }
 }
 const urlTest = /^\/?.{24}\/(detail|content)\/?$/;
@@ -42,7 +58,6 @@ export function isShareUrl(url: string) {
     urltrim = urltrim.indexOf("/") === 0 ? urltrim.replace("/", "") : urltrim;
     const exhibitId = urltrim.split("/")[0];
     const type = urltrim.split("/")[1];
-    debugger
     return {
       exhibitId,
       type,

@@ -67,7 +67,7 @@ export async function getExhibitListByPaging(
     }
   );
 }
-export async function getSignStatistics(name: string, query: any) {
+export async function getSignStatistics(name: string, query?: any) {
   return frequest(contract.getSignStatistics, "", {
     signUserIdentityType: 2,
     nodeId: baseInfo.nodeId,

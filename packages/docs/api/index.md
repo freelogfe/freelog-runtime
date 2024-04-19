@@ -42,23 +42,21 @@ const nodeInfo = freelogApp.nodeInfo;
 
 ### devData
 
-**用途：开发过程中获取当前 url 中 dev 后面的开发者数据**
+**用途：开发过程中获取当前 url 中 dev 后面的数据，详情解释待完善**
 
 ```ts
 **用法**
 const data = freelogApp.devData;
 ```
 
-### setUserDataKeyForDev
+**返回示例**
 
-**用途：用于开发模式时，非节点内部主题或插件（外部未签约的资源）开发时设置用户数据保存的 key，等签约后线上用户数据与开发时一致**
-
-```ts
-**参数说明**
-  key: string; // 必须使用资源名称
-
-**用法**
-const data = freelogApp.setUserDataKeyForDev("snnaenu/插件开发演示代码主题");
+```json
+{
+  "type": 1,
+  "params": { "dev": "https://localhost:8103", "f27307a": "/exhibit-sub" },
+  "config": { "vconsole": false }
+}
 ```
 
 ### getCurrentUrl
@@ -286,19 +284,19 @@ const res = await freelogApp.getExhibitListByPaging({
 
 | 参数                    | 必选 | 类型及范围    | 说明                                                         |
 | :---------------------- | :--- | :------------ | :----------------------------------------------------------- |
-| skip                    | 可选 | number           | 跳过的数量.默认为 0.                                         |
-| limit                   | 可选 | number           | 本次请求获取的数据条数.一般不允许超过 100                    |
+| skip                    | 可选 | number        | 跳过的数量.默认为 0.                                         |
+| limit                   | 可选 | number        | 本次请求获取的数据条数.一般不允许超过 100                    |
 | sort                    | 可选 | string        | 排序,格式为{排序字段}:{1\|-1},1 是正序,-1 是倒序             |
 | articleResourceTypes    | 可选 | string        | 作品资源类型,多个用逗号分隔                                  |
 | omitArticleResourceType | 可选 | string        | 忽略的作品资源类型,与 resourceType 参数互斥                  |
-| onlineStatus            | 可选 | number           | 上线状态 (0:下线 1:上线 2:全部) 默认 1                       |
+| onlineStatus            | 可选 | number        | 上线状态 (0:下线 1:上线 2:全部) 默认 1                       |
 | tags                    | 可选 | string        | 用户创建 presentable 时设置的自定义标签,多个用","分割        |
-| tagQueryType            | 可选 | number           | tags 的查询方式 1:任意匹配一个标签 2:全部匹配所有标签 默认:1 |
+| tagQueryType            | 可选 | number        | tags 的查询方式 1:任意匹配一个标签 2:全部匹配所有标签 默认:1 |
 | projection              | 可选 | string        | 指定返回的字段,多个用逗号分隔                                |
 | keywords                | 可选 | string[1,100] | 搜索关键字,目前支持模糊搜索节点资源名称和资源名称            |
-| isLoadVersionProperty   | 可选 | number           | 是否响应展品版本属性                                         |
-| isLoadPolicyInfo        | 可选 | number           | 是否加载策略信息.测试环境自动忽略此参数                      |
-| isTranslate             | 可选 | number           | 是否同步翻译.测试环境自动忽略此参数                          |
+| isLoadVersionProperty   | 可选 | number        | 是否响应展品版本属性                                         |
+| isLoadPolicyInfo        | 可选 | number        | 是否加载策略信息.测试环境自动忽略此参数                      |
+| isTranslate             | 可选 | number        | 是否同步翻译.测试环境自动忽略此参数                          |
 
 **返回说明：**
 
@@ -311,15 +309,15 @@ const res = await freelogApp.getExhibitListByPaging({
 | intro                   | string   | 展品简介                                                     |
 | coverImages             | string[] | 展品封面图                                                   |
 | version                 | string   | 展品版本                                                     |
-| onlineStatus            | number      | 上线状态 0:下线 1:上线                                       |
-| exhibitSubjectType      | number      | 展品对应的标的物类型(1:资源 2:展品 3:用户组)                 |
-| userId                  | number      | 展品的创建者 ID                                              |
-| nodeId                  | number      | 展品所属节点 ID                                              |
-| status                  | number      | 状态(0:正常)                                                 |
+| onlineStatus            | number   | 上线状态 0:下线 1:上线                                       |
+| exhibitSubjectType      | number   | 展品对应的标的物类型(1:资源 2:展品 3:用户组)                 |
+| userId                  | number   | 展品的创建者 ID                                              |
+| nodeId                  | number   | 展品所属节点 ID                                              |
+| status                  | number   | 状态(0:正常)                                                 |
 | policies                | object[] | 对外授权的策略组                                             |
 | \*\* policyId           | string   | 策略 ID                                                      |
 | \*\* policyName         | string   | 策略名称                                                     |
-| \*\* status             | number      | 策略状态 0:下线(未启用) 1:上线(启用)                         |
+| \*\* status             | number   | 策略状态 0:下线(未启用) 1:上线(启用)                         |
 | \*\* policyText         | string   | 策略文本                                                     |
 | \*\* translateInfo      | object   | 翻译信息<详见策略翻译文档>                                   |
 | \*\* fsmDescriptionInfo | object   | 策略状态机描述信息<策略语言编译对象>                         |
@@ -327,8 +325,8 @@ const res = await freelogApp.getExhibitListByPaging({
 | \*\* articleId          | string   | 作品 ID                                                      |
 | \*\* articleName        | string   | 作品名称                                                     |
 | \*\* resourceType       | string[] | 作品资源类型                                                 |
-| \*\* articleType        | number      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)   |
-| \*\* articleOwnerId     | number      | 作品所有者 ID                                                |
+| \*\* articleType        | number   | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)   |
+| \*\* articleOwnerId     | number   | 作品所有者 ID                                                |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                               |
 | versionInfo             | object   | 展品的版本信息,加载版本属性时,才会赋值                       |
 | \*\*exhibitProperty     | object   | 展品的版本属性                                               |
@@ -336,11 +334,11 @@ const res = await freelogApp.getExhibitListByPaging({
 | \*\*\*\*nid             | string   | 依赖 ID(指的是此依赖在依赖树上的 id,用来确定依赖的唯一性)    |
 | \*\*\*\*articleId       | string   | 作品 ID,配合作品类型一起理解. 例如类型是资源,此处就是资源 ID |
 | \*\*\*\*articleName     | string   | 作品名称                                                     |
-| \*\*\*\*articleType     | number      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)   |
+| \*\*\*\*articleType     | number   | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)   |
 | \*\*\*\*version         | string   | 版本号                                                       |
 | \*\*\*\*versionRange    | string   | semver 版本范围                                              |
 | \*\*\*\*resourceType    | stirng[] | 作品资源类型                                                 |
-| \*\*\*\*deep            | number      | 该依赖在依赖树中的层级                                       |
+| \*\*\*\*deep            | number   | 该依赖在依赖树中的层级                                       |
 | \*\*\*\*parentNid       | string   | 父级依赖 ID                                                  |
 | createDate              | date     | 创建日期                                                     |
 | updateDate              | date     | 更新日期                                                     |
@@ -717,13 +715,13 @@ const res = await freelogApp.getExhibitListById(query)
 | intro                   | string   | 展品简介                                                   |
 | coverImages             | string[] | 展品封面图                                                 |
 | version                 | string   | 展品版本                                                   |
-| onlineStatus            | number      | 上线状态 0:下线 1:上线                                     |
-| userId                  | number      | 展品的创建者 ID                                            |
-| nodeId                  | number      | 展品所属节点 ID                                            |
+| onlineStatus            | number   | 上线状态 0:下线 1:上线                                     |
+| userId                  | number   | 展品的创建者 ID                                            |
+| nodeId                  | number   | 展品所属节点 ID                                            |
 | policies                | object[] | 对外授权的策略组                                           |
 | \*\* policyId           | string   | 策略 ID                                                    |
 | \*\* policyName         | string   | 策略名称                                                   |
-| \*\* status             | number      | 策略状态 0:下线(未启用) 1:上线(启用)                       |
+| \*\* status             | number   | 策略状态 0:下线(未启用) 1:上线(启用)                       |
 | \*\* policyText         | string   | 策略文本                                                   |
 | \*\* translateInfo      | object   | 翻译信息<详见策略翻译文档>                                 |
 | \*\* fsmDescriptionInfo | object   | 策略状态机描述信息<策略语言编译对象>                       |
@@ -731,8 +729,8 @@ const res = await freelogApp.getExhibitListById(query)
 | \*\* articleId          | string   | 作品 ID                                                    |
 | \*\* articleName        | string   | 作品名称                                                   |
 | \*\* resourceType       | string   | 作品资源类型                                               |
-| \*\* articleType        | number      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
-| \*\* articleOwnerId     | number      | 作品所有者 ID                                              |
+| \*\* articleType        | number   | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
+| \*\* articleOwnerId     | number   | 作品所有者 ID                                              |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                             |
 | versionInfo             | object   | 展品的版本信息,加载版本属性时,才会赋值                     |
 | \*\*exhibitProperty     | object   | 展品的版本属性                                             |
@@ -1019,15 +1017,15 @@ const res = await freelogApp.getExhibitInfo(exhibitId, query)
 | intro                   | string   | 展品简介                                                     |
 | coverImages             | string[] | 展品封面图                                                   |
 | version                 | string   | 展品版本                                                     |
-| onlineStatus            | number      | 上线状态 0:下线 1:上线                                       |
-| exhibitSubjectType      | number      | 展品对应的标的物类型(1:资源 2:展品 3:用户组)                 |
-| userId                  | number      | 展品的创建者 ID                                              |
-| nodeId                  | number      | 展品所属节点 ID                                              |
-| status                  | number      | 状态(0:正常)                                                 |
+| onlineStatus            | number   | 上线状态 0:下线 1:上线                                       |
+| exhibitSubjectType      | number   | 展品对应的标的物类型(1:资源 2:展品 3:用户组)                 |
+| userId                  | number   | 展品的创建者 ID                                              |
+| nodeId                  | number   | 展品所属节点 ID                                              |
+| status                  | number   | 状态(0:正常)                                                 |
 | policies                | object[] | 对外授权的策略组                                             |
 | \*\* policyId           | string   | 策略 ID                                                      |
 | \*\* policyName         | string   | 策略名称                                                     |
-| \*\* status             | number      | 策略状态 0:下线(未启用) 1:上线(启用)                         |
+| \*\* status             | number   | 策略状态 0:下线(未启用) 1:上线(启用)                         |
 | \*\* policyText         | string   | 策略文本                                                     |
 | \*\* translateInfo      | object   | 翻译信息<详见策略翻译文档>                                   |
 | \*\* fsmDescriptionInfo | object   | 策略状态机描述信息<策略语言编译对象>                         |
@@ -1035,8 +1033,8 @@ const res = await freelogApp.getExhibitInfo(exhibitId, query)
 | \*\* articleId          | string   | 作品 ID                                                      |
 | \*\* articleName        | string   | 作品名称                                                     |
 | \*\* resourceType       | string[] | 作品资源类型                                                 |
-| \*\* articleType        | number      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)   |
-| \*\* articleOwnerId     | number      | 作品所有者 ID                                                |
+| \*\* articleType        | number   | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)   |
+| \*\* articleOwnerId     | number   | 作品所有者 ID                                                |
 | \*\* articleOwnerName   | string   | 作品所有者名称                                               |
 | versionInfo             | object   | 展品的版本信息,加载版本属性时,才会赋值                       |
 | \*\*exhibitProperty     | object   | 展品的版本属性                                               |
@@ -1044,11 +1042,11 @@ const res = await freelogApp.getExhibitInfo(exhibitId, query)
 | \*\*\*\*nid             | string   | 依赖 ID(指的是此依赖在依赖树上的 id,用来确定依赖的唯一性)    |
 | \*\*\*\*articleId       | string   | 作品 ID,配合作品类型一起理解. 例如类型是资源,此处就是资源 ID |
 | \*\*\*\*articleName     | string   | 作品名称                                                     |
-| \*\*\*\*articleType     | number      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)   |
+| \*\*\*\*articleType     | number   | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)   |
 | \*\*\*\*version         | string   | 版本号                                                       |
 | \*\*\*\*versionRange    | string   | semver 版本范围                                              |
 | \*\*\*\*resourceType    | stirng[] | 作品资源类型                                                 |
-| \*\*\*\*deep            | number      | 该依赖在依赖树中的层级                                       |
+| \*\*\*\*deep            | number   | 该依赖在依赖树中的层级                                       |
 | \*\*\*\*parentNid       | string   | 父级依赖 ID                                                  |
 | createDate              | date     | 创建日期                                                     |
 | updateDate              | date     | 更新日期                                                     |
@@ -1139,12 +1137,12 @@ const res = await freelogApp.getExhibitFileStream(
 ```ts
 **参数说明**
   exhibitId: string ,  展品id
-  articleNids: string, 展品依赖的作品ID,多个用逗号分隔
+  {articleNids: string}, 展品依赖的作品ID,多个用逗号分隔
 
 **用法**
 const res = await freelogApp.getExhibitDepInfo(
   exhibitId,
-  articleNids
+  {articleNids: string}
 )
 ```
 
@@ -1155,7 +1153,7 @@ const res = await freelogApp.getExhibitDepInfo(
 | nid             | string   | 作品在展品依赖树上的节点 ID                                |
 | articleId       | string   | 作品 ID                                                    |
 | articleName     | string   | 作品名称                                                   |
-| articleType     | number      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
+| articleType     | number   | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
 | version         | string   | 作品的版本                                                 |
 | resourceType    | string   | 作品的资源类型                                             |
 | articleProperty | object   | 作品的属性                                                 |
@@ -1332,7 +1330,7 @@ const res = await freelogApp.getExhibitSignCount(exhibitIds)
 | 返回值字段 | 字段类型 | 字段说明                 |
 | :--------- | :------- | :----------------------- |
 | subjectId  | string   | 标的物 ID，这里是展品 id |
-| count      | number      | 已签约的总数(已去重)     |
+| count      | number   | 已签约的总数(已去重)     |
 
 **返回示例**
 
@@ -1372,9 +1370,9 @@ const res = await freelogApp.getExhibitAuthStatus(exhibitIds)
 | :-------------------- | :------- | :--------------------------------------------------------- |
 | exhibitId             | string   | 展品 ID                                                    |
 | exhibitName           | string   | 展品名称                                                   |
-| referee               | number      | 做出授权结果的标的物服务类型(1:资源服务 2:展品服务)        |
-| defaulterIdentityType | number      | 授权不通过责任方(0:无 1:资源 2:节点 4:c 端消费者 128:未知) |
-| authCode              | number      | 授权码                                                     |
+| referee               | number   | 做出授权结果的标的物服务类型(1:资源服务 2:展品服务)        |
+| defaulterIdentityType | number   | 授权不通过责任方(0:无 1:资源 2:节点 4:c 端消费者 128:未知) |
+| authCode              | number   | 授权码                                                     |
 | isAuth                | boolean  | 是否授权通过                                               |
 | errorMsg              | string   | 错误信息                                                   |
 
@@ -1450,7 +1448,7 @@ const res = await freelogApp.getExhibitAvailable(exhibitIds)
 
 ```ts
 **参数说明**
-   query: {
+   query?: {
      keywords: string // 标的物名称，这里指展品名称
     }
 
@@ -1740,6 +1738,18 @@ const res = await freelogApp.setUserData(key, data);
 
 **用法**
 const userData = await freelogApp.getUserData(key);
+```
+
+### setUserDataKeyForDev
+
+**用途：用于开发模式时，非节点内部主题或插件（外部未签约的资源）开发时设置用户数据保存的 key，等签约后线上用户数据与开发时一致**
+
+```ts
+**参数说明**
+  key: string; // 必须使用资源名称
+
+**用法**
+freelogApp.setUserDataKeyForDev("snnaenu/插件开发演示代码主题");
 ```
 
 ### callLogin

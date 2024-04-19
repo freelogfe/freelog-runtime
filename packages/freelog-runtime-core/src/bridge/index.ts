@@ -39,9 +39,9 @@ export function updateLock(status: boolean) {
 // export function setPresentableQueue(name: string, value: any) {
 //   exhibitQueue.set(name, value);
 // }
+let callAuthCallBack: any = null;
 export async function addAuth(name: string, exhibitId: string, options?: any) {
   const arr = eventMap.get(exhibitId)?.callBacks || [];
-  const widgetData = widgetsConfig.get(name);
   return new Promise((resolve) => {
     Promise.all([
       freelogApp.getExhibitInfo(name, exhibitId, {
@@ -75,7 +75,7 @@ export async function addAuth(name: string, exhibitId: string, options?: any) {
       });
       const id = exhibitId;
       eventMap.set(id, {
-        isTheme: name ? widgetData.isTheme : true,
+        isTheme: name ? false : true,
         eventId: id, // 后期evnetId是要与prsesentableId区分开来的
         ...data,
         callBacks: arr,
@@ -83,6 +83,7 @@ export async function addAuth(name: string, exhibitId: string, options?: any) {
       if (options && options.immediate) {
         if (!uiInited) {
           UI && UI(CONTRACT);
+          uiInited = true;
         } else {
           if (locked) {
             setTimeout(() => {
@@ -92,24 +93,28 @@ export async function addAuth(name: string, exhibitId: string, options?: any) {
             updateUI && updateUI();
           }
         }
+      } else {
+        callAuthCallBack && callAuthCallBack();
       }
-      uiInited = true;
     });
   });
 }
 export function callAuth() {
   if (window.isTest) return;
-  if (!uiInited) {
-    UI && UI(CONTRACT);
-  } else {
-    if (locked) {
-      setTimeout(() => {
-        updateUI && updateUI();
-      }, 0);
+  callAuthCallBack = () => {
+    if (!uiInited) {
+      UI && UI(CONTRACT);
+      uiInited = true;
     } else {
-      updateUI && updateUI();
+      if (locked) {
+        setTimeout(() => {
+          updateUI && updateUI();
+        }, 0);
+      } else {
+        updateUI && updateUI();
+      }
     }
-  }
+  };
 }
 export function clearEvent() {
   eventMap.clear();
