@@ -1,5 +1,5 @@
 import { WidgetApp, PlainObject, NodeInfo } from "./widget";
-import { AxiosResponse, ResponseType } from "axios";
+import { AxiosResponse, ResponseType, AxiosRequestConfig } from "axios";
 import { FreelogUserInfo, PageResult } from "egg-freelog-base";
 import { IApiDataFormat } from "./base";
 import { ExhibitInfo, PresentableDependencyTree } from "./interface";
@@ -108,8 +108,8 @@ export interface FreelogApp {
     options?: {
       returnUrl?: boolean;
       config?: {
-        onUploadProgress?: any;
-        onDownloadProgress?: any;
+        onUploadProgress?: (progressEvent: any) => void;
+        onDownloadProgress?: (progressEvent: any) => void;
         responseType?: ResponseType;
       };
       subFilePath?: string;
@@ -122,8 +122,8 @@ export interface FreelogApp {
       subArticleId: string; // 子依赖的作品ID
       returnUrl?: boolean;
       config?: {
-        onUploadProgress?: any;
-        onDownloadProgress?: any;
+        onUploadProgress?: (progressEvent: any) => void;
+        onDownloadProgress?: (progressEvent: any) => void;
         responseType?: ResponseType;
       };
       subFilePath?: string;
@@ -140,7 +140,7 @@ export interface FreelogApp {
   ) => Promise<AxiosResponse<IApiDataFormat<AuthResult[]>>>;
   getExhibitDepTree: (
     exhibitId: string | number,
-    options: {
+    options?: {
       version?: string;
       nid?: string;
       maxDeep?: number;
@@ -161,7 +161,13 @@ export interface FreelogApp {
     exhibitId: string;
     articleNid: string;
     resourceType: string;
-    subDep: any[];
+    subDep: {
+      id: string;
+      name: string;
+      nid: string;
+      resourceType: string[];
+      type: number;
+    }[];
     versionInfo: PlainObject;
     data: AuthResult | ExhibitInfo;
   }>;

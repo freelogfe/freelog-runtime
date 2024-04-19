@@ -43,9 +43,11 @@ window.unmount = () => {
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import { freelogApp, initFreelogApp } from "freelog-runtime";
 
 // 👇 将渲染操作放入 mount 函数，子应用初始化时会自动执行
 window.mount = () => {
+  initFreelogApp();
   ReactDOM.render(<App />, document.getElementById("root"));
 };
 

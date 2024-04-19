@@ -79,10 +79,12 @@ MicroApp 支持两种渲染在运行时的模式，默认模式和 umd 模式。
 import Vue from "vue";
 import router from "./router";
 import App from "./App.vue";
+import { freelogApp, initFreelogApp } from "freelog-runtime";
 
 let app = null;
 // 👇 将渲染操作放入 mount 函数，子应用初始化时会自动执行
 window.mount = () => {
+  initFreelogApp();
   app = new Vue({
     router,
     render: (h) => h(App),
@@ -110,12 +112,14 @@ import { createApp } from "vue";
 import * as VueRouter from "vue-router";
 import routes from "./router";
 import App from "./App.vue";
+import { freelogApp, initFreelogApp } from "freelog-runtime";
 
 let app = null;
 let router = null;
 let history = null;
 // 👇 将渲染操作放入 mount 函数，子应用初始化时会自动执行
 window.mount = () => {
+  initFreelogApp();
   history = VueRouter.createWebHistory();
   router = VueRouter.createRouter({
     history,

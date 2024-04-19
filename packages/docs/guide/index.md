@@ -16,7 +16,7 @@ outline: deep
 
 ### 通俗解释
 
-**插件是一个运行在我司平台运行时的可管控的一个完整应用或组件**
+**插件是一个运行在我司平台运行时的可管控的一个完整应用或组件，与微前端类似**
 
 **后面出现的运行时皆指平台运行时**
 
@@ -25,19 +25,21 @@ outline: deep
 **本平台使用京东在运行时框架**
 [https://micro-zoe.github.io/micro-app/docs.html#/](https://micro-zoe.github.io/micro-app/docs.html#/) -->
 
-<!-- ## 示例节点代码仓
+## 示例节点代码仓
 
-[https://github.com/freelogfe/freelog-sample-themes.git](https://github.com/freelogfe/freelog-sample-themes.git) -->
+[https://github.com/freelogfe/freelog-sample-themes.git](https://github.com/freelogfe/freelog-sample-themes.git)
 
-<!-- ## 基础使用案例代码仓
+## 基础使用案例
 
-[https://github.com/freelogfe/freelog-developer-guide-examples.git](https://github.com/freelogfe/freelog-developer-guide-examples.git)
+节点：[https://examples.testfreelog.com](https://examples.testfreelog.com)
 
-### 有意思的怀旧红白机
+代码仓：[https://github.com/freelogfe/freelog-developer-guide-examples.git](https://github.com/freelogfe/freelog-developer-guide-examples.git)
+
+<!-- ### 有意思的怀旧红白机
 
 [https://nes-game.freelog.com](https://nes-game.freelog.com) -->
 
-### 框架改造
+## 框架改造
 
 [前往框架改造指南](/framework/index)
 
@@ -144,7 +146,7 @@ subData.subDep.some((sub, index) => {
 
 ```ts
 import { freelogApp } from "freelog-runtime";
-const res = await freelogApp.getExhibitListById({
+const res = await freelogApp.getExhibitListByPaging({
   articleResourceTypes: "widget",
   isLoadVersionProperty: 1,
 });
@@ -170,7 +172,7 @@ widgets.some((widget, index) => {
 ```ts
 // 父插件（或主题）
 import { freelogApp } from "freelog-runtime";
-const res = await freelogApp.getExhibitListById({
+const res = await freelogApp.getExhibitListByPaging({
   articleResourceTypes: "widget",
   isLoadVersionProperty: 1,
 });
@@ -290,8 +292,8 @@ const res = freelogApp.getExhibitListById(query)
 
 **参数说明**
   query:{
-    exhibitIds: string,  展品ids 多个使用","隔开
-    isLoadVersionProperty: 0 | 1, 可选，是否加载版本信息,默认0
+    exhibitIds: string, // 展品ids 多个使用","隔开
+    isLoadVersionProperty: 0 | 1, // 可选，是否加载版本信息,默认0
   }
 ```
 
@@ -303,7 +305,7 @@ const res = freelogApp.getExhibitListById(query)
 const res = await  freelogApp.getExhibitInfo(exhibitId, query)
 
 **参数说明**
-  exhibitId: 展品id，
+  exhibitId:// 展品id，
   query:{
       isLoadVersionProperty: 0 | 1, // 是否需要展品版本属性
   }
@@ -323,7 +325,11 @@ const res = await freelogApp.getExhibitFileStream(
   exhibitId: // 展品id，
   options: {
     returnUrl?: boolean; // 是否只返回url， 例如img标签图片只需要url
-    config?: any; // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
+    config?: {
+      onUploadProgress?: (progressEvent: any) => void;
+      onDownloadProgress?: (progressEvent: any) => void;
+      responseType?: ResponseType;
+    },   //  axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
     subFilePath?: string; // 漫画中的图片等子文件的路径
   },
 ```
@@ -385,27 +391,35 @@ const res = await freelogApp.getExhibitDepInfo(
   articleNids
 )
 **参数说明**
-  exhibitId: string ,  自身展品id
-  articleNids: string, 链路id
+  exhibitId: string ,  // 自身展品id
+  articleNids: string, // 例如上面的dependencyTree中的多个nid: "61b99394c9da,9091f75e23fb"
+                          // 一个或多个链路id,多个用英文逗号隔开, 在依赖树当中的唯一标识id
 ```
 
 ### 获取子依赖作品文件
 
 ```ts
 const res = await freelogApp.getExhibitDepFileStream(
-  exhibitId: string ,
-  parentNid: string,
-  subArticleIdOrName: string,
-  returnUrl?: boolean,
-  config?: any
+  exhibitId,
+  query:{
+    parentNid,
+    subArticleId,
+    returnUrl
+  }
 )
 
 **参数说明**
-  exhibitId: string , // 自身展品id
-  parentNid: string,    // 自身链路id
-  subArticleIdOrName: string, // 子依赖作品id或名称
-  returnUrl?: boolean, // 是否只返回url， 例如img标签图片只需要url
-  config?: any // axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
+  exhibitId: string, // 自身展品id
+  query: {
+    parentNid: string; // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
+    subArticleId: string; // 子依赖的作品ID
+    returnUrl?: boolean; // 是否只返回url， 例如img标签图片只需要url
+    config?: {
+      onUploadProgress?: (progressEvent: any) => void;
+      onDownloadProgress?: (progressEvent: any) => void;
+      responseType?: ResponseType;
+    },   //  axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
+  }
 ```
 
 ### 查找展品签约数量
@@ -418,7 +432,7 @@ const res = await freelogApp.getExhibitSignCount(
 )
 
 **参数说明**
-  exhibitIds: 用英文逗号隔开的展品id
+  exhibitIds:string // 一个或多个展品id，多个用英文逗号隔开
 ```
 
 ### 批量查询展品授权
@@ -429,10 +443,10 @@ const res = await freelogApp.getExhibitAuthStatus(
 )
 
 **参数说明**
-  exhibitIds:  用英文逗号隔开的展品id
+  exhibitIds: string //  一个或多个展品id，多个用英文逗号隔开
 ```
 
-### 批量查询展品是否可用（即能否提供给用户签约）
+### 批量查询展品是否可用（即节点是否完全获得授权，然后才能提供给用户签约）
 
 ```ts
 const res = await freelogApp.getExhibitAvailable(
@@ -440,7 +454,7 @@ const res = await freelogApp.getExhibitAvailable(
 )
 
 **参数说明**
-  exhibitIds:  用英文逗号隔开的展品id
+  exhibitIds: //  一个或多个展品id，多个用英文逗号隔开
 ```
 
 [查看 getExhibitAvailable 详情](/api/#getExhibitAvailable)
@@ -523,7 +537,7 @@ freelogApp.callAuth();
 ### 唤起登录
 
 ```ts
-// callback: 登录成功的回调，登录失败不会回调,这里需要考虑一下，
+// callback: 登录成功的回调，登录失败不会回调
 freelogApp.callLogin(callback);
 ```
 

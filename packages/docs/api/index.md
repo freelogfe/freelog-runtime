@@ -114,13 +114,19 @@ const res = await freelogApp.getSubDep()
 
 **返回值**
 {
-  exhibitName,  展品名称
-  exhibitId,   展品id
-  articleNid, 作品链路id
-  resourceType, 作品类型
-  subDep,  子依赖数组
-  versionInfo: { exhibitProperty }, 版本信息
-  data: AuthResult | ExhibitInfo,  有授权时data为展品信息，无授权时data为授权信息
+  exhibitName, // 展品名称
+  exhibitId,  // 展品id
+  articleNid, // 作品链路id, 在依赖树当中的唯一标识id
+  resourceType,// 作品类型
+  subDep:[{
+    id: string; // 子依赖id
+    name: string; // 子依赖名称
+    nid: string;  // 子依赖链路id,在依赖树当中的唯一标识id
+    resourceType: string[];// 资源类型
+    type: number; // 当前请求的作品类型(1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)
+  }],  // 子依赖数组
+  versionInfo: { exhibitProperty }, // 版本信息
+  data: AuthResult | ExhibitInfo, //  有授权时data为展品信息，无授权时data为授权信息
 }
 ```
 
@@ -1113,11 +1119,15 @@ const res = await freelogApp.getExhibitInfo(exhibitId, query)
 
 ```ts
 **参数说明**
-  exhibitId: 展品id，
+  exhibitId: string // 展品id，
   options: {
-    returnUrl?: boolean; 是否只返回url， 例如img标签图片只需要url
-    config?: any;   axios的config 目前仅支持"onUploadProgress",  "onDownloadProgress", "responseType"
-    subFilePath?: string;   漫画中的图片等子文件的路径
+    returnUrl?: boolean; // 是否只返回url， 例如img标签图片只需要url
+    config?: {
+      onUploadProgress?: (progressEvent: any) => void;
+      onDownloadProgress?: (progressEvent: any) => void;
+      responseType?: ResponseType;
+    };  // axios的config 目前仅支持"onUploadProgress",  "onDownloadProgress", "responseType"
+    subFilePath?: string;  // 漫画中的图片等子文件的路径
   },
 
 **用法**
@@ -1136,8 +1146,8 @@ const res = await freelogApp.getExhibitFileStream(
 
 ```ts
 **参数说明**
-  exhibitId: string ,  展品id
-  {articleNids: string}, 展品依赖的作品ID,多个用逗号分隔
+  exhibitId: string ,  // 展品id
+  {articleNids: string}, // 展品依赖的作品ID,多个用逗号分隔
 
 **用法**
 const res = await freelogApp.getExhibitDepInfo(
@@ -1200,19 +1210,26 @@ const res = await freelogApp.getExhibitDepInfo(
 
 ```ts
 **参数说明**
-  exhibitId: string ,  自身展品id
-  parentNid: string,     自身链路id
-  subArticleIdOrName: string,   子依赖作品id或名称
-  returnUrl?: boolean, 是否只返回url， 例如img标签图片只需要url
-  config?: object,    axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
+  exhibitId: string, // 自身展品id
+  query: {
+    parentNid: string; // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
+    subArticleId: string; // 子依赖的作品ID
+    returnUrl?: boolean; // 是否只返回url， 例如img标签图片只需要url
+    config?: {
+      onUploadProgress?: (progressEvent: any) => void;
+      onDownloadProgress?: (progressEvent: any) => void;
+      responseType?: ResponseType;
+    },   //  axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
+  }
 
 **用法**
 const res = await freelogApp.getExhibitDepFileStream(
   exhibitId,
-  parentNid,
-  subArticleIdOrName,
-  returnUrl,
-  config
+  query:{
+    parentNid,
+    subArticleId,
+    returnUrl
+  }
 )
 ```
 
@@ -1223,7 +1240,7 @@ const res = await freelogApp.getExhibitDepFileStream(
 ```ts
 **参数说明**
  exhibitId: string , // 展品id
-  options: {
+  options?: {
     version?: string; // 引用的发行版本号,默认使用锁定的最新版本
     nid?: string; // 叶子节点ID,如果需要从叶子节点开始响应,则传入此参数
     maxDeep?: number; // 依赖树最大返回深度
@@ -1319,7 +1336,7 @@ const res = await freelogApp.getExhibitDepTree(
 
 ```ts
 **参数说明**
-  exhibitIds: string,  用英文逗号隔开的展品id
+  exhibitIds: string,  // 用英文逗号隔开的一个或多个展品id
 
 **用法**
 const res = await freelogApp.getExhibitSignCount(exhibitIds)
@@ -1358,7 +1375,7 @@ const res = await freelogApp.getExhibitSignCount(exhibitIds)
 
 ```ts
 **参数说明**
-  exhibitIds: string, 用英文逗号隔开的展品id
+  exhibitIds: string, // 用英文逗号隔开的一个或多个展品id
 
 **用法**
 const res = await freelogApp.getExhibitAuthStatus(exhibitIds)
@@ -1403,7 +1420,7 @@ const res = await freelogApp.getExhibitAuthStatus(exhibitIds)
 
 ```ts
 **参数说明**
-  exhibitIds:: string,  用英文逗号隔开的展品id
+  exhibitIds:: string,  // 用英文逗号隔开的一个或多个展品id
 
 **用法**
 const res = await freelogApp.getExhibitAvailable(exhibitIds)
@@ -1642,7 +1659,7 @@ freelogApp.callAuth();
 
 ```ts
 **参数说明**
-  exhibitId: string,
+  exhibitId: string,  // 展品id
   options?: {
     immediate: boolean  // 是否立即弹出授权窗口
   }
@@ -1809,7 +1826,7 @@ freelogApp.pushMessage4Task(data).then((res)=>{})
 
 ```ts
 **参数说明**
-  exhibitId： 展品ID
+  exhibitId：string, // 展品ID
   type: "detail" | "content"
 
 **用法**
