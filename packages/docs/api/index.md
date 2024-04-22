@@ -185,9 +185,9 @@ let widgetController: WidgetApp = await freelogApp.mountWidget(options)
 
 interface WidgetApp {
   success: boolean;
-  widgetId: string;
+  widgetRenderName: string;
   getApi: () => PlainObject; // 获取子插件入口处注册的对象
-  unmount: (widgetId: string, options?: unmountAppParams) => Promise<boolean>;// 卸载插件
+  unmount: (options?: unmountAppParams) => Promise<boolean>;// 卸载插件
   reload: (destroy?: boolean) => Promise<boolean>; // 重载插件
   setData: (data: Record<PropertyKey, unknown>) => any; // 发送数据给子插件，子插件通过freelogApp.addDataListener监听获取
   getData:()=>any; // 返回父插件下发的data数据

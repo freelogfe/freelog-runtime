@@ -1,9 +1,31 @@
-import { NodeInfo, PlainObject } from "./base";
+import {
+  NodeInfo,
+  PlainObject,
+  AuthResult,
+  SignItem,
+  DependArticleInfo,
+  SignCount,
+} from "./base";
 import { AxiosResponse, ResponseType } from "axios";
 import { FreelogUserInfo, PageResult } from "egg-freelog-base";
 import { IApiDataFormat } from "./base";
 import { ExhibitInfo, PresentableDependencyTree } from "./interface";
-import { SetUserDataKeyForDev, MountWidget } from "./freelogApp";
+import { MountWidgetOptions } from "./widget";
+
+import {
+  MountWidgetResult,
+  GetSubDepResult,
+  GetExhibitListByIdResult,
+  GetExhibitListByPagingResult,
+  GetExhibitInfoResult,
+  GetExhibitSignCountResult,
+  GetExhibitAuthStatusResult,
+  GetExhibitAvailableResult,
+  GetExhibitDepTreeResult,
+  GetExhibitDepInfoResult,
+  GetSignStatisticsResult,
+} from "./result";
+export * from "./result";
 export let widgetApi: WidgetApi = {} as WidgetApi;
 export let freelogApp: FreelogApp = {} as FreelogApp;
 export const initFreelogApp = () => {
@@ -29,15 +51,15 @@ export interface WidgetApi {
 }
 export interface FreelogApp {
   registerApi: (obj: PlainObject) => void;
-  setUserDataKeyForDev: SetUserDataKeyForDev;
+  setUserDataKeyForDev: (key: string) => void;
   nodeInfo: NodeInfo;
   devData: PlainObject;
   getCurrentUser: () => FreelogUserInfo;
-  mountWidget: MountWidget;
+  mountWidget: (options: MountWidgetOptions) => Promise<MountWidgetResult>;
   getExhibitListById: (query: {
     exhibitIds: string;
     isLoadVersionProperty?: 0 | 1;
-  }) => Promise<AxiosResponse<IApiDataFormat<ExhibitInfo[]>>>;
+  }) => Promise<GetExhibitListByIdResult>;
   getExhibitListByPaging: (options?: {
     /**
      * 跳过的数量.默认为0.
@@ -91,13 +113,13 @@ export interface FreelogApp {
      * 是否同步翻译.测试环境自动忽略此参数
      */
     isTranslate?: 0 | 1;
-  }) => Promise<AxiosResponse<IApiDataFormat<PageResult<ExhibitInfo[]>>>>;
+  }) => Promise<GetExhibitListByPagingResult>;
   getExhibitInfo: (
     exhibitId: string,
     query?: {
       isLoadVersionProperty: 0 | 1;
     }
-  ) => Promise<AxiosResponse<IApiDataFormat<ExhibitInfo>>>;
+  ) => Promise<GetExhibitInfoResult>;
   getExhibitFileStream: (
     exhibitId: string,
     options?: {
@@ -138,13 +160,13 @@ export interface FreelogApp {
   ) => Promise<any | string>;
   getExhibitSignCount: (
     exhibitIds: string
-  ) => Promise<AxiosResponse<IApiDataFormat<SignItem[]>>>;
+  ) => Promise<GetExhibitSignCountResult>;
   getExhibitAuthStatus: (
     exhibitIds: string
-  ) => Promise<AxiosResponse<IApiDataFormat<AuthResult[]>>>;
+  ) => Promise<GetExhibitAuthStatusResult>;
   getExhibitAvailable: (
     exhibitIds: string
-  ) => Promise<AxiosResponse<IApiDataFormat<AuthResult[]>>>;
+  ) => Promise<GetExhibitAvailableResult>;
   getExhibitDepTree: (
     exhibitId: string | number,
     options?: {
@@ -165,7 +187,7 @@ export interface FreelogApp {
        */
       isContainRootNode?: boolean;
     }
-  ) => Promise<AxiosResponse<IApiDataFormat<PresentableDependencyTree[]>>>;
+  ) => Promise<GetExhibitDepTreeResult>;
   getExhibitDepInfo: (
     exhibitId: string,
     query: {
@@ -174,52 +196,14 @@ export interface FreelogApp {
        */
       articleNids: string;
     }
-  ) => Promise<IApiDataFormat<DependArticleInfo[]>>;
+  ) => Promise<GetExhibitDepInfoResult>;
   getSignStatistics: (query?: {
     /**
      * 标的物名称，这里指展品名称
      */
     keywords: string;
-  }) => Promise<IApiDataFormat<SignCount[]>>;
-  getSubDep: () => Promise<{
-    exhibitName: string;
-    exhibitId: string;
-    /**
-     * 作品链路id, 在依赖树当中的唯一标识id
-     */
-    articleNid: string;
-    /**
-     * 作品类型
-     */
-    resourceType: string;
-    subDep: {
-      /**
-       * 子依赖作品id
-       */
-      id: string;
-      /**
-       * 子依赖名称
-       */
-      name: string;
-      /**
-       * 子依赖链路id,在依赖树当中的唯一标识id
-       */
-      nid: string;
-      /**
-       * 资源类型
-       */
-      resourceType: string[];
-      /**
-       * 当前请求的作品类型(1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)
-       */
-      type: number;
-    }[];
-    versionInfo: PlainObject;
-    /**
-     * 有授权时data为展品信息，无授权时data为授权信息
-     */
-    data: AuthResult | ExhibitInfo;
-  }>;
+  }) => Promise<GetSignStatisticsResult>;
+  getSubDep: () => Promise<GetSubDepResult>;
   setUserData: (key: string | number, data: any) => Promise<any>;
   getUserData: (key: string | number) => Promise<any>;
   getSelfArticleId: () => string;
@@ -262,37 +246,4 @@ export interface FreelogApp {
     // 内容对应的路由，运行时获取返回值后会修改url
     content?: (exhibitId: string) => string;
   }) => void;
-}
-
-interface SignItem {
-  subjectId: string;
-  count: number;
-}
-interface AuthResult {
-  exhibitId: string;
-  exhibitName: string;
-  authCode: number;
-  referee: number;
-  defaulterIdentityType: number;
-  isAuth: boolean;
-  errorMsg: string;
-}
-interface DependArticleInfo {
-  nid: string;
-  articleId: string;
-  articleName: string;
-  articleType: 1;
-  version: string;
-  resourceType: string;
-  articleProperty: {
-    fileSize: number;
-    mime: string;
-  };
-}
-interface SignCount {
-  subjectId: string;
-  subjectName: string;
-  policyIds: string[];
-  latestSignDate: string;
-  count: number;
 }
