@@ -1,52 +1,16 @@
-import { WidgetApp, PlainObject, NodeInfo } from "./widget";
-import { AxiosResponse, ResponseType, AxiosRequestConfig } from "axios";
+import { NodeInfo, PlainObject } from "./base";
+import { AxiosResponse, ResponseType } from "axios";
 import { FreelogUserInfo, PageResult } from "egg-freelog-base";
 import { IApiDataFormat } from "./base";
 import { ExhibitInfo, PresentableDependencyTree } from "./interface";
-
+import { SetUserDataKeyForDev, MountWidget } from "./freelogApp";
 export let widgetApi: WidgetApi = {} as WidgetApi;
 export let freelogApp: FreelogApp = {} as FreelogApp;
 export const initFreelogApp = () => {
   const app = window.microApp?.getData().freelogApp;
   freelogApp = app;
   widgetApi = window.microApp;
-  // const clearData = window.microApp.clearData;
-  // const getData = window.microApp.getData;
-  // const addDataListener = window.microApp.addDataListener;
-  // const removeDataListener = window.microApp.removeDataListener;
-  // const clearDataListener = window.microApp.clearDataListener;
-  // const dispatch = window.microApp.dispatch;
-  // const getGlobalData = window.microApp.getGlobalData;
-  // const addGlobalDataListener = window.microApp.addGlobalDataListener;
-  // const removeGlobalDataListener = window.microApp.removeGlobalDataListener;
-  // const clearGlobalDataListener = window.microApp.clearGlobalDataListener;
-  // const setGlobalData = window.microApp.setGlobalData;
-  // Object.assign(widgetApi, {
-  //   clearData,
-  //   getData,
-  //   addDataListener,
-  //   removeDataListener,
-  //   clearDataListener,
-  //   dispatch,
-  //   getGlobalData,
-  //   addGlobalDataListener,
-  //   removeGlobalDataListener,
-  //   clearGlobalDataListener,
-  //   setGlobalData,
-  // });
-  // widgetApi = {
-  //   clearData,
-  //   getData,
-  //   addDataListener,
-  //   removeDataListener,
-  //   clearDataListener,
-  //   dispatch,
-  //   getGlobalData,
-  //   addGlobalDataListener,
-  //   removeGlobalDataListener,
-  //   clearGlobalDataListener,
-  //   setGlobalData,
-  // };
+
   return { freelogApp, widgetApi };
 };
 
@@ -65,37 +29,68 @@ export interface WidgetApi {
 }
 export interface FreelogApp {
   registerApi: (obj: PlainObject) => void;
-  setUserDataKeyForDev: (resourceName: string) => void;
+  setUserDataKeyForDev: SetUserDataKeyForDev;
   nodeInfo: NodeInfo;
   devData: PlainObject;
   getCurrentUser: () => FreelogUserInfo;
-  mountWidget: (options: {
-    widget: any;
-    container: HTMLElement;
-    config?: PlainObject;
-    renderWidgetOptions?: RenderWidgetOptions;
-    topExhibitData?: any;
-    seq?: number;
-    widget_entry?: string;
-  }) => Promise<WidgetApp>;
+  mountWidget: MountWidget;
   getExhibitListById: (query: {
     exhibitIds: string;
     isLoadVersionProperty?: 0 | 1;
   }) => Promise<AxiosResponse<IApiDataFormat<ExhibitInfo[]>>>;
   getExhibitListByPaging: (options?: {
-    skip?: number; // 跳过的数量.默认为0.
-    limit?: number; // 本次请求获取的数据条数.一般不允许超过100
-    sort?: string; // 排序,格式为{排序字段}:{1|-1},1是正序,-1是倒序
-    articleResourceTypes?: string; // 作品资源类型,多个用逗号分隔
-    omitArticleResourceType?: string; // 忽略的作品资源类型,与resourceType参数互斥
-    onlineStatus?: number; // 上线状态 (0:下线 1:上线 2:全部) 默认1
-    tags?: string; // 用户创建presentable时设置的自定义标签,多个用","分割
-    tagQueryType?: number; // tags的查询方式1:任意匹配一个标签 2:全部匹配所有标签 默认:1
-    projection?: string; // 指定返回的字段,多个用逗号分隔
-    keywords?: string; // 搜索关键字,目前支持模糊搜索节点资源名称和资源名称
-    isLoadVersionProperty?: 0 | 1; // 是否响应展品版本属性
-    isLoadPolicyInfo?: 0 | 1; // 是否加载策略信息.测试环境自动忽略此参数
-    isTranslate?: 0 | 1; // 是否同步翻译.测试环境自动忽略此参数
+    /**
+     * 跳过的数量.默认为0.
+     */
+    skip?: number;
+    /**
+     * 本次请求获取的数据条数.一般不允许超过100
+     */
+    limit?: number;
+    /**
+     * 排序,格式为{排序字段}:{1|-1},1是正序,-1是倒序
+     */
+    sort?: string;
+    /**
+     * 作品资源类型,多个用逗号分隔
+     */
+    articleResourceTypes?: string;
+    /**
+     * 忽略的作品资源类型,与resourceType参数互斥
+     */
+    omitArticleResourceType?: string;
+    /**
+     * 上线状态 (0:下线 1:上线 2:全部) 默认1
+     */
+    onlineStatus?: number;
+    /**
+     * 用户创建presentable时设置的自定义标签,多个用","分割
+     */
+    tags?: string;
+    /**
+     *  tags的查询方式1:任意匹配一个标签 2:全部匹配所有标签 默认:1
+     */
+    tagQueryType?: number;
+    /**
+     * 指定返回的字段,多个用逗号分隔
+     */
+    projection?: string;
+    /**
+     * 搜索关键字,目前支持模糊搜索节点资源名称和资源名称
+     */
+    keywords?: string;
+    /**
+     * 是否响应展品版本属性
+     */
+    isLoadVersionProperty?: 0 | 1;
+    /**
+     * 是否加载策略信息.测试环境自动忽略此参数
+     */
+    isLoadPolicyInfo?: 0 | 1;
+    /**
+     * 是否同步翻译.测试环境自动忽略此参数
+     */
+    isTranslate?: 0 | 1;
   }) => Promise<AxiosResponse<IApiDataFormat<PageResult<ExhibitInfo[]>>>>;
   getExhibitInfo: (
     exhibitId: string,
@@ -112,20 +107,32 @@ export interface FreelogApp {
         onDownloadProgress?: (progressEvent: any) => void;
         responseType?: ResponseType;
       };
+      /**
+       * 漫画中的图片等子文件的路径
+       */
       subFilePath?: string;
     }
   ) => Promise<any | string>;
   getExhibitDepFileStream: (
     exhibitId: string,
     options: {
-      parentNid: string; // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
-      subArticleId: string; // 子依赖的作品ID
+      /**
+       * 依赖树上的父级节点ID
+       */
+      parentNid: string;
+      /**
+       * 子依赖的作品ID
+       */
+      subArticleId: string;
       returnUrl?: boolean;
       config?: {
         onUploadProgress?: (progressEvent: any) => void;
         onDownloadProgress?: (progressEvent: any) => void;
         responseType?: ResponseType;
       };
+      /**
+       * 漫画中的图片等子文件的路径
+       */
       subFilePath?: string;
     }
   ) => Promise<any | string>;
@@ -141,34 +148,76 @@ export interface FreelogApp {
   getExhibitDepTree: (
     exhibitId: string | number,
     options?: {
+      /**
+       * 引用的发行版本号,默认使用锁定的最新版本
+       */
       version?: string;
+      /**
+       * 叶子节点ID,如果需要从叶子节点开始响应,则传入此参数
+       */
       nid?: string;
+      /**
+       * 依赖树最大返回深度
+       */
       maxDeep?: number;
+      /**
+       * 是否包含根节点,默认包含
+       */
       isContainRootNode?: boolean;
     }
   ) => Promise<AxiosResponse<IApiDataFormat<PresentableDependencyTree[]>>>;
   getExhibitDepInfo: (
     exhibitId: string,
     query: {
+      /**
+       * 展品依赖的作品ID,多个用逗号分隔
+       */
       articleNids: string;
     }
   ) => Promise<IApiDataFormat<DependArticleInfo[]>>;
   getSignStatistics: (query?: {
-    keywords: string; // 标的物名称，这里指展品名称
+    /**
+     * 标的物名称，这里指展品名称
+     */
+    keywords: string;
   }) => Promise<IApiDataFormat<SignCount[]>>;
   getSubDep: () => Promise<{
     exhibitName: string;
     exhibitId: string;
+    /**
+     * 作品链路id, 在依赖树当中的唯一标识id
+     */
     articleNid: string;
+    /**
+     * 作品类型
+     */
     resourceType: string;
     subDep: {
+      /**
+       * 子依赖作品id
+       */
       id: string;
+      /**
+       * 子依赖名称
+       */
       name: string;
+      /**
+       * 子依赖链路id,在依赖树当中的唯一标识id
+       */
       nid: string;
+      /**
+       * 资源类型
+       */
       resourceType: string[];
+      /**
+       * 当前请求的作品类型(1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)
+       */
       type: number;
     }[];
     versionInfo: PlainObject;
+    /**
+     * 有授权时data为展品信息，无授权时data为授权信息
+     */
     data: AuthResult | ExhibitInfo;
   }>;
   setUserData: (key: string | number, data: any) => Promise<any>;
@@ -215,35 +264,6 @@ export interface FreelogApp {
   }) => void;
 }
 
-interface RenderWidgetOptions {
-  iframe?: boolean; // 是否切换为iframe沙箱，可选
-  inline?: boolean; // 开启内联模式运行js，可选
-  // 'disable-scopecss'?: boolean, // 关闭样式隔离，可选
-  // 'disable-sandbox'?: boolean, // 关闭沙箱，可选
-  "disable-memory-router"?: boolean; // 关闭虚拟路由系统，可选
-  "default-page"?: string; // 指定默认渲染的页面，可选
-  "keep-router-state"?: boolean; // 保留路由状态，可选
-  "disable-patch-request"?: boolean; // 关闭子应用请求的自动补全功能，可选
-  "keep-alive"?: boolean; // 开启keep-alive模式，可选
-  destroy?: boolean; // 卸载时强制删除缓存资源，可选
-  fiber?: boolean; // 开启fiber模式，可选
-  baseroute?: string; // 设置子应用的基础路由，可选
-  ssr?: boolean; // 开启ssr模式，可选
-  // shadowDOM?: boolean, // 开启shadowDOM，可选
-  data?: Object; // 传递给子应用的数据，可选
-  onDataChange?: Function; // 获取子应用发送数据的监听函数，可选
-  // 注册子应用的生命周期
-  lifeCycles?: {
-    created?(e: CustomEvent): void; // 加载资源前触发
-    beforemount?(e: CustomEvent): void; // 加载资源完成后，开始渲染之前触发
-    mounted?(e: CustomEvent): void; // 子应用渲染结束后触发
-    unmount?(e: CustomEvent): void; // 子应用卸载时触发
-    error?(e: CustomEvent): void; // 子应用渲染出错时触发
-    beforeshow?(e: CustomEvent): void; // 子应用推入前台之前触发（keep-alive模式特有）
-    aftershow?(e: CustomEvent): void; // 子应用推入前台之后触发（keep-alive模式特有）
-    afterhidden?(e: CustomEvent): void; // 子应用推入后台时触发（keep-alive模式特有）
-  };
-}
 interface SignItem {
   subjectId: string;
   count: number;

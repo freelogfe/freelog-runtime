@@ -1,5 +1,4 @@
-﻿
-export interface IApiDataFormat<T> {
+﻿export interface IApiDataFormat<T> {
   ret: RetCodeEnum;
   errCode: ErrCodeEnum;
   msg: string;
@@ -36,4 +35,24 @@ export declare enum ErrCodeEnum {
   gatewayRouterMatchError = 32,
   gatewayUpstreamApiError = 33,
   apiError = 100,
+}
+export interface PlainObject {
+  [str: string]: any;
+  [num: number]: any;
+}
+
+export interface NodeInfo {
+  nodeId: number;
+  nodeName: string;
+  nodeDomain: string;
+  ownerUserId: number;
+  ownerUserName: string;
+  nodeThemeId?: string;
+  status?: number;
+  uniqueKey?: string;
+  tags: string[];
+  nodeLogo?: string;
+  nodeTitle?: string;
+  nodeShortDescription?: string;
+  nodeSuspendInfo?: string;
 }

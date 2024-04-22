@@ -20,6 +20,10 @@ outline: deep
 
 **后面出现的运行时皆指平台运行时**
 
+### 特别说明
+
+**文中 resourceName 与 articleName, resourceId 与 articleId 属于同一属性**
+
 <!-- ### 运行原理
 
 **本平台使用京东在运行时框架**

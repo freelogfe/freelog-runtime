@@ -146,7 +146,7 @@ function App() {
           widget: theme,
           container,
           renderWidgetOptions: {
-            iframe: true,
+            // iframe: true,
           },
         });
         loadingClose();

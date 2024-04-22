@@ -3,8 +3,8 @@ import { widgetsConfig } from "./widget";
 import { addAuth } from "../bridge/index";
 import { getExhibitInfoByAuth } from "../freelogApp/api";
 // 这里的key使用的是资源名称
-export function setUserDataKeyForDev(name: string, resourceName: string) {
-  widgetsConfig.get(name).DevResourceName = resourceName;
+export function setUserDataKeyForDev(name: string, key: string) {
+  widgetsConfig.get(name).DevResourceName = key;
 }
 export function getSelfWidgetRenderName(name: string) {
   return widgetsConfig.get(name)?.name;

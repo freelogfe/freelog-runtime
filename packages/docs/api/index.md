@@ -119,7 +119,7 @@ const res = await freelogApp.getSubDep()
   articleNid, // 作品链路id, 在依赖树当中的唯一标识id
   resourceType,// 作品类型
   subDep:[{
-    id: string; // 子依赖id
+    id: string; // 子依赖作品id
     name: string; // 子依赖名称
     nid: string;  // 子依赖链路id,在依赖树当中的唯一标识id
     resourceType: string[];// 资源类型
