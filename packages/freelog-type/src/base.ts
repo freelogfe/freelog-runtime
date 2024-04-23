@@ -57,39 +57,5 @@ export interface NodeInfo {
   nodeSuspendInfo?: string;
 }
 
-export interface AuthResult {
-  exhibitId: string;
-  exhibitName: string;
-  authCode: number;
-  referee: number;
-  defaulterIdentityType: number;
-  isAuth: boolean;
-  errorMsg: string;
-}
 
-export interface SignItem {
-  subjectId: string;
-  count: number;
-}
-
-
-export interface DependArticleInfo {
-  nid: string;
-  articleId: string;
-  articleName: string;
-  articleType: 1;
-  version: string;
-  resourceType: string;
-  articleProperty: {
-    fileSize: number;
-    mime: string;
-  };
-}
-export interface SignCount {
-  subjectId: string;
-  subjectName: string;
-  policyIds: string[];
-  latestSignDate: string;
-  count: number;
-}
 
