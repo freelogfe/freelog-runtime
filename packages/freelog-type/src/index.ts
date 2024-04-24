@@ -36,11 +36,11 @@ export interface WidgetApi {
   removeDataListener: (dataListener: Function) => any;
   clearDataListener: () => any;
   dispatch: (obj: any) => any;
+  setGlobalData: (data: PlainObject) => any;
   getGlobalData: () => any;
   addGlobalDataListener: (dataListener: Function, autoTrigger?: boolean) => any;
   removeGlobalDataListener: (dataListener: Function) => any;
   clearGlobalDataListener: () => any;
-  setGlobalData: (data: PlainObject) => any;
 }
 export interface FreelogApp {
   registerApi: (obj: PlainObject) => void;

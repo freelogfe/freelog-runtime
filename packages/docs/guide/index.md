@@ -92,6 +92,24 @@ vite 请参考 @vitejs/plugin-basic-ssl 插件
 
 此时插件是作为节点主题（即入口）使用
 
+### URL 说明
+
+<https://examples.testfreelog.com/?theme=%2Fwidget-mount&w910d8e=%2Fwidget%2F&wa4083c1=%2Fwidget%2F>
+
+<https://examples.testfreelog.com>： 节点地址
+
+theme=%2Fwidget-mount：
+
+主题渲染id=主题的路由 %2Fwidget-mount=encodeURIComponent("/widget-mount")
+
+w910d8e=%2Fwidget%2F:
+
+插件渲染id=插件的路由 %2Fwidget%2F=encodeURIComponent("/widget/")
+
+wa4083c1=%2Fwidget%2F：
+
+插件渲染id=插件的路由 %2Fwidget%2F=encodeURIComponent("/widget/")
+
 ### 安装 api 库
 
 ```ts

@@ -1147,7 +1147,7 @@ const res = await freelogApp.getExhibitFileStream(
 ```ts
 **参数说明**
   exhibitId: string ,  // 展品id
-  {articleNids: string}, // 展品依赖的作品NID(链路id),多个用逗号分隔
+  {articleNids: string}, // 展品依赖的作品NID(依赖树上的节点ID),多个用逗号分隔
 
 **用法**
 const res = await freelogApp.getExhibitDepInfo(

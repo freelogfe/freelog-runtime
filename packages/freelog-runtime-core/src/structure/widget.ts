@@ -112,8 +112,12 @@ export async function mountWidget(
         articleName: widget.articleInfo.name || widget.articleInfo.articleName,
       },
     };
-    const hash = await digestMessage(widget.exhibitId);
-    widgetRenderName = "f" + hash + (seq || "");
+    if (isTheme) {
+      widgetRenderName = "theme";
+    } else {
+      const hash = await digestMessage(widget.exhibitId);
+      widgetRenderName = "w" + hash + (seq || "");
+    }
   } else {
     commonData = {
       id: widget.id,
@@ -125,8 +129,12 @@ export async function mountWidget(
         articleName: widget.name,
       },
     };
-    const hash = await digestMessage(topExhibitData.exhibitId + widget.id);
-    widgetRenderName = "f" + hash + (seq || "");
+    if (isTheme) {
+      widgetRenderName = "theme";
+    } else {
+      const hash = await digestMessage(topExhibitData.exhibitId + widget.id);
+      widgetRenderName = "w" + hash + (seq || "");
+    }
   }
   widget_entry &&
     console.warn(
@@ -269,7 +277,7 @@ export async function mountWidget(
   };
   const widgetControl = {
     success: flag,
-    widgetRenderName,
+    name: widgetRenderName,
     getApi: () => {
       return api.apis;
     },
