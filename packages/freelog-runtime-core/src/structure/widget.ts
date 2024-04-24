@@ -234,7 +234,7 @@ export async function mountWidget(
     "disable-sandbox": false, // 是否关闭沙盒，可选
   });
   // TODO 加载失败问题
-  const unmount = (options: {
+  const unmount = (options?: {
     destroy?: boolean;
     clearAliveState?: boolean;
   }) => {
@@ -286,9 +286,6 @@ export async function mountWidget(
   name && addChildWidget(name, widgetControl);
   return widgetControl;
 }
-
-// 需要name的名单，或者不需要的名单
-// const whiteList = []
 
 const obj = {};
 export const bindName = (name: string, registerApi: any) => {

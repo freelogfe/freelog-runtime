@@ -28,7 +28,7 @@ import { onLogin, onUserChange } from "../bridge/eventOn";
 import { isUserChange } from "./user";
 import { dev } from "./dev";
 import { getActiveWidget, getAllWidget } from "./jdPatch";
-const devData = dev();
+export const devData = dev();
 export const freelogApp: any = {
   ...freelogAppLib,
   nodeInfo: "",

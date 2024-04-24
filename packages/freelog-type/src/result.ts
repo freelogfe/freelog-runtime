@@ -4,7 +4,7 @@ import { ExhibitInfo, AuthResult } from "./exhibit";
 
 export interface WidgetController {
   success: boolean;
-  widgetRenderName: string;
+  name: string;
   getApi: () => PlainObject;
   unmount: (options?: unmountAppParams) => Promise<boolean>;
   reload: (destroy?: boolean) => Promise<boolean>;

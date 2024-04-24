@@ -104,7 +104,6 @@ window.mount = () => {
   initFreelogApp()
   freelogApp.registerApi({
     setData: (key: string, value: any) => {
-      console.log(key, value)
       const store = useStore();
       store.setData(key, value);
     },

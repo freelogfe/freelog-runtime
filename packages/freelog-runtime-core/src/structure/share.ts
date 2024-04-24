@@ -1,17 +1,31 @@
-﻿import { widgetsConfig, widgetUserData, FREELOG_DEV } from "./widget";
-import { freelogApp } from "./freelogApp";
+﻿import { widgetsConfig } from "./widget";
+import { freelogApp, devData } from "./freelogApp";
+import { DEV_FALSE, dev } from "./dev";
 export const SHARE_DETAIL = "detail";
 export const SHARE_CONTENT = "content";
 export const FREELOG_ROUTE_MAPS = "FREELOG_ROUTE_MAPS";
 export function getShareUrl(
   name: string,
   exhibitId: string,
-  type: "detail" | "content"
+  type: string
 ) {
-  return `${rawLocation.origin}/${exhibitId}/${type}`;
+  let search = window.location.search;
+  const devData = dev();
+  const params = { ...devData.params };
+  if (devData.type !== DEV_FALSE) {
+    widgetsConfig.forEach((element) => {
+      search = search.replace(
+        "&" + element.name + "=" + encodeURIComponent(params[element.name]),
+        ""
+      );
+    });
+  }
+  if (search) {
+    search = "/" + search;
+  }
+  return `${rawLocation.origin}/${exhibitId}/${type}${search}`;
 }
 const rawLocation = location;
-const rawHistory = history;
 // 只有在vue路由之前使用才有效, 但这种十分不合理，不应该在运行时来做
 export function mapShareUrl(name: string, routeMap: any) {
   // @ts-ignore
@@ -27,6 +41,10 @@ export function mapShareUrl(name: string, routeMap: any) {
     let route = "";
     if (func) {
       route = func(data.exhibitId);
+      const search = window.location.search
+        ? window.location.search + `&${theme.name + "=" + route}`
+        : `?${theme.name + "=" + route}`;
+      window.history.replaceState({}, "", `${window.location.origin}${search}`);
       setTimeout(() => {
         freelogApp.router.replace({
           name: theme.name,
@@ -35,22 +53,9 @@ export function mapShareUrl(name: string, routeMap: any) {
         });
       }, 0);
     }
-    // console.log(rawLocation.search, route);
-    // let search = rawLocation.search;
-    // if (search) {
-    //   search = search
-    //     .split("&")
-    //     .filter((item) => !item.startsWith(theme.name))
-    //     .join("&");
-    // }
-    // const last = search
-    //   ? search + `&${theme.name}=${encodeURIComponent(route)}`
-    //   : `?${theme.name}=${encodeURIComponent(route)}`;
-    // const url = rawLocation.origin + last;
-    // rawHistory.replaceState(rawHistory.state, "", url);
   }
 }
-const urlTest = /^\/?.{24}\/(detail|content)\/?$/;
+const urlTest = /^\/?.{24}\/(\w{1,})\/?$/;
 export function isShareUrl(url: string) {
   const urlObj = new URL(url);
   let urltrim = url.replace(urlObj.search, "").replace(urlObj.origin, "");

@@ -161,7 +161,7 @@ export interface FreelogApp {
     exhibitIds: string
   ) => Promise<AxiosResponse<IApiDataFormat<AuthResult[]>>>;
   getExhibitDepTree: (
-    exhibitId: string | number,
+    exhibitId: string,
     options?: {
       /**
        * 引用的发行版本号,默认使用锁定的最新版本

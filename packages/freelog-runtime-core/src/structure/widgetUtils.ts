@@ -79,15 +79,6 @@ export async function getSubDep(name: string, exhibitId?: any) {
   exhibitProperty = exhibitProperty
     ? JSON.parse(decodeURIComponent(exhibitProperty))
     : {};
-  console.log({
-    exhibitName,
-    exhibitId,
-    articleNid,
-    resourceType,
-    subDep,
-    versionInfo: { exhibitProperty },
-    ...response.data.data,
-  });
   return {
     exhibitName,
     exhibitId,
@@ -127,7 +118,7 @@ const viewPortValue = {
 };
 const rawDocument = window.document;
 const metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
-console.log(metaEl, 9999)
+console.log(metaEl, 9999);
 export function getViewport(name: string) {
   return metaEl.getAttribute("content");
 }

@@ -144,7 +144,7 @@ const res = await freelogApp.getSubDep()
     renderWidgetOptions?: RenderWidgetOptions; // 插件渲染配置
     seq?: number | null;  // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的
     widget_entry?: boolean | string; // 本地url，dev模式下，可以使用本地url调试子插件
-  }) => Promise<WidgetApp>;
+  }) => Promise<WidgetController>;
 
   // 子插件渲染配置
   interface RenderWidgetOptions {
@@ -179,13 +179,13 @@ const res = await freelogApp.getSubDep()
   }
 
 **用法**
-let widgetController: WidgetApp = await freelogApp.mountWidget(options)
+let widgetController: WidgetController = await freelogApp.mountWidget(options)
 
 **返回对象说明**
 
-interface WidgetApp {
+interface WidgetController {
   success: boolean;
-  widgetRenderName: string;
+  name: string; // 子插件渲染id  widgetRenderName
   getApi: () => PlainObject; // 获取子插件入口处注册的对象
   unmount: (options?: unmountAppParams) => Promise<boolean>;// 卸载插件
   reload: (destroy?: boolean) => Promise<boolean>; // 重载插件
@@ -1147,7 +1147,7 @@ const res = await freelogApp.getExhibitFileStream(
 ```ts
 **参数说明**
   exhibitId: string ,  // 展品id
-  {articleNids: string}, // 展品依赖的作品ID,多个用逗号分隔
+  {articleNids: string}, // 展品依赖的作品NID(链路id),多个用逗号分隔
 
 **用法**
 const res = await freelogApp.getExhibitDepInfo(
@@ -1827,10 +1827,10 @@ freelogApp.pushMessage4Task(data).then((res)=>{})
 ```ts
 **参数说明**
   exhibitId：string, // 展品ID
-  type: "detail" | "content"
+  type: string  // 自定义分享类型，例如detail,content
 
 **用法**
-freelogApp.getShareUrl(exhibitId, type)
+freelogApp.getShareUrl(exhibitId, "detail")
 ```
 
 ### mapShareUrl
@@ -1841,15 +1841,9 @@ freelogApp.getShareUrl(exhibitId, type)
 
 ```ts
 **参数说明**
-  // 映射详情与内容对应的路由
   routeMap: {
-    // 详情对应的路由，运行时获取返回值后会修改url
-    detail?: (exhibitId)=>{
+    key?: (exhibitId)=>{
       return `/mydetailroute/${exhibitId}`
-    }
-    // 内容对应的路由，运行时获取返回值后会修改url
-    content?: (exhibitId)=>{
-      return `/mycontentroute/${exhibitId}`
     }
   }
 
