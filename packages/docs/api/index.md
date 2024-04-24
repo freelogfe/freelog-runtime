@@ -1827,7 +1827,7 @@ freelogApp.pushMessage4Task(data).then((res)=>{})
 ```ts
 **参数说明**
   exhibitId：string, // 展品ID
-  type: string  // 自定义分享类型，例如detail,content
+  type: string  // 自定义分享类型，例如detail,content。规则：只允许包括下划线的任何单词字符  正则：[A-Za-z0-9_]
 
 **用法**
 freelogApp.getShareUrl(exhibitId, "detail")
@@ -1841,10 +1841,9 @@ freelogApp.getShareUrl(exhibitId, "detail")
 
 ```ts
 **参数说明**
-  routeMap: {
-    key?: (exhibitId)=>{
-      return `/mydetailroute/${exhibitId}`
-    }
+  {
+    // key为多个包括下划线的任何单词字符  正则：[A-Za-z0-9_]
+    key?: (exhibitId:string)=> url: string
   }
 
 **用法**
