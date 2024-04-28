@@ -1,7 +1,15 @@
-﻿import { PlainObject } from "./base";
-import { unmountAppParams } from "./widget";
-import { ExhibitInfo, AuthResult } from "./exhibit";
-
+﻿import { unmountAppParams } from "./widget";
+import { AxiosResponse, ResponseType } from "axios";
+import { FreelogUserInfo, PageResult } from "egg-freelog-base";
+import { IApiDataFormat, NodeInfo, PlainObject } from "./base";
+import {
+  ExhibitInfo,
+  ExhibitDependencyTree,
+  AuthResult,
+  SignItem,
+  DependArticleInfo,
+  SignCount,
+} from "./exhibit";
 export interface WidgetController {
   success: boolean;
   name: string;
@@ -56,3 +64,33 @@ export interface SubDepType {
    */
   type: number;
 }
+
+export type GetExhibitListByIdResult = AxiosResponse<
+  IApiDataFormat<ExhibitInfo[]>
+>;
+
+export type GetExhibitListByPagingResult = AxiosResponse<
+  IApiDataFormat<PageResult<ExhibitInfo[]>>
+>;
+
+export type GetExhibitInfoResult = AxiosResponse<IApiDataFormat<ExhibitInfo[]>>;
+
+export type GetExhibitSignCountResult = AxiosResponse<
+  IApiDataFormat<SignItem[]>
+>;
+
+export type GetExhibitAuthStatusResult = AxiosResponse<
+  IApiDataFormat<AuthResult[]>
+>;
+
+export type GetExhibitAvailableResult = AxiosResponse<
+  IApiDataFormat<AuthResult[]>
+>;
+
+export type GetExhibitDepTreeResult = AxiosResponse<
+  IApiDataFormat<ExhibitDependencyTree[]>
+>;
+
+export type GetExhibitDepInfoResult = IApiDataFormat<DependArticleInfo[]>;
+
+export type GetSignStatisticsResult = IApiDataFormat<SignCount[]>;

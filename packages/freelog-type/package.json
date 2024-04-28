@@ -1,6 +1,6 @@
 {
   "name": "freelog-runtime",
-  "version": "3.7.2",
+  "version": "3.7.3",
   "description": "freelog-runtime类型文件",
   "main": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
