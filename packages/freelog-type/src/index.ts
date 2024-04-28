@@ -1,6 +1,11 @@
 import { AxiosResponse, ResponseType } from "axios";
-import { FreelogUserInfo, PageResult } from "egg-freelog-base";
-import { IApiDataFormat, NodeInfo, PlainObject } from "./base";
+import {
+  IApiDataFormat,
+  NodeInfo,
+  PlainObject,
+  FreelogUserInfo,
+  PageResult,
+} from "./base";
 import {
   ExhibitInfo,
   ExhibitDependencyTree,
@@ -17,7 +22,7 @@ export * from "./exhibit";
 export { ArticleTypeEnum } from "./enum";
 
 export { NodeInfo } from "./base";
-export { FreelogUserInfo, SubjectTypeEnum } from "egg-freelog-base";
+export { SubjectTypeEnum, FreelogUserInfo } from "./base";
 
 export let widgetApi: WidgetApi = {} as WidgetApi;
 export let freelogApp: FreelogApp = {} as FreelogApp;
@@ -106,7 +111,7 @@ export interface FreelogApp {
      * 是否同步翻译.测试环境自动忽略此参数
      */
     isTranslate?: 0 | 1;
-  }) => Promise<AxiosResponse<IApiDataFormat<PageResult<ExhibitInfo[]>>>>;
+  }) => Promise<AxiosResponse<IApiDataFormat<PageResult<ExhibitInfo>>>>;
   getExhibitInfo: (
     exhibitId: string,
     query?: {

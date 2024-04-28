@@ -57,5 +57,84 @@ export interface NodeInfo {
   nodeSuspendInfo?: string;
 }
 
+/**
+ * 标的物类型
+ */
+export declare enum SubjectTypeEnum {
+  /**
+   * 资源
+   */
+  Resource = 1,
+  /**
+   * 展品
+   */
+  Presentable = 2,
+  /**
+   * 用户组
+   */
+  UserGroup = 3,
+}
 
+/**
+ * freelog-api通用分页数据格式
+ */
+export interface PageResult<T> {
+  /**
+   * 数据查询起点条数,类似于(page-1)*pageSize
+   */
+  skip: number;
+  /**
+   * 获取的数据数量,类似于pageSize
+   */
+  limit: number;
+  /**
+   * 总数量
+   */
+  totalItem: number;
+  /**
+   * 当前分页的数据集
+   */
+  dataList: T[];
+}
 
+export interface FreelogUserInfo {
+  [key: string]: any;
+  userId: number;
+  username: string;
+}
+/**
+ * 合同乙方的身份类型
+ */
+export declare enum ContractLicenseeIdentityTypeEnum {
+  /**
+   * 资源方
+   */
+  Resource = 1,
+  /**
+   * 节点
+   */
+  Node = 2,
+  /**
+   * C端消费者
+   */
+  ClientUser = 3,
+}
+/**
+ * 合同状态枚举
+ */
+export declare enum ContractStatusEnum {
+  /**
+   * 正常生效中
+   */
+  Executed = 0,
+  /**
+   * 合同已终止(未授权,并且不再接受新事件)
+   * @type {number}
+   */
+  Terminated = 1,
+  /**
+   * 异常的,例如签名不对,冻结等.
+   * @type {number}
+   */
+  Exception = 2,
+}

@@ -1,6 +1,6 @@
 {
   "name": "freelog-runtime",
-  "version": "3.7.3",
+  "version": "3.7.6",
   "description": "freelog-runtime类型文件",
   "main": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -27,7 +27,6 @@
     "father": "^4.3.6"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "egg-freelog-base": "^3.1.47"
+    "axios": "^0.21.1"
   }
 }

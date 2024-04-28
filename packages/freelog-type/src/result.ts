@@ -70,7 +70,7 @@ export type GetExhibitListByIdResult = AxiosResponse<
 >;
 
 export type GetExhibitListByPagingResult = AxiosResponse<
-  IApiDataFormat<PageResult<ExhibitInfo[]>>
+  IApiDataFormat<PageResult<ExhibitInfo>>
 >;
 
 export type GetExhibitInfoResult = AxiosResponse<IApiDataFormat<ExhibitInfo[]>>;

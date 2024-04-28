@@ -2,7 +2,7 @@
   ContractLicenseeIdentityTypeEnum,
   ContractStatusEnum,
   SubjectTypeEnum,
-} from "egg-freelog-base";
+} from "./base";
 export interface ContractInfo {
   contractId: string;
   contractName: string;
