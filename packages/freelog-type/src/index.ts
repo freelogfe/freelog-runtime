@@ -16,7 +16,20 @@ import {
 } from "./exhibit";
 import { MountWidgetOptions } from "./widget";
 
-import { WidgetController, GetSubDepResult } from "./result";
+import {
+  WidgetController,
+  GetSubDepResult,
+  GetExhibitListByIdResult,
+  GetExhibitListByPagingResult,
+  GetExhibitInfoResult,
+  GetExhibitSignCountResult,
+  GetExhibitAuthStatusResult,
+  GetExhibitAvailableResult,
+  GetExhibitDepTreeResult,
+  GetExhibitDepInfoResult,
+  GetSignStatisticsResult,
+  AddAuthResult,
+} from "./result";
 export * from "./result";
 export * from "./exhibit";
 export { ArticleTypeEnum } from "./enum";
@@ -57,7 +70,7 @@ export interface FreelogApp {
   getExhibitListById: (query: {
     exhibitIds: string;
     isLoadVersionProperty?: 0 | 1;
-  }) => Promise<AxiosResponse<IApiDataFormat<ExhibitInfo[]>>>;
+  }) => Promise<GetExhibitListByIdResult>;
   getExhibitListByPaging: (options?: {
     /**
      * 跳过的数量.默认为0.
@@ -111,13 +124,13 @@ export interface FreelogApp {
      * 是否同步翻译.测试环境自动忽略此参数
      */
     isTranslate?: 0 | 1;
-  }) => Promise<AxiosResponse<IApiDataFormat<PageResult<ExhibitInfo>>>>;
+  }) => Promise<GetExhibitListByPagingResult>;
   getExhibitInfo: (
     exhibitId: string,
     query?: {
       isLoadVersionProperty: 0 | 1;
     }
-  ) => Promise<AxiosResponse<IApiDataFormat<ExhibitInfo[]>>>;
+  ) => Promise<GetExhibitInfoResult>;
   getExhibitFileStream: (
     exhibitId: string,
     options?: {
@@ -158,13 +171,13 @@ export interface FreelogApp {
   ) => Promise<any | string>;
   getExhibitSignCount: (
     exhibitIds: string
-  ) => Promise<AxiosResponse<IApiDataFormat<SignItem[]>>>;
+  ) => Promise<GetExhibitSignCountResult>;
   getExhibitAuthStatus: (
     exhibitIds: string
-  ) => Promise<AxiosResponse<IApiDataFormat<AuthResult[]>>>;
+  ) => Promise<GetExhibitAuthStatusResult>;
   getExhibitAvailable: (
     exhibitIds: string
-  ) => Promise<AxiosResponse<IApiDataFormat<AuthResult[]>>>;
+  ) => Promise<GetExhibitAvailableResult>;
   getExhibitDepTree: (
     exhibitId: string,
     options?: {
@@ -185,7 +198,7 @@ export interface FreelogApp {
        */
       isContainRootNode?: boolean;
     }
-  ) => Promise<AxiosResponse<IApiDataFormat<ExhibitDependencyTree[]>>>;
+  ) => Promise<GetExhibitDepTreeResult>;
   getExhibitDepInfo: (
     exhibitId: string,
     query: {
@@ -194,13 +207,13 @@ export interface FreelogApp {
        */
       articleNids: string;
     }
-  ) => Promise<IApiDataFormat<DependArticleInfo[]>>;
+  ) => Promise<GetExhibitDepInfoResult>;
   getSignStatistics: (query?: {
     /**
      * 标的物名称，这里指展品名称
      */
     keywords: string;
-  }) => Promise<IApiDataFormat<SignCount[]>>;
+  }) => Promise<GetSignStatisticsResult>;
   getSubDep: () => Promise<GetSubDepResult>;
   setUserData: (key: string | number, data: any) => Promise<any>;
   getUserData: (key: string | number) => Promise<any>;
@@ -212,7 +225,7 @@ export interface FreelogApp {
   addAuth: (
     exhibitId: string,
     options?: { immediate: boolean }
-  ) => Promise<any>;
+  ) => Promise<AddAuthResult>;
   onLogin: (callback: Function) => void;
   onUserChange: (callback: Function) => void;
   isUserChange: () => boolean;

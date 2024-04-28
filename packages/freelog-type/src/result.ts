@@ -91,6 +91,15 @@ export type GetExhibitDepTreeResult = AxiosResponse<
   IApiDataFormat<ExhibitDependencyTree[]>
 >;
 
-export type GetExhibitDepInfoResult = IApiDataFormat<DependArticleInfo[]>;
+export type GetExhibitDepInfoResult = AxiosResponse<
+  IApiDataFormat<DependArticleInfo[]>
+>;
 
-export type GetSignStatisticsResult = IApiDataFormat<SignCount[]>;
+export type GetSignStatisticsResult = AxiosResponse<
+  IApiDataFormat<SignCount[]>
+>;
+
+export type AddAuthResult = {
+  status: string | number;
+  data: any;
+};
