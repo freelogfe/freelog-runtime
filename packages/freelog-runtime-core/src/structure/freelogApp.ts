@@ -4,12 +4,14 @@ import { mountExhibitWidget, mountArticleWidget } from "./widget";
 import microApp from "@micro-zoe/micro-app";
 import { isTest } from "../base/baseInfo";
 import {
-  getSelfConfig,
+  getSelfProperty,
+  getSelfDependencyTree,
   getSelfWidgetRenderName,
   getStaticPath,
   setViewport,
   reload,
   getCurrentUrl,
+  getTopExhibitId
 } from "./widgetUtils";
 import {
   setUserData,
@@ -47,7 +49,9 @@ export const freelogApp: any = {
   setViewport,
   setUserData,
   getUserData,
-  getSelfConfig,
+  getSelfProperty,
+  getSelfDependencyTree,
+  getTopExhibitId,
   isUserChange,
   reload,
   resultType,

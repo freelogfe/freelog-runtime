@@ -29,7 +29,7 @@ export type GetExhibitListByPagingResult = AxiosResponse<
   IApiDataFormat<PageResult<ExhibitInfo>>
 >;
 
-export type GetExhibitInfoResult = AxiosResponse<IApiDataFormat<ExhibitInfo[]>>;
+export type GetExhibitInfoResult = AxiosResponse<IApiDataFormat<ExhibitInfo>>;
 
 export type GetExhibitSignCountResult = AxiosResponse<
   IApiDataFormat<SignItem[]>

@@ -13,6 +13,9 @@ export function getStaticPath(name: string, path: string) {
   return widgetsConfig.get(name).entry + path;
 }
 const rawLocation = window.location;
+export function getTopExhibitId(name: string){
+  return widgetsConfig.get(name).topExhibitId;
+}
 /**
  *
  * @param name
