@@ -218,46 +218,6 @@ export async function getExhibitFileStream(
     options?.config
   );
 }
-export async function getExhibitResultByAuth(
-  name: string,
-  exhibitId: string | number
-) {
-  return getByExhibitId(name, exhibitId, "result", "", "");
-}
-export async function getExhibitInfoByAuth(
-  name: string,
-  exhibitId: string | number
-) {
-  return getByExhibitId(name, exhibitId, "info", "", "");
-}
-// 子依赖树
-export async function getExhibitDepTree(
-  name: string,
-  exhibitId: string | number,
-  options?: {
-    version?: string; // 引用的发行版本号,默认使用锁定的最新版本
-    nid?: string; // 叶子节点ID,如果需要从叶子节点开始响应,则传入此参数
-    maxDeep?: number; // 依赖树最大返回深度
-    isContainRootNode?: string; // 是否包含根节点,默认包含
-  }
-) {
-  return frequest.bind({
-    name: name,
-    exhibitId: exhibitId,
-  })(
-    baseInfo.isTest ? exhibit.getTestExhibitDepTree : exhibit.getExhibitDepTree,
-    [exhibitId],
-    options
-      ? {
-          nid: options.nid,
-          maxDeep: options.maxDeep,
-          version: options.version,
-          isContainRootNode: options.isContainRootNode,
-        }
-      : null
-  );
-}
-
 // 子依赖
 export async function getExhibitDepFileStream(
   name: string,
@@ -280,6 +240,18 @@ export async function getExhibitDepFileStream(
     query.returnUrl,
     query.config
   );
+}
+export async function getExhibitResultByAuth(
+  name: string,
+  exhibitId: string | number
+) {
+  return getByExhibitId(name, exhibitId, "result", "", "");
+}
+export async function getExhibitInfoByAuth(
+  name: string,
+  exhibitId: string | number
+) {
+  return getByExhibitId(name, exhibitId, "info", "", "");
 }
 
 export async function pushMessage4Task(name: string, query: any) {

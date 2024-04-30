@@ -1,93 +1,7 @@
-import { freelogApp } from "./freelogApp";
 import { widgetsConfig } from "./widget";
-import { addAuth } from "../bridge/index";
-import { getExhibitInfoByAuth } from "../freelogApp/api";
-// 这里的key使用的是资源名称
-export function setUserDataKeyForDev(name: string, key: string) {
-  widgetsConfig.get(name).DevResourceName = key;
-}
+import { getExhibitDepInfo, getExhibitInfo } from "../freelogApp/api";
 export function getSelfWidgetRenderName(name: string) {
   return widgetsConfig.get(name)?.name;
-}
-
-export function getSelfArticleId(name: string) {
-  return widgetsConfig.get(name)?.articleId;
-}
-export function getSelfExhibitId(name: string) {
-  return widgetsConfig.get(name)?.exhibitId;
-}
-export function getSelfConfig(name: string) {
-  //  由于config只有一层，所以用...就够了
-  return { ...widgetsConfig.get(name).config };
-}
-//  if error  这里不需要参数，除了运行时自行调用，需要抽离出来不与插件调用混在一起
-//  紧急，增加方法加载子依赖传递作品id，通过作品id查询到孙依赖插件
-export async function getSubDep(name: string, exhibitId?: any) {
-  let isTheme = false;
-  let widgetConfig = widgetsConfig.get(name);
-
-  if (!widgetConfig) {
-    isTheme = true;
-  } else {
-    exhibitId = exhibitId || widgetsConfig.get(name).exhibitId;
-  }
-
-  // @ts-ignore
-  let response = await getExhibitInfoByAuth(name, exhibitId);
-  const data = response.data.data;
-  // TODO 不合理的判断
-  if (!data.isAuth && data.authCode && isTheme) {
-    await new Promise<void>(async (resolve) => {
-      if (data.authCode === 502) {
-        await new Promise<void>(async (resolve) => {
-          addAuth(name, exhibitId, {
-            immediate: true,
-          });
-          freelogApp.onLogin(async () => {
-            resolve();
-          });
-        });
-        response = await getExhibitInfoByAuth(name, exhibitId);
-      }
-      if (!data.isAuth) {
-        await addAuth(name, exhibitId, {
-          immediate: true,
-        });
-      }
-      resolve();
-    });
-    response = await getExhibitInfoByAuth(name, exhibitId);
-    if (!response.data.data.isAuth) {
-      await new Promise<void>(async (resolve, reject) => {
-        await addAuth(name, exhibitId, {
-          immediate: true,
-        });
-        resolve();
-      });
-    }
-    response = await getExhibitInfoByAuth(name, exhibitId);
-  }
-  const exhibitName = decodeURI(response.headers["freelog-exhibit-name"]);
-  const articleNid = decodeURI(response.headers["freelog-article-nid"]);
-  const resourceType = decodeURI(
-    response.headers["freelog-article-resource-type"]
-  );
-  let subDep = decodeURI(response.headers["freelog-article-sub-dependencies"]);
-  subDep = subDep ? JSON.parse(decodeURIComponent(subDep)) : [];
-
-  let exhibitProperty = decodeURI(response.headers["freelog-exhibit-property"]);
-  exhibitProperty = exhibitProperty
-    ? JSON.parse(decodeURIComponent(exhibitProperty))
-    : {};
-  return {
-    exhibitName,
-    exhibitId,
-    articleNid,
-    resourceType,
-    subDep,
-    versionInfo: { exhibitProperty },
-    ...response.data.data,
-  };
 }
 
 // TODO 这里可能已经不适应了，需要另想办法
@@ -99,7 +13,49 @@ export function getStaticPath(name: string, path: string) {
   return widgetsConfig.get(name).entry + path;
 }
 const rawLocation = window.location;
-
+/**
+ *
+ * @param name
+ * @param isFromServer  是否从服务器获取，以防加载插件时没有传递property或不希望被加载时篡改
+ * @returns
+ */
+export async function getSelfProperty(name: string, isFromServer: boolean) {
+  const widgetConfig = widgetsConfig.get(name);
+  if (!isFromServer) {
+    return widgetConfig.property || {};
+  }
+  const { exhibitId, nid, topExhibitId } = widgetsConfig.get(name);
+  if (exhibitId) {
+    const res = await getExhibitInfo(name, exhibitId, {
+      isLoadVersionProperty: 1,
+    });
+    const property = res.data.data.versionInfo.exhibitProperty;
+    widgetConfig.property = property;
+    return property;
+  }
+  const res: any = getExhibitDepInfo(name, topExhibitId, { articleNids: nid });
+  const property = res.data.data[0].articleProperty;
+  widgetConfig.property = property;
+  return property;
+}
+export async function getSelfDependencyTree(
+  name: string,
+  isFromServer: boolean
+) {
+  const widgetConfig = widgetsConfig.get(name);
+  if (!isFromServer) {
+    return widgetConfig.dependencyTree || [];
+  }
+  const { exhibitId, nid, topExhibitId } = widgetsConfig.get(name);
+  const res = await getExhibitInfo(name, exhibitId || topExhibitId, {
+    isLoadVersionProperty: 1,
+  });
+  const dependencyTree = res.data.data.versionInfo.dependencyTree.filter(
+    (item: any) => (nid ? item.parentNid === nid : true)
+  );
+  widgetConfig.dependencyTree = dependencyTree;
+  return dependencyTree;
+}
 export function reload(name: string) {
   // @ts-ignore
   if (widgetsConfig.get(name).isTheme) {

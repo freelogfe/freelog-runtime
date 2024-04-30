@@ -1,9 +1,6 @@
-﻿import { SubjectTypeEnum } from "egg-freelog-base";
+﻿import { SubjectTypeEnum } from "./base";
 import { ArticleTypeEnum } from "./enum";
-import {
-  ContractInfo,
-  BasePolicyInfo,
-} from "./policyContract";
+import { ContractInfo, BasePolicyInfo } from "./policyContract";
 /**
  * 展品信息
  */

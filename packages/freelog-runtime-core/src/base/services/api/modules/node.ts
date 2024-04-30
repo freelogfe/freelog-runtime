@@ -1,6 +1,5 @@
 import { placeHolder } from "../../base";
 
-
 export type Node = {
   getInfoById: any;
   getInfoByNameOrDomain: any;
@@ -22,6 +21,7 @@ const node: Node = {
       nodeName: "string",
       nodeDomain: "string",
       isLoadOwnerUserInfo: "int",
+      isLoadThemeAuthAndDependency: "int",
     },
   },
   // storages/buckets/.UserNodeData/objects   post

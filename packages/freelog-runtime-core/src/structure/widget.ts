@@ -1,18 +1,19 @@
 import { freelogApp } from "./freelogApp";
 import microApp from "@micro-zoe/micro-app";
-import { DEV_TYPE_REPLACE, DEV_WIDGET, DEV_FALSE } from "./dev";
+import { DEV_TYPE_REPLACE, DEV_THEME, DEV_FALSE } from "./dev";
 import { digestMessage } from "./hashc";
 import {
   getExhibitDepFileStream,
   getExhibitFileStream,
 } from "../freelogApp/api";
+import { WidgetController } from "freelog-runtime";
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<any, any>();
 export const widgetsConfig = new Map<any, any>();
 export const activeWidgets = new Map<any, any>();
 export const childWidgets = new Map<any, any>();
 export const widgetUserData = new Map<any, any>();
-export function addWidget(key: string, plugin: any) {
+export function addWidget(key: string, plugin: WidgetController) {
   if (activeWidgets.has(key)) {
     console.warn(widgetsConfig.get(key).name + " reloaded");
   }
@@ -41,154 +42,114 @@ export function removeChildWidget(key: string, childKey: string) {
   }
 }
 
+/**
+ * 1.主题或插件加载展品插件
+ *     传递 exhibitId
+ *     通过config传递展品属性给到插件 exhibitProperty
+ * 
+ * 2.主题或插件加载展品依赖的插件
+ *     传递 articleId,ExhibitId(topExhibitId),parentNid
+ *     步骤：
+ *         获取展品信息时获取依赖，
+ *         如果需要加载配置信息另外请求接口 getExhibitDepInfo
+ *         通过config传递作品属性给到插件 articleProperty
+ *
+ * 3.插件加载自身依赖的插件
+ *     传递 articleId,parentNid,topExhibitId
+ *     步骤：
+ *         上层插件主动传递依赖给它或者通过getSubDep
+ *         如果需要加载配置信息另外请求接口 getExhibitDepInfo
+ *         通过config传递作品属性给到插件 articleProperty
+ *
+ * 4.插件加载后需要获取自身的属性 getSelfProperties
+ *     4.1 对于展品: exhibitProperty
+         getExhibitInfo
+ *       
+ *     4.2 对于作品: articleProperty
+ *       可以拿到topExhibitId, nid  对getExhibitDepInfo封装一下，
+ *       getSelfProperties(exhibitId,nid)
+ *
+ */
 let firstDev = false;
 
-// 可供插件自己加载子插件  widget需要验证格式
-/**
- *
- * @param widget      插件数据
- * @param container   挂载容器
- * @param topExhibitData  最外层展品数据（子孙插件都需要用）
- * @param config      配置数据
- * @param seq         一个节点内可以使用多个插件，但需要传递序号，
- * @param widget_entry    用于父插件中去本地调试子插件
- *  如果需要支持不同插件下使用同一个插件，需要将作品id也加在运行时管理的插件id以实现全局唯一
- *      这里就有了一个问题，freelogApp.getSelfId() 与 作品id是不同的，
- *      造成问题：想在url上进行调试时 无法提前知道自身id。
- *      解决方案：1.做一个插件加载树，对于同级（同一个父插件，如果没有传递seq序号区分，直接报错不允许）
- *               2.提供浏览器插件， 打开测试节点时 可以将正在运行的插件加载树信息展示出来，以便开发者找到对应id
- *
- * @returns
- * 情况1.加载展品插件  topExhibitData只能为""或null值
- * 情况2.加载子插件  topPresenbleData必须传
- * 情况3.dev开发模式，
- */
-export async function mountWidget(
+export async function mountExhibitWidget(
   name: string,
   options: {
-    widget: any;
+    exhibitId: string;
     container: any;
-    topExhibitData: any;
-    config: any;
+    property?: any;
+    dependencyTree?: any;
     renderWidgetOptions?: any;
     seq?: number | null | undefined;
-    widget_entry?: boolean | string;
-  },
-  ...args: any[]
+    widget_entry?: string;
+  }
 ) {
   let {
-    widget,
+    exhibitId,
     container,
-    topExhibitData,
-    config,
+    property,
     seq,
+    dependencyTree,
     widget_entry,
+    renderWidgetOptions,
   } = options;
   let isTheme = true;
-  // @ts-ignore
   if (name) {
     isTheme = false;
   }
   isTheme && (widget_entry = "");
-  config = {
-    ...(widget.versionInfo ? widget.versionInfo.exhibitProperty : {}), // exhibitProperty 展品里面的，可以freeze widget数据，防止加载时篡改
-    ...config,
-  };
 
   const devData = freelogApp.devData;
   // 不是开发模式禁用
   if (devData.type === DEV_FALSE) widget_entry = "";
-  let commonData: any;
   let entry = "";
   let widgetRenderName = "";
-  if (!topExhibitData) {
-    commonData = {
-      id: widget.articleInfo.articleId,
-      name: widget.articleInfo.name || widget.articleInfo.articleName,
-      exhibitId: widget.exhibitId || "",
-      articleNid: "",
-      articleInfo: {
-        articleId: widget.articleInfo.articleId,
-        articleName: widget.articleInfo.name || widget.articleInfo.articleName,
-      },
-    };
-    if (isTheme) {
-      widgetRenderName = "theme";
-    } else {
-      const hash = await digestMessage(widget.exhibitId);
-      widgetRenderName = "w" + hash + (seq || "");
-    }
+  if (isTheme) {
+    widgetRenderName = "theme";
   } else {
-    commonData = {
-      id: widget.id,
-      name: widget.name,
-      exhibitId: topExhibitData.exhibitId || "",
-      articleNid: topExhibitData.articleNid,
-      articleInfo: {
-        articleId: widget.id,
-        articleName: widget.name,
-      },
-    };
-    if (isTheme) {
-      widgetRenderName = "theme";
-    } else {
-      const hash = await digestMessage(topExhibitData.exhibitId + widget.id);
-      widgetRenderName = "w" + hash + (seq || "");
-    }
+    const hash = await digestMessage(exhibitId);
+    widgetRenderName = "w" + hash + (seq || "");
   }
   widget_entry &&
     console.warn(
       "you are using widget entry " +
         widget_entry +
-        " for widget-articleId: " +
-        commonData.articleInfo.articleId
+        " for widget-exhibitId: " +
+        exhibitId
     );
   if (devData) {
     if (devData.type === DEV_TYPE_REPLACE) {
-      entry = devData.params[commonData.id] || "";
+      entry = devData.params[exhibitId] || "";
     }
-    if (devData.type === DEV_WIDGET && !firstDev) {
+    if (devData.type === DEV_THEME && !firstDev) {
       entry = devData.params.dev;
       firstDev = true;
     }
   }
-  // @ts-ignore
   entry = widget_entry || entry;
 
   let fentry = "";
-  if (commonData.articleNid) {
-    fentry = await getExhibitDepFileStream(name, commonData.exhibitId, {
-      parentNid: commonData.articleNid,
-      subArticleId: commonData.articleInfo.articleId,
-      returnUrl: true,
-    });
-    fentry = fentry + `&subFilePath=`;
-  } else {
-    fentry = await getExhibitFileStream(name, commonData.exhibitId, {
-      returnUrl: true,
-    });
-    fentry = fentry + "/?subFilePath="; // '/package/'
-  }
-  let once = false;
-
+  fentry = await getExhibitFileStream(name, exhibitId, {
+    returnUrl: true,
+  });
+  fentry = fentry + `&subFilePath=`;
   const widgetConfig = {
     container,
     name: widgetRenderName, //id
     isTheme: !!isTheme,
-    exhibitId: commonData.exhibitId, // 展品id为空的都是插件依赖的插件
-    widgetName: commonData.articleInfo.articleName.replace("/", "-"),
-    parentNid: commonData.articleNid,
-    articleName: commonData.articleInfo.articleName,
-    subArticleIdOrName: commonData.articleInfo.articleId,
-    articleId: commonData.articleInfo.articleId, // id可以重复，name不可以, 这里暂时这样
+    exhibitId,
+    property,
+    dependencyTree,
+    renderWidgetOptions: {
+      ...renderWidgetOptions,
+    },
     entry: entry || fentry,
     isDev: !!entry,
     seq,
-    config, // 主题插件配置数据
     isUI: false,
     props: {},
   };
-  const renderWidgetOptions = options.renderWidgetOptions
+  renderWidgetOptions = options.renderWidgetOptions
     ? {
         ...options.renderWidgetOptions,
         "disable-scopecss": false, // 不允许关闭样式隔离
@@ -196,47 +157,118 @@ export async function mountWidget(
       }
     : {};
   addWidgetConfig(widgetRenderName, widgetConfig);
-  let api: any = { apis: {} };
-  const registerApi = function(apis: any) {
-    if (once) {
-      console.error("registerApi 只能在加在时使用一次");
-      return "只能使用一次";
-    }
-    api.apis = apis;
-    once = true;
+  return mountApp(
+    name,
+    widgetRenderName,
+    entry,
+    container,
+    renderWidgetOptions
+  );
+}
+
+// parentNid  articleId articleProperty
+export async function mountArticleWidget(
+  name: string,
+  options: {
+    articleId: string;
+    parentNid: string;
+    nid: string;
+    topExhibitId: string;
+    container: any;
+    dependencyTree?: any;
+    property?: any;
+    renderWidgetOptions?: any;
+    seq?: number | null | undefined;
+    widget_entry?: string;
+  }
+) {
+  let {
+    articleId,
+    parentNid,
+    topExhibitId,
+    container,
+    nid,
+    dependencyTree,
+    property,
+    seq,
+    widget_entry,
+    renderWidgetOptions,
+  } = options;
+  const devData = freelogApp.devData;
+  let entry = "";
+  let widgetRenderName = "";
+  const hash = await digestMessage(topExhibitId + articleId);
+  widgetRenderName = "w" + hash + (seq || "");
+  if (
+    devData &&
+    devData.type === DEV_TYPE_REPLACE &&
+    devData.params[articleId]
+  ) {
+    entry = devData.params[articleId] || "";
+  } else {
+    // 不是开发模式禁用
+    widget_entry = "";
+  }
+  entry = widget_entry || entry;
+  let fentry = "";
+  fentry = await getExhibitDepFileStream(name, topExhibitId, {
+    parentNid: parentNid,
+    subArticleId: articleId,
+    returnUrl: true,
+  });
+  fentry = fentry + `&subFilePath=`;
+  const widgetConfig = {
+    container,
+    name: widgetRenderName, //id
+    isTheme: false,
+    articleId,
+    parentNid,
+    nid,
+    dependencyTree,
+    property,
+    topExhibitId,
+    renderWidgetOptions: {
+      ...renderWidgetOptions,
+    },
+    entry: entry || fentry,
+    isDev: !!entry,
+    seq,
+    isUI: false,
+    props: {},
   };
-  // TODO 十分重要
-  /**
-   *   <micro-app name='my-app' url='xxx' disable-scopecss></micro-app>
-   *   支持自定义元素的方案
-   *   提供获取插件widgetRenderName和url的方法
-   *      // name：必传参数，必须以字母开头，且不可以带特殊符号(中划线、下划线除外)
-   *      1.widgetRenderName获取： 多个相同id的插件需要传递不同seq
-   *
-   *      // url：必传参数，必须指向子应用的index.html，如：http://localhost:3000/ 或 http://localhost:3000/index.html
-   *      // const widgetFakeDomain = "widgetfiles"
-   *      2.url获取：定义一个过度的url: https://${widgetFakeDomain}.${widgetRenderName}.com
-   *        同样通过fretch拦截，
-   *
-   *      3.数据传递问题呢？需要拦截一层自定义元素
-   *
-   */
-  // TODO 更新文档说明bundleTool
-  const bundleTool = widget.versionInfo
-    ? widget.versionInfo.exhibitProperty.bundleTool
-    : widget.articleProperty?.bundleTool;
+  renderWidgetOptions = options.renderWidgetOptions
+    ? {
+        ...options.renderWidgetOptions,
+        "disable-scopecss": false, // 不允许关闭样式隔离
+        "disable-sandbox": false, // 不允许关闭沙箱
+      }
+    : {};
+  addWidgetConfig(widgetRenderName, widgetConfig);
+  return mountApp(
+    name,
+    widgetRenderName,
+    entry,
+    container,
+    renderWidgetOptions
+  );
+}
+async function mountApp(
+  name: string | null,
+  widgetRenderName: string,
+  entry: string,
+  container: any,
+  renderWidgetOptions: any
+) {
   const flag = await microApp.renderApp({
-    // "router-mode": isTheme ? "native" : "search",
     "router-mode": "search",
-    iframe: bundleTool === "vite" ? true : false,
-    ...options.renderWidgetOptions,
+    renderWidgetOptions,
     name: widgetRenderName,
     // TODO "https://file.freelog.com" 要定义一个常量来替换
     url: entry || "https://file.freelog.com", // widgetConfig.entry,
-    container: widgetConfig.container,
+    container: container,
     data: {
       ...(renderWidgetOptions.data ? renderWidgetOptions.data : {}),
-      freelogApp: bindName(widgetRenderName, registerApi),
+      freelogApp: bindName(widgetRenderName),
     },
     "disable-scopecss": false, // 是否关闭样式隔离，可选
     "disable-sandbox": false, // 是否关闭沙盒，可选
@@ -246,11 +278,9 @@ export async function mountWidget(
     destroy?: boolean;
     clearAliveState?: boolean;
   }) => {
-    once = false;
     return microApp.unmountApp(widgetRenderName, options);
   };
   const reload = (destroy?: boolean) => {
-    once = false;
     return microApp.reload(widgetRenderName, destroy);
   };
   const getData = () => {
@@ -278,9 +308,6 @@ export async function mountWidget(
   const widgetControl = {
     success: flag,
     name: widgetRenderName,
-    getApi: () => {
-      return api.apis;
-    },
     unmount,
     reload,
     setData,
@@ -296,17 +323,14 @@ export async function mountWidget(
 }
 
 const obj = {};
-export const bindName = (name: string, registerApi: any) => {
+export const bindName = (name: string, registerApi?: any) => {
   return new Proxy(obj, {
-    // @ts-ignore
-    get: function(target, propKey) {
+    get: function (target, propKey) {
       if (propKey === "registerApi") {
         return registerApi;
       }
-      // @ts-ignore
       if (typeof freelogApp[propKey] == "function") {
         return (...rest: any) => {
-          // eslint-disable-next-line prefer-rest-params
           return freelogApp[propKey].apply(null, [name, ...rest]);
         };
       } else {

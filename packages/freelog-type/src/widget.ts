@@ -16,11 +16,11 @@ export interface unmountAppParams {
   clearAliveState?: boolean;
 }
 
-export interface MountWidgetOptions {
+export interface MountExhibitWidgetOptions {
   /**
-   * 插件数据,请参考文档中mountWidget示例
+   * 展品id
    */
-  widget: any;
+  exhibitId: any;
   /**
    * 挂载的容器
    */
@@ -33,10 +33,7 @@ export interface MountWidgetOptions {
    * 插件渲染可选项，包括数据传递，以及渲染时需要的额外数据
    */
   renderWidgetOptions?: RenderWidgetOptions;
-  /**
-   * 顶层展品的数据，加载孙插件时也要传递
-   */
-  topExhibitData?: any;
+
   /**
    * 挂载的序号，当同时家载多次时需要
    */
@@ -46,7 +43,33 @@ export interface MountWidgetOptions {
    */
   widget_entry?: string;
 }
+export interface MountArticleWidgetOptions {
+  /**
+   * 作品id
+   */
+  articleId: any;
+  /**
+   * 挂载的容器
+   */
+  container: HTMLElement;
+  /**
+   * 给到子插件的配置数据
+   */
+  config?: PlainObject;
+  /**
+   * 插件渲染可选项，包括数据传递，以及渲染时需要的额外数据
+   */
+  renderWidgetOptions?: RenderWidgetOptions;
 
+  /**
+   * 挂载的序号，当同时家载多次时需要
+   */
+  seq?: number;
+  /**
+   * 开发模式下，本地调试地址
+   */
+  widget_entry?: string;
+}
 export interface RenderWidgetOptions {
   /**
    *  是否切换为iframe沙箱，可选

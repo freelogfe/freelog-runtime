@@ -18,14 +18,12 @@ import { MountWidgetOptions } from "./widget";
 
 import {
   WidgetController,
-  GetSubDepResult,
   GetExhibitListByIdResult,
   GetExhibitListByPagingResult,
   GetExhibitInfoResult,
   GetExhibitSignCountResult,
   GetExhibitAuthStatusResult,
   GetExhibitAvailableResult,
-  GetExhibitDepTreeResult,
   GetExhibitDepInfoResult,
   GetSignStatisticsResult,
   AddAuthResult,
@@ -66,7 +64,8 @@ export interface FreelogApp {
   nodeInfo: NodeInfo;
   devData: PlainObject;
   getCurrentUser: () => FreelogUserInfo;
-  mountWidget: (options: MountWidgetOptions) => Promise<WidgetController>;
+  mountArticleWidget: (options: MountWidgetOptions) => Promise<WidgetController>;
+  mountExhibitWidget: (options: MountWidgetOptions) => Promise<WidgetController>;
   getExhibitListById: (query: {
     exhibitIds: string;
     isLoadVersionProperty?: 0 | 1;
@@ -178,27 +177,7 @@ export interface FreelogApp {
   getExhibitAvailable: (
     exhibitIds: string
   ) => Promise<GetExhibitAvailableResult>;
-  getExhibitDepTree: (
-    exhibitId: string,
-    options?: {
-      /**
-       * 引用的发行版本号,默认使用锁定的最新版本
-       */
-      version?: string;
-      /**
-       * 叶子节点ID,如果需要从叶子节点开始响应,则传入此参数
-       */
-      nid?: string;
-      /**
-       * 依赖树最大返回深度
-       */
-      maxDeep?: number;
-      /**
-       * 是否包含根节点,默认包含
-       */
-      isContainRootNode?: boolean;
-    }
-  ) => Promise<GetExhibitDepTreeResult>;
+
   getExhibitDepInfo: (
     exhibitId: string,
     query: {
@@ -214,7 +193,6 @@ export interface FreelogApp {
      */
     keywords: string;
   }) => Promise<GetSignStatisticsResult>;
-  getSubDep: () => Promise<GetSubDepResult>;
   setUserData: (key: string | number, data: any) => Promise<any>;
   getUserData: (key: string | number) => Promise<any>;
   getSelfArticleId: () => string;

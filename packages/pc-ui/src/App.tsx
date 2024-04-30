@@ -87,7 +87,6 @@ function App() {
         //   };
         // }
         Object.freeze(freelogApp.nodeInfo);
-
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         freelogApp.status.authUIMounted = true;
@@ -137,18 +136,31 @@ function App() {
           setEventType(THEME_NONE);
           return;
         }
-        const theme = await freelogApp.getSubDep(
-          "",
-          isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
-        );
-        const container = document.getElementById("freelog-plugin-container");
-        await freelogApp.mountWidget(null, {
-          widget: theme,
-          container,
-          renderWidgetOptions: {
-            // iframe: true,
-          },
-        });
+        if (!nodeInfo.themeAuthInfo.isAuth) {
+          freelogApp.addAuth(null, nodeInfo.themeInfo.exhibitId, {
+            immediate: true,
+          });
+        } else {
+          const container = document.getElementById("freelog-plugin-container");
+          await freelogApp.mountExhibitWidget(null, {
+            widget: nodeInfo.themeInfo,
+            container,
+            property: nodeInfo.themeInfo.versionInfo.exhibitProperty,
+            dependencyTree:
+              nodeInfo.themeInfo.versionInfo.dependencyTree.filter(
+                (item: any) => item.parentNid
+              ),
+            exhibitId: nodeInfo.themeInfo.exhibitId,
+            renderWidgetOptions: {
+              iframe:
+                nodeInfo.themeInfo.versionInfo.exhibitProperty.bundleTool ===
+                "vite"
+                  ? true
+                  : false,
+            },
+          });
+        }
+
         loadingClose();
         // freelogApp.status.themeMounted = flag;
       }
@@ -303,6 +315,7 @@ async function requestNodeInfo(nodeDomain: string) {
   const info = await getInfoByNameOrDomain.bind({ name: "node" })({
     nodeDomain,
     isLoadOwnerUserInfo: 1,
+    isLoadThemeAuthAndDependency: 1,
   });
   return info.data;
 }

@@ -1,5 +1,5 @@
 export const DEV_FALSE = 0;
-export const DEV_WIDGET = 1; // 插件开发模式
+export const DEV_THEME = 1; // 插件开发模式
 export const DEV_TYPE_REPLACE = 2; // 插件替换模式
 
 export function dev(): any {
@@ -23,7 +23,7 @@ export function dev(): any {
   }
   console.log(params,56666)
   return {
-    type: DEV_WIDGET,
+    type: DEV_THEME,
     params,
     config: { vconsole: !!params.devconsole },
   };

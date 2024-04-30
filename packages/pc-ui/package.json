@@ -17,6 +17,7 @@
     "antd": "^5.14.1",
     "axios": "^0.21.1",
     "copy-to-clipboard": "^3.3.2",
+    "freelog-runtime": "workspace:^",
     "freelog-runtime-core": "workspace:^",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",

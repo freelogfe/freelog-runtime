@@ -157,16 +157,20 @@ function App() {
           setEventType(THEME_NONE);
           return;
         }
-        const theme = await freelogApp.getSubDep(
-          "",
-          isTest ? nodeInfo.nodeTestThemeId : nodeInfo.nodeThemeId
-        );
-        const container = document.getElementById("freelog-plugin-container");
-        await freelogApp.mountWidget(null, {
-          widget: theme,
-          widget_entry: true,
-          container,
-        });
+        if (!nodeInfo.themeAuthInfo.isAuth) {
+          freelogApp.addAuth(null, nodeInfo.themeInfo.exhibitId, {
+            immediate: true,
+          });
+        } else {
+          const container = document.getElementById("freelog-plugin-container");
+          await freelogApp.mountWidget(null, {
+            widget: nodeInfo.themeInfo,
+            container,
+            renderWidgetOptions: {
+              // iframe: true,
+            },
+          });
+        }
         loadingClose();
         // freelogApp.status.themeMounted = flag;
       }

@@ -8,7 +8,6 @@ import {
   getExhibitFileStream,
   getExhibitDepFileStream,
   getExhibitDepInfo,
-  getExhibitDepTree,
   getSignStatistics,
   pushMessage4Task,
 } from "./api";
@@ -23,6 +22,5 @@ export const freelogApp: any = {
   getExhibitFileStream,
   getExhibitDepFileStream,
   getExhibitDepInfo,
-  getExhibitDepTree,
   getSignStatistics,
 };

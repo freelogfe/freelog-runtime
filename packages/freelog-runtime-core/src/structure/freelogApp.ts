@@ -1,18 +1,14 @@
 import { resultType } from "../bridge/eventType";
 import { freelogApp as freelogAppLib } from "../freelogApp";
-import { mountWidget } from "./widget";
+import { mountExhibitWidget, mountArticleWidget } from "./widget";
 import microApp from "@micro-zoe/micro-app";
 import { isTest } from "../base/baseInfo";
 import {
   getSelfConfig,
-  getSubDep,
-  getSelfArticleId,
-  getSelfExhibitId,
   getSelfWidgetRenderName,
   getStaticPath,
   setViewport,
   reload,
-  setUserDataKeyForDev,
   getCurrentUrl,
 } from "./widgetUtils";
 import {
@@ -36,12 +32,10 @@ export const freelogApp: any = {
     authUIMounted: false,
     themeMounted: false,
   },
-  mountWidget,
+  mountExhibitWidget,
+  mountArticleWidget,
   devData,
   getStaticPath,
-  getSubDep,
-  getSelfArticleId,
-  getSelfExhibitId,
   getSelfWidgetRenderName,
   callAuth,
   addAuth,
@@ -57,7 +51,6 @@ export const freelogApp: any = {
   isUserChange,
   reload,
   resultType,
-  setUserDataKeyForDev,
   isTest,
   getActiveWidget,
   getAllWidget,
