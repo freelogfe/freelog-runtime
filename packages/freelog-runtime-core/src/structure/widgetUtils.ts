@@ -38,6 +38,12 @@ export async function getSelfProperty(name: string, isFromServer: boolean) {
   widgetConfig.property = property;
   return property;
 }
+/**
+ *
+ * @param name
+ * @param isFromServer  是否从服务器获取，以防加载插件时没有传递property或不希望被加载时篡改
+ * @returns
+ */
 export async function getSelfDependencyTree(
   name: string,
   isFromServer: boolean
@@ -57,7 +63,6 @@ export async function getSelfDependencyTree(
   return dependencyTree;
 }
 export function reload(name: string) {
-  // @ts-ignore
   if (widgetsConfig.get(name).isTheme) {
     rawLocation.reload();
   }

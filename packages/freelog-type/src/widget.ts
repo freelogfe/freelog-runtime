@@ -1,4 +1,5 @@
 ﻿import { PlainObject } from "./base";
+import { ExhibitAuthNodeInfo } from "./exhibit";
 // unmountApp 参数配置
 export interface unmountAppParams {
   /**
@@ -26,14 +27,17 @@ export interface MountExhibitWidgetOptions {
    */
   container: HTMLElement;
   /**
-   * 给到子插件的配置数据
-   */
-  config?: PlainObject;
-  /**
    * 插件渲染可选项，包括数据传递，以及渲染时需要的额外数据
    */
   renderWidgetOptions?: RenderWidgetOptions;
-
+  /**
+   * 展品或作品的属性
+   */
+  property?: PlainObject;
+  /**
+   * 展品或作品的依赖
+   */
+  dependencyTree?: ExhibitAuthNodeInfo[];
   /**
    * 挂载的序号，当同时家载多次时需要
    */
@@ -49,17 +53,33 @@ export interface MountArticleWidgetOptions {
    */
   articleId: any;
   /**
+   * 父展品或作品的链路id
+   */
+  parentNid: string;
+  /**
+   * 作品的链路id
+   */
+  nid: string;
+  /**
+   * 顶层展品的展品id
+   */
+  topExhibitId: string;
+  /**
    * 挂载的容器
    */
   container: HTMLElement;
   /**
-   * 给到子插件的配置数据
-   */
-  config?: PlainObject;
-  /**
    * 插件渲染可选项，包括数据传递，以及渲染时需要的额外数据
    */
   renderWidgetOptions?: RenderWidgetOptions;
+  /**
+   * 展品或作品的属性
+   */
+  property?: PlainObject;
+  /**
+   * 展品或作品的依赖
+   */
+  dependencyTree?: ExhibitAuthNodeInfo[];
 
   /**
    * 挂载的序号，当同时家载多次时需要

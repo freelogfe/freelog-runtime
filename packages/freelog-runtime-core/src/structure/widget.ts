@@ -322,13 +322,10 @@ async function mountApp(
   return widgetControl;
 }
 
-const obj = {};
-export const bindName = (name: string, registerApi?: any) => {
+export const bindName = (name: string) => {
+  const obj = {};
   return new Proxy(obj, {
     get: function (target, propKey) {
-      if (propKey === "registerApi") {
-        return registerApi;
-      }
       if (typeof freelogApp[propKey] == "function") {
         return (...rest: any) => {
           return freelogApp[propKey].apply(null, [name, ...rest]);

@@ -1,20 +1,6 @@
-import { AxiosResponse, ResponseType } from "axios";
-import {
-  IApiDataFormat,
-  NodeInfo,
-  PlainObject,
-  FreelogUserInfo,
-  PageResult,
-} from "./base";
-import {
-  ExhibitInfo,
-  ExhibitDependencyTree,
-  AuthResult,
-  SignItem,
-  DependArticleInfo,
-  SignCount,
-} from "./exhibit";
-import { MountWidgetOptions } from "./widget";
+import { ResponseType } from "axios";
+import { NodeInfo, PlainObject, FreelogUserInfo } from "./base";
+import { MountExhibitWidgetOptions, MountArticleWidgetOptions } from "./widget";
 
 import {
   WidgetController,
@@ -28,6 +14,7 @@ import {
   GetSignStatisticsResult,
   AddAuthResult,
 } from "./result";
+import { ExhibitAuthNodeInfo } from "./exhibit";
 export * from "./result";
 export * from "./exhibit";
 export { ArticleTypeEnum } from "./enum";
@@ -59,13 +46,19 @@ export interface WidgetApi {
   clearGlobalDataListener: () => any;
 }
 export interface FreelogApp {
-  registerApi: (obj: PlainObject) => void;
-  setUserDataKeyForDev: (key: string) => void;
   nodeInfo: NodeInfo;
   devData: PlainObject;
   getCurrentUser: () => FreelogUserInfo;
-  mountArticleWidget: (options: MountWidgetOptions) => Promise<WidgetController>;
-  mountExhibitWidget: (options: MountWidgetOptions) => Promise<WidgetController>;
+  mountArticleWidget: (
+    options: MountArticleWidgetOptions
+  ) => Promise<WidgetController>;
+  mountExhibitWidget: (
+    options: MountExhibitWidgetOptions
+  ) => Promise<WidgetController>;
+  getSelfProperty: (isFromServer: boolean) => Promise<any>;
+  getSelfDependencyTree: (
+    isFromServer: boolean
+  ) => Promise<ExhibitAuthNodeInfo[]>;
   getExhibitListById: (query: {
     exhibitIds: string;
     isLoadVersionProperty?: 0 | 1;
@@ -195,10 +188,7 @@ export interface FreelogApp {
   }) => Promise<GetSignStatisticsResult>;
   setUserData: (key: string | number, data: any) => Promise<any>;
   getUserData: (key: string | number) => Promise<any>;
-  getSelfArticleId: () => string;
-  getSelfExhibitId: () => string;
   getSelfWidgetRenderName: () => string;
-  getSelfConfig: () => PlainObject;
   callAuth: () => void;
   addAuth: (
     exhibitId: string,

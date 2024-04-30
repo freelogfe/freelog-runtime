@@ -100,15 +100,15 @@ vite 请参考 @vitejs/plugin-basic-ssl 插件
 
 theme=%2Fwidget-mount：
 
-主题渲染id=主题的路由 %2Fwidget-mount=encodeURIComponent("/widget-mount")
+主题渲染 id=主题的路由 %2Fwidget-mount=encodeURIComponent("/widget-mount")
 
 w910d8e=%2Fwidget%2F:
 
-插件渲染id=插件的路由 %2Fwidget%2F=encodeURIComponent("/widget/")
+插件渲染 id=插件的路由 %2Fwidget%2F=encodeURIComponent("/widget/")
 
 wa4083c1=%2Fwidget%2F：
 
-插件渲染id=插件的路由 %2Fwidget%2F=encodeURIComponent("/widget/")
+插件渲染 id=插件的路由 %2Fwidget%2F=encodeURIComponent("/widget/")
 
 ### 安装 api 库
 
@@ -120,12 +120,7 @@ wa4083c1=%2Fwidget%2F：
 window.mount = () => {
   // 必须在mount中初始化
   initFreelogApp()
-  freelogApp.registerApi({
-    setData: (key: string, value: any) => {
-      const store = useStore();
-      store.setData(key, value);
-    },
-  });
+
   render();
 };
 ```
@@ -185,42 +180,6 @@ widgets.some((widget, index) => {
     seq: string,
     widget_entry: string,
   });
-});
-```
-
-### 父子插件入口通信
-
-```ts
-// 父插件（或主题）
-import { freelogApp } from "freelog-runtime";
-const res = await freelogApp.getExhibitListByPaging({
-  articleResourceTypes: "widget",
-  isLoadVersionProperty: 1,
-});
-const widgets = res.data.data.dataList;
-// 示范代码，这里只加载一个
-widgets.some((widget, index) => {
-  if (index === 1) return true;
-  // mountWidget最终使用jd的freelogApp.renderApp来加载主题插件
-  let widgetController = await freelogApp.mountWidget({
-    widget: widget,
-    container: document.getElementById("freelog-single"), // 给每一个提供不同的容器
-    topExhibitData: null,
-    config: {},
-    renderWidgetOptions: {}, // 配置将合并到freelogApp.renderApp的配置项中
-    seq: string,
-    widget_entry: string,
-  });
-  // 父插件获取子插件注册的api
-  widgetController.getApi().changeMe();
-});
-
-// 子插件，在入口处执行
-freelogApp.registerApi({
-  changeMe: () => {
-    const store = useCounterStore();
-    store.increment();
-  },
 });
 ```
 

@@ -68,15 +68,6 @@ const data = freelogApp.devData;
 const data = freelogApp.getCurrentUrl();
 ```
 
-### getSelfArticleId
-
-**用途：获取自身作品 articleId**
-
-```ts
-**用法**
-const selfArticleId = freelogApp.getSelfArticleId();
-```
-
 ### getSelfWidgetRenderName
 
 **用途：获取插件自身渲染名称**
@@ -84,50 +75,6 @@ const selfArticleId = freelogApp.getSelfArticleId();
 ```ts
 **用法**
 const selfWidgetId = freelogApp.getSelfWidgetRenderName();
-```
-
-### getSelfExhibitId
-
-**用途：获取自身作品 exhibitId**
-
-```ts
-**用法**
-const selfExhibitId=  freelogApp.getSelfExhibitId();
-```
-
-### getSelfConfig
-
-**用途：获取自身配置数据**
-
-```ts
-**用法**
-const widgetConfig =  freelogApp.getSelfConfig()
-```
-
-### getSubDep
-
-**用途：获取插件自身依赖**
-
-```ts
-**用法**
-const res = await freelogApp.getSubDep()
-
-**返回值**
-{
-  exhibitName, // 展品名称
-  exhibitId,  // 展品id
-  articleNid, // 作品链路id, 在依赖树当中的唯一标识id
-  resourceType,// 作品类型
-  subDep:[{
-    id: string; // 子依赖作品id
-    name: string; // 子依赖名称
-    nid: string;  // 子依赖链路id,在依赖树当中的唯一标识id
-    resourceType: string[];// 资源类型
-    type: number; // 当前请求的作品类型(1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)
-  }],  // 子依赖数组
-  versionInfo: { exhibitProperty }, // 版本信息
-  data: AuthResult | ExhibitInfo, //  有授权时data为展品信息，无授权时data为授权信息
-}
 ```
 
 ### mountWidget
@@ -239,16 +186,6 @@ widgets.some((widget, index) => {
 ```ts
 **用法**
 freelogApp.reload()
-```
-
-### registerApi
-
-**用途：在插件入口处使用一次，注册 api 给父插件使用**
-
-```ts
-**用法**
-// obj只能是object
-freelogApp.registerApi(obj)
 ```
 
 ### setViewport
