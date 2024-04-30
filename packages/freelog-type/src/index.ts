@@ -55,9 +55,9 @@ export interface FreelogApp {
   mountExhibitWidget: (
     options: MountExhibitWidgetOptions
   ) => Promise<WidgetController>;
-  getSelfProperty: (isFromServer: boolean) => Promise<any>;
+  getSelfProperty: (isFromServer?: boolean) => Promise<any>;
   getSelfDependencyTree: (
-    isFromServer: boolean
+    isFromServer?: boolean
   ) => Promise<ExhibitAuthNodeInfo[]>;
   getExhibitListById: (query: {
     exhibitIds: string;
