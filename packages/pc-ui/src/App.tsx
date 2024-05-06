@@ -146,10 +146,7 @@ function App() {
             widget: nodeInfo.themeInfo,
             container,
             property: nodeInfo.themeInfo.versionInfo.exhibitProperty,
-            dependencyTree:
-              nodeInfo.themeInfo.versionInfo.dependencyTree.filter(
-                (item: any) => item.parentNid
-              ),
+            dependencyTree: nodeInfo.themeInfo.versionInfo.dependencyTree,
             exhibitId: nodeInfo.themeInfo.exhibitId,
             renderWidgetOptions: {
               iframe:

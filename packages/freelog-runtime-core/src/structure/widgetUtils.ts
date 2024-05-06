@@ -14,7 +14,7 @@ export function getStaticPath(name: string, path: string) {
 }
 const rawLocation = window.location;
 export function getTopExhibitId(name: string){
-  return widgetsConfig.get(name).topExhibitId;
+  return widgetsConfig.get(name).topExhibitId || widgetsConfig.get(name).exhibitId;
 }
 /**
  *
@@ -59,9 +59,10 @@ export async function getSelfDependencyTree(
   const res = await getExhibitInfo(name, exhibitId || topExhibitId, {
     isLoadVersionProperty: 1,
   });
-  const dependencyTree = res.data.data.versionInfo.dependencyTree.filter(
-    (item: any) => (nid ? item.parentNid === nid : true)
-  );
+  const dependencyTree = res.data.data.versionInfo.dependencyTree
+  // .filter(
+  //   (item: any) => (nid ? item.parentNid === nid : true)
+  // );
   widgetConfig.dependencyTree = dependencyTree;
   return dependencyTree;
 }

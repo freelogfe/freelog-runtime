@@ -200,9 +200,10 @@ export async function mountArticleWidget(
   const hash = await digestMessage(topExhibitId + articleId);
   widgetRenderName = "w" + hash + (seq || "");
   if (
-    devData &&
-    devData.type === DEV_TYPE_REPLACE &&
-    devData.params[articleId]
+    devData !== DEV_FALSE
+    //  &&
+    // devData.type === DEV_TYPE_REPLACE &&
+    // devData.params[articleId]
   ) {
     entry = devData.params[articleId] || "";
   } else {
