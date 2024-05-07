@@ -17,10 +17,7 @@ import {
 import { ExhibitAuthNodeInfo } from "./exhibit";
 export * from "./result";
 export * from "./exhibit";
-export { ArticleTypeEnum } from "./enum";
 
-export { NodeInfo } from "./base";
-export { SubjectTypeEnum, FreelogUserInfo } from "./base";
 
 export let widgetApi: WidgetApi = {} as WidgetApi;
 export let freelogApp: FreelogApp = {} as FreelogApp;

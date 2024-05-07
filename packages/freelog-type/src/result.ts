@@ -8,6 +8,14 @@ import {
   DependArticleInfo,
   SignCount,
 } from "./exhibit";
+import { ArticleTypeEnum as ArticleTypeEnum2 } from "./enum";
+import { NodeInfo as NodeInfo2 } from "./base";
+import { SubjectTypeEnum as SubjectTypeEnum2 , FreelogUserInfo as FreelogUserInfo2 } from "./base";
+export type ArticleTypeEnum = ArticleTypeEnum2;
+export type NodeInfo = NodeInfo2;
+export type FreelogUserInfo = FreelogUserInfo2;
+export type SubjectTypeEnum = SubjectTypeEnum2;
+
 export interface WidgetController {
   success: boolean;
   name: string;

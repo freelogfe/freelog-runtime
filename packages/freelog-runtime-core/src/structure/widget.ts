@@ -262,7 +262,7 @@ async function mountApp(
 ) {
   const flag = await microApp.renderApp({
     "router-mode": "search",
-    renderWidgetOptions,
+    ...renderWidgetOptions,
     name: widgetRenderName,
     // TODO "https://file.freelog.com" 要定义一个常量来替换
     url: entry || "https://file.freelog.com", // widgetConfig.entry,
