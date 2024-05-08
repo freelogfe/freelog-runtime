@@ -42,14 +42,14 @@ export interface PlainObject {
 }
 
 export interface NodeInfo {
-  nodeId: number;
+  // nodeId: number;
   nodeName: string;
-  nodeDomain: string;
-  ownerUserId: number;
-  ownerUserName: string;
-  nodeThemeId?: string;
-  status?: number;
-  uniqueKey?: string;
+  // nodeDomain: string;
+  // ownerUserId: number;
+  // ownerUserName: string;
+  // nodeThemeId?: string;
+  // status?: number;
+  // uniqueKey?: string;
   tags: string[];
   nodeLogo?: string;
   nodeTitle?: string;

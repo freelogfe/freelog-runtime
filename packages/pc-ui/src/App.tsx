@@ -64,8 +64,23 @@ function App() {
         }
         const userInfo = values[1];
         const nodeInfo = nodeData.data;
-        freelogApp.nodeInfo = nodeInfo;
-
+        const {
+          nodeName,
+          tags,
+          nodeLogo,
+          nodeTitle,
+          nodeShortDescription,
+          nodeSuspendInfo,
+        } = nodeInfo;
+        
+        freelogApp.nodeInfo = {
+          nodeName,
+          tags,
+          nodeLogo,
+          nodeTitle,
+          nodeShortDescription,
+          nodeSuspendInfo,
+        };
         document.title = nodeInfo.nodeTitle
           ? nodeInfo.nodeTitle
           : nodeInfo.nodeName;
