@@ -163,11 +163,18 @@ function App() {
           });
         } else {
           const container = document.getElementById("freelog-plugin-container");
-          await freelogApp.mountWidget(null, {
+          await freelogApp.mountExhibitWidget(null, {
             widget: nodeInfo.themeInfo,
             container,
+            property: nodeInfo.themeInfo.versionInfo.exhibitProperty,
+            dependencyTree: nodeInfo.themeInfo.versionInfo.dependencyTree,
+            exhibitId: nodeInfo.themeInfo.exhibitId,
             renderWidgetOptions: {
-              // iframe: true,
+              iframe:
+                nodeInfo.themeInfo.versionInfo.exhibitProperty.bundleTool ===
+                "vite"
+                  ? true
+                  : false,
             },
           });
         }

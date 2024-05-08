@@ -110,7 +110,7 @@ wa4083c1=%2Fwidget%2F：
 
 插件渲染 id=插件的路由 %2Fwidget%2F=encodeURIComponent("/widget/")
 
-### 安装 api 库
+### 安装 api 库 与初始化 API
 
 ```ts
  npm install freelog-runtime
@@ -136,50 +136,82 @@ const nodeInfo = freelogApp.nodeInfo;
 
 ### 加载自身的子依赖插件
 
-[查看 mountWidget 详情](/api/#mountwidget)
+[查看 getSelfDependencyTree 详情](/api/#getselfdependencytree)
+
+[查看 mountArticleWidget 详情](/api/#mountarticlewidget)
 
 ```ts
 import { freelogApp } from "freelog-runtime";
-const subData = await freelogApp.getSubDep();
-// 示范代码，这里只加载一个
-subData.subDep.some((sub, index) => {
-  if (index === 1) return true;
-  let widgetController = await freelogApp.mountWidget({
-    widget: sub, // 必传，子插件数据
-    container: document.getElementById("freelog-single"), // 必传，自定义一个让插件挂载的div容器
-    topExhibitData: subData, // 必传，最外层展品数据（子孙插件都需要用）
-    renderWidgetOptions: {}, // 插件渲染配置
-    config: {}, // 子插件配置数据, 子插件可以通过freelogApp.getSelfConfig()获取配置数据
-    seq: string, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的。
-    widget_entry: string, // 本地url，dev模式下，可以使用本地url调试子插件
-  });
+// 运行时加载主题时已经传递了 dependencyTree, 非主题如果父插件没有传递，请使用 freelogApp.getDependencyTree(true)
+const subData: ExhibitAuthNodeInfo[] = await freelogApp.getSelfDependencyTree();
+subData.forEach(async (sub: ExhibitAuthNodeInfo) => {
+  if (sub.articleName === "snnaenu/插件开发演示代码插件") {
+    selfWidget = await freelogApp.mountArticleWidget({
+      articleId: sub.articleId,
+      parentNid: sub.parentNid,
+      nid: sub.nid,
+      topExhibitId: freelogApp.getTopExhibitId(), //
+      container: document.getElementById("freelog-self") as HTMLElement, // 必传，自定义一个让插件挂载的div容器
+      renderWidgetOptions: {
+        data: {
+          name: "自身依赖插件",
+          registerApi: (api: any) => {
+            selfWidgetApi.value = api;
+          },
+        },
+        lifeCycles: {
+          mounted: (e: CustomEvent) => {
+            console.log(e, "mounted");
+          },
+        },
+      },
+      seq: 0, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的。
+      widget_entry: "https://localhost:8102", // 本地url，dev模式下，可以使用本地url调试子插件
+    });
+  }
 });
 ```
 
 ### 加载展品插件
 
-[查看 mountWidget 详情](/api/#mountwidget)
+[查看 mountExhibitWidget 详情](/api/#mountexhibitwidget)
 
 ```ts
-import { freelogApp } from "freelog-runtime";
-const res = await freelogApp.getExhibitListByPaging({
-  articleResourceTypes: "widget",
-  isLoadVersionProperty: 1,
-});
-const widgets = res.data.data.dataList;
-// 示范代码，这里只加载一个
-widgets.some((widget, index) => {
-  if (index === 1) return true;
-  // mountWidget最终使用jd的freelogApp.renderApp来加载主题插件
-  let widgetController = await freelogApp.mountWidget({
-    widget: widget,
-    container: document.getElementById("freelog-single"), // 给每一个提供不同的容器
-    topExhibitData: null,
-    config: {},
-    renderWidgetOptions: {}, // 插件渲染配置
-    seq: string,
-    widget_entry: string,
+import {
+  freelogApp,
+  ExhibitAuthNodeInfo,
+  WidgetController,
+  ExhibitInfo,
+  GetExhibitListByPagingResult,
+} from "freelog-runtime";
+const res: GetExhibitListByPagingResult =
+  await freelogApp.getExhibitListByPaging({
+    articleResourceTypes: "插件",
+    isLoadVersionProperty: 1,
   });
+const widgets = res.data.data?.dataList;
+
+widgets.forEach(async (widget: ExhibitInfo, index: number) => {
+  if (widget.articleInfo.articleName == "snnaenu/插件开发演示代码插件") {
+    exhibitWidget = await freelogApp.mountExhibitWidget({
+      exhibitId: widget.exhibitId,
+      container: document.getElementById("freelog-exhibit") as HTMLElement, // 必传，自定义一个让插件挂载的div容器
+      property: widget.versionInfo?.exhibitProperty,
+      dependencyTree: widget.versionInfo?.dependencyTree,
+      renderWidgetOptions: {
+        data: {
+          name: "展品插件",
+          registerApi: (api: any) => {
+            exhibitWidgetApi.value = api;
+          },
+        },
+      },
+      seq: 1, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的。
+      widget_entry: "https://localhost:8102", // 本地url，dev模式下，可以使用本地url调试子插件
+    });
+    return true;
+  }
+  return false;
 });
 ```
 
@@ -187,20 +219,19 @@ widgets.some((widget, index) => {
 
 当需要跳过主题直接调试正在运行的子插件或展品插件
 
-定义： `${url}?dev=replace&${widgetId}=${local_entry}`
+定义： `${url}?dev=replace&${widgetRenderName}-freelog=${local_entry}`
 
 url: 节点地址
 
-widgetId: 插件 ID 这里用的是插件的作品 ID: articleId
-获取方式：插件内可以通过 freelogApp.getSelfWidgetRenderName()获取，但先有鸡才能有蛋，后续要在作品管理页面以及测试节点提供获取途径。
-目前开发者可以 F12 去找一下。
+'${widgetRenderName}-freelog': 渲染名称加-freelog
+widgetRenderName 获取方式：1.url 上已有渲染名称，2.如果渲染名称无法区分，插件内可以通过 freelogApp.getSelfWidgetRenderName()获取自身的渲染名称
 
 local_entry: 本地地址
 
 举例：
 
 ```ts
-https://nes-common.freelog.com/?dev=replace&62270c5cf670b2002e800193=https://localhost:7107/
+https://nes-common.freelog.com/?dev=replace&w680fb7-freelog=https://localhost:7107/
 ```
 
 <!-- ### 插件卸载
@@ -212,7 +243,7 @@ vue 案例：[前往示例代码](https://github.com/freelogfe/freelog-developer
 ```ts
 // vue示例
 onBeforeUnmount(() => {
-  freelogApp.destroyWidget(exhibitWidget.widgetId);
+  exhibitWidget.unmount();
 });
 
 // react示例
@@ -223,11 +254,15 @@ useEffect(() => {
 });
 ``` -->
 
-### 获取插件自身配置数据
+### 获取插件自身属性
 
 ```ts
-// 父插件的传递过来的config数据也会在这里
-const widgetConfig = freelogApp.getSelfConfig();
+// 运行时加载主题时已经传递了property
+// 如果mountExhibitWidget  mountArticleWidget传递了property
+const widgetConfig = freelogApp.getSelfProperty();
+
+// 如果mountExhibitWidget  mountArticleWidget没有传递property
+const widgetConfig = freelogApp.getSelfProperty(true);
 ```
 
 ### 移动端适配
@@ -260,6 +295,7 @@ keys = {
 const res = await freelogApp.getExhibitListByPaging({
   skip: 0,
   limit: 20,
+  isLoadVersionProperty: 0 | 1, // 可选，是否加载版本信息,默认0
 });
 ```
 
@@ -287,8 +323,19 @@ const res = await  freelogApp.getExhibitInfo(exhibitId, query)
 **参数说明**
   exhibitId:// 展品id，
   query:{
-      isLoadVersionProperty: 0 | 1, // 是否需要展品版本属性
+      isLoadVersionProperty: 0 | 1, // 可选，是否加载版本信息,默认0
   }
+```
+
+### 获取展品属性
+
+```ts
+// 使用getExhibitListByPaging、getExhibitListById、getExhibitInfo并传递isLoadVersionProperty为1时
+// 例如：
+const res = await  freelogApp.getExhibitInfo(exhibitId, {
+              isLoadVersionProperty: 1
+            })
+const exhibitProperty =res.data.data.versionInfo.exhibitProperty
 ```
 
 [查看 getExhibitInfo 详情](/api/#getexhibitinfo)
@@ -373,7 +420,7 @@ const res = await freelogApp.getExhibitDepInfo(
 **参数说明**
   exhibitId: string ,  // 自身展品id
   articleNids: string, // 例如上面的dependencyTree中的多个nid: "61b99394c9da,9091f75e23fb"
-                          // 一个或多个链路id,多个用英文逗号隔开, 在依赖树当中的唯一标识id
+                       // 一个或多个链路id,多个用英文逗号隔开, 在依赖树当中的唯一标识id
 ```
 
 ### 获取子依赖作品文件
@@ -402,6 +449,14 @@ const res = await freelogApp.getExhibitDepFileStream(
   }
 ```
 
+### 获取作品属性
+
+```ts
+// 使用getExhibitDepInfo接口获取作品属性
+const res = await  freelogApp.getExhibitDepInfo(exhibitId, articleNids)
+const articleProperty =res.data.data[0].articleProperty
+```
+
 ### 查找展品签约数量
 
 **同一个用户的多次签约只计算一次**
@@ -426,7 +481,9 @@ const res = await freelogApp.getExhibitAuthStatus(
   exhibitIds: string //  一个或多个展品id，多个用英文逗号隔开
 ```
 
-### 批量查询展品是否可用（即节点是否完全获得授权，然后才能提供给用户签约）
+### 批量查询展品是否可用
+
+**即节点是否完全获得授权，然后才能提供给用户签约**
 
 ```ts
 const res = await freelogApp.getExhibitAvailable(
@@ -437,36 +494,7 @@ const res = await freelogApp.getExhibitAvailable(
   exhibitIds: //  一个或多个展品id，多个用英文逗号隔开
 ```
 
-[查看 getExhibitAvailable 详情](/api/#getExhibitAvailable)
-
-<!-- ### 授权错误返回值
-
-```ts
-  **存在但未授权**
-  {
-    authErrorType: 1,// 存在但未授权
-    authCode: resData.authCode,
-    exhibitName,
-    exhibitId,
-    articleNid,
-    resourceType,
-    subDep,
-    versionInfo: {exhibitProperty},
-    ...resData, // 原始数据
-  }
-  **不存在**
-  {
-    authErrorType: 2,// 不存在
-    authCode: resData.authCode,
-    exhibitName,
-    exhibitId,
-    articleNid,
-    resourceType,
-    subDep,
-    versionInfo: {exhibitProperty},
-    ...resData, // 原始数据
-  }
-``` -->
+[查看 getExhibitAvailable 详情](/api/#getexhibitavailable)
 
 ### 授权处理
 
@@ -492,7 +520,7 @@ if (ch.authErrorType) {
       immediate: true,
     });
 
-     **res返回值说明**
+   **res返回值说明**
    {status: SUCCESS, data}
    status 枚举判断：
      status === freelogApp.resultType.SUCCESS;  // 成功
@@ -550,11 +578,6 @@ freelogApp.onUserChange(callback);
 ### 用户数据
 
 ```ts
-/**
- * 本地开发时： 如果本地开发的与线上主题或插件不是同一个资源，可以通过freelogApp.setUserDataKeyForDev("Freelog/dev-docs") 主题或插件本身的作品名称,
- * 这样可以保证更换到线上是一致的
- */
-
 // 更新用户数据   data 为任意对象，
 const res = await freelogApp.setUserData(key, data);
 // 获取用户数据

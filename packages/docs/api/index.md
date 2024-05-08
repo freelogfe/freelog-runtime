@@ -77,56 +77,215 @@ const data = freelogApp.getCurrentUrl();
 const selfWidgetId = freelogApp.getSelfWidgetRenderName();
 ```
 
-### mountWidget
+### getSelfDependencyTree
 
-**用途：加载插件**
+**用途：获取插件自身依赖**
+
+```ts
+**用法**
+// 运行时加载主题时已经传递了 dependencyTree
+// 如果mountExhibitWidget  mountArticleWidget传递了dependencyTree
+const widgetConfig = await freelogApp.getSelfDependencyTree();
+
+// 如果mountExhibitWidget  mountArticleWidget没有传递dependencyTree
+const widgetConfig = await freelogApp.getSelfDependencyTree(true);
+```
+
+### getSelfProperty
+
+**用途：获取插件自身渲染名称**
+
+```ts
+**用法**
+// 运行时加载主题时已经传递了 property
+// 如果mountExhibitWidget  mountArticleWidget传递了property
+const widgetConfig = await freelogApp.getSelfProperty();
+
+// 如果mountExhibitWidget  mountArticleWidget没有传递property
+const widgetConfig = await freelogApp.getSelfProperty(true);
+```
+
+### mountExhibitWidget
+
+### mountArticleWidget
+
+**用途：mountExhibitWidget 加载展品插件，mountArticleWidget 加载作品插件**
 
 ```ts
 **参数说明**
-  mountWidget: (options: {
-    widget: any;  // 插件数据
-    topExhibitData?: any;  // 最外层展品数据（子孙插件都需要用）
-    container: HTMLElement | null; // 挂载容器
-    config?: PlainObject;  // 给到子插件的配置数据，可传递方法用于通信
-    renderWidgetOptions?: RenderWidgetOptions; // 插件渲染配置
-    seq?: number | null;  // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的
-    widget_entry?: boolean | string; // 本地url，dev模式下，可以使用本地url调试子插件
-  }) => Promise<WidgetController>;
+  mountExhibitWidget(options: MountExhibitWidgetOptions);
+  mountArticleWidget(options: MountArticleWidgetOptions);
+  interface MountExhibitWidgetOptions {
+    /**
+     * 展品id
+     */
+    exhibitId: any;
+    /**
+     * 挂载的容器
+     */
+    container: HTMLElement;
+    /**
+     * 插件渲染可选项，包括数据传递，以及渲染时需要的额外数据
+     */
+    renderWidgetOptions?: RenderWidgetOptions;
+    /**
+     * 展品或作品的属性
+     */
+    property?: PlainObject;
+    /**
+     * 展品或作品的依赖
+     */
+    dependencyTree?: ExhibitAuthNodeInfo[];
+    /**
+     * 挂载的序号，当同时家载多次时需要
+     */
+    seq?: number;
+    /**
+     * 开发模式下，本地调试地址
+     */
+    widget_entry?: string;
+  }
+  interface MountArticleWidgetOptions {
+    /**
+     * 作品id
+     */
+    articleId: any;
+    /**
+     * 父展品或作品的链路id
+     */
+    parentNid: string;
+    /**
+     * 作品的链路id
+     */
+    nid: string;
+    /**
+     * 顶层展品的展品id
+     */
+    topExhibitId: string;
+    /**
+     * 挂载的容器
+     */
+    container: HTMLElement;
+    /**
+     * 插件渲染可选项，包括数据传递，以及渲染时需要的额外数据
+     */
+    renderWidgetOptions?: RenderWidgetOptions;
+    /**
+     * 展品或作品的属性
+     */
+    property?: PlainObject;
+    /**
+     * 展品或作品的依赖
+     */
+    dependencyTree?: ExhibitAuthNodeInfo[];
 
-  // 子插件渲染配置
+    /**
+     * 挂载的序号，当同时家载多次时需要
+     */
+    seq?: number;
+    /**
+     * 开发模式下，本地调试地址
+     */
+    widget_entry?: string;
+  }
   interface RenderWidgetOptions {
-    name: string, // 应用名称，必传
-    url: string, // 应用地址，必传
-    container: string | Element, // 应用容器或选择器，必传
-    iframe?: boolean, // 是否切换为iframe沙箱，可选
-    inline?: boolean, // 开启内联模式运行js，可选
-    'disable-memory-router'?: boolean, // 关闭虚拟路由系统，可选
-    'default-page'?: string, // 指定默认渲染的页面，可选
-    'keep-router-state'?: boolean, // 保留路由状态，可选
-    'disable-patch-request'?: boolean, // 关闭子应用请求的自动补全功能，可选
-    'keep-alive'?: boolean, // 开启keep-alive模式，可选
-    destroy?: boolean, // 卸载时强制删除缓存资源，可选
-    fiber?: boolean, // 开启fiber模式，可选
-    baseroute?: string, // 设置子应用的基础路由，可选
-    ssr?: boolean, // 开启ssr模式，可选
+    /**
+     *  是否切换为iframe沙箱，可选
+     */
+    iframe?: boolean;
+    /**
+     * 开启内联模式运行js，可选
+     */
+    inline?: boolean;
+    /**
+     * 关闭虚拟路由系统，可选
+     */
+    "disable-memory-router"?: boolean;
+    /**
+     * 指定默认渲染的页面，可选
+     */
+    "default-page"?: string;
+    /**
+     * 保留路由状态，可选
+     */
+    "keep-router-state"?: boolean;
+    /**
+     * 关闭子插件请求的自动补全功能，可选
+     */
+    "disable-patch-request"?: boolean;
+    /**
+     * 开启keep-alive模式，可选
+     */
+    "keep-alive"?: boolean;
+    /**
+     * 卸载时强制删除缓存资源，可选
+     */
+    destroy?: boolean;
+    /**
+     * 开启fiber模式，可选
+     */
+    fiber?: boolean;
+    /**
+     * 设置子插件的基础路由，可选
+     */
+    baseroute?: string;
+    /**
+     * 开启ssr模式，可选
+     */
+    ssr?: boolean;
     // shadowDOM?: boolean, // 开启shadowDOM，可选
-    data?: Object, // 传递给子应用的数据，可选
-    onDataChange?: Function, // 获取子应用发送数据的监听函数，可选
-    // 注册子应用的生命周期
+    /**
+     * 传递给子插件的数据，可选
+     */
+    data?: Object;
+    /**
+     * 获取子插件发送数据的监听函数，可选
+     */
+    onDataChange?: Function;
+    /**
+     * 注册子插件的生命周期
+     */
     lifeCycles?: {
-      created(e: CustomEvent): void, // 加载资源前触发
-      beforemount(e: CustomEvent): void, // 加载资源完成后，开始渲染之前触发
-      mounted(e: CustomEvent): void, // 子应用渲染结束后触发
-      unmount(e: CustomEvent): void, // 子应用卸载时触发
-      error(e: CustomEvent): void, // 子应用渲染出错时触发
-      beforeshow(e: CustomEvent): void, // 子应用推入前台之前触发（keep-alive模式特有）
-      aftershow(e: CustomEvent): void, // 子应用推入前台之后触发（keep-alive模式特有）
-      afterhidden(e: CustomEvent): void, // 子应用推入后台时触发（keep-alive模式特有）
-    },
+      /**
+       * 加载资源前触发
+       */
+      created?(e: CustomEvent): void;
+      /**
+       * 加载资源完成后，开始渲染之前触发
+       */
+      beforemount?(e: CustomEvent): void;
+      /**
+       * 子插件渲染结束后触发
+       */
+      mounted?(e: CustomEvent): void;
+      /**
+       * 子插件卸载时触发
+       */
+      unmount?(e: CustomEvent): void;
+      /**
+       * 子插件渲染出错时触发
+       */
+      error?(e: CustomEvent): void;
+      /**
+       * 子插件推入前台之前触发（keep-alive模式特有）
+       */
+      beforeshow?(e: CustomEvent): void;
+      /**
+       * 子插件推入前台之后触发（keep-alive模式特有）
+       */
+      aftershow?(e: CustomEvent): void;
+      /**
+       * 子插件推入后台时触发（keep-alive模式特有）
+       */
+      afterhidden?(e: CustomEvent): void;
+    };
   }
 
+
 **用法**
-let widgetController: WidgetController = await freelogApp.mountWidget(options)
+
+let widgetController: WidgetController = await freelogApp.mountExhibitedWidget(options)
+let widgetController: WidgetController = await freelogApp.mountArticleWidget(options)
 
 **返回对象说明**
 
@@ -145,37 +304,70 @@ interface WidgetController {
 
 ```
 
-**加载自身依赖的插件**
+**加载自身依赖的插件示例**
 
 ```ts
 **用法**
-const subData = await freelogApp.getSubDep();
-subData.subDep.some((sub, index) => {
-  // 参数同上，这里没有一一列出
-  await freelogApp.mountWidget({
-    widget: sub,
-    container:document.getElementById("freelog-single"), // 注意每一个插件都需要不同容器
-    topExhibitData: subData,
-    config: {},
-    seq: string,
-  });
+const subData: ExhibitAuthNodeInfo[] = await freelogApp.getSelfDependencyTree();
+subData.forEach(async (sub: ExhibitAuthNodeInfo) => {
+  if (sub.articleName === "snnaenu/插件开发演示代码插件") {
+    selfWidget = await freelogApp.mountArticleWidget({
+      articleId: sub.articleId,
+      parentNid: sub.parentNid,
+      nid: sub.nid,
+      topExhibitId: freelogApp.getTopExhibitId(),
+      container: document.getElementById("freelog-self") as HTMLElement, // 必传，自定义一个让插件挂载的div容器
+      renderWidgetOptions: {
+        data: {
+          name: "自身依赖插件",
+          registerApi: (api: any) => {
+            selfWidgetApi.value = api;
+          },
+        },
+        lifeCycles: {
+          mounted: (e: CustomEvent) => {
+            console.log(e, "mounted");
+          },
+        },
+      },
+      seq: 0, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的。
+      widget_entry: "https://localhost:8102", // 本地url，dev模式下，可以使用本地url调试子插件
+    });
+  }
 });
 ```
 
-**加载展品插件**
+**加载展品插件示例**
 
 ```ts
 **用法**
-const res = await freelogApp.getExhibitListById({
-  articleResourceTypes: "widget",
-  isLoadVersionProperty: 1
-});
-const widgets = res.data.data.dataList;
-widgets.some((widget, index) => {
-  await freelogApp.mountWidget({
-    widget: widget,
-    container: document.getElementById("freelog-single"),// 注意每一个插件都需要不同容器
-  });
+const res: GetExhibitListByPagingResult = await freelogApp.getExhibitListByPaging({
+        articleResourceTypes: "插件",
+        isLoadVersionProperty: 1,
+      });
+const widgets = res.data.data?.dataList;
+
+widgets.forEach(async (widget: ExhibitInfo, index: number) => {
+  if (widget.articleInfo.articleName == "snnaenu/插件开发演示代码插件") {
+    exhibitWidget = await freelogApp.mountExhibitWidget({
+      exhibitId: widget.exhibitId,
+      container: document.getElementById("freelog-exhibit") as HTMLElement, // 必传，自定义一个让插件挂载的div容器
+      property: widget.versionInfo?.exhibitProperty,
+      dependencyTree: widget.versionInfo?.dependencyTree,
+      renderWidgetOptions: {
+        data: {
+          name: "展品插件",
+          registerApi: (api: any) => {
+            exhibitWidgetApi.value = api;
+          },
+        },
+      },
+      seq: 1, // 如果要用多个同样的子插件需要传递序号，可以考虑与其余节点插件避免相同的序号, 注意用户数据是根据插件id+序号保存的。
+      widget_entry: "https://localhost:8102", // 本地url，dev模式下，可以使用本地url调试子插件
+    });
+    return true;
+  }
+  return false;
 });
 ```
 
@@ -1597,18 +1789,6 @@ const res = await freelogApp.setUserData(key, data);
 const userData = await freelogApp.getUserData(key);
 ```
 
-### setUserDataKeyForDev
-
-**用途：用于开发模式时，非节点内部主题或插件（外部未签约的资源）开发时设置用户数据保存的 key，等签约后线上用户数据与开发时一致**
-
-```ts
-**参数说明**
-  key: string; // 必须使用资源名称
-
-**用法**
-freelogApp.setUserDataKeyForDev("snnaenu/插件开发演示代码主题");
-```
-
 ### callLogin
 
 **用途：唤起登录 UI**
@@ -1661,8 +1841,6 @@ freelogApp.pushMessage4Task(data).then((res)=>{})
 ### getShareUrl
 
 **用途：获取某个展品的通用分享链接**
-
-**注意：只支持 detail 详情与 content 内容**
 
 ```ts
 **参数说明**

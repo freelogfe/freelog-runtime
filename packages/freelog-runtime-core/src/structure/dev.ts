@@ -21,7 +21,6 @@ export function dev(): any {
       config: { vconsole: !!params.devconsole },
     };
   }
-  console.log(params,56666)
   return {
     type: DEV_THEME,
     params,

@@ -100,8 +100,7 @@ export async function mountExhibitWidget(
   isTheme && (widget_entry = "");
 
   const devData = freelogApp.devData;
-  // 不是开发模式禁用
-  if (devData.type === DEV_FALSE) widget_entry = "";
+
   let entry = "";
   let widgetRenderName = "";
   if (isTheme) {
@@ -110,24 +109,22 @@ export async function mountExhibitWidget(
     const hash = await digestMessage(exhibitId);
     widgetRenderName = "w" + hash + (seq || "");
   }
-  widget_entry &&
+  // 不是开发模式禁用
+  if (devData.type === DEV_FALSE) widget_entry = "";
+  if (devData.type === DEV_TYPE_REPLACE) {
+    entry = devData.params[widgetRenderName + "-freelog"] || "";
+  } else if (devData.type === DEV_THEME && !firstDev) {
+    entry = devData.params.dev;
+    firstDev = true;
+  }
+  entry = widget_entry || entry;
+  entry &&
     console.warn(
       "you are using widget entry " +
-        widget_entry +
+        entry +
         " for widget-exhibitId: " +
         exhibitId
     );
-  if (devData) {
-    if (devData.type === DEV_TYPE_REPLACE) {
-      entry = devData.params[exhibitId] || "";
-    }
-    if (devData.type === DEV_THEME && !firstDev) {
-      entry = devData.params.dev;
-      firstDev = true;
-    }
-  }
-  entry = widget_entry || entry;
-
   let fentry = "";
   fentry = await getExhibitFileStream(name, exhibitId, {
     returnUrl: true,
@@ -199,16 +196,10 @@ export async function mountArticleWidget(
   let widgetRenderName = "";
   const hash = await digestMessage(topExhibitId + articleId);
   widgetRenderName = "w" + hash + (seq || "");
-  if (
-    devData !== DEV_FALSE
-    //  &&
-    // devData.type === DEV_TYPE_REPLACE &&
-    // devData.params[articleId]
-  ) {
-    entry = devData.params[articleId] || "";
-  } else {
-    // 不是开发模式禁用
-    widget_entry = "";
+  // 不是开发模式禁用
+  if (devData.type === DEV_FALSE) widget_entry = "";
+  if (devData.type === DEV_TYPE_REPLACE) {
+    entry = devData.params[widgetRenderName + "-freelog"] || "";
   }
   entry = widget_entry || entry;
   let fentry = "";
