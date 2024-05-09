@@ -8,11 +8,11 @@ import {
 } from "../freelogApp/api";
 import { WidgetController } from "freelog-runtime";
 export const FREELOG_DEV = "freelogDev";
-export const flatternWidgets = new Map<any, any>();
-export const widgetsConfig = new Map<any, any>();
-export const activeWidgets = new Map<any, any>();
-export const childWidgets = new Map<any, any>();
-export const widgetUserData = new Map<any, any>();
+export const flatternWidgets = new Map<string, any>();
+export const widgetsConfig = new Map<string, any>();
+export const activeWidgets = new Map<string, any>();
+export const childWidgets = new Map<string, any>();
+export const widgetUserData = new Map<string, any>();
 export function addWidget(key: string, plugin: WidgetController) {
   if (activeWidgets.has(key)) {
     console.warn(widgetsConfig.get(key).name + " reloaded");
