@@ -77,6 +77,15 @@ const data = freelogApp.getCurrentUrl();
 const selfWidgetId = freelogApp.getSelfWidgetRenderName();
 ```
 
+### getTopExhibitId
+
+**用途：获取当前插件的自身或顶层展品id，也就是依赖树最上层的展品id**
+
+```ts
+**用法**
+const topExhibitId = freelogApp.getTopExhibitId();
+```
+
 ### getSelfDependencyTree
 
 **用途：获取插件自身依赖**
