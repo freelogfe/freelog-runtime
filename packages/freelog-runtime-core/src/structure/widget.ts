@@ -129,7 +129,7 @@ export async function mountExhibitWidget(
   fentry = await getExhibitFileStream(name, exhibitId, {
     returnUrl: true,
   });
-  fentry = fentry + `&subFilePath=`;
+  fentry = fentry + `?subFilePath=`;
   const widgetConfig = {
     container,
     name: widgetRenderName, //id
