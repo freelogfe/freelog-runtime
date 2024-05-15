@@ -251,6 +251,9 @@ async function mountApp(
   container: any,
   renderWidgetOptions: any
 ) {
+  // microApp.preFetch([
+  //   { name: widgetRenderName, url: entry, level: 3 }, // 加载资源并解析
+  // ])
   const flag = await microApp.renderApp({
     "router-mode": "search",
     ...renderWidgetOptions,

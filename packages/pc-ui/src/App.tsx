@@ -72,7 +72,7 @@ function App() {
           nodeShortDescription,
           nodeSuspendInfo,
         } = nodeInfo;
-        
+
         freelogApp.nodeInfo = {
           nodeName,
           tags,
@@ -157,6 +157,7 @@ function App() {
           });
         } else {
           const container = document.getElementById("freelog-plugin-container");
+
           await freelogApp.mountExhibitWidget(null, {
             widget: nodeInfo.themeInfo,
             container,
@@ -164,6 +165,11 @@ function App() {
             dependencyTree: nodeInfo.themeInfo.versionInfo.dependencyTree,
             exhibitId: nodeInfo.themeInfo.exhibitId,
             renderWidgetOptions: {
+              lifeCycles: {
+                beforemount: () => {
+                  loadingClose();
+                },
+              },
               iframe:
                 nodeInfo.themeInfo.versionInfo.exhibitProperty.bundleTool ===
                 "vite"
@@ -173,7 +179,6 @@ function App() {
           });
         }
 
-        loadingClose();
         // freelogApp.status.themeMounted = flag;
       }
     );

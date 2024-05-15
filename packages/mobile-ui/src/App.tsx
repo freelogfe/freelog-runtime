@@ -186,6 +186,11 @@ function App() {
             dependencyTree: nodeInfo.themeInfo.versionInfo.dependencyTree,
             exhibitId: nodeInfo.themeInfo.exhibitId,
             renderWidgetOptions: {
+              lifeCycles: {
+                beforemount: () => {
+                  loadingClose();
+                },
+              },
               iframe:
                 nodeInfo.themeInfo.versionInfo.exhibitProperty.bundleTool ===
                 "vite"
@@ -194,7 +199,6 @@ function App() {
             },
           });
         }
-        loadingClose();
         // freelogApp.status.themeMounted = flag;
       }
     );
