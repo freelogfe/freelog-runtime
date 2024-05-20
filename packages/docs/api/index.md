@@ -102,7 +102,7 @@ const widgetConfig = await freelogApp.getSelfDependencyTree(true);
 
 ### getSelfProperty
 
-**用途：获取插件自身渲染名称**
+**用途：获取插件自身属性**
 
 ```ts
 **用法**
@@ -301,7 +301,6 @@ let widgetController: WidgetController = await freelogApp.mountArticleWidget(opt
 interface WidgetController {
   success: boolean;
   name: string; // 子插件渲染id  widgetRenderName
-  getApi: () => PlainObject; // 获取子插件入口处注册的对象
   unmount: (options?: unmountAppParams) => Promise<boolean>;// 卸载插件
   reload: (destroy?: boolean) => Promise<boolean>; // 重载插件
   setData: (data: Record<PropertyKey, unknown>) => any; // 发送数据给子插件，子插件通过freelogApp.addDataListener监听获取

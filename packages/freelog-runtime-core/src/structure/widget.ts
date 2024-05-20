@@ -287,6 +287,9 @@ async function mountApp(
   const setData = (data: Record<PropertyKey, unknown>) => {
     return microApp.setData(widgetRenderName, data);
   };
+  const forceSetData = (data: Record<PropertyKey, unknown>) => {
+    return microApp.forceSetData(widgetRenderName, data);
+  };
   const addDataListener = (dataListener: Function, autoTrigger?: boolean) => {
     return microApp.addDataListener(
       widgetRenderName,
@@ -311,6 +314,7 @@ async function mountApp(
     addDataListener,
     removeDataListener,
     clearDataListener,
+    forceSetData
   };
   addWidget(widgetRenderName, widgetControl);
   name && addChildWidget(name, widgetControl);

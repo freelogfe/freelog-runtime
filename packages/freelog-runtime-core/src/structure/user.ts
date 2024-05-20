@@ -3,6 +3,7 @@ import { freelogApp } from "./freelogApp";
 import { widgetsConfig, widgetUserData } from "./widget";
 import { initWindowListener } from "../bridge/eventOn";
 import { goLogin, goLoginOut } from "../bridge/index";
+import { baseInfo} from "../base/baseInfo"
 import {
   getCurrentUser as _getCurrentUser,
   putUserData as _putUserData,
@@ -25,7 +26,7 @@ export async function setUserInfo(info: any) {
   window.userId = info ? info.userId + "" : "";
   userInfo = info;
 }
-export async function isUserChange(name: string) {
+export  function isUserChange(name: string) {
   let uid = docCookies.getItem("uid");
   const userInfo = getCurrentUser();
   uid = uid ? uid : "";
@@ -47,7 +48,7 @@ export async function setUserData(name: string, key: string, data: any) {
   key = window.isTest ? key + "-test" : key;
   let userData = widgetUserData.get(name) || {};
   userData[key] = data;
-  const nodeId = freelogApp.nodeInfo.nodeId;
+  const nodeId = baseInfo.nodeId;
   // 用户如果两台设备更新数据，可以做一个保存请求的数据对比最新的数据，如果不同，提示给插件（或者传递参数强制更新）,这个后端来做？
   const res = await _putUserData([nodeId], {
     appendOrReplaceObject: {
@@ -60,7 +61,7 @@ export async function deleteUserData(name: string, key: string) {
   key = window.isTest ? key + "-test" : key;
   let userData = widgetUserData.get(name) || {};
   delete userData[key];
-  const nodeId = freelogApp.nodeInfo.nodeId;
+  const nodeId = baseInfo.nodeId;
   const res = await _putUserData([nodeId], {
     appendOrReplaceObject: {
       [name]: userData,
@@ -80,7 +81,7 @@ export async function getUserData(name: string, key: string) {
   if (config.isDev) {
     widgetId = config.DevResourceName ? config.DevResourceName : widgetId;
   }
-  const nodeId = freelogApp.nodeInfo.nodeId;
+  const nodeId = baseInfo.nodeId;
   const res = await _getUserData([nodeId]);
   userData = res.data[widgetId] || {};
   widgetUserData.set(name, userData);

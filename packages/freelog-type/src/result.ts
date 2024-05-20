@@ -23,6 +23,7 @@ export interface WidgetController {
   reload: (destroy?: boolean) => Promise<boolean>;
   getData: () => any;
   clearData: () => any;
+  forceSetData:(data: Record<PropertyKey, unknown>) => any;
   setData: (data: Record<PropertyKey, unknown>) => any;
   addDataListener: (dataListener: Function, autoTrigger?: boolean) => any;
   removeDataListener: (dataListener: Function) => any;
