@@ -1,6 +1,6 @@
-import { freelogApp } from "freelog-runtime-core";
+import { freelogAuth } from "freelog-runtime-core";
 
-const nodeInfo = freelogApp.nodeInfo;
+const nodeInfo = freelogAuth.nodeInfo;
 
 interface exhibitListProps {
   currentExhibit: any;

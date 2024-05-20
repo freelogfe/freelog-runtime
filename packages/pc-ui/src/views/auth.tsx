@@ -17,9 +17,9 @@ import ExhibitOffLine from "./_statusComponents/exhibitOffLine";
 import ExhibitFooter from "./_components/exhibitFooter";
 import ContractTip from "./_components/contractTip";
 import PolicyTip from "./_components/policyTip";
-import { freelogAuth, freelogApp } from "freelog-runtime-core";
+import { freelogAuth} from "freelog-runtime-core";
 const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
-const nodeInfo = freelogApp.nodeInfo;
+const nodeInfo = freelogAuth.nodeInfo;
 const {
   setUserInfo,
   loginCallback,

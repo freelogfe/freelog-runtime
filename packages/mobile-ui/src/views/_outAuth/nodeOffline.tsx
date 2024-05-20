@@ -1,6 +1,6 @@
 
 import nodeOffline from "../../assets/image/nodeOffline.png";
-import { freelogApp } from "freelog-runtime-core";
+import { freelogAuth } from "freelog-runtime-core";
  
 
 export default function NodeOffline() {
@@ -23,7 +23,7 @@ export default function NodeOffline() {
           color: "#666666",
         }}
       >
-        {freelogApp.nodeInfo.nodeSuspendInfo || "筹备中，敬请期待…"}
+        {freelogAuth.nodeInfo.nodeSuspendInfo || "筹备中，敬请期待…"}
       </div>
       <div className="flex-1"></div>
     </div>

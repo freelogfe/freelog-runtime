@@ -1,6 +1,6 @@
 /* @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { freelogApp } from "freelog-runtime-core";
+import { freelogAuth } from "freelog-runtime-core";
 
 interface policyTipProps {
   currentExhibit: any;
@@ -8,7 +8,7 @@ interface policyTipProps {
 }
 export default function PolicyTip({ currentExhibit }: policyTipProps) {
   const exhibitId = currentExhibit.exhibitId;
-  const nodeName = freelogApp.nodeInfo.nodeName;
+  const nodeName = freelogAuth.nodeInfo.nodeName;
   return (
     <>
       {currentExhibit._contracts.length > currentExhibit.contracts.length && (

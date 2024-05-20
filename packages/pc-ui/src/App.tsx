@@ -81,6 +81,7 @@ function App() {
           nodeShortDescription,
           nodeSuspendInfo,
         };
+        freelogAuth.nodeInfo = nodeData.data;
         document.title = nodeInfo.nodeTitle
           ? nodeInfo.nodeTitle
           : nodeInfo.nodeName;
