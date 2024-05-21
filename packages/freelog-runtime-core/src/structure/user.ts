@@ -9,7 +9,6 @@ import {
   putUserData as _putUserData,
   getUserData as _getUserData,
 } from "../base";
-const rawLocation = window.location;
 export let userInfo: any = null;
 export async function getUserInfo() {
   initWindowListener();
@@ -49,10 +48,12 @@ export async function setUserData(name: string, key: string, data: any) {
   let userData = widgetUserData.get(name) || {};
   userData[key] = data;
   const nodeId = baseInfo.nodeId;
+  let config = widgetsConfig.get(name);
+  let widgetId = btoa(encodeURI(config.articleName));
   // 用户如果两台设备更新数据，可以做一个保存请求的数据对比最新的数据，如果不同，提示给插件（或者传递参数强制更新）,这个后端来做？
   const res = await _putUserData([nodeId], {
     appendOrReplaceObject: {
-      [name]: userData,
+      [widgetId]: userData,
     },
   });
   return res;
@@ -61,26 +62,24 @@ export async function deleteUserData(name: string, key: string) {
   key = window.isTest ? key + "-test" : key;
   let userData = widgetUserData.get(name) || {};
   delete userData[key];
+  let config = widgetsConfig.get(name);
+  let widgetId = btoa(encodeURI(config.articleName));
   const nodeId = baseInfo.nodeId;
   const res = await _putUserData([nodeId], {
     appendOrReplaceObject: {
-      [name]: userData,
+      [widgetId]: userData,
     },
   });
   return res;
 }
-export async function getUserData(name: string, key: string) {
+export async function getUserData(name: string, key: string, force: boolean) {
   key = window.isTest ? key + "-test" : key;
   let userData = widgetUserData.get(name);
-  if (userData) {
+  if (userData && !force) {
     return userData[key];
   }
   let config = widgetsConfig.get(name);
   let widgetId = btoa(encodeURI(config.articleName));
-
-  if (config.isDev) {
-    widgetId = config.DevResourceName ? config.DevResourceName : widgetId;
-  }
   const nodeId = baseInfo.nodeId;
   const res = await _getUserData([nodeId]);
   userData = res.data[widgetId] || {};

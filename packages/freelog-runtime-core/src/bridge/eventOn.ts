@@ -21,14 +21,21 @@ export function onUserChange(name: string, callback: any) {
   }
 }
 export const initWindowListener = () => {
-  window.document.addEventListener("visibilitychange", function() {
-    const userInfo = getCurrentUser();
-    const userId = userInfo?.userId ? userInfo.userId + "" : "";
-    const uid = docCookies.getItem("uid") ? docCookies.getItem("uid") + "" : "";
-    if (uid != userId) {
-      userChangeCallback.forEach((func: any) => {
-        func && func();
-      });
+  window.document.addEventListener("visibilitychange", function (e) {
+    // if (document.visibilityState == "hidden") {
+    //   alert("离开");
+    // }
+    if (document.visibilityState == "visible") {
+      const userInfo = getCurrentUser();
+      const userId = userInfo?.userId ? userInfo.userId + "" : "";
+      const uid = docCookies.getItem("uid")
+        ? docCookies.getItem("uid") + ""
+        : "";
+      if (uid != userId) {
+        userChangeCallback.forEach((func: any) => {
+          func && func();
+        });
+      }
     }
   });
 };

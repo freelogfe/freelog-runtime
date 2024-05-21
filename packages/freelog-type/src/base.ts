@@ -54,7 +54,7 @@ export interface NodeInfo {
   nodeLogo?: string;
   nodeTitle?: string;
   nodeShortDescription?: string;
-  nodeSuspendInfo?: string;
+  // nodeSuspendInfo?: string;
 }
 
 /**
@@ -99,8 +99,8 @@ export interface PageResult<T> {
 
 export interface FreelogUserInfo {
   [key: string]: any;
-  userId: number;
   username: string;
+  headImage: string;
 }
 /**
  * 合同乙方的身份类型

@@ -70,7 +70,7 @@ function App() {
           nodeLogo,
           nodeTitle,
           nodeShortDescription,
-          nodeSuspendInfo,
+          // nodeSuspendInfo,
         } = nodeInfo;
 
         freelogApp.nodeInfo = {
@@ -79,7 +79,7 @@ function App() {
           nodeLogo,
           nodeTitle,
           nodeShortDescription,
-          nodeSuspendInfo,
+          // nodeSuspendInfo,
         };
         freelogAuth.nodeInfo = nodeData.data;
         document.title = nodeInfo.nodeTitle

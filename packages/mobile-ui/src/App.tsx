@@ -91,7 +91,7 @@ function App() {
           nodeLogo,
           nodeTitle,
           nodeShortDescription,
-          nodeSuspendInfo,
+          // nodeSuspendInfo,
         } = nodeInfo;
         
         freelogApp.nodeInfo = {
@@ -100,7 +100,7 @@ function App() {
           nodeLogo,
           nodeTitle,
           nodeShortDescription,
-          nodeSuspendInfo,
+          // nodeSuspendInfo,
         };
         freelogAuth.nodeInfo = nodeData.data;
         document.title = nodeInfo.nodeTitle
@@ -189,6 +189,9 @@ function App() {
               lifeCycles: {
                 beforemount: () => {
                   loadingClose();
+                },
+                mounted: () => {
+                  freelogApp.status.themeMounted = true;
                 },
               },
               iframe:

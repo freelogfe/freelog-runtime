@@ -26,19 +26,19 @@ const nodeInfo = freelogApp.nodeInfo;
 
 | 字段                 | 字段类型 | 字段说明                                                                           |
 | :------------------- | :------- | :--------------------------------------------------------------------------------- |
-| nodeId               | number   | 节点 ID                                                                            |
+<!-- | nodeId               | number   | 节点 ID                                                                            | -->
 | nodeName             | string   | 节点名称                                                                           |
-| nodeDomain           | string   | 节点域名前缀                                                                       |
-| nodeThemeId          | string   | 节点主题展品 ID                                                                    |
-| pageBuildId          | string   | 兼容旧版,nodeThemeId 的别名,后期可能取消字段.建议使用 nodeThemeId                  |
-| ownerUserId          | number   | 节点所有者 ID                                                                      |
-| ownerUserName        | string   | 节点所有者名称                                                                     |
-| status               | number   | 节点状态(1:下线 2:上线 4:冻结) 通过与或运算符计算. 例如 1\|4=5 代表的是(下线+冻结) |
-| createDate           | date     | 创建日期                                                                           |
+<!-- | nodeDomain           | string   | 节点域名前缀                                                                       | -->
+<!-- | nodeThemeId          | string   | 节点主题展品 ID                                                                    | -->
+<!-- | pageBuildId          | string   | 兼容旧版,nodeThemeId 的别名,后期可能取消字段.建议使用 nodeThemeId                  | -->
+<!-- | ownerUserId          | number   | 节点所有者 ID                                                                      | -->
+<!-- | ownerUserName        | string   | 节点所有者名称                                                                     | -->
+<!-- | status               | number   | 节点状态(1:下线 2:上线 4:冻结) 通过与或运算符计算. 例如 1\|4=5 代表的是(下线+冻结) | -->
+| tags           | array     | 标签数组                                                                           |
 | nodeLogo             | string   | 节点图标                                                                           |
 | nodeTitle            | string   | 节点标题                                                                           |
 | nodeShortDescription | string   | 节点简介                                                                           |
-| nodeVisibility       | number   | 访问权限 1：公开 2：私密 3：暂停                                                   |
+<!-- | nodeVisibility       | number   | 访问权限 1：公开 2：私密 3：暂停                                                   | -->
 
 ### devData
 
@@ -70,7 +70,7 @@ const data = freelogApp.getCurrentUrl();
 
 ### getSelfWidgetRenderName
 
-**用途：获取插件自身渲染名称**
+**用途：获取插件自身渲染名称，一般用于dev的replace模式调试，方便知道自己的渲染名称**
 
 ```ts
 **用法**
@@ -80,6 +80,9 @@ const selfWidgetId = freelogApp.getSelfWidgetRenderName();
 ### getTopExhibitId
 
 **用途：获取当前插件的自身或顶层展品id，也就是依赖树最上层的展品id**
+
+**场景一：主当前插件是展品插件，获取自身展品id**
+**场景二：主当前插件是展品依赖树中的资源作为插件，获取最上层的展品id**
 
 ```ts
 **用法**
@@ -93,10 +96,10 @@ const topExhibitId = freelogApp.getTopExhibitId();
 ```ts
 **用法**
 // 运行时加载主题时已经传递了 dependencyTree
-// 如果mountExhibitWidget  mountArticleWidget传递了dependencyTree
+// 如果主题或插件调用mountExhibitWidget、mountArticleWidget时传递了dependencyTree
 const widgetConfig = await freelogApp.getSelfDependencyTree();
 
-// 如果mountExhibitWidget  mountArticleWidget没有传递dependencyTree
+// 如果没有传递dependencyTree，或者想要强制从网络获取
 const widgetConfig = await freelogApp.getSelfDependencyTree(true);
 ```
 
@@ -107,10 +110,10 @@ const widgetConfig = await freelogApp.getSelfDependencyTree(true);
 ```ts
 **用法**
 // 运行时加载主题时已经传递了 property
-// 如果mountExhibitWidget  mountArticleWidget传递了property
+// 如果主题或插件调用mountExhibitWidget、mountArticleWidget时传递了传递了property
 const widgetConfig = await freelogApp.getSelfProperty();
 
-// 如果mountExhibitWidget  mountArticleWidget没有传递property
+// 如果没有传递property，或者想要强制从网络获取
 const widgetConfig = await freelogApp.getSelfProperty(true);
 ```
 
@@ -303,8 +306,11 @@ interface WidgetController {
   name: string; // 子插件渲染id  widgetRenderName
   unmount: (options?: unmountAppParams) => Promise<boolean>;// 卸载插件
   reload: (destroy?: boolean) => Promise<boolean>; // 重载插件
+  // 具体信息请参考《数据通信》文档。
   setData: (data: Record<PropertyKey, unknown>) => any; // 发送数据给子插件，子插件通过freelogApp.addDataListener监听获取
   getData:()=>any; // 返回父插件下发的data数据
+  forceSetData:(data: Record<PropertyKey, unknown>) => any; // 方法拥有和 setData 一样的参数和行为，唯一不同的是 forceSetData 会强制发送数据，无论数据是否变化
+  clearData: ()=> void; // 清除发送给子插件的数据
   addDataListener: (dataListener: Function, autoTrigger?: boolean) => any;// 监听子插件dipatch过来的数据
   removeDataListener: (dataListener: Function) => any;
   clearDataListener: () => any;
