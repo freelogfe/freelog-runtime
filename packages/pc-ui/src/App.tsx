@@ -170,6 +170,9 @@ function App() {
                 beforemount: () => {
                   loadingClose();
                 },
+                mounted: () => {
+                  freelogApp.status.themeMounted = true;
+                },
               },
               iframe:
                 nodeInfo.themeInfo.versionInfo.exhibitProperty.bundleTool ===
@@ -179,8 +182,6 @@ function App() {
             },
           });
         }
-
-        // freelogApp.status.themeMounted = flag;
       }
     );
   }, []);

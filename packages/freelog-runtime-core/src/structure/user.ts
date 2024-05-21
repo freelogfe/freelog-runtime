@@ -56,7 +56,7 @@ export async function setUserData(name: string, key: string, data: any) {
       [widgetId]: userData,
     },
   });
-  return res;
+  return res.status == 200;
 }
 export async function deleteUserData(name: string, key: string) {
   key = window.isTest ? key + "-test" : key;

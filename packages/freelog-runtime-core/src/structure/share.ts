@@ -30,9 +30,9 @@ const rawLocation = location;
 export function mapShareUrl(name: string, routeMap: any) {
   // @ts-ignore
   const theme = widgetsConfig.get(name);
-  if (!theme.isTheme) {
-    console.error("mapShareUrl ", "只能主题使用");
-  }
+  // if (!theme.isTheme) {
+  //   console.error("mapShareUrl ", "只能主题使用");
+  // }
   theme[FREELOG_ROUTE_MAPS] = routeMap || {};
   const href = rawLocation?.href;
   const data = isShareUrl(href);
