@@ -9,10 +9,11 @@ export function getShareUrl(
   exhibitId: string,
   type: string
 ) {
-  let search = window.location.search;
+  let search = "";
   const devData = dev();
   const params = { ...devData.params };
   if (devData.type !== DEV_FALSE) {
+    search = window.location.search
     widgetsConfig.forEach((element) => {
       search = search.replace(
         "&" + element.name + "=" + encodeURIComponent(params[element.name]),
