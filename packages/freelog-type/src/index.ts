@@ -14,7 +14,7 @@ import {
   GetSignStatisticsResult,
   AddAuthResult,
 } from "./result";
-import { ExhibitAuthNodeInfo } from "./exhibit";
+import { ExhibitDependencyNodeInfo } from "./exhibit";
 export * from "./result";
 export * from "./exhibit";
 
@@ -44,7 +44,7 @@ export interface WidgetApi {
 }
 export interface FreelogApp {
   nodeInfo: NodeInfo;
-  devData: PlainObject;
+  // devData: PlainObject;
   getCurrentUser: () => FreelogUserInfo;
   mountArticleWidget: (
     options: MountArticleWidgetOptions
@@ -56,7 +56,7 @@ export interface FreelogApp {
   getSelfProperty: (isFromServer?: boolean) => Promise<any>;
   getSelfDependencyTree: (
     isFromServer?: boolean
-  ) => Promise<ExhibitAuthNodeInfo[]>;
+  ) => Promise<ExhibitDependencyNodeInfo[]>;
   getExhibitListById: (query: {
     exhibitIds: string;
     isLoadVersionProperty?: 0 | 1;

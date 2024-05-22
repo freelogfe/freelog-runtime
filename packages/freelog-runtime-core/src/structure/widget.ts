@@ -1,4 +1,4 @@
-import { freelogApp } from "./freelogApp";
+import { freelogApp, devData } from "./freelogApp";
 import microApp from "@micro-zoe/micro-app";
 import { DEV_TYPE_REPLACE, DEV_THEME, DEV_FALSE } from "./dev";
 import { digestMessage } from "./hashc";
@@ -99,7 +99,6 @@ export async function mountExhibitWidget(
   }
   isTheme && (widget_entry = "");
 
-  const devData = freelogApp.devData;
 
   let entry = "";
   let widgetRenderName = "";
@@ -191,7 +190,6 @@ export async function mountArticleWidget(
     widget_entry,
     renderWidgetOptions,
   } = options;
-  const devData = freelogApp.devData;
   let entry = "";
   let widgetRenderName = "";
   const hash = await digestMessage(topExhibitId + articleId);

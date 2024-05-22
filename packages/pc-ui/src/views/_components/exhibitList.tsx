@@ -1,6 +1,5 @@
 import { freelogAuth } from "freelog-runtime-core";
 
-const nodeInfo = freelogAuth.nodeInfo;
 
 interface exhibitListProps {
   currentExhibit: any;
@@ -13,6 +12,8 @@ export default function exhibitList({
   events,
   setCurrentExhibit,
 }: exhibitListProps) {
+  const nodeInfo = freelogAuth.nodeInfo;
+
   return (
     <div className="flex-column w-344 h-100x  y-auto">
       {events.length

@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import nodePrivate from "../../assets/image/nodePrivate.png";
 import Login from "../user/login";
-import { freelogApp, freelogAuth } from "freelog-runtime-core";
+import { freelogAuth } from "freelog-runtime-core";
 
 
 import { Button} from "antd-mobile";
@@ -41,11 +41,11 @@ export default function NodePrivate() {
           color: "#666666",
         }}
       >
-        {freelogApp.getCurrentUser()
+        {freelogAuth.getUserInfoForAuth()
           ? "此节点未开放访问"
           : "此节点未开放访问，如果你是节点所有者，请登录后继续访问。"}
       </div>
-      {freelogApp.getCurrentUser() ? null : (
+      {freelogAuth.getUserInfoForAuth() ? null : (
         <Button
           className="fs-14 px-40"
           color="primary"

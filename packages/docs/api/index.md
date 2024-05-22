@@ -40,14 +40,14 @@ const nodeInfo = freelogApp.nodeInfo;
 | nodeShortDescription | string   | 节点简介                                                                           |
 <!-- | nodeVisibility       | number   | 访问权限 1：公开 2：私密 3：暂停                                                   | -->
 
-### devData
+<!-- ### devData
 
 **用途：开发过程中获取当前 url 中 dev 后面的数据，详情解释待完善**
 
 ```ts
 **用法**
 const data = freelogApp.devData;
-```
+``` -->
 
 **返回示例**
 
@@ -147,7 +147,7 @@ const widgetConfig = await freelogApp.getSelfProperty(true);
     /**
      * 展品或作品的依赖
      */
-    dependencyTree?: ExhibitAuthNodeInfo[];
+    dependencyTree?: ExhibitDependencyNodeInfo[];
     /**
      * 挂载的序号，当同时家载多次时需要
      */
@@ -189,7 +189,7 @@ const widgetConfig = await freelogApp.getSelfProperty(true);
     /**
      * 展品或作品的依赖
      */
-    dependencyTree?: ExhibitAuthNodeInfo[];
+    dependencyTree?: ExhibitDependencyNodeInfo[];
 
     /**
      * 挂载的序号，当同时家载多次时需要
@@ -322,8 +322,8 @@ interface WidgetController {
 
 ```ts
 **用法**
-const subData: ExhibitAuthNodeInfo[] = await freelogApp.getSelfDependencyTree();
-subData.forEach(async (sub: ExhibitAuthNodeInfo) => {
+const subData: ExhibitDependencyNodeInfo[] = await freelogApp.getSelfDependencyTree();
+subData.forEach(async (sub: ExhibitDependencyNodeInfo) => {
   if (sub.articleName === "snnaenu/插件开发演示代码插件") {
     selfWidget = await freelogApp.mountArticleWidget({
       articleId: sub.articleId,

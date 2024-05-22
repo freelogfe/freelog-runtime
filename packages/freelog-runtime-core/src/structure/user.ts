@@ -1,42 +1,49 @@
 ﻿import * as docCookies from "doc-cookies";
-import { freelogApp } from "./freelogApp";
+import { freelogAuth } from "./freelogAuth";
 import { widgetsConfig, widgetUserData } from "./widget";
 import { initWindowListener } from "../bridge/eventOn";
 import { goLogin, goLoginOut } from "../bridge/index";
-import { baseInfo} from "../base/baseInfo"
+import { baseInfo } from "../base/baseInfo";
 import {
   getCurrentUser as _getCurrentUser,
   putUserData as _putUserData,
   getUserData as _getUserData,
 } from "../base";
 export let userInfo: any = null;
+export let userInfoForAuth: any = null;
 export async function getUserInfo() {
   initWindowListener();
-  if (userInfo) return userInfo;
+  if (userInfoForAuth) return userInfoForAuth;
   const res = await _getCurrentUser();
-  userInfo = res.data.errCode === 0 ? res.data.data : null;
-  setUserInfo(userInfo);
-  return userInfo;
+  const info = res.data.errCode === 0 ? res.data.data : null;
+  setUserInfo(info);
+  return info;
+}
+export function getUserInfoForAuth() {
+  return userInfoForAuth;
 }
 export function getCurrentUser(name?: string) {
   return userInfo;
 }
 export async function setUserInfo(info: any) {
   window.userId = info ? info.userId + "" : "";
-  userInfo = info;
+  userInfo = userInfoForAuth = info;
+  if (userInfo) {
+    const { headImage, username } = info;
+    userInfo = { headImage, username };
+  }
 }
-export  function isUserChange(name: string) {
+export function isUserChange(name: string) {
   let uid = docCookies.getItem("uid");
-  const userInfo = getCurrentUser();
   uid = uid ? uid : "";
-  const userId = userInfo?.userId ? userInfo?.userId + "" : "";
+  const userId = userInfoForAuth?.userId ? userInfoForAuth?.userId + "" : "";
   // 用户变化, 从无到有，从有到另有
   if (uid !== userId) {
     return true;
     // rawLocation.reload();
   }
   // 用户变化, 从有到无，有页面登出后，还处于登录状态的页面处理方式
-  if (userInfo?.userId && !uid) {
+  if (userInfoForAuth?.userId && !uid) {
     return true;
     // rawLocation.reload();
   }

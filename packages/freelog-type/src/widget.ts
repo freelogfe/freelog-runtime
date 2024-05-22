@@ -1,5 +1,5 @@
 ﻿import { PlainObject } from "./base";
-import { ExhibitAuthNodeInfo } from "./exhibit";
+import { ExhibitDependencyNodeInfo } from "./exhibit";
 // unmountApp 参数配置
 export interface unmountAppParams {
   /**
@@ -37,7 +37,7 @@ export interface MountExhibitWidgetOptions {
   /**
    * 展品或作品的依赖
    */
-  dependencyTree?: ExhibitAuthNodeInfo[];
+  dependencyTree?: ExhibitDependencyNodeInfo[];
   /**
    * 挂载的序号，当同时家载多次时需要
    */
@@ -79,7 +79,7 @@ export interface MountArticleWidgetOptions {
   /**
    * 展品或作品的依赖
    */
-  dependencyTree?: ExhibitAuthNodeInfo[];
+  dependencyTree?: ExhibitDependencyNodeInfo[];
 
   /**
    * 挂载的序号，当同时家载多次时需要

@@ -36,7 +36,7 @@ export const freelogApp: any = {
   },
   mountExhibitWidget,
   mountArticleWidget,
-  devData,
+  // devData,
   getStaticPath,
   getSelfWidgetRenderName,
   callAuth,

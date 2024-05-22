@@ -5,7 +5,7 @@ import PolicyContent from "./_components/policyContent";
 import { Tabs, Dialog, Button, Checkbox } from "antd-mobile";
 import { freelogAuth } from "freelog-runtime-core";
 
-const { getCurrentUser } =  freelogAuth;
+const { getUserInfoForAuth } =  freelogAuth;
 interface ItemProps {
   policy: any;
   selectType: boolean;
@@ -54,7 +54,7 @@ export default function Policy(props: ItemProps) {
             color="primary"
             size="small"
             onClick={() => {
-              if (!getCurrentUser()) {
+              if (!getUserInfoForAuth()) {
                 props.setModalType(1);
                 return;
               }
@@ -71,7 +71,7 @@ export default function Policy(props: ItemProps) {
                 });
               }, 0);
             }}
-            disabled={!getCurrentUser() || !props.isAvailable || props.disabled}
+            disabled={!getUserInfoForAuth() || !props.isAvailable || props.disabled}
           >
             签约
           </Button>

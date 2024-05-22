@@ -18,10 +18,9 @@ import ExhibitHeader from "./_components/exhibitHeader";
 import ExhibitList from "./_components/exhibitList";
 import { freelogAuth } from "freelog-runtime-core";
 
-const nodeInfo = freelogAuth.nodeInfo;
 
 const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
-const { setUserInfo, loginCallback, getCurrentUser, updateEvent, reload } =
+const { setUserInfo, loginCallback, getUserInfoForAuth, updateEvent, reload } =
   freelogAuth;
 // const alert = Modal.alert;
 
@@ -35,6 +34,8 @@ interface contractProps {
   isAuths?: boolean;
 }
 export default function Auth(props: contractProps) {
+  const nodeInfo = freelogAuth.nodeInfo;
+
   const [isListVisible, setIsListVisible] = useState(false);
   // 1 登录  2 注册   3 忘记登录密码  4 忘记支付密码
   const [modalType, setModalType] = useState(0);
@@ -80,7 +81,7 @@ export default function Auth(props: contractProps) {
   async function getDetail(id?: string) {
     setSelectedPolicies([]);
     if (!id) {
-      const userInfo: any = getCurrentUser();
+      const userInfo: any = getUserInfoForAuth();
       const con = await freelogAuth.getContracts({
         subjectIds: currentExhibit.exhibitId,
         subjectType: 2,
@@ -199,7 +200,7 @@ export default function Auth(props: contractProps) {
         });
       }
     });
-    const userInfo: any = getCurrentUser();
+    const userInfo: any = getUserInfoForAuth();
     const res = await freelogAuth.batchSign({
       subjects,
       subjectType: 2,
@@ -383,7 +384,7 @@ export default function Auth(props: contractProps) {
                   )}
                 </>
               )}
-              {getCurrentUser() ? null : (
+              {getUserInfoForAuth() ? null : (
                 <ExhibitFooter setModalType={setModalType} />
               )}
             </div>

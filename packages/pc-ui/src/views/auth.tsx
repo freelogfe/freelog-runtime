@@ -19,11 +19,10 @@ import ContractTip from "./_components/contractTip";
 import PolicyTip from "./_components/policyTip";
 import { freelogAuth} from "freelog-runtime-core";
 const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
-const nodeInfo = freelogAuth.nodeInfo;
 const {
   setUserInfo,
   loginCallback,
-  getCurrentUser,
+  getUserInfoForAuth,
   updateEvent,
   reload,
 } = freelogAuth;
@@ -38,7 +37,8 @@ interface contractProps {
   isAuths?: boolean;
 }
 export default function Auth(props: contractProps) {
-  //
+  const nodeInfo = freelogAuth.nodeInfo;
+
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
   const [isLoginVisible, setIsLoginVisible] = useState(false);
   const [isTipVisible, setIsTipVisible] = useState(false);
@@ -84,7 +84,7 @@ export default function Auth(props: contractProps) {
     setSelectedPolicies([]);
     // 如果没有传id 就是重新请求合约
     if (!id) {
-      const userInfo: any = getCurrentUser();
+      const userInfo: any = getUserInfoForAuth();
       const con = await freelogAuth.getContracts({
         subjectIds: currentExhibit.exhibitId,
         subjectType: 2,
@@ -198,7 +198,7 @@ export default function Auth(props: contractProps) {
 
   // 登录或确认签约按钮行为定义
   function act() {
-    if (!getCurrentUser()) {
+    if (!getUserInfoForAuth()) {
       setIsLoginVisible(true);
       return;
     }
@@ -217,7 +217,7 @@ export default function Auth(props: contractProps) {
         }) &&
         policies.push(item);
     });
-    const userInfo: any = getCurrentUser();
+    const userInfo: any = getUserInfoForAuth();
     const res = await freelogAuth.batchSign({
       subjects,
       subjectType: 2,
@@ -474,7 +474,7 @@ export default function Auth(props: contractProps) {
                   {currentExhibit.contracts.length ? null : (
                     <ExhibitFooter
                       currentExhibit={currentExhibit}
-                      getCurrentUser={getCurrentUser}
+                      getUserInfoForAuth={getUserInfoForAuth}
                       act={act}
                       selectedPolicies={selectedPolicies}
                     />

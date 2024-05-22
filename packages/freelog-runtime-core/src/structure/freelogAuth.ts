@@ -1,4 +1,4 @@
-import { getCurrentUser, getUserInfo, setUserInfo } from "./user";
+import { getUserInfoForAuth, getUserInfo, setUserInfo } from "./user";
 import {
   registerUI,
   eventMap,
@@ -28,7 +28,7 @@ export const freelogAuth = {
   resultType,
   loginCallback,
   setUserInfo,
-  getCurrentUser,
+  getUserInfoForAuth,
   getUserInfo,
   reload,
   eventType,

@@ -1,5 +1,5 @@
 import * as docCookies from "doc-cookies";
-import { getCurrentUser } from "../structure/user";
+import { getUserInfoForAuth } from "../structure/user";
 export const loginCallback: any = [];
 
 // 登录和切换用户需要触发
@@ -21,12 +21,12 @@ export function onUserChange(name: string, callback: any) {
   }
 }
 export const initWindowListener = () => {
-  window.document.addEventListener("visibilitychange", function (e) {
+  window.document.addEventListener("visibilitychange",function (e) {
     // if (document.visibilityState == "hidden") {
     //   alert("离开");
     // }
     if (document.visibilityState == "visible") {
-      const userInfo = getCurrentUser();
+      const userInfo = getUserInfoForAuth();
       const userId = userInfo?.userId ? userInfo.userId + "" : "";
       const uid = docCookies.getItem("uid")
         ? docCookies.getItem("uid") + ""

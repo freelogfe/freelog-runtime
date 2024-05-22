@@ -7,7 +7,7 @@ import { freelogAuth } from "freelog-runtime-core";
 
 import { Tabs, Checkbox, Popconfirm } from "antd";
 const { TabPane } = Tabs;
-const { getCurrentUser } = freelogAuth;
+const { getUserInfoForAuth } = freelogAuth;
 interface ItemProps {
   policy: any;
   selectType: boolean;
@@ -79,7 +79,7 @@ export default function Policy(props: ItemProps) {
         ) : (
           <Checkbox
             onChange={onChange}
-            disabled={!getCurrentUser() || props.disabled}
+            disabled={!getUserInfoForAuth() || props.disabled}
           ></Checkbox>
         )}
       </div>
