@@ -169,7 +169,6 @@ export default function Auth(props: contractProps) {
 
   // 用户取消签约
   const userCancel = () => {
-    console.log(1211);
     if (currentExhibit.isTheme) {
       setThemeCancel(true);
     } else {

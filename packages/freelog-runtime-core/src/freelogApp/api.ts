@@ -126,7 +126,8 @@ export async function getExhibitSignCount(name: string, exhibitIds: string) {
   });
 }
 // 获取展示是否授权链正常
-export async function getExhibitAvailable(exhibitIds: string) {
+export async function getExhibitAvailable(name: string, exhibitIds: string) {
+  
   if (baseInfo.isTest) {
     return frequest(exhibit.getTestExhibitAuthStatus, [baseInfo.nodeId], {
       authType: 3,

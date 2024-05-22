@@ -176,7 +176,6 @@ export default function Login(props: loginProps) {
           <span
             className="regist-now cur-pointer"
             onClick={() => {
-              console.log(window.baseURL);
               if (window.baseURL.indexOf("testfreelog") > -1) {
                 window.open("https://user.testfreelog.com/logon");
                 return;
