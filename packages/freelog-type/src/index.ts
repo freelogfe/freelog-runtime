@@ -53,7 +53,7 @@ export interface FreelogApp {
     options: MountExhibitWidgetOptions
   ) => Promise<WidgetController>;
   getTopExhibitId: () => string;
-  getSelfProperty: (isFromServer?: boolean) => Promise<any>;
+  getSelfProperty: (isFromServer?: boolean) => Promise<PlainObject>;
   getSelfDependencyTree: (
     isFromServer?: boolean
   ) => Promise<ExhibitDependencyNodeInfo[]>;

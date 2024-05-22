@@ -257,12 +257,12 @@ useEffect(() => {
 ### 获取插件自身属性
 
 ```ts
-// 运行时加载主题时已经传递了property
-// 如果mountExhibitWidget  mountArticleWidget传递了property
-const widgetConfig = freelogApp.getSelfProperty();
+// 运行时加载主题时已经传递了 property
+// 如果主题或插件调用mountExhibitWidget、mountArticleWidget时传递了传递了property
+const propery = await freelogApp.getSelfProperty();
 
-// 如果mountExhibitWidget  mountArticleWidget没有传递property
-const widgetConfig = freelogApp.getSelfProperty(true);
+// 如果没有传递property，或者想要强制通过网络从平台获取
+const propery = await freelogApp.getSelfProperty(true);
 ```
 
 ### 移动端适配
