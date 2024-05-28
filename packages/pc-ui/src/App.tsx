@@ -183,19 +183,8 @@ function App() {
           return;
         }
         if (!nodeInfo.themeAuthInfo.isAuth) {
-          // freelogApp.addAuth(null, nodeInfo.themeInfo.exhibitId, {
-          //   immediate: true,
-          // });
-          microApp.setData("freelog-pc-common-auth", {
-            authProcessorShow: true,
-            mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
-            mainAppFuncs: {
-              contracted: (eventId: string, type: number, data: any) => {
-                endEvent(eventId, type, data);
-              },
-            },
-            nodeId: nodeInfo.nodeId,
-            licensorId: nodeInfo.themeInfo.exhibitId,
+          freelogApp.addAuth(null, nodeInfo.themeInfo.exhibitId, {
+            immediate: true,
           });
         } else {
           const container = document.getElementById("freelog-plugin-container");
