@@ -4,6 +4,7 @@ import {
   legacyLogicalPropertiesTransformer,
 } from "@ant-design/cssinjs";
 import { App as AppAnt } from "antd";
+import microApp from "@micro-zoe/micro-app";
 
 import { useEffect, useState } from "react";
 import Pc from "./views/auth";
@@ -89,6 +90,35 @@ function App() {
           document.title = "[T]" + document.title;
         }
         init(nodeInfo.nodeId);
+        const entry =
+          freelogAuth.devData.type == 3
+            ? freelogAuth.devData.params["auth"]
+            : "";
+        await microApp.renderApp({
+          "router-mode": "search",
+          name: "freelog-pc-common-auth",
+          url: entry
+            ? entry
+            : "https://runtime-test-pc.oss-cn-shenzhen.aliyuncs.com/ui", // "https://localhost:8006",//"https://localhost:8402/",
+          container: document.getElementById(
+            "freelog-pc-common-auth"
+          ) as HTMLElement,
+          renderWidgetOptions: {
+            lifeCycles: {
+              beforemount: () => {
+                loadingClose();
+              },
+              mounted: () => {
+                freelogApp.status.themeMounted = true;
+              },
+            },
+            // iframe:
+            //   nodeInfo.themeInfo.versionInfo.exhibitProperty.bundleTool ===
+            //   "vite"
+            //     ? true
+            //     : false,
+          },
+        });
         // window.vconsole = new VConsole()
         // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
         //   window.vconsole = new VConsole();
@@ -153,8 +183,19 @@ function App() {
           return;
         }
         if (!nodeInfo.themeAuthInfo.isAuth) {
-          freelogApp.addAuth(null, nodeInfo.themeInfo.exhibitId, {
-            immediate: true,
+          // freelogApp.addAuth(null, nodeInfo.themeInfo.exhibitId, {
+          //   immediate: true,
+          // });
+          microApp.setData("freelog-pc-common-auth", {
+            authProcessorShow: true,
+            mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
+            mainAppFuncs: {
+              contracted: (eventId: string, type: number, data: any) => {
+                endEvent(eventId, type, data);
+              },
+            },
+            nodeId: nodeInfo.nodeId,
+            licensorId: nodeInfo.themeInfo.exhibitId,
           });
         } else {
           const container = document.getElementById("freelog-plugin-container");
@@ -209,9 +250,20 @@ function App() {
     });
     setEvents(arr);
     if (!arr.length) {
-      lowerUI();
+      // lowerUI();
     } else {
-      upperUI();
+      microApp.setData("freelog-pc-common-auth", {
+        authProcessorShow: true,
+        mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
+        mainAppFuncs: {
+          contracted: (eventId: string, type: number, data: any) => {
+            endEvent(eventId, type, data);
+          },
+        },
+        nodeId: freelogAuth.nodeInfo.nodeId,
+        licensorId: event.eventId,
+      });
+      // upperUI();
       setInited(true);
     }
   }
@@ -313,7 +365,7 @@ function App() {
         <div id="freelog-pc-auth" className="w-100x h-100x over-h">
           {isOut ? (
             <OutOf eventType={eventType} outData={outData}></OutOf>
-          ) : inited || isLogin ? (
+          ) : (inited || isLogin) && eventType !== CONTRACT ? (
             <Pc
               events={events}
               isAuths={inited}

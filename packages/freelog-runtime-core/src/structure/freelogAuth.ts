@@ -13,6 +13,8 @@ import { freelogAuthApi } from "../freelogAuth";
 import { loginCallback } from "../bridge/eventOn";
 import { upperUI, lowerUI } from "../bridge";
 import { resultType, eventType } from "../bridge/eventType";
+import { dev } from "./dev";
+
 const rawWindow = window;
 
 export const freelogAuth = {
@@ -27,6 +29,7 @@ export const freelogAuth = {
   clearEvent,
   resultType,
   loginCallback,
+  devData: dev(),
   setUserInfo,
   getUserInfoForAuth,
   getUserInfo,
