@@ -237,6 +237,7 @@ function App() {
     eventMap.forEach((val: any) => {
       arr.push(val);
     });
+    console.log(eventMap,arr,event)
     setEvents(arr);
     if (!arr.length) {
       // lowerUI();
@@ -250,7 +251,7 @@ function App() {
           },
         },
         nodeId: freelogAuth.nodeInfo.nodeId,
-        licensorId: event.eventId,
+        licensorId: arr[0].eventId,
       });
       // upperUI();
       setInited(true);
