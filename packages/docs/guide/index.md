@@ -332,15 +332,15 @@ const res = await  freelogApp.getExhibitInfo(exhibitId, query)
 ```ts
 // 使用getExhibitListByPaging、getExhibitListById、getExhibitInfo并传递isLoadVersionProperty为1时
 // 例如：
-const res = await  freelogApp.getExhibitInfo(exhibitId, {
-              isLoadVersionProperty: 1
-            })
-const exhibitProperty =res.data.data.versionInfo.exhibitProperty
+const res = await freelogApp.getExhibitInfo(exhibitId, {
+  isLoadVersionProperty: 1,
+});
+const exhibitProperty = res.data.data.versionInfo.exhibitProperty;
 ```
 
 [查看 getExhibitInfo 详情](/api/#getexhibitinfo)
 
-### 获取展品作品
+### 获取展品作品文件
 
 ```ts
 const res = await freelogApp.getExhibitFileStream(
@@ -423,6 +423,8 @@ const res = await freelogApp.getExhibitDepInfo(
                        // 一个或多个链路id,多个用英文逗号隔开, 在依赖树当中的唯一标识id
 ```
 
+[查看 getExhibitDepInfo 详情](/api/#getexhibitdepinfo)
+
 ### 获取子依赖作品文件
 
 ```ts
@@ -453,8 +455,8 @@ const res = await freelogApp.getExhibitDepFileStream(
 
 ```ts
 // 使用getExhibitDepInfo接口获取作品属性
-const res = await  freelogApp.getExhibitDepInfo(exhibitId, articleNids)
-const articleProperty =res.data.data[0].articleProperty
+const res = await freelogApp.getExhibitDepInfo(exhibitId, articleNids);
+const articleProperty = res.data.data[0].articleProperty;
 ```
 
 ### 查找展品签约数量
@@ -470,6 +472,8 @@ const res = await freelogApp.getExhibitSignCount(
   exhibitIds:string // 一个或多个展品id，多个用英文逗号隔开
 ```
 
+[查看 getExhibitSignCount 详情](/api/#getexhibitsigncount)
+
 ### 批量查询展品授权
 
 ```ts
@@ -479,7 +483,27 @@ const res = await freelogApp.getExhibitAuthStatus(
 
 **参数说明**
   exhibitIds: string //  一个或多个展品id，多个用英文逗号隔开
+
+**返回值**
+res:{
+  "ret": 0,
+  "errCode": 0,
+  "msg": "success",
+  "data": [
+    {
+      "exhibitId": "608667da52abf900867dfd48",
+      "exhibitName": "novel-theme",
+      "authCode": 200,
+      "referee": 2,
+      "defaulterIdentityType": 0,
+      "isAuth": true,  // 是否授权
+      "errorMsg": ""
+    }
+  ]
+}
 ```
+
+[查看 getExhibitAuthStatus 详情](/api/#getexhibitauthstatus)
 
 ### 批量查询展品是否可用
 
@@ -492,6 +516,24 @@ const res = await freelogApp.getExhibitAvailable(
 
 **参数说明**
   exhibitIds: //  一个或多个展品id，多个用英文逗号隔开
+
+**返回值**
+{
+  "ret": 0,
+  "errCode": 0,
+  "msg": "success",
+  "data": [
+    {
+      "exhibitId": "608667da52abf900867dfd48",
+      "exhibitName": "novel-theme",
+      "authCode": 200,
+      "referee": 2,
+      "defaulterIdentityType": 0,
+      "isAuth": true, // 节点侧是否获得授权
+      "errorMsg": ""
+    }
+  ]
+}
 ```
 
 [查看 getExhibitAvailable 详情](/api/#getexhibitavailable)
@@ -501,36 +543,28 @@ const res = await freelogApp.getExhibitAvailable(
 **单个呼出授权**
 
 ```ts
-// 根据展品id获取展品作品
-let ch = await freelogApp.getExhibitFileStream(
-  chapters[index].exhibitId
-);
-
-if (ch.authErrorType) {
-  // 提交给运行时处理
+  // 未授权的展品提交给运行时处理
   /**
    * addAuth 参数
-      exhibitId: string,
+      exhibitId: string, // 展品id
       options?: {
         immediate: boolean  // 是否立即弹出授权窗口
       }
   */
-  const data = await new Promise((resolve, rej) => {
-    const res = await freelogApp.addAuth(ch.data.exhibitId, {
-      immediate: true,
-    });
-
-   **res返回值说明**
-   {status: SUCCESS, data}
-   status 枚举判断：
-     status === freelogApp.resultType.SUCCESS;  // 成功
-     status === freelogApp.resultType.FAILED;   // 失败
-     status === freelogApp.resultType.USER_CANCEL; // 用户取消
-     status === freelogApp.resultType.DATA_ERROR;  // 数据错误
-     status === = freelogApp.resultType.OFFLINE; // 展品已经下线
-   data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
+  const res = await freelogApp.addAuth(exhibitId, {
+    immediate: true,
   });
-}
+
+  **res返回值说明**
+  {status: SUCCESS, data}
+  status 枚举判断：
+    status === freelogApp.resultType.SUCCESS;  // 成功
+    status === freelogApp.resultType.FAILED;   // 失败
+    status === freelogApp.resultType.USER_CANCEL; // 用户取消
+    status === freelogApp.resultType.DATA_ERROR;  // 数据错误
+    status === = freelogApp.resultType.OFFLINE; // 展品已经下线
+  data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
+
 ```
 
 **呼出授权**
