@@ -99,7 +99,7 @@ function App() {
           name: "freelog-pc-common-auth",
           url: entry
             ? entry
-            : "https://runtime-test-pc.oss-cn-shenzhen.aliyuncs.com/ui", // "https://localhost:8006",//"https://localhost:8402/",
+            : "https://authorization-processor.testfreelog.com/", // "https://runtime-test-pc.oss-cn-shenzhen.aliyuncs.com/ui", // "https://localhost:8006",//"https://localhost:8402/",
           container: document.getElementById(
             "freelog-pc-common-auth"
           ) as HTMLElement,
@@ -112,6 +112,7 @@ function App() {
                 freelogApp.status.themeMounted = true;
               },
             },
+
             // iframe:
             //   nodeInfo.themeInfo.versionInfo.exhibitProperty.bundleTool ===
             //   "vite"
@@ -218,13 +219,23 @@ function App() {
   useEffect(() => {
     updateLock(false);
   }, [events]);
+  let callBack: any[] = [];
   function loginFinished(type: any) {
     setIsLogin(false);
     if (type === SUCCESS) {
+      if (callBack.length) {
+        window.location.reload();
+      }
       setInited(false);
       clearEvent();
     } else if (type === USER_CANCEL && !inited) {
       lowerUI();
+      if (callBack.length) {
+        callBack.forEach((item: any) => {
+          item(USER_CANCEL);
+        });
+      }
+      callBack = [];
     }
   }
 
@@ -237,7 +248,7 @@ function App() {
     eventMap.forEach((val: any) => {
       arr.push(val);
     });
-    console.log(eventMap,arr,event)
+    console.log(eventMap, arr, event);
     setEvents(arr);
     if (!arr.length) {
       // lowerUI();
@@ -248,6 +259,10 @@ function App() {
         mainAppFuncs: {
           contracted: (eventId: string, type: number, data: any) => {
             endEvent(eventId, type, data);
+          },
+          login: (func: any) => {
+            callBack.push(func);
+            login();
           },
         },
         nodeId: freelogAuth.nodeInfo.nodeId,

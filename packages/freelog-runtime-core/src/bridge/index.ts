@@ -195,7 +195,7 @@ export function upperUI() {
     );
   }
   // @ts-ignore
-  uiRoot.style.zIndex = 1;
+  uiRoot.style.zIndex = 4000;
   // uiRoot.style.opacity = 1;
   // @ts-ignore
   widgetContainer.style.zIndex = 0;

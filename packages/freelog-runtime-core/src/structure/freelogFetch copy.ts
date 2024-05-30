@@ -9,12 +9,11 @@ export function freelogFetch(url: string, options: any, appName: string): any {
     const urlObj = new URL(url);
     url = widgetConfig.entry + urlObj.pathname;
   }
-  if (url == "https://authorization-processor.testfreelog.com/" || url == "https://authorization-processor.testfreelog.com") {
+  if (url == "https://runtime-test-pc.oss-cn-shenzhen.aliyuncs.com/ui/" || url == "https://runtime-test-pc.oss-cn-shenzhen.aliyuncs.com/ui") {
     return fetch(url + "index.html", { ...options });
-  } 
-  else if (url.includes("https://authorization-processor.testfreelog.com")) {
+  } else if (url.includes("https://runtime-test-pc.oss-cn-shenzhen.aliyuncs.com")) {
     const urlObj = new URL(url);
-    url = "https://authorization-processor.testfreelog.com" + urlObj.pathname;
+    url = "https://runtime-test-pc.oss-cn-shenzhen.aliyuncs.com/ui" + urlObj.pathname;
     return fetch(url, { ...options, mode: "cors" });
   }
   if (url.indexOf("freelog.com") > -1) {
