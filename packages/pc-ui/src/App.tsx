@@ -251,7 +251,11 @@ function App() {
     console.log(eventMap, arr, event);
     setEvents(arr);
     if (!arr.length) {
-      // lowerUI();
+      microApp.setData("freelog-pc-common-auth", {
+        authProcessorShow: false,
+        mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
+      });
+      lowerUI();
     } else {
       setInited(true);
 
@@ -278,7 +282,7 @@ function App() {
           });
         };
         await waiting();
-        console.log(32233)
+        console.log(32233);
       });
 
       // upperUI();
