@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import "./App.scss";
 import {
   StyleProvider,
@@ -261,6 +262,7 @@ function App() {
       arr.forEach(async (item: any) => {
         const waiting = () => {
           return new Promise((resolve) => {
+            upperUI(true)
             microApp.setData("freelog-pc-common-auth", {
               authProcessorShow: true,
               mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景

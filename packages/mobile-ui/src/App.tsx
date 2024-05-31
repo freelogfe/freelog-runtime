@@ -93,7 +93,7 @@ function App() {
           nodeShortDescription,
           // nodeSuspendInfo,
         } = nodeInfo;
-        
+
         freelogApp.nodeInfo = {
           nodeName,
           tags,
@@ -344,6 +344,7 @@ async function requestNodeInfo(nodeDomain: string) {
   const info = await getInfoByNameOrDomain.bind({ name: "node" })({
     nodeDomain,
     isLoadOwnerUserInfo: 1,
+    isLoadThemeAuthAndDependency: 1,
   });
   return info.data;
 }

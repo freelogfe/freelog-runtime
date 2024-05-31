@@ -186,7 +186,7 @@ const authUIContainer = document.getElementById("freelog-pc-common-auth");
 const mobile = isMobile();
 const metaEl: any = document.querySelectorAll('meta[name="viewport"]')[0];
 let metaViewPortContent = "";
-export function upperUI() {
+export function upperUI(flag: boolean) {
   if (mobile) {
     metaViewPortContent = metaEl.getAttribute("content");
     // TODO 这个设置不该与运行时耦合
@@ -195,12 +195,20 @@ export function upperUI() {
       "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     );
   }
+  if (flag) {
+    // @ts-ignore
+    uiRoot.style.zIndex = 0;
+    // @ts-ignore
+    authUIContainer.style.zIndex = 1;
+  } else {
+    // @ts-ignore
+    uiRoot.style.zIndex = 3000;
+    // @ts-ignore
+    authUIContainer.style.zIndex = 0;
+  }
   // @ts-ignore
   // uiRoot.style.opacity = 1;
-  // @ts-ignore
-  uiRoot.style.zIndex = 3000;
-  // @ts-ignore
-  authUIContainer.style.zIndex = 0;
+
   // @ts-ignore
   widgetContainer.style.zIndex = 0;
 }
