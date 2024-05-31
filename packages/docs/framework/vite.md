@@ -2,17 +2,20 @@
 
 vite 作为子应用只需`切换到iframe沙箱`，其它操作参考各框架接入文档。
 
-##### 配置主题或插件的基础属性 bundleTool 为 vite，会自动切换到 iframe 沙箱
+##### 配置主题或插件的基础属性 bundleTool 为 vite，运行时加载主题会自动切换到 iframe 沙箱
+
+##### 加载插件时通过property传递展品或作品的属性
 
 ![bundle](/bundle.png)
 
-##### 没有配置基础属性，可以手动配置切换到 iframe 沙箱
+##### 没有配置基础属性或配置了但没有传递property，可以手动配置切换到 iframe 沙箱
 
 ```js
 await freelogApp.mountWidget({
   widget: widget,
   container: document.getElementById("freelog-exhibit"),
   topExhibitData: null,
+  property: property, // 展品或作品的属性
   renderWidgetOptions: {
     iframe: true,
   },

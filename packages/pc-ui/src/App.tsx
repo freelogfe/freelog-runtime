@@ -95,7 +95,7 @@ function App() {
             ? freelogAuth.devData.params["auth"]
             : "";
         await microApp.renderApp({
-          "router-mode": "search",
+          "router-mode": "pure",
           name: "freelog-pc-common-auth",
           url: entry
             ? entry
@@ -258,6 +258,7 @@ function App() {
         mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
         mainAppFuncs: {
           contracted: (eventId: string, type: number, data: any) => {
+            console.log(eventId, type, data, 999)
             endEvent(eventId, type, data);
           },
           login: (func: any) => {
