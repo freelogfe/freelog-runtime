@@ -253,24 +253,35 @@ function App() {
     if (!arr.length) {
       // lowerUI();
     } else {
-      microApp.setData("freelog-pc-common-auth", {
-        authProcessorShow: true,
-        mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
-        mainAppFuncs: {
-          contracted: (eventId: string, type: number, data: any) => {
-            console.log(eventId, type, data, 999)
-            endEvent(eventId, type, data);
-          },
-          login: (func: any) => {
-            callBack.push(func);
-            login();
-          },
-        },
-        nodeId: freelogAuth.nodeInfo.nodeId,
-        licensorId: arr[0].eventId,
-      });
-      // upperUI();
       setInited(true);
+
+      arr.forEach(async (item: any) => {
+        const waiting = () => {
+          return new Promise((resolve) => {
+            microApp.setData("freelog-pc-common-auth", {
+              authProcessorShow: true,
+              mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
+              mainAppFuncs: {
+                contracted: (eventId: string, type: number, data: any) => {
+                  console.log(eventId, type, data, 999);
+                  endEvent(eventId, type, data);
+                  resolve && resolve(null);
+                },
+                login: (func: any) => {
+                  callBack.push(func);
+                  login();
+                },
+              },
+              nodeId: freelogAuth.nodeInfo.nodeId,
+              licensorId: item.eventId,
+            });
+          });
+        };
+        await waiting();
+        console.log(32233)
+      });
+
+      // upperUI();
     }
   }
   function UI(type: any, data: any) {
