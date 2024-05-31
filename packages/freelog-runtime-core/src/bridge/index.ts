@@ -170,10 +170,10 @@ export function endEvent(eventId: string, type: number, data: any) {
 }
 
 export function goLogin(resolve: any) {
-  if (uiInited) {
-    console.error("ui has been launched, can not callLogin");
-    return "ui has been launched, can not callLogin";
-  }
+  // if (uiInited) {
+  //   console.error("ui has been launched, can not callLogin");
+  //   return "ui has been launched, can not callLogin";
+  // }
   resolve && onLogin("", resolve);
   UI && UI(LOGIN);
 }
@@ -182,6 +182,7 @@ export function goLoginOut() {
 }
 const uiRoot = document.getElementById("ui-root");
 const widgetContainer = document.getElementById("freelog-plugin-container");
+const authUIContainer = document.getElementById("freelog-pc-common-auth");
 const mobile = isMobile();
 const metaEl: any = document.querySelectorAll('meta[name="viewport"]')[0];
 let metaViewPortContent = "";
@@ -195,8 +196,11 @@ export function upperUI() {
     );
   }
   // @ts-ignore
-  uiRoot.style.zIndex = 4000;
   // uiRoot.style.opacity = 1;
+  // @ts-ignore
+  uiRoot.style.zIndex = 3000;
+  // @ts-ignore
+  authUIContainer.style.zIndex = 0;
   // @ts-ignore
   widgetContainer.style.zIndex = 0;
 }
@@ -205,6 +209,8 @@ export function lowerUI() {
   if (mobile) {
     metaEl.setAttribute("content", metaViewPortContent);
   }
+  // @ts-ignore
+  authUIContainer.style.zIndex = 0;
   // @ts-ignore
   uiRoot.style.zIndex = 0;
   // // @ts-ignore

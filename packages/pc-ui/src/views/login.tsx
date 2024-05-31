@@ -73,6 +73,7 @@ export default function Login(props: loginProps) {
       closable={true}
       className=""
       onOk={handleOk}
+      getContainer={() => document.getElementById("ui-root")!}
       onCancel={handleCancel}
       maskClosable={false}
       wrapClassName="freelog-login"

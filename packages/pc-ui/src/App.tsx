@@ -258,7 +258,6 @@ function App() {
       lowerUI();
     } else {
       setInited(true);
-
       arr.forEach(async (item: any) => {
         const waiting = () => {
           return new Promise((resolve) => {
@@ -273,6 +272,7 @@ function App() {
                 },
                 login: (func: any) => {
                   callBack.push(func);
+                  setEventType(LOGIN);
                   login();
                 },
               },
@@ -284,10 +284,8 @@ function App() {
         await waiting();
         console.log(32233);
       });
-
-      // upperUI();
     }
-  }
+  } 
   function UI(type: any, data: any) {
     loadingClose();
     setEventType(type);
@@ -335,7 +333,7 @@ function App() {
     upperUI();
     setIsLogin(true);
   }
-
+  
   function contractFinished(eventId: any, type: number, data?: any) {
     if (type === USER_CANCEL && !eventId) {
       setInited(false);
