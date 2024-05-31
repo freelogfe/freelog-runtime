@@ -11,7 +11,7 @@ export async function onLogin(name: string, callback: any) {
   }
 }
 
-export const userChangeCallback: any = [];
+export let userChangeCallback: any = [];
 // 交给主题或插件去刷新用户，或者可以做成由节点选择是否在运行时里面控制
 export function onUserChange(name: string, callback: any) {
   if (typeof callback === "function") {
@@ -21,7 +21,7 @@ export function onUserChange(name: string, callback: any) {
   }
 }
 export const initWindowListener = () => {
-  window.document.addEventListener("visibilitychange",function (e) {
+  window.document.addEventListener("visibilitychange", function (e) {
     // if (document.visibilityState == "hidden") {
     //   alert("离开");
     // }
@@ -35,6 +35,22 @@ export const initWindowListener = () => {
         userChangeCallback.forEach((func: any) => {
           func && func();
         });
+        userChangeCallback = [];
+      }
+    }
+  });
+  document.body.addEventListener("mouseenter", function () {
+    if (document.visibilityState == "visible") {
+      const userInfo = getUserInfoForAuth();
+      const userId = userInfo?.userId ? userInfo.userId + "" : "";
+      const uid = docCookies.getItem("uid")
+        ? docCookies.getItem("uid") + ""
+        : "";
+      if (uid != userId) {
+        userChangeCallback.forEach((func: any) => {
+          func && func();
+        });
+        userChangeCallback = [];
       }
     }
   });
