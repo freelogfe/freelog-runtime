@@ -62,7 +62,7 @@ const data = freelogApp.getCurrentUrl();
 
 ### getSelfWidgetRenderName
 
-**用途：获取插件自身渲染名称，一般用于 dev 的 replace 模式调试，方便知道自己的渲染名称**
+**用途：获取插件自身渲染名称，一般用于单独调试某个插件 也就是 dev 的 replace 模式，方便知道自己的渲染名称**
 
 ```ts
 **用法**
@@ -137,7 +137,7 @@ type ExhibitDependencyNodeInfo =  DepType[]
 ```ts
 **用法**
 // 运行时加载主题时已经传递了 property
-// 如果主题或插件调用mountExhibitWidget、mountArticleWidget时传递了传递了property
+// 如果主题或插件调用mountExhibitWidget、mountArticleWidget时传递了property
 const propery = await freelogApp.getSelfProperty();
 
 // 如果没有传递property，或者想要强制通过网络从平台获取

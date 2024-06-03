@@ -258,7 +258,7 @@ useEffect(() => {
 
 ```ts
 // 运行时加载主题时已经传递了 property
-// 如果主题或插件调用mountExhibitWidget、mountArticleWidget时传递了传递了property
+// 如果主题或插件调用mountExhibitWidget、mountArticleWidget时传递了property
 const propery = await freelogApp.getSelfProperty();
 
 // 如果没有传递property，或者想要强制通过网络从平台获取
