@@ -24,13 +24,13 @@ const nodeInfo = freelogApp.nodeInfo;
 
 **返回说明**：
 
-| 字段                 | 字段类型       | 字段说明            |
-| :------------------- | :------------- | :----------------------------------- |
-| nodeName             | string         | 节点名称      |
-| tags                 | array          | 标签数组 |
-| nodeLogo             | string         | 节点图标 |
-| nodeTitle            | string         | 节点标题 |
-| nodeShortDescription | string         | 节点简介 |
+| 字段                 | 字段类型 | 字段说明 |
+| :------------------- | :------- | :------- |
+| nodeName             | string   | 节点名称 |
+| tags                 | array    | 标签数组 |
+| nodeLogo             | string   | 节点图标 |
+| nodeTitle            | string   | 节点标题 |
+| nodeShortDescription | string   | 节点简介 |
 
 <!-- ### devData
 
@@ -116,19 +116,17 @@ type ExhibitDependencyNodeInfo =  DepType[]
 
 **字段说明：**
 
-| 返回值字段     | 字段类型   | 字段说明                                     |
-| :----------- | :------- | :---------------------------------------------  |
+| 返回值字段   | 字段类型 | 字段说明                                                     |
+| :----------- | :------- | :----------------------------------------------------------- |
 | nid          | string   | 依赖 ID(指的是此依赖在依赖树上的 id,用来确定依赖的唯一性)    |
 | articleId    | string   | 作品 ID,配合作品类型一起理解. 例如类型是资源,此处就是资源 ID |
-| articleName  | string   | 作品名称                                         |
+| articleName  | string   | 作品名称                                                     |
 | articleType  | number   | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)   |
-| version      | string   | 版本号                                            |
-| versionRange | string   | semver 版本范围                                   |
-| resourceType | stirng[] | 作品资源类型                                      |
-| deep         | number   | 该依赖在依赖树中的层级                        |
-| parentNid    | string   | 父级依赖 ID                                         |
-
-
+| version      | string   | 版本号                                                       |
+| versionRange | string   | semver 版本范围                                              |
+| resourceType | stirng[] | 作品资源类型                                                 |
+| deep         | number   | 该依赖在依赖树中的层级                                       |
+| parentNid    | string   | 父级依赖 ID                                                  |
 
 ### getSelfProperty
 
@@ -1810,23 +1808,40 @@ freelogApp.onUserChange(callback);
 **用法**
 const loginUser =  freelogApp.getCurrentUser();
 ```
+
 **返回字段说明：**
 
-| 返回值字段     | 字段类型   | 字段说明                                     |
-| :----------- | :------- | :---------------------------------------------  |
-| username          | string   | 用户名称    |
-| headImage    | string   | 用户头像地址 | 
+| 返回值字段 | 字段类型 | 字段说明     |
+| :--------- | :------- | :----------- |
+| username   | string   | 用户名称     |
+| headImage  | string   | 用户头像地址 |
 
 ### setUserData
 
 **用途：创建或改变当前登录的用户在当前插件对应 key 的数据**
 
 ```ts
+setUserData(key, data)
 **参数说明**
   key: string, // 自定义key
+  data: any, // 自定义数据
 
 **用法**
-const res = await freelogApp.setUserData(key, data);
+const res = await freelogApp.setUserData("testData", {
+  visitCount: 55,
+  adCount:33
+});
+```
+
+**返回示例**
+
+```json
+{
+  "ret": 0,
+  "errCode": 0,
+  "msg": "success",
+  "data": null
+}
 ```
 
 ### getUserData
@@ -1834,11 +1849,22 @@ const res = await freelogApp.setUserData(key, data);
 **用途：获取当前登录的用户在当前插件保存的对应 key 的数据**
 
 ```ts
+getUserData(key)
 **参数说明**
   key: string, // 自定义key
 
 **用法**
-const userData = await freelogApp.getUserData(key);
+const userData = await freelogApp.getUserData("testData");
+```
+
+**返回示例**
+
+```ts
+// 通过setUserData保存的对应key的数据
+{
+  visitCount: 55,
+  adCount:33
+}
 ```
 
 ### callLogin

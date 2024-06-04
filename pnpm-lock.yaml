@@ -6,12 +6,6 @@ settings:
 
 importers:
 
-  docs:
-    devDependencies:
-      vitepress:
-        specifier: 1.2.2
-        version: 1.2.2(@algolia/client-search@4.23.3)(@types/node@20.14.0)(@types/react@18.2.56)(async-validator@4.2.5)(axios@0.21.4)(lightningcss@1.22.1)(postcss@8.4.38)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.71.1)(search-insights@2.13.0)(terser@5.31.0)(typescript@5.2.2)
-
   packages/docs:
     devDependencies:
       vitepress:
