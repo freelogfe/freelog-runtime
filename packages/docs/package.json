@@ -13,6 +13,6 @@
   "author": "snnaenu",
   "license": "ISC",
   "devDependencies": {
-    "vitepress": "1.0.0-rc.45"
+    "vitepress": "1.2.2"
   }
 }
