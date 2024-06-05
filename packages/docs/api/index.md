@@ -12,6 +12,10 @@ outline: deep
 
 **文中参数类型为 number 的'是否'都用 1 和 0 传递**
 
+**网络请求使用axios@0.21.1**
+
+[查看返回状态码说明](/api/#ret-一级状态码)
+
 ## 插件
 
 ### nodeInfo
@@ -57,7 +61,7 @@ const data = freelogApp.devData;
 
 ```ts
 **用法**
-const data = freelogApp.getCurrentUrl();
+const url = freelogApp.getCurrentUrl();
 ```
 
 ### getSelfWidgetRenderName
@@ -66,7 +70,7 @@ const data = freelogApp.getCurrentUrl();
 
 ```ts
 **用法**
-const selfWidgetId = freelogApp.getSelfWidgetRenderName();
+const selfWidgetRenderName = freelogApp.getSelfWidgetRenderName();
 ```
 
 ### getTopExhibitId
@@ -1952,3 +1956,35 @@ freelogApp.getShareUrl(exhibitId, "detail")
     }
   })
 ```
+
+## 网络请求返回状态码
+
+### ret 一级状态码
+
+| **值** | **含义** |
+| :--- | :--- |
+| -10 | 服务器维护中 |
+| 0 | 正常结果 |
+| 1 | 应用程序内部错误,一般系统自动捕捉,属于非正常流程 |
+| 4 | 网关代理相关错误 |
+
+**说明: 一级状态码主要指服务器的一些错误,还未到达具体应用层**
+
+### errCode 二级状态码
+
+| **值** | **含义**                                                  |
+| :----- | :-------------------------------------------------------- |
+| 0      | 正常结果                                                  |
+| 1      | 应用程序内部错误,一般系统自动捕捉,属于非正常流程          |
+| 2      | 应用程序错误,一般是业务内部主动抛出的未指定错误类型的错误 |
+| 3      | 授权错误,一般指获得操作授权                               |
+| 4      | 参数错误,一般指参数校验失败                               |
+| 5      | 内部 API 调用错误                                         |
+| 6      | 业务规则中的逻辑错误                                      |
+| 7      | 网络相关错误                                              |
+| 30     | 认证错误,一般指身份认证失败,需要登录                      |
+| 31     | 网关代理组件调用出现异常                                  |
+| 32     | 网关服务入口处 URL 路由不匹配错误                         |
+| 33     | 网关服务器调用上游源服务器出现错误                        |
+
+**说明: 具体应用层返回的错误**

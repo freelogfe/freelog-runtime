@@ -1,1 +1,0 @@
-import{_ as s,c as i,o as a,a2 as n}from"./chunks/framework.AHPLLXzo.js";const y=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"guide/router.md","filePath":"guide/router.md"}'),p={name:"guide/router.md"},h=n("",136),l=[h];function t(e,k,E,r,d,g){return a(),i("div",null,l)}const c=s(p,[["render",t]]);export{y as __pageData,c as default};
