@@ -1822,16 +1822,14 @@ const loginUser =  freelogApp.getCurrentUser();
 
 ### setUserData
 
-**用途：创建或改变当前登录的用户在当前插件对应 key 的数据**
+**用途：保存当前登录的用户在当前插件的自定义数据**
 
 ```ts
-setUserData(key, data)
 **参数说明**
-  key: string, // 自定义key
   data: any, // 自定义数据
 
 **用法**
-const res = await freelogApp.setUserData("testData", {
+const res = await freelogApp.setUserData( {
   visitCount: 55,
   adCount:33
 });
@@ -1844,28 +1842,28 @@ const res = await freelogApp.setUserData("testData", {
   "ret": 0,
   "errCode": 0,
   "msg": "success",
-  "data": null
+  "data":  {
+    "visitCount": 55,
+    "adCount":33
+  }
 }
 ```
 
 ### getUserData
 
-**用途：获取当前登录的用户在当前插件保存的对应 key 的数据**
+**用途：获取当前登录的用户在当前插件保存的自定义数据**
 
 ```ts
-getUserData(key)
-**参数说明**
-  key: string, // 自定义key
 
 **用法**
-const userData = await freelogApp.getUserData("testData");
+const userData = await freelogApp.getUserData();
 ```
 
 **返回示例**
 
 ```ts
-// 通过setUserData保存的对应key的数据
-{
+// 通过setUserData保存的数据
+data: {
   visitCount: 55,
   adCount:33
 }

@@ -50,23 +50,30 @@ export function isUserChange(name: string) {
   return false;
 }
 
-export async function setUserData(name: string, key: string, data: any) {
-  key = window.isTest ? key + "-test" : key;
-  let userData = widgetUserData.get(name) || {};
-  userData[key] = data;
+export async function setUserData(name: string, data: any) {
   const nodeId = baseInfo.nodeId;
   let config = widgetsConfig.get(name);
   let widgetId = btoa(encodeURI(config.articleName));
   // 用户如果两台设备更新数据，可以做一个保存请求的数据对比最新的数据，如果不同，提示给插件（或者传递参数强制更新）,这个后端来做？
   const res = await _putUserData([nodeId], {
     appendOrReplaceObject: {
-      [widgetId]: userData,
+      [widgetId]: data,
     },
   });
-  if(res.data){
-    res.data.data = null;
+  if (res.data && res.data.ret == 0 && res.data.errCode == 0) {
+    res.data.data = data;
   }
-  console.log(res)
+  return res;
+}
+export async function getUserData(name: string) {
+  let config = widgetsConfig.get(name);
+  let widgetId = btoa(encodeURI(config.articleName));
+  const nodeId = baseInfo.nodeId;
+  const res = await _getUserData([nodeId]);
+  if (res.status == 200 && res.data) {
+    const userData = res.data[widgetId];
+    res.data = userData;
+  }
   return res;
 }
 export async function deleteUserData(name: string, key: string) {
@@ -82,20 +89,6 @@ export async function deleteUserData(name: string, key: string) {
     },
   });
   return res;
-}
-export async function getUserData(name: string, key: string, force: boolean) {
-  key = window.isTest ? key + "-test" : key;
-  let userData = widgetUserData.get(name);
-  if (userData && !force) {
-    return userData[key];
-  }
-  let config = widgetsConfig.get(name);
-  let widgetId = btoa(encodeURI(config.articleName));
-  const nodeId = baseInfo.nodeId;
-  const res = await _getUserData([nodeId]);
-  userData = res.data[widgetId] || {};
-  widgetUserData.set(name, userData);
-  return userData[key];
 }
 
 export function callLogin(name: string, resolve: Function) {

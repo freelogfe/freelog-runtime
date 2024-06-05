@@ -184,8 +184,8 @@ export interface FreelogApp {
      */
     keywords: string;
   }) => Promise<GetSignStatisticsResult>;
-  setUserData: (key: string | number, data: any) => Promise<any>;
-  getUserData: (key: string | number) => Promise<any>;
+  setUserData: (data: any) => Promise<any>;
+  getUserData: () => Promise<any>;
   getSelfWidgetRenderName: () => string;
   callAuth: () => void;
   addAuth: (
