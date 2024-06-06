@@ -18,7 +18,6 @@ import { ExhibitDependencyNodeInfo } from "./exhibit";
 export * from "./result";
 export * from "./exhibit";
 
-
 export let widgetApi: WidgetApi = {} as WidgetApi;
 export let freelogApp: FreelogApp = {} as FreelogApp;
 export const initFreelogApp = () => {
@@ -184,8 +183,9 @@ export interface FreelogApp {
      */
     keywords: string;
   }) => Promise<GetSignStatisticsResult>;
-  setUserData: (data: any) => Promise<any>;
-  getUserData: () => Promise<any>;
+  setUserData: (key: string, data: any) => Promise<any>;
+  getUserData: (key: string) => Promise<any>;
+  deleteUserData: (key: string) => Promise<any>;
   getSelfWidgetRenderName: () => string;
   callAuth: () => void;
   addAuth: (

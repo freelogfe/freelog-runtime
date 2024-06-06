@@ -1822,14 +1822,16 @@ const loginUser =  freelogApp.getCurrentUser();
 
 ### setUserData
 
-**用途：保存当前登录的用户在当前插件的自定义数据**
+**用途：创建或改变当前登录的用户在当前插件对应 key 的数据**
 
 ```ts
+setUserData(key, data)
 **参数说明**
+  key: string, // 自定义key
   data: any, // 自定义数据
 
 **用法**
-const res = await freelogApp.setUserData( {
+const res = await freelogApp.setUserData("testData", {
   visitCount: 55,
   adCount:33
 });
@@ -1842,30 +1844,62 @@ const res = await freelogApp.setUserData( {
   "ret": 0,
   "errCode": 0,
   "msg": "success",
-  "data":  {
+  "data": {
     "visitCount": 55,
-    "adCount":33
+    "adCount": 33
   }
 }
 ```
 
 ### getUserData
 
-**用途：获取当前登录的用户在当前插件保存的自定义数据**
+**用途：获取当前登录的用户在当前插件保存的对应 key 的数据**
 
 ```ts
+getUserData(key)
+**参数说明**
+  key: string, // 自定义key
 
 **用法**
-const userData = await freelogApp.getUserData();
+const userData = await freelogApp.getUserData("testData");
 ```
 
 **返回示例**
 
 ```ts
-// 通过setUserData保存的数据
-data: {
-  visitCount: 55,
-  adCount:33
+// 通过setUserData保存的对应key的数据
+{
+  "ret": 0,
+  "errCode": 0,
+  "msg": "success",
+  "data": {
+    "visitCount": 55,
+    "adCount": 33
+  }
+}
+```
+
+### deleteUserData
+
+**用途：删除当前登录的用户在当前插件保存的对应 key 的数据**
+
+```ts
+deleteUserData(key)
+**参数说明**
+  key: string, // 自定义key
+
+**用法**
+const userData = await freelogApp.deleteUserData("testData");
+```
+
+**返回示例**
+
+```ts
+{
+  "ret": 0,
+  "errCode": 0,
+  "msg": "success",
+  "data":null
 }
 ```
 
@@ -1959,12 +1993,12 @@ freelogApp.getShareUrl(exhibitId, "detail")
 
 ### ret 一级状态码
 
-| **值** | **含义** |
-| :--- | :--- |
-| -10 | 服务器维护中 |
-| 0 | 正常结果 |
-| 1 | 应用程序内部错误,一般系统自动捕捉,属于非正常流程 |
-| 4 | 网关代理相关错误 |
+| **值** | **含义**                                         |
+| :----- | :----------------------------------------------- |
+| -10    | 服务器维护中                                     |
+| 0      | 正常结果                                         |
+| 1      | 应用程序内部错误,一般系统自动捕捉,属于非正常流程 |
+| 4      | 网关代理相关错误                                 |
 
 **说明: 一级状态码主要指服务器的一些错误,还未到达具体应用层**
 

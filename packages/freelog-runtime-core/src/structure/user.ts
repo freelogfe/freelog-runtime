@@ -50,44 +50,52 @@ export function isUserChange(name: string) {
   return false;
 }
 
-export async function setUserData(name: string, data: any) {
+export async function setUserData(name: string, key: string, data: any) {
+  if (!key) {
+    return;
+  }
+  const dataKey = name + "-" + key;
   const nodeId = baseInfo.nodeId;
-  let config = widgetsConfig.get(name);
-  let widgetId = btoa(encodeURI(config.articleName));
   // 用户如果两台设备更新数据，可以做一个保存请求的数据对比最新的数据，如果不同，提示给插件（或者传递参数强制更新）,这个后端来做？
   const res = await _putUserData([nodeId], {
     appendOrReplaceObject: {
-      [widgetId]: data,
+      [dataKey]: data,
     },
   });
+
   if (res.data && res.data.ret == 0 && res.data.errCode == 0) {
     res.data.data = data;
   }
   return res;
 }
-export async function getUserData(name: string) {
-  let config = widgetsConfig.get(name);
-  let widgetId = btoa(encodeURI(config.articleName));
+export async function deleteUserData(name: string, key: string) {
+  if (!key) {
+    return;
+  }
+  const dataKey = name + "-" + key;
   const nodeId = baseInfo.nodeId;
-  const res = await _getUserData([nodeId]);
-  if (res.status == 200 && res.data) {
-    const userData = res.data[widgetId];
-    res.data = userData;
+  const res = await _putUserData([nodeId], {
+    removeFields: [dataKey],
+    appendOrReplaceObject: {}
+  });
+  if (res.data && res.data.ret == 0 && res.data.errCode == 0) {
+    res.data.data = null;
   }
   return res;
 }
-export async function deleteUserData(name: string, key: string) {
-  key = window.isTest ? key + "-test" : key;
-  let userData = widgetUserData.get(name) || {};
-  delete userData[key];
-  let config = widgetsConfig.get(name);
-  let widgetId = btoa(encodeURI(config.articleName));
+export async function getUserData(name: string, key: string) {
+  if (!key) {
+    return;
+  }
+  const dataKey = name + "-" + key;
   const nodeId = baseInfo.nodeId;
-  const res = await _putUserData([nodeId], {
-    appendOrReplaceObject: {
-      [widgetId]: userData,
-    },
-  });
+  const res = await _getUserData([nodeId]);
+  res.data = {
+    ret: 0,
+    errCode: 0,
+    msg: "success",
+    data: res.data[dataKey],
+  };
   return res;
 }
 

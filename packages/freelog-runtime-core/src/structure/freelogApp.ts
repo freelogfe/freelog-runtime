@@ -17,6 +17,7 @@ import {
   setUserData,
   getUserData,
   getCurrentUser,
+  deleteUserData,
   callLogin,
   callLoginOut,
 } from "./user";
@@ -47,6 +48,7 @@ export const freelogApp: any = {
   callLoginOut,
   getCurrentUser,
   setViewport,
+  deleteUserData,
   setUserData,
   getUserData,
   getSelfProperty,
