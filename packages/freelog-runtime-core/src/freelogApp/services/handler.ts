@@ -60,11 +60,14 @@ export default function frequest(
   });
   let _config: any = {};
   if (config) {
-    ["onUploadProgress", "onDownloadProgress", "responseType"].forEach(
-      (key) => {
-        if (config[key]) _config[key] = config[key];
-      }
-    );
+    [
+      "onUploadProgress",
+      "onDownloadProgress",
+      "responseType",
+      "timeout",
+    ].forEach((key) => {
+      if (config[key]) _config[key] = config[key];
+    });
   }
   let _api = Object.assign(_config, baseConfig(), api);
   if (returnUrl && _api.method.toLowerCase() === "get") {

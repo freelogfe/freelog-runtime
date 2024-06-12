@@ -127,6 +127,7 @@ export interface FreelogApp {
       config?: {
         onUploadProgress?: (progressEvent: any) => void;
         onDownloadProgress?: (progressEvent: any) => void;
+        timeout?: number;
         responseType?: ResponseType;
       };
       /**
@@ -150,6 +151,7 @@ export interface FreelogApp {
       config?: {
         onUploadProgress?: (progressEvent: any) => void;
         onDownloadProgress?: (progressEvent: any) => void;
+        timeout?: number;
         responseType?: ResponseType;
       };
       /**
