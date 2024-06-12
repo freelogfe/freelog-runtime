@@ -1302,6 +1302,7 @@ const res = await freelogApp.getExhibitInfo(exhibitId, query)
     config?: {
       onUploadProgress?: (progressEvent: any) => void;
       onDownloadProgress?: (progressEvent: any) => void;
+      timeout?: number; // 请求超时时间，默认30000ms
       responseType?: ResponseType;
     };  // axios的config 目前仅支持"onUploadProgress",  "onDownloadProgress", "responseType"
     subFilePath?: string;  // 漫画中的图片等子文件的路径
@@ -1395,6 +1396,7 @@ const res = await freelogApp.getExhibitDepInfo(
     config?: {
       onUploadProgress?: (progressEvent: any) => void;
       onDownloadProgress?: (progressEvent: any) => void;
+      timeout?: number; // 请求超时时间，默认30000ms
       responseType?: ResponseType;
     },   //  axios的config 目前仅支持"onUploadProgress", "onDownloadProgress", "responseType"
   }
