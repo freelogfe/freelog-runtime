@@ -162,6 +162,7 @@ export default function Auth(props: contractProps) {
   }, [currentExhibit]);
   useEffect(() => {
     props.isLogin && setModalType(1);
+    console.log(props.isLogin)
   }, [props.isLogin]);
 
   const userCancel = () => {

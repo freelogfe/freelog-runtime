@@ -198,13 +198,19 @@ export function upperUI(flag: boolean) {
   if (flag) {
     // @ts-ignore
     uiRoot.style.zIndex = 0;
-    // @ts-ignore
-    authUIContainer.style.zIndex = 1;
+    if(authUIContainer){
+      // @ts-ignore
+      authUIContainer.style.zIndex = 1;
+    }
   } else {
     // @ts-ignore
-    uiRoot.style.zIndex = 3000;
-    // @ts-ignore
-    authUIContainer.style.zIndex = 0;
+    uiRoot.style.zIndex = 1;
+    if(authUIContainer){
+      // @ts-ignore
+      uiRoot.style.zIndex = 3000;
+      // @ts-ignore
+      authUIContainer.style.zIndex = 0;
+    }
   }
   // @ts-ignore
   // uiRoot.style.opacity = 1;
@@ -217,8 +223,10 @@ export function lowerUI() {
   if (mobile) {
     metaEl.setAttribute("content", metaViewPortContent);
   }
-  // @ts-ignore
-  authUIContainer.style.zIndex = 0;
+  if(authUIContainer){
+    // @ts-ignore
+    authUIContainer.style.zIndex = 0;
+  }
   // @ts-ignore
   uiRoot.style.zIndex = 0;
   // // @ts-ignore
