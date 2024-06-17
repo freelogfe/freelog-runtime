@@ -5,7 +5,7 @@ interface OutOfProps {
 export default function OutOf({ outData }: OutOfProps) {
   return (
     <div
-      className="flex-column align-center h-100 text-align-center px-40"
+      className="flex-column align-center h-100x text-align-center px-40"
       style={{
         background: "#ffffff",
       }}

@@ -145,16 +145,12 @@ function App() {
           (nodeInfo.status & 6) === 6 ||
           (nodeInfo.status & 12) === 12
         ) {
-          upperUI();
-          loadingClose();
-          setEventType(NODE_FREEZED);
+          UI(NODE_FREEZED, nodeInfo);
           return;
         }
         // 节点下线
         if ((nodeInfo.status & 8) === 8) {
-          upperUI();
-          loadingClose();
-          setEventType(NODE_OFFLINE);
+          UI(NODE_OFFLINE, nodeInfo);
           return;
         }
         // 私密节点
@@ -162,16 +158,12 @@ function App() {
           (nodeInfo.status & 2) === 2 &&
           nodeInfo.ownerUserId !== userInfo?.userId
         ) {
-          upperUI();
-          loadingClose();
-          setEventType(NODE_PRIVATE);
+          UI(NODE_PRIVATE, nodeInfo);
           return;
         }
         // 用户冻结
         if (userInfo && userInfo.status == 1) {
-          upperUI();
-          loadingClose();
-          setEventType(USER_FREEZED);
+          UI(USER_FREEZED, userInfo);
           return;
         }
         // 没有主题
@@ -179,9 +171,7 @@ function App() {
           (!nodeInfo.nodeThemeId && !isTest) ||
           (!nodeInfo.nodeTestThemeId && isTest)
         ) {
-          upperUI();
-          loadingClose();
-          setEventType(THEME_NONE);
+          UI(THEME_NONE, nodeInfo);
           return;
         }
         if (!nodeInfo.themeAuthInfo.isAuth) {
@@ -284,12 +274,12 @@ function App() {
           });
         };
         await waiting();
-        console.log(32233);
       });
     }
   } 
   function UI(type: any, data: any) {
     loadingClose();
+    setIsOut(false);
     setEventType(type);
     switch (type) {
       case NODE_FREEZED:
