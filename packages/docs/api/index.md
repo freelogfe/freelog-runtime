@@ -18,6 +18,20 @@ outline: deep
 
 ## 插件
 
+### getStaticPath
+
+**用途：获取图片字体等静态作品的正确路径**
+
+```ts
+**参数说明**
+ (
+  path: string  以"/"开头的路径
+ )
+
+**用法**
+const path =  window.freelogApp.getStaticPath(path);
+```
+
 ### nodeInfo
 
 **用途：获取节点信息**

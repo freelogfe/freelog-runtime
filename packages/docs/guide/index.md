@@ -265,6 +265,27 @@ const propery = await freelogApp.getSelfProperty();
 const propery = await freelogApp.getSelfProperty(true);
 ```
 
+### 静态文件处理
+
+**打包之后 css 中的字体文件和图片加载 404**
+
+原因是 freelog 将外链样式改成了内联样式，但是字体文件和背景图片的加载路径是相对路径。
+
+而 css 文件一旦打包完成，就无法通过动态修改 publicPath 来修正其中的字体文件和背景图片的路径。
+
+解决方案：
+
+1. 大图片与大字体处理方式：
+
+   大图片：放在不需要 打包的 public 目录下，通过 **freelogApp.getStaticPath(path)** 获取正确地址，
+   其中 path 为以/开头的正常开发时的路径。
+
+   大字体：（暂未实现）如果路径写在 css 中则无需刻意放在 public 目录下，如果使用 js 去赋值，则同图片一样处理。
+
+2. 小文件处理方式：借助 webpack 的 url-loader 将字体文件和图片打包成 base64（适用于字体文件和图片体积小的项目）
+
+[查看 vite 打包静态文件处理](https://cn.vitejs.dev/guide/assets.html)
+
 ### 移动端适配
 
 **除媒体查询外，支持最新的问题最少的最好的 viewport 兼容方案**

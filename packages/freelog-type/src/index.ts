@@ -43,6 +43,7 @@ export interface WidgetApi {
 }
 export interface FreelogApp {
   nodeInfo: NodeInfo;
+  getStaticPath: (path: string)=> string;
   // devData: PlainObject;
   getCurrentUser: () => FreelogUserInfo;
   mountArticleWidget: (
