@@ -11,7 +11,6 @@ export function dev(): any {
   url.searchParams.forEach((item, key) => {
     params[key] = item;
   });
-  console.log("dev", params);
   if (!params.dev && !params.auth) {
     return { type: DEV_FALSE };
   }
