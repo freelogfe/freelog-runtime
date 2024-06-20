@@ -128,7 +128,7 @@ export async function mountExhibitWidget(
   fentry = await getExhibitFileStream(name, exhibitId, {
     returnUrl: true,
   });
-  fentry = fentry + '/package'; // `?subFilePath=`;
+  fentry = fentry + `?subFilePath=`;
   const widgetConfig = {
     container,
     name: widgetRenderName, //id
@@ -156,7 +156,7 @@ export async function mountExhibitWidget(
   return mountApp(
     name,
     widgetRenderName,
-    entry || fentry,
+    entry,
     container,
     renderWidgetOptions
   );
@@ -206,7 +206,7 @@ export async function mountArticleWidget(
     subArticleId: articleId,
     returnUrl: true,
   });
-  fentry = fentry + '/package'; // `&subFilePath=`;
+  fentry = fentry + `&subFilePath=`;
   const widgetConfig = {
     container,
     name: widgetRenderName, //id
@@ -237,7 +237,7 @@ export async function mountArticleWidget(
   return mountApp(
     name,
     widgetRenderName,
-    entry || fentry,
+    entry,
     container,
     renderWidgetOptions
   );
