@@ -1,32 +1,49 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+// import logo from './logo.svg';
+// @ts-ignore
+import { Button } from "antd-mobile";
+
 import "./App.scss";
-import {
-  StyleProvider,
-  legacyLogicalPropertiesTransformer,
-} from "@ant-design/cssinjs";
-import { App as AppAnt } from "antd";
-import microApp from "@micro-zoe/micro-app";
+import "@/assets/mobile/index.scss";
+// import "antd-mobile/es/global/global.css"
+// import "antd-mobile/es/global/theme-default.css"
 
 import { useEffect, useState } from "react";
-import Pc from "./views/auth";
-import OutOf from "./views/outOf";
+import Mobile from "./views/auth";
 import {
   freelogAuth,
   freelogApp,
   init,
   getInfoByNameOrDomain,
 } from "freelog-runtime-core";
-const isTest = window.isTest;
 
+import OutOf from "./views/outOf";
+/**
+ * 1.请求节点与用户信息 requestNodeInfo 判断节点网址是否正确
+ * 2.判断dev环境，判断是否移动端且需要加载vconsole
+ * 3.判断节点与主题情况
+ * 4.加载主题
+ *     4.1判断主题授权情况，没有授权需要授权UI进行授权操作
+ * 5.授权操作：
+ *     主题插件加载展品时发现未授权 主动提交给授权UI进行授权操作
+ *     可支持单个展品id或多个展品id，支持回调函数
+ *     也就是提供：
+ *         1.针对单个展品，采用promise函数，可选是否立即弹出授权UI，await后返回状态，，
+ *         2.针对单个或多个展品，采用回调函数，可选是否立即弹出授权UI，可以选择多次回调或一次回调，当有一个展品获得授权后（以后看是否支持取消单个展品）
+ *           立即回调函数，主题插件就可以即时刷新呈现数据，，当只要一次回调，暂时不考虑只进行一次回调。
+ *     授权UI根据提交的展品再次请求是否授权，维持一个待授权的列表
+ *     授权成功后
+ * 6.登录操作
+ */
+const isTest = window.isTest;
 const {
   registerUI,
+  clearEvent,
   endEvent,
   updateLock,
   updateEvent,
-  clearEvent,
+  reload,
   lowerUI,
   upperUI,
-  reload,
 } = freelogAuth;
 const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
 const {
@@ -40,11 +57,13 @@ const {
   NODE_OFFLINE,
   NODE_PRIVATE,
 } = freelogAuth.eventType;
+// let themeId = "";
 
 function App() {
   const [events, setEvents] = useState([]);
+  // const [failedEvents, setFailedEvents] = useState([]);
   const [inited, setInited] = useState(false);
-  const [eventType, setEventType] = useState("");
+  const [eventType, setEventType] = useState(0);
   const [isOut, setIsOut] = useState(false);
   const [outData, setOutData] = useState<any>(null);
   const [isLogin, setIsLogin] = useState(false);
@@ -91,36 +110,6 @@ function App() {
           document.title = "[T]" + document.title;
         }
         init(nodeInfo.nodeId);
-        const entry =
-          freelogAuth.devData.type == 3
-            ? freelogAuth.devData.params["auth"]
-            : "";
-        await microApp.renderApp({
-          "router-mode": "pure",
-          name: "freelog-pc-common-auth",
-          url: entry
-            ? entry
-            : window.location.host.includes("testfreelog.com") ? "https://authorization-processor.testfreelog.com/" : "https://authorization-processor.freelog.com/", // "https://runtime-test-pc.oss-cn-shenzhen.aliyuncs.com/ui", // "https://localhost:8006",//"https://localhost:8402/",
-          container: document.getElementById(
-            "freelog-pc-common-auth"
-          ) as HTMLElement,
-          renderWidgetOptions: {
-            lifeCycles: {
-              beforemount: () => {
-                loadingClose();
-              },
-              mounted: () => {
-                freelogApp.status.themeMounted = true;
-              },
-            },
-
-            // iframe:
-            //   nodeInfo.themeInfo.versionInfo.exhibitProperty.bundleTool ===
-            //   "vite"
-            //     ? true
-            //     : false,
-          },
-        });
         // window.vconsole = new VConsole()
         // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
         //   window.vconsole = new VConsole();
@@ -135,7 +124,7 @@ function App() {
         //   };
         // }
         Object.freeze(freelogApp.nodeInfo);
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
         // @ts-ignore
         freelogApp.status.authUIMounted = true;
         setOutData(nodeInfo);
@@ -174,13 +163,13 @@ function App() {
           UI(THEME_NONE, nodeInfo);
           return;
         }
+        
         if (!nodeInfo.themeAuthInfo.isAuth) {
           freelogApp.addAuth(null, nodeInfo.themeInfo.exhibitId, {
             immediate: true,
           });
         } else {
           const container = document.getElementById("freelog-plugin-container");
-
           await freelogApp.mountExhibitWidget(null, {
             widget: nodeInfo.themeInfo,
             container,
@@ -204,29 +193,22 @@ function App() {
             },
           });
         }
+        // freelogApp.status.themeMounted = flag;
       }
     );
   }, []);
+
   useEffect(() => {
     updateLock(false);
   }, [events]);
-  let callBack: any[] = [];
   function loginFinished(type: any) {
     setIsLogin(false);
     if (type === SUCCESS) {
-      if (callBack.length) {
-        window.location.reload();
-      }
       setInited(false);
       clearEvent();
+      lowerUI();
     } else if (type === USER_CANCEL && !inited) {
       lowerUI();
-      if (callBack.length) {
-        callBack.forEach((item: any) => {
-          item(USER_CANCEL);
-        });
-      }
-      callBack = [];
     }
   }
 
@@ -239,50 +221,26 @@ function App() {
     eventMap.forEach((val: any) => {
       arr.push(val);
     });
-    console.log(eventMap, arr, event);
     setEvents(arr);
     if (!arr.length) {
-      microApp.setData("freelog-pc-common-auth", {
-        authProcessorShow: false,
-        mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
-      });
       lowerUI();
     } else {
+      upperUI();
       setInited(true);
-      arr.forEach(async (item: any) => {
-        const waiting = () => {
-          return new Promise((resolve) => {
-            upperUI(true)
-            microApp.setData("freelog-pc-common-auth", {
-              authProcessorShow: true,
-              mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
-              mainAppFuncs: {
-                contracted: (eventId: string, type: number, data: any) => {
-                  console.log(eventId, type, data, 999);
-                  endEvent(eventId, type, data);
-                  resolve && resolve(null);
-                },
-                login: (func: any) => {
-                  callBack.push(func);
-                  setEventType(LOGIN);
-                  login();
-                },
-              },
-              nodeId: freelogAuth.nodeInfo.nodeId,
-              licensorId: item.eventId,
-            });
-          });
-        };
-        await waiting();
-      });
     }
-  } 
+  }
   function UI(type: any, data: any) {
     loadingClose();
     setIsOut(false);
     setEventType(type);
     switch (type) {
       case NODE_FREEZED:
+        outOfContent(data);
+        break;
+      case NODE_OFFLINE:
+        outOfContent(data);
+        break;
+      case NODE_PRIVATE:
         outOfContent(data);
         break;
       case THEME_NONE:
@@ -292,12 +250,6 @@ function App() {
         outOfContent(data);
         break;
       case THEME_FREEZED:
-        outOfContent(data);
-        break;
-      case NODE_OFFLINE:
-        outOfContent(data);
-        break;
-      case NODE_PRIVATE:
         outOfContent(data);
         break;
       case LOGIN:
@@ -325,7 +277,7 @@ function App() {
     upperUI();
     setIsLogin(true);
   }
-  
+
   function contractFinished(eventId: any, type: number, data?: any) {
     if (type === USER_CANCEL && !eventId) {
       setInited(false);
@@ -335,44 +287,52 @@ function App() {
     }
     endEvent(eventId, type, data);
   }
-
   async function longinOut() {
     upperUI();
-    await freelogAuth.loginOut().then((res: any) => {
+    await freelogAuth.loginOut("").then((res: any) => {
       if (res.data.errCode === 0) {
         reload();
       }
     });
     lowerUI();
+    // Dialog.confirm({
+    //   content: "确定退出登录？页面会被刷新",
+    //   onConfirm: async () => {
+    //     await frequest(user.loginOut, "", "").then((res: any) => {
+    //       if (res.data.errCode === 0) {
+    //         reload();
+    //       }
+    //     });
+    //   },
+    //   onCancel: () => {
+    //     lowerUI();
+    //   },
+    // });
   }
   registerUI(UI, updateUI);
-
   return (
-    <StyleProvider
-      hashPriority="high"
-      transformers={[legacyLogicalPropertiesTransformer]}
-    >
-      <AppAnt>
-        <div id="freelog-pc-auth" className="w-100x h-100x over-h">
-          {isOut ? (
-            <OutOf eventType={eventType} outData={outData}></OutOf>
-          ) : (inited || isLogin) && eventType !== CONTRACT ? (
-            <Pc
-              events={events}
-              isAuths={inited}
-              isLogin={isLogin}
-              contractFinished={contractFinished}
-              updateEvents={updateEvents}
-              loginFinished={loginFinished}
-            ></Pc>
-          ) : null}
+    <div id="freelog-mobile-auth" className="w-100x h-100x over-h">
+      {isOut ? (
+        <OutOf eventType={eventType} outData={outData}></OutOf>
+      ) : inited || isLogin ? (
+        <div className="w-100x h-100x bg-white">
+          <Button color="primary" className="d-none"></Button>
+          <Mobile
+            events={events}
+            isAuths={inited}
+            isLogin={isLogin}
+            contractFinished={contractFinished}
+            updateEvents={updateEvents}
+            loginFinished={loginFinished}
+          ></Mobile>
         </div>
-      </AppAnt>
-    </StyleProvider>
+      ) : null}
+    </div>
   );
 }
 
 export default App;
+
 async function requestNodeInfo(nodeDomain: string) {
   const info = await getInfoByNameOrDomain.bind({ name: "node" })({
     nodeDomain,

@@ -53,6 +53,7 @@ export default function Login(props: loginProps) {
     <Popup
       visible={true}
       position="top"
+      getContainer={() => document.getElementById("ui-root") as HTMLElement}
       bodyClassName="user-login w-100x h-100x"
     >
       {/* <Popup

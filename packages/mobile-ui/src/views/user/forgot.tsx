@@ -289,6 +289,7 @@ export default function Forgot(props: ForgotProps) {
     <Popup
       visible={true}
       position="top"
+      getContainer={() => document.getElementById("ui-root") as HTMLElement}
       bodyClassName="user-forgot w-100x h-100x"
     >
       {/* <i className="iconfont forgot-back" onClick={()=>{

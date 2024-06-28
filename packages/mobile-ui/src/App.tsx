@@ -6,6 +6,7 @@ import "./App.scss";
 import "@/assets/mobile/index.scss";
 // import "antd-mobile/es/global/global.css"
 // import "antd-mobile/es/global/theme-default.css"
+import microApp from "@micro-zoe/micro-app";
 
 import { useEffect, useState } from "react";
 import Mobile from "./views/auth";
@@ -61,9 +62,8 @@ const {
 
 function App() {
   const [events, setEvents] = useState([]);
-  // const [failedEvents, setFailedEvents] = useState([]);
   const [inited, setInited] = useState(false);
-  const [eventType, setEventType] = useState(0);
+  const [eventType, setEventType] = useState("");
   const [isOut, setIsOut] = useState(false);
   const [outData, setOutData] = useState<any>(null);
   const [isLogin, setIsLogin] = useState(false);
@@ -110,6 +110,36 @@ function App() {
           document.title = "[T]" + document.title;
         }
         init(nodeInfo.nodeId);
+        const entry =
+          freelogAuth.devData.type == 3
+            ? freelogAuth.devData.params["auth"]
+            : "";
+        await microApp.renderApp({
+          "router-mode": "pure",
+          name: "freelog-pc-common-auth",
+          url: entry
+            ? entry
+            : window.location.host.includes("testfreelog.com") ? "https://authorization-processor.testfreelog.com/" : "https://authorization-processor.freelog.com/", // "https://runtime-test-pc.oss-cn-shenzhen.aliyuncs.com/ui", // "https://localhost:8006",//"https://localhost:8402/",
+          container: document.getElementById(
+            "freelog-pc-common-auth"
+          ) as HTMLElement,
+          renderWidgetOptions: {
+            lifeCycles: {
+              beforemount: () => {
+                loadingClose();
+              },
+              mounted: () => {
+                freelogApp.status.themeMounted = true;
+              },
+            },
+
+            // iframe:
+            //   nodeInfo.themeInfo.versionInfo.exhibitProperty.bundleTool ===
+            //   "vite"
+            //     ? true
+            //     : false,
+          },
+        });
         // window.vconsole = new VConsole()
         // if (devData.type !== DEV_FALSE && devData.config.vconsole) {
         //   window.vconsole = new VConsole();
@@ -124,7 +154,7 @@ function App() {
         //   };
         // }
         Object.freeze(freelogApp.nodeInfo);
-
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         freelogApp.status.authUIMounted = true;
         setOutData(nodeInfo);
@@ -163,13 +193,13 @@ function App() {
           UI(THEME_NONE, nodeInfo);
           return;
         }
-        
         if (!nodeInfo.themeAuthInfo.isAuth) {
           freelogApp.addAuth(null, nodeInfo.themeInfo.exhibitId, {
             immediate: true,
           });
         } else {
           const container = document.getElementById("freelog-plugin-container");
+
           await freelogApp.mountExhibitWidget(null, {
             widget: nodeInfo.themeInfo,
             container,
@@ -193,22 +223,29 @@ function App() {
             },
           });
         }
-        // freelogApp.status.themeMounted = flag;
       }
     );
   }, []);
-
   useEffect(() => {
     updateLock(false);
   }, [events]);
+  let callBack: any[] = [];
   function loginFinished(type: any) {
     setIsLogin(false);
     if (type === SUCCESS) {
+      if (callBack.length) {
+        window.location.reload();
+      }
       setInited(false);
       clearEvent();
-      lowerUI();
     } else if (type === USER_CANCEL && !inited) {
       lowerUI();
+      if (callBack.length) {
+        callBack.forEach((item: any) => {
+          item(USER_CANCEL);
+        });
+      }
+      callBack = [];
     }
   }
 
@@ -221,26 +258,50 @@ function App() {
     eventMap.forEach((val: any) => {
       arr.push(val);
     });
+    console.log(eventMap, arr, event);
     setEvents(arr);
     if (!arr.length) {
+      microApp.setData("freelog-pc-common-auth", {
+        authProcessorShow: false,
+        mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
+      });
       lowerUI();
     } else {
-      upperUI();
       setInited(true);
+      arr.forEach(async (item: any) => {
+        const waiting = () => {
+          return new Promise((resolve) => {
+            upperUI(true)
+            microApp.setData("freelog-pc-common-auth", {
+              authProcessorShow: true,
+              mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
+              mainAppFuncs: {
+                contracted: (eventId: string, type: number, data: any) => {
+                  console.log(eventId, type, data, 999);
+                  endEvent(eventId, type, data);
+                  resolve && resolve(null);
+                },
+                login: (func: any) => {
+                  callBack.push(func);
+                  setEventType(LOGIN);
+                  login();
+                },
+              },
+              nodeId: freelogAuth.nodeInfo.nodeId,
+              licensorId: item.eventId,
+            });
+          });
+        };
+        await waiting();
+      });
     }
-  }
+  } 
   function UI(type: any, data: any) {
     loadingClose();
     setIsOut(false);
     setEventType(type);
     switch (type) {
       case NODE_FREEZED:
-        outOfContent(data);
-        break;
-      case NODE_OFFLINE:
-        outOfContent(data);
-        break;
-      case NODE_PRIVATE:
         outOfContent(data);
         break;
       case THEME_NONE:
@@ -250,6 +311,12 @@ function App() {
         outOfContent(data);
         break;
       case THEME_FREEZED:
+        outOfContent(data);
+        break;
+      case NODE_OFFLINE:
+        outOfContent(data);
+        break;
+      case NODE_PRIVATE:
         outOfContent(data);
         break;
       case LOGIN:
@@ -277,7 +344,7 @@ function App() {
     upperUI();
     setIsLogin(true);
   }
-
+  
   function contractFinished(eventId: any, type: number, data?: any) {
     if (type === USER_CANCEL && !eventId) {
       setInited(false);
@@ -287,27 +354,15 @@ function App() {
     }
     endEvent(eventId, type, data);
   }
+
   async function longinOut() {
     upperUI();
-    await freelogAuth.loginOut("").then((res: any) => {
+    await freelogAuth.loginOut().then((res: any) => {
       if (res.data.errCode === 0) {
         reload();
       }
     });
     lowerUI();
-    // Dialog.confirm({
-    //   content: "确定退出登录？页面会被刷新",
-    //   onConfirm: async () => {
-    //     await frequest(user.loginOut, "", "").then((res: any) => {
-    //       if (res.data.errCode === 0) {
-    //         reload();
-    //       }
-    //     });
-    //   },
-    //   onCancel: () => {
-    //     lowerUI();
-    //   },
-    // });
   }
   registerUI(UI, updateUI);
   return (

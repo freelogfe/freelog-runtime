@@ -181,6 +181,7 @@ export default function Register(props: loginProps) {
       <Popup
         visible={true}
         position="top"
+        getContainer={() => document.getElementById("ui-root") as HTMLElement}
         bodyClassName="user-register w-100x h-100x"
       >
         <div className="w-100x h-100x flex-column align-center">
