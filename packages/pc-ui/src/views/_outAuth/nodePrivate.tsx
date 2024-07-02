@@ -28,7 +28,6 @@ export default function OutOf() {
       {loginVisible && (
         <Login
           loginFinished={loginFinished}
-          setIsLoginVisible={setLoginVisible}
         ></Login>
       )}
       <div className="flex-1"></div>

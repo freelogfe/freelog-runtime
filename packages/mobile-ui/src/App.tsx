@@ -1,6 +1,5 @@
 // import logo from './logo.svg';
 // @ts-ignore
-import { Button } from "antd-mobile";
 
 import "./App.scss";
 import "@/assets/mobile/index.scss";
@@ -9,13 +8,20 @@ import "@/assets/mobile/index.scss";
 import microApp from "@micro-zoe/micro-app";
 
 import { useEffect, useState } from "react";
-import Mobile from "./views/auth";
+import Forgot, { LOGIN_PASSWORD, PAY_PASSWORD } from "./views/user/forgot";
+import Register from "./views/user/register";
+import NodeError from "./views/_statusComponents/nodeError";
+const { loginCallback, setUserInfo } = freelogAuth;
+
+// import getBestTopology from "./topology/data";
+import ThemeCancel from "./views/_statusComponents/themeCancel";
 import {
   freelogAuth,
   freelogApp,
   init,
   getInfoByNameOrDomain,
 } from "freelog-runtime-core";
+import Login from "./views/user/login";
 
 import OutOf from "./views/outOf";
 /**
@@ -67,6 +73,11 @@ function App() {
   const [isOut, setIsOut] = useState(false);
   const [outData, setOutData] = useState<any>(null);
   const [isLogin, setIsLogin] = useState(false);
+  const [nodeInfoData, setNodeInfo] = useState<any>(null);
+  const [themeAuthInfo, setThemeAuthInfo] = useState<any>(null);
+  // 1 登录  2 注册   3 忘记登录密码  4 忘记支付密码
+  const [modalType, setModalType] = useState(0);
+
   function loadingClose() {
     setTimeout(() => {
       const loadingContainer = document.getElementById("runtime-loading");
@@ -119,7 +130,9 @@ function App() {
           name: "freelog-pc-common-auth",
           url: entry
             ? entry
-            : window.location.host.includes("testfreelog.com") ? "https://authorization-processor.testfreelog.com/" : "https://authorization-processor.freelog.com/", // "https://runtime-test-pc.oss-cn-shenzhen.aliyuncs.com/ui", // "https://localhost:8006",//"https://localhost:8402/",
+            : window.location.host.includes("testfreelog.com")
+            ? "https://authorization-processor.testfreelog.com/"
+            : "https://authorization-processor.freelog.com/", // "https://runtime-test-pc.oss-cn-shenzhen.aliyuncs.com/ui", // "https://localhost:8006",//"https://localhost:8402/",
           container: document.getElementById(
             "freelog-pc-common-auth"
           ) as HTMLElement,
@@ -193,10 +206,25 @@ function App() {
           UI(THEME_NONE, nodeInfo);
           return;
         }
+        nodeInfo.themeAuthInfo.isAvailable = !(
+          (nodeInfo.themeAuthInfo.defaulterIdentityType & 1) == 1 ||
+          (nodeInfo.themeAuthInfo.defaulterIdentityType & 2) == 2
+        );
+        setNodeInfo(nodeInfo);
         if (!nodeInfo.themeAuthInfo.isAuth) {
-          freelogApp.addAuth(null, nodeInfo.themeInfo.exhibitId, {
-            immediate: true,
-          });
+          if (!nodeInfo.themeAuthInfo.isAvailable) {
+            upperUI();
+          } else {
+            freelogApp
+              .addAuth(null, nodeInfo.themeInfo.exhibitId, {
+                immediate: true,
+              })
+              .then((res: any) => {
+                if (res.status != SUCCESS) {
+                  upperUI();
+                }
+              });
+          }
         } else {
           const container = document.getElementById("freelog-plugin-container");
 
@@ -226,17 +254,34 @@ function App() {
       }
     );
   }, []);
+  const openAuthForTheme = () => {
+    freelogApp
+      .addAuth(null, nodeInfoData.themeInfo.exhibitId, {
+        immediate: true,
+      })
+      .then((res: any) => {
+        if (res.status != SUCCESS) {
+          upperUI();
+        }
+      });
+  };
   useEffect(() => {
     updateLock(false);
   }, [events]);
   let callBack: any[] = [];
-  function loginFinished(type: any) {
+  // 0 成功  1 失败  2 用户取消
+  function loginFinished(type: number, data?: any) {
     setIsLogin(false);
+    setModalType(0);
     if (type === SUCCESS) {
-      if (callBack.length) {
-        window.location.reload();
-      }
+      setUserInfo(data);
       setInited(false);
+      if (loginCallback.length === 0) {
+        reload();
+      }
+      loginCallback.forEach((func: any) => {
+        func && func();
+      });
       clearEvent();
     } else if (type === USER_CANCEL && !inited) {
       lowerUI();
@@ -246,7 +291,7 @@ function App() {
         });
       }
       callBack = [];
-    }
+    }    
   }
 
   // 遍历顺序是否永远一致
@@ -269,15 +314,17 @@ function App() {
     } else {
       setInited(true);
       arr.forEach(async (item: any) => {
+        if (item.isTheme) {
+          setThemeAuthInfo(item);
+        }
         const waiting = () => {
           return new Promise((resolve) => {
-            upperUI(true)
+            upperUI(true);
             microApp.setData("freelog-pc-common-auth", {
               authProcessorShow: true,
               mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
               mainAppFuncs: {
                 contracted: (eventId: string, type: number, data: any) => {
-                  console.log(eventId, type, data, 999);
                   endEvent(eventId, type, data);
                   resolve && resolve(null);
                 },
@@ -295,7 +342,7 @@ function App() {
         await waiting();
       });
     }
-  } 
+  }
   function UI(type: any, data: any) {
     loadingClose();
     setIsOut(false);
@@ -342,17 +389,8 @@ function App() {
   }
   function login() {
     upperUI();
+    setModalType(1);
     setIsLogin(true);
-  }
-  
-  function contractFinished(eventId: any, type: number, data?: any) {
-    if (type === USER_CANCEL && !eventId) {
-      setInited(false);
-      endEvent(eventId, type, data);
-      lowerUI();
-      return;
-    }
-    endEvent(eventId, type, data);
   }
 
   async function longinOut() {
@@ -365,22 +403,49 @@ function App() {
     lowerUI();
   }
   registerUI(UI, updateUI);
+
   return (
     <div id="freelog-mobile-auth" className="w-100x h-100x over-h">
       {isOut ? (
         <OutOf eventType={eventType} outData={outData}></OutOf>
-      ) : inited || isLogin ? (
-        <div className="w-100x h-100x bg-white">
-          <Button color="primary" className="d-none"></Button>
-          <Mobile
-            events={events}
-            isAuths={inited}
-            isLogin={isLogin}
-            contractFinished={contractFinished}
-            updateEvents={updateEvents}
-            loginFinished={loginFinished}
-          ></Mobile>
+      ) : isLogin ? (
+        <div id="runtime-mobile" className="w-100x h-100x over-h">
+          {modalType === 1 ? (
+            <Login
+              loginFinished={loginFinished}
+              visible={modalType === 1}
+              setModalType={setModalType}
+            />
+          ) : modalType === 2 ? (
+            <Register visible={modalType === 2} setModalType={setModalType} />
+          ) : modalType === 3 ? (
+            <Forgot
+              type={LOGIN_PASSWORD}
+              visible={modalType === 3}
+              setModalType={setModalType}
+            />
+          ) : modalType === 4 ? (
+            <Forgot
+              type={PAY_PASSWORD}
+              visible={modalType === 4}
+              setModalType={setModalType}
+            />
+          ) : null}
         </div>
+      ) : nodeInfoData &&
+        themeAuthInfo &&
+        !nodeInfoData.themeAuthInfo.isAuth ? (
+        !nodeInfoData.themeAuthInfo.isAvailable ? (
+          <NodeError
+            currentExhibit={themeAuthInfo}
+            setThemeCancel={openAuthForTheme}
+          />
+        ) : (
+          <ThemeCancel
+            currentExhibit={themeAuthInfo}
+            setThemeCancel={openAuthForTheme}
+          />
+        )
       ) : null}
     </div>
   );

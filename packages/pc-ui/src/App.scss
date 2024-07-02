@@ -1,5 +1,19 @@
 // @import 'antd/dist/antd.css';
+@import "./assets/css/index.scss";
 
+.ant-tabs-tab {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.ant-tabs-tab+.ant-tabs-tab {
+  margin: -1px 0px 0px 20px;
+}
+.freelog-confirm{
+  .ant-modal-title{
+    text-align: center;
+  }
+}
 @font-face {
 	font-family: "freelog";
 	/* Project id 1522685 */

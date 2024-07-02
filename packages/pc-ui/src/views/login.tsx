@@ -7,7 +7,7 @@ import wechatPng from "@/assets/wechat.png";
 import { useState } from "react";
 import "./login.scss";
 const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
-const { setHref,getHref } = freelogAuth;
+const { setHref, getHref } = freelogAuth;
 
 const layout = {
   labelCol: { span: 8 },
@@ -16,7 +16,6 @@ const layout = {
 
 interface loginProps {
   loginFinished: any;
-  setIsLoginVisible: any;
   children?: any;
 }
 export default function Login(props: loginProps) {
@@ -31,11 +30,7 @@ export default function Login(props: loginProps) {
   const onFinish = async () => {
     setLoading(true);
     const values: any = form.getFieldsValue();
-    // loginName: "string",
-    //   password: "string",
-    //   isRemember: "string",
-    //   returnUrl: "string",
-    //   jwtType: "string",
+
     values.isRemember = isRemember ? 1 : 0;
     const res = await freelogAuth.login(values);
     if (res.data.errCode === 0) {
@@ -56,10 +51,7 @@ export default function Login(props: loginProps) {
 
   const onFinishFailed = () => {};
 
-  const handleOk = () => {
-    props.setIsLoginVisible(false);
-  };
-
+ 
   const handleCancel = () => {
     props.loginFinished(USER_CANCEL);
   };
@@ -72,7 +64,6 @@ export default function Login(props: loginProps) {
       open={true}
       closable={true}
       className=""
-      onOk={handleOk}
       getContainer={() => document.getElementById("ui-root")!}
       onCancel={handleCancel}
       maskClosable={false}
@@ -151,7 +142,7 @@ export default function Login(props: loginProps) {
             </Button>
           </Form.Item>
         </Form>
-        
+
         <div className="flex-1 flex-column align-center">
           <div className={"openTitle mt-10 mb-20"}>第三方账号登录</div>
           <div
@@ -163,8 +154,7 @@ export default function Login(props: loginProps) {
                     window.location.host.includes("testfreelog.com")
                       ? "test/"
                       : ""
-                  }v2/thirdParty/weChat/codeHandle?returnUrl=` +
-                    (getHref())
+                  }v2/thirdParty/weChat/codeHandle?returnUrl=` + getHref()
                 )}&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect`
               );
             }}
