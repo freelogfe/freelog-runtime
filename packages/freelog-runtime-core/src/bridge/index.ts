@@ -198,14 +198,14 @@ export function upperUI(flag: boolean) {
   if (flag) {
     // @ts-ignore
     uiRoot.style.zIndex = 0;
-    if(authUIContainer){
+    if (authUIContainer) {
       // @ts-ignore
       authUIContainer.style.zIndex = 1;
     }
   } else {
     // @ts-ignore
     uiRoot.style.zIndex = 1;
-    if(authUIContainer){
+    if (authUIContainer) {
       // @ts-ignore
       uiRoot.style.zIndex = 3000;
       // @ts-ignore
@@ -218,21 +218,30 @@ export function upperUI(flag: boolean) {
   // @ts-ignore
   widgetContainer.style.zIndex = 0;
 }
-export function lowerUI() {
+export function lowerUI(flag: boolean) {
   uiInited = false;
   if (mobile) {
     metaEl.setAttribute("content", metaViewPortContent);
   }
-  if(authUIContainer){
+  if (flag) {
+    if (authUIContainer) {
+      // @ts-ignore
+      authUIContainer.style.zIndex = 1;
+    }
     // @ts-ignore
-    authUIContainer.style.zIndex = 0;
+    uiRoot.style.zIndex = 0;
+  } else {
+    if (authUIContainer) {
+      // @ts-ignore
+      authUIContainer.style.zIndex = 0;
+    }
+    // @ts-ignore
+    uiRoot.style.zIndex = 0;
+    // // @ts-ignore
+    // uiRoot.style.opacity = 0;
+    // @ts-ignore
+    widgetContainer.style.zIndex = 1;
   }
-  // @ts-ignore
-  uiRoot.style.zIndex = 0;
-  // // @ts-ignore
-  // uiRoot.style.opacity = 0;
-  // @ts-ignore
-  widgetContainer.style.zIndex = 1;
 }
 
 export function reload() {

@@ -49,10 +49,11 @@ const {
 
 function App() {
   const [events, setEvents] = useState([]);
-  const [inited, setInited] = useState(false);
   const [eventType, setEventType] = useState("");
   const [isOut, setIsOut] = useState(false);
   const [outData, setOutData] = useState<any>(null);
+  const [isLoginFromAuth, setIsLoginFromAuth] = useState(false);
+
   const [isLogin, setIsLogin] = useState(false);
   const [nodeInfoData, setNodeInfo] = useState<any>(null);
   const [themeAuthInfo, setThemeAuthInfo] = useState<any>(null);
@@ -234,7 +235,6 @@ function App() {
     setIsLogin(false);
     if (type === SUCCESS) {
       setUserInfo(data);
-      setInited(false);
       if (loginCallback.length === 0) {
         reload();
       }
@@ -242,20 +242,23 @@ function App() {
         func && func();
       });
       clearEvent();
-    } else if (type === USER_CANCEL && !inited) {
-      lowerUI();
+    } else if (type === USER_CANCEL) {
       if (callBack.length) {
         callBack.forEach((item: any) => {
-          item(USER_CANCEL);
+          item && item(USER_CANCEL);
         });
+      } 
+      if(isLoginFromAuth){
+        lowerUI(true);
+      } else {
+        lowerUI();
       }
       callBack = [];
-    }  
+    }
   }
 
   // 遍历顺序是否永远一致
   function updateEvents(event?: any) {
-    setInited(false);
     const eventMap = updateEvent(event);
     updateLock(true);
     const arr: any = [];
@@ -270,7 +273,6 @@ function App() {
       });
       lowerUI();
     } else {
-      setInited(true);
       arr.forEach(async (item: any) => {
         if (item.isTheme) {
           setThemeAuthInfo(item);
@@ -289,6 +291,7 @@ function App() {
                 login: (func: any) => {
                   callBack.push(func);
                   setEventType(LOGIN);
+                  setIsLoginFromAuth(true);
                   login();
                 },
               },
@@ -302,6 +305,7 @@ function App() {
     }
   }
   function UI(type: any, data: any) {
+    setIsLoginFromAuth(false);
     loadingClose();
     setIsOut(false);
     setEventType(type);

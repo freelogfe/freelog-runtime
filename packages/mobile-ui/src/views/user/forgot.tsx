@@ -179,11 +179,10 @@ export default function Forgot(props: ForgotProps) {
   }, [success]);
   const loginVerify = async () => {
     setLoading(true);
-    let res;
     const values: any = {
       password: loginPassword,
     };
-    res = await freelogAuth.loginVerify(values);
+    const res:any = await freelogAuth.loginVerify(values);
     if (res.data.errCode === 0 && res.data.data.isVerifySuccessful) {
       const obj: any = { loginPassword: "" };
       setErrorTip({
@@ -208,7 +207,6 @@ export default function Forgot(props: ForgotProps) {
   };
   const authCodeVerify = async () => {
     setLoading(true);
-    let res;
     const values: any = {
       authCode,
       authCodeType:
@@ -217,7 +215,7 @@ export default function Forgot(props: ForgotProps) {
           : "updateTransactionAccountPwd",
       address: registerType === 1 ? phone : email,
     };
-    res = await freelogAuth.verifyAuthCode(values);
+    const res:any = await freelogAuth.verifyAuthCode(values);
     if (res.data.errCode === 0) {
       setLoading(false);
       setStep(3);
