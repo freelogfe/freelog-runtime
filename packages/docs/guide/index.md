@@ -306,7 +306,7 @@ keys = {
 
 ## 展品相关
 
-### 获取展品
+### 获取展品列表
 
 **分页列表**
 
@@ -476,6 +476,36 @@ const res = await freelogApp.getExhibitDepFileStream(
 // 使用getExhibitDepInfo接口获取作品属性
 const res = await freelogApp.getExhibitDepInfo(exhibitId, articleNids);
 const articleProperty = res.data.data[0].articleProperty;
+```
+
+### 获取集合内子作品列表
+
+```ts
+const res = await freelogApp.getCollectionSubList(exhibitId, query:{
+    sortType: 1, // 排序方式: 1:升序 -1:降序
+    skip: 0,
+    limit: 10,
+    isShowDetailInfo: 0, // 是否加载单品挂载的作品详情 0:不加载 1:加载
+ });
+```
+
+### 获取集合内子作品授权结果
+
+```ts
+const res = await freelogApp.getCollectionSubAuth(exhibitId, query:{
+    itemIds: "a2b0784da2b0784d,a2b0784da2b0784d", // 子作品id, 多个用英文逗号分隔
+ });
+```
+
+### 获取集合内子作品文件
+
+```ts
+
+const res = await freelogApp.getCollectionSubFileStream(exhibitId, itemId);
+
+**参数说明**
+  exhibitId: string, // 集合展品id
+  itemId:  string, // 子作品id
 ```
 
 ### 查找展品签约数量

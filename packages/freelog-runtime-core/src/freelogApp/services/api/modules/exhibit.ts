@@ -9,6 +9,9 @@ export type Exhibit = {
   getTestExhibitListById: any;
   getExhibitListByPaging: any;
   getTestExhibitByPaging: any;
+  getCollectionSubListById: any;
+  getCollectionSubListAuthById: any;
+  getCollectionSubById: any;
   getExhibitAuthById: any;
   getTestExhibitAuthById: any;
   getExhibitAuthStatus: any;
@@ -104,6 +107,27 @@ const exhibit: Exhibit = {
       tagQueryType: "int",
     },
   },
+  getCollectionSubListById: {
+    url: `/exhibits/${placeHolder}/${placeHolder}/items`,
+    method: "GET",
+    dataModel: {
+      nodeId: "string",
+      exhibitId: "string",
+      sortType: "string",
+      skip: "int",
+      limit: "int",
+      isShowDetailInfo: "int",
+    },
+  },
+  getCollectionSubListAuthById: {
+    url: `/exhibits/${placeHolder}/${placeHolder}/items/batchAuth/results`,
+    method: "GET",
+    dataModel: {
+      nodeId: "string",
+      exhibitId: "string",
+      itemIds: "string",
+    },
+  },
   // exhibitId  {result|info|fileStream}
   getExhibitAuthById: {
     url: `auths/exhibits/${placeHolder}/${placeHolder}/${placeHolder}`,
@@ -137,6 +161,11 @@ const exhibit: Exhibit = {
       subArticleType: "string", // 子依赖的作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象)
       subFilePath: "string", // 主题或插件的压缩包内部子作品,需要带相对路径
     },
+  },
+  getCollectionSubById: {
+    url: `exhibits/${placeHolder}/items/${placeHolder}`,
+    baseURL: location.protocol + `//file${host}/`,
+    method: "GET",
   },
   // exhibitId  {result|info|fileStream}
   getTestExhibitById: {

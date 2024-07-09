@@ -127,7 +127,6 @@ export async function getExhibitSignCount(name: string, exhibitIds: string) {
 }
 // 获取展示是否授权链正常
 export async function getExhibitAvailable(name: string, exhibitIds: string) {
-  
   if (baseInfo.isTest) {
     return frequest(exhibit.getTestExhibitAuthStatus, [baseInfo.nodeId], {
       authType: 3,
@@ -257,4 +256,41 @@ export async function getExhibitInfoByAuth(
 
 export async function pushMessage4Task(name: string, query: any) {
   return frequest(operation.pushMessage4Task, null, query);
+}
+
+export async function getCollectionSubList(
+  name: string,
+  exhibitId: string | number,
+  query: any
+) {
+  return frequest.bind({
+    name,
+    isAuth: true,
+    exhibitId: exhibitId,
+  })(exhibit.getCollectionSubListById, [baseInfo.nodeId, exhibitId], query);
+}
+export async function getCollectionSubAuth(
+  name: string,
+  exhibitId: string | number,
+  query: any
+) {
+  return frequest.bind({
+    name,
+    isAuth: true,
+    exhibitId: exhibitId,
+  })(exhibit.getCollectionSubListAuthById, [baseInfo.nodeId, exhibitId], query);
+}
+
+
+export async function getCollectionSubFileStream(
+  name: string,
+  exhibitId: string | number,
+  itemId: string | number,
+  query: any
+) {
+  return frequest.bind({
+    name,
+    isAuth: true,
+    exhibitId: exhibitId,
+  })(exhibit.getCollectionSubById, [exhibitId, itemId], query);
 }

@@ -218,7 +218,7 @@ export function upperUI(flag: boolean) {
   // @ts-ignore
   widgetContainer.style.zIndex = 0;
 }
-export function lowerUI(flag: boolean) {
+export function lowerUI(flag?: boolean) {
   uiInited = false;
   if (mobile) {
     metaEl.setAttribute("content", metaViewPortContent);
