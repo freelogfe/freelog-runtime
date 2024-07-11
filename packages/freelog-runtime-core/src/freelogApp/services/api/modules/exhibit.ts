@@ -108,7 +108,7 @@ const exhibit: Exhibit = {
     },
   },
   getCollectionSubListById: {
-    url: `/exhibits/${placeHolder}/${placeHolder}/items`,
+    url: `exhibits/${placeHolder}/${placeHolder}/items`,
     method: "GET",
     dataModel: {
       nodeId: "string",
@@ -120,7 +120,7 @@ const exhibit: Exhibit = {
     },
   },
   getCollectionSubListAuthById: {
-    url: `/exhibits/${placeHolder}/${placeHolder}/items/batchAuth/results`,
+    url: `auths/exhibits/${placeHolder}/${placeHolder}/items/batchAuth/results`,
     method: "GET",
     dataModel: {
       nodeId: "string",
