@@ -321,7 +321,25 @@ export async function getCollectionSubInsideFile(
     query.returnUrl
   );
 }
-
+export async function getCollectionSubDepList(
+  name: string,
+  exhibitId: string | number,
+  query: {
+    itemId: string | number;
+    returnUrl: boolean;
+  }
+) {
+  return frequest.bind({
+    name,
+    isAuth: true,
+    exhibitId: exhibitId,
+  })(
+    exhibit.getCollectionSubDepById,
+    [baseInfo.nodeId, exhibitId, query.itemId],
+    null,
+    query.returnUrl
+  );
+}
 export async function getCollectionSubDepFileStream(
   name: string,
   exhibitId: string | number,

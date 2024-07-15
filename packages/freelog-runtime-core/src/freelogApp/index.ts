@@ -15,7 +15,8 @@ import {
   getCollectionSubFileStream,
   getCollectionSubInsideFile,
   getCollectionSubDepFileStream,
-  getCollectionSubDepInsideFile
+  getCollectionSubDepInsideFile,
+  getCollectionSubDepList
 } from "./api";
 export const freelogApp: any = {
   getExhibitListById,
@@ -34,5 +35,6 @@ export const freelogApp: any = {
   getCollectionSubFileStream,
   getCollectionSubInsideFile,
   getCollectionSubDepFileStream,
-  getCollectionSubDepInsideFile
+  getCollectionSubDepInsideFile,
+  getCollectionSubDepList
 };

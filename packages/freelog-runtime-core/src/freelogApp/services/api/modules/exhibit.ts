@@ -12,8 +12,9 @@ export type Exhibit = {
   getCollectionSubListById: any;
   getCollectionSubListAuthById: any;
   getCollectionSubById: any;
-  getCollectionSubInsideById:any;
-  getCollectionSubDepById:any
+  getCollectionSubInsideById: any;
+  getCollectionSubDepById: any;
+  getCollectionSubDepList: any;
   getCollectionSubDepInsideById: any;
   getExhibitAuthById: any;
   getTestExhibitAuthById: any;
@@ -172,6 +173,11 @@ const exhibit: Exhibit = {
   },
   getCollectionSubInsideById: {
     url: `exhibits/${placeHolder}/items/${placeHolder}/${placeHolder}`, // {subFilePath}
+    baseURL: location.protocol + `//file${host}/`,
+    method: "GET",
+  },
+  getCollectionSubDepList: {
+    url: `exhibits/${placeHolder}/${placeHolder}/items/${placeHolder}/dependencyTree`, // /exhibits/{nodeId}/{exhibitId}/items/{itemId}/dependencyTree
     baseURL: location.protocol + `//file${host}/`,
     method: "GET",
   },
