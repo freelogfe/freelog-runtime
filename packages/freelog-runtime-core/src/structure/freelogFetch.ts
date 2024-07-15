@@ -9,14 +9,6 @@ export function freelogFetch(url: string, options: any, appName: string): any {
     const urlObj = new URL(url);
     url = widgetConfig.entry + urlObj.pathname;
   }
-  if (url == "https://authorization-processor.testfreelog.com/" || url == "https://authorization-processor.testfreelog.com") {
-    return fetch(url + "index.html", { ...options });
-  } 
-  else if (url.includes("https://authorization-processor.testfreelog.com")) {
-    const urlObj = new URL(url);
-    url = "https://authorization-processor.testfreelog.com" + urlObj.pathname;
-    return fetch(url, { ...options, mode: "cors" });
-  }
   if (url.indexOf("freelog.com") > -1) {
     return fetch(url, { ...options, credentials: "include" });
   } else {

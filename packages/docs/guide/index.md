@@ -501,11 +501,74 @@ const res = await freelogApp.getCollectionSubAuth(exhibitId, query:{
 
 ```ts
 
-const res = await freelogApp.getCollectionSubFileStream(exhibitId, itemId);
+const res = await freelogApp.getCollectionSubFileStream(exhibitId,
+{itemId,returnUrl: false});
 
 **参数说明**
   exhibitId: string, // 集合展品id
-  itemId:  string, // 子作品id
+  {
+    itemId:  string, // 子作品id
+    returnUrl?: boolean // 可选，默认false，是否只返回url， 例如img标签图片只需要url
+  }
+```
+
+### 获取集合内子作品内的子文件
+
+```ts
+
+const res = await freelogApp.getCollectionSubInsideFile(exhibitId, {
+  itemId, 
+  subFilePath,
+  returnUrl: false
+});
+
+**参数说明**
+  exhibitId: string, // 集合展品id
+  {
+    itemId:  string, // 子作品id
+    subFilePath:  string, // 子作品内部的文件路径
+    returnUrl?: boolean // 可选，默认false，是否只返回url， 例如img标签图片只需要url
+  }
+```
+
+### 获取集合内子作品的依赖文件
+
+```ts
+
+const res = await freelogApp.getCollectionSubDepFileStream(exhibitId, {
+  itemId, 
+  nid,
+  returnUrl: false
+});
+
+**参数说明**
+  exhibitId: string, // 集合展品id
+  {
+    itemId:  string, // 子作品id
+    nid:  string, // 依赖的链路id
+    returnUrl?: boolean // 可选，默认false，是否只返回url， 例如img标签图片只需要url
+  }  
+```
+
+### 获取集合内子作品的依赖的子文件
+
+```ts
+
+const res = await freelogApp.getCollectionSubDepInsideFile(exhibitId,, {
+  itemId, 
+  nid, 
+  subFilePath
+  returnUrl: false
+});
+
+**参数说明**
+  exhibitId: string, // 集合展品id
+  {
+    itemId:  string, // 子作品id
+    nid:  string, // 依赖的链路id
+    subFilePath:  string, // 子作品的依赖内部的文件路径
+    returnUrl?: boolean // 可选，默认false，是否只返回url， 例如img标签图片只需要url
+  }  
 ```
 
 ### 查找展品签约数量

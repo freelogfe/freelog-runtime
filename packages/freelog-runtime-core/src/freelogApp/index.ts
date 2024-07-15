@@ -12,7 +12,10 @@ import {
   pushMessage4Task,
   getCollectionSubList,
   getCollectionSubAuth,
-  getCollectionSubFileStream
+  getCollectionSubFileStream,
+  getCollectionSubInsideFile,
+  getCollectionSubDepFileStream,
+  getCollectionSubDepInsideFile
 } from "./api";
 export const freelogApp: any = {
   getExhibitListById,
@@ -28,5 +31,8 @@ export const freelogApp: any = {
   pushMessage4Task,
   getCollectionSubList,
   getCollectionSubAuth,
-  getCollectionSubFileStream
+  getCollectionSubFileStream,
+  getCollectionSubInsideFile,
+  getCollectionSubDepFileStream,
+  getCollectionSubDepInsideFile
 };

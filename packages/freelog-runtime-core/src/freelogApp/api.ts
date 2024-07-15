@@ -281,16 +281,86 @@ export async function getCollectionSubAuth(
   })(exhibit.getCollectionSubListAuthById, [baseInfo.nodeId, exhibitId], query);
 }
 
-
 export async function getCollectionSubFileStream(
   name: string,
   exhibitId: string | number,
-  itemId: string | number,
-  query: any
+  query: {
+    itemId: string | number;
+    returnUrl: boolean;
+  }
 ) {
   return frequest.bind({
     name,
     isAuth: true,
     exhibitId: exhibitId,
-  })(exhibit.getCollectionSubById, [exhibitId, itemId], query);
+  })(
+    exhibit.getCollectionSubById,
+    [exhibitId, query.itemId],
+    null,
+    query.returnUrl
+  );
+}
+
+export async function getCollectionSubInsideFile(
+  name: string,
+  exhibitId: string | number,
+  query: {
+    itemId: string | number;
+    subFilePath: string | number;
+    returnUrl: boolean;
+  }
+) {
+  return frequest.bind({
+    name,
+    isAuth: true,
+    exhibitId: exhibitId,
+  })(
+    exhibit.getCollectionSubInsideById,
+    [exhibitId, query.itemId, query.subFilePath],
+    null,
+    query.returnUrl
+  );
+}
+
+export async function getCollectionSubDepFileStream(
+  name: string,
+  exhibitId: string | number,
+  query: {
+    itemId: string | number;
+    nid: string | number;
+    returnUrl: boolean;
+  }
+) {
+  return frequest.bind({
+    name,
+    isAuth: true,
+    exhibitId: exhibitId,
+  })(
+    exhibit.getCollectionSubDepById,
+    [exhibitId, query.itemId, query.nid],
+    null,
+    query.returnUrl
+  );
+}
+
+export async function getCollectionSubDepInsideFile(
+  name: string,
+  exhibitId: string | number,
+  query: {
+    itemId: string | number;
+    nid: string | number;
+    subFilePath: string | number;
+    returnUrl: boolean;
+  }
+) {
+  return frequest.bind({
+    name,
+    isAuth: true,
+    exhibitId: exhibitId,
+  })(
+    exhibit.getCollectionSubDepInsideById,
+    [exhibitId, query.itemId, query.nid, query.subFilePath],
+    null,
+    query.returnUrl
+  );
 }
