@@ -14,15 +14,6 @@ export async function getExhibitListById(
   }
 ): Promise<any> {
   options = options || {};
-  if (baseInfo.isTest)
-    //@ts-ignore
-    return frequest.bind({ name })(
-      exhibit.getTestExhibitListById,
-      [baseInfo.nodeId],
-      {
-        ...options,
-      }
-    );
   //@ts-ignore
   return frequest.bind({ name })(
     exhibit.getExhibitListById,
@@ -51,14 +42,6 @@ export async function getExhibitListByPaging(
   }
 ): Promise<any> {
   options = options || {};
-  if (baseInfo.isTest)
-    return frequest.bind({ name })(
-      exhibit.getTestExhibitByPaging,
-      [baseInfo.nodeId],
-      {
-        ...options,
-      }
-    );
   return frequest.bind({ name })(
     exhibit.getExhibitListByPaging,
     [baseInfo.nodeId],
@@ -85,13 +68,6 @@ export async function getExhibitInfo(
   }
 ) {
   options = options || {};
-  if (baseInfo.isTest)
-    return frequest(
-      exhibit.getTestExhibitDetail,
-      [baseInfo.nodeId, exhibitId],
-      options
-    );
-
   return frequest(
     exhibit.getExhibitDetail,
     [baseInfo.nodeId, exhibitId],
@@ -105,15 +81,6 @@ export async function getExhibitDepInfo(
     articleNids: string; // 展品依赖的作品NID,多个用逗号分隔
   }
 ) {
-  if (baseInfo.isTest)
-    return frequest(
-      exhibit.getTestExhibitDepInfo,
-      [baseInfo.nodeId, exhibitId],
-      {
-        articleNids: query.articleNids,
-      }
-    );
-
   return frequest(exhibit.getExhibitDepInfo, [baseInfo.nodeId, exhibitId], {
     articleNids: query.articleNids,
   });
@@ -127,12 +94,6 @@ export async function getExhibitSignCount(name: string, exhibitIds: string) {
 }
 // 获取展示是否授权链正常
 export async function getExhibitAvailable(name: string, exhibitIds: string) {
-  if (baseInfo.isTest) {
-    return frequest(exhibit.getTestExhibitAuthStatus, [baseInfo.nodeId], {
-      authType: 3,
-      exhibitIds,
-    });
-  }
   // @ts-ignore
   return frequest(exhibit.getExhibitAuthStatus, [baseInfo.nodeId], {
     authType: 3,
@@ -140,13 +101,6 @@ export async function getExhibitAvailable(name: string, exhibitIds: string) {
   });
 }
 export async function getExhibitAuthStatus(name: string, exhibitIds: string) {
-  if (baseInfo.isTest) {
-    return frequest(exhibit.getTestExhibitAuthStatus, [baseInfo.nodeId], {
-      authType: baseInfo.isTest ? 3 : 4,
-      exhibitIds,
-    });
-  }
-
   return frequest(exhibit.getExhibitAuthStatus, [baseInfo.nodeId], {
     authType: baseInfo.isTest ? 3 : 4,
     exhibitIds,
@@ -172,18 +126,7 @@ function getByExhibitId(
   if (subArticleIdOrName) {
     form.subArticleIdOrName = subArticleIdOrName;
   }
-  if (baseInfo.isTest)
-    return frequest.bind({
-      name,
-      isAuth: true,
-      exhibitId: parentNid ? "" : exhibitId,
-    })(
-      exhibit.getTestExhibitAuthById,
-      [baseInfo.nodeId, exhibitId, type],
-      form,
-      returnUrl,
-      config
-    );
+  
   return frequest.bind({
     name,
     isAuth: true,
@@ -211,7 +154,7 @@ export async function getExhibitFileStream(
     isAuth: true,
     exhibitId: exhibitId,
   })(
-    baseInfo.isTest ? exhibit.getTestExhibitById : exhibit.getExhibitById,
+    exhibit.getExhibitById,
     [exhibitId],
     options?.subFilePath ? { subFilePath: options.subFilePath } : null,
     options?.returnUrl,
@@ -234,7 +177,7 @@ export async function getExhibitDepFileStream(
     isAuth: true,
     exhibitId: exhibitId,
   })(
-    baseInfo.isTest ? exhibit.getTestExhibitById : exhibit.getExhibitById,
+    exhibit.getExhibitById,
     [exhibitId],
     { parentNid: query.parentNid, subArticleIdOrName: query.subArticleId },
     query.returnUrl,
@@ -265,9 +208,18 @@ export async function getCollectionSubList(
 ) {
   return frequest.bind({
     name,
-    isAuth: true,
     exhibitId: exhibitId,
   })(exhibit.getCollectionSubListById, [baseInfo.nodeId, exhibitId], query);
+}
+export async function getCollectionSubInfo(
+  name: string,
+  exhibitId: string | number,
+  query: any
+) {
+  return frequest.bind({
+    name,
+    exhibitId: exhibitId,
+  })(exhibit.getCollectionSubInfoById, [baseInfo.nodeId, exhibitId, query.itemId], null);
 }
 export async function getCollectionSubAuth(
   name: string,
@@ -276,7 +228,6 @@ export async function getCollectionSubAuth(
 ) {
   return frequest.bind({
     name,
-    isAuth: true,
     exhibitId: exhibitId,
   })(exhibit.getCollectionSubListAuthById, [baseInfo.nodeId, exhibitId], query);
 }
@@ -331,7 +282,6 @@ export async function getCollectionSubDepList(
 ) {
   return frequest.bind({
     name,
-    isAuth: true,
     exhibitId: exhibitId,
   })(
     exhibit.getCollectionSubDepById,

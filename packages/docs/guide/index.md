@@ -489,12 +489,32 @@ const res = await freelogApp.getCollectionSubList(exhibitId, query:{
  });
 ```
 
+### 获取集合内子作品详情
+
+```ts
+const res = await freelogApp.getCollectionSubInfo(exhibitId, query:{
+    itemId: "a2b0784da2b0784d",
+ });
+ 
+ **参数说明**
+  exhibitId: string, // 集合展品id
+  {
+    itemId:  string, // 子作品id
+  }
+```
+
 ### 获取集合内子作品授权结果
 
 ```ts
 const res = await freelogApp.getCollectionSubAuth(exhibitId, query:{
     itemIds: "a2b0784da2b0784d,a2b0784da2b0784d", // 子作品id, 多个用英文逗号分隔
  });
+
+ **参数说明**
+  exhibitId: string, // 集合展品id
+  {
+    itemIds:  string, // 子作品id,多个用“,”隔开
+  }
 ```
 
 ### 获取集合内子作品文件
