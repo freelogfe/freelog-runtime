@@ -126,7 +126,7 @@ function getByExhibitId(
   if (subArticleIdOrName) {
     form.subArticleIdOrName = subArticleIdOrName;
   }
-  
+
   return frequest.bind({
     name,
     isAuth: true,
@@ -219,7 +219,11 @@ export async function getCollectionSubInfo(
   return frequest.bind({
     name,
     exhibitId: exhibitId,
-  })(exhibit.getCollectionSubInfoById, [baseInfo.nodeId, exhibitId, query.itemId], null);
+  })(
+    exhibit.getCollectionSubInfoById,
+    [baseInfo.nodeId, exhibitId, query.itemId],
+    null
+  );
 }
 export async function getCollectionSubAuth(
   name: string,
@@ -238,6 +242,7 @@ export async function getCollectionSubFileStream(
   query: {
     itemId: string | number;
     returnUrl: boolean;
+    subFilePath?: string; // 作品内部子文件 路径
   }
 ) {
   return frequest.bind({
@@ -245,33 +250,37 @@ export async function getCollectionSubFileStream(
     isAuth: true,
     exhibitId: exhibitId,
   })(
-    exhibit.getCollectionSubById,
-    [exhibitId, query.itemId],
+    query.subFilePath
+      ? exhibit.getCollectionSubInsideById
+      : exhibit.getCollectionSubById,
+    query.subFilePath
+      ? [exhibitId, query.itemId, query.subFilePath]
+      : [exhibitId, query.itemId],
     null,
     query.returnUrl
   );
 }
 
-export async function getCollectionSubInsideFile(
-  name: string,
-  exhibitId: string | number,
-  query: {
-    itemId: string | number;
-    subFilePath: string | number;
-    returnUrl: boolean;
-  }
-) {
-  return frequest.bind({
-    name,
-    isAuth: true,
-    exhibitId: exhibitId,
-  })(
-    exhibit.getCollectionSubInsideById,
-    [exhibitId, query.itemId, query.subFilePath],
-    null,
-    query.returnUrl
-  );
-}
+// export async function getCollectionSubInsideFile(
+//   name: string,
+//   exhibitId: string | number,
+//   query: {
+//     itemId: string | number;
+//     subFilePath: string | number;
+//     returnUrl: boolean;
+//   }
+// ) {
+//   return frequest.bind({
+//     name,
+//     isAuth: true,
+//     exhibitId: exhibitId,
+//   })(
+//     exhibit.getCollectionSubInsideById,
+//     [exhibitId, query.itemId, query.subFilePath],
+//     null,
+//     query.returnUrl
+//   );
+// }
 export async function getCollectionSubDepList(
   name: string,
   exhibitId: string | number,

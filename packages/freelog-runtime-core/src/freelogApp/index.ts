@@ -14,7 +14,6 @@ import {
   getCollectionSubInfo,
   getCollectionSubAuth,
   getCollectionSubFileStream,
-  getCollectionSubInsideFile,
   getCollectionSubDepFileStream,
   getCollectionSubDepInsideFile,
   getCollectionSubDepList
@@ -35,7 +34,6 @@ export const freelogApp: any = {
   getCollectionSubInfo,
   getCollectionSubAuth,
   getCollectionSubFileStream,
-  getCollectionSubInsideFile,
   getCollectionSubDepFileStream,
   getCollectionSubDepInsideFile,
   getCollectionSubDepList
