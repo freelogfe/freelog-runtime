@@ -50,6 +50,21 @@ export async function getExhibitListByPaging(
     }
   );
 }
+
+export async function getExhibitRecommend(
+  name: string,
+  exhibitId: string,
+  query: {
+    recommendNorm: string; // 推荐指标多个用逗号分隔,优先级也按照实际顺序来, 具体指标为 resourceType: 相同资源类型 tag:相同标签(部分) latestCreate:最新创建的
+    size?: number; // 推荐数量,默认是10, 最大100
+  }
+) {
+  return frequest(
+    exhibit.getExhibitRecommend,
+    [baseInfo.nodeId, exhibitId],
+    query
+  );
+}
 export async function getSignStatistics(name: string, query?: any) {
   return frequest(contract.getSignStatistics, "", {
     signUserIdentityType: 2,

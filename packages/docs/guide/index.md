@@ -318,6 +318,22 @@ const res = await freelogApp.getExhibitListByPaging({
 });
 ```
 
+**推荐列表**
+
+```ts
+const res = await freelogApp.getExhibitRecommend(exhibitId, {
+  recommendNorm: "resourceType",
+  size: 20,
+});
+
+**参数说明**
+  exhibitId: string, // 展品ID,推荐是根据此展品的信息进行推荐的
+  query:{
+    recommendNorm: string, // 推荐指标多个用逗号分隔,优先级也按照实际顺序来, 具体指标为 resourceType: 相同资源类型 tag:相同标签(部分) latestCreate:最新创建的
+    size: 20, // 推荐数量,默认是10, 最大100
+  }
+```
+
 [查看 getExhibitListByPaging 详情](/api/#getexhibitlistbypaging)
 
 **查找展品**

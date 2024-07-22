@@ -6,6 +6,7 @@ export type Exhibit = {
   getExhibitDetail: any;
   getExhibitListById: any;
   getExhibitListByPaging: any;
+  getExhibitRecommend: any;
   getCollectionSubListById: any;
   getCollectionSubListAuthById: any;
   getCollectionSubById: any;
@@ -64,6 +65,10 @@ const exhibit: Exhibit = {
       isTranslate: "int",
       tagQueryType: "int",
     },
+  },
+  getExhibitRecommend: {
+    url: `exhibits/${placeHolder}/${placeHolder}/recommend`,
+    method: "GET",
   },
   getCollectionSubListById: {
     url: `exhibits/${placeHolder}/${placeHolder}/items`,
