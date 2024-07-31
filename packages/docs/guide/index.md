@@ -514,6 +514,26 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
   }
 ```
 
+### 获取多个集合内子作品列表
+
+```ts
+const res = await freelogApp.getCollectionsSubList(exhibitIds, {
+  sortType: 1, 
+  skip: 0,
+  limit: 10,
+  isShowDetailInfo: 0, 
+});
+
+ **参数说明**
+  exhibitIds: string, // 多个集合展品id，使用逗号隔开
+  {
+    sortType: 1, // 排序方式: 1:升序 -1:降序
+    skip: 0,
+    limit: 10,
+    isShowDetailInfo: 0, // 是否加载单品挂载的作品详情 0:不加载 1:加载
+  }
+```
+
 ### 获取集合内子作品详情
 
 ```ts

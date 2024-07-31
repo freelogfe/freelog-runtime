@@ -226,6 +226,18 @@ export async function getCollectionSubList(
     exhibitId: exhibitId,
   })(exhibit.getCollectionSubListById, [baseInfo.nodeId, exhibitId], query);
 }
+export async function getCollectionsSubList(
+  name: string,
+  exhibitIds: string,
+  query: any
+) {
+  return frequest.bind({
+    name,
+  })(exhibit.getCollectionSubListByIds, [baseInfo.nodeId], {
+    ...query,
+    exhibitIds,
+  });
+}
 export async function getCollectionSubInfo(
   name: string,
   exhibitId: string | number,

@@ -8,6 +8,7 @@ export type Exhibit = {
   getExhibitListByPaging: any;
   getExhibitRecommend: any;
   getCollectionSubListById: any;
+  getCollectionSubListByIds: any;
   getCollectionSubListAuthById: any;
   getCollectionSubById: any;
   getCollectionSubInfoById:any;
@@ -76,6 +77,18 @@ const exhibit: Exhibit = {
     dataModel: {
       nodeId: "string",
       exhibitId: "string",
+      sortType: "string",
+      skip: "int",
+      limit: "int",
+      isShowDetailInfo: "int",
+    },
+  },
+  getCollectionSubListByIds: {
+    url: `exhibits/${placeHolder}/collections/items/list`,
+    method: "GET",
+    dataModel: {
+      nodeId: "string",
+      exhibitIds: "string",
       sortType: "string",
       skip: "int",
       limit: "int",
