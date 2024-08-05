@@ -1738,6 +1738,31 @@ const res = await freelogApp.getSignStatistics(query)
 }
 ```
 
+<!-- ## 集合
+
+### getCollectionSubList
+
+**用途：获取集合类型展品的子作品分页列表**
+
+```ts
+**参数说明**
+  exhibitId: string, // 集合展品id
+  {
+    sortType: 1, // 排序方式: 1:升序 -1:降序
+    skip: 0,
+    limit: 10,
+    isShowDetailInfo: 0, // 是否加载单品挂载的作品详情 0:不加载 1:加载
+  }
+
+**用法**
+const res = await freelogApp.getCollectionSubList(exhibitId, {
+  sortType: 1,
+  skip: 0,
+  limit: 10,
+  isShowDetailInfo: 0,
+});
+``` -->
+
 ## 授权处理相关
 
 ### callAuth
