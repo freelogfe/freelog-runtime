@@ -333,6 +333,7 @@ export async function getCollectionSubDepFileStream(
     itemId: string | number;
     nid: string | number;
     returnUrl: boolean;
+    subFilePath?: string;
   }
 ) {
   return frequest.bind({
@@ -340,29 +341,10 @@ export async function getCollectionSubDepFileStream(
     isAuth: true,
     exhibitId: exhibitId,
   })(
-    exhibit.getCollectionSubDepById,
-    [exhibitId, query.itemId, query.nid],
-    null,
-    query.returnUrl
-  );
-}
-
-export async function getCollectionSubDepInsideFile(
-  name: string,
-  exhibitId: string | number,
-  query: {
-    itemId: string | number;
-    nid: string | number;
-    subFilePath: string | number;
-    returnUrl: boolean;
-  }
-) {
-  return frequest.bind({
-    name,
-    isAuth: true,
-    exhibitId: exhibitId,
-  })(
-    exhibit.getCollectionSubDepInsideById,
+    query.subFilePath
+      ? exhibit.getCollectionSubDepInsideById
+      : exhibit.getCollectionSubDepById,
+    // @ts-ignore
     [exhibitId, query.itemId, query.nid, query.subFilePath],
     null,
     query.returnUrl

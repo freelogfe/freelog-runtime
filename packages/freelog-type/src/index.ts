@@ -12,12 +12,17 @@ import {
   GetExhibitAvailableResult,
   GetExhibitDepInfoResult,
   GetSignStatisticsResult,
+  GetExhibitRecommendResult,
+  GetCollectionSubListResult,
+  GetCollectionSubInfoResult,
+  GetCollectionSubAuthResult,
+  GetCollectionSubDepListResult,
   AddAuthResult,
 } from "./result";
 import { ExhibitDependencyNodeInfo } from "./exhibit";
 export * from "./result";
 export * from "./exhibit";
-
+export * from "./collection";
 export let widgetApi: WidgetApi = {} as WidgetApi;
 export let freelogApp: FreelogApp = {} as FreelogApp;
 export const initFreelogApp = () => {
@@ -43,7 +48,7 @@ export interface WidgetApi {
 }
 export interface FreelogApp {
   nodeInfo: NodeInfo;
-  getStaticPath: (path: string)=> string;
+  getStaticPath: (path: string) => string;
   // devData: PlainObject;
   getCurrentUser: () => FreelogUserInfo;
   mountArticleWidget: (
@@ -61,6 +66,46 @@ export interface FreelogApp {
     exhibitIds: string;
     isLoadVersionProperty?: 0 | 1;
   }) => Promise<GetExhibitListByIdResult>;
+  getExhibitRecommend: (
+    exhibitId: string,
+    query?: {
+      recommendNorm: string;
+      size: number;
+    }
+  ) => Promise<GetExhibitRecommendResult>;
+  getCollectionSubList: (
+    exhibitId: string,
+    query?: {
+      /**
+       * 排序方式: 1:升序 -1:降序
+       */
+      sortType: number;
+      skip: number;
+      limit: number;
+      /**
+       * 是否加载单品挂载的作品详情 0:不加载 1:加载
+       */
+      isShowDetailInfo: number;
+    }
+  ) => Promise<GetCollectionSubListResult>;
+  getCollectionSubInfo: (
+    exhibitId: string,
+    query: {
+      /**
+       * 子作品id
+       */
+      itemId: string;
+    }
+  ) => Promise<GetCollectionSubInfoResult>;
+  getCollectionSubAuth: (
+    exhibitId: string,
+    query: {
+      /**
+       * 子作品id,多个用“,”隔开
+       */
+      itemIds: string;
+    }
+  ) => Promise<GetCollectionSubAuthResult>;
   getExhibitListByPaging: (options?: {
     /**
      * 跳过的数量.默认为0.
@@ -134,6 +179,29 @@ export interface FreelogApp {
       /**
        * 漫画中的图片等子文件的路径
        */
+      subFilePath?: string;
+    }
+  ) => Promise<any | string>;
+  getCollectionSubDepList: (
+    exhibitId: string,
+    query: {
+      itemId: string; 
+    }
+  ) => Promise<GetCollectionSubDepListResult>;
+  getCollectionSubFileStream: (
+    exhibitId: string,
+    query: {
+      itemId: string;
+      returnUrl?: boolean;
+      subFilePath?: string;
+    }
+  ) => Promise<any | string>;
+  getCollectionSubDepFileStream: (
+    exhibitId: string,
+    query: {
+      itemId: string;
+      nid:  string, // 依赖的链路id
+      returnUrl?: boolean;
       subFilePath?: string;
     }
   ) => Promise<any | string>;

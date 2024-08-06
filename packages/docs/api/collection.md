@@ -446,9 +446,9 @@ const res = await freelogApp.getCollectionSubDepList(exhibitId, {
 }
 ```
 
-## getCollectionSubDepInsideFile
+## getCollectionSubDepFileStream
 
-**用途：获取集合类型展品的子作品的依赖的子文件**
+**用途：获取集合类型展品的子作品的依赖文件或依赖的子文件**
 
 ```ts
 **参数说明**
@@ -456,12 +456,12 @@ const res = await freelogApp.getCollectionSubDepList(exhibitId, {
   {
     itemId:  string, // 子作品id
     nid:  string, // 依赖的链路id
-    subFilePath:  string, // 子作品的依赖内部的文件路径
+    subFilePath?:  string, // 可选，子作品的依赖内部的文件路径
     returnUrl?: boolean // 可选，默认false，是否只返回url， 例如img标签图片只需要url
   }
 
 **用法**
-const res = await freelogApp.getCollectionSubDepInsideFile(exhibitId,, {
+const res = await freelogApp.getCollectionSubDepFileStream(exhibitId,, {
   itemId,
   nid,
   subFilePath
