@@ -99,7 +99,6 @@ export async function mountExhibitWidget(
   }
   isTheme && (widget_entry = "");
 
-
   let entry = "";
   let widgetRenderName = "";
   if (isTheme) {
@@ -116,7 +115,6 @@ export async function mountExhibitWidget(
     entry = devData.params.dev;
     firstDev = true;
   }
-  entry = widget_entry || entry;
   entry &&
     console.warn(
       "you are using widget entry " +
@@ -127,8 +125,12 @@ export async function mountExhibitWidget(
   let fentry = "";
   fentry = await getExhibitFileStream(name, exhibitId, {
     returnUrl: true,
+    subFilePath: "/"
   });
-  fentry = fentry + `?subFilePath=`;
+  console.log(fentry)
+  fentry = fentry.replace(/\/$/, '').replace(/\/$/, '') ; // + "/index.html"; // `?subFilePath=`;
+  console.log(fentry)
+  entry = widget_entry || entry || fentry;
   const widgetConfig = {
     container,
     name: widgetRenderName, //id
@@ -145,6 +147,7 @@ export async function mountExhibitWidget(
     isUI: false,
     props: {},
   };
+  console.log(renderWidgetOptions);
   renderWidgetOptions = options.renderWidgetOptions
     ? {
         ...options.renderWidgetOptions,
@@ -199,14 +202,14 @@ export async function mountArticleWidget(
   if (devData.type === DEV_TYPE_REPLACE) {
     entry = devData.params[widgetRenderName + "-freelog"] || "";
   }
-  entry = widget_entry || entry;
   let fentry = "";
   fentry = await getExhibitDepFileStream(name, topExhibitId, {
-    parentNid: parentNid,
-    subArticleId: articleId,
+    nid: nid,
     returnUrl: true,
+    subFilePath: "/"
   });
-  fentry = fentry + `&subFilePath=`;
+  fentry = fentry.replace(/\/\/$/, '/').replace(/\/$/, '') ; //  + "/index.html"; // `&subFilePath=`;
+  entry = widget_entry || entry || fentry;
   const widgetConfig = {
     container,
     name: widgetRenderName, //id
@@ -257,7 +260,7 @@ async function mountApp(
     ...renderWidgetOptions,
     name: widgetRenderName,
     // TODO "https://file.freelog.com" 要定义一个常量来替换
-    url: entry || "https://file.freelog.com", // widgetConfig.entry,
+    url: entry , // widgetConfig.entry,
     container: container,
     data: {
       ...(renderWidgetOptions.data ? renderWidgetOptions.data : {}),
@@ -312,7 +315,7 @@ async function mountApp(
     addDataListener,
     removeDataListener,
     clearDataListener,
-    forceSetData
+    forceSetData,
   };
   addWidget(widgetRenderName, widgetControl);
   name && addChildWidget(name, widgetControl);

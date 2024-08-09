@@ -154,49 +154,94 @@ function getByExhibitId(
     config
   );
 }
+// export async function getExhibitFileStream(
+//   name: string,
+//   exhibitId: string | number,
+//   options?: {
+//     returnUrl?: boolean;
+//     config?: any;
+//     subFilePath?: string; // 主题或插件的压缩包内部子作品,需要带相对路径
+//   }
+// ) {
+//   options = options || {};
+//   return frequest.bind({
+//     name,
+//     isAuth: true,
+//     exhibitId: exhibitId,
+//   })(
+//     exhibit.getExhibitById,
+//     [exhibitId],
+//     options?.subFilePath ? { subFilePath: options.subFilePath } : null,
+//     options?.returnUrl,
+//     options?.config
+//   );
+// }
+// // 子依赖
+// export async function getExhibitDepFileStream(
+//   name: string,
+//   exhibitId: string | number,
+//   query: {
+//     parentNid: string; // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
+//     subArticleId: string; // 子依赖的作品ID
+//     returnUrl?: boolean;
+//     config?: any;
+//   }
+// ) {
+//   return frequest.bind({
+//     name: name,
+//     isAuth: true,
+//     exhibitId: exhibitId,
+//   })(
+//     exhibit.getExhibitById,
+//     [exhibitId],
+//     { parentNid: query.parentNid, subArticleIdOrName: query.subArticleId },
+//     query.returnUrl,
+//     query.config
+//   );
+// }
 export async function getExhibitFileStream(
   name: string,
   exhibitId: string | number,
-  options?: {
+  query: {
     returnUrl?: boolean;
-    config?: any;
-    subFilePath?: string; // 主题或插件的压缩包内部子作品,需要带相对路径
+    subFilePath?: string; // 作品内部子文件 路径
   }
 ) {
-  options = options || {};
   return frequest.bind({
     name,
     isAuth: true,
     exhibitId: exhibitId,
   })(
-    exhibit.getExhibitById,
-    [exhibitId],
-    options?.subFilePath ? { subFilePath: options.subFilePath } : null,
-    options?.returnUrl,
-    options?.config
+    query.subFilePath
+      ? exhibit.getExhibitInsideById
+      : exhibit.getExhibitById,
+    query.subFilePath ? [exhibitId, query.subFilePath] : [exhibitId],
+    null,
+    query.returnUrl
   );
 }
-// 子依赖
+ 
 export async function getExhibitDepFileStream(
   name: string,
   exhibitId: string | number,
   query: {
-    parentNid: string; // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
-    subArticleId: string; // 子依赖的作品ID
+    nid: string | number;
     returnUrl?: boolean;
-    config?: any;
+    subFilePath?: string;
   }
 ) {
   return frequest.bind({
-    name: name,
+    name,
     isAuth: true,
     exhibitId: exhibitId,
   })(
-    exhibit.getExhibitById,
-    [exhibitId],
-    { parentNid: query.parentNid, subArticleIdOrName: query.subArticleId },
-    query.returnUrl,
-    query.config
+    query.subFilePath
+      ? exhibit.getExhibitDepInsideById
+      : exhibit.getExhibitDepById,
+    // @ts-ignore
+    [exhibitId, query.nid, query.subFilePath],
+    null,
+    query.returnUrl
   );
 }
 export async function getExhibitResultByAuth(
@@ -268,7 +313,7 @@ export async function getCollectionSubFileStream(
   exhibitId: string | number,
   query: {
     itemId: string | number;
-    returnUrl: boolean;
+    returnUrl?: boolean;
     subFilePath?: string; // 作品内部子文件 路径
   }
 ) {
@@ -288,32 +333,12 @@ export async function getCollectionSubFileStream(
   );
 }
 
-// export async function getCollectionSubInsideFile(
-//   name: string,
-//   exhibitId: string | number,
-//   query: {
-//     itemId: string | number;
-//     subFilePath: string | number;
-//     returnUrl: boolean;
-//   }
-// ) {
-//   return frequest.bind({
-//     name,
-//     isAuth: true,
-//     exhibitId: exhibitId,
-//   })(
-//     exhibit.getCollectionSubInsideById,
-//     [exhibitId, query.itemId, query.subFilePath],
-//     null,
-//     query.returnUrl
-//   );
-// }
 export async function getCollectionSubDepList(
   name: string,
   exhibitId: string | number,
   query: {
     itemId: string | number;
-    returnUrl: boolean;
+    returnUrl?: boolean;
   }
 ) {
   return frequest.bind({
@@ -332,7 +357,7 @@ export async function getCollectionSubDepFileStream(
   query: {
     itemId: string | number;
     nid: string | number;
-    returnUrl: boolean;
+    returnUrl?: boolean;
     subFilePath?: string;
   }
 ) {
