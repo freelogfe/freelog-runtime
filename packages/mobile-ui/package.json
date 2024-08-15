@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@micro-zoe/micro-app": "1.0.0-rc.6",
+    "@micro-zoe/micro-app": "workspace:^",
     "antd-mobile": "^5.34.0",
     "antd-mobile-icons": "^0.3.0",
     "copy-to-clipboard": "^3.3.2",
