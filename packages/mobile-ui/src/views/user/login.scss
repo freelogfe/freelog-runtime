@@ -1,95 +1,97 @@
-.user-login {
-    .eye {
-        flex: none;
-        position: absolute;
-        right: 12px;
-        bottom: 26px;
-        margin-left: 8px;
-        padding: 4px;
-        cursor: pointer;
-        svg {
-            display: block;
-            font-size: var(--adm-font-size-7);
+#ui-root {
+    .user-login {
+        .eye {
+            flex: none;
+            position: absolute;
+            right: 12px;
+            bottom: 26px;
+            margin-left: 8px;
+            padding: 4px;
+            cursor: pointer;
+            svg {
+                display: block;
+                font-size: var(--adm-font-size-7);
+            }
         }
-    }
-    .login-remember {
-        font-size: 14px;
-        font-weight: 400;
-        color: #666666;
-    }
-    .adm-spin-loading {
-        width: 18px;
-        margin-right: 5px;
-    }
-
-    .login-title {
-        font-size: 18px;
-        font-family:
-            PingFangSC-Regular,
-            PingFang SC;
-        font-weight: 400;
-        color: #666666;
-    }
-
-    input {
-        font-size: 16px !important;
-    }
-
-    .adm-button {
-        height: 48px !important;
-        font-size: 16px;
-    }
-
-    .logo {
-        color: #2c2c2c;
-        font-size: 52px;
-    }
-
-    .login-back {
-        width: 40px;
-        height: 40px;
-        position: absolute;
-        right: 6px;
-        top: 20px;
-        font-size: 12px;
-        z-index: 13333;
-    }
-
-    .login-container {
-        width: calc(100% - 60px);
-
-        .registry {
-            background-color: #edf6ff;
-
-            color: #2784ff;
+        .login-remember {
+            font-size: 14px;
+            font-weight: 400;
+            color: #666666;
+        }
+        .adm-spin-loading {
+            width: 18px;
+            margin-right: 5px;
         }
 
-        .am-button-active {
-            background-color: #b3cde7;
-        }
-    }
-
-    .login-forgot {
-        font-size: 14px;
-        font-family:
-            PingFangSC-Regular,
-            PingFang SC;
-        font-weight: 400;
-        color: #2784ff;
-        justify-self: end;
-
-        button {
-            font-size: 14px !important;
+        .login-title {
+            font-size: 18px;
             font-family:
                 PingFangSC-Regular,
                 PingFang SC;
-            font-weight: 400 !important;
-            color: #2784ff;
-            border: 0 !important;
+            font-weight: 400;
+            color: #666666;
+        }
 
-            &::before {
-                padding: 0 !important;
-                border: none !important;
+        input {
+            font-size: 16px !important;
+        }
+
+        .adm-button {
+            height: 48px !important;
+            font-size: 16px;
+        }
+
+        .logo {
+            color: #2c2c2c;
+            font-size: 52px;
+        }
+
+        .login-back {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            right: 6px;
+            top: 20px;
+            font-size: 12px;
+            z-index: 13333;
+        }
+
+        .login-container {
+            width: calc(100% - 60px);
+
+            .registry {
+                background-color: #edf6ff;
+
+                color: #2784ff;
+            }
+
+            .am-button-active {
+                background-color: #b3cde7;
+            }
+        }
+
+        .login-forgot {
+            font-size: 14px;
+            font-family:
+                PingFangSC-Regular,
+                PingFang SC;
+            font-weight: 400;
+            color: #2784ff;
+            justify-self: end;
+
+            button {
+                font-size: 14px !important;
+                font-family:
+                    PingFangSC-Regular,
+                    PingFang SC;
+                font-weight: 400 !important;
+                color: #2784ff;
+                border: 0 !important;
+
+                &::before {
+                    padding: 0 !important;
+                    border: none !important;
+                }
             }
         }
     }

@@ -1,83 +1,144 @@
-.user-register {
-    .adm-spin-loading {
-        width: 18px;
-        margin-right: 5px;
-    }
+#ui-root {
+    .user-register {
+        .adm-spin-loading {
+            width: 18px;
+            margin-right: 5px;
+        }
 
-    input {
-        font-size: 16px !important;
-    }
-
-    .register-title {
-        font-size: 40px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
-        color: #222222;
-    }
-
-    .adm-button {
-        height: 48px !important;
-        font-size: 16px;
-    }
-
-    .logo {
-        color: #2c2c2c;
-        font-size: 52px;
-    }
-
-    .register-type {
         input {
-            width: 16px;
-            height: 16px;
+            font-size: 16px !important;
         }
 
-        label {
+        .register-title {
+            font-size: 40px;
+            font-family:
+                PingFangSC-Semibold,
+                PingFang SC;
+            font-weight: 600;
+            color: #222222;
+        }
+
+        .adm-button {
+            height: 48px !important;
             font-size: 16px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
-            color: #666666;
         }
 
-        .selected {
-            color: #2784FF;
-        }
-    }
-
-    .register-container {
-        width: calc(100% - 60px);
-
-        .error-tip {
-            font-size: 14px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
-            color: #EE4040;
+        .logo {
+            color: #2c2c2c;
+            font-size: 52px;
         }
 
-        .auth-code {
+        .register-type {
             input {
-                width: 100%;
+                width: 16px;
+                height: 16px;
+            }
+
+            label {
+                font-size: 16px;
+                font-family:
+                    PingFangSC-Regular,
+                    PingFang SC;
+                font-weight: 400;
+                color: #666666;
+            }
+
+            .selected {
+                color: #2784ff;
             }
         }
 
-        .registry {
-            background-color: #EDF6FF;
+        .register-container {
+            width: calc(100% - 60px);
 
-            color: #2784FF;
+            .error-tip {
+                font-size: 14px;
+                font-family:
+                    PingFangSC-Regular,
+                    PingFang SC;
+                font-weight: 400;
+                color: #ee4040;
+            }
+
+            .auth-code {
+                input {
+                    width: 100%;
+                }
+            }
+
+            .registry {
+                background-color: #edf6ff;
+
+                color: #2784ff;
+            }
+
+            .am-button-active {
+                background-color: #b3cde7;
+            }
         }
 
-        .am-button-active {
-            background-color: #b3cde7;
+        .register-bottom {
+            font-size: 14px;
+            font-family:
+                PingFangSC-Regular,
+                PingFang SC;
+            font-weight: 400;
+            color: #666666;
+
+            .am-button-active {
+                color: #b3cde7 !important;
+            }
+
+            button {
+                font-size: 14px !important;
+                font-family:
+                    PingFangSC-Regular,
+                    PingFang SC;
+                font-weight: 400 !important;
+                color: #2784ff;
+                padding: 0 !important;
+                border: 0 !important;
+
+                &::before {
+                    padding: 0 !important;
+                    border: none !important;
+                }
+            }
         }
     }
 
+    .register-success {
+        i {
+            font-size: 100px;
+            color: #44c28c;
+        }
 
+        .success {
+            font-size: 24px;
+            font-family:
+                PingFangSC-Regular,
+                PingFang SC;
+            font-weight: 400;
+            color: #000000;
+        }
 
-    .register-bottom {
-        font-size: 14px;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
-        color: #666666;
+        .count-back {
+            font-size: 14px;
+            font-family:
+                PingFangSC-Regular,
+                PingFang SC;
+            font-weight: 400;
+            color: #999999;
+        }
 
+        .back-login {
+            font-size: 14px;
+            font-family:
+                PingFangSC-Regular,
+                PingFang SC;
+            font-weight: 400;
+            color: #2784ff;
+        }
 
         .am-button-active {
             color: #b3cde7 !important;
@@ -85,9 +146,11 @@
 
         button {
             font-size: 14px !important;
-            font-family: PingFangSC-Regular, PingFang SC;
+            font-family:
+                PingFangSC-Regular,
+                PingFang SC;
             font-weight: 400 !important;
-            color: #2784FF;
+            color: #2784ff;
             padding: 0 !important;
             border: 0 !important;
 
@@ -95,56 +158,6 @@
                 padding: 0 !important;
                 border: none !important;
             }
-        }
-    }
-}
-
-
-
-
-.register-success {
-
-    i {
-        font-size: 100px;
-        color: #44C28C;
-    }
-
-    .success {
-        font-size: 24px;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
-        color: #000000;
-    }
-
-    .count-back {
-        font-size: 14px;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
-        color: #999999;
-    }
-
-    .back-login {
-        font-size: 14px;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
-        color: #2784FF;
-    }
-
-    .am-button-active {
-        color: #b3cde7 !important;
-    }
-
-    button {
-        font-size: 14px !important;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400 !important;
-        color: #2784FF;
-        padding: 0 !important;
-        border: 0 !important;
-
-        &::before {
-            padding: 0 !important;
-            border: none !important;
         }
     }
 }

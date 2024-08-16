@@ -1,11 +1,13 @@
-﻿.modal-tip {
-    .ant-modal-content {
-        background: #ffffff !important;
-        border-radius: 6px !important;
-        border: 1px solid #f0f0f0 !important;
-    }
+﻿#ui-root {
+    .modal-tip {
+        .ant-modal-content {
+            background: #ffffff !important;
+            border-radius: 6px !important;
+            border: 1px solid #f0f0f0 !important;
+        }
 
-    .iconfont {
-        font-size: 40px;
+        .iconfont {
+            font-size: 40px;
+        }
     }
 }

@@ -195,7 +195,7 @@ function getByExhibitId(
 //     exhibit.getExhibitById,
 //     [exhibitId],
 //     { parentNid: query.parentNid, subArticleIdOrName: query.subArticleId },
-//     query.returnUrl,
+//     query?.returnUrl,
 //     query.config
 //   );
 // }
@@ -212,12 +212,12 @@ export async function getExhibitFileStream(
     isAuth: true,
     exhibitId: exhibitId,
   })(
-    query.subFilePath
+    query?.subFilePath
       ? exhibit.getExhibitInsideById
       : exhibit.getExhibitById,
-    query.subFilePath ? [exhibitId, query.subFilePath] : [exhibitId],
+    query?.subFilePath ? [exhibitId, query?.subFilePath] : [exhibitId],
     null,
-    query.returnUrl
+    query?.returnUrl
   );
 }
  
@@ -235,13 +235,13 @@ export async function getExhibitDepFileStream(
     isAuth: true,
     exhibitId: exhibitId,
   })(
-    query.subFilePath
+    query?.subFilePath
       ? exhibit.getExhibitDepInsideById
       : exhibit.getExhibitDepById,
     // @ts-ignore
-    [exhibitId, query.nid, query.subFilePath],
+    [exhibitId, query.nid, query?.subFilePath],
     null,
-    query.returnUrl
+    query?.returnUrl
   );
 }
 export async function getExhibitResultByAuth(
@@ -322,14 +322,14 @@ export async function getCollectionSubFileStream(
     isAuth: true,
     exhibitId: exhibitId,
   })(
-    query.subFilePath
+    query?.subFilePath
       ? exhibit.getCollectionSubInsideById
       : exhibit.getCollectionSubById,
-    query.subFilePath
-      ? [exhibitId, query.itemId, query.subFilePath]
+    query?.subFilePath
+      ? [exhibitId, query.itemId, query?.subFilePath]
       : [exhibitId, query.itemId],
     null,
-    query.returnUrl
+    query?.returnUrl
   );
 }
 
@@ -348,7 +348,7 @@ export async function getCollectionSubDepList(
     exhibit.getCollectionSubDepById,
     [baseInfo.nodeId, exhibitId, query.itemId],
     null,
-    query.returnUrl
+    query?.returnUrl
   );
 }
 export async function getCollectionSubDepFileStream(
@@ -366,12 +366,12 @@ export async function getCollectionSubDepFileStream(
     isAuth: true,
     exhibitId: exhibitId,
   })(
-    query.subFilePath
+    query?.subFilePath
       ? exhibit.getCollectionSubDepInsideById
       : exhibit.getCollectionSubDepById,
     // @ts-ignore
-    [exhibitId, query.itemId, query.nid, query.subFilePath],
+    [exhibitId, query.itemId, query.nid, query?.subFilePath],
     null,
-    query.returnUrl
+    query?.returnUrl
   );
 }
