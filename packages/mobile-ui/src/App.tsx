@@ -136,22 +136,6 @@ function App() {
           container: document.getElementById(
             "freelog-pc-common-auth"
           ) as HTMLElement,
-          renderWidgetOptions: {
-            lifeCycles: {
-              beforemount: () => {
-                loadingClose();
-              },
-              mounted: () => {
-                freelogApp.status.themeMounted = true;
-              },
-            },
-
-            // iframe:
-            //   nodeInfo.themeInfo.versionInfo.exhibitProperty.bundleTool ===
-            //   "vite"
-            //     ? true
-            //     : false,
-          },
         });
         // window.vconsole = new VConsole()
         // if (devData.type !== DEV_FALSE && devData.config.vconsole) {

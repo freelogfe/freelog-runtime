@@ -115,16 +115,6 @@ function App() {
           container: document.getElementById(
             "freelog-pc-common-auth"
           ) as HTMLElement,
-          renderWidgetOptions: {
-            lifeCycles: {
-              beforemount: () => {
-                loadingClose();
-              },
-              mounted: () => {
-                freelogApp.status.themeMounted = true;
-              },
-            },
-          },
         });
         Object.freeze(freelogApp.nodeInfo);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
