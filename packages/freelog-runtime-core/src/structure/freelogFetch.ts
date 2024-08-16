@@ -38,6 +38,3 @@ function getEffectivePath (url: string): string {
 
   return `${origin}${pathname}/`.replace(/\/\/$/, '/')
 }
-const ab = createURL("/static/a.js", getEffectivePath("https://file.testfreelog.com/exhibits/66b43cbaffa0b0002f38586a/packages")).toString()
-console.log(2134234, ab)
-console.log(getEffectivePath("https://file.testfreelog.com/exhibits/66b43cbaffa0b0002f38586a/packages"))
