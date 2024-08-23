@@ -253,7 +253,7 @@ function App() {
     updateLock(false);
   }, [events]);
   let callBack: any[] = [];
-  let callLoginCallback: any = null;
+  const [callLoginCallback, setCallLoginCallback] = useState(null as any);
 
   // 0 成功  1 失败  2 用户取消
   function loginFinished(type: number, data?: any) {
@@ -269,6 +269,7 @@ function App() {
       });
       clearEvent();
     } else if (type === USER_CANCEL) {
+      callLoginCallback && callLoginCallback(type);
       if (callBack.length) {
         callBack.forEach((item: any) => {
           item && item(USER_CANCEL);
@@ -281,7 +282,6 @@ function App() {
       }
       callBack = [];
     }
-    callLoginCallback && callLoginCallback(type);
   }
 
   // 遍历顺序是否永远一致
@@ -357,14 +357,14 @@ function App() {
         outOfContent(data);
         break;
       case LOGIN:
-        callLoginCallback = data;
+        setCallLoginCallback(data);
         login();
         break;
       case CONTRACT:
         updateEvents();
         break;
       case LOGIN_OUT:
-        callLoginCallback = data;
+        setCallLoginCallback(data);
         longinOut();
         break;
       default:

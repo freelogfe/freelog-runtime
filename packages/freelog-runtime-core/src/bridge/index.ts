@@ -175,9 +175,12 @@ export function goLogin(name: string, callBack: any) {
   //   return "ui has been launched, can not callLogin";
   // }
   // resolve && onLogin("", resolve);
+  console.log("运行时goLogin调用打印,下面是回调函数：", callBack)
   if (typeof callBack !== "function") {
     callBack = null;
   }
+  console.log("运行时goLogin调用打印,下面是回调函数2：", callBack)
+
   UI && UI(LOGIN, callBack);
 }
 export function goLoginOut(name: string, callBack: any) {
