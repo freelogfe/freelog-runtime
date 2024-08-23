@@ -281,7 +281,7 @@ function App() {
       }
       callBack = [];
     }
-    callLoginCallback(type);
+    callLoginCallback && callLoginCallback(type);
   }
 
   // 遍历顺序是否永远一致
