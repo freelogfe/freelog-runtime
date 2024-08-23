@@ -76,7 +76,7 @@ export async function deleteUserData(name: string, key: string) {
   const nodeId = baseInfo.nodeId;
   const res = await _putUserData([nodeId], {
     removeFields: [dataKey],
-    appendOrReplaceObject: {}
+    appendOrReplaceObject: {},
   });
   if (res.data && res.data.ret == 0 && res.data.errCode == 0) {
     res.data.data = null;
@@ -101,11 +101,11 @@ export async function getUserData(name: string, key: string) {
 
 export function callLogin(name: string, resolve: Function) {
   if (!userInfo) {
-    goLogin(resolve);
+    goLogin(name, resolve);
   }
 }
-export function callLoginOut(name: string) {
+export function callLoginOut(name: string, resolve: Function) {
   if (userInfo) {
-    goLoginOut();
+    goLoginOut(name, resolve);
   }
 }

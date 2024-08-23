@@ -169,16 +169,22 @@ export function endEvent(eventId: string, type: number, data: any) {
   // }
 }
 
-export function goLogin(resolve: any) {
+export function goLogin(name: string, callBack: any) {
   // if (uiInited) {
   //   console.error("ui has been launched, can not callLogin");
   //   return "ui has been launched, can not callLogin";
   // }
-  resolve && onLogin("", resolve);
-  UI && UI(LOGIN);
+  // resolve && onLogin("", resolve);
+  if (typeof callBack !== "function") {
+    callBack = null;
+  }
+  UI && UI(LOGIN, callBack);
 }
-export function goLoginOut() {
-  UI && UI(LOGIN_OUT);
+export function goLoginOut(name: string, callBack: any) {
+  if (typeof callBack !== "function") {
+    callBack = null;
+  }
+  UI && UI(LOGIN_OUT, callBack);
 }
 const uiRoot = document.getElementById("ui-root");
 const widgetContainer = document.getElementById("freelog-plugin-container");

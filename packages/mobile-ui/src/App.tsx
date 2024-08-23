@@ -253,6 +253,8 @@ function App() {
     updateLock(false);
   }, [events]);
   let callBack: any[] = [];
+  let callLoginCallback: any = null;
+
   // 0 成功  1 失败  2 用户取消
   function loginFinished(type: number, data?: any) {
     setIsLogin(false);
@@ -272,13 +274,14 @@ function App() {
           item && item(USER_CANCEL);
         });
       }
-      if(isLoginFromAuth){
+      if (isLoginFromAuth) {
         lowerUI(true);
       } else {
         lowerUI();
       }
       callBack = [];
     }
+    callLoginCallback(type);
   }
 
   // 遍历顺序是否永远一致
@@ -354,12 +357,14 @@ function App() {
         outOfContent(data);
         break;
       case LOGIN:
+        callLoginCallback = data;
         login();
         break;
       case CONTRACT:
         updateEvents();
         break;
       case LOGIN_OUT:
+        callLoginCallback = data;
         longinOut();
         break;
       default:
