@@ -12,7 +12,7 @@ outline: deep
 **参数说明**
   {
     exhibitId：string, // 展品ID
-    itemId:string, // 集合子作品id
+    itemId?:string, // 集合子作品id,非子作品可省略
   }
   type: string  // 自定义分享类型，例如detail,content。规则：只允许包括下划线的任何单词字符  正则：[A-Za-z0-9_]
 
@@ -20,7 +20,7 @@ outline: deep
 freelogApp.getShareUrl(
   {
     exhibitId: "64a26ea41cbfe2002f9cb6e9",
-    itemId: "64a26ea41cbfe2002f9cb4c5",
+    itemId?: "64a26ea41cbfe2002f9cb4c5",
   },
   "detail"
 );
