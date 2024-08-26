@@ -51,6 +51,7 @@ const {
   reload,
   lowerUI,
   upperUI,
+  callLoginCallback,
 } = freelogAuth;
 const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
 const {
@@ -253,15 +254,15 @@ function App() {
     updateLock(false);
   }, [events]);
   let callBack: any[] = [];
-  const [callLoginCallback, setCallLoginCallback] = useState(null as any);
 
   // 0 成功  1 失败  2 用户取消
   function loginFinished(type: number, data?: any) {
     setIsLogin(false);
     setModalType(0);
+
     if (type === SUCCESS) {
       setUserInfo(data);
-      if (loginCallback.length === 0) {
+      if (loginCallback.length === 0 && callLoginCallback.length == 0) {
         reload();
       }
       loginCallback.forEach((func: any) => {
@@ -269,7 +270,6 @@ function App() {
       });
       clearEvent();
     } else if (type === USER_CANCEL) {
-      callLoginCallback && callLoginCallback(type);
       if (callBack.length) {
         callBack.forEach((item: any) => {
           item && item(USER_CANCEL);
@@ -281,6 +281,12 @@ function App() {
         lowerUI();
       }
       callBack = [];
+    }
+    if (callLoginCallback.length) {
+      callLoginCallback.forEach((item: any) => {
+        item && item(type);
+      });
+      callLoginCallback.spice(0, callLoginCallback.length);
     }
   }
 
@@ -357,14 +363,12 @@ function App() {
         outOfContent(data);
         break;
       case LOGIN:
-        setCallLoginCallback(data);
         login();
         break;
       case CONTRACT:
         updateEvents();
         break;
       case LOGIN_OUT:
-        setCallLoginCallback(data);
         longinOut();
         break;
       default:

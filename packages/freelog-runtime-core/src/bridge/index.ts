@@ -4,7 +4,8 @@ import { onLogin } from "./eventOn";
 import { freelogApp } from "../structure/freelogApp";
 import { widgetsConfig } from "../structure/widget";
 import { isMobile } from "../utils";
-
+export const callLoginCallback: any = [];
+export const callLoginOutCallback: any = [];
 export const exhibitQueue = new Map<any, any>();
 export const eventMap = new Map<any, any>(); // 数组
 export const failedMap = new Map<any, any>();
@@ -175,17 +176,19 @@ export function goLogin(name: string, callBack: any) {
   //   return "ui has been launched, can not callLogin";
   // }
   // resolve && onLogin("", resolve);
-  console.log("运行时goLogin调用打印,下面是回调函数：", callBack)
   if (typeof callBack !== "function") {
     callBack = null;
+  } else {
+    callLoginCallback.push(callBack);
   }
-  console.log("运行时goLogin调用打印,下面是回调函数2：", callBack)
 
   UI && UI(LOGIN, callBack);
 }
 export function goLoginOut(name: string, callBack: any) {
   if (typeof callBack !== "function") {
     callBack = null;
+  } else {
+    callLoginOutCallback.push(callBack);
   }
   UI && UI(LOGIN_OUT, callBack);
 }

@@ -33,6 +33,7 @@ const {
   lowerUI,
   upperUI,
   reload,
+  callLoginCallback,
 } = freelogAuth;
 const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
 const {
@@ -225,7 +226,7 @@ function App() {
     setIsLogin(false);
     if (type === SUCCESS) {
       setUserInfo(data);
-      if (loginCallback.length === 0) {
+      if (loginCallback.length === 0 && callLoginCallback.length == 0) {
         reload();
       }
       loginCallback.forEach((func: any) => {
@@ -237,13 +238,19 @@ function App() {
         callBack.forEach((item: any) => {
           item && item(USER_CANCEL);
         });
-      } 
-      if(isLoginFromAuth){
+      }
+      if (isLoginFromAuth) {
         lowerUI(true);
       } else {
         lowerUI();
       }
       callBack = [];
+    }
+    if (callLoginCallback.length) {
+      callLoginCallback.forEach((item: any) => {
+        item && item(type);
+      });
+      callLoginCallback.spice(0, callLoginCallback.length);
     }
   }
 

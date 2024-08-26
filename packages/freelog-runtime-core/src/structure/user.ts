@@ -11,6 +11,8 @@ import {
 } from "../base";
 export let userInfo: any = null;
 export let userInfoForAuth: any = null;
+
+
 export async function getUserInfo() {
   initWindowListener();
   if (userInfoForAuth) return userInfoForAuth;
@@ -100,8 +102,6 @@ export async function getUserData(name: string, key: string) {
 }
 
 export function callLogin(name: string, resolve: Function) {
-  console.log("运行时callLogin调用打印,下面是回调函数：", resolve)
-
   if (!userInfo) {
     goLogin(name, resolve);
   }

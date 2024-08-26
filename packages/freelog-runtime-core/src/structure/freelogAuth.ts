@@ -11,7 +11,12 @@ import {
 } from "../bridge/index";
 import { freelogAuthApi } from "../freelogAuth";
 import { loginCallback } from "../bridge/eventOn";
-import { upperUI, lowerUI } from "../bridge";
+import {
+  upperUI,
+  lowerUI,
+  callLoginOutCallback,
+  callLoginCallback,
+} from "../bridge";
 import { resultType, eventType } from "../bridge/eventType";
 import { dev } from "./dev";
 
@@ -33,6 +38,8 @@ export const freelogAuth = {
   setUserInfo,
   getUserInfoForAuth,
   getUserInfo,
+  callLoginOutCallback,
+  callLoginCallback,
   reload,
   eventType,
   setHref: (href: string) => {
@@ -41,3 +48,4 @@ export const freelogAuth = {
   getHref: () => rawWindow.location.href,
   ...freelogAuthApi,
 };
+

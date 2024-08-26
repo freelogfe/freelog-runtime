@@ -6,7 +6,7 @@ outline: deep
 
 ## onLogin
 
-**用途：监听用户登录**
+**用途：监听用户登录，登录成功会回调，登录失败不会回调**
 
 ```ts
 **用法**
@@ -130,9 +130,13 @@ const userData = await freelogApp.deleteUserData("testData");
 
 **用途：唤起登录 UI**
 
+**若没有传递 callBack 回调且没有使用 freelogApp.onLogin(callback)监听, 登录成功后会自动刷新整个页面。同时优先执行 onLogin 的回调**
+
 ```ts
 **参数说明**
-callback: Function // 登录成功的回调，若没有传递callBack回调, 登录成功后会自动刷新整个页面，
+// 登录成功：status === freelogApp.resultType.SUCCESS;
+// 用户取消：status === freelogApp.resultType.USER_CANCEL;
+callback: (status:number)=>any
 
 **用法**
 freelogApp.callLogin(callBack)
