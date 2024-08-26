@@ -20,7 +20,7 @@ outline: deep
 freelogApp.getShareUrl(
   {
     exhibitId: "64a26ea41cbfe2002f9cb6e9",
-    itemId?: "64a26ea41cbfe2002f9cb4c5",
+    itemId: "64a26ea41cbfe2002f9cb4c5",
   },
   "detail"
 );
