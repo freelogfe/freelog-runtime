@@ -220,7 +220,7 @@ function App() {
     updateLock(false);
   }, [events]);
   let callBack: any[] = [];
-  const { loginCallback, setUserInfo } = freelogAuth;
+  const { loginCallback, setUserInfo, loginErrorCallback } = freelogAuth;
 
   function loginFinished(type: any, data?: any) {
     setIsLogin(false);
@@ -239,6 +239,9 @@ function App() {
           item && item(USER_CANCEL);
         });
       }
+      loginErrorCallback.forEach((func: any) => {
+        func && func();
+      });
       if (isLoginFromAuth) {
         lowerUI(true);
       } else {

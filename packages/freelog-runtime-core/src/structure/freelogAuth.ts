@@ -10,7 +10,7 @@ import {
   reload,
 } from "../bridge/index";
 import { freelogAuthApi } from "../freelogAuth";
-import { loginCallback } from "../bridge/eventOn";
+import { loginCallback, loginErrorCallback } from "../bridge/eventOn";
 import {
   upperUI,
   lowerUI,
@@ -34,6 +34,7 @@ export const freelogAuth = {
   clearEvent,
   resultType,
   loginCallback,
+  loginErrorCallback,
   devData: dev(),
   setUserInfo,
   getUserInfoForAuth,

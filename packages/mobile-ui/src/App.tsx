@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import Forgot, { LOGIN_PASSWORD, PAY_PASSWORD } from "./views/user/forgot";
 import Register from "./views/user/register";
 import NodeError from "./views/_statusComponents/nodeError";
-const { loginCallback, setUserInfo } = freelogAuth;
+const { loginCallback,loginErrorCallback, setUserInfo } = freelogAuth;
 
 // import getBestTopology from "./topology/data";
 import ThemeCancel from "./views/_statusComponents/themeCancel";
@@ -275,6 +275,10 @@ function App() {
           item && item(USER_CANCEL);
         });
       }
+      loginErrorCallback.forEach((func: any) => {
+        func && func();
+      });
+      
       if (isLoginFromAuth) {
         lowerUI(true);
       } else {

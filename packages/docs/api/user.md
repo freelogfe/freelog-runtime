@@ -6,12 +6,15 @@ outline: deep
 
 ## onLogin
 
-**用途：监听用户登录，登录成功会回调，登录失败不会回调**
+**用途：监听用户登录**
 
 ```ts
 **用法**
-// callback: 登录成功的回调，登录失败不会回调
-freelogApp.onLogin(callback);
+**参数说明**
+  resolve: Function // 登录成功回调
+  reject: Function // 登录失败回调
+
+freelogApp.onLogin(resolve,reject);
 ```
 
 ## onUserChange
@@ -20,7 +23,7 @@ freelogApp.onLogin(callback);
 
 ```js
 **参数说明**
-  callback: Function // 一个函数
+  callback: Function // 回调
 
 **用法**
 // 当用户在其余页面切换账号，会回调所有函数

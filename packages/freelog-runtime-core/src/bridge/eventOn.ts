@@ -1,13 +1,14 @@
 import * as docCookies from "doc-cookies";
 import { getUserInfoForAuth } from "../structure/user";
 export const loginCallback: any = [];
-
+export const loginErrorCallback: any = [];
 // 登录和切换用户需要触发
-export async function onLogin(name: string, callback: any) {
-  if (typeof callback === "function") {
-    loginCallback.push(callback);
-  } else {
-    console.error("onLogin error: ", callback, " is not a function!");
+export async function onLogin(name: string, resolve: any, reject: any) {
+  if (typeof resolve === "function") {
+    loginCallback.push(resolve);
+  }
+  if (typeof reject === "function") {
+    loginErrorCallback.push(reject);
   }
 }
 
