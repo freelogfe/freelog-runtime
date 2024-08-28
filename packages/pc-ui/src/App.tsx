@@ -194,6 +194,7 @@ function App() {
                   freelogApp.status.themeMounted = true;
                 },
               },
+              data: {themeInfo: nodeInfo.themeInfo},
               iframe:
                 nodeInfo.themeInfo.versionInfo.exhibitProperty.bundleTool ===
                 "vite"
@@ -213,6 +214,8 @@ function App() {
       .then((res: any) => {
         if (res.status != SUCCESS) {
           upperUI();
+        }else{
+          window.location.reload()
         }
       });
   };

@@ -125,6 +125,13 @@ window.mount = () => {
 };
 ```
 
+### 主题获取自身信息
+
+```ts
+import { widgetApi } from "freelog-runtime";
+const themeInfo = widgetApi.getData().themeInfo;
+```
+
 ### 获取节点信息
 
 ```ts
@@ -498,10 +505,10 @@ const articleProperty = res.data.data[0].articleProperty;
 
 ```ts
 const res = await freelogApp.getCollectionSubList(exhibitId, {
-  sortType: 1, 
+  sortType: 1,
   skip: 0,
   limit: 10,
-  isShowDetailInfo: 0, 
+  isShowDetailInfo: 0,
 });
 
  **参数说明**
@@ -518,10 +525,10 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
 
 ```ts
 const res = await freelogApp.getCollectionsSubList(exhibitIds, {
-  sortType: 1, 
+  sortType: 1,
   skip: 0,
   limit: 10,
-  isShowDetailInfo: 0, 
+  isShowDetailInfo: 0,
 });
 
  **参数说明**
@@ -577,7 +584,6 @@ const res = await freelogApp.getCollectionSubFileStream(exhibitId,
     subFilePath?: string; // 作品内部子文件路径
   }
 ```
- 
 
 ### 获取集合内子作品的依赖列表
 

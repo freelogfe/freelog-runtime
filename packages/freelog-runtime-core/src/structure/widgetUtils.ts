@@ -16,6 +16,9 @@ const rawLocation = window.location;
 export function getTopExhibitId(name: string){
   return widgetsConfig.get(name).topExhibitId || widgetsConfig.get(name).exhibitId;
 }
+export function getSelfNid(name: string){
+  return widgetsConfig.get(name).nid;
+}
 /**
  *
  * @param name

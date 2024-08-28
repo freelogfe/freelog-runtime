@@ -11,7 +11,8 @@ import {
   setViewport,
   reload,
   getCurrentUrl,
-  getTopExhibitId
+  getTopExhibitId,
+  getSelfNid
 } from "./widgetUtils";
 import {
   setUserData,
@@ -54,6 +55,7 @@ export const freelogApp: any = {
   getSelfProperty,
   getSelfDependencyTree,
   getTopExhibitId,
+  getSelfNid,
   isUserChange,
   reload,
   resultType,

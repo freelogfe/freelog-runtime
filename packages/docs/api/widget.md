@@ -78,12 +78,33 @@ const selfWidgetRenderName = freelogApp.getSelfWidgetRenderName();
 
 **用途：获取当前插件的自身或顶层展品 id，也就是依赖树最上层的展品 id**
 
-**场景一：主当前插件是展品插件，获取自身展品 id**
+**场景一：主当前插件是展品插件，获取自身展品 id，然后通过getExhibitInfo获取自身展品信息**
 **场景二：主当前插件是展品依赖树中的资源作为插件，获取最上层的展品 id**
 
 ```ts
 **用法**
 const topExhibitId = freelogApp.getTopExhibitId();
+
+// 自身展品信息
+const res = await freelogApp.getExhibitInfo(topExhibitId, query)
+```
+
+## getSelfNid
+
+**用途：获取当前作品类型插件的自身链路ID**
+
+**场景：主当前插件是展品依赖树中的作品作为插件，获取自身链路ID和topExhibitId后，通过getExhibitDepInfo获取自身信息**
+
+```ts
+**用法**
+const articleNid = freelogApp.getSelfNid();
+
+const exhibitId = await freelogApp.getTopExhibitId();
+// 自身作用信息
+const res = await freelogApp.getExhibitDepInfo(
+  exhibitId,
+  {articleNids: articleNid}
+)
 ```
 
 ## getSelfDependencyTree

@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import Forgot, { LOGIN_PASSWORD, PAY_PASSWORD } from "./views/user/forgot";
 import Register from "./views/user/register";
 import NodeError from "./views/_statusComponents/nodeError";
-const { loginCallback,loginErrorCallback, setUserInfo } = freelogAuth;
+const { loginCallback, loginErrorCallback, setUserInfo } = freelogAuth;
 
 // import getBestTopology from "./topology/data";
 import ThemeCancel from "./views/_statusComponents/themeCancel";
@@ -228,6 +228,7 @@ function App() {
                   freelogApp.status.themeMounted = true;
                 },
               },
+              data: { themeInfo: nodeInfo.themeInfo },
               iframe:
                 nodeInfo.themeInfo.versionInfo.exhibitProperty.bundleTool ===
                 "vite"
@@ -247,6 +248,8 @@ function App() {
       .then((res: any) => {
         if (res.status != SUCCESS) {
           upperUI();
+        } else {
+          window.location.reload();
         }
       });
   };
@@ -278,7 +281,7 @@ function App() {
       loginErrorCallback.forEach((func: any) => {
         func && func();
       });
-      
+
       if (isLoginFromAuth) {
         lowerUI(true);
       } else {
