@@ -317,7 +317,7 @@ const res = await freelogApp.getCollectionSubInfo(exhibitId, {
 
 ## getCollectionSubAuth
 
-**用途：获取集合类型展品的子作品详情**
+**用途：获取集合类型展品的子作品授权结果**
 
 ```ts
 **参数说明**
