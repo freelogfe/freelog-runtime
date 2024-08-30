@@ -207,6 +207,8 @@ function App() {
               .then((res: any) => {
                 if (res.status != SUCCESS) {
                   upperUI();
+                } else {
+                  window.location.reload();
                 }
               });
           }
