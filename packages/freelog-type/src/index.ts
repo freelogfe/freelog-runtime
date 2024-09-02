@@ -58,6 +58,7 @@ export interface FreelogApp {
     options: MountExhibitWidgetOptions
   ) => Promise<WidgetController>;
   getTopExhibitId: () => string;
+  getSelfNid: () => string;
   getSelfProperty: (isFromServer?: boolean) => Promise<PlainObject>;
   getSelfDependencyTree: (
     isFromServer?: boolean
@@ -185,7 +186,7 @@ export interface FreelogApp {
   getCollectionSubDepList: (
     exhibitId: string,
     query: {
-      itemId: string; 
+      itemId: string;
     }
   ) => Promise<GetCollectionSubDepListResult>;
   getCollectionSubFileStream: (
@@ -200,7 +201,7 @@ export interface FreelogApp {
     exhibitId: string,
     query: {
       itemId: string;
-      nid:  string, // 依赖的链路id
+      nid: string; // 依赖的链路id
       returnUrl?: boolean;
       subFilePath?: string;
     }
@@ -287,11 +288,14 @@ export interface FreelogApp {
     OFFLINE: number;
   };
   getCurrentUrl: () => string;
-  getShareUrl: (exhibitId: string, type: "detail" | "content") => string;
+  getShareUrl: (
+    options: {
+      exhibitId: string;
+      itemId?: string;
+    },
+    type: string 
+  ) => Promise<void>;
   mapShareUrl: (routeMap: {
-    // 详情对应的路由，运行时获取返回值后会修改url
-    detail?: (exhibitId: string) => string;
-    // 内容对应的路由，运行时获取返回值后会修改url
-    content?: (exhibitId: string) => string;
+    [str: string]: (exhibitId: string, itemId?: string) => string;
   }) => void;
 }
