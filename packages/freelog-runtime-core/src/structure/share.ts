@@ -8,7 +8,10 @@ export function getShareUrl(
   name: string,
   options: {
     exhibitId: string;
-    itemId: string;
+    itemId?: string;
+    query: {
+      [key: string]: string;
+    };
   },
   type: string
 ) {
@@ -16,7 +19,7 @@ export function getShareUrl(
   let itemId = "";
   if (typeof options == "object") {
     exhibitId = options.exhibitId;
-    itemId = options.itemId;
+    itemId = options.itemId || "";
   } else {
     exhibitId = options as string;
   }
@@ -30,6 +33,11 @@ export function getShareUrl(
         "&" + element.name + "=" + encodeURIComponent(params[element.name]),
         ""
       );
+    });
+  }
+  if (typeof options.query == "object") {
+    Object.keys(options.query).forEach((key) => {
+      search += "&" + key + "=" + encodeURIComponent(options.query[key]);
     });
   }
   if (search) {
@@ -54,9 +62,19 @@ export async function mapShareUrl(name: string, routeMap: any) {
     const data = isShareUrl(href);
     if (data && href) {
       const func = routeMap ? routeMap[data.type] : null;
+      const urlObj = new URL(href);
+      const query: any = {};
+      for (const [key, value] of urlObj.searchParams.entries()) {
+        if(key === "dev" || key === "replace"){
+        }else{
+          query[key] = decodeURIComponent(value);
+        }
+      }
+      console.log(query, "query")
       let route = "";
       if (func) {
-        route = func(data.exhibitId, data.itemId);
+        route = func(data.exhibitId, data.itemId, query);
+        console.log(query);
         const search = window.location.search.includes("dev=http")
           ? window.location.search +
             `&${theme.name + "=" + freelogApp.router.encode(route)}`
