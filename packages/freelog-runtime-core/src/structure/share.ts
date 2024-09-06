@@ -70,11 +70,9 @@ export async function mapShareUrl(name: string, routeMap: any) {
           query[key] = decodeURIComponent(value);
         }
       }
-      console.log(query, "query")
       let route = "";
       if (func) {
         route = func(data.exhibitId, data.itemId, query);
-        console.log(query);
         const search = window.location.search.includes("dev=http")
           ? window.location.search +
             `&${theme.name + "=" + freelogApp.router.encode(route)}`
