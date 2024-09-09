@@ -1,4 +1,4 @@
-﻿import { widgetsConfig } from "./widget";
+﻿import { widgetsConfig, flatternWidgets } from "./widget";
 import { freelogApp, devData } from "./freelogApp";
 import { DEV_FALSE, dev } from "./dev";
 export const SHARE_DETAIL = "detail";
@@ -49,9 +49,11 @@ export function getShareUrl(
   return `${rawLocation.origin}/${exhibitId}/${type}${search}`;
 }
 const rawLocation = location;
+const rawWindow = window;
 // 只有在vue路由之前使用才有效, 但这种十分不合理，不应该在运行时来做
 export async function mapShareUrl(name: string, routeMap: any) {
   return new Promise((resolve, reject) => {
+    const control = flatternWidgets.get(name)
     // @ts-ignore
     const theme = widgetsConfig.get(name);
     // if (!theme.isTheme) {
@@ -73,25 +75,29 @@ export async function mapShareUrl(name: string, routeMap: any) {
       let route = "";
       if (func) {
         route = func(data.exhibitId, data.itemId, query);
-        const search = window.location.search.includes("dev=http")
-          ? window.location.search +
+        const search = rawWindow.location.search.includes("dev=http")
+          ? rawWindow.location.search +
             `&${theme.name + "=" + freelogApp.router.encode(route)}`
           : `?${theme.name + "=" + freelogApp.router.encode(route)}`;
-        window.history.replaceState(
+          rawWindow.history.replaceState(
           {},
           "",
-          `${window.location.origin}${search}`
+          `${rawWindow.location.origin}${search}`
         );
-        setTimeout(() => {
-          freelogApp.router.replace({
-            name: theme.name,
-            path: route,
-            replace: true,
-          });
-          setTimeout(() => {
-            resolve(true);
-          }, 222);
-        }, 0);
+        rawWindow.location.reload();
+        // console.log(control)
+        // control?.reload();
+        // resolve(true);
+        // setTimeout(() => {
+        //   freelogApp.router.replace({
+        //     name: theme.name,
+        //     path: route,
+        //     replace: true,
+        //   });
+        //   setTimeout(() => {
+        //     resolve(true);
+        //   }, 222);
+        // }, 0);
       } else {
         resolve(true);
       }
