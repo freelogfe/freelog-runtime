@@ -35,14 +35,24 @@ export function getShareUrl(
       );
     });
   }
-  if (typeof options.query == "object") {
-    Object.keys(options.query).forEach((key) => {
-      search += "&" + key + "=" + encodeURIComponent(options.query[key]);
-    });
-  }
   if (search) {
     search = "/" + search;
   }
+  if (typeof options.query == "object") {
+    let search2 = "";
+    Object.keys(options.query).forEach((key) => {
+      search2 += "&" + key + "=" + encodeURIComponent(options.query[key]);
+    });
+    if(search){
+      search = search + search2;
+    }else{
+      search = search2.replace(/^&/, "");
+      if(search){
+        search = "/?" + search;
+      }
+    }
+  }
+  
   if (itemId) {
     return `${rawLocation.origin}/${exhibitId}/${itemId}/${type}${search}`;
   }
@@ -67,7 +77,7 @@ export async function mapShareUrl(name: string, routeMap: any) {
       const urlObj = new URL(href);
       const query: any = {};
       for (const [key, value] of urlObj.searchParams.entries()) {
-        if(key === "dev" || key === "replace"){
+        if(key === "dev" || key === "replace" || key === "theme"){
         }else{
           query[key] = decodeURIComponent(value);
         }
