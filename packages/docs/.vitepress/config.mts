@@ -43,7 +43,7 @@ export default defineConfig({
       ],
       "/api/": [
         {
-          text: "框架改造",
+          text: "API分类",
           items: [
             { text: "插件相关", link: "/api/widget" },
             { text: "展品获取", link: "/api/exhibit" },
