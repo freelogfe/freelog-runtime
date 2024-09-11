@@ -472,7 +472,7 @@ const res = await freelogApp.getExhibitDepInfo(
 ```ts
 const res = await freelogApp.getExhibitDepFileStream(
   exhibitId,
-  query:{
+  {
     nid,
     returnUrl
   }
