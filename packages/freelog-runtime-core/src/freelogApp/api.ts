@@ -154,57 +154,14 @@ function getByExhibitId(
     config
   );
 }
-// export async function getExhibitFileStream(
-//   name: string,
-//   exhibitId: string | number,
-//   options?: {
-//     returnUrl?: boolean;
-//     config?: any;
-//     subFilePath?: string; // 主题或插件的压缩包内部子作品,需要带相对路径
-//   }
-// ) {
-//   options = options || {};
-//   return frequest.bind({
-//     name,
-//     isAuth: true,
-//     exhibitId: exhibitId,
-//   })(
-//     exhibit.getExhibitById,
-//     [exhibitId],
-//     options?.subFilePath ? { subFilePath: options.subFilePath } : null,
-//     options?.returnUrl,
-//     options?.config
-//   );
-// }
-// // 子依赖
-// export async function getExhibitDepFileStream(
-//   name: string,
-//   exhibitId: string | number,
-//   query: {
-//     parentNid: string; // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
-//     subArticleId: string; // 子依赖的作品ID
-//     returnUrl?: boolean;
-//     config?: any;
-//   }
-// ) {
-//   return frequest.bind({
-//     name: name,
-//     isAuth: true,
-//     exhibitId: exhibitId,
-//   })(
-//     exhibit.getExhibitById,
-//     [exhibitId],
-//     { parentNid: query.parentNid, subArticleIdOrName: query.subArticleId },
-//     query?.returnUrl,
-//     query.config
-//   );
-// }
+
 export async function getExhibitFileStream(
   name: string,
   exhibitId: string | number,
   query: {
     returnUrl?: boolean;
     subFilePath?: string; // 作品内部子文件 路径
+    config?: any;
   }
 ) {
   return frequest.bind({
@@ -212,15 +169,14 @@ export async function getExhibitFileStream(
     isAuth: true,
     exhibitId: exhibitId,
   })(
-    query?.subFilePath
-      ? exhibit.getExhibitInsideById
-      : exhibit.getExhibitById,
+    query?.subFilePath ? exhibit.getExhibitInsideById : exhibit.getExhibitById,
     query?.subFilePath ? [exhibitId, query?.subFilePath] : [exhibitId],
     null,
-    query?.returnUrl
+    query?.returnUrl,
+    query?.config
   );
 }
- 
+
 export async function getExhibitDepFileStream(
   name: string,
   exhibitId: string | number,
@@ -228,6 +184,7 @@ export async function getExhibitDepFileStream(
     nid: string | number;
     returnUrl?: boolean;
     subFilePath?: string;
+    config?: any;
   }
 ) {
   return frequest.bind({
@@ -241,7 +198,8 @@ export async function getExhibitDepFileStream(
     // @ts-ignore
     [exhibitId, query.nid, query?.subFilePath],
     null,
-    query?.returnUrl
+    query?.returnUrl,
+    query?.config
   );
 }
 export async function getExhibitResultByAuth(
@@ -315,6 +273,7 @@ export async function getCollectionSubFileStream(
     itemId: string | number;
     returnUrl?: boolean;
     subFilePath?: string; // 作品内部子文件 路径
+    config?:any;
   }
 ) {
   return frequest.bind({
@@ -329,7 +288,8 @@ export async function getCollectionSubFileStream(
       ? [exhibitId, query.itemId, query?.subFilePath]
       : [exhibitId, query.itemId],
     null,
-    query?.returnUrl
+    query?.returnUrl,
+    query?.config
   );
 }
 
@@ -359,6 +319,7 @@ export async function getCollectionSubDepFileStream(
     nid: string | number;
     returnUrl?: boolean;
     subFilePath?: string;
+    config?: any;
   }
 ) {
   return frequest.bind({
@@ -372,6 +333,7 @@ export async function getCollectionSubDepFileStream(
     // @ts-ignore
     [exhibitId, query.itemId, query.nid, query?.subFilePath],
     null,
-    query?.returnUrl
+    query?.returnUrl,
+    query?.config
   );
 }

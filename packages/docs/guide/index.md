@@ -473,8 +473,7 @@ const res = await freelogApp.getExhibitDepInfo(
 const res = await freelogApp.getExhibitDepFileStream(
   exhibitId,
   query:{
-    parentNid,
-    subArticleId,
+    nid,
     returnUrl
   }
 )
@@ -482,8 +481,8 @@ const res = await freelogApp.getExhibitDepFileStream(
 **参数说明**
   exhibitId: string, // 自身展品id
   query: {
-    parentNid: string; // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
-    subArticleId: string; // 子依赖的作品ID
+    nid:  string, // 依赖的链路id
+    subFilePath?:  string, // 可选，依赖内部的文件路径
     returnUrl?: boolean; // 是否只返回url， 例如img标签图片只需要url
     config?: {
       onUploadProgress?: (progressEvent: any) => void;
