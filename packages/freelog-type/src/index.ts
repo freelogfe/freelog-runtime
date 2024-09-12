@@ -210,13 +210,9 @@ export interface FreelogApp {
     exhibitId: string,
     options: {
       /**
-       * 依赖树上的父级节点ID
+       * 依赖的链路id
        */
-      parentNid: string;
-      /**
-       * 子依赖的作品ID
-       */
-      subArticleId: string;
+      nid: string;
       returnUrl?: boolean;
       config?: {
         onUploadProgress?: (progressEvent: any) => void;
