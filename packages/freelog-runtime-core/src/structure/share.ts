@@ -43,16 +43,16 @@ export function getShareUrl(
     Object.keys(options.query).forEach((key) => {
       search2 += "&" + key + "=" + encodeURIComponent(options.query[key]);
     });
-    if(search){
+    if (search) {
       search = search + search2;
-    }else{
+    } else {
       search = search2.replace(/^&/, "");
-      if(search){
+      if (search) {
         search = "/?" + search;
       }
     }
   }
-  
+
   if (itemId) {
     return `${rawLocation.origin}/${exhibitId}/${itemId}/${type}${search}`;
   }
@@ -63,7 +63,7 @@ const rawWindow = window;
 // 只有在vue路由之前使用才有效, 但这种十分不合理，不应该在运行时来做
 export async function mapShareUrl(name: string, routeMap: any) {
   return new Promise((resolve, reject) => {
-    const control = flatternWidgets.get(name)
+    const control = flatternWidgets.get(name);
     // @ts-ignore
     const theme = widgetsConfig.get(name);
     // if (!theme.isTheme) {
@@ -77,8 +77,8 @@ export async function mapShareUrl(name: string, routeMap: any) {
       const urlObj = new URL(href);
       const query: any = {};
       for (const [key, value] of urlObj.searchParams.entries()) {
-        if(key === "dev" || key === "replace" || key === "theme"){
-        }else{
+        if (key === "dev" || key === "replace" || key === theme.name) {
+        } else {
           query[key] = decodeURIComponent(value);
         }
       }
@@ -89,7 +89,7 @@ export async function mapShareUrl(name: string, routeMap: any) {
           ? rawWindow.location.search +
             `&${theme.name + "=" + freelogApp.router.encode(route)}`
           : `?${theme.name + "=" + freelogApp.router.encode(route)}`;
-          rawWindow.history.replaceState(
+        rawWindow.history.replaceState(
           {},
           "",
           `${rawWindow.location.origin}${search}`
