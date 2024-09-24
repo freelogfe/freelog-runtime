@@ -23,7 +23,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@micro-zoe/micro-app": "workspace:^",
+    "@micro-zoe/micro-app": "1.0.0-rc.10",
     "axios": "^0.21.1",
     "copy-to-clipboard": "^3.3.2",
     "doc-cookies": "^1.1.0",

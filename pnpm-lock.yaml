@@ -15,8 +15,8 @@ importers:
   packages/freelog-runtime-core:
     dependencies:
       '@micro-zoe/micro-app':
-        specifier: workspace:^
-        version: link:../micro-app2
+        specifier: 1.0.0-rc.10
+        version: 1.0.0-rc.10
       axios:
         specifier: ^0.21.1
         version: 0.21.4
@@ -191,8 +191,8 @@ importers:
   packages/mobile-ui:
     dependencies:
       '@micro-zoe/micro-app':
-        specifier: workspace:^
-        version: link:../micro-app2
+        specifier: 1.0.0-rc.10
+        version: 1.0.0-rc.10
       antd-mobile:
         specifier: ^5.34.0
         version: 5.34.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -279,8 +279,8 @@ importers:
         specifier: ^1.23.8
         version: 1.35.0
       '@micro-zoe/micro-app':
-        specifier: workspace:^
-        version: link:../micro-app2
+        specifier: 1.0.0-rc.10
+        version: 1.0.0-rc.10
       antd:
         specifier: ^5.14.1
         version: 5.14.1(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -1925,6 +1925,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@micro-zoe/micro-app@1.0.0-rc.10':
+    resolution: {integrity: sha512-u/9Am2ipS3nj4Uoi8nV9GdKw9ltNw7JULNVi9nXEHB2AquZdqzLAsuIh1WlfpG7j4/UEhNy2lDjfSKkoLmIgmg==}
 
   '@microsoft/api-extractor-model@7.27.5':
     resolution: {integrity: sha512-9/tBzYMJitR+o+zkPr1lQh2+e8ClcaTF6eZo7vZGDqRt2O5XmXWPbYJZmxyM3wb5at6lfJNEeGZrQXLjsQ0Nbw==}
@@ -7155,6 +7158,10 @@ packages:
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==}
     engines: {node: '>= 0.8.0'}
 
+  send@0.19.0:
+    resolution: {integrity: sha512-dW41u5VfLXu8SJh5bwRmyYUbAoSB3c9uQh6L8h/KtsFREPWpbX1lrljJo186Jc4nmci/sGUZ9a0a0J2zgfq2hw==}
+    engines: {node: '>= 0.8.0'}
+
   serialize-javascript@4.0.0:
     resolution: {integrity: sha512-GaNA54380uFefWghODBWEGisLZFj00nS5ACs6yHa9nLqlLpVLO8ChDGeKRjZnV4Nh4n0Qi7nhYZD/9fCPzEqkw==}
 
@@ -9175,7 +9182,7 @@ snapshots:
       '@babel/helper-hoist-variables': 7.22.5
       '@babel/helper-module-transforms': 7.23.3(@babel/core@7.23.9)
       '@babel/helper-plugin-utils': 7.24.8
-      '@babel/helper-validator-identifier': 7.22.20
+      '@babel/helper-validator-identifier': 7.24.6
 
   '@babel/plugin-transform-modules-umd@7.23.3(@babel/core@7.12.17)':
     dependencies:
@@ -10337,6 +10344,8 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
+
+  '@micro-zoe/micro-app@1.0.0-rc.10': {}
 
   '@microsoft/api-extractor-model@7.27.5(@types/node@20.14.0)':
     dependencies:
@@ -14980,7 +14989,7 @@ snapshots:
       object-assign: 4.1.1
       opn: 6.0.0
       proxy-middleware: 0.15.0
-      send: 0.18.0
+      send: 0.19.0
       serve-index: 1.9.1
     transitivePeerDependencies:
       - supports-color
@@ -16750,6 +16759,24 @@ snapshots:
       lru-cache: 6.0.0
 
   send@0.18.0:
+    dependencies:
+      debug: 2.6.9
+      depd: 2.0.0
+      destroy: 1.2.0
+      encodeurl: 1.0.2
+      escape-html: 1.0.3
+      etag: 1.8.1
+      fresh: 0.5.2
+      http-errors: 2.0.0
+      mime: 1.6.0
+      ms: 2.1.3
+      on-finished: 2.4.1
+      range-parser: 1.2.1
+      statuses: 2.0.1
+    transitivePeerDependencies:
+      - supports-color
+
+  send@0.19.0:
     dependencies:
       debug: 2.6.9
       depd: 2.0.0
