@@ -15,8 +15,8 @@ importers:
   packages/freelog-runtime-core:
     dependencies:
       '@micro-zoe/micro-app':
-        specifier: 1.0.0-rc.10
-        version: 1.0.0-rc.10
+        specifier: 1.0.0-rc.8
+        version: 1.0.0-rc.8
       axios:
         specifier: ^0.21.1
         version: 0.21.4
@@ -191,8 +191,8 @@ importers:
   packages/mobile-ui:
     dependencies:
       '@micro-zoe/micro-app':
-        specifier: 1.0.0-rc.10
-        version: 1.0.0-rc.10
+        specifier: 1.0.0-rc.8
+        version: 1.0.0-rc.8
       antd-mobile:
         specifier: ^5.34.0
         version: 5.34.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -279,8 +279,8 @@ importers:
         specifier: ^1.23.8
         version: 1.35.0
       '@micro-zoe/micro-app':
-        specifier: 1.0.0-rc.10
-        version: 1.0.0-rc.10
+        specifier: 1.0.0-rc.8
+        version: 1.0.0-rc.8
       antd:
         specifier: ^5.14.1
         version: 5.14.1(moment@2.30.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -1926,8 +1926,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@micro-zoe/micro-app@1.0.0-rc.10':
-    resolution: {integrity: sha512-u/9Am2ipS3nj4Uoi8nV9GdKw9ltNw7JULNVi9nXEHB2AquZdqzLAsuIh1WlfpG7j4/UEhNy2lDjfSKkoLmIgmg==}
+  '@micro-zoe/micro-app@1.0.0-rc.8':
+    resolution: {integrity: sha512-elLPpZjkRHPZVJ3tvaCWHJdU2ORX2Ev/7LipCPkENU9ZqTSg6dGFjQ5cQnip0c1FXEcnY4pIKfbhW+qYfJAJzw==}
 
   '@microsoft/api-extractor-model@7.27.5':
     resolution: {integrity: sha512-9/tBzYMJitR+o+zkPr1lQh2+e8ClcaTF6eZo7vZGDqRt2O5XmXWPbYJZmxyM3wb5at6lfJNEeGZrQXLjsQ0Nbw==}
@@ -10345,7 +10345,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  '@micro-zoe/micro-app@1.0.0-rc.10': {}
+  '@micro-zoe/micro-app@1.0.0-rc.8': {}
 
   '@microsoft/api-extractor-model@7.27.5(@types/node@20.14.0)':
     dependencies:
