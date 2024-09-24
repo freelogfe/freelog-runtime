@@ -14,7 +14,6 @@ export function freelogFetch(url: string, options: any, appName: string): any {
     url = widgetConfig.entry + urlObj.pathname;
   } 
   if (url.indexOf("freelog.com") > -1) {
-    console.log(url)
     return fetch(url, { ...options, credentials: "include" });
   } else {
    
