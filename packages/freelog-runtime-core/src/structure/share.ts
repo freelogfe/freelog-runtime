@@ -76,8 +76,10 @@ export async function mapShareUrl(name: string, routeMap: any) {
       const func = routeMap ? routeMap[data.type] : null;
       const urlObj = new URL(href);
       const query: any = {};
+      const devKeys: any = {};
       for (const [key, value] of urlObj.searchParams.entries()) {
         if (key === "dev" || key === "replace" || key === theme.name) {
+          if (key != theme.name) devKeys[key] = value;
         } else {
           query[key] = decodeURIComponent(value);
         }
@@ -85,10 +87,14 @@ export async function mapShareUrl(name: string, routeMap: any) {
       let route = "";
       if (func) {
         route = func(data.exhibitId, data.itemId, query);
-        const search = rawWindow.location.search.includes("dev=http")
-          ? rawWindow.location.search +
-            `&${theme.name + "=" + freelogApp.router.encode(route)}`
-          : `?${theme.name + "=" + freelogApp.router.encode(route)}`;
+        let search = "?";
+        Object.keys(devKeys).forEach((key) => {
+          search = search + `${key}=${devKeys[key]}`;
+        });
+        search =
+          search.length > 1
+            ? search + `&${theme.name + "=" + freelogApp.router.encode(route)}`
+            : search + `${theme.name + "=" + freelogApp.router.encode(route)}`;
         rawWindow.history.replaceState(
           {},
           "",
