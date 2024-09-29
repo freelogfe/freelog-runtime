@@ -23,6 +23,15 @@ window.unmount = () => {
 };
 ```
 
+#### 3、未知路由匹配跳转
+
+```js
+// 捕获所有未知路径跳转到首页
+  <Route path="*" element={<Navigate to="/" replace />} />
+// 或
+  { path: '*', component: () => <Navigate to="/" replace /> }
+```
+
 完成以上步骤在运行时即可正常渲染。
 
 ### 可选设置
