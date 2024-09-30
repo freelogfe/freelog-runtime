@@ -226,6 +226,127 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
 }
 ```
 
+## getCollectionsSubList
+
+**用途：获取多个集合类型展品的子作品分页列表**
+
+```ts
+**参数说明**
+  exhibitIds: string, // 多个集合展品id,用“,”分割
+  {
+    sortType: 1, // 排序方式: 1:升序 -1:降序
+    skip: 0,
+    limit: 10,
+    isShowDetailInfo: 0, // 是否加载单品挂载的作品详情 0:不加载 1:加载
+  }
+
+**用法**
+const res = await freelogApp.getCollectionsSubList(exhibitIds, {
+  sortType: 1,
+  skip: 0,
+  limit: 10,
+  isShowDetailInfo: 0,
+});
+```
+
+### 返回说明：
+
+| 返回值字段                   | 字段类型  | 字段说明                                                   |
+| :--------------------------- | :-------- | :--------------------------------------------------------- |
+| exhibitId                       | string    | 合集展品ID                                              |
+| totalItem                    | string    | 该合集展品的单品数量                                                   |
+| itemList                       | number    | 单品分页列表                                             |
+| \*\*itemId                       | string    | 单品 ID                                                    |
+| \*\*itemTitle                    | string    | 单品标题                                                   |
+| \*\*sortId                       | number    | 单品的排序 ID                                              |
+| \*\*createDate                   | date      | 创建日期                                                   |
+| \*\*articleInfo                  | object    | 单品挂载的作品信息                                         |
+| \*\*\*\*articleId                | string    | 作品 ID                                                    |
+| \*\*\*\*articleName              | string    | 作品名称                                                   |
+| \*\*\*\*articleType              | int       | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
+| \*\*\*\*resourceType             | string[]  | 作品资源类型                                               |
+| \*\*\*\*articleOwnerId           | int       | 作品所有者 ID，isShowDetailInfo=1 时返回此字段             |
+| \*\*\*\*articleOwnerName         | string    | 作品所有者名称，isShowDetailInfo=1 时返回此字段            |
+| \*\*\*\*intro                    | string    | 简介，isShowDetailInfo=1 时返回此字段                      |
+| \*\*\*\*coverImages              | string[]  | 作品封面，isShowDetailInfo=1 时返回此字段                  |
+| \*\*\*\*latestVersionReleaseDate | string    | 作品最近一次版本发布时间，isShowDetailInfo=1 时返回此字段  |
+| \*\*\*\*articleProperty          | objectint | 单品属性，isShowDetailInfo=1 时返回此字段                  |
+
+### 示例
+
+```json
+{
+  "ret": 0,
+  "errCode": 0,
+  "errcode": 0,
+  "msg": "success",
+  "data": [
+    {
+      "exhibitId": "669f754049fbe0002f1de635",
+      "totalItem": 16,
+      "itemList": [
+        {
+          "itemId": "44a330eb",
+          "itemTitle": "第十六话",
+          "sortId": 16,
+          "createDate": "2024-07-24T02:19:23.265Z",
+          "articleInfo": {
+            "articleId": "66961690cc1c4a002fa73ef8",
+            "articleName": "luojiutian/《牛头不对马嘴1》-第十六话",
+            "resourceType": ["阅读", "漫画", "条漫"],
+            "articleType": 1,
+            "articleOwnerId": 50145,
+            "articleOwnerName": "luojiutian",
+            "intro": "该漫画讲述了人界突现诡异之事：世间百姓一夜之间全部知晓了自己的死期。于是阎王便命牛头马面前去调查此事。不料就在此时，马面数百年前的前辈、本已魂飞魄散的重阳再次出现，经过一系列的事件，终于被小阎王等人识破重阳是范无救所假扮，目的是为报当年子午谷之仇以及救活谢必安。此时，酆都的危机才刚刚开始……",
+            "coverImages": [
+              "https://image.freelog.com/preview-image/491dcc97ee3174ba6a8cf08b0df230c8fc914c01.jpeg"
+            ],
+            "latestVersionReleaseDate": "2024-07-16T06:43:45.489Z",
+            "articleProperty": {
+              "fileSize": 1972194,
+              "fileSizeUnit": "bytes",
+              "fileNameSuffix": ".zip",
+              "mime": "application/vnd.freelog.comic"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "exhibitId": "66a0cd1ceff80a0030584ea5",
+      "totalItem": 8,
+      "itemList": [
+        {
+          "itemId": "68c3d9f1",
+          "itemTitle": "第十一话",
+          "sortId": 8,
+          "createDate": "2024-07-24T09:44:05.355Z",
+          "articleInfo": {
+            "articleId": "66a0a478903c31002f2175e7",
+            "articleName": "luojiutian/每天都想当1-第十一话",
+            "resourceType": ["阅读", "漫画", "条漫"],
+            "articleType": 1,
+            "articleOwnerId": 50145,
+            "articleOwnerName": "luojiutian",
+            "intro": "",
+            "coverImages": [
+              "https://image.freelog.com/preview-image/6e50e0616e8ce2b5a244c4fd67f21bc6688dad34.jpeg"
+            ],
+            "latestVersionReleaseDate": "2024-07-24T08:20:38.374Z",
+            "articleProperty": {
+              "fileSize": 6910056,
+              "fileSizeUnit": "bytes",
+              "fileNameSuffix": ".zip",
+              "mime": "application/vnd.freelog.comic"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## getCollectionSubInfo
 
 **用途：获取集合类型展品的子作品详情**
