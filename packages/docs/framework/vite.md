@@ -1,14 +1,25 @@
 # 本篇介绍了`vite`的接入方式
 
-vite 作为子应用只需`切换到iframe沙箱`，其它操作参考各框架接入文档。
+## 1. 修改配置文件。
+
+##### 修改 vite.config.js 文件，将 base 属性设置为相对路径 "./"
+
+```js
+export default defineConfig({
+  base: "./",
+  ...
+});
+```
+
+## 2. 切换到 iframe 沙箱。
 
 ##### 配置主题或插件的基础属性 bundleTool 为 vite，运行时加载主题会自动切换到 iframe 沙箱
 
-##### 加载插件时通过property传递展品或作品的属性
+##### 加载插件时通过 property 传递展品或作品的属性
 
 ![bundle](/bundle.png)
 
-##### 没有配置基础属性或配置了但没有传递property，可以手动配置切换到 iframe 沙箱
+##### 没有配置基础属性或配置了但没有传递 property，可以手动配置切换到 iframe 沙箱
 
 ```js
 await freelogApp.mountWidget({
