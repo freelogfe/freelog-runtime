@@ -12,10 +12,10 @@ hero:
       link: /guide/index
     - theme: alt
       text: "框架改造"
-      link: /api/index
+      link: /framework
     - theme: alt
       text: "参考API"
-      link: /api/index
+      link: /api/widget
 
 # features:
 #   - title: Feature A
