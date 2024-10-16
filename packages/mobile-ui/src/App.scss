@@ -6,7 +6,9 @@
 		url("//at.alicdn.com/t/font_1522685_eswcphk9het.woff?t=1643273048899") format("woff"),
 		url("//at.alicdn.com/t/font_1522685_eswcphk9het.ttf?t=1643273048899") format("truetype");
 }
-
+.adm-toast-mask{
+  z-index: 5000 !important;
+}
 #ui-root {
 	.adm-tabs-tab {
 		font-size: 14px !important;
