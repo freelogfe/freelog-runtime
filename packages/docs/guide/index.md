@@ -112,6 +112,8 @@ https://examples.freelog.com/?dev=https://localhost:7101
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;规则：同上
 
+注：通过 freelogApp.getSelfWidgetRenderName()获取自身渲染 id
+
 ### 安装 api 库 与初始化 API
 
 ```code
@@ -148,7 +150,8 @@ window.mount = () => {
 import { widgetApi } from "freelog-runtime";
 const themeInfo = widgetApi.getData().themeInfo;
 ```
-[查看 返回数据 详情](/api/exhibit.html#getexhibitinfo)
+
+[查看 主题信息 描述](/api/exhibit.html#getexhibitinfo)
 
 ### 获取节点信息
 
@@ -159,11 +162,9 @@ import { freelogApp } from "freelog-runtime";
 const nodeInfo = freelogApp.nodeInfo;
 ```
 
+[查看 节点信息 描述](/api/exhibit.html#nodeinfo)
+
 ### 加载自身的子依赖插件
-
-[查看 getSelfDependencyTree 详情](/api/widget.html#getselfdependencytree)
-
-[查看 mountArticleWidget 详情](/api/widget.html#mountarticlewidget)
 
 ```ts
 import { freelogApp } from "freelog-runtime";
@@ -197,9 +198,11 @@ subData.forEach(async (sub: ExhibitAuthNodeInfo) => {
 });
 ```
 
-### 加载展品插件
+[查看 getSelfDependencyTree 详情](/api/widget.html#getselfdependencytree)
 
-[查看 mountExhibitWidget 详情](/api/widget.html#mountexhibitwidget)
+[查看 mountArticleWidget 详情](/api/widget.html#mountarticlewidget)
+
+### 加载展品插件
 
 ```ts
 import {
@@ -209,6 +212,8 @@ import {
   ExhibitInfo,
   GetExhibitListByPagingResult,
 } from "freelog-runtime";
+
+// 获取插件列表
 const res: GetExhibitListByPagingResult =
   await freelogApp.getExhibitListByPaging({
     articleResourceTypes: "插件",
@@ -216,8 +221,10 @@ const res: GetExhibitListByPagingResult =
   });
 const widgets = res.data.data?.dataList;
 
+// 遍历插件列表
 widgets.forEach(async (widget: ExhibitInfo, index: number) => {
   if (widget.articleInfo.articleName == "snnaenu/插件开发演示代码插件") {
+    // 加载插件
     exhibitWidget = await freelogApp.mountExhibitWidget({
       exhibitId: widget.exhibitId,
       container: document.getElementById("freelog-exhibit") as HTMLElement, // 必传，自定义一个让插件挂载的div容器
@@ -240,24 +247,33 @@ widgets.forEach(async (widget: ExhibitInfo, index: number) => {
 });
 ```
 
+[查看 mountExhibitWidget 详情](/api/widget.html#mountexhibitwidget)
+
 ### 单独调试某个插件
 
 当需要跳过主题直接调试正在运行的子插件或展品插件
 
 定义： `${url}?dev=replace&${widgetRenderName}-freelog=${local_entry}`
 
-url: 节点地址
+`url`: 节点地址
 
-'${widgetRenderName}-freelog': 渲染名称加-freelog
-widgetRenderName 获取方式：1.url 上已有渲染名称，2.如果渲染名称无法区分，插件内可以通过 freelogApp.getSelfWidgetRenderName()获取自身的渲染名称
+`dev=replace`: 特定识别参数
 
-local_entry: 本地地址
+`${widgetRenderName}-freelog`: 渲染 id 加-freelog。
+
+`local_entry`: 本地地址
 
 举例：
 
-```ts
+```html
 https://nes-common.freelog.com/?dev=replace&w680fb7-freelog=https://localhost:7107/
 ```
+
+`widgetRenderName` 获取方式：
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.url 上已有渲染 id
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.如果渲染名称无法区分，插件内可以通过 freelogApp.getSelfWidgetRenderName()获取自身的渲染 id
 
 <!-- ### 插件卸载
 
@@ -283,7 +299,7 @@ useEffect(() => {
 
 ```ts
 // 运行时加载主题时已经传递了 property
-// 如果主题或插件调用mountExhibitWidget、mountArticleWidget时传递了property
+// 如果主题或插件调用mountExhibitWidget、mountArticleWidget加载插件时传递了property
 const propery = await freelogApp.getSelfProperty();
 
 // 如果没有传递property，或者想要强制通过网络从平台获取
@@ -538,6 +554,8 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
   }
 ```
 
+[查看 getCollectionSubList 详情](/api/collection.html#getcollectionsubList)
+
 ### 获取多个集合内子作品列表
 
 ```ts
@@ -558,6 +576,8 @@ const res = await freelogApp.getCollectionsSubList(exhibitIds, {
   }
 ```
 
+[查看 getCollectionsSubList 详情](/api/collection.html#getcollectionssubList)
+
 ### 获取集合内子作品详情
 
 ```ts
@@ -572,6 +592,8 @@ const res = await freelogApp.getCollectionSubInfo(exhibitId, {
   }
 ```
 
+[查看 getCollectionSubInfo 详情](/api/collection.html#getcollectionsubinfo)
+
 ### 获取集合内子作品授权结果
 
 ```ts
@@ -585,6 +607,8 @@ const res = await freelogApp.getCollectionSubAuth(exhibitId, {
     itemIds:  string, // 子作品id,多个用“,”隔开
   }
 ```
+
+[查看 getCollectionSubAuth 详情](/api/collection.html#getcollectionsubauth)
 
 ### 获取集合内子作品文件或子文件
 
@@ -616,6 +640,8 @@ const res = await freelogApp.getCollectionSubDepList(exhibitId, {
     itemId:  string, // 子作品id
   }
 ```
+
+[查看 getCollectionSubDepList 详情](/api/collection.html#getcollectionsubdeplist)
 
 ### 获取集合内子作品的依赖文件或依赖的子文件
 
