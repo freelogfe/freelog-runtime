@@ -76,50 +76,67 @@ vite 请参考 @vitejs/plugin-basic-ssl 插件
 
 创建节点后必须建一个主题作品并签约激活
 
-假设节点为https://examples.freelog.com/
+假设节点为`https://examples.freelog.com/`
 
-用于开发的测试节点为https://examples.freelog.com/
+<!-- 用于开发的测试节点为https://examples.freelog.com/ -->
 
-### 连接节点与插件
+### 连接节点与本地主题
 
-启动插件，例如‘https://localhost:7101’
+启动本地主题，例如 `https://localhost:7101`
 
-在节点 url 的https://examples.freelog.com/后面加上
+在节点 url 的`https://examples.freelog.com/`后面加上
 
-```ts
-"https://examples.freelog.com/?dev=https://localhost:7101";
+```html
+https://examples.freelog.com/?dev=https://localhost:7101
 ```
 
-此时插件是作为节点主题（即入口）使用
+此时本地主题替代节点原有线上主题使用
 
 ### URL 说明
 
-<https://examples.testfreelog.com/?theme=%2Fwidget-mount&w910d8e=%2Fwidget%2F&wa4083c1=%2Fwidget%2F>
+节点 URL 示例：`https://examples.testfreelog.com/?theme=%2Fwidget-mount&w910d8e=%2Fwidget%2F&wa4083c1=%2Fwidget%2F`
 
-<https://examples.testfreelog.com>： 节点地址
+`https://examples.testfreelog.com`： 节点地址
 
-theme=%2Fwidget-mount：
+`theme=%2Fwidget-mount`：
 
-主题渲染 id=主题的路由 %2Fwidget-mount=encodeURIComponent("/widget-mount")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;规则：`${主题的渲染id}=${主题的路由}`, `theme`为主题的渲染 id,`%2Fwidget-mount` 为主题路由,
+路由通过 encodeURIComponent 转码，初始路由为 `/widget-mount`
 
-w910d8e=%2Fwidget%2F:
+`w910d8e=%2Fwidget%2F`:
 
-插件渲染 id=插件的路由 %2Fwidget%2F=encodeURIComponent("/widget/")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;规则：`${插件的渲染id}=${插件的路由}`, `w910d8e`为插件的渲染 id,`%2Fwidget%2F` 为插件路由,
+路由通过 encodeURIComponent 转码，初始路由为 `/widget/`
 
-wa4083c1=%2Fwidget%2F：
+`wa4083c1=%2Fwidget%2F`：
 
-插件渲染 id=插件的路由 %2Fwidget%2F=encodeURIComponent("/widget/")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;规则：同上
 
 ### 安装 api 库 与初始化 API
 
-```ts
+```code
  npm install freelog-runtime
- // 使用前导入
- import { initFreelogApp,freelogApp } from "freelog-runtime"
- // 👇 将渲染操作放入 mount 函数，子应用初始化时会自动执行
+```
+
+或者
+
+```code
+ yarn add freelog-runtime
+```
+
+或者
+
+```code
+ pnpm add freelog-runtime
+```
+
+```ts
+// 使用前导入
+import { initFreelogApp, freelogApp } from "freelog-runtime";
+// 👇 将渲染操作放入 mount 函数，子应用初始化时会自动执行
 window.mount = () => {
   // 必须在mount中初始化
-  initFreelogApp()
+  initFreelogApp();
 
   render();
 };
@@ -131,6 +148,7 @@ window.mount = () => {
 import { widgetApi } from "freelog-runtime";
 const themeInfo = widgetApi.getData().themeInfo;
 ```
+[查看 返回数据 详情](/api/exhibit.html#getexhibitinfo)
 
 ### 获取节点信息
 
@@ -143,9 +161,9 @@ const nodeInfo = freelogApp.nodeInfo;
 
 ### 加载自身的子依赖插件
 
-[查看 getSelfDependencyTree 详情](/api/#getselfdependencytree)
+[查看 getSelfDependencyTree 详情](/api/widget.html#getselfdependencytree)
 
-[查看 mountArticleWidget 详情](/api/#mountarticlewidget)
+[查看 mountArticleWidget 详情](/api/widget.html#mountarticlewidget)
 
 ```ts
 import { freelogApp } from "freelog-runtime";
@@ -181,7 +199,7 @@ subData.forEach(async (sub: ExhibitAuthNodeInfo) => {
 
 ### 加载展品插件
 
-[查看 mountExhibitWidget 详情](/api/#mountexhibitwidget)
+[查看 mountExhibitWidget 详情](/api/widget.html#mountexhibitwidget)
 
 ```ts
 import {
@@ -341,7 +359,7 @@ const res = await freelogApp.getExhibitRecommend(exhibitId, {
   }
 ```
 
-[查看 getExhibitListByPaging 详情](/api/#getexhibitlistbypaging)
+[查看 getExhibitListByPaging 详情](/api/exhibit.html#getexhibitlistbypaging)
 
 **查找展品**
 
@@ -355,7 +373,7 @@ const res = freelogApp.getExhibitListById(query)
   }
 ```
 
-[查看 getExhibitListById 详情](/api/#getexhibitlistbyid)
+[查看 getExhibitListById 详情](/api/exhibit.html#getexhibitlistbyid)
 
 ### 获取单个展品详情
 
@@ -380,7 +398,7 @@ const res = await freelogApp.getExhibitInfo(exhibitId, {
 const exhibitProperty = res.data.data.versionInfo.exhibitProperty;
 ```
 
-[查看 getExhibitInfo 详情](/api/#getexhibitinfo)
+[查看 getExhibitInfo 详情](/api/exhibit.html#getexhibitinfo)
 
 ### 获取展品作品文件
 
@@ -465,7 +483,7 @@ const res = await freelogApp.getExhibitDepInfo(
                        // 一个或多个链路id,多个用英文逗号隔开, 在依赖树当中的唯一标识id
 ```
 
-[查看 getExhibitDepInfo 详情](/api/#getexhibitdepinfo)
+[查看 getExhibitDepInfo 详情](/api/exhibit.html#getexhibitdepinfo)
 
 ### 获取子依赖作品文件
 
@@ -633,7 +651,7 @@ const res = await freelogApp.getExhibitSignCount(
   exhibitIds:string // 一个或多个展品id，多个用英文逗号隔开
 ```
 
-[查看 getExhibitSignCount 详情](/api/#getexhibitsigncount)
+[查看 getExhibitSignCount 详情](/api/exhibit.html#getexhibitsigncount)
 
 ### 批量查询展品授权
 
@@ -664,7 +682,7 @@ res:{
 }
 ```
 
-[查看 getExhibitAuthStatus 详情](/api/#getexhibitauthstatus)
+[查看 getExhibitAuthStatus 详情](/api/exhibit.html#getexhibitauthstatus)
 
 ### 批量查询展品是否可用
 
@@ -697,7 +715,7 @@ const res = await freelogApp.getExhibitAvailable(
 }
 ```
 
-[查看 getExhibitAvailable 详情](/api/#getexhibitavailable)
+[查看 getExhibitAvailable 详情](/api/exhibit.html#getexhibitavailable)
 
 ### 授权处理
 
