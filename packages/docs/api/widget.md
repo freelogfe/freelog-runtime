@@ -7,7 +7,7 @@ title: 2222
 
 ## getStaticPath
 
-**用途：获取图片字体等静态作品的正确路径**
+**用途：获取图片字体等静态文件的正确路径**
 
 ```ts
 **参数说明**
@@ -58,7 +58,7 @@ const data = freelogApp.devData;
 
 ## getCurrentUrl
 
-**用途：获取当前 完整 url**
+**用途：获取当前节点的完整 url**
 
 ```ts
 **用法**
@@ -78,8 +78,9 @@ const selfWidgetRenderName = freelogApp.getSelfWidgetRenderName();
 
 **用途：获取当前插件的自身或顶层展品 id，也就是依赖树最上层的展品 id**
 
-**场景一：主当前插件是展品插件，获取自身展品 id，然后通过getExhibitInfo获取自身展品信息**
-**场景二：主当前插件是展品依赖树中的资源作为插件，获取最上层的展品 id**
+**场景一：主当前插件是展品插件，获取自身展品 id，然后通过getExhibitInfo获取自身展品信息。**
+
+**场景二：主当前插件是展品依赖树中的资源作为插件，获取最上层的展品 id。**
 
 ```ts
 **用法**
@@ -93,7 +94,7 @@ const res = await freelogApp.getExhibitInfo(topExhibitId, query)
 
 **用途：获取当前作品类型插件的自身链路ID**
 
-**场景：主当前插件是展品依赖树中的作品作为插件，获取自身链路ID和topExhibitId后，通过getExhibitDepInfo获取自身信息**
+**场景：主当前插件是展品依赖树中的作品作为插件，获取自身链路ID和topExhibitId后，通过getExhibitDepInfo获取自身信息。**
 
 ```ts
 **用法**
@@ -140,7 +141,7 @@ type ExhibitDependencyNodeInfo =  DepType[]
 
 ```
 
-**字段说明：**
+**DepType 字段说明：**
 
 | 返回值字段   | 字段类型 | 字段说明                                                     |
 | :----------- | :------- | :----------------------------------------------------------- |

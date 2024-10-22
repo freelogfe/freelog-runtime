@@ -307,7 +307,6 @@ function App() {
     eventMap.forEach((val: any) => {
       arr.push(val);
     });
-    console.log(eventMap, arr, event);
     setEvents(arr);
     if (!arr.length) {
       microApp.setData("freelog-pc-common-auth", {

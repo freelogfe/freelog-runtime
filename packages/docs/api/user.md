@@ -4,30 +4,65 @@ outline: deep
 
 # 用户相关
 
+## callLogin
+
+**用途：唤起登录 UI**
+
+**若没有传递 callBack 回调且没有使用 freelogApp.onLogin(callback)监听, 登录成功后会自动刷新整个页面。同时优先执行 onLogin 的回调**
+
+```ts
+**参数说明**
+// 登录成功：status === freelogApp.resultType.SUCCESS;
+// 用户取消：status === freelogApp.resultType.USER_CANCEL;
+callback: (status:number)=>any
+
+**用法**
+freelogApp.callLogin(callBack)
+```
+
+## callLoginOut
+
+**用途：退出登录**
+
+```ts
+**用法**
+// 登出后会刷新整个页面
+freelogApp.callLoginOut()
+```
+
 ## onLogin
 
 **用途：监听用户登录**
 
 ```ts
-**用法**
 **参数说明**
   resolve: Function // 登录成功回调
-  reject: Function // 登录失败回调
+  reject: Function // 登录失败后用户关闭登录窗口的回调
 
+**用法**
 freelogApp.onLogin(resolve,reject);
 ```
 
 ## onUserChange
 
-**用途：监听用户登录变化**
+**用途：监听用户在同浏览器其余节点页面切换账号事件，进入当前页签时执行**
 
 ```js
 **参数说明**
   callback: Function // 回调
 
 **用法**
-// 当用户在其余页面切换账号，会回调所有函数
+// 当用户在其余页面切换账号，进入当前页签时执行所有回调
 freelogApp.onUserChange(callback);
+```
+
+## isUserChange
+
+**用途：用户在同浏览器其余节点页面切换账号浏览器不同页签进行登录登出操作，切换到当前页面后主动检测是否用户发生变化，用户变化后返回 true，没有变则返回 false**
+
+```ts
+**用法**
+const flag: boolean = freelogApp.isUserChange()
 ```
 
 ## getCurrentUser
@@ -127,41 +162,6 @@ const userData = await freelogApp.deleteUserData("testData");
   "msg": "success",
   "data":null
 }
-```
-
-## callLogin
-
-**用途：唤起登录 UI**
-
-**若没有传递 callBack 回调且没有使用 freelogApp.onLogin(callback)监听, 登录成功后会自动刷新整个页面。同时优先执行 onLogin 的回调**
-
-```ts
-**参数说明**
-// 登录成功：status === freelogApp.resultType.SUCCESS;
-// 用户取消：status === freelogApp.resultType.USER_CANCEL;
-callback: (status:number)=>any
-
-**用法**
-freelogApp.callLogin(callBack)
-```
-
-## callLoginOut
-
-**用途：唤起退出登录 UI**
-
-```ts
-**用法**
-// 登出后会刷新整个页面
-freelogApp.callLoginOut()
-```
-
-## isUserChange
-
-**用途：用户变化后返回 true，没有变则返回 false**
-
-```ts
-**用法**
-const flag = freelogApp.isUserChange()
 ```
 
 <!-- ## pushMessage4Task

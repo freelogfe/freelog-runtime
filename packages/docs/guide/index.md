@@ -8,21 +8,21 @@ outline: deep
 
 ### 概念
 
-在 Freelog 平台，插件是指作品类型为插件的功能性作品，一般作为主题的依赖在节点发挥作用，决定节点中内容型展品的访问、展示和交互方式。
+在 Freelog 平台，`插件`是指作品类型为`插件`的功能性作品，一般作为`主题`的依赖在节点发挥作用，决定节点中内容型展品的访问、展示和交互方式。
 
-插件可以是一个播放器、一个图床、一个目录菜单或者一个小说阅读器。
+`插件`可以是一个播放器、一个图床、一个目录菜单或者一个小说阅读器。
 
-**技术上来讲，主题是一个作为节点入口的插件，并具有一些特殊权限**
+**技术上来讲，`主题`是一个作为节点入口的`插件`，并具有一些特殊权限。**
 
 ### 通俗解释
 
-**插件是一个运行在我司平台运行时的可管控的一个完整应用或组件，与微前端类似**
+**`插件`是一个运行在我司平台运行时的可管控的一个完整应用或组件，与微前端类似。**
 
-**后面出现的运行时皆指平台运行时**
+**后面出现的运行时皆指平台运行时。**
 
-### 特别说明
+<!-- ### 特别说明
 
-**文中 resourceName 与 articleName, resourceId 与 articleId 属于同一属性**
+**文中 resourceName 与 articleName, resourceId 与 articleId 属于同一属性。** -->
 
 <!-- ### 运行原理
 
@@ -51,28 +51,28 @@ outline: deep
 
 ### https 证书准备（必须）
 
-**由于浏览器安全限制，本地开发需要本地以 https 启动**
+**由于浏览器安全限制，本地开发需要本地以 https 启动。**
 
-webpack 请参考 webpack-mkcert 工具
+`webpack` 请参考 `webpack-mkcert` 工具
 
 [https://www.npmjs.com/package/webpack-mkcert](https://www.npmjs.com/package/webpack-mkcert)
 
-vite 请参考 @vitejs/plugin-basic-ssl 插件
+`vite` 请参考 `@vitejs/plugin-basic-ssl` 插件
 
 [https://github.com/vitejs/vite-plugin-basic-ssl](https://github.com/vitejs/vite-plugin-basic-ssl)
 
 ### chrome 无法访问 localhost 问题
 
-地址栏输入：chrome://flags/#block-insecure-private-network-requests
+地址栏输入：`chrome://flags/#block-insecure-private-network-requests`
 
-把 Block insecure private network requests. 设置为 disabled
+把 `Block insecure private network requests.` 设置为 `Disabled`
 
 如图
 ![chrome](/chrome.png)
 
 ### 创建一个节点和主题
 
-进入 console.freelog.com ---> 节点管理
+进入 `console.freelog.com` ---> 节点管理
 
 创建节点后必须建一个主题作品并签约激活
 
@@ -90,7 +90,7 @@ vite 请参考 @vitejs/plugin-basic-ssl 插件
 https://examples.freelog.com/?dev=https://localhost:7101
 ```
 
-此时本地主题替代节点原有线上主题使用
+此时本地主题替代节点原有线上主题使用。
 
 ### URL 说明
 
@@ -112,7 +112,7 @@ https://examples.freelog.com/?dev=https://localhost:7101
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;规则：同上
 
-注：通过 freelogApp.getSelfWidgetRenderName()获取自身渲染 id
+注：通过 freelogApp.getSelfWidgetRenderName()获取自身渲染 id。
 
 ### 安装 api 库 与初始化 API
 
@@ -148,6 +148,7 @@ window.mount = () => {
 
 ```ts
 import { widgetApi } from "freelog-runtime";
+// 运行时已传递了主题信息，若要重新获取参考getTopExhibitId说明
 const themeInfo = widgetApi.getData().themeInfo;
 ```
 
@@ -155,10 +156,12 @@ const themeInfo = widgetApi.getData().themeInfo;
 
 ### 获取节点信息
 
+<!-- // 目前没有权限控制，主题和插件都可以获取到，后期整体考虑权限时会限制插件使用
+// 如果使用到了节点信息，插件开发者应当在使用说明里明确使用到了节点信息以及无法获取到的影响 -->
+
 ```ts
 import { freelogApp } from "freelog-runtime";
-// 目前没有权限控制，主题和插件都可以获取到，后期整体考虑权限时会限制插件使用
-// 如果使用到了节点信息，插件开发者应当在使用说明里明确使用到了节点信息以及无法获取到的影响
+
 const nodeInfo = freelogApp.nodeInfo;
 ```
 
@@ -167,16 +170,19 @@ const nodeInfo = freelogApp.nodeInfo;
 ### 加载自身的子依赖插件
 
 ```ts
-import { freelogApp } from "freelog-runtime";
-// 运行时加载主题时已经传递了 dependencyTree, 非主题如果父插件没有传递，请使用 freelogApp.getDependencyTree(true)
+import { freelogApp, ExhibitAuthNodeInfo } from "freelog-runtime";
+// 获取自身依赖，运行时加载主题时已经传递了 dependencyTree, 非主题如果父插件没有传递，请使用 freelogApp.getDependencyTree(true)
 const subData: ExhibitAuthNodeInfo[] = await freelogApp.getSelfDependencyTree();
+
+// 遍历依赖
 subData.forEach(async (sub: ExhibitAuthNodeInfo) => {
+  // 加载想要的插件
   if (sub.articleName === "snnaenu/插件开发演示代码插件") {
     selfWidget = await freelogApp.mountArticleWidget({
       articleId: sub.articleId,
       parentNid: sub.parentNid,
       nid: sub.nid,
-      topExhibitId: freelogApp.getTopExhibitId(), //
+      topExhibitId: freelogApp.getTopExhibitId(), // 获取父级展品id（自身是展品就是自身展品id)
       container: document.getElementById("freelog-self") as HTMLElement, // 必传，自定义一个让插件挂载的div容器
       renderWidgetOptions: {
         data: {
@@ -251,17 +257,17 @@ widgets.forEach(async (widget: ExhibitInfo, index: number) => {
 
 ### 单独调试某个插件
 
-当需要跳过主题直接调试正在运行的子插件或展品插件
+当需要跳过主题直接调试正在运行的子插件或展品插件。
 
 定义： `${url}?dev=replace&${widgetRenderName}-freelog=${local_entry}`
 
-`url`: 节点地址
+`url`: 节点地址。
 
-`dev=replace`: 特定识别参数
+`dev=replace`: 特定识别参数。
 
 `${widgetRenderName}-freelog`: 渲染 id 加-freelog。
 
-`local_entry`: 本地地址
+`local_entry`: 本地地址。
 
 举例：
 
@@ -271,9 +277,9 @@ https://nes-common.freelog.com/?dev=replace&w680fb7-freelog=https://localhost:71
 
 `widgetRenderName` 获取方式：
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.url 上已有渲染 id
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.url 上已有渲染 id。
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.如果渲染名称无法区分，插件内可以通过 freelogApp.getSelfWidgetRenderName()获取自身的渲染 id
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.如果渲染名称无法区分，插件内可以通过 freelogApp.getSelfWidgetRenderName()获取自身的渲染 id。
 
 <!-- ### 插件卸载
 
@@ -310,7 +316,7 @@ const propery = await freelogApp.getSelfProperty(true);
 
 **打包之后 css 中的字体文件和背景图片加载 404**
 
-原因是有些场景无法修改字体文件和背景图片的加载路径，
+原因是有些场景无法修改字体文件和背景图片的加载路径。
 
 解决方案：
 
@@ -321,7 +327,7 @@ const propery = await freelogApp.getSelfProperty(true);
 
    大字体：（暂未实现）如果路径写在 css 中则无需刻意放在 public 目录下，如果使用 js 去赋值，则同图片一样处理。
 
-2. 小文件处理方式：借助 webpack 的 url-loader 将字体文件和图片打包成 base64（适用于字体文件和图片体积小的项目）
+2. 小文件处理方式：借助 webpack 的 url-loader 将字体文件和图片打包成 base64（适用于字体文件和图片体积小的项目）。
 
 [查看 vite 打包静态文件处理](https://cn.vitejs.dev/guide/assets.html)
 
@@ -329,10 +335,11 @@ const propery = await freelogApp.getSelfProperty(true);
 
 **除媒体查询外，支持最新的问题最少的最好的 viewport 兼容方案**
 
-**推荐使用 postcss-px-to-viewport 插件, 各框架具体使用方法请百度**
+**推荐使用 postcss-px-to-viewport 插件, 各框架具体使用方法请百度。**
+
+**viewport 修改方法：**
 
 ```ts
-**viewport修改用法**
 freelogApp.setViewport(keys: any)
 keys = {
   width: "device-width", // immutable
@@ -495,8 +502,9 @@ const res = await freelogApp.getExhibitDepInfo(
 )
 **参数说明**
   exhibitId: string ,  // 自身展品id
-  articleNids: string, // 例如上面的dependencyTree中的多个nid: "61b99394c9da,9091f75e23fb"
-                       // 一个或多个链路id,多个用英文逗号隔开, 在依赖树当中的唯一标识id
+  articleNids: string, // 一个或多个链路id,多个用英文逗号隔开, 在依赖树当中的唯一标识id
+                       // 例如上面的dependencyTree中的多个nid: "61b99394c9da,9091f75e23fb"
+
 ```
 
 [查看 getExhibitDepInfo 详情](/api/exhibit.html#getexhibitdepinfo)
@@ -666,7 +674,7 @@ const res = await freelogApp.getCollectionSubDepFileStream(exhibitId, {
 
 ### 查找展品签约数量
 
-**同一个用户的多次签约只计算一次**
+**说明：同一个用户的多次签约只计算一次。**
 
 ```ts
 const res = await freelogApp.getExhibitSignCount(
@@ -712,7 +720,7 @@ res:{
 
 ### 批量查询展品是否可用
 
-**即节点是否完全获得授权，然后才能提供给用户签约**
+**即节点是否完全获得授权，只有完全获得授权才能提供给用户签约。**
 
 ```ts
 const res = await freelogApp.getExhibitAvailable(
@@ -720,7 +728,7 @@ const res = await freelogApp.getExhibitAvailable(
 )
 
 **参数说明**
-  exhibitIds: //  一个或多个展品id，多个用英文逗号隔开
+  exhibitIds: string //  一个或多个展品id，多个用英文逗号隔开
 
 **返回值**
 {
@@ -745,37 +753,41 @@ const res = await freelogApp.getExhibitAvailable(
 
 ### 授权处理
 
-**单个呼出授权**
+**说明：目前只支持单个展品授权处理，如果多个插件同时调用，会以最后一次调用为准。**
+
+**单个呼出授权：**
 
 ```ts
   // 未授权的展品提交给运行时处理
-  /**
-   * addAuth 参数
-      exhibitId: string, // 展品id
-      options?: {
-        immediate: boolean  // 是否立即弹出授权窗口
-      }
-  */
   const res = await freelogApp.addAuth(exhibitId, {
     immediate: true,
   });
 
+  **参数说明**
+    exhibitId: string, // 展品id
+    options?: {
+      immediate: boolean  // 是否立即弹出授权窗口
+    }
+
   **res返回值说明**
-  {status: SUCCESS, data}
-  status 枚举判断：
-    status === freelogApp.resultType.SUCCESS;  // 成功
-    status === freelogApp.resultType.FAILED;   // 失败
-    status === freelogApp.resultType.USER_CANCEL; // 用户取消
-    status === freelogApp.resultType.DATA_ERROR;  // 数据错误
-    status === = freelogApp.resultType.OFFLINE; // 展品已经下线
-  data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
+
+    示例：{status: SUCCESS, data}
+
+    解释：
+      status 枚举判断：
+        status === freelogApp.resultType.SUCCESS;  // 成功
+        status === freelogApp.resultType.FAILED;   // 失败
+        status === freelogApp.resultType.USER_CANCEL; // 用户取消
+        status === freelogApp.resultType.DATA_ERROR;  // 数据错误
+        status === = freelogApp.resultType.OFFLINE; // 展品已经下线
+      data: 如果是DATA_ERROR或OFFLINE，会返回错误数据或展品数据
 
 ```
 
-**呼出授权**
+**呼出授权：**
 
 ```ts
-// 当addAuth多个未授权展品且没有立刻呼出（或者存在未授权展品且已经addAuth 但用户关闭了，插件想要用户签约时）可以通过callAuth()唤出
+// 当addAuth未授权展品且没有立刻呼出可以通过callAuth()唤出
 freelogApp.callAuth();
 ```
 
@@ -784,13 +796,18 @@ freelogApp.callAuth();
 ### 唤起登录
 
 ```ts
-// callback: 登录成功的回调，登录失败不会回调
+// callback: 登录成功或用户取消后的回调
 freelogApp.callLogin(callback);
 ```
 
-### 唤起退出登录
+[查看 callLogin 详情](/api/user.html#calllogin)
+
+### 退出登录
+
+<!-- TODO 这里要有网络错误的回调 -->
 
 ```ts
+// 登出后会刷新整个页面
 freelogApp.callLoginOut();
 ```
 
@@ -800,11 +817,15 @@ freelogApp.callLoginOut();
 const res = await freelogApp.getCurrentUser();
 ```
 
+[查看 getCurrentUser 详情](/api/user.html#getcurrentuser)
+
 ### 监听用户登录事件
 
 ```ts
-// callback: 登录成功的回调，登录失败不会回调
-freelogApp.onLogin(callback);
+**参数说明**
+  resolve: Function // 登录成功回调
+  reject: Function // 登录失败后用户关闭登录窗口的回调
+freelogApp.onLogin(resolve,reject);
 ```
 
 ### 监听用户在其余页面切换账号或登录事件
@@ -822,6 +843,10 @@ const res = await freelogApp.setUserData(key, data);
 // 获取用户数据
 const res = await freelogApp.getUserData(key);
 ```
+
+[查看 setUserData 详情](/api/user.html#setuserdata)
+
+[查看 getUserData 详情](/api/user.html#getuserdata)
 
 ## 打包上传
 
