@@ -1,12 +1,12 @@
-﻿# 集合类型展品内作品相关
+﻿# 合集类型展品内作品相关
 
 ## getCollectionSubList
 
-**用途：获取集合类型展品的子作品分页列表**
+**用途：获取合集类型展品的单品分页列表**
 
 ```ts
 **参数说明**
-  exhibitId: string, // 集合展品id
+  exhibitId: string, // 合集展品id
   {
     sortType: 1, // 排序方式: 1:升序 -1:降序
     skip: 0,
@@ -228,11 +228,11 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
 
 ## getCollectionsSubList
 
-**用途：获取多个集合类型展品的子作品分页列表**
+**用途：获取多个合集类型展品的单品分页列表**
 
 ```ts
 **参数说明**
-  exhibitIds: string, // 多个集合展品id,用“,”分割
+  exhibitIds: string, // 多个合集展品id,用“,”分割
   {
     sortType: 1, // 排序方式: 1:升序 -1:降序
     skip: 0,
@@ -349,13 +349,13 @@ const res = await freelogApp.getCollectionsSubList(exhibitIds, {
 
 ## getCollectionSubInfo
 
-**用途：获取集合类型展品的子作品详情**
+**用途：获取合集类型展品的单品详情**
 
 ```ts
 **参数说明**
-  exhibitId: string, // 集合展品id
+  exhibitId: string, // 合集展品id
   {
-    itemId:  string, // 子作品id
+    itemId:  string, // 单品id
   }
 
 **用法**
@@ -438,18 +438,18 @@ const res = await freelogApp.getCollectionSubInfo(exhibitId, {
 
 ## getCollectionSubAuth
 
-**用途：获取集合类型展品的子作品授权结果**
+**用途：获取合集类型展品的单品授权结果**
 
 ```ts
 **参数说明**
-  exhibitId: string, // 集合展品id
+  exhibitId: string, // 合集展品id
   {
-    itemIds:  string, // 子作品id,多个用“,”隔开
+    itemIds:  string, // 单品id,多个用“,”隔开
   }
 
 **用法**
 const res = await freelogApp.getCollectionSubAuth(exhibitId, {
-    itemIds: "a2b0784da2b0784d,a2b0784da2b0784d", // 子作品id, 多个用英文逗号分隔
+    itemIds: "a2b0784da2b0784d,a2b0784da2b0784d", // 单品id, 多个用英文逗号分隔
  });
 ```
 
@@ -495,32 +495,32 @@ const res = await freelogApp.getCollectionSubAuth(exhibitId, {
 
 ## getCollectionSubFileStream
 
-**用途：获取集合类型展品的子作品文件或子文件**
+**用途：获取合集类型展品的单品文件或子文件**
 
 ```ts
 **参数说明**
-  exhibitId: string, // 集合展品id
+  exhibitId: string, // 合集展品id
   {
-    itemId:  string, // 子作品id
+    itemId:  string, // 单品id
     returnUrl?: boolean // 可选，默认false，是否只返回url， 例如img标签图片只需要url
     subFilePath?: string; // 作品内部子文件路径
   }
 
 **用法**
 const res = await freelogApp.getCollectionSubFileStream(exhibitId, {
-    itemIds: "a2b0784da2b0784d,a2b0784da2b0784d", // 子作品id, 多个用英文逗号分隔
+    itemIds: "a2b0784da2b0784d,a2b0784da2b0784d", // 单品id, 多个用英文逗号分隔
  });
 ```
 
 ## getCollectionSubDepList
 
-**用途：获取集合类型展品的子作品的依赖列表**
+**用途：获取合集类型展品的单品的依赖列表**
 
 ```ts
 **参数说明**
-  exhibitId: string, // 集合展品id
+  exhibitId: string, // 合集展品id
   {
-    itemId:  string, // 子作品id
+    itemId:  string, // 单品id
   }
 
 **用法**
@@ -569,15 +569,15 @@ const res = await freelogApp.getCollectionSubDepList(exhibitId, {
 
 ## getCollectionSubDepFileStream
 
-**用途：获取集合类型展品的子作品的依赖文件或依赖的子文件**
+**用途：获取合集类型展品的单品的依赖文件或依赖的子文件**
 
 ```ts
 **参数说明**
-  exhibitId: string, // 集合展品id
+  exhibitId: string, // 合集展品id
   {
-    itemId:  string, // 子作品id
+    itemId:  string, // 单品id
     nid:  string, // 依赖的链路id
-    subFilePath?:  string, // 可选，子作品的依赖内部的文件路径
+    subFilePath?:  string, // 可选，单品的依赖内部的文件路径
     returnUrl?: boolean // 可选，默认false，是否只返回url， 例如img标签图片只需要url
   }
 

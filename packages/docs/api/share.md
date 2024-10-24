@@ -12,7 +12,7 @@ outline: deep
 **参数说明**
   {
     exhibitId：string, // 展品ID
-    itemId?:string, // 集合子作品id,非子作品可省略
+    itemId?:string, // 合集单品id,非单品可省略
     query?:{     // 自定义参数，会拼接到url后面，如：?key=value
       [key: string]: any;
     }
