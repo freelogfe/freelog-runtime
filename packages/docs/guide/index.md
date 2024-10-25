@@ -92,6 +92,16 @@ https://examples.freelog.com/?dev=https://localhost:7101
 
 此时本地主题替代节点原有线上主题使用。
 
+### chrome 控制台报错：net::ERR_CERT_AUTHORITY_INVALID
+
+地址栏打开 https://localhost:7101
+
+第一步：
+![chrome](/chrome_pro.jpg)
+
+第二步：
+![chrome](/chrome_go.png)
+
 ### URL 说明
 
 节点 URL 示例：`https://examples.testfreelog.com/?theme=%2Fwidget-mount&w910d8e=%2Fwidget%2F&wa4083c1=%2Fwidget%2F`
