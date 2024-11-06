@@ -101,22 +101,22 @@ function App() {
           document.title = "[T]" + document.title;
         }
         init(nodeInfo.nodeId);
-        const entry =
-          freelogAuth.devData.type == 3
-            ? freelogAuth.devData.params["auth"]
-            : "";
-        await microApp.renderApp({
-          "router-mode": "pure",
-          name: "freelog-pc-common-auth",
-          url: entry
-            ? entry
-            : window.location.host.includes("testfreelog.com")
-            ? "https://authorization-processor.testfreelog.com/"
-            : "https://authorization-processor.freelog.com/", // "https://runtime-test-pc.oss-cn-shenzhen.aliyuncs.com/ui", // "https://localhost:8006",//"https://localhost:8402/",
-          container: document.getElementById(
-            "freelog-pc-common-auth"
-          ) as HTMLElement,
-        });
+        // const entry =
+        //   freelogAuth.devData.type == 3
+        //     ? freelogAuth.devData.params["auth"]
+        //     : "";
+        // await microApp.renderApp({
+        //   "router-mode": "pure",
+        //   name: "freelog-pc-common-auth",
+        //   url: entry
+        //     ? entry
+        //     : window.location.host.includes("testfreelog.com")
+        //     ? "https://authorization-processor.testfreelog.com/"
+        //     : "https://authorization-processor.freelog.com/", // "https://runtime-test-pc.oss-cn-shenzhen.aliyuncs.com/ui", // "https://localhost:8006",//"https://localhost:8402/",
+        //   container: document.getElementById(
+        //     "freelog-pc-common-auth"
+        //   ) as HTMLElement,
+        // });
         Object.freeze(freelogApp.nodeInfo);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
