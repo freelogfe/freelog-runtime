@@ -20,6 +20,18 @@
     -->
     <!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> -->
     <style>
+      .werwerwerwerspin-rotate {
+        animation: werwerwerwerspin 2s linear infinite;
+      }
+
+      @keyframes werwerwerwerspin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
       body {
         width: 100%;
         height: 100%;
@@ -29,7 +41,7 @@
         margin: 0px;
       }
     </style>
-     <style>
+    <style>
       #ui-root {
         position: fixed;
         left: 0;
@@ -90,7 +102,7 @@
     <div id="freelog-plugin-container"></div>
     <div id="freelog-pc-common-auth"></div>
     <div id="runtime-loading">
-      <img src="/loading.svg" alt="" />
+      <img src="/loading.svg" alt="" class="werwerwerwerspin-rotate" />
     </div>
     <!--
       This HTML file is a template.
