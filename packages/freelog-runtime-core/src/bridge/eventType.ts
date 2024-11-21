@@ -1,3 +1,4 @@
+export const NODE_DELETED = -1;
 export const NODE_FREEZED = 0;
 export const NODE_OFFLINE = 1;
 export const NODE_PRIVATE = 2;
@@ -9,6 +10,7 @@ export const LOGIN_OUT = 7;
 export const USER_FREEZED = 8;
 
 export const eventType = {
+  NODE_DELETED,
   NODE_FREEZED,
   NODE_OFFLINE,
   NODE_PRIVATE,

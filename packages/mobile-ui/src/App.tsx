@@ -64,6 +64,7 @@ const {
   USER_FREEZED,
   NODE_OFFLINE,
   NODE_PRIVATE,
+  NODE_DELETED
 } = freelogAuth.eventType;
 // let themeId = "";
 
@@ -156,6 +157,11 @@ function App() {
         // @ts-ignore
         freelogApp.status.authUIMounted = true;
         setOutData(nodeInfo);
+        // 节点删除
+        if (nodeInfo.status == -1) {
+          UI(NODE_DELETED, nodeInfo);
+          return;
+        }
         // 节点冻结
         if (
           (nodeInfo.status & 5) === 5 ||
@@ -352,6 +358,9 @@ function App() {
     setIsOut(false);
     setEventType(type);
     switch (type) {
+      case NODE_DELETED:
+        outOfContent(data);
+        break;
       case NODE_FREEZED:
         outOfContent(data);
         break;
