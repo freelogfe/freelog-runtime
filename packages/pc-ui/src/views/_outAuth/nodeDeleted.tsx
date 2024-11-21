@@ -26,7 +26,7 @@ export default function OutOf() {
           color: "#666666",
         }}
       >
-        异常原因：节点已注销
+        异常原因：当前节点已注销
       </div>
       <div className="flex-1"></div>
     </div>

@@ -28,7 +28,7 @@ export default function OutOf() {
         }}
         className="fs-16 fw-regular lh-26 mt-40"
       >
-        异常原因：节点已注销
+        异常原因：当前节点已注销
       </div>
       <div className="flex-3"></div>
     </div>
