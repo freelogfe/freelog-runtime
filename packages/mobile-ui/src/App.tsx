@@ -64,7 +64,7 @@ const {
   USER_FREEZED,
   NODE_OFFLINE,
   NODE_PRIVATE,
-  NODE_DELETED
+  NODE_DELETED,
 } = freelogAuth.eventType;
 // let themeId = "";
 
@@ -157,30 +157,24 @@ function App() {
         // @ts-ignore
         freelogApp.status.authUIMounted = true;
         setOutData(nodeInfo);
+        // 1:公开 2:私密 4:冻结 8:暂停 -1:删除
         // 节点删除
         if (nodeInfo.status == -1) {
           UI(NODE_DELETED, nodeInfo);
           return;
         }
         // 节点冻结
-        if (
-          (nodeInfo.status & 5) === 5 ||
-          (nodeInfo.status & 6) === 6 ||
-          (nodeInfo.status & 12) === 12
-        ) {
+        if (nodeInfo.status == 4) {
           UI(NODE_FREEZED, nodeInfo);
           return;
         }
-        // 节点下线
-        if ((nodeInfo.status & 8) === 8) {
+        // 节点暂停
+        if (nodeInfo.status == 8) {
           UI(NODE_OFFLINE, nodeInfo);
           return;
         }
         // 私密节点
-        if (
-          (nodeInfo.status & 2) === 2 &&
-          nodeInfo.ownerUserId !== userInfo?.userId
-        ) {
+        if (nodeInfo.status == 2 && nodeInfo.ownerUserId !== userInfo?.userId) {
           UI(NODE_PRIVATE, nodeInfo);
           return;
         }
