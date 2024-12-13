@@ -18,27 +18,31 @@ export default defineConfig({
     nav: [
       { text: "首页", link: "/" },
       { text: "指南", link: "/guide/", activeMatch: "/guide/" },
-      { text: "框架改造", link: "/framework/", activeMatch: "/framework/" },
+      { text: "框架接入", link: "/framework/", activeMatch: "/framework/" },
       { text: "API", link: "/api/widget", activeMatch: "/api/" },
     ],
     sidebar: {
       // 当用户位于 `guide` 目录时，会显示此侧边栏
       "/guide/": [
         {
-          text: "指南",
           items: [
-            { text: "基础", link: "/guide" },
-            { text: "资源系统", link: "/guide/static-source" },
-            { text: "数据通信", link: "/guide/data" },
-            { text: "虚拟路由系统", link: "/guide/router" },
-            // { text: 'keep-alive', link: '/guide/keep-alive' },
+            { text: "指南", link: "/guide" },
+            {
+              text: "功能",
+              link: "",
+              items: [
+                { text: "资源系统", link: "/guide/wheel/static-source" },
+                { text: "虚拟路由系统", link: "/guide/wheel/router" },
+                { text: "数据通信", link: "/guide/wheel/data" },
+              ],
+            },
           ],
         },
       ],
 
       "/framework/": [
         {
-          text: "框架改造",
+          text: "框架接入",
           items: [
             { text: "说明", link: "/framework/" },
             { text: "react", link: "/framework/react" },
@@ -53,7 +57,7 @@ export default defineConfig({
           items: [
             { text: "插件相关", link: "/api/widget" },
             { text: "展品获取", link: "/api/exhibit" },
-            { text: "集合内作品", link: "/api/collection" },
+            { text: "合集相关", link: "/api/collection" },
             { text: "授权相关", link: "/api/auth" },
             { text: "用户相关", link: "/api/user" },
             { text: "特殊功能", link: "/api/share" },
@@ -85,10 +89,10 @@ export default defineConfig({
             footer: {
               selectText: "选择",
               navigateText: "切换",
-              closeText: "关闭"
+              closeText: "关闭",
             },
           },
-        }, 
+        },
       },
     },
     // socialLinks: [
