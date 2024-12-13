@@ -11,7 +11,7 @@ export default defineConfig({
     nav: [
       { text: '首页', link: '/' },
       { text: '指南', link: '/guide/index.md' },
-      { text: '框架改造', link: '/framework/index.md' },
+      { text: '框架接入', link: '/framework/index.md' },
       { text: 'API', link: '/api/index.md' }
     ],
     sidebar: [
@@ -26,7 +26,7 @@ export default defineConfig({
         ]
       },
       {
-        text: '框架改造',
+        text: '框架接入',
         items: [
           { text: '说明', link: '/framework/index.md' },
           { text: 'react', link: '/framework/react' },

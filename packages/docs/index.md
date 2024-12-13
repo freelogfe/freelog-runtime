@@ -11,7 +11,7 @@ hero:
       text: "指南"
       link: /guide/index
     - theme: alt
-      text: "框架改造"
+      text: "框架接入"
       link: /framework
     - theme: alt
       text: "参考API"

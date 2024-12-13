@@ -1,10 +1,13 @@
-# 本篇以`Vue 2、3`作为案例介绍 vue 的接入方式。
+# Vue 2、3 接入指南
 
-#### 1、设置跨域支持
+本篇介绍了 Vue 2 和 Vue 3 在接入微前端（MicroApp）中的具体配置和步骤，帮助开发者快速完成接入。
 
-<!-- tabs:start -->
 
-#### ** vue.config.js **
+## 1. 设置跨域支持
+
+### **Vue 2 配置**
+
+在 `vue.config.js` 中配置跨域头信息：
 
 ```js
 module.exports = {
@@ -16,34 +19,31 @@ module.exports = {
 };
 ```
 
-#### ** vite.config.js **
 
-vite 默认开启跨域支持，不需要额外配置。
 
-<!-- tabs:end -->
+## 2. 注册卸载函数
 
-#### 2、注册卸载函数
+子应用在卸载时会自动执行 `window.unmount`，在此函数中进行相关清理操作。
 
-子应用卸载时会自动执行`window.unmount`，在此可以进行卸载相关操作。
-
-<!-- tabs:start -->
-
-#### ** Vue2 **
+### **Vue 2 配置**
 
 ```js
 // main.js
-const app = new Vue(...)
+const app = new Vue(...);
 
 // 卸载应用
 window.unmount = () => {
-  app.$destroy()
-}
+  app.$destroy();
+};
 ```
 
-#### ** Vue3 **
+### **Vue 3 配置**
 
 ```js
 // main.js
+import { createApp } from "vue";
+import App from "./App.vue";
+
 const app = createApp(App);
 app.mount("#app");
 
@@ -53,45 +53,37 @@ window.unmount = () => {
 };
 ```
 
-#### 3、未知路由匹配跳转
+
+## 3. 处理未知路由跳转
+
+在子应用中捕获所有未知路由，并将其重定向到首页：
 
 ```js
-  {
-    path: "/:pathMatch(.*)", // 捕获所有未知路径
-    redirect: "/", // 重定向到首页
-  },
+{
+  path: "/:pathMatch(.*)", // 捕获所有未知路径
+  redirect: "/", // 重定向到首页
+}
 ```
 
-<!-- tabs:end -->
 
-完成以上步骤在运行时即可正常渲染。
+## 4. 开启 UMD 模式（可选）
 
-### 可选设置
+### **UMD 模式优势**
+- **默认模式**：每次渲染都会执行所有 JS 代码，保证多次渲染一致性。
+- **UMD 模式**：只在首次渲染时执行 JS 代码，后续仅调用 `mount` 和 `unmount` 方法，提升性能和内存表现。
 
-以下配置是针对子应用的，它们是可选的，建议根据实际情况选择设置。
+**推荐：** 如果子应用频繁渲染和卸载，建议开启 UMD 模式。
 
-#### 1、开启 umd 模式，优化内存和性能
-
-MicroApp 支持两种渲染在运行时的模式，默认模式和 umd 模式。
-
-- **默认模式：**子应用在初次渲染和后续渲染时会顺序执行所有 js，以保证多次渲染的一致性。
-- **umd 模式：**子应用暴露出`mount`、`unmount`方法，此时只在初次渲染时执行所有 js，后续渲染只会执行这两个方法，在多次渲染时具有更好的性能和内存表现。
-
-如果子应用渲染和卸载不频繁，那么使用默认模式即可，如果子应用渲染和卸载非常频繁建议使用 umd 模式。
-
-<!-- tabs:start -->
-
-#### ** Vue2 **
+### **Vue 2 配置**
 
 ```js
 // main.js
 import Vue from "vue";
 import router from "./router";
 import App from "./App.vue";
-import { freelogApp, initFreelogApp } from "freelog-runtime";
+import { initFreelogApp } from "freelog-runtime";
 
 let app = null;
-// 👇 将渲染操作放入 mount 函数，子应用初始化时会自动执行
 window.mount = () => {
   initFreelogApp();
   app = new Vue({
@@ -100,20 +92,18 @@ window.mount = () => {
   }).$mount("#app");
 };
 
-// 👇 将卸载操作放入 unmount 函数，就是上面步骤2中的卸载函数
 window.unmount = () => {
   app.$destroy();
   app.$el.innerHTML = "";
   app = null;
 };
 
-// 如果不在运行时环境，则直接执行mount渲染
 if (!window.__MICRO_APP_ENVIRONMENT__) {
   window.mount();
 }
 ```
 
-#### ** Vue3 **
+### **Vue 3 配置**
 
 ```js
 // main.js
@@ -121,12 +111,12 @@ import { createApp } from "vue";
 import * as VueRouter from "vue-router";
 import routes from "./router";
 import App from "./App.vue";
-import { freelogApp, initFreelogApp } from "freelog-runtime";
+import { initFreelogApp } from "freelog-runtime";
 
 let app = null;
 let router = null;
 let history = null;
-// 👇 将渲染操作放入 mount 函数，子应用初始化时会自动执行
+
 window.mount = () => {
   initFreelogApp();
   history = VueRouter.createWebHistory();
@@ -140,7 +130,6 @@ window.mount = () => {
   app.mount("#app");
 };
 
-// 👇 将卸载操作放入 unmount 函数，就是上面步骤2中的卸载函数
 window.unmount = () => {
   app.unmount();
   history.destroy();
@@ -149,27 +138,17 @@ window.unmount = () => {
   history = null;
 };
 
-// 如果不在运行时环境，则直接执行mount渲染
 if (!window.__MICRO_APP_ENVIRONMENT__) {
   window.mount();
 }
 ```
 
-<!-- tabs:end -->
 
-#### 2、设置 webpack.jsonpFunction
+## 5. 设置 `webpack.jsonpFunction`（可选）
 
-如果在运行时正常运行，则可以忽略这一步。
+如果子应用资源加载混乱，可以通过配置 `jsonpFunction` 解决资源污染问题。
 
-如果子应用资源加载混乱导致渲染失败，可以尝试设置`jsonpFunction`来解决，因为相同的`jsonpFunction`名称会导致资源污染。
-
-这种情况常见于主应用和子应用都是通过`create-react-app`脚手架创建的 react 项目，vue 项目中并不常见。
-
-**解决方式：修改子应用的 webpack 配置**
-
-<!-- tabs:start -->
-
-#### ** vue.config.js **
+### **Vue 2 配置**
 
 ```js
 // vue.config.js
@@ -183,95 +162,61 @@ module.exports = {
 };
 ```
 
-#### ** webpack4 **
+
+## 6. 设置 `publicPath`（可选）
+
+子应用出现静态资源地址 404 问题时，可以设置 `publicPath` 补全资源地址。
+
+### **步骤 1：创建 public-path.js 文件**
 
 ```js
-// webpack.config.js
-module.exports = {
-  output: {
-    ...
-    jsonpFunction: `webpackJsonp_自定义名称`,
-    globalObject: 'window',
-  },
-}
-```
-
-#### ** webpack5 **
-
-```js
-// webpack.config.js
-module.exports = {
-  output: {
-    ...
-    chunkLoadingGlobal: 'webpackJsonp_自定义名称',
-    globalObject: 'window',
-  },
-}
-```
-
-<!-- tabs:end -->
-
-#### 3、设置 publicPath
-
-如果子应用出现静态资源地址 404(js、css、图片)，建议设置`publicPath`来尝试解决这个问题。
-
-`publicPath`是 webpack 提供的功能，它可以补全静态资源的地址，详情参考 webpack 文档 [publicPath](https://webpack.docschina.org/guides/public-path/#on-the-fly)
-
-**步骤 1:** 在子应用 src 目录下创建名称为`public-path.js`的文件，并添加如下内容
-
-```js
-// __MICRO_APP_ENVIRONMENT__和__MICRO_APP_PUBLIC_PATH__是由micro-app注入的全局变量
 if (window.__MICRO_APP_ENVIRONMENT__) {
   // eslint-disable-next-line
   __webpack_public_path__ = window.__MICRO_APP_PUBLIC_PATH__;
 }
 ```
 
-**步骤 2:** 在子应用入口文件的**最顶部**引入`public-path.js`
+### **步骤 2：在入口文件顶部引入**
 
 ```js
-// entry
 import "./public-path";
 ```
 
-#### 4、切换到 iframe 沙箱
 
-MicroApp 有两种沙箱方案：`with沙箱`和`iframe沙箱`。
+## 7. 切换到 iframe 沙箱（可选）
 
-默认开启 with 沙箱，如果 with 沙箱无法正常运行，可以尝试切换到 iframe 沙箱。
+MicroApp 提供两种沙箱方案：
+- **with 沙箱（默认）**
+- **iframe 沙箱**
+
+如果 with 沙箱无法正常运行，可以尝试切换到 iframe 沙箱。
+
 
 ## 常见问题
 
-#### 1、主应用中抛出警告，micro-app 未定义
+### 1. 主应用中 `micro-app` 报错
 
 **报错信息：**
+- Vue 2: `[Vue warn]: Unknown custom element: <micro-app>`
+- Vue 3: `[Vue warn]: Failed to resolve component: micro-app`
 
-- vue2: `[Vue warn]: Unknown custom element: <micro-app>`
-- vue3: `[Vue warn]: Failed to resolve component: micro-app`
+### **解决方案：**
 
-**参考 issue：**[vue-next@1414](https://github.com/vuejs/vue-next/issues/1414)
+#### **Vue 2 配置**
 
-**解决方式：** 在主应用中添加如下配置
-
-<!-- tabs:start -->
-
-#### ** Vue2 **
-
-在入口文件 main.js 中设置 ignoredElements，详情查看：https://cn.vuejs.org/v2/api/#ignoredElements
+在 `main.js` 中设置 `ignoredElements`：
 
 ```js
-// main.js
 import Vue from "vue";
 
 Vue.config.ignoredElements = ["micro-app"];
 ```
 
-#### ** Vue3 **
+#### **Vue 3 配置**
 
-在 vue.config.js 中添加 chainWebpack 配置，如下：
+修改 `vue.config.js`：
 
 ```js
-// vue.config.js
 module.exports = {
   chainWebpack: (config) => {
     config.module
@@ -288,9 +233,9 @@ module.exports = {
 };
 ```
 
-#### ** Vite + Vue3 **
+#### **Vite + Vue 3 配置**
 
-在 vite.config.js 中通过 vue 插件设置 isCustomElement，如下：
+在 `vite.config.js` 中通过插件设置：
 
 ```js
 import { defineConfig } from "vite";
@@ -309,14 +254,7 @@ export default defineConfig({
 });
 ```
 
-<!-- tabs:end -->
 
-<!-- #### 2、子应用中element-plus部分弹框样式失效
+## 总结
 
-**原因：**element-plus中部分组件，如`Select`, `TimePicker`的弹框元素会脱离micro-app的范围逃逸到外层body上，导致样式失效。
-
-**解决方式：**
-
-  1、关闭样式隔离[disablescopecss](/zh-cn/configure?id=disablescopecss)
-
-  2、部分组件，如`Select`提供了`popper-append-to-body`配置，用于设置弹框不插入body，可以避免这个问题。如果组件没有提供类似的功能，则暂且只能通过关闭样式隔离解决。 -->
+以上步骤涵盖了 Vue 2 和 Vue 3 接入微前端的主要配置，包括跨域、渲染卸载、路由处理和优化性能的 UMD 模式。根据实际场景选择对应的配置，确保子应用顺利接入和运行。
