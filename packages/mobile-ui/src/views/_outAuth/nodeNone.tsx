@@ -28,7 +28,7 @@ export default function OutOf() {
         }}
         className="fs-16 fw-regular lh-26 mt-40"
       >
-        异常原因：所有者删除了此节点
+        异常原因：抱歉，此节点不存在
       </div>
       <div className="flex-3"></div>
     </div>

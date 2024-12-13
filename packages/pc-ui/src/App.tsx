@@ -39,6 +39,7 @@ const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
 const {
   NODE_FREEZED,
   THEME_NONE,
+  NODE_NONE,
   THEME_FREEZED,
   LOGIN,
   CONTRACT,
@@ -72,7 +73,7 @@ function App() {
       async (values: any) => {
         const nodeData = values[0];
         if (!nodeData.data) {
-          confirm("节点网址不正确，请检查网址！");
+          UI(NODE_NONE, null);
           return;
         }
         const userInfo = values[1];
@@ -334,6 +335,9 @@ function App() {
         outOfContent(data);
         break;
       case NODE_PRIVATE:
+        outOfContent(data);
+        break;
+      case NODE_NONE:
         outOfContent(data);
         break;
       case LOGIN:

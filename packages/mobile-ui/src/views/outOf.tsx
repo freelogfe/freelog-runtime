@@ -5,15 +5,18 @@ import UserFreezed from "./_outAuth/userFreezed";
 import NodeOffline from "./_outAuth/nodeOffline";
 import NodePrivate from "./_outAuth/nodePrivate";
 import NodeDeleted from "./_outAuth/nodeDeleted";
+import NodeNone from "./_outAuth/nodeNone";
+
 import { freelogAuth } from "freelog-runtime-core";
 const {
   NODE_FREEZED,
+  NODE_NONE,
   THEME_NONE,
   THEME_FREEZED,
   USER_FREEZED,
   NODE_OFFLINE,
   NODE_PRIVATE,
-  NODE_DELETED
+  NODE_DELETED,
 } = freelogAuth.eventType;
 interface OutOfProps {
   eventType: any;
@@ -39,6 +42,8 @@ export default function OutOf({ eventType, outData }: OutOfProps) {
             return <NodeOffline />;
           case NODE_PRIVATE:
             return <NodePrivate />;
+          case NODE_NONE:
+            return <NodeNone />;
           default:
             return null;
         }

@@ -65,6 +65,7 @@ const {
   NODE_OFFLINE,
   NODE_PRIVATE,
   NODE_DELETED,
+  NODE_NONE
 } = freelogAuth.eventType;
 // let themeId = "";
 
@@ -93,7 +94,7 @@ function App() {
       async (values: any) => {
         const nodeData = values[0];
         if (!nodeData.data) {
-          confirm("节点网址不正确，请检查网址！");
+          UI(NODE_NONE, null);
           return;
         }
         const userInfo = values[1];
@@ -371,6 +372,9 @@ function App() {
         outOfContent(data);
         break;
       case NODE_PRIVATE:
+        outOfContent(data);
+        break;
+      case NODE_NONE:
         outOfContent(data);
         break;
       case LOGIN:

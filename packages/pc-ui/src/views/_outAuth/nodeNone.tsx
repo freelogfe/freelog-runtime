@@ -26,7 +26,7 @@ export default function OutOf() {
           color: "#666666",
         }}
       >
-        异常原因：所有者删除了此节点
+        异常原因：抱歉，此节点不存在
       </div>
       <div className="flex-1"></div>
     </div>
