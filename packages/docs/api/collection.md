@@ -1,20 +1,24 @@
-﻿# 合集类型展品内作品相关
+﻿# 合集相关 API 文档
+
 
 ## getCollectionSubList
 
-**用途：获取合集类型展品的单品分页列表**
+**用途**：获取指定合集展品的单品分页列表。
 
-```ts
-**参数说明**
-  exhibitId: string, // 合集展品id
-  {
-    sortType: 1, // 排序方式: 1:升序 -1:降序
-    skip: 0,
-    limit: 10,
-    isShowDetailInfo: 0, // 是否加载单品挂载的作品详情 0:不加载 1:加载
-  }
+### 参数说明
 
-**用法**
+| 参数               | 类型     | 说明                                       |
+|--------------------|----------|--------------------------------------------|
+| `exhibitId`        | `string` | 合集展品的唯一标识                         |
+| `options`          | `object` | 配置对象                                   |
+| `options.sortType` | `number` | 排序方式：`1` 升序，`-1` 降序             |
+| `options.skip`     | `number` | 跳过的记录数，分页使用                     |
+| `options.limit`    | `number` | 每页返回的记录数                           |
+| `options.isShowDetailInfo` | `number` | 是否加载单品详情：`0` 不加载，`1` 加载    |
+
+### 使用方式
+
+```javascript
 const res = await freelogApp.getCollectionSubList(exhibitId, {
   sortType: 1,
   skip: 0,
@@ -23,224 +27,70 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
 });
 ```
 
-### 返回说明：
+### 返回字段说明
 
-| 返回值字段                   | 字段类型  | 字段说明                                                   |
-| :--------------------------- | :-------- | :--------------------------------------------------------- |
-| itemId                       | string    | 单品 ID                                                    |
-| itemTitle                    | string    | 单品标题                                                   |
-| sortId                       | number    | 单品的排序 ID                                              |
-| createDate                   | date      | 创建日期                                                   |
-| articleInfo                  | object    | 单品挂载的作品信息                                         |
-| \*\*articleId                | string    | 作品 ID                                                    |
-| \*\*articleName              | string    | 作品名称                                                   |
-| \*\*articleType              | int       | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
-| \*\*resourceType             | string[]  | 作品资源类型                                               |
-| \*\*articleOwnerId           | int       | 作品所有者 ID，isShowDetailInfo=1 时返回此字段             |
-| \*\*articleOwnerName         | string    | 作品所有者名称，isShowDetailInfo=1 时返回此字段            |
-| \*\*intro                    | string    | 简介，isShowDetailInfo=1 时返回此字段                      |
-| \*\*coverImages              | string[]  | 作品封面，isShowDetailInfo=1 时返回此字段                  |
-| \*\*latestVersionReleaseDate | string    | 作品最近一次版本发布时间，isShowDetailInfo=1 时返回此字段  |
-| \*\*articleProperty          | objectint | 单品属性，isShowDetailInfo=1 时返回此字段                  |
+| 字段                         | 类型       | 说明                                       |
+|------------------------------|------------|--------------------------------------------|
+| `itemId`                     | `string`   | 单品 ID                                    |
+| `itemTitle`                  | `string`   | 单品标题                                   |
+| `sortId`                     | `number`   | 单品排序 ID                                |
+| `createDate`                 | `date`     | 单品创建日期                               |
+| `articleInfo`                | `object`   | 单品挂载的作品信息                         |
+| `articleInfo.articleId`      | `string`   | 作品 ID                                    |
+| `articleInfo.articleName`    | `string`   | 作品名称                                   |
+| `articleInfo.articleType`    | `number`   | 作品类型（例如：`1` 独立资源）             |
+| `articleInfo.resourceType`   | `string[]` | 作品资源类型                               |
+| `articleInfo.articleOwnerId` | `number`   | 作品所有者 ID，仅当 `isShowDetailInfo=1` 时返回 |
+| `articleInfo.intro`          | `string`   | 简介，仅当 `isShowDetailInfo=1` 时返回      |
 
-### 示例
+### 示例返回数据
 
 ```json
 {
   "ret": 0,
   "errCode": 0,
-  "errcode": 0,
   "msg": "success",
   "data": [
     {
       "itemId": "ef3f2f52",
-      "itemTitle": "f1a976d2dcbdbfa8fb0e224bda5a4b3",
-      "sortId": 11,
+      "itemTitle": "示例单品",
+      "sortId": 1,
       "createDate": "2024-07-02T08:41:03.307Z",
       "articleInfo": {
         "articleId": "660a672e68659b002ec586a6",
+        "articleName": "示例作品",
         "resourceType": ["图片", "照片"],
         "articleType": 1,
         "articleOwnerId": 50028,
-        "articleOwnerName": "12345676789",
-        "intro": "一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十",
+        "intro": "作品简介",
         "coverImages": [
-          "https://image.freelog.com/c0b52bf6-9407-4327-b2ea-6bb5e10f3f31.jpg"
-        ],
-        "latestVersionReleaseDate": "2024-04-01T07:50:06.070Z"
-      }
-    },
-    {
-      "itemId": "e7ba8b92",
-      "itemTitle": "0503f3f559b68d37384f75a8e6cbad6",
-      "sortId": 10,
-      "createDate": "2024-07-02T08:40:38.206Z",
-      "articleInfo": {
-        "articleId": "660a672d68659b002ec5867e",
-        "resourceType": ["图片", "照片"],
-        "articleType": 1,
-        "articleOwnerId": 50028,
-        "articleOwnerName": "12345676789",
-        "intro": "",
-        "coverImages": [
-          "https://image.freelog.com/8d5c9f0a-ea79-43af-80d0-daf474a6f6eb.png"
-        ],
-        "latestVersionReleaseDate": "2024-04-01T07:50:05.744Z"
-      }
-    },
-    {
-      "itemId": "a7757d37",
-      "itemTitle": "精选003",
-      "sortId": 9,
-      "createDate": "2024-07-02T08:40:38.206Z",
-      "articleInfo": {
-        "articleId": "660a593b68659b002ec5793c",
-        "resourceType": ["阅读", "文章"],
-        "articleType": 1,
-        "articleOwnerId": 50028,
-        "articleOwnerName": "12345676789",
-        "intro": "",
-        "coverImages": [],
-        "latestVersionReleaseDate": "2024-04-01T06:50:43.785Z"
-      }
-    },
-    {
-      "itemId": "7694c7dd",
-      "itemTitle": "精选001",
-      "sortId": 8,
-      "createDate": "2024-07-02T08:40:38.205Z",
-      "articleInfo": {
-        "articleId": "660a574e68659b002ec57898",
-        "resourceType": ["插件"],
-        "articleType": 1,
-        "articleOwnerId": 50028,
-        "articleOwnerName": "12345676789",
-        "intro": "",
-        "coverImages": [
-          "https://image.freelog.com/aac09976-2794-44a2-ba9f-3f14d7e5f391.gif"
-        ],
-        "latestVersionReleaseDate": "2024-04-01T06:42:27.781Z"
-      }
-    },
-    {
-      "itemId": "8cd5f7d8",
-      "itemTitle": "245天然气eat丰乳肥臀",
-      "sortId": 7,
-      "createDate": "2024-06-28T03:36:22.798Z",
-      "articleInfo": {
-        "articleId": "666012e66c7248002e931cee",
-        "resourceType": ["阅读", "文章"],
-        "articleType": 1,
-        "articleOwnerId": 50028,
-        "articleOwnerName": "12345676789",
-        "intro": "",
-        "coverImages": [],
-        "latestVersionReleaseDate": "2024-06-05T07:25:32.842Z"
-      }
-    },
-    {
-      "itemId": "07d51a40",
-      "itemTitle": "4问题给我色弱豆腐干地方",
-      "sortId": 6,
-      "createDate": "2024-06-28T03:36:22.798Z",
-      "articleInfo": {
-        "articleId": "659b9e334d1119002edf9f53",
-        "resourceType": ["主题"],
-        "articleType": 1,
-        "articleOwnerId": 50028,
-        "articleOwnerName": "12345676789",
-        "intro": "",
-        "coverImages": [],
-        "latestVersionReleaseDate": "2024-05-16T06:49:47.617Z"
-      }
-    },
-    {
-      "itemId": "26884c31",
-      "itemTitle": "A1",
-      "sortId": 5,
-      "createDate": "2024-07-01T03:24:28.211Z",
-      "articleInfo": {
-        "articleId": "6661820f6c7248002e936356",
-        "resourceType": ["图片", "照片"],
-        "articleType": 1,
-        "articleOwnerId": 50028,
-        "articleOwnerName": "12345676789",
-        "intro": "",
-        "coverImages": [
-          "https://image.freelog.com/preview-image/0016609aeb24f064a1b41f396969adbddb5c294a.gif?x-oss-process=style/cover_image"
-        ],
-        "latestVersionReleaseDate": "2024-06-06T09:32:11.573Z"
-      }
-    },
-    {
-      "itemId": "7642efd0",
-      "itemTitle": "A2",
-      "sortId": 4,
-      "createDate": "2024-06-28T03:42:41.085Z",
-      "articleInfo": {
-        "articleId": "666182386c7248002e9363a1",
-        "resourceType": ["图片", "照片"],
-        "articleType": 1,
-        "articleOwnerId": 50028,
-        "articleOwnerName": "12345676789",
-        "intro": "",
-        "coverImages": [
-          "https://image.freelog.com/83f3c014-22ae-4139-81c2-59eca744cacf.gif"
-        ],
-        "latestVersionReleaseDate": "2024-06-06T09:49:18.456Z"
-      }
-    },
-    {
-      "itemId": "1505f2aa",
-      "itemTitle": "fdgsdfgfds",
-      "sortId": 3,
-      "createDate": "2024-07-01T03:24:28.210Z",
-      "articleInfo": {
-        "articleId": "662b578d57a86e00394e20c1",
-        "resourceType": ["主题"],
-        "articleType": 1,
-        "articleOwnerId": 50028,
-        "articleOwnerName": "12345676789",
-        "intro": "",
-        "coverImages": [],
-        "latestVersionReleaseDate": "2024-04-26T07:28:18.375Z"
-      }
-    },
-    {
-      "itemId": "ae5ae244",
-      "itemTitle": "付费策略",
-      "sortId": 2,
-      "createDate": "2024-07-01T03:24:28.211Z",
-      "articleInfo": {
-        "articleId": "663dc4476f9d62002e9cb968",
-        "resourceType": ["阅读", "文章"],
-        "articleType": 1,
-        "articleOwnerId": 50028,
-        "articleOwnerName": "12345676789",
-        "intro": "",
-        "coverImages": [],
-        "latestVersionReleaseDate": "2024-05-10T06:53:05.095Z"
+          "https://image.freelog.com/sample.jpg"
+        ]
       }
     }
   ]
 }
 ```
 
+
 ## getCollectionsSubList
 
-**用途：获取多个合集类型展品的单品分页列表**
+**用途**：获取多个合集展品的单品分页列表。
 
-```ts
-**参数说明**
-  exhibitIds: string, // 多个合集展品id,用“,”分割
-  {
-    sortType: 1, // 排序方式: 1:升序 -1:降序
-    skip: 0,
-    limit: 10,
-    isShowDetailInfo: 0, // 是否加载单品挂载的作品详情 0:不加载 1:加载
-  }
+### 参数说明
 
-**用法**
+| 参数                  | 类型     | 说明                                       |
+|-----------------------|----------|--------------------------------------------|
+| `exhibitIds`          | `string` | 多个合集展品的 ID，用逗号分隔               |
+| `options`             | `object` | 配置对象                                   |
+| `options.sortType`    | `number` | 排序方式：`1` 升序，`-1` 降序             |
+| `options.skip`        | `number` | 跳过的记录数，分页使用                     |
+| `options.limit`       | `number` | 每页返回的记录数                           |
+| `options.isShowDetailInfo` | `number` | 是否加载单品详情：`0` 不加载，`1` 加载    |
+
+### 使用方式
+
+```javascript
 const res = await freelogApp.getCollectionsSubList(exhibitIds, {
   sortType: 1,
   skip: 0,
@@ -249,343 +99,232 @@ const res = await freelogApp.getCollectionsSubList(exhibitIds, {
 });
 ```
 
-### 返回说明：
+### 返回字段说明
 
-| 返回值字段                   | 字段类型  | 字段说明                                                   |
-| :--------------------------- | :-------- | :--------------------------------------------------------- |
-| exhibitId                       | string    | 合集展品ID                                              |
-| totalItem                    | string    | 该合集展品的单品数量                                                   |
-| itemList                       | number    | 单品分页列表                                             |
-| \*\*itemId                       | string    | 单品 ID                                                    |
-| \*\*itemTitle                    | string    | 单品标题                                                   |
-| \*\*sortId                       | number    | 单品的排序 ID                                              |
-| \*\*createDate                   | date      | 创建日期                                                   |
-| \*\*articleInfo                  | object    | 单品挂载的作品信息                                         |
-| \*\*\*\*articleId                | string    | 作品 ID                                                    |
-| \*\*\*\*articleName              | string    | 作品名称                                                   |
-| \*\*\*\*articleType              | int       | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象) |
-| \*\*\*\*resourceType             | string[]  | 作品资源类型                                               |
-| \*\*\*\*articleOwnerId           | int       | 作品所有者 ID，isShowDetailInfo=1 时返回此字段             |
-| \*\*\*\*articleOwnerName         | string    | 作品所有者名称，isShowDetailInfo=1 时返回此字段            |
-| \*\*\*\*intro                    | string    | 简介，isShowDetailInfo=1 时返回此字段                      |
-| \*\*\*\*coverImages              | string[]  | 作品封面，isShowDetailInfo=1 时返回此字段                  |
-| \*\*\*\*latestVersionReleaseDate | string    | 作品最近一次版本发布时间，isShowDetailInfo=1 时返回此字段  |
-| \*\*\*\*articleProperty          | objectint | 单品属性，isShowDetailInfo=1 时返回此字段                  |
+| 字段                     | 类型       | 说明                                       |
+|--------------------------|------------|--------------------------------------------|
+| `exhibitId`              | `string`   | 合集展品 ID                                |
+| `totalItem`              | `number`   | 合集展品内单品总数量                       |
+| `itemList`               | `object[]` | 单品分页列表                               |
+| `itemList.itemId`        | `string`   | 单品 ID                                    |
+| `itemList.itemTitle`     | `string`   | 单品标题                                   |
+| `itemList.sortId`        | `number`   | 单品排序 ID                                |
+| `itemList.createDate`    | `date`     | 单品创建日期                               |
+| `itemList.articleInfo`   | `object`   | 单品挂载的作品信息                         |
+| `itemList.articleInfo.articleId` | `string` | 作品 ID                                    |
+| `itemList.articleInfo.articleName` | `string` | 作品名称                                   |
 
-### 示例
-
-```json
-{
-  "ret": 0,
-  "errCode": 0,
-  "errcode": 0,
-  "msg": "success",
-  "data": [
-    {
-      "exhibitId": "669f754049fbe0002f1de635",
-      "totalItem": 16,
-      "itemList": [
-        {
-          "itemId": "44a330eb",
-          "itemTitle": "第十六话",
-          "sortId": 16,
-          "createDate": "2024-07-24T02:19:23.265Z",
-          "articleInfo": {
-            "articleId": "66961690cc1c4a002fa73ef8",
-            "articleName": "luojiutian/《牛头不对马嘴1》-第十六话",
-            "resourceType": ["阅读", "漫画", "条漫"],
-            "articleType": 1,
-            "articleOwnerId": 50145,
-            "articleOwnerName": "luojiutian",
-            "intro": "该漫画讲述了人界突现诡异之事：世间百姓一夜之间全部知晓了自己的死期。于是阎王便命牛头马面前去调查此事。不料就在此时，马面数百年前的前辈、本已魂飞魄散的重阳再次出现，经过一系列的事件，终于被小阎王等人识破重阳是范无救所假扮，目的是为报当年子午谷之仇以及救活谢必安。此时，酆都的危机才刚刚开始……",
-            "coverImages": [
-              "https://image.freelog.com/preview-image/491dcc97ee3174ba6a8cf08b0df230c8fc914c01.jpeg"
-            ],
-            "latestVersionReleaseDate": "2024-07-16T06:43:45.489Z",
-            "articleProperty": {
-              "fileSize": 1972194,
-              "fileSizeUnit": "bytes",
-              "fileNameSuffix": ".zip",
-              "mime": "application/vnd.freelog.comic"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "exhibitId": "66a0cd1ceff80a0030584ea5",
-      "totalItem": 8,
-      "itemList": [
-        {
-          "itemId": "68c3d9f1",
-          "itemTitle": "第十一话",
-          "sortId": 8,
-          "createDate": "2024-07-24T09:44:05.355Z",
-          "articleInfo": {
-            "articleId": "66a0a478903c31002f2175e7",
-            "articleName": "luojiutian/每天都想当1-第十一话",
-            "resourceType": ["阅读", "漫画", "条漫"],
-            "articleType": 1,
-            "articleOwnerId": 50145,
-            "articleOwnerName": "luojiutian",
-            "intro": "",
-            "coverImages": [
-              "https://image.freelog.com/preview-image/6e50e0616e8ce2b5a244c4fd67f21bc6688dad34.jpeg"
-            ],
-            "latestVersionReleaseDate": "2024-07-24T08:20:38.374Z",
-            "articleProperty": {
-              "fileSize": 6910056,
-              "fileSizeUnit": "bytes",
-              "fileNameSuffix": ".zip",
-              "mime": "application/vnd.freelog.comic"
-            }
-          }
-        }
-      ]
-    }
-  ]
-}
-```
 
 ## getCollectionSubInfo
 
-**用途：获取合集类型展品的单品详情**
 
-```ts
-**参数说明**
-  exhibitId: string, // 合集展品id
-  {
-    itemId:  string, // 单品id
-  }
+**用途**：获取指定合集展品内某单品的详细信息。
 
-**用法**
-const res = await freelogApp.getCollectionSubInfo(exhibitId, {
-    itemId: "a2b0784da2b0784d",
- });
+### 参数说明
+
+| 参数       | 类型     | 说明                   |
+|------------|----------|------------------------|
+| `exhibitId` | `string` | 合集展品的唯一标识     |
+| `itemId`    | `string` | 单品 ID                |
+
+### 使用方式
+
+```javascript
+const res = await freelogApp.getCollectionSubInfo(exhibitId, { itemId });
 ```
 
-### 返回说明：
+### 返回字段说明
 
-| 返回值字段                    | 字段类型 | 字段说明                                                                |
-| :---------------------------- | :------- | :---------------------------------------------------------------------- |
-| itemId                        | string   | 单品 ID                                                                 |
-| itemTitle                     | string   | 单品标题                                                                |
-| sortId                        | int      | 单品排序号                                                              |
-| createDate                    | date     | 单品创建日期                                                            |
-| articleInfo                   | object   | 展品实际挂载的作品信息                                                  |
-| \*\* articleId                | string   | 作品 ID                                                                 |
-| \*\* articleName              | string   | 作品名称                                                                |
-| \*\* resourceType             | string[] | 作品资源类型                                                            |
-| \*\* articleType              | int      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)              |
-| \*\* articleOwnerId           | int      | 作品所有者 ID                                                           |
-| \*\* articleOwnerNamenid      | string   | 作品所有者名称依赖 ID(指的是此依赖在依赖树上的 id,用来确定依赖的唯一性) |
-| \*\* intro                    | string   | 作品简介                                                                |
-| \*\* coverImages              | string[] | 作品封面                                                                |
-| \*\* latestVersionReleaseDate | string   | 作品最新版本发布日期                                                    |
-| \*\*articleProperty           | object   | 单品属性                                                                |
-| dependencyTree                | object[] | 单品依赖树                                                              |
-| \*\*nid                       | string   | 依赖 ID(指的是此依赖在依赖树上的 id,用来确定依赖的唯一性)               |
-| \*\*articleId                 | string   | 作品 ID,配合作品类型一起理解. 例如类型是资源,此处就是资源 ID            |
-| \*\*articleName               | string   | 作品名称                                                                |
-| \*\*articleType               | int      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)              |
-| \*\*resourceType              | stirng[] | 作品资源类型                                                            |
-| \*\*deep                      | int      | 该依赖在依赖树中的层级                                                  |
-| \*\*parentNid                 | string   | 父级依赖 ID                                                             |
+| 字段              | 类型       | 说明                                       |
+|-------------------|------------|--------------------------------------------|
+| `itemId`          | `string`   | 单品 ID                                    |
+| `itemTitle`       | `string`   | 单品标题                                   |
+| `sortId`          | `number`   | 单品排序号                                 |
+| `createDate`      | `date`     | 单品创建日期                               |
+| `articleInfo`     | `object`   | 单品挂载的作品信息                         |
+| `dependencyTree`  | `object[]` | 单品依赖树                                 |
 
-### 返回示例
+### 示例返回数据
 
 ```json
 {
   "ret": 0,
   "errCode": 0,
-  "errcode": 0,
   "msg": "success",
   "data": {
     "itemId": "54e4620d",
-    "itemTitle": "34突然发动但是",
+    "itemTitle": "示例单品",
     "sortId": 1,
     "createDate": "2024-07-09T09:43:51.014Z",
-    "updateDate": "2024-07-09T09:45:03.699Z",
     "articleInfo": {
       "articleId": "65eec05ff8a2fd002ff05bc0",
-      "articleName": "12345676789/34突然发动但是",
+      "articleName": "示例作品",
       "resourceType": ["主题"],
       "articleType": 1,
-      "articleOwnerId": 50028,
-      "articleOwnerName": "12345676789",
       "intro": "",
-      "coverImages": [],
-      "latestVersionReleaseDate": "2024-03-11T08:28:10.182Z"
+      "coverImages": []
     },
     "dependencyTree": [
       {
         "nid": "47c8958b5abc",
         "articleId": "65eec05ff8a2fd002ff05bc0",
-        "articleName": "12345676789/34突然发动但是",
+        "articleName": "示例作品",
         "articleType": 1,
         "version": "1.0.0",
-        "versionRange": "1.0.0",
-        "resourceType": ["主题"],
-        "versionId": "7024c61846822552b927ecc0c3cb5d8f",
-        "deep": 1,
-        "parentNid": "",
-        "fileSha1": "968363d1f66721d3a95adb13b664d2950c6c8bca"
+        "resourceType": ["主题"]
       }
     ]
   }
 }
 ```
 
+
 ## getCollectionSubAuth
 
-**用途：获取合集类型展品的单品授权结果**
+**用途**：获取指定合集展品内多个单品的授权结果。
 
-```ts
-**参数说明**
-  exhibitId: string, // 合集展品id
-  {
-    itemIds:  string, // 单品id,多个用“,”隔开
-  }
+### 参数说明
 
-**用法**
-const res = await freelogApp.getCollectionSubAuth(exhibitId, {
-    itemIds: "a2b0784da2b0784d,a2b0784da2b0784d", // 单品id, 多个用英文逗号分隔
- });
+| 参数       | 类型     | 说明                       |
+|------------|----------|----------------------------|
+| `exhibitId` | `string` | 合集展品的唯一标识         |
+| `itemIds`   | `string` | 单品 ID 列表，用逗号分隔   |
+
+### 使用方式
+
+```javascript
+const res = await freelogApp.getCollectionSubAuth(exhibitId, { itemIds });
 ```
 
-### 返回说明：
+### 返回字段说明
 
-| 返回值字段            | 字段类型 | 字段说明                                                              |
-| :-------------------- | :------- | :-------------------------------------------------------------------- |
-| itemId                | string   | 单品 ID                                                               |
-| referee               | int      | 做出授权结果的标的物服务类型(1:资源服务 2:展品服务)                   |
-| defaulterIdentityType | int      | 授权不通过责任方(0:无 1:资源 2:节点 4:c 端消费者 8:资源上游 128:未知) |
-| authCode              | int      | 授权码                                                                |
-| isAuth                | boolean  | 是否授权通过                                                          |
-| errorMsg              | string   | 错误信息                                                              |
+| 字段                  | 类型      | 说明                                   |
+|-----------------------|-----------|----------------------------------------|
+| `itemId`              | `string`  | 单品 ID                                |
+| `referee`             | `number`  | 授权结果标的物服务类型（例如：`1` 资源服务） |
+| `isAuth`              | `boolean` | 是否授权通过                           |
+| `authCode`            | `number`  | 授权码                                 |
+| `errorMsg`            | `string`  | 错误信息，仅当授权失败时返回           |
 
-### 返回示例
+### 示例返回数据
 
 ```json
 {
   "ret": 0,
   "errCode": 0,
-  "errcode": 0,
   "msg": "success",
   "data": [
     {
       "itemId": "b50de01d",
       "referee": 2,
-      "defaulterIdentityType": 4,
-      "authCode": 303,
       "isAuth": false,
-      "errorMsg": "标的物未签约"
-    },
-    {
-      "itemId": "a2b0784d",
-      "referee": 2,
-      "defaulterIdentityType": 4,
       "authCode": 303,
-      "isAuth": false,
       "errorMsg": "标的物未签约"
     }
   ]
 }
 ```
 
+
 ## getCollectionSubFileStream
 
-**用途：获取合集类型展品的单品文件或子文件**
+**用途**：获取指定合集展品内单品的文件或子文件。
 
-```ts
-**参数说明**
-  exhibitId: string, // 合集展品id
-  {
-    itemId:  string, // 单品id
-    returnUrl?: boolean // 可选，默认false，是否只返回url， 例如img标签图片只需要url
-    subFilePath?: string; // 作品内部子文件路径
-  }
+### 参数说明
 
-**用法**
+| 参数          | 类型      | 说明                                         |
+|---------------|-----------|----------------------------------------------|
+| `exhibitId`   | `string`  | 合集展品的唯一标识                           |
+| `itemId`      | `string`  | 单品 ID                                      |
+| `subFilePath` | `string`  | 单品内部文件路径（可选）                     |
+| `returnUrl`   | `boolean` | 是否只返回文件 URL（默认 `false`）           |
+
+### 使用方式
+
+```javascript
 const res = await freelogApp.getCollectionSubFileStream(exhibitId, {
-    itemIds: "a2b0784da2b0784d,a2b0784da2b0784d", // 单品id, 多个用英文逗号分隔
- });
-```
-
-## getCollectionSubDepList
-
-**用途：获取合集类型展品的单品的依赖列表**
-
-```ts
-**参数说明**
-  exhibitId: string, // 合集展品id
-  {
-    itemId:  string, // 单品id
-  }
-
-**用法**
-const res = await freelogApp.getCollectionSubDepList(exhibitId, {
-  itemId
+  itemId,
+  subFilePath: "path/to/file",
+  returnUrl: true
 });
 ```
 
-### 返回说明：
 
-| 返回值字段   | 字段类型 | 字段说明                                                     |
-| :----------- | :------- | :----------------------------------------------------------- |
-| nid          | string   | 依赖 ID(指的是此依赖在依赖树上的 id,用来确定依赖的唯一性)    |
-| articleId    | string   | 作品 ID,配合作品类型一起理解. 例如类型是资源,此处就是资源 ID |
-| articleName  | string   | 作品名称                                                     |
-| articleType  | int      | 作品类型 (1:独立资源 2:组合资源 3:节点组合资源 4:存储对象)   |
-| resourceType | stirng[] | 作品资源类型                                                 |
-| deep         | int      | 该依赖在依赖树中的层级                                       |
-| parentNid    | string   | 父级依赖 ID                                                  |
+## getCollectionSubDepList
 
-### 返回示例
+
+**用途**：获取指定合集展品内单品的依赖列表。
+
+### 参数说明
+
+| 参数       | 类型     | 说明                   |
+|------------|----------|------------------------|
+| `exhibitId` | `string` | 合集展品的唯一标识     |
+| `itemId`    | `string` | 单品 ID                |
+
+### 使用方式
+
+```javascript
+const res = await freelogApp.getCollectionSubDepList(exhibitId, { itemId });
+```
+
+### 返回字段说明
+
+| 字段            | 类型       | 说明                           |
+|-----------------|------------|--------------------------------|
+| `nid`           | `string`   | 依赖 ID                        |
+| `articleId`     | `string`   | 作品 ID                        |
+| `articleName`   | `string`   | 作品名称                       |
+| `articleType`   | `number`   | 作品类型（例如：`1` 独立资源）  |
+| `resourceType`  | `string[]` | 作品资源类型                   |
+| `deep`          | `number`   | 依赖在树中的层级               |
+| `parentNid`     | `string`   | 父级依赖 ID                    |
+
+### 示例返回数据
 
 ```json
 {
   "ret": 0,
   "errCode": 0,
-  "errcode": 0,
   "msg": "success",
   "data": [
     {
       "nid": "47c8958b5abc",
       "articleId": "65eec05ff8a2fd002ff05bc0",
-      "articleName": "12345676789/34突然发动但是",
+      "articleName": "示例作品",
       "articleType": 1,
-      "version": "1.0.0",
-      "versionRange": "1.0.0",
       "resourceType": ["主题"],
-      "versionId": "7024c61846822552b927ecc0c3cb5d8f",
       "deep": 1,
-      "parentNid": "",
-      "fileSha1": "968363d1f66721d3a95adb13b664d2950c6c8bca"
+      "parentNid": ""
     }
   ]
 }
 ```
 
+
 ## getCollectionSubDepFileStream
 
-**用途：获取合集类型展品的单品的依赖文件或依赖的子文件**
 
-```ts
-**参数说明**
-  exhibitId: string, // 合集展品id
-  {
-    itemId:  string, // 单品id
-    nid:  string, // 依赖的链路id
-    subFilePath?:  string, // 可选，单品的依赖内部的文件路径
-    returnUrl?: boolean // 可选，默认false，是否只返回url， 例如img标签图片只需要url
-  }
+**用途**：获取指定合集展品内单品的依赖文件或子文件。
 
-**用法**
-const res = await freelogApp.getCollectionSubDepFileStream(exhibitId,, {
+### 参数说明
+
+| 参数          | 类型      | 说明                                         |
+|---------------|-----------|----------------------------------------------|
+| `exhibitId`   | `string`  | 合集展品的唯一标识                           |
+| `itemId`      | `string`  | 单品 ID                                      |
+| `nid`         | `string`  | 依赖的链路 ID                                |
+| `subFilePath` | `string`  | 依赖内部文件路径（可选）                     |
+| `returnUrl`   | `boolean` | 是否只返回文件 URL（默认 `false`）           |
+
+### 使用方式
+
+```javascript
+const res = await freelogApp.getCollectionSubDepFileStream(exhibitId, {
   itemId,
   nid,
-  subFilePath
-  returnUrl: false
+  subFilePath: "path/to/file",
+  returnUrl: true
 });
 ```
+
