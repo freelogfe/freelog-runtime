@@ -15,6 +15,10 @@ export default defineConfig({
   ignoreDeadLinks: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    editLink: {
+      pattern: 'https://github.com/freelogfe/freelog-runtime/edit/fix-docs-tokyo/packages/docs/:path',
+      text: '为此页提供修改建议',
+    },
     nav: [
       { text: "首页", link: "/" },
       { text: "指南", link: "/guide/", activeMatch: "/guide/" },
