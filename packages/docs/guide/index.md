@@ -90,5 +90,9 @@
 - 确保 `dev` 参数正确，例如：`?dev=https://localhost:7101`。
 - 检查浏览器是否阻止了跨域请求。
 
+## 社区
+
+如果你有疑问或者需要帮助，可以到 [GitHub Discussions](https://github.com/freelogfe/freelog-runtime/discussions) 社区来寻求帮助。
+
 
 
