@@ -4,7 +4,7 @@
 
 
 
-## `callAuth`
+## callAuth
 
 **用途**：呼出授权弹窗，适用于以下场景：
 - 存在多个未授权展品但没有立即呼出。
@@ -17,7 +17,7 @@ freelogApp.callAuth();
 ```
 
 
-## `addAuth`
+## addAuth
 
 **用途**：将未授权的展品添加到待授权队列，并可选择是否立即弹出授权窗口。
 
@@ -67,7 +67,7 @@ if (res.status === freelogApp.resultType.SUCCESS) {
 ```
 
 
-## `resultType`
+## resultType
 
 **用途**：`resultType` 是一个枚举对象，用于标识授权操作的状态。
 

@@ -1,6 +1,6 @@
 ﻿# 用户相关 API 文档
 
-## `callLogin`
+## callLogin
 
 **用途**：打开登录界面，处理用户登录逻辑。  
 **说明**：  
@@ -24,7 +24,7 @@ freelogApp.callLogin((status) => {
 ```
 
 
-## `callLoginOut`
+## callLoginOut
 
 **用途**：退出当前账号登录状态。  
 **说明**：登出后页面会自动刷新。
@@ -35,7 +35,7 @@ freelogApp.callLoginOut();
 ```
 
 
-## `onLogin`
+## onLogin
 
 **用途**：监听用户登录事件，捕获登录成功或失败的回调。  
 
@@ -56,7 +56,7 @@ freelogApp.onLogin(
 ```
 
 
-## `onUserChange`
+## onUserChange
 
 **用途**：监听用户在其他页面切换账号的事件，并在当前页面触发回调。  
 
@@ -71,7 +71,7 @@ freelogApp.onUserChange(() => {
 ```
 
 
-## `isUserChange`
+## isUserChange
 
 **用途**：检测用户在其他页面是否切换了账号。
 
@@ -88,7 +88,7 @@ if (hasChanged) {
 ```
 
 
-## `getCurrentUser`
+## getCurrentUser
 
 **用途**：获取当前登录用户的基本信息。
 
@@ -110,7 +110,7 @@ if (userInfo) {
 ```
 
 
-## `setUserData`
+## setUserData
 
 **用途**：保存或更新当前用户的自定义数据。
 
@@ -143,7 +143,7 @@ freelogApp.setUserData("testData", userData).then((res) => {
 ```
 
 
-## `getUserData`
+## getUserData
 
 **用途**：获取指定 `key` 下保存的用户数据。
 
@@ -171,7 +171,7 @@ freelogApp.getUserData("testData").then((res) => {
 ```
 
 
-## `deleteUserData`
+## deleteUserData
 
 **用途**：删除指定 `key` 下保存的用户数据。
 
