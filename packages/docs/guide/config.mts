@@ -15,6 +15,13 @@ export default defineConfig({
   ignoreDeadLinks: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/freelogfe/freelog-runtime' }
+    ],
+    editLink: {
+      pattern: 'https://github.com/freelogfe/freelog-runtime/edit/fix-docs-tokyo/packages/docs/:path',
+      text: '为此页提供修改建议',
+    },
     nav: [
       { text: "首页", link: "/" },
       { text: "指南", link: "/guide/", activeMatch: "/guide/" },
@@ -99,4 +106,9 @@ export default defineConfig({
     //   { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
     // ]
   },
+  vite:{
+    server:{
+      host:true
+    }
+  }
 });
