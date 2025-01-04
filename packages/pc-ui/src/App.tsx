@@ -6,6 +6,7 @@ import {
 } from "@ant-design/cssinjs";
 import { App as AppAnt } from "antd";
 import microApp from "@micro-zoe/micro-app";
+import { FreelogLibrary } from "freelog-runtime-core";
 /**
  * 登录不考虑授权UI是否在，登录之后调插件的回调。
  *
@@ -186,8 +187,12 @@ function App() {
               });
           }
         } else {
-          const container = document.getElementById("freelog-plugin-container");
+          // 初始化软件库实例
+          const instance = new FreelogLibrary(nodeInfo);
+          console.log("________              ******************___________________________", instance.nodeInfo);
+          (window as any).FreelogLibrary = instance
 
+          const container = document.getElementById("freelog-plugin-container");
           await freelogApp.mountExhibitWidget(null, {
             widget: nodeInfo.themeInfo,
             container,
