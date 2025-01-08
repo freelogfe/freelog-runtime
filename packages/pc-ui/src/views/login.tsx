@@ -6,6 +6,7 @@ import wechatPng from "@/assets/wechat.png";
 
 import { useState } from "react";
 import "./login.scss";
+import FI18n from "@/I18nNext";
 const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
 const { setHref, getHref } = freelogAuth;
 
@@ -51,13 +52,12 @@ export default function Login(props: loginProps) {
 
   const onFinishFailed = () => {};
 
- 
   const handleCancel = () => {
     props.loginFinished(USER_CANCEL);
   };
   return (
     <Modal
-      title="登录"
+      title={FI18n.i18nNext.t('event_2024monthlyeditorspick_awards_date')}
       zIndex={1200}
       centered
       footer={null}
