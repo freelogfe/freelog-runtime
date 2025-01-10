@@ -20,6 +20,7 @@ export default defineConfig({
       { text: "指南", link: "/guide/", activeMatch: "/guide/" },
       { text: "框架改造", link: "/framework/", activeMatch: "/framework/" },
       { text: "API", link: "/api/widget", activeMatch: "/api/" },
+      { text: "库开发者", link: "/library/helloworld", activeMatch: "/library/" },
     ],
     sidebar: {
       // 当用户位于 `guide` 目录时，会显示此侧边栏
@@ -61,6 +62,18 @@ export default defineConfig({
           ],
         },
       ],
+      "/library/": [
+        {
+          text: "库开发者",
+          items: [
+            { text: "创作库指南", link: "/library/guide" },
+            { text: "库示例-helloworld", link: "/library/helloworld" },
+            { text: "库示例-vue库", link: "/library/library-vue" },
+            { text: "库示例-react库", link: "/library/library-react" },
+            { text: "如何使用库", link: "/library/library-usage" },
+          ],
+        },
+      ],
     },
     lastUpdatedText: "上次更新",
 
@@ -94,5 +107,6 @@ export default defineConfig({
     // socialLinks: [
     //   { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
     // ]
+    // outline: 'deep'
   },
 });
