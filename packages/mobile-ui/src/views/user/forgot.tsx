@@ -522,7 +522,9 @@ export default function Forgot(props: ForgotProps) {
             </div>
           ) : (
             <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
-              <div className="forgot-tip">{FI18n.i18nNext.t("noderuntime_resetpw_msg_backtopayment")}</div>
+              <div className="forgot-tip">
+                {FI18n.i18nNext.t("noderuntime_resetpw_msg_backtopayment")}
+              </div>
               <Button
                 color="default"
                 className=""
@@ -540,13 +542,13 @@ export default function Forgot(props: ForgotProps) {
             <div className="forgot-title  mt-40  mb-87 flex-column px-30 self-start">
               <div className="forgot-title self-start">
                 {props.type === LOGIN_PASSWORD
-                  ? "重置登录密码"
-                  : "重置支付密码"}
+                  ? FI18n.i18nNext.t("noderuntime_resetpw_btn_resetpw")
+                  : FI18n.i18nNext.t("noderuntime_resetpymtpw_title")}
               </div>
               <div className="forgot-tip self-start text-align-left mt-10">
                 {props.type === LOGIN_PASSWORD
-                  ? "现在您可以设置新的登录密码"
-                  : "现在您可以设置新的支付密码，重置成功后即可进行支付服务"}
+                  ? FI18n.i18nNext.t("noderuntime_resetpw_subtitle2")
+                  : FI18n.i18nNext.t("noderuntime_verifypw_subtitle")}
               </div>
             </div>
             <div className="forgot-container flex-column justify-center px-30 w-100x">
@@ -557,7 +559,7 @@ export default function Forgot(props: ForgotProps) {
                 type="password"
                 value={password}
                 className="w-100x  mt-15 mb-5 common-input"
-                placeholder="输入新密码"
+                placeholder={FI18n.i18nNext.t("noderuntime_resetpw_input_pw")}
                 maxLength={props.type === PAY_PASSWORD ? 6 : 24}
                 onChange={(e) => {
                   verify("password", e.target.value);
@@ -572,7 +574,9 @@ export default function Forgot(props: ForgotProps) {
                 value={password2}
                 maxLength={props.type === PAY_PASSWORD ? 6 : 24}
                 className="w-100x  mt-15 mb-5 common-input"
-                placeholder="再次输入新密码"
+                placeholder={FI18n.i18nNext.t(
+                  "noderuntime_resetpw_input_reenter_pw"
+                )}
                 onChange={(e) => {
                   verify("password2", e.target.value);
                   setPassword2(e.target.value);
@@ -591,14 +595,14 @@ export default function Forgot(props: ForgotProps) {
                 loadingIcon={<SpinLoading color="white" />}
                 loadingText={
                   props.type === LOGIN_PASSWORD
-                    ? "正在重置登录密码"
-                    : "正在重置支付密码"
+                    ? FI18n.i18nNext.t("noderuntime_resetpw_msg_processing")
+                    : FI18n.i18nNext.t("noderuntime_resetpymtpw_msg_processing")
                 }
                 disabled={!available}
               >
                 {props.type === LOGIN_PASSWORD
-                  ? "重置登录密码"
-                  : "重置支付密码"}
+                  ? FI18n.i18nNext.t("noderuntime_resetpw_msg_processing")
+                  : FI18n.i18nNext.t("noderuntime_resetpymtpw_btn_resetpmtypw")}
               </Button>
             </div>
           </div>
@@ -611,7 +615,7 @@ export default function Forgot(props: ForgotProps) {
                 className="mr-12"
                 onClick={() => props.setModalType(1)}
               >
-                返回登录页
+                {FI18n.i18nNext.t("noderuntime_resetpw_btn_backtologin")}
               </Button>
               <Button
                 color="default"
@@ -619,19 +623,21 @@ export default function Forgot(props: ForgotProps) {
                 size="small"
                 onClick={() => props.setModalType(2)}
               >
-                注册新账号
+                {FI18n.i18nNext.t("noderuntime_resetpw_btn_signup")}
               </Button>
             </div>
           ) : (
             <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
-              <div className="forgot-tip">已想起密码，</div>
+              <div className="forgot-tip">
+                {FI18n.i18nNext.t("noderuntime_resetpw_msg_backtopayment")}
+              </div>
               <Button
                 color="default"
                 className=""
                 size="small"
                 onClick={() => props.setModalType(0)}
               >
-                返回继续支付
+                {FI18n.i18nNext.t("noderuntime_resetpw_btn_backtopayment")}
               </Button>
             </div>
           )}
@@ -645,7 +651,9 @@ export default function Forgot(props: ForgotProps) {
       >
         <div className=" bg-white">
           <Button loading className="loading">
-            重置中
+            {props.type === LOGIN_PASSWORD
+              ? FI18n.i18nNext.t("noderuntime_resetpw_msg_processing")
+              : FI18n.i18nNext.t("noderuntime_resetpymtpw_msg_processing")}
           </Button>
         </div>
       </Popup>
@@ -659,14 +667,23 @@ export default function Forgot(props: ForgotProps) {
             <i className="iconfont ">&#xe62d;</i>
             <span className=" success mb-60 mt-4">
               {props.type === LOGIN_PASSWORD
-                ? "登录密码重置成功"
-                : "支付密码重置成功"}
+                ? FI18n.i18nNext.t("noderuntime_resetpw_msg_done")
+                : FI18n.i18nNext.t("noderuntime_resetpymtpw_msg_done")}
             </span>
             <div className="flex-row justify-center align-center">
               <span className="count-back">
                 {props.type === LOGIN_PASSWORD
-                  ? count + "s后返回登录页"
-                  : "正在返回支付订单页" + count + "s…"}
+                  ? FI18n.i18nNext.tJSXElement(
+                      "noderuntime_signup_backtologin_msg",
+                      {
+                        timer: count + "s",
+                      }
+                    )
+                  : FI18n.i18nNext.t(
+                      "noderuntime_resetpymtpw_msg_backtopayment"
+                    ) +
+                    count +
+                    "s…"}
               </span>
               {props.type === LOGIN_PASSWORD ? (
                 <Button
@@ -677,7 +694,7 @@ export default function Forgot(props: ForgotProps) {
                     props.setModalType(1);
                   }}
                 >
-                  立即登录
+                  {FI18n.i18nNext.t("noderuntime_signup_backtologin_btn_login")}
                 </Button>
               ) : null}
             </div>
