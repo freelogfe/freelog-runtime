@@ -1,3 +1,5 @@
+import FI18n from "@/I18nNext";
+
 export default function OutOf() {
   return (
     <div
@@ -8,27 +10,16 @@ export default function OutOf() {
     >
       <div className="flex-2"></div>
       <div className="w-76">
-        <img
-          src="/failed.svg"
-          alt="" 
-          className="w-100x"
-        />
+        <img src="/failed.svg" alt="" className="w-100x" />
       </div>
-      <div 
-        style={{
-          color: "#222222",
-        }}
-        className="fs-20 fw-bold lh-30 mt-40"
-      >
-        节点异常，无法正常访问
-      </div>
-      <div 
+
+      <div
         style={{
           color: "#666666",
         }}
         className="fs-16 fw-regular lh-26 mt-40"
       >
-        异常原因：未设置主题
+        {FI18n.i18nNext.tJSXElement("alert_visit_node_no_theme")}
       </div>
       <div className="flex-3"></div>
     </div>

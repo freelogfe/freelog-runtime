@@ -1,3 +1,5 @@
+import FI18n from "@/I18nNext";
+
 export default function OutOf() {
   return (
     <div
@@ -12,21 +14,21 @@ export default function OutOf() {
       <div className="w-100">
         <img src="/failed.svg" alt="" className="w-100x" />
       </div>
-      <div
+      {/* <div
         className=" fs-30 fw-regular lh-36 mt-40 mb-30"
         style={{
           color: "#666666",
         }}
       >
         节点异常，无法正常访问
-      </div>
+      </div> */}
       <div
-        className=" fs-16 fw-regular lh-22"
+        className=" fs-16 fw-regular lh-22 mt-40"
         style={{
           color: "#666666",
         }}
       >
-        异常原因：抱歉，此节点不存在
+        {FI18n.i18nNext.t('noderuntime_nodedeleted_msg')}
       </div>
       <div className="flex-1"></div>
     </div>

@@ -3,6 +3,7 @@ import nodePrivate from "../../assets/image/nodePrivate.png";
 import Button from "../_commons/button";
 import Login from "../login";
 import { freelogAuth} from "freelog-runtime-core";
+import FI18n from "@/I18nNext";
 
 const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
 
@@ -42,8 +43,8 @@ export default function OutOf() {
         }}
       >
         {freelogAuth.getUserInfoForAuth()
-          ? "此节点未开放访问"
-          : "此节点未开放访问，如果你是节点所有者，请登录后继续访问。"}
+          ?  FI18n.i18nNext.tJSXElement('noderuntime_node_visibility_private_msg_noaccess') 
+          : FI18n.i18nNext.tJSXElement('noderuntime_node_visibility_private_msg_notlogged') }
       </div>
       {freelogAuth.getUserInfoForAuth() ? null : (
         <Button
@@ -52,7 +53,7 @@ export default function OutOf() {
             setLoginVisible(true);
           }}
         >
-          立即登录
+          {FI18n.i18nNext.t('noderuntime_node_visibility_private_btn__notlogged')}
         </Button>
       )}
       <div className="flex-1"></div>

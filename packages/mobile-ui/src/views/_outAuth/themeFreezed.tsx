@@ -1,5 +1,4 @@
-
-
+import FI18n from "@/I18nNext";
 
 export default function OutOf() {
   return (
@@ -19,7 +18,7 @@ export default function OutOf() {
           color: "#222222",
         }}
       >
-        节点主题违规，暂时无法加载内容
+        {FI18n.i18nNext.t("alert_visit_node_theme_auth_abnormal")}
       </div>
       <div className="flex-3"></div>
     </div>

@@ -1,5 +1,5 @@
-import { Form, Input, Modal, Checkbox } from "antd";
-
+import { Form, Input, Modal} from "antd";
+// , Checkbox 
 import Button from "./_commons/button";
 import { freelogAuth } from "freelog-runtime-core";
 import wechatPng from "@/assets/wechat.png";
@@ -23,6 +23,7 @@ export default function Login(props: loginProps) {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line
   const [isRemember, setIsRemember] = useState(false);
   function onValuesChange(_changedValues: any, allValues: any) {
     setDisabled(!allValues.loginName || !allValues.password);
@@ -39,7 +40,7 @@ export default function Login(props: loginProps) {
       props.loginFinished(SUCCESS, res.data.data);
     } else {
       const modal = Modal.error({
-        title: "登录失败",
+        title: FI18n.i18nNext.t("noderuntime_login_error_incorrectunopw"),
         content: res.data.msg,
         zIndex: 9999,
       });
@@ -57,7 +58,7 @@ export default function Login(props: loginProps) {
   };
   return (
     <Modal
-      title={FI18n.i18nNext.t('event_2024monthlyeditorspick_awards_date')}
+      title={FI18n.i18nNext.t("noderuntime_login_btn_submit")}
       zIndex={1200}
       centered
       footer={null}
@@ -70,7 +71,9 @@ export default function Login(props: loginProps) {
       wrapClassName="freelog-login"
     >
       <div className="w-100x h-100x flex-column align-center">
-        <div className="login-title py-55">登录freelog</div>
+        <div className="login-title py-55">
+          {FI18n.i18nNext.t("noderuntime_login_title")}
+        </div>
         <Form
           {...layout}
           onValuesChange={onValuesChange}
@@ -81,15 +84,26 @@ export default function Login(props: loginProps) {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-          <div className="login-label">用户名/手机号/邮箱</div>
+          <div className="login-label">
+            {FI18n.i18nNext.t("noderuntime_login_subtitle")}
+          </div>
           <Form.Item
             name="loginName"
-            rules={[{ required: true, message: "请输入用户名!" }]}
+            rules={[
+              {
+                required: true,
+                message: FI18n.i18nNext.t(
+                  "noderuntime_login_alert_account_required"
+                ),
+              },
+            ]}
           >
             <Input />
           </Form.Item>
           <div className="flex-row space-between login-label mt-10">
-            <div className="">密码</div>
+            <div className="">
+              {FI18n.i18nNext.t("noderuntime_login_pw_hint")}
+            </div>
             <div
               className="login-forgot select-none cur-pointer"
               onClick={() => {
@@ -100,25 +114,30 @@ export default function Login(props: loginProps) {
                 window.open("https://user.freelog.com/retrieve");
               }}
             >
-              忘记密码？
+              {FI18n.i18nNext.t("noderuntime_login_forgetpw_desktop")}
             </div>
           </div>
 
           <Form.Item
             name="password"
-            rules={[{ required: true, message: "请输入密码!" }]}
+            rules={[
+              {
+                required: true,
+                message: FI18n.i18nNext.t(
+                  "noderuntime_login_alert_pw_required"
+                ),
+              },
+            ]}
           >
             <Input.Password />
           </Form.Item>
 
-          <Form.Item
+          {/* <Form.Item
             name="remember"
             valuePropName="checked"
             wrapperCol={{ offset: 10, span: 16 }}
           >
-            {/* <div className="mb-15 flex-row justify-end login-remember">
-              <Checkbox checked={isRemember} onChange={(e)=>{setIsRemember(e)}}>记住我</Checkbox>
-            </div> */}
+
             <div className="mb-15 flex-row justify-end login-remember">
               <Checkbox
                 className="login-remember"
@@ -130,21 +149,24 @@ export default function Login(props: loginProps) {
                 记住我
               </Checkbox>
             </div>
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item className="pt-">
             <Button
               className="py-9"
               click={onFinish}
               disabled={disabled || loading}
             >
-              {" "}
-              {loading ? "登录中..." : "登录"}
+              {loading
+                ? `${FI18n.i18nNext.t(
+                    "noderuntime_login_msg_processing"
+                  )}登录中...`
+                : FI18n.i18nNext.t("noderuntime_login_btn_submit")}
             </Button>
           </Form.Item>
         </Form>
 
         <div className="flex-1 flex-column align-center">
-          <div className={"openTitle mt-10 mb-20"}>第三方账号登录</div>
+          <div className={"openTitle mt-10 mb-20"}>{FI18n.i18nNext.t("noderuntime_login_externallogin")}</div>
           <div
             className={"wechat flex-column-center"}
             onClick={() => {
@@ -163,7 +185,7 @@ export default function Login(props: loginProps) {
           </div>
         </div>
         <div className="flex-row  mt-30 mb-15">
-          <span className="login-new">freelog新用户？</span>
+          <span className="login-new">{FI18n.i18nNext.t("noderuntime_login_signup_msg")}</span>
           <span
             className="regist-now cur-pointer"
             onClick={() => {
@@ -174,7 +196,7 @@ export default function Login(props: loginProps) {
               window.open("https://user.freelog.com/logon");
             }}
           >
-            立即注册
+            {FI18n.i18nNext.t("noderuntime_login_signup")}
           </span>
         </div>
       </div>

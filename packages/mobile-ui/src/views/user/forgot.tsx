@@ -7,6 +7,7 @@ import {
   checkPayPassword,
 } from "@/utils/utils";
 import { Popup, Button, Toast, SpinLoading } from "antd-mobile";
+import FI18n from "@/I18nNext";
 
 import { useState, useEffect } from "react";
 import "./forgot.scss";
@@ -57,25 +58,33 @@ export default function Forgot(props: ForgotProps) {
       [type]: "",
     };
     if (type === "loginPassword") {
-      obj[type] = value ? "" : "请输入密码";
+      obj[type] = value
+        ? ""
+        : FI18n.i18nNext.t("noderuntime_login_alert_pw_required");
     }
     if (type === "phone" && !checkPhone(value)) {
-      obj[type] = value ? "手机号格式不正确" : "请输入手机号";
+      obj[type] = value
+        ? FI18n.i18nNext.t("noderuntime_signup_alert_phonenumber_invalid")
+        : FI18n.i18nNext.t("namingrules_phonenumber_required");
     }
     if (type === "email" && !checkEmail(value)) {
-      obj[type] = value ? "无效邮箱地址" : "请输入邮箱地址";
+      obj[type] = value
+        ? FI18n.i18nNext.t("noderuntime_signup_alert_email_invalid")
+        : FI18n.i18nNext.t("namingrules_email_required");
     }
     if (type === "authCode") {
-      obj[type] = value ? "" : "请输入验证码";
+      obj[type] = value
+        ? ""
+        : FI18n.i18nNext.t("noderuntime_signup_alert_code_required");
     }
     if (["password", "password2"].includes(type)) {
       if (value && !passwordCheck(value)) {
         obj[type] =
           props.type === PAY_PASSWORD
-            ? "密码只能是6位纯数字"
-            : "密码长度必须为6-24个字符，必须包含数字和字母";
+            ? FI18n.i18nNext.t("naming_resetpymtpw")
+            : FI18n.i18nNext.t("namingrules_password");
       } else {
-        obj[type] = value ? "" : "请输入密码";
+        obj[type] = value ? "" : FI18n.i18nNext.t("namingrules_pw_required");
       }
     }
     if (["password", "password2"].includes(type)) {
@@ -182,7 +191,7 @@ export default function Forgot(props: ForgotProps) {
     const values: any = {
       password: loginPassword,
     };
-    const res:any = await freelogAuth.loginVerify(values);
+    const res: any = await freelogAuth.loginVerify(values);
     if (res.data.errCode === 0 && res.data.data.isVerifySuccessful) {
       const obj: any = { loginPassword: "" };
       setErrorTip({
@@ -215,7 +224,7 @@ export default function Forgot(props: ForgotProps) {
           : "updateTransactionAccountPwd",
       address: registerType === 1 ? phone : email,
     };
-    const res:any = await freelogAuth.verifyAuthCode(values);
+    const res: any = await freelogAuth.verifyAuthCode(values);
     if (res.data.errCode === 0) {
       setLoading(false);
       setStep(3);
@@ -296,9 +305,11 @@ export default function Forgot(props: ForgotProps) {
       {step === 1 ? (
         <div className="w-100x h-100x flex-column align-center y-auto">
           <div className="mt-40 mb-40 flex-column px-30 self-start">
-            <div className="forgot-title self-start">登录密码验证</div>
+            <div className="forgot-title self-start">
+              {FI18n.i18nNext.t("noderuntime_verifypw_title")}
+            </div>
             <div className="forgot-tip self-start text-align-left mt-10">
-              设置新的支付密码前，首先需要进行登录密码的验证
+              {FI18n.i18nNext.t("msg_verify_password")}
             </div>
           </div>
           <div className="forgot-container flex-column px-30 mt-118 flex-1">
@@ -306,7 +317,7 @@ export default function Forgot(props: ForgotProps) {
               type="password"
               value={loginPassword}
               className="w-100x   mb-5 common-input"
-              placeholder="输入登录密码"
+              placeholder={FI18n.i18nNext.t("title_verify_password")}
               onChange={(e) => {
                 verify("loginPassword", loginPassword);
                 setLoginPassword(e.target.value);
@@ -320,22 +331,27 @@ export default function Forgot(props: ForgotProps) {
               color="primary"
               className="mt-15"
               loadingIcon={<SpinLoading color="white" />}
-              loadingText="验证中"
+              loadingText={FI18n.i18nNext.t(
+                "noderuntime_verify_identity_msg_processing"
+              )}
               onClick={loginVerify}
               disabled={loading || errorTip.loginPassword}
             >
-              下一步
+              {FI18n.i18nNext.t("noderuntime_resetpw_btn_continue")}
             </Button>
           </div>
           <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
-            <div className="forgot-tip">已想起密码，</div>
+            <div className="forgot-tip">
+              {" "}
+              {FI18n.i18nNext.t("noderuntime_resetpw_msg_backtopayment")}
+            </div>
             <Button
               color="default"
               className=""
               size="small"
               onClick={() => props.setModalType(0)}
             >
-              返回继续支付
+              {FI18n.i18nNext.t("noderuntime_resetpw_btn_backtopayment")}
             </Button>
           </div>
         </div>
@@ -344,12 +360,12 @@ export default function Forgot(props: ForgotProps) {
           <div className="flex-1 w-100x flex-column align-center shrink-0">
             <div className="forgot-title  mt-40 mb-87 flex-column px-30 self-start">
               <div className="forgot-title self-start">
-                {props.type === LOGIN_PASSWORD ? "身份验证" : "身份验证"}
+                {FI18n.i18nNext.t("title_verify_identity")}
               </div>
               <div className="forgot-tip self-start text-align-left mt-10">
                 {props.type === LOGIN_PASSWORD
-                  ? "为了您的登录安全，需要验证手机或邮箱，验证成功后即可设置新的登录密码"
-                  : "为了您的支付安全，请进行双重验证，验证成功后即可设置新的支付密码"}
+                  ? FI18n.i18nNext.t("noderuntime_resetpw_subtitle")
+                  : FI18n.i18nNext.t("noderuntime_verify_identity_subtitle")}
               </div>
             </div>
             <div className="forgot-type mb-20  flex-row px-30 self-start align-center">
@@ -369,7 +385,7 @@ export default function Forgot(props: ForgotProps) {
                 htmlFor="phone-type"
                 className={registerType === 1 ? "selected mr-20" : " mr-20"}
               >
-                手机号验证
+                {FI18n.i18nNext.t("noderuntime_resetpw_withphonenumber")}
               </label>
               <input
                 type="radio"
@@ -387,7 +403,7 @@ export default function Forgot(props: ForgotProps) {
                 htmlFor="mail-type"
                 className={registerType === 2 ? "selected" : ""}
               >
-                邮箱验证
+                {FI18n.i18nNext.t("noderuntime_resetpw_withemail")}
               </label>
             </div>
             <div className="forgot-container flex-column justify-center px-30 w-100x">
@@ -396,7 +412,9 @@ export default function Forgot(props: ForgotProps) {
                   type="text"
                   value={phone}
                   className="w-100x  mb-5 mt-15 common-input"
-                  placeholder={"手机号"}
+                  placeholder={FI18n.i18nNext.t(
+                    "noderuntime_signup_input_phonenumber_hint"
+                  )}
                   onChange={(e) => {
                     verify("phone", e.target.value);
                     setPhone(e.target.value);
@@ -407,7 +425,9 @@ export default function Forgot(props: ForgotProps) {
                   type="text"
                   value={email}
                   className="w-100x  mb-5 mt-15 common-input"
-                  placeholder={"邮箱地址"}
+                  placeholder={FI18n.i18nNext.t(
+                    "noderuntime_signup_input_address_hint"
+                  )}
                   onChange={(e) => {
                     verify("email", e.target.value);
                     setEmail(e.target.value);
@@ -425,7 +445,9 @@ export default function Forgot(props: ForgotProps) {
                     type="text"
                     value={authCode}
                     className="w-100x common-input"
-                    placeholder="验证码"
+                    placeholder={FI18n.i18nNext.t(
+                      "noderuntime_signup_input_verificationcode_hint"
+                    )}
                     onChange={(e) => {
                       verify("authCode", e.target.value);
                       setAuthCode(e.target.value);
@@ -447,7 +469,11 @@ export default function Forgot(props: ForgotProps) {
                       getAuthCode();
                     }}
                   >
-                    {authCodeLoading ? <span>{countDown}s</span> : "获取验证码"}
+                    {authCodeLoading ? (
+                      <span>{countDown}s</span>
+                    ) : (
+                      FI18n.i18nNext.t("noderuntime_signup_btn_sendcode")
+                    )}
                   </Button>
                 </div>
               </div>
@@ -460,7 +486,9 @@ export default function Forgot(props: ForgotProps) {
                 className="mt-15"
                 onClick={authCodeVerify}
                 loadingIcon={<SpinLoading color="white" />}
-                loadingText="验证中"
+                loadingText={FI18n.i18nNext.t(
+                  "noderuntime_verify_identity_msg_processing"
+                )}
                 disabled={
                   loading ||
                   !authCode ||
@@ -469,7 +497,7 @@ export default function Forgot(props: ForgotProps) {
                     : !email || errorTip.email)
                 }
               >
-                下一步
+                {FI18n.i18nNext.t("noderuntime_resetpw_btn_continue")}
               </Button>
             </div>
           </div>
@@ -481,7 +509,7 @@ export default function Forgot(props: ForgotProps) {
                 className="mr-12"
                 onClick={() => props.setModalType(1)}
               >
-                返回登录页
+                {FI18n.i18nNext.t("noderuntime_resetpw_btn_backtologin")}
               </Button>
               <Button
                 color="default"
@@ -489,19 +517,19 @@ export default function Forgot(props: ForgotProps) {
                 size="small"
                 onClick={() => props.setModalType(2)}
               >
-                注册新账号
+                {FI18n.i18nNext.t("noderuntime_resetpw_btn_signup")}
               </Button>
             </div>
           ) : (
             <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
-              <div className="forgot-tip">已想起密码，</div>
+              <div className="forgot-tip">{FI18n.i18nNext.t("noderuntime_resetpw_msg_backtopayment")}</div>
               <Button
                 color="default"
                 className=""
                 size="small"
                 onClick={() => props.setModalType(0)}
               >
-                返回继续支付
+                {FI18n.i18nNext.t("noderuntime_resetpw_btn_backtopayment")}
               </Button>
             </div>
           )}

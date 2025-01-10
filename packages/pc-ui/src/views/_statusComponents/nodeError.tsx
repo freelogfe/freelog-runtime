@@ -1,12 +1,11 @@
-interface nodeErrorProps {
-  currentExhibit: any;
-  setThemeCancel: any;
-  children?: any;
-}
-export default function NodeError({
-  currentExhibit,
-  setThemeCancel,
-}: nodeErrorProps) {
+import FI18n from "@/I18nNext";
+
+// interface nodeErrorProps {
+//   currentExhibit: any;
+//   setThemeCancel: any;
+//   children?: any;
+// }
+export default function NodeError() {
   return (
     <div
       className="w-100x h-100x z-3 flex-column fs-30 lh-36 p-absolute text-align-center"
@@ -27,9 +26,9 @@ export default function NodeError({
           fontWeight: "400",
         }}
       >
-        节点异常，无法正常访问
+        {FI18n.i18nNext.tJSXElement('alert_visit_node_theme_auth_abnormal')} 
       </div>
-      <div
+      {/* <div
         className="fs-16 lh-22 mb-30 mt-40"
         style={{
           color: "#666666",
@@ -63,7 +62,7 @@ export default function NodeError({
             查看合约
           </span>
         </div>
-      ) : null}
+      ) : null} */}
     </div>
   );
 }
