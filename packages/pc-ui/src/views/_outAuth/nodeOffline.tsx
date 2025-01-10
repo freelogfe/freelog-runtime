@@ -1,5 +1,6 @@
 import nodeOffline from "../../assets/image/nodeOffline.png";
 import { freelogAuth } from "freelog-runtime-core";
+import FI18n from "@/I18nNext";
 
 export default function OutOf() {
   return (
@@ -22,7 +23,7 @@ export default function OutOf() {
           color: "#666666",
         }} 
       >
-        {freelogAuth.nodeInfo.nodeSuspendInfo || "筹备中，敬请期待…"}
+        {freelogAuth.nodeInfo.nodeSuspendInfo || FI18n.i18nNext.t('nodemgnt_nodesetting_changenotice_default') }
       </div>
       <div className="flex-1"></div>
     </div>

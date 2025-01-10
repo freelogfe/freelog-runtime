@@ -1,3 +1,5 @@
+import FI18n from "@/I18nNext";
+
 interface OutOfProps {
   outData: any;
   children?: any;
@@ -23,22 +25,26 @@ export default function OutOf({ outData }: OutOfProps) {
           &#xe62f;
         </i>
       </div>
-      <div
+      {/* <div
         className="fs-30 fw-regular lh-36 mt-34"
         style={{
           color: "#666666",
         }}
       >
         节点已经被封停
-      </div>
+      </div> */}
       <div
-        className="fs-14 fw-regular lh-2. mt-80"
+        className="fs-14 fw-regular lh-2. mt-34"
         style={{
           color: "#666666",
         }}
       >
-        经核实，节点{outData.nodeName}，严重违反平台规范&nbsp;
-        <a
+         {FI18n.i18nNext.tJSXElement('alert_nodedisable01', {
+            NodeDomain: outData.nodeName,
+            DisableDetails: outData.freezeReason,
+          })}
+        {/* 经核实，节点{outData.nodeName}，严重违反平台规范&nbsp; */}
+        {/* <a
           className="link cur-pointer"
           target="_blank"
           rel="noreferrer"
@@ -47,7 +53,7 @@ export default function OutOf({ outData }: OutOfProps) {
           （Freelog服务协议）
         </a>{" "}
         ，涉嫌
-        {outData.freezeReason}，已经被封停。
+        {outData.freezeReason}，已经被封停。 */}
       </div>
       <div className="flex-1"></div>
     </div>

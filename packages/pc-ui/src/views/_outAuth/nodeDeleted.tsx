@@ -1,4 +1,4 @@
-// import FI18n from "@/I18nNext";
+import FI18n from "@/I18nNext";
 
 export default function OutOf() {
   return (
@@ -20,7 +20,7 @@ export default function OutOf() {
           color: "#666666",
         }}
       >
-        节点异常，无法正常访问
+       {FI18n.i18nNext.tJSXElement('noderuntime_nodedeleted_msg')} {/*  节点异常，无法正常访问 */}
       </div>
       <div
         className=" fs-16 fw-regular lh-22"
@@ -28,7 +28,7 @@ export default function OutOf() {
           color: "#666666",
         }}
       >
-       异常原因：所有者删除了此节点  {/*  {FI18n.i18nNext.t('noderuntime_nodedeleted_msg02')} */}
+       {FI18n.i18nNext.t('noderuntime_nodedeleted_msg02')}   {/*异常原因：所有者删除了此节点  {FI18n.i18nNext.t('noderuntime_nodedeleted_msg02')} */}
       </div>
       <div className="flex-1"></div>
     </div>

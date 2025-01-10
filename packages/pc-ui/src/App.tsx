@@ -131,7 +131,7 @@ function App() {
           return;
         }
         // 节点冻结
-        if (nodeInfo.status == 4) {
+        if (nodeInfo.status == 4 ) {
           UI(NODE_FREEZED, nodeInfo);
           return;
         }
@@ -398,8 +398,8 @@ function App() {
             // @ts-ignore
             (nodeInfoData.themeAuthInfo.defaulterIdentityType & 2) == 2 ? (
               <NodeError
-                currentExhibit={themeAuthInfo}
-                setThemeCancel={openAuthForTheme}
+                // currentExhibit={themeAuthInfo}
+                // setThemeCancel={openAuthForTheme}
               />
             ) : (
               <ThemeCancel

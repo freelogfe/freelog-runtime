@@ -1,5 +1,6 @@
-import { message } from "antd";
-import copy from "copy-to-clipboard";
+// import { message } from "antd";
+// import copy from "copy-to-clipboard";
+import FI18n from "@/I18nNext";
 
 interface OutOfProps {
   outData: any;
@@ -19,15 +20,15 @@ export default function OutOf({ outData }: OutOfProps) {
       <div>
         <i className="iconfont fc-red fs-100">&#xe62f;</i>
       </div>
-      <div
+      {/* <div
         className=" fs-30 fw-regular lh-36 mt-34"
         style={{
           color: "#666666",
         }}
       >
         你的账号已经被冻结
-      </div>
-      <div
+      </div> */}
+      {/* <div
         className=" fs-14 fw-regular lh-20 mt-80"
         style={{
           color: "#666666",
@@ -44,20 +45,23 @@ export default function OutOf({ outData }: OutOfProps) {
         </a>{" "}
         ，涉嫌
         {outData.userDetail.reason}，已经被冻结。
-      </div>
+      </div> */}
       <div
-        className=" fs-14 fw-regular lh-20 mt-20"
+        className=" fs-14 fw-regular lh-20 mt-80"
         style={{
           color: "#666666",
         }}
       >
-        如果你对此存在异议，可向Freelog提交相关证明材料进行申诉。
+        {FI18n.i18nNext.tJSXElement("alert_login_useraccountdisable", {
+          UserName: outData.username,
+          DisableDetails: outData.userDetail.reason,
+        })}
       </div>
-      <div
+      {/* <div
         className=" fs-14 fw-regular lh-20 mt-20"
         style={{
           color: "#666666",
-        }} 
+        }}
       >
         联系邮箱：service@freelog.com{" "}
         <span
@@ -69,7 +73,7 @@ export default function OutOf({ outData }: OutOfProps) {
         >
           复制
         </span>
-      </div>
+      </div> */}
       <div className="flex-1"></div>
     </div>
   );
