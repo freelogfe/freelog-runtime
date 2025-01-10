@@ -1,4 +1,5 @@
 import { freelogAuth } from "freelog-runtime-core";
+import FI18n from "@/I18nNext";
 
 import {
   checkPhone,
@@ -46,22 +47,28 @@ export default function Register(props: loginProps) {
     };
     if (type === "username" && !checkUsername(value)) {
       obj[type] = value
-        ? "不超过30个字符；只能使用小写字母、数字或短横线（-）；必须以小写字母或数字开头和结尾。"
-        : "请输入用户名";
+        ? FI18n.i18nNext.t("namingrules_username")
+        : FI18n.i18nNext.t("namingrules_username_required");
     }
     if (type === "phone" && !checkPhone(value)) {
-      obj[type] = value ? "手机号格式不正确" : "请输入手机号";
+      obj[type] = value
+        ? FI18n.i18nNext.t("noderuntime_signup_alert_phonenumber_invalid")
+        : FI18n.i18nNext.t("namingrules_phonenumber_required");
     }
     if (type === "email" && !checkEmail(value)) {
-      obj[type] = value ? "无效邮箱地址" : "请输入邮箱地址";
+      obj[type] = value
+        ? FI18n.i18nNext.t("noderuntime_signup_alert_email_invalid")
+        : FI18n.i18nNext.t("namingrules_email_required");
     }
     if (type === "password" && !checkPassword(value)) {
       obj[type] = value
-        ? "密码长度必须为6-24个字符，必须包含数字和字母"
-        : "请输入密码";
+        ? FI18n.i18nNext.t("namingrules_password")
+        : FI18n.i18nNext.t("namingrules_pw_required");
     }
     if (type === "authCode") {
-      obj[type] = value ? "" : "请输入验证码";
+      obj[type] = value
+        ? ""
+        : FI18n.i18nNext.t("noderuntime_signup_alert_code_required");
     }
     const errors = {
       ...errorTip,
@@ -187,7 +194,7 @@ export default function Register(props: loginProps) {
         <div className="w-100x h-100x flex-column align-center">
           <div className="flex-1 w-100x flex-column align-center">
             <div className="register-title mb-38 mt-45 flex-row px-30 self-start">
-              注册
+              {FI18n.i18nNext.t("noderuntime_signup_title")}
             </div>
             <div className="register-type mb-30  flex-row px-30 self-start align-center w-100x">
               <input
@@ -201,12 +208,12 @@ export default function Register(props: loginProps) {
                   phone && verify("phone", phone);
                   setRegisterType(parseInt(e.target.value));
                 }}
-              />{" "}
+              />
               <label
                 htmlFor="phone-type"
                 className={registerType === 1 ? "selected mr-20" : " mr-20"}
               >
-                手机号注册
+                {FI18n.i18nNext.t("noderuntime_signup_btn_signup")}
               </label>
               <input
                 type="radio"
@@ -224,7 +231,7 @@ export default function Register(props: loginProps) {
                 htmlFor="mail-type"
                 className={registerType === 2 ? "selected" : ""}
               >
-                邮箱注册
+                {FI18n.i18nNext.t("noderuntime_signup_withemail")}
               </label>
             </div>
             <div className="register-container flex-column justify-center px-30 ">
@@ -232,7 +239,9 @@ export default function Register(props: loginProps) {
                 type="text"
                 className="w-100x mb-5 common-input"
                 value={username}
-                placeholder="用户名"
+                placeholder={FI18n.i18nNext.t(
+                  "noderuntime_signup_input_username_hint"
+                )}
                 onChange={(e) => {
                   verify("username", e.target.value);
                   setUsername(e.target.value);
@@ -246,7 +255,9 @@ export default function Register(props: loginProps) {
                   type="text"
                   value={phone}
                   className="w-100x  mb-5 mt-15 common-input"
-                  placeholder={"手机号"}
+                  placeholder={FI18n.i18nNext.t(
+                    "noderuntime_signup_input_phonenumber_hint"
+                  )}
                   onChange={(e) => {
                     verify("phone", e.target.value);
                     setPhone(e.target.value);
@@ -257,7 +268,9 @@ export default function Register(props: loginProps) {
                   type="text"
                   value={email}
                   className="w-100x  mb-5 mt-15 common-input"
-                  placeholder={"邮箱地址"}
+                  placeholder={FI18n.i18nNext.t(
+                    "noderuntime_signup_input_address_hint"
+                  )}
                   onChange={(e) => {
                     verify("email", e.target.value);
                     setEmail(e.target.value);
@@ -275,7 +288,9 @@ export default function Register(props: loginProps) {
                     type="text"
                     value={authCode}
                     className="common-input"
-                    placeholder="验证码"
+                    placeholder={FI18n.i18nNext.t(
+                      "noderuntime_signup_input_verificationcode_hint"
+                    )}
                     onChange={(e) => {
                       verify("authCode", e.target.value);
                       setAuthCode(e.target.value);
@@ -298,7 +313,11 @@ export default function Register(props: loginProps) {
                       getAuthCode();
                     }}
                   >
-                    {authCodeLoading ? <span>{countDown}s</span> : "获取验证码"}
+                    {authCodeLoading ? (
+                      <span>{countDown}s</span>
+                    ) : (
+                      FI18n.i18nNext.t("noderuntime_signup_btn_sendcode")
+                    )}
                   </Button>
                 </div>
               </div>
@@ -309,7 +328,7 @@ export default function Register(props: loginProps) {
                 type="password"
                 value={password}
                 className="w-100x  mt-15 mb-5 common-input"
-                placeholder="密码"
+                placeholder={FI18n.i18nNext.t("noderuntime_login_pw_hint")}
                 onChange={(e) => {
                   verify("password", e.target.value);
                   setPassword(e.target.value);
@@ -325,21 +344,21 @@ export default function Register(props: loginProps) {
                 loadingIcon={<SpinLoading color="white" />}
                 onClick={onFinish}
                 disabled={!available}
-                loadingText="注册中"
+                loadingText={FI18n.i18nNext.t("noderuntime_signup_proecessing")}
               >
-                注 册
+                {FI18n.i18nNext.t("noderuntime_signup_btn_signup")}
               </Button>
             </div>
           </div>
 
           <div className="flex-row justify-center align-center register-bottom mb-50">
-            已有账号？
+            {FI18n.i18nNext.t("noderuntime_signup_login_msg")}
             <Button
               color="default"
               size="small"
               onClick={() => props.setModalType(1)}
             >
-              马上登录
+              {FI18n.i18nNext.t("noderuntime_signup_login")}
             </Button>
           </div>
         </div>
@@ -362,9 +381,15 @@ export default function Register(props: loginProps) {
           <div className="w-100x h-100x flex-column justify-center">
             <div className="flex-column align-center ">
               <i className="iconfont ">&#xe62d;</i>
-              <span className=" success mb-60 mt-4">注册成功</span>
+              <span className=" success mb-60 mt-4">
+                {FI18n.i18nNext.t("noderuntime_signup_msg_done")}
+              </span>
               <div className="flex-row justify-center align-center">
-                <span className="count-back">{count}s后返回登录页；</span>
+                <span className="count-back">
+                  {FI18n.i18nNext.tJSXElement("noderuntime_signup_msg_done", {
+                    timer: count + "s",
+                  })}
+                </span>
                 <Button
                   color="default"
                   size="small"
@@ -373,7 +398,7 @@ export default function Register(props: loginProps) {
                     props.setModalType(1);
                   }}
                 >
-                  立即登录
+                  {FI18n.i18nNext.t("noderuntime_signup_backtologin_btn_login")}
                 </Button>
               </div>
             </div>

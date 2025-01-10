@@ -3,11 +3,10 @@ import { useState } from "react";
 import nodePrivate from "../../assets/image/nodePrivate.png";
 import Login from "../user/login";
 import { freelogAuth } from "freelog-runtime-core";
+import FI18n from "@/I18nNext";
 
-
-import { Button} from "antd-mobile";
+import { Button } from "antd-mobile";
 const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
-
 
 export default function NodePrivate() {
   const [loginVisible, setLoginVisible] = useState(false);
@@ -35,15 +34,19 @@ export default function NodePrivate() {
       <div className="w-280">
         <img src={nodePrivate} alt="" className="w-100x" />
       </div>
-      <div 
+      <div
         className="fs-18 fw-regular lh-36 mt-10 mb-80"
         style={{
           color: "#666666",
         }}
       >
         {freelogAuth.getUserInfoForAuth()
-          ? "此节点未开放访问"
-          : "此节点未开放访问，如果你是节点所有者，请登录后继续访问。"}
+          ? FI18n.i18nNext.tJSXElement(
+              "noderuntime_node_visibility_private_msg_noaccess"
+            )
+          : FI18n.i18nNext.tJSXElement(
+              "noderuntime_node_visibility_private_msg_notlogged"
+            )}
       </div>
       {freelogAuth.getUserInfoForAuth() ? null : (
         <Button
@@ -53,7 +56,9 @@ export default function NodePrivate() {
             setLoginVisible(true);
           }}
         >
-          立即登录
+          {FI18n.i18nNext.t(
+            "noderuntime_node_visibility_private_btn__notlogged"
+          )}
         </Button>
       )}
       <div className="flex-1"></div>

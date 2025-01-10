@@ -1,5 +1,5 @@
-import { Form, Input, Modal, Checkbox } from "antd";
-
+import { Form, Input, Modal} from "antd";
+// , Checkbox 
 import Button from "./_commons/button";
 import { freelogAuth } from "freelog-runtime-core";
 import wechatPng from "@/assets/wechat.png";
@@ -23,8 +23,7 @@ export default function Login(props: loginProps) {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
+  // eslint-disable-next-line
   const [isRemember, setIsRemember] = useState(false);
   function onValuesChange(_changedValues: any, allValues: any) {
     setDisabled(!allValues.loginName || !allValues.password);

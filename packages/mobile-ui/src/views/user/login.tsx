@@ -1,12 +1,13 @@
 import { freelogAuth } from "freelog-runtime-core";
+import FI18n from "@/I18nNext";
 
-import { Popup, Button, Toast, SpinLoading, Checkbox } from "antd-mobile";
+import { Popup, Button, Toast, SpinLoading,  } from "antd-mobile";
 
 import { useState } from "react";
 import { EyeInvisibleOutline, EyeOutline } from "antd-mobile-icons";
 
 import "./login.scss";
-// import logoImage from "../../assets/image/logo-feather.png";
+// import logoImage from "../../assets/image/logo-feather.png" Checkbox;
 
 const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
 
@@ -20,7 +21,7 @@ interface loginProps {
 export default function Login(props: loginProps) {
   const [logging, setLogging] = useState(false);
   const [loginName, setLoginName] = useState("");
-  const [isRemember, setIsRemember] = useState(false);
+  // const [isRemember, setIsRemember] = useState(false);
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
 
@@ -84,7 +85,7 @@ export default function Login(props: loginProps) {
               {/* <img src={logoImage} className="h-100x" alt="" /> */}
             </div>
             <div className="login-title mb-46 flex-row justify-center">
-              免费专业的作品发行和运营平台
+              {FI18n.i18nNext.t("noderuntime_login_subtitle")}
             </div>
           </div>
           <div className="login-container flex-column justify-center">
@@ -92,7 +93,7 @@ export default function Login(props: loginProps) {
               type="text"
               className="w-100x common-input  mb-15"
               value={loginName}
-              placeholder="用户名/手机号/邮箱"
+              placeholder={FI18n.i18nNext.t("noderuntime_login_account_hint")}
               onChange={(e) => {
                 setLoginName(e.target.value);
               }}
@@ -102,7 +103,7 @@ export default function Login(props: loginProps) {
                 type={visible ? "" : "password"}
                 className="w-100x common-input mb-15"
                 value={password}
-                placeholder="密码"
+                placeholder={FI18n.i18nNext.t("noderuntime_login_pw_hint")}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
@@ -115,7 +116,7 @@ export default function Login(props: loginProps) {
                 )}
               </div>
             </div>
-            <div className="mb-15 flex-row justify-end login-remember">
+            {/* <div className="mb-15 flex-row justify-end login-remember">
               <Checkbox
                 checked={isRemember}
                 onChange={(e) => {
@@ -124,7 +125,7 @@ export default function Login(props: loginProps) {
               >
                 记住我
               </Checkbox>
-            </div>
+            </div> */}
 
             <Button
               loading={logging}
@@ -133,9 +134,9 @@ export default function Login(props: loginProps) {
               onClick={onFinish}
               disabled={!loginName || !password}
               loadingIcon={<SpinLoading color="white" />}
-              loadingText="登录中"
+              loadingText={FI18n.i18nNext.t("noderuntime_login_msg_processing")}
             >
-              登 录
+              {FI18n.i18nNext.t("noderuntime_login_btn_submit")}
             </Button>
             {props.onlyLogin || (
               <Button
@@ -144,7 +145,7 @@ export default function Login(props: loginProps) {
                   !logging && props.setModalType(2);
                 }}
               >
-                注 册
+                {FI18n.i18nNext.t("noderuntime_signup_btn_signup")}
               </Button>
             )}
           </div>
@@ -158,7 +159,7 @@ export default function Login(props: loginProps) {
                     !logging && props.setModalType(3);
                   }}
                 >
-                  忘记密码
+                  {FI18n.i18nNext.t("noderuntime_login_forgetpw_mobile")}
                 </Button>
               )}
             </div>
