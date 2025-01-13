@@ -90,11 +90,17 @@ export default function Forgot(props: ForgotProps) {
     if (["password", "password2"].includes(type)) {
       if (type === "password") {
         if (password2) {
-          obj.password2 = password2 !== value ? "两次密码不一致" : "";
+          obj.password2 =
+            password2 !== value
+              ? FI18n.i18nNext.t("noderuntime_resetpw_alert_notmatch")
+              : "";
         }
       }
       if (type === "password2" && password) {
-        obj[type] = password !== value ? "两次密码不一致" : "";
+        obj[type] =
+          password !== value
+            ? FI18n.i18nNext.t("noderuntime_resetpw_alert_notmatch")
+            : "";
       }
     }
     const errors = {
