@@ -1,15 +1,13 @@
 import { freelogAuth } from "freelog-runtime-core";
 
-import {
-  checkPhone,
-  checkEmail,
-  checkPassword,
-} from "@/utils/utils";
+import { checkPhone, checkEmail, checkPassword } from "@/utils/utils";
 import { Popup, Button, Toast, SpinLoading } from "antd-mobile";
 import FI18n from "@/I18nNext";
 
 import { useState, useEffect } from "react";
 import "./forgot.scss";
+import { DownOutline } from 'antd-mobile-icons'
+
 interface ForgotProps {
   visible: boolean;
   setModalType: any;
@@ -172,7 +170,7 @@ export default function Forgot(props: ForgotProps) {
       window.clearInterval(timer);
     };
   }, [success]);
- 
+
   const authCodeVerify = async () => {
     setLoading(true);
     const values: any = {
@@ -267,7 +265,7 @@ export default function Forgot(props: ForgotProps) {
                 checked={registerType === 1}
                 value="1"
                 onChange={(e) => {
-                  verify("phone", phone);
+                  // verify("phone", phone);
                   setRegisterType(parseInt(e.target.value));
                 }}
               />
@@ -284,7 +282,7 @@ export default function Forgot(props: ForgotProps) {
                 className="mr-4 common-input"
                 checked={registerType === 2}
                 onChange={(e) => {
-                  verify("email", email);
+                  // verify("email", email);
                   setRegisterType(parseInt(e.target.value));
                 }}
                 value="2"
@@ -298,18 +296,21 @@ export default function Forgot(props: ForgotProps) {
             </div>
             <div className="forgot-container flex-column justify-center px-30 w-100x">
               {registerType === 1 ? (
-                <input
-                  type="text"
-                  value={phone}
-                  className="w-100x  mb-5 mt-15 common-input"
-                  placeholder={FI18n.i18nNext.t(
-                    "noderuntime_signup_input_phonenumber_hint"
-                  )}
-                  onChange={(e) => {
-                    verify("phone", e.target.value);
-                    setPhone(e.target.value);
-                  }}
-                />
+                <div className="flex-row align-center mb-5 mt-15">
+                  <div className="flex-row  align-center common-input s-input-left fs-16">+86< DownOutline  className="ml-4 fs-16"/></div>
+                  <input
+                    type="text"
+                    value={phone}
+                    className="w-100x   common-input s-input"
+                    placeholder={FI18n.i18nNext.t(
+                      "noderuntime_signup_input_phonenumber_hint"
+                    )}
+                    onChange={(e) => {
+                      verify("phone", e.target.value);
+                      setPhone(e.target.value);
+                    }}
+                  />
+                </div>
               ) : (
                 <input
                   type="text"
