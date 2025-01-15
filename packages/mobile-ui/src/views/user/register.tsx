@@ -173,13 +173,13 @@ export default function Register(props: loginProps) {
         content: res.data.msg,
         duration: 2000,
       });
-      if (res.data.msg.indexOf("验证码") === 0) {
-        const obj: any = { authCode: res.data.msg };
-        setErrorTip({
-          ...errorTip,
-          ...obj,
-        });
-      }
+      // if (res.data.msg.indexOf("验证码") === 0) {
+      //   const obj: any = { authCode: res.data.msg };
+      //   setErrorTip({
+      //     ...errorTip,
+      //     ...obj,
+      //   });
+      // }
       setTimeout(() => setLoading(false), 2000);
     }
   };

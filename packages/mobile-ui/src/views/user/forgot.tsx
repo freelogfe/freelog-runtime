@@ -217,20 +217,20 @@ export default function Forgot(props: ForgotProps) {
         content: res.data.msg,
         duration: 2000,
       });
-      if (res.data.msg.indexOf("未找到有效用户") === 0) {
-        const obj: any = { loginName: res.data.msg };
-        setErrorTip({
-          ...errorTip,
-          ...obj,
-        });
-      }
-      if (res.data.msg.indexOf("验证码") === 0) {
-        const obj: any = { authCode: res.data.msg };
-        setErrorTip({
-          ...errorTip,
-          ...obj,
-        });
-      }
+      // if (res.data.msg.indexOf("未找到有效用户") === 0) {
+      //   const obj: any = { loginName: res.data.msg };
+      //   setErrorTip({
+      //     ...errorTip,
+      //     ...obj,
+      //   });
+      // }
+      // if (res.data.msg.indexOf("验证码") === 0) {
+      //   const obj: any = { authCode: res.data.msg };
+      //   setErrorTip({
+      //     ...errorTip,
+      //     ...obj,
+      //   });
+      // }
       setTimeout(() => setLoading(false), 2000);
     }
   };
@@ -470,7 +470,7 @@ export default function Forgot(props: ForgotProps) {
                 )}
                 disabled={!available}
               >
-                {FI18n.i18nNext.t("noderuntime_resetpw_msg_processing")}
+                {FI18n.i18nNext.t("noderuntime_resetpw_btn_resetpw")}
               </Button>
             </div>
           </div>
@@ -496,7 +496,7 @@ export default function Forgot(props: ForgotProps) {
         </div>
       ) : null}
       <Popup
-        visible={loading && step === 3}
+        visible={loading && step === 2}
         position="top"
         bodyClassName="w-325 h-220 modal-tip"
         className=""

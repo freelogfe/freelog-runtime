@@ -607,7 +607,7 @@ export default function Forgot(props: ForgotProps) {
                 disabled={!available}
               >
                 {props.type === LOGIN_PASSWORD
-                  ? FI18n.i18nNext.t("noderuntime_resetpw_msg_processing")
+                  ? FI18n.i18nNext.t("noderuntime_resetpw_btn_resetpw")
                   : FI18n.i18nNext.t("noderuntime_resetpymtpw_btn_resetpmtypw")}
               </Button>
             </div>
