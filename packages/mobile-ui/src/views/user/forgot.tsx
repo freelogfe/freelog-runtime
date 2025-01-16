@@ -149,7 +149,7 @@ export default function Forgot(props: ForgotProps) {
     }
   };
   useEffect(() => {
-    setStep(2);
+    setStep(1);
     setSuccess(false);
   }, []);
   useEffect(() => {
