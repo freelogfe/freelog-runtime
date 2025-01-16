@@ -84,7 +84,7 @@ export default function Login(props: loginProps) {
               <i className="iconfont fs-36">&#xe65c;</i>
               {/* <img src={logoImage} className="h-100x" alt="" /> */}
             </div>
-            <div className="login-title mb-46 flex-row justify-center">
+            <div className="login-title mb-46 flex-row justify-center px-20">
               {FI18n.i18nNext.t("noderuntime_login_subtitle")}
             </div>
           </div>

@@ -6,7 +6,7 @@ import FI18n from "@/I18nNext";
 
 import { useState, useEffect } from "react";
 import "./forgot.scss";
-import { DownOutline } from 'antd-mobile-icons'
+import { DownOutline } from "antd-mobile-icons";
 
 interface ForgotProps {
   visible: boolean;
@@ -149,7 +149,8 @@ export default function Forgot(props: ForgotProps) {
     }
   };
   useEffect(() => {
-    setStep(1);
+    setStep(2);
+    setSuccess(false);
   }, []);
   useEffect(() => {
     if (!success) {
@@ -179,9 +180,18 @@ export default function Forgot(props: ForgotProps) {
       address: registerType === 1 ? phone : email,
     };
     const res: any = await freelogAuth.verifyAuthCode(values);
+    setLoading(false);
+
     if (res.data.errCode === 0) {
-      setLoading(false);
-      setStep(2);
+      if (res.data.data) {
+        setStep(2);
+      } else {
+        Toast.show({
+          icon: "fail",
+          content: FI18n.i18nNext.t("noderuntime_signup_alert_code_invalid"),
+          duration: 2000,
+        });
+      }
     } else {
       Toast.show({
         icon: "fail",
@@ -297,7 +307,10 @@ export default function Forgot(props: ForgotProps) {
             <div className="forgot-container flex-column justify-center px-30 w-100x">
               {registerType === 1 ? (
                 <div className="flex-row align-center mb-5 mt-15">
-                  <div className="flex-row  align-center common-input s-input-left fs-16">+86< DownOutline  className="ml-4 fs-16"/></div>
+                  <div className="flex-row  align-center common-input s-input-left fs-16">
+                    +86
+                    <DownOutline className="ml-4 fs-16" />
+                  </div>
                   <input
                     type="text"
                     value={phone}
@@ -412,7 +425,7 @@ export default function Forgot(props: ForgotProps) {
             </Button>
           </div>
         </div>
-      ) : step === 2 ? (
+      ) : step === 2 && !success ? (
         <div className="w-100x h-100x flex-column align-center y-auto">
           <div className="flex-1 w-100x flex-column align-center shrink-0">
             <div className="forgot-title  mt-40  mb-87 flex-column px-30 self-start">
@@ -499,6 +512,8 @@ export default function Forgot(props: ForgotProps) {
         visible={loading && step === 2}
         position="top"
         bodyClassName="w-325 h-220 modal-tip"
+        getContainer={() => document.getElementById("ui-root") as HTMLElement}
+
         className=""
       >
         <div className=" bg-white">
@@ -510,15 +525,17 @@ export default function Forgot(props: ForgotProps) {
       <Popup
         visible={success}
         position="top"
+        getContainer={() => document.getElementById("ui-root") as HTMLElement}
+
         bodyClassName="forgot-success w-100x h-100x"
       >
-        <div className="w-100x h-100 flex-column justify-center">
+        <div className="w-100x h-100x flex-column justify-center">
           <div className="flex-column align-center ">
             <i className="iconfont ">&#xe62d;</i>
             <span className=" success mb-60 mt-4">
               {FI18n.i18nNext.t("noderuntime_resetpw_msg_done")}
             </span>
-            <div className="flex-row justify-center align-center">
+            <div className="flex-column-center ">
               <span className="count-back">
                 {FI18n.i18nNext.tJSXElement(
                   "noderuntime_signup_backtologin_msg",
@@ -529,7 +546,7 @@ export default function Forgot(props: ForgotProps) {
               </span>
               <Button
                 color="default"
-                size="small"
+                className="mt-20"
                 onClick={() => {
                   setSuccess(false);
                   props.setModalType(1);
