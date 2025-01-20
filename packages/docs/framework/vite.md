@@ -13,11 +13,15 @@ export default defineConfig({
 
 ## 2. 切换到 iframe 沙箱。
 
-##### 配置主题或插件的基础属性 bundleTool 为 vite，运行时加载主题会自动切换到 iframe 沙箱
+##### 配置主题或插件的作品或展品基础属性 bundleTool 为 vite，运行时加载主题会自动切换到 iframe 沙箱
 
 ##### 加载插件时通过 property 传递展品或作品的属性
 
+作品属性修改
 ![bundle](/bundle.png)
+
+展品属性修改
+![bundle](/exhibit-bundle.png)
 
 ##### 没有配置基础属性或配置了但没有传递 property，可以手动配置切换到 iframe 沙箱
 
@@ -35,17 +39,19 @@ await freelogApp.mountWidget({
 
 ## 常见问题
 
-#### 1、子应用中操作 location 异常
+#### 1、操作 location 异常
 
 **原因：**vite 构建 script 的 type 为 module，导致无法拦截 location 操作。
 
-**解决方式：** 使用 MicroApp 提供的 location 进行操作
+**解决方式：** 使用 widgetApi 提供的 location 进行操作
 
 如：
 
 ```js
-window.microApp.location.host;
-window.microApp.location.origin;
-window.microApp.location.href = "xxx";
-window.microApp.location.pathname = "xxx";
+import { widgetApi } from "freelog-runtime";
+
+widgetApi.location.host;
+widgetApi.location.origin;
+widgetApi.location.href = "xxx";
+widgetApi.location.pathname = "xxx";
 ```
