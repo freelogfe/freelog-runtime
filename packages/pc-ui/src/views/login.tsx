@@ -24,7 +24,7 @@ export default function Login(props: loginProps) {
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
-  const [isRemember, setIsRemember] = useState(false);
+  // const [isRemember, setIsRemember] = useState(false);
   function onValuesChange(_changedValues: any, allValues: any) {
     setDisabled(!allValues.loginName || !allValues.password);
   }
@@ -33,7 +33,7 @@ export default function Login(props: loginProps) {
     setLoading(true);
     const values: any = form.getFieldsValue();
 
-    values.isRemember = isRemember ? 1 : 0;
+    values.isRemember = 1 //  isRemember ? 1 : 0;
     const res = await freelogAuth.login(values);
     if (res.data.errCode === 0) {
       setLoading(false);

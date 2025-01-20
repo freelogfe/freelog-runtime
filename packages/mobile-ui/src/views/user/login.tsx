@@ -1,7 +1,7 @@
 import { freelogAuth } from "freelog-runtime-core";
 import FI18n from "@/I18nNext";
 
-import { Popup, Button, Toast, SpinLoading,  } from "antd-mobile";
+import { Popup, Button, Toast, SpinLoading } from "antd-mobile";
 
 import { useState } from "react";
 import { EyeInvisibleOutline, EyeOutline } from "antd-mobile-icons";
@@ -31,7 +31,7 @@ export default function Login(props: loginProps) {
       loginName,
       password,
     };
-    values.isRemember = values.isRemember ? 1 : 0;
+    values.isRemember = 1; // isRemember ? 1 : 0;
     const res = await freelogAuth.login(values);
     if (res.data.errCode === 0) {
       setTimeout(() => {
