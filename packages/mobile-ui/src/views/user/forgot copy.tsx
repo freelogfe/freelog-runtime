@@ -1,16 +1,22 @@
 import { freelogAuth } from "freelog-runtime-core";
 
-import { checkPhone, checkEmail, checkPassword } from "@/utils/utils";
+import {
+  checkPhone,
+  checkEmail,
+  checkPassword,
+  checkPayPassword,
+} from "@/utils/utils";
 import { Popup, Button, Toast, SpinLoading } from "antd-mobile";
 import FI18n from "@/I18nNext";
 
 import { useState, useEffect } from "react";
 import "./forgot.scss";
-import { DownOutline } from "antd-mobile-icons";
-
+export const LOGIN_PASSWORD = "login";
+export const PAY_PASSWORD = "pay";
 interface ForgotProps {
   visible: boolean;
   setModalType: any;
+  type: "login" | "pay";
   children?: any;
 }
 export default function Forgot(props: ForgotProps) {
@@ -22,7 +28,7 @@ export default function Forgot(props: ForgotProps) {
     password2: "",
     loginPassword: "",
   });
-  // 1  验证码   2 password
+  // 1 验证登录密码   2 验证码   3 password
   const [step, setStep] = useState(1);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -31,6 +37,7 @@ export default function Forgot(props: ForgotProps) {
   const [countDown, setCountDown] = useState(60);
   const [authCode, setAuthCode] = useState("");
   const [authCodeLoading, setAuthCodeLoading] = useState(false);
+  const [loginPassword, setLoginPassword] = useState("");
   // loginName: phone | email
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -40,6 +47,9 @@ export default function Forgot(props: ForgotProps) {
   // 1 phone    2 email
   const [registerType, setRegisterType] = useState(1);
   function passwordCheck(value: any) {
+    if (props.type === PAY_PASSWORD) {
+      return checkPayPassword(value);
+    }
     return checkPassword(value);
   }
   const verify = (type: any, value: any) => {
@@ -69,7 +79,10 @@ export default function Forgot(props: ForgotProps) {
     }
     if (["password", "password2"].includes(type)) {
       if (value && !passwordCheck(value)) {
-        obj[type] = FI18n.i18nNext.t("namingrules_password");
+        obj[type] =
+          props.type === PAY_PASSWORD
+            ? FI18n.i18nNext.t("naming_resetpymtpw")
+            : FI18n.i18nNext.t("namingrules_password");
       } else {
         obj[type] = value ? "" : FI18n.i18nNext.t("namingrules_pw_required");
       }
@@ -135,7 +148,10 @@ export default function Forgot(props: ForgotProps) {
     setCountDown(60);
     const authCodeRes = await freelogAuth.getAuthCode({
       loginName: registerType === 1 ? phone : email,
-      authCodeType: "resetPassword",
+      authCodeType:
+        props.type === PAY_PASSWORD
+          ? "updateTransactionAccountPwd"
+          : "resetPassword",
     });
     if (authCodeRes.data.errCode !== 0) {
       const obj: any = {};
@@ -149,8 +165,11 @@ export default function Forgot(props: ForgotProps) {
     }
   };
   useEffect(() => {
-    setStep(2);
-    setSuccess(false);
+    if (props.type === LOGIN_PASSWORD) {
+      setStep(2);
+    } else {
+      setStep(1);
+    }
   }, []);
   useEffect(() => {
     if (!success) {
@@ -167,31 +186,54 @@ export default function Forgot(props: ForgotProps) {
       }); // <-- Change this line!
     }, 1000);
     return () => {
-      props.setModalType(1);
+      props.type === PAY_PASSWORD
+        ? props.setModalType(0)
+        : props.setModalType(1);
       window.clearInterval(timer);
     };
   }, [success]);
-
+  const loginVerify = async () => {
+    setLoading(true);
+    const values: any = {
+      password: loginPassword,
+    };
+    const res: any = await freelogAuth.loginVerify(values);
+    if (res.data.errCode === 0 && res.data.data.isVerifySuccessful) {
+      const obj: any = { loginPassword: "" };
+      setErrorTip({
+        ...errorTip,
+        ...obj,
+      });
+      setLoading(false);
+      setStep(2);
+    } else {
+      Toast.show({
+        icon: "fail",
+        content: res.data.msg,
+        duration: 2000,
+      });
+      const obj: any = { loginPassword: res.data.msg };
+      setErrorTip({
+        ...errorTip,
+        ...obj,
+      });
+      setTimeout(() => setLoading(false), 2000);
+    }
+  };
   const authCodeVerify = async () => {
     setLoading(true);
     const values: any = {
       authCode,
-      authCodeType: "resetPassword",
+      authCodeType:
+        props.type === LOGIN_PASSWORD
+          ? "resetPassword"
+          : "updateTransactionAccountPwd",
       address: registerType === 1 ? phone : email,
     };
     const res: any = await freelogAuth.verifyAuthCode(values);
-    setLoading(false);
-
     if (res.data.errCode === 0) {
-      if (res.data.data) {
-        setStep(2);
-      } else {
-        Toast.show({
-          icon: "fail",
-          content: FI18n.i18nNext.t("noderuntime_signup_alert_code_invalid"),
-          duration: 2000,
-        });
-      }
+      setLoading(false);
+      setStep(3);
     } else {
       Toast.show({
         icon: "fail",
@@ -208,14 +250,25 @@ export default function Forgot(props: ForgotProps) {
   };
   const onFinish = async () => {
     setLoading(true);
-    const values: any = {
-      password,
-      authCode,
-    };
-    const res = await freelogAuth.putResetPassword(
-      [registerType === 1 ? phone : email],
-      values
-    );
+    let res;
+    if (props.type === LOGIN_PASSWORD) {
+      const values: any = {
+        password,
+        authCode,
+      };
+      res = await freelogAuth.putResetPassword(
+        [registerType === 1 ? phone : email],
+        values
+      );
+    } else {
+      const values: any = {
+        password,
+        authCode,
+        loginPassword,
+        messageAddress: registerType === 1 ? phone : email,
+      };
+      res = await freelogAuth.putResetPayPassword(values);
+    }
 
     if (res.data.errCode === 0) {
       setSuccess(true);
@@ -227,20 +280,20 @@ export default function Forgot(props: ForgotProps) {
         content: res.data.msg,
         duration: 2000,
       });
-      // if (res.data.msg.indexOf("未找到有效用户") === 0) {
-      //   const obj: any = { loginName: res.data.msg };
-      //   setErrorTip({
-      //     ...errorTip,
-      //     ...obj,
-      //   });
-      // }
-      // if (res.data.msg.indexOf("验证码") === 0) {
-      //   const obj: any = { authCode: res.data.msg };
-      //   setErrorTip({
-      //     ...errorTip,
-      //     ...obj,
-      //   });
-      // }
+      if (res.data.msg.indexOf("未找到有效用户") === 0) {
+        const obj: any = { loginName: res.data.msg };
+        setErrorTip({
+          ...errorTip,
+          ...obj,
+        });
+      }
+      if (res.data.msg.indexOf("验证码") === 0) {
+        const obj: any = { authCode: res.data.msg };
+        setErrorTip({
+          ...errorTip,
+          ...obj,
+        });
+      }
       setTimeout(() => setLoading(false), 2000);
     }
   };
@@ -257,13 +310,68 @@ export default function Forgot(props: ForgotProps) {
         }}>&#xe6ff;</i> */}
       {step === 1 ? (
         <div className="w-100x h-100x flex-column align-center y-auto">
+          <div className="mt-40 mb-40 flex-column px-30 self-start">
+            <div className="forgot-title self-start">
+              {FI18n.i18nNext.t("noderuntime_verifypw_title")}
+            </div>
+            <div className="forgot-tip self-start text-align-left mt-10">
+              {FI18n.i18nNext.t("msg_verify_password")}
+            </div>
+          </div>
+          <div className="forgot-container flex-column px-30 mt-118 flex-1">
+            <input
+              type="password"
+              value={loginPassword}
+              className="w-100x   mb-5 common-input"
+              placeholder={FI18n.i18nNext.t("title_verify_password")}
+              onChange={(e) => {
+                verify("loginPassword", loginPassword);
+                setLoginPassword(e.target.value);
+              }}
+            />
+            {errorTip.password !== "" ? (
+              <div className="error-tip  self-start">{errorTip.password}</div>
+            ) : null}
+            <Button
+              loading={loading}
+              color="primary"
+              className="mt-15"
+              loadingIcon={<SpinLoading color="white" />}
+              loadingText={FI18n.i18nNext.t(
+                "noderuntime_verify_identity_msg_processing"
+              )}
+              onClick={loginVerify}
+              disabled={loading || errorTip.loginPassword}
+            >
+              {FI18n.i18nNext.t("noderuntime_resetpw_btn_continue")}
+            </Button>
+          </div>
+          <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
+            <div className="forgot-tip">
+              {" "}
+              {FI18n.i18nNext.t("noderuntime_resetpw_msg_backtopayment")}
+            </div>
+            <Button
+              color="default"
+              className=""
+              size="small"
+              onClick={() => props.setModalType(0)}
+            >
+              {FI18n.i18nNext.t("noderuntime_resetpw_btn_backtopayment")}
+            </Button>
+          </div>
+        </div>
+      ) : step === 2 ? (
+        <div className="w-100x h-100x flex-column align-center y-auto">
           <div className="flex-1 w-100x flex-column align-center shrink-0">
             <div className="forgot-title  mt-40 mb-87 flex-column px-30 self-start">
               <div className="forgot-title self-start">
                 {FI18n.i18nNext.t("title_verify_identity")}
               </div>
               <div className="forgot-tip self-start text-align-left mt-10">
-                {FI18n.i18nNext.t("noderuntime_resetpw_subtitle")}
+                {props.type === LOGIN_PASSWORD
+                  ? FI18n.i18nNext.t("noderuntime_resetpw_subtitle")
+                  : FI18n.i18nNext.t("noderuntime_verify_identity_subtitle")}
               </div>
             </div>
             <div className="forgot-type mb-20  flex-row px-30 self-start align-center">
@@ -275,7 +383,7 @@ export default function Forgot(props: ForgotProps) {
                 checked={registerType === 1}
                 value="1"
                 onChange={(e) => {
-                  // verify("phone", phone);
+                  verify("phone", phone);
                   setRegisterType(parseInt(e.target.value));
                 }}
               />
@@ -292,7 +400,7 @@ export default function Forgot(props: ForgotProps) {
                 className="mr-4 common-input"
                 checked={registerType === 2}
                 onChange={(e) => {
-                  // verify("email", email);
+                  verify("email", email);
                   setRegisterType(parseInt(e.target.value));
                 }}
                 value="2"
@@ -306,24 +414,18 @@ export default function Forgot(props: ForgotProps) {
             </div>
             <div className="forgot-container flex-column justify-center px-30 w-100x">
               {registerType === 1 ? (
-                <div className="flex-row align-center mb-5 mt-15">
-                  <div className="flex-row  align-center common-input s-input-left fs-16">
-                    +86
-                    <DownOutline className="ml-4 fs-16" />
-                  </div>
-                  <input
-                    type="text"
-                    value={phone}
-                    className="w-100x   common-input s-input"
-                    placeholder={FI18n.i18nNext.t(
-                      "noderuntime_signup_input_phonenumber_hint"
-                    )}
-                    onChange={(e) => {
-                      verify("phone", e.target.value);
-                      setPhone(e.target.value);
-                    }}
-                  />
-                </div>
+                <input
+                  type="text"
+                  value={phone}
+                  className="w-100x  mb-5 mt-15 common-input"
+                  placeholder={FI18n.i18nNext.t(
+                    "noderuntime_signup_input_phonenumber_hint"
+                  )}
+                  onChange={(e) => {
+                    verify("phone", e.target.value);
+                    setPhone(e.target.value);
+                  }}
+                />
               ) : (
                 <input
                   type="text"
@@ -405,35 +507,54 @@ export default function Forgot(props: ForgotProps) {
               </Button>
             </div>
           </div>
-
-          <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
-            <Button
-              color="default"
-              size="small"
-              className="mr-12"
-              onClick={() => props.setModalType(1)}
-            >
-              {FI18n.i18nNext.t("noderuntime_resetpw_btn_backtologin")}
-            </Button>
-            <Button
-              color="default"
-              className="ml-12"
-              size="small"
-              onClick={() => props.setModalType(2)}
-            >
-              {FI18n.i18nNext.t("noderuntime_resetpw_btn_signup")}
-            </Button>
-          </div>
+          {props.type === LOGIN_PASSWORD ? (
+            <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
+              <Button
+                color="default"
+                size="small"
+                className="mr-12"
+                onClick={() => props.setModalType(1)}
+              >
+                {FI18n.i18nNext.t("noderuntime_resetpw_btn_backtologin")}
+              </Button>
+              <Button
+                color="default"
+                className="ml-12"
+                size="small"
+                onClick={() => props.setModalType(2)}
+              >
+                {FI18n.i18nNext.t("noderuntime_resetpw_btn_signup")}
+              </Button>
+            </div>
+          ) : (
+            <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
+              <div className="forgot-tip">
+                {FI18n.i18nNext.t("noderuntime_resetpw_msg_backtopayment")}
+              </div>
+              <Button
+                color="default"
+                className=""
+                size="small"
+                onClick={() => props.setModalType(0)}
+              >
+                {FI18n.i18nNext.t("noderuntime_resetpw_btn_backtopayment")}
+              </Button>
+            </div>
+          )}
         </div>
-      ) : step === 2 && !success ? (
+      ) : step === 3 ? (
         <div className="w-100x h-100x flex-column align-center y-auto">
           <div className="flex-1 w-100x flex-column align-center shrink-0">
             <div className="forgot-title  mt-40  mb-87 flex-column px-30 self-start">
               <div className="forgot-title self-start">
-                {FI18n.i18nNext.t("noderuntime_resetpw_btn_resetpw")}
+                {props.type === LOGIN_PASSWORD
+                  ? FI18n.i18nNext.t("noderuntime_resetpw_btn_resetpw")
+                  : FI18n.i18nNext.t("noderuntime_resetpymtpw_title")}
               </div>
               <div className="forgot-tip self-start text-align-left mt-10">
-                {FI18n.i18nNext.t("noderuntime_resetpw_subtitle2")}
+                {props.type === LOGIN_PASSWORD
+                  ? FI18n.i18nNext.t("noderuntime_resetpw_subtitle2")
+                  : FI18n.i18nNext.t("noderuntime_verifypw_subtitle")}
               </div>
             </div>
             <div className="forgot-container flex-column justify-center px-30 w-100x">
@@ -445,7 +566,7 @@ export default function Forgot(props: ForgotProps) {
                 value={password}
                 className="w-100x  mt-15 mb-5 common-input"
                 placeholder={FI18n.i18nNext.t("noderuntime_resetpw_input_pw")}
-                maxLength={24}
+                maxLength={props.type === PAY_PASSWORD ? 6 : 24}
                 onChange={(e) => {
                   verify("password", e.target.value);
                   setPassword(e.target.value);
@@ -457,7 +578,7 @@ export default function Forgot(props: ForgotProps) {
               <input
                 type="password"
                 value={password2}
-                maxLength={24}
+                maxLength={props.type === PAY_PASSWORD ? 6 : 24}
                 className="w-100x  mt-15 mb-5 common-input"
                 placeholder={FI18n.i18nNext.t(
                   "noderuntime_resetpw_input_reenter_pw"
@@ -478,82 +599,110 @@ export default function Forgot(props: ForgotProps) {
                 className="mt-15"
                 onClick={onFinish}
                 loadingIcon={<SpinLoading color="white" />}
-                loadingText={FI18n.i18nNext.t(
-                  "noderuntime_resetpw_msg_processing"
-                )}
+                loadingText={
+                  props.type === LOGIN_PASSWORD
+                    ? FI18n.i18nNext.t("noderuntime_resetpw_msg_processing")
+                    : FI18n.i18nNext.t("noderuntime_resetpymtpw_msg_processing")
+                }
                 disabled={!available}
               >
-                {FI18n.i18nNext.t("noderuntime_resetpw_btn_resetpw")}
+                {props.type === LOGIN_PASSWORD
+                  ? FI18n.i18nNext.t("noderuntime_resetpw_btn_resetpw")
+                  : FI18n.i18nNext.t("noderuntime_resetpymtpw_btn_resetpmtypw")}
               </Button>
             </div>
           </div>
 
-          <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
-            <Button
-              color="default"
-              size="small"
-              className="mr-12"
-              onClick={() => props.setModalType(1)}
-            >
-              {FI18n.i18nNext.t("noderuntime_resetpw_btn_backtologin")}
-            </Button>
-            <Button
-              color="default"
-              className="ml-12"
-              size="small"
-              onClick={() => props.setModalType(2)}
-            >
-              {FI18n.i18nNext.t("noderuntime_resetpw_btn_signup")}
-            </Button>
-          </div>
+          {props.type === LOGIN_PASSWORD ? (
+            <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
+              <Button
+                color="default"
+                size="small"
+                className="mr-12"
+                onClick={() => props.setModalType(1)}
+              >
+                {FI18n.i18nNext.t("noderuntime_resetpw_btn_backtologin")}
+              </Button>
+              <Button
+                color="default"
+                className="ml-12"
+                size="small"
+                onClick={() => props.setModalType(2)}
+              >
+                {FI18n.i18nNext.t("noderuntime_resetpw_btn_signup")}
+              </Button>
+            </div>
+          ) : (
+            <div className="flex-row justify-center align-center forgot-bottom mb-40 mt-30">
+              <div className="forgot-tip">
+                {FI18n.i18nNext.t("noderuntime_resetpw_msg_backtopayment")}
+              </div>
+              <Button
+                color="default"
+                className=""
+                size="small"
+                onClick={() => props.setModalType(0)}
+              >
+                {FI18n.i18nNext.t("noderuntime_resetpw_btn_backtopayment")}
+              </Button>
+            </div>
+          )}
         </div>
       ) : null}
       <Popup
-        visible={loading && step === 2}
+        visible={loading && step === 3}
         position="top"
         bodyClassName="w-325 h-220 modal-tip"
-        getContainer={() => document.getElementById("ui-root") as HTMLElement}
-
         className=""
       >
         <div className=" bg-white">
           <Button loading className="loading">
-            {FI18n.i18nNext.t("noderuntime_resetpw_msg_processing")}
+            {props.type === LOGIN_PASSWORD
+              ? FI18n.i18nNext.t("noderuntime_resetpw_msg_processing")
+              : FI18n.i18nNext.t("noderuntime_resetpymtpw_msg_processing")}
           </Button>
         </div>
       </Popup>
       <Popup
         visible={success}
         position="top"
-        getContainer={() => document.getElementById("ui-root") as HTMLElement}
-
         bodyClassName="forgot-success w-100x h-100x"
       >
-        <div className="w-100x h-100x flex-column justify-center">
+        <div className="w-100x h-100 flex-column justify-center">
           <div className="flex-column align-center ">
             <i className="iconfont ">&#xe62d;</i>
             <span className=" success mb-60 mt-4">
-              {FI18n.i18nNext.t("noderuntime_resetpw_msg_done")}
+              {props.type === LOGIN_PASSWORD
+                ? FI18n.i18nNext.t("noderuntime_resetpw_msg_done")
+                : FI18n.i18nNext.t("noderuntime_resetpymtpw_msg_done")}
             </span>
-            <div className="flex-column-center ">
+            <div className="flex-row justify-center align-center">
               <span className="count-back">
-                {FI18n.i18nNext.tJSXElement(
-                  "noderuntime_signup_backtologin_msg",
-                  {
-                    timer: count + "s",
-                  }
-                )}
+                {props.type === LOGIN_PASSWORD
+                  ? FI18n.i18nNext.tJSXElement(
+                      "noderuntime_signup_backtologin_msg",
+                      {
+                        timer: count + "s",
+                      }
+                    )
+                  : FI18n.i18nNext.t(
+                      "noderuntime_resetpymtpw_msg_backtopayment"
+                    ) +
+                    count +
+                    "s…"}
               </span>
-              <Button
-                color="default"
-                className="mt-20"
-                onClick={() => {
-                  setSuccess(false);
-                  props.setModalType(1);
-                }}
-              >
-                {FI18n.i18nNext.t("noderuntime_signup_backtologin_btn_login")}
-              </Button>
+              {props.type === LOGIN_PASSWORD ? (
+                <Button
+                  color="default"
+                  size="small"
+                  onClick={() => {
+                    setSuccess(false);
+                    props.setModalType(1);
+                  }}
+                >
+                  {FI18n.i18nNext.t("noderuntime_signup_backtologin_btn_login")}
+                </Button>
+              ) : null}
             </div>
           </div>
         </div>

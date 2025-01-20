@@ -11,6 +11,7 @@ import { Popup, Button, Toast, SpinLoading } from "antd-mobile";
 
 import { useState, useEffect } from "react";
 import "./register.scss";
+import { DownOutline } from "antd-mobile-icons";
 
 interface loginProps {
   visible: boolean;
@@ -172,13 +173,13 @@ export default function Register(props: loginProps) {
         content: res.data.msg,
         duration: 2000,
       });
-      if (res.data.msg.indexOf("验证码") === 0) {
-        const obj: any = { authCode: res.data.msg };
-        setErrorTip({
-          ...errorTip,
-          ...obj,
-        });
-      }
+      // if (res.data.msg.indexOf("验证码") === 0) {
+      //   const obj: any = { authCode: res.data.msg };
+      //   setErrorTip({
+      //     ...errorTip,
+      //     ...obj,
+      //   });
+      // }
       setTimeout(() => setLoading(false), 2000);
     }
   };
@@ -251,18 +252,25 @@ export default function Register(props: loginProps) {
                 <div className="error-tip self-start">{errorTip.username}</div>
               ) : null}
               {registerType === 1 ? (
-                <input
-                  type="text"
-                  value={phone}
-                  className="w-100x  mb-5 mt-15 common-input"
-                  placeholder={FI18n.i18nNext.t(
-                    "noderuntime_signup_input_phonenumber_hint"
-                  )}
-                  onChange={(e) => {
-                    verify("phone", e.target.value);
-                    setPhone(e.target.value);
-                  }}
-                />
+                <div className="flex-row align-center mb-5 mt-15">
+                  <div className="flex-row  align-center common-input s-input-left fs-16">
+                    +86
+                    <DownOutline className="ml-4 fs-16" />
+                  </div>
+
+                  <input
+                    type="text"
+                    value={phone}
+                    className="w-100x  common-input s-input"
+                    placeholder={FI18n.i18nNext.t(
+                      "noderuntime_signup_input_phonenumber_hint"
+                    )}
+                    onChange={(e) => {
+                      verify("phone", e.target.value);
+                      setPhone(e.target.value);
+                    }}
+                  />
+                </div>
               ) : (
                 <input
                   type="text"

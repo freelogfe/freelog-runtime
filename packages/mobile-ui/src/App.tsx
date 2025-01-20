@@ -8,7 +8,7 @@ import "@/assets/mobile/index.scss";
 import microApp from "@micro-zoe/micro-app";
 
 import { useEffect, useState } from "react";
-import Forgot, { LOGIN_PASSWORD, PAY_PASSWORD } from "./views/user/forgot";
+import Forgot from "./views/user/forgot";
 import Register from "./views/user/register";
 import NodeError from "./views/_statusComponents/nodeError";
 const { loginCallback, loginErrorCallback, setUserInfo } = freelogAuth;
@@ -78,7 +78,7 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [nodeInfoData, setNodeInfo] = useState<any>(null);
   const [themeAuthInfo, setThemeAuthInfo] = useState<any>(null);
-  // 1 登录  2 注册   3 忘记登录密码  4 忘记支付密码
+  // 1 登录  2 注册   3 忘记登录密码  
   const [modalType, setModalType] = useState(0);
 
   function loadingClose() {
@@ -431,25 +431,18 @@ function App() {
             <Register visible={modalType === 2} setModalType={setModalType} />
           ) : modalType === 3 ? (
             <Forgot
-              type={LOGIN_PASSWORD}
               visible={modalType === 3}
               setModalType={setModalType}
             />
-          ) : modalType === 4 ? (
-            <Forgot
-              type={PAY_PASSWORD}
-              visible={modalType === 4}
-              setModalType={setModalType}
-            />
-          ) : null}
+          )  : null}
         </div>
       ) : nodeInfoData &&
         themeAuthInfo &&
         !nodeInfoData.themeAuthInfo.isAuth ? (
         !nodeInfoData.themeAuthInfo.isAvailable ? (
           <NodeError
-            currentExhibit={themeAuthInfo}
-            setThemeCancel={openAuthForTheme}
+            // currentExhibit={themeAuthInfo}
+            // setThemeCancel={openAuthForTheme}
           />
         ) : (
           <ThemeCancel
