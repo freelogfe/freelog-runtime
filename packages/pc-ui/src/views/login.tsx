@@ -1,5 +1,5 @@
-import { Form, Input, Modal} from "antd";
-// , Checkbox 
+import { Form, Input, Modal } from "antd";
+// , Checkbox
 import Button from "./_commons/button";
 import { freelogAuth } from "freelog-runtime-core";
 import wechatPng from "@/assets/wechat.png";
@@ -33,7 +33,7 @@ export default function Login(props: loginProps) {
     setLoading(true);
     const values: any = form.getFieldsValue();
 
-    values.isRemember = 1 //  isRemember ? 1 : 0;
+    values.isRemember = 1; //  isRemember ? 1 : 0;
     const res = await freelogAuth.login(values);
     if (res.data.errCode === 0) {
       setLoading(false);
@@ -166,7 +166,9 @@ export default function Login(props: loginProps) {
         </Form>
 
         <div className="flex-1 flex-column align-center">
-          <div className={"openTitle mt-10 mb-20"}>{FI18n.i18nNext.t("noderuntime_login_externallogin")}</div>
+          <div className={"openTitle mt-10 mb-20"}>
+            {FI18n.i18nNext.t("noderuntime_login_externallogin")}
+          </div>
           <div
             className={"wechat flex-column-center"}
             onClick={() => {
@@ -185,7 +187,9 @@ export default function Login(props: loginProps) {
           </div>
         </div>
         <div className="flex-row  mt-30 mb-15">
-          <span className="login-new">{FI18n.i18nNext.t("noderuntime_login_signup_msg")}</span>
+          <span className="login-new">
+            {FI18n.i18nNext.t("noderuntime_login_signup_msg")}
+          </span>
           <span
             className="regist-now cur-pointer"
             onClick={() => {
