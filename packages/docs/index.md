@@ -3,9 +3,9 @@
 layout: home
 
 hero:
-  name: "freelog运行时文档"
+  name: "freelog开发者文档"
   text: ""
-  tagline: "主题插件开发者参考文档"
+  tagline: "主题、插件、库开发者参考文档"
   actions:
     - theme: brand
       text: "指南"

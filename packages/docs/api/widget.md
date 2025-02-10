@@ -1,6 +1,4 @@
-﻿
-# 插件相关 API 文档
-
+﻿# 插件相关 API 文档
 
 ## getStaticPath
 
@@ -8,17 +6,17 @@
 
 ### 参数说明
 
-| 参数   | 类型     | 说明                |
-|--------|----------|---------------------|
-| `path` | `string` | 以 `/` 开头的路径。 |
+
+| 参数   | 类型     | 说明               |
+| ------ | -------- | ------------------ |
+| `path` | `string` | 以`/` 开头的路径。 |
 
 ### 使用示例
 
 ```ts
-const path = window.freelogApp.getStaticPath("/assets/image.png");
+const path = freelogApp.getStaticPath("/assets/image.png");
 console.log(path);
 ```
-
 
 ## nodeInfo
 
@@ -33,12 +31,13 @@ console.log(nodeInfo);
 
 ### 返回字段说明
 
-| 字段                 | 类型     | 说明         |
-|----------------------|----------|--------------|
-| `nodeName`           | `string` | 节点名称     |
-| `tags`               | `array`  | 标签数组     |
-| `nodeLogo`           | `string` | 节点图标     |
-| `nodeTitle`          | `string` | 节点标题     |
+
+| 字段                   | 类型     | 说明     |
+| ---------------------- | -------- | -------- |
+| `nodeName`             | `string` | 节点名称 |
+| `tags`                 | `array`  | 标签数组 |
+| `nodeLogo`             | `string` | 节点图标 |
+| `nodeTitle`            | `string` | 节点标题 |
 | `nodeShortDescription` | `string` | 节点简介 |
 
 ### 返回示例
@@ -53,7 +52,6 @@ console.log(nodeInfo);
 }
 ```
 
-
 ## getCurrentUrl
 
 **用途**：获取当前节点的完整 URL。
@@ -64,7 +62,6 @@ console.log(nodeInfo);
 const url = freelogApp.getCurrentUrl();
 console.log(url);
 ```
-
 
 ## getSelfWidgetRenderName
 
@@ -77,12 +74,12 @@ const renderName = freelogApp.getSelfWidgetRenderName();
 console.log(renderName);
 ```
 
-
 ## getTopExhibitId
 
 **用途**：获取当前插件的自身或顶层展品 ID（依赖树最上层的展品 ID）。
 
 ### 使用场景
+
 - **场景 1**：当前插件是展品插件，获取自身展品 ID。
 - **场景 2**：当前插件是展品依赖树中的资源插件，获取最上层的展品 ID。
 
@@ -97,7 +94,6 @@ const res = await freelogApp.getExhibitInfo(topExhibitId);
 console.log(res);
 ```
 
-
 ## getSelfNid
 
 **用途**：获取当前插件在依赖树中的自身链路 ID。
@@ -111,7 +107,6 @@ const exhibitId = await freelogApp.getTopExhibitId();
 const res = await freelogApp.getExhibitDepInfo(exhibitId, { articleNids: articleNid });
 console.log(res);
 ```
-
 
 ## getSelfDependencyTree
 
@@ -131,17 +126,17 @@ console.log(updatedTree);
 
 ### 返回字段说明
 
-| 字段          | 类型       | 说明                           |
-|---------------|------------|--------------------------------|
-| `nid`         | `string`   | 依赖 ID                        |
-| `articleId`   | `string`   | 作品 ID                        |
-| `articleName` | `string`   | 作品名称                       |
-| `articleType` | `number`   | 作品类型（1：独立资源等）      |
-| `version`     | `string`   | 版本号                         |
-| `resourceType`| `string[]` | 资源类型                       |
-| `deep`        | `number`   | 依赖的层级                     |
-| `parentNid`   | `string`   | 父级依赖 ID                    |
 
+| 字段           | 类型       | 说明                      |
+| -------------- | ---------- | ------------------------- |
+| `nid`          | `string`   | 依赖 ID                   |
+| `articleId`    | `string`   | 作品 ID                   |
+| `articleName`  | `string`   | 作品名称                  |
+| `articleType`  | `number`   | 作品类型（1：独立资源等） |
+| `version`      | `string`   | 版本号                    |
+| `resourceType` | `string[]` | 资源类型                  |
+| `deep`         | `number`   | 依赖的层级                |
+| `parentNid`    | `string`   | 父级依赖 ID               |
 
 ## getSelfProperty
 
@@ -159,21 +154,21 @@ const updatedProperty = await freelogApp.getSelfProperty(true);
 console.log(updatedProperty);
 ```
 
-
 ## mountExhibitWidget 和 mountArticleWidget
 
 **用途**：加载展品插件或作品插件。
 
 ### 参数说明
 
-| 参数               | 类型           | 说明                        |
-|--------------------|----------------|-----------------------------|
-| `exhibitId`        | `string`       | 展品 ID                     |
-| `articleId`        | `string`       | 作品 ID                     |
-| `container`        | `HTMLElement`  | 挂载容器                    |
-| `property`         | `object`       | 展品或作品的属性            |
-| `dependencyTree`   | `object[]`     | 依赖树                      |
-| `renderWidgetOptions` | `object`     | 渲染选项（如数据传递等）    |
+
+| 参数                  | 类型          | 说明                     |
+| --------------------- | ------------- | ------------------------ |
+| `exhibitId`           | `string`      | 展品 ID                  |
+| `articleId`           | `string`      | 作品 ID                  |
+| `container`           | `HTMLElement` | 挂载容器                 |
+| `property`            | `object`      | 展品或作品的属性         |
+| `dependencyTree`      | `object[]`    | 依赖树                   |
+| `renderWidgetOptions` | `object`      | 渲染选项（如数据传递等） |
 
 ### 使用示例
 
@@ -189,7 +184,6 @@ const widgetController = await freelogApp.mountExhibitWidget({
 console.log(widgetController);
 ```
 
-
 ## reload
 
 **用途**：重载整个网页（仅限主题可用）。
@@ -199,7 +193,6 @@ console.log(widgetController);
 ```ts
 freelogApp.reload();
 ```
-
 
 ## setViewport
 
@@ -215,7 +208,6 @@ freelogApp.setViewport({
   "user-scalable": "no",
 });
 ```
-
 
 # 总结
 

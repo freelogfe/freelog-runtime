@@ -2,8 +2,8 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "freelog运行时文档",
-  description: "freelog运行时文档",
+  title: "freelog开发者文档",
+  description: "freelog开发者文档",
   lang: "zh-CN",
   // locales: {
   //   root: {
@@ -25,7 +25,7 @@ export default defineConfig({
     nav: [
       { text: "首页", link: "/" },
       { text: "指南", link: "/guide/", activeMatch: "/guide/" },
-      { text: "框架接入", link: "/framework/", activeMatch: "/framework/" },
+      { text: "接入", link: "/framework/", activeMatch: "/framework/" },
       { text: "API", link: "/api/widget", activeMatch: "/api/" },
     ],
     sidebar: {
@@ -34,15 +34,23 @@ export default defineConfig({
         {
           items: [
             { text: "指南", link: "/guide" },
-            {
-              text: "功能",
-              link: "",
-              items: [
-                { text: "资源系统", link: "/guide/wheel/static-source" },
-                { text: "虚拟路由系统", link: "/guide/wheel/router" },
-                { text: "数据通信", link: "/guide/wheel/data" },
-              ],
-            },
+            { text: "主题-vue示例", link: "/guide/theme-vue" },
+            { text: "主题-react示例", link: "/guide/theme-react" },
+            { text: "插件-vue示例", link: "/guide/plugin-vue" },
+            { text: "插件-react示例", link: "/guide/plugin-react" },
+            { text: "插件开发者-调试篇(vue)", link: "/guide/use-plugin-vue" },
+            { text: "插件开发者-调试篇(react)", link: "/guide/use-plugin-react" },
+            { text: "如何发布主题和插件", link: "/guide/release" },
+            { text: "如何启用主题/切换版本", link: "/guide/use-theme" },
+            // {
+            //   text: "功能",
+            //   link: "",
+            //   items: [
+            //     { text: "资源系统", link: "/guide/wheel/static-source" },
+            //     { text: "虚拟路由系统", link: "/guide/wheel/router" },
+            //     { text: "数据通信", link: "/guide/wheel/data" },
+            //   ],
+            // },
           ],
         },
       ],

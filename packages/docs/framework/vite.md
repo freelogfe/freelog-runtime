@@ -1,60 +1,49 @@
 # Vite 接入指南
 
-本篇介绍了基于 **Vite** 的微前端接入方式，帮助开发者快速完成接入配置与问题解决。
-
+本篇介绍了 **Vite** 项目的接入。
 
 ## 1. 修改 Vite 配置文件
 
 ### 修改 `vite.config.js`
-将 `base` 属性设置为相对路径 `./`，确保资源路径正确加载：
+
+* 将 `base` 属性设置为相对路径 `./`，确保资源路径正确加载：
+* 设置允许跨域
 
 ```js
 import { defineConfig } from "vite";
 
 export default defineConfig({
   base: "./", // 设置为相对路径
-  ...
+  server: {
+    port: 8990,
+    host: true,
+    headers: {
+      "Access-Control-Allow-Origin": "*" // 设置允许跨域
+    }
+  }
 });
 ```
 
+## 2. 打包上传时需特别设置
 
-## 2. 切换到 iframe 沙箱
+点击"补充属性"，在表单中，输入key为 `bundleTool` , vlaue为`vite`
 
-### 通过基础属性自动切换
+**配置完成后的示意图如下：**
 
-在微前端运行时，可以通过 `bundleTool` 配置为 `vite`，此时会自动切换到 iframe 沙箱模式：
+![bundle](../public/bundle.png)
 
-- **配置示意图：**
 
-![bundle](/bundle.png)
 
-- **加载插件时传递属性：**
-   
-```js
-await freelogApp.mountWidget({
-  widget: widget, // 插件
-  container: document.getElementById("freelog-exhibit"),
-  topExhibitData: null,
-  property: property, // 展品或作品的属性
-});
-```
-
-### 手动切换到 iframe 沙箱
-
-如果基础属性未配置或未传递 `property`，可以手动开启 iframe 沙箱模式：
+场景一：主题开发者，在开发主题项目中，若加载一个未配置`bundleTool: vite`的插件时, 可在`freelogApp.mountArticleWidget`的参数中设置`iframe: true`：
 
 ```js
-await freelogApp.mountWidget({
-  widget: widget,
-  container: document.getElementById("freelog-exhibit"),
-  topExhibitData: null,
-  property: property, // 展品或作品的属性
+await freelogApp.mountArticleWidget({
+  ...,
   renderWidgetOptions: {
     iframe: true, // 手动开启 iframe 沙箱
   },
 });
 ```
-
 
 ## 常见问题
 
@@ -77,7 +66,6 @@ window.microApp.location.origin;
 window.microApp.location.href = "https://example.com";
 window.microApp.location.pathname = "/new-path";
 ```
-
 
 ## 总结
 

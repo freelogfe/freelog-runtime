@@ -1,24 +1,47 @@
-# 指南
+---
+deep: true
+---
+> 此指南只适用于主题与插件；
 
 ## 概念
 
 ### 主题与插件
 
-- **主题**：具有特殊权限的插件，是节点的入口。
-- **插件**：作品类型为 "插件" 的功能模块，定义内容展示和交互方式。
-  示例：播放器、小说阅读器。
+下面从不同的角度来描述其具体含义：
+
+* 从工程角度来看，主题和插件都是一个个独立的前端项目。
+* 主题是一个网站的页面布局，一个网站可以在多个主题之间切换。
+* 开发主题代码时可以使用 [API](../api/widget) 加载插件并使用，从结构上看，插件只是主题项目中的某个小的部件。
+
+具体来说：
+
+* **主题**：在平台创建资源时， 选择类型为 "主题" ，并上传打包压缩后的文件。（在平台创建节点网址时，当访问节点网址，其实就是访问的主题项目）。例如：小说主题、播客主题、漫画主题，拿小说主题来说，你的小说主题项目的ui设计和交互逻辑都由自己完成，使用 [API](../api/widget) 可获取到资源数据并展示到浏览器上；
+* **插件**：在平台创建资源时， 选择类型为 "插件" ，并上传打包压缩后的文件。例如示例：音乐播放器、小说阅读器。
+
+再来说说插件的使用方:
+
+```plaintext
+1. 谁在使用插件？
+答：主题开发者会使用插件； 
+
+2. 在哪里使用？
+答：在主题项目的代码里使用；
+
+3. 又如何使用？
+答：使用 freelogApp.mountArticleWidget 来加载并渲染一个插件项目；
+```
 
 ### 平台运行时环境
 
-- 主题和插件在 Freelog 平台的运行时环境中运行，类似于微前端技术。
-- 使用 `freelog-runtime` 提供的 API 与节点进行交互。
+- 主题和插件在 Freelog 平台的运行时环境中运行，是一种微前端技术。
+- 开发者使用官方提供的库 `freelog-runtime` ，开发者可使用此库提供的 [API](../api/widget) 自定义页面交互逻辑，例如用API从节点请求所有资源列表。
 
 ## 快速入门
 
 ### 步骤 1：设置开发环境
 
 - 确保已安装以下工具：
-  - [Node.js](https://nodejs.org/)（版本 >= 14）
+  - [Node.js](https://nodejs.org/)（建议版本 >= 14，版本应符合自己使用的打包工具要求，如vite6.x要求Node.js的18+版本）
   - 包管理工具（npm、yarn 或 pnpm）
   - HTTPS 开发支持插件
     - `webpack` 用户：[webpack-mkcert](https://www.npmjs.com/package/webpack-mkcert)
@@ -35,6 +58,8 @@
      https://examples.freelog.com/?dev=https://localhost:7101
      ```
 
+> 本地开发时，必须使用https；见下面的mkcert的详细说明：
+
 ### 步骤 3：测试和部署
 
 - 测试过程中确保解决 HTTPS 或浏览器限制问题（见下文详细指南）。
@@ -46,7 +71,7 @@
 
 - 开启 HTTPS 的方法：
   - `webpack` 用户：[webpack-mkcert](https://www.npmjs.com/package/webpack-mkcert)
-  - `vite` 用户：[vite-plugin-basic-ssl](https://github.com/vitejs/vite-plugin-basic-ssl)
+  - `vite` 用户：[vite-plugin-basic-ssl](https://github.com/vitejs/vite-plugin-basic-ssl), [vite-plugin-mkcert](https://github.com/liuweiGL/vite-plugin-mkcert#readme)
 
 ### Chrome 浏览器配置
 
@@ -65,7 +90,6 @@
   # 或使用 pnpm
   pnpm add freelog-runtime
   ```
-
 - 初始化 Freelog 应用：
 
   ```javascript
@@ -93,6 +117,3 @@
 ## 社区
 
 如果你有疑问或者需要帮助，可以到 [GitHub Discussions](https://github.com/freelogfe/freelog-runtime/discussions) 社区来寻求帮助。
-
-
-
