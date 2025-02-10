@@ -1,105 +1,135 @@
-﻿---
-outline: deep
----
-
-# 用户相关
+﻿# 用户相关 API 文档
 
 ## callLogin
 
-**用途：唤起登录 UI**
+**用途**：打开登录界面，处理用户登录逻辑。  
+**说明**：  
+- 如果没有提供回调函数，登录成功后页面会自动刷新。  
+- 如果已经监听了 `onLogin`，登录成功后会优先执行 `onLogin` 的回调。
 
-**若没有传递 callBack 回调且没有使用 freelogApp.onLogin(callback)监听, 登录成功后会自动刷新整个页面。同时优先执行 onLogin 的回调**
+### **参数**  
+- `callback`：登录结果回调函数  
+  - **`freelogApp.resultType.SUCCESS`**：登录成功  
+  - **`freelogApp.resultType.USER_CANCEL`**：用户取消登录  
 
+### **示例代码**  
 ```ts
-**参数说明**
-// 登录成功：status === freelogApp.resultType.SUCCESS;
-// 用户取消：status === freelogApp.resultType.USER_CANCEL;
-callback: (status:number)=>any
-
-**用法**
-freelogApp.callLogin(callBack)
-```
-
-## callLoginOut
-
-**用途：退出登录**
-
-```ts
-**用法**
-// 登出后会刷新整个页面
-freelogApp.callLoginOut()
-```
-
-## onLogin
-
-**用途：监听用户登录**
-
-```ts
-**参数说明**
-  resolve: Function // 登录成功回调
-  reject: Function // 登录失败后用户关闭登录窗口的回调
-
-**用法**
-freelogApp.onLogin(resolve,reject);
-```
-
-## onUserChange
-
-**用途：监听用户在同浏览器其余节点页面切换账号事件，进入当前页签时执行**
-
-```js
-**参数说明**
-  callback: Function // 回调
-
-**用法**
-// 当用户在其余页面切换账号，进入当前页签时执行所有回调
-freelogApp.onUserChange(callback);
-```
-
-## isUserChange
-
-**用途：用户在同浏览器其余节点页面切换账号浏览器不同页签进行登录登出操作，切换到当前页面后主动检测是否用户发生变化，用户变化后返回 true，没有变则返回 false**
-
-```ts
-**用法**
-const flag: boolean = freelogApp.isUserChange()
-```
-
-## getCurrentUser
-
-**用途：获取当前登录的用户信息**
-
-```ts
-**用法**
-const loginUser =  freelogApp.getCurrentUser();
-```
-
-**返回字段说明：**
-
-| 返回值字段 | 字段类型 | 字段说明     |
-| :--------- | :------- | :----------- |
-| username   | string   | 用户名称     |
-| headImage  | string   | 用户头像地址 |
-
-## setUserData
-
-**用途：创建或改变当前登录的用户在当前插件对应 key 的数据**
-
-```ts
-setUserData(key, data)
-**参数说明**
-  key: string, // 自定义key
-  data: any, // 自定义数据
-
-**用法**
-const res = await freelogApp.setUserData("testData", {
-  visitCount: 55,
-  adCount:33
+freelogApp.callLogin((status) => {
+  if (status === freelogApp.resultType.SUCCESS) {
+    console.log("登录成功");
+  } else if (status === freelogApp.resultType.USER_CANCEL) {
+    console.log("用户取消了登录");
+  }
 });
 ```
 
-**返回示例**
 
+## callLoginOut
+
+**用途**：退出当前账号登录状态。  
+**说明**：登出后页面会自动刷新。
+
+### **示例代码**  
+```ts
+freelogApp.callLoginOut();
+```
+
+
+## onLogin
+
+**用途**：监听用户登录事件，捕获登录成功或失败的回调。  
+
+### **参数**  
+- `resolve`：登录成功后的回调函数  
+- `reject`：用户关闭登录窗口后的回调函数  
+
+### **示例代码**  
+```ts
+freelogApp.onLogin(
+  () => {
+    console.log("登录成功");
+  },
+  () => {
+    console.log("用户关闭了登录窗口");
+  }
+);
+```
+
+
+## onUserChange
+
+**用途**：监听用户在其他页面切换账号的事件，并在当前页面触发回调。  
+
+### **参数**  
+- `callback`：账号切换时触发的回调函数
+
+### **示例代码**  
+```ts
+freelogApp.onUserChange(() => {
+  console.log("检测到账号切换，刷新数据");
+});
+```
+
+
+## isUserChange
+
+**用途**：检测用户在其他页面是否切换了账号。
+
+### **返回值**  
+- `true`：账号已发生变化  
+- `false`：账号未变化
+
+### **示例代码**  
+```ts
+const hasChanged = freelogApp.isUserChange();
+if (hasChanged) {
+  console.log("检测到账号变化，重新加载数据");
+}
+```
+
+
+## getCurrentUser
+
+**用途**：获取当前登录用户的基本信息。
+
+### **返回值**  
+| 字段       | 类型     | 说明       |
+|------------|----------|------------|
+| `username` | `string` | 用户名称   |
+| `headImage`| `string` | 用户头像地址|
+
+### **示例代码**  
+```ts
+const userInfo = freelogApp.getCurrentUser();
+if (userInfo) {
+  console.log("用户名：", userInfo.username);
+  console.log("用户头像：", userInfo.headImage);
+} else {
+  console.log("用户未登录");
+}
+```
+
+
+## setUserData
+
+**用途**：保存或更新当前用户的自定义数据。
+
+### **参数**  
+- `key`：自定义数据的键名  
+- `data`：要保存的数据对象
+
+### **示例代码**  
+```ts
+const userData = {
+  visitCount: 55,
+  adCount: 33,
+};
+freelogApp.setUserData("testData", userData).then((res) => {
+  console.log("数据保存成功：", res.data);
+});
+```
+
+**成功返回示例**：
 ```json
 {
   "ret": 0,
@@ -112,23 +142,23 @@ const res = await freelogApp.setUserData("testData", {
 }
 ```
 
+
 ## getUserData
 
-**用途：获取当前登录的用户在当前插件保存的对应 key 的数据**
+**用途**：获取指定 `key` 下保存的用户数据。
 
+### **参数**  
+- `key`：自定义数据的键名
+
+### **示例代码**  
 ```ts
-getUserData(key)
-**参数说明**
-  key: string, // 自定义key
-
-**用法**
-const userData = await freelogApp.getUserData("testData");
+freelogApp.getUserData("testData").then((res) => {
+  console.log("获取到用户数据：", res.data);
+});
 ```
 
-**返回示例**
-
-```ts
-// 通过setUserData保存的对应key的数据
+**成功返回示例**：
+```json
 {
   "ret": 0,
   "errCode": 0,
@@ -140,42 +170,28 @@ const userData = await freelogApp.getUserData("testData");
 }
 ```
 
+
 ## deleteUserData
 
-**用途：删除当前登录的用户在当前插件保存的对应 key 的数据**
+**用途**：删除指定 `key` 下保存的用户数据。
 
+### **参数**  
+- `key`：自定义数据的键名
+
+### **示例代码**  
 ```ts
-deleteUserData(key)
-**参数说明**
-  key: string, // 自定义key
-
-**用法**
-const userData = await freelogApp.deleteUserData("testData");
+freelogApp.deleteUserData("testData").then((res) => {
+  console.log("数据删除成功");
+});
 ```
 
-**返回示例**
-
-```ts
+**成功返回示例**：
+```json
 {
   "ret": 0,
   "errCode": 0,
   "msg": "success",
-  "data":null
+  "data": null
 }
 ```
 
-<!-- ## pushMessage4Task
-
-**用途：推送任务消息埋点**
-
-```ts
-**参数说明**
-  data:{
-    taskConfigCode: string,  // 任务配置编号
-    meta: {} // 数据
-  }
-
-**用法**
-
-freelogApp.pushMessage4Task(data).then((res)=>{})
-``` -->

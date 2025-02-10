@@ -3,15 +3,15 @@
 layout: home
 
 hero:
-  name: "freelog运行时文档"
+  name: "freelog开发者文档"
   text: ""
-  tagline: "主题插件开发者参考文档"
+  tagline: "主题、插件、库开发者参考文档"
   actions:
     - theme: brand
       text: "指南"
       link: /guide/index
     - theme: alt
-      text: "框架改造"
+      text: "框架接入"
       link: /framework
     - theme: alt
       text: "参考API"

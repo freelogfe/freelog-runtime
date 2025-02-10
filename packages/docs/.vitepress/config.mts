@@ -2,8 +2,8 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "freelog运行时文档",
-  description: "freelog运行时文档",
+  title: "freelog开发者文档",
+  description: "freelog开发者文档",
   lang: "zh-CN",
   // locales: {
   //   root: {
@@ -15,10 +15,17 @@ export default defineConfig({
   ignoreDeadLinks: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/freelogfe/freelog-runtime' }
+    ],
+    editLink: {
+      pattern: 'https://github.com/freelogfe/freelog-runtime/edit/fix-docs-tokyo/packages/docs/:path',
+      text: '为此页提供修改建议',
+    },
     nav: [
       { text: "首页", link: "/" },
       { text: "指南", link: "/guide/", activeMatch: "/guide/" },
-      { text: "框架改造", link: "/framework/", activeMatch: "/framework/" },
+      { text: "接入", link: "/framework/", activeMatch: "/framework/" },
       { text: "API", link: "/api/widget", activeMatch: "/api/" },
       { text: "库开发者", link: "/library/helloworld", activeMatch: "/library/" },
     ],
@@ -26,20 +33,32 @@ export default defineConfig({
       // 当用户位于 `guide` 目录时，会显示此侧边栏
       "/guide/": [
         {
-          text: "指南",
           items: [
-            { text: "基础", link: "/guide" },
-            { text: "资源系统", link: "/guide/static-source" },
-            { text: "数据通信", link: "/guide/data" },
-            { text: "虚拟路由系统", link: "/guide/router" },
-            // { text: 'keep-alive', link: '/guide/keep-alive' },
+            { text: "指南", link: "/guide" },
+            { text: "主题-vue示例", link: "/guide/theme-vue" },
+            { text: "主题-react示例", link: "/guide/theme-react" },
+            { text: "插件-vue示例", link: "/guide/plugin-vue" },
+            { text: "插件-react示例", link: "/guide/plugin-react" },
+            { text: "插件开发者-调试篇(vue)", link: "/guide/use-plugin-vue" },
+            { text: "插件开发者-调试篇(react)", link: "/guide/use-plugin-react" },
+            { text: "如何发布主题和插件", link: "/guide/release" },
+            { text: "如何启用主题/切换版本", link: "/guide/use-theme" },
+            // {
+            //   text: "功能",
+            //   link: "",
+            //   items: [
+            //     { text: "资源系统", link: "/guide/wheel/static-source" },
+            //     { text: "虚拟路由系统", link: "/guide/wheel/router" },
+            //     { text: "数据通信", link: "/guide/wheel/data" },
+            //   ],
+            // },
           ],
         },
       ],
 
       "/framework/": [
         {
-          text: "框架改造",
+          text: "框架接入",
           items: [
             { text: "说明", link: "/framework/" },
             { text: "react", link: "/framework/react" },
@@ -54,7 +73,7 @@ export default defineConfig({
           items: [
             { text: "插件相关", link: "/api/widget" },
             { text: "展品获取", link: "/api/exhibit" },
-            { text: "集合内作品", link: "/api/collection" },
+            { text: "合集相关", link: "/api/collection" },
             { text: "授权相关", link: "/api/auth" },
             { text: "用户相关", link: "/api/user" },
             { text: "特殊功能", link: "/api/share" },
@@ -98,10 +117,10 @@ export default defineConfig({
             footer: {
               selectText: "选择",
               navigateText: "切换",
-              closeText: "关闭"
+              closeText: "关闭",
             },
           },
-        }, 
+        },
       },
     },
     // socialLinks: [
@@ -109,4 +128,9 @@ export default defineConfig({
     // ]
     // outline: 'deep'
   },
+  vite:{
+    server:{
+      host:true
+    }
+  }
 });
