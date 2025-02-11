@@ -161,8 +161,17 @@ export default defineConfig({
       fileName: (format) => `react-helloworld.${format}.js`,
       formats: ['umd'],
     },
+    rollupOptions: {
+      external: ['react', 'react/jsx-runtime'],
+      output: {
+        globals: {
+          react: 'react',
+          'react/jsx-runtime': 'jsxRuntime'
+        },
+        name: 'freelogLibrary.Freelog.reactHelloworld'
+      },
+    },
   },
-  external: ['react', 'react-dom'],
   plugins: [react()],
 })
 
@@ -211,7 +220,6 @@ pnpm build:lib
   ]
 }
 ```
-
 
 ## 压缩打包并发布
 

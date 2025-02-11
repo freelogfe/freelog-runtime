@@ -25,8 +25,8 @@ export default defineConfig({
     nav: [
       { text: "首页", link: "/" },
       { text: "指南", link: "/guide/", activeMatch: "/guide/" },
-      { text: "接入", link: "/framework/", activeMatch: "/framework/" },
-      { text: "API", link: "/api/widget", activeMatch: "/api/" },
+      { text: "框架接入", link: "/framework/", activeMatch: "/framework/" },
+      { text: "参考API", link: "/api/widget", activeMatch: "/api/" },
       { text: "库开发者", link: "/library/helloworld", activeMatch: "/library/" },
     ],
     sidebar: {
@@ -90,6 +90,8 @@ export default defineConfig({
             { text: "库示例-vue库", link: "/library/library-vue" },
             { text: "库示例-react库", link: "/library/library-react" },
             { text: "如何使用库", link: "/library/library-usage" },
+            { text: "使用库示例(vue)", link: "/library/use-library-vue" },
+            { text: "使用库示例(react)", link: "/library/use-library-react" },
           ],
         },
       ],

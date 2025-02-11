@@ -177,19 +177,28 @@ export { HelloWorld }
 ```js
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
   build: {
     lib: {
-      entry: './src/index.js',
+      entry: path.resolve(__dirname, 'src/index.js'),
       name: 'freelogLibrary.Freelog.vueHelloworld',
       fileName: (format) => `vue-helloworld.${format}.js`,
       formats: ['umd']
-    }
+    },
+    rollupOptions: {
+      external: ['vue'],
+      output: {
+        globals: {
+          vue: 'Vue',
+        },
+        name: 'freelogLibrary.Freelog.vueHelloworld'
+      },
+    },
   },
   plugins: [vue()],
-  external: ['vue'],
 })
 
 ```
