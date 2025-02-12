@@ -92,6 +92,7 @@ export default defineConfig({
             { text: "如何使用库", link: "/library/library-usage" },
             { text: "使用库示例(vue)", link: "/library/use-library-vue" },
             { text: "使用库示例(react)", link: "/library/use-library-react" },
+            { text: "库的本地开发调试", link: "/library/local-dev" },
           ],
         },
       ],

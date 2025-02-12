@@ -8,7 +8,7 @@ outline: deep
 ```js
 import * as Vue from 'vue'
 
-(window as any).Vue = Vue
+window.Vue = Vue
 ```
 
 ## 加载库

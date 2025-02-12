@@ -9,8 +9,8 @@ outline: deep
 import * as react from "react";
 import * as jsxRuntime from "react/jsx-runtime";
 
-(window as any).react = react;
-(window as any).jsxRuntime = jsxRuntime;
+window.react = react;
+window.jsxRuntime = jsxRuntime;
 
 
 ```
