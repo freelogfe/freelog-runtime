@@ -11,18 +11,17 @@ outline: deep
 
 ```js
 // 1. 获取实例
-const instance = (window as any).rawWindow.FreelogLibrary
+const instance = window.rawWindow.FreelogLibrary
 
 // 2. 获取依赖树
 console.log(instance.dependencyTree)
 ```
 
-
 * step2: 你可以在主题的代码中如下使用:
 
 ```js
 // 1. 获取实例
-const instance = (window as any).rawWindow.FreelogLibrary
+const instance = window.rawWindow.FreelogLibrary
 
 // 2. 调用实例方法getLibraryEntryUrls获取js和css的地址对象, 第一个参数为你要使用的库的"资源标识", 第二个参数为使用者的"资源标识"
 const getUrlsPa = await instance.getLibraryEntryUrls("Freelog/library-test-001", "xxx/主题")

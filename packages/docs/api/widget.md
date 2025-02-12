@@ -1,4 +1,4 @@
-﻿# 插件相关 API 文档
+﻿# 主题/插件相关 API 文档
 
 ## getStaticPath
 
@@ -140,7 +140,7 @@ console.log(updatedTree);
 
 ## getSelfProperty
 
-**用途**：获取插件自身的属性。
+**用途**：获取插件自身的属性。(主题管理)
 
 ### 使用示例
 
