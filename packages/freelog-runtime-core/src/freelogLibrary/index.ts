@@ -3,7 +3,6 @@ import { getExhibitDepFileStream } from './api'
 interface LibraryInfo { version: string, baseUrl: string, metaJson: any, userName: any, format: string }
 
 const resourceType = ["软件库"]
-const freelogLibraryNameSpace = "freelogLibrary"
 
 class FreelogLibrary {
   /* 资源标识resourceName为key, 值以version降序排列(每次添加完成后都进行一次排序) */
@@ -30,10 +29,7 @@ class FreelogLibrary {
   }
 
   /* 初始化 */
-  #init() {
-    (window as any)[freelogLibraryNameSpace] = {}
-    this.#setLibraryAuthorNameSpace()
-  }
+  #init() {  }
 
   /* 加载js和css; (不支持es格式的库) */
   async getLibraryEntryUrls (resourceName: string, consumerResourceName: string) {
@@ -41,7 +37,8 @@ class FreelogLibrary {
 
     // 1. 获取主题的依赖树, 在树中找到此资源标识resourceName的nid
     const environment = this.dependencyTree.find((item: any) => item.articleName === consumerResourceName)
-    const target = this.dependencyTree.find((item: any) => item.articleName ===  resourceName && item.parentNid === environment.nid)
+    const target = this.dependencyTree.find((item: any) => item.articleName ===  resourceName && 
+      item.resourceType[0] === resourceType[0] && item.parentNid === environment.nid)
     if (!target) {
       console.warn("请传递正确的资源标识, 并在console声明为依赖!")
       return undefined
@@ -96,21 +93,6 @@ class FreelogLibrary {
     }
   }
 
-
-  /* 为库作者预设命名空间 */
-  #setLibraryAuthorNameSpace() {
-    const arr = this.dependencyTree.filter((ele: any) => {
-      return resourceType.includes(ele.resourceType[0])
-    })
-
-    arr.forEach((ele: any) => {
-      const userName = ele.articleName.split('/')[0]
-      if (!(window as any).freelogLibrary[userName]) {
-        (window as any).freelogLibrary[userName] = {}
-      }
-    })
-  }
-
   loadLibraryJs(url: string, metaJson: any, env: any) {
     return new Promise(async (resolve) => {
       // 添加到子应用
@@ -118,11 +100,11 @@ class FreelogLibrary {
       tag.setAttribute('src', url)
       env.document.body.appendChild(tag)
       tag.onload = async () => {
-        let value = this.#parsePropertyPath(metaJson.nameSpace)
+        let value = this.#parsePropertyPath(metaJson.nameSpace, env)
         if (value && (Object.keys(value).length || typeof value === 'function')) {
           resolve(value)
           // 置空
-          this.#clearPropertyValue(metaJson.nameSpace)
+          this.#clearPropertyValue(metaJson.nameSpace, env)
         }
       }
     })
@@ -138,22 +120,24 @@ class FreelogLibrary {
   }
 
   /* 根据指定的嵌套属性获取值 */
-  #parsePropertyPath(nameSpace: string) {
+  #parsePropertyPath(nameSpace: string, env: any) {
     return nameSpace.split('.').reduce((pre: any, cur: any) => {
       if (!pre) return
       return pre[cur]
-    }, window)
+    }, env)
   }
 
-  #clearPropertyValue(nameSpace: string) {
-    let result = `window`
+  #clearPropertyValue(nameSpace: string, env: any) {
     const arr = nameSpace.split('.')
-    for (let i = 0; i < arr.length; i++) {
-      const ele = arr[i]
-      result += `['${ele}']`
-    }
-    result += `= undefined`
-    eval(result)
+    const length = arr.length
+    const lastKey = arr[length - 1]
+    arr.reduce((pre: any, cur: any, index: number) => {
+      if (!pre) return
+      if (lastKey === cur) {
+        pre[cur] = undefined
+      }
+      return pre[cur]
+    }, env)
   }
 
   /* 获取js入口文件 format => 'es' | 'umd' */
