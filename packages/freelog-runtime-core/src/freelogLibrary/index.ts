@@ -94,19 +94,19 @@ class FreelogLibrary {
   }
 
   loadLibraryJs(url: string, metaJson: any, env: any) {
-    return new Promise(async (resolve) => {
+    return new Promise(resolve => {
       // 添加到子应用
       const tag = env.document.createElement("script");
-      tag.setAttribute('src', url)
-      env.document.body.appendChild(tag)
-      tag.onload = async () => {
+      tag.addEventListener('load', () => {
         let value = this.#parsePropertyPath(metaJson.nameSpace, env)
         if (value && (Object.keys(value).length || typeof value === 'function')) {
           resolve(value)
           // 置空
           this.#clearPropertyValue(metaJson.nameSpace, env)
         }
-      }
+      })
+      tag.setAttribute('src', url)
+      env.document.body.appendChild(tag)
     })
   }
 
