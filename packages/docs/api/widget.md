@@ -6,10 +6,9 @@
 
 ### 参数说明
 
-
-| 参数   | 类型     | 说明               |
-| ------ | -------- | ------------------ |
-| `path` | `string` | 以`/` 开头的路径。 |
+| 参数     | 类型       | 必填 | 说明                  |
+| -------- | ---------- | ---- | --------------------- |
+| `path` | `string` | 是   | 以 `/` 开头的路径。 |
 
 ### 使用示例
 
@@ -31,9 +30,8 @@ console.log(nodeInfo);
 
 ### 返回字段说明
 
-
-| 字段                   | 类型     | 说明     |
-| ---------------------- | -------- | -------- |
+| 字段                     | 类型       | 说明     |
+| ------------------------ | ---------- | -------- |
 | `nodeName`             | `string` | 节点名称 |
 | `tags`                 | `array`  | 标签数组 |
 | `nodeLogo`             | `string` | 节点图标 |
@@ -76,27 +74,23 @@ console.log(renderName);
 
 ## getTopExhibitId
 
-**用途**：获取当前插件的自身或顶层展品 ID（依赖树最上层的展品 ID）。
+**用途**：获取依赖树的根id。
 
 ### 使用场景
 
-- **场景 1**：当前插件是展品插件，获取自身展品 ID。
-- **场景 2**：当前插件是展品依赖树中的资源插件，获取最上层的展品 ID。
+- **场景 1**：当前应用是展品，获取的是自身的展品 ID。
+- **场景 2**：当前应用是插件, 获取的是依赖树中的根ID(主题ID)。
 
 ### 使用示例
 
 ```ts
 const topExhibitId = freelogApp.getTopExhibitId();
 console.log(topExhibitId);
-
-// 获取自身展品信息
-const res = await freelogApp.getExhibitInfo(topExhibitId);
-console.log(res);
 ```
 
 ## getSelfNid
 
-**用途**：获取当前插件在依赖树中的自身链路 ID。
+**用途**：获取当前插件在依赖树中的ID(即nid)。
 
 ### 使用示例
 
@@ -126,9 +120,8 @@ console.log(updatedTree);
 
 ### 返回字段说明
 
-
-| 字段           | 类型       | 说明                      |
-| -------------- | ---------- | ------------------------- |
+| 字段             | 类型         | 说明                      |
+| ---------------- | ------------ | ------------------------- |
 | `nid`          | `string`   | 依赖 ID                   |
 | `articleId`    | `string`   | 作品 ID                   |
 | `articleName`  | `string`   | 作品名称                  |
@@ -140,7 +133,7 @@ console.log(updatedTree);
 
 ## getSelfProperty
 
-**用途**：获取插件自身的属性。(主题管理)
+**用途**：获取插件自身的属性。(配置页: 节点管理 > 主题管理 > 编辑 > 更多设置 > 可选配置)
 
 ### 使用示例
 
@@ -154,21 +147,50 @@ const updatedProperty = await freelogApp.getSelfProperty(true);
 console.log(updatedProperty);
 ```
 
-## mountExhibitWidget 和 mountArticleWidget
+## mountExhibitWidget
 
-**用途**：加载展品插件或作品插件。
+**用途**：加载展品, 且展品为一个web应用程序。
 
 ### 参数说明
 
+| 参数                    | 类型            | 必填 | 说明                     |
+| ----------------------- | --------------- | ---- | ------------------------ |
+| `exhibitId`           | `string`      | 是   | 展品 ID                  |
+| `container`           | `HTMLElement` | 是   | 挂载容器                 |
+| `property`            | `object`      | 否   | 展品或作品的属性         |
+| `dependencyTree`      | `object[]`    | 否   | 依赖树                   |
+| `renderWidgetOptions` | `object`      | 否   | 渲染选项（如数据传递等） |
 
-| 参数                  | 类型          | 说明                     |
-| --------------------- | ------------- | ------------------------ |
-| `exhibitId`           | `string`      | 展品 ID                  |
-| `articleId`           | `string`      | 作品 ID                  |
-| `container`           | `HTMLElement` | 挂载容器                 |
-| `property`            | `object`      | 展品或作品的属性         |
-| `dependencyTree`      | `object[]`    | 依赖树                   |
-| `renderWidgetOptions` | `object`      | 渲染选项（如数据传递等） |
+### 使用示例
+
+```ts
+const widgetController = await freelogApp.mountExhibitWidget({
+  exhibitId: "exampleId",
+  container: document.getElementById("app"),
+  renderWidgetOptions: {
+    data: { message: "Hello World" },
+  },
+});
+
+console.log(widgetController);
+```
+
+## mountArticleWidget
+
+**用途**：加载插件, 插件是一个web应用程序。
+
+### 参数说明
+
+| 参数                    | 类型            | 必填 | 说明                                                   |
+| ----------------------- | --------------- | ---- | ------------------------------------------------------ |
+| `articleId`           | `string`      | 是   | 作品 ID                                                |
+| `container`           | `HTMLElement` | 是   | 挂载容器                                               |
+| `parentNid`           | `string`      | 是   | 依赖树中的父id, 可通过 `getSelfDependencyTree `获取 |
+| `nid`                 | `string`      | 是   | 依赖树中自已id, 可通过 `getSelfDependencyTree `获取 |
+| `topExhibitId`        | `string`      | 是   | 展品id, 可通过 `getTopExhibitId`获取                |
+| `property`            | `object`      | 否   | 展品或作品的属性                                       |
+| `dependencyTree`      | `object[]`    | 否   | 依赖树                                                 |
+| `renderWidgetOptions` | `object`      | 否   | 渲染选项（如数据传递等）                               |
 
 ### 使用示例
 
