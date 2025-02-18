@@ -1,21 +1,5 @@
 ﻿# 主题/插件相关 API 文档
 
-## getStaticPath
-
-**用途**：获取指定静态资源（如图片、字体等）的正确路径。
-
-### 参数说明
-
-| 参数     | 类型       | 必填 | 说明                  |
-| -------- | ---------- | ---- | --------------------- |
-| `path` | `string` | 是   | 以 `/` 开头的路径。 |
-
-### 使用示例
-
-```ts
-const path = freelogApp.getStaticPath("/assets/image.png");
-console.log(path);
-```
 
 ## nodeInfo
 
@@ -30,8 +14,9 @@ console.log(nodeInfo);
 
 ### 返回字段说明
 
-| 字段                     | 类型       | 说明     |
-| ------------------------ | ---------- | -------- |
+
+| 字段                   | 类型     | 说明     |
+| ---------------------- | -------- | -------- |
 | `nodeName`             | `string` | 节点名称 |
 | `tags`                 | `array`  | 标签数组 |
 | `nodeLogo`             | `string` | 节点图标 |
@@ -120,8 +105,9 @@ console.log(updatedTree);
 
 ### 返回字段说明
 
-| 字段             | 类型         | 说明                      |
-| ---------------- | ------------ | ------------------------- |
+
+| 字段           | 类型       | 说明                      |
+| -------------- | ---------- | ------------------------- |
 | `nid`          | `string`   | 依赖 ID                   |
 | `articleId`    | `string`   | 作品 ID                   |
 | `articleName`  | `string`   | 作品名称                  |
@@ -153,8 +139,9 @@ console.log(updatedProperty);
 
 ### 参数说明
 
-| 参数                    | 类型            | 必填 | 说明                     |
-| ----------------------- | --------------- | ---- | ------------------------ |
+
+| 参数                  | 类型          | 必填 | 说明                     |
+| --------------------- | ------------- | ---- | ------------------------ |
 | `exhibitId`           | `string`      | 是   | 展品 ID                  |
 | `container`           | `HTMLElement` | 是   | 挂载容器                 |
 | `property`            | `object`      | 否   | 展品或作品的属性         |
@@ -181,16 +168,17 @@ console.log(widgetController);
 
 ### 参数说明
 
-| 参数                    | 类型            | 必填 | 说明                                                   |
-| ----------------------- | --------------- | ---- | ------------------------------------------------------ |
-| `articleId`           | `string`      | 是   | 作品 ID                                                |
-| `container`           | `HTMLElement` | 是   | 挂载容器                                               |
-| `parentNid`           | `string`      | 是   | 依赖树中的父id, 可通过 `getSelfDependencyTree `获取 |
-| `nid`                 | `string`      | 是   | 依赖树中自已id, 可通过 `getSelfDependencyTree `获取 |
-| `topExhibitId`        | `string`      | 是   | 展品id, 可通过 `getTopExhibitId`获取                |
-| `property`            | `object`      | 否   | 展品或作品的属性                                       |
-| `dependencyTree`      | `object[]`    | 否   | 依赖树                                                 |
-| `renderWidgetOptions` | `object`      | 否   | 渲染选项（如数据传递等）                               |
+
+| 参数                  | 类型          | 必填 | 说明                                                |
+| --------------------- | ------------- | ---- | --------------------------------------------------- |
+| `articleId`           | `string`      | 是   | 作品 ID                                             |
+| `container`           | `HTMLElement` | 是   | 挂载容器                                            |
+| `parentNid`           | `string`      | 是   | 依赖树中的父id, 可通过`getSelfDependencyTree `获取 |
+| `nid`                 | `string`      | 是   | 依赖树中自已id, 可通过`getSelfDependencyTree `获取 |
+| `topExhibitId`        | `string`      | 是   | 展品id, 可通过`getTopExhibitId`获取                |
+| `property`            | `object`      | 否   | 展品或作品的属性                                    |
+| `dependencyTree`      | `object[]`    | 否   | 依赖树                                              |
+| `renderWidgetOptions` | `object`      | 否   | 渲染选项（如数据传递等）                            |
 
 ### 使用示例
 
@@ -230,6 +218,26 @@ freelogApp.setViewport({
   "user-scalable": "no",
 });
 ```
+
+
+## getStaticPath
+
+**用途**：获取指定静态资源（如图片、字体等）的正确路径。
+
+### 参数说明
+
+
+| 参数   | 类型     | 必填 | 说明               |
+| ------ | -------- | ---- | ------------------ |
+| `path` | `string` | 是   | 以`/` 开头的路径。 |
+
+### 使用示例
+
+```ts
+const path = freelogApp.getStaticPath("/assets/image.png");
+console.log(path);
+```
+
 
 # 总结
 
