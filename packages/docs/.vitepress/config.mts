@@ -71,7 +71,7 @@ export default defineConfig({
         {
           text: "API分类",
           items: [
-            { text: "插件相关", link: "/api/widget" },
+            { text: "主题/插件相关", link: "/api/widget" },
             { text: "展品获取", link: "/api/exhibit" },
             { text: "合集相关", link: "/api/collection" },
             { text: "授权相关", link: "/api/auth" },
@@ -92,6 +92,8 @@ export default defineConfig({
             { text: "如何使用库", link: "/library/library-usage" },
             { text: "使用库示例(vue)", link: "/library/use-library-vue" },
             { text: "使用库示例(react)", link: "/library/use-library-react" },
+            { text: "库的本地开发调试", link: "/library/local-dev" },
+            { text: "附: 生成meta.json的脚本", link: "/library/meta-gen" },
           ],
         },
       ],
