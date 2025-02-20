@@ -18,7 +18,7 @@ window.Vue = Vue
 例如: 在main.js中加载这个库并注册为全局组件
 
 ```js
-const getUrlsv = await instance.getLibraryEntryUrls("cumins/vue-component-002", resourceNameOfApp)
+const getUrlsv = await instance.getLibraryEntryUrls("cumins/vue-component-002", resourceNameOfApp, window)
 const resb = await instance.loadLibraryJs(getUrlsv.jsEntryUrl, getUrlsv.metaJson, window)
 console.log("主题中 cumins/vue-component-002", getUrlsv.version, resb);
 instance.loadLibraryCss(getUrlsv.cssEntryUrl, window)

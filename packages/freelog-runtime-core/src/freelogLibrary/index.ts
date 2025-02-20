@@ -11,24 +11,8 @@ class FreelogLibrary {
   /* 以`${resourceName}?${version}`为key */
   #metaJson: any = {} 
 
-  /* 节点信息 */
-  nodeInfo: any
-
-  constructor(nodeInfo: any) {
-    this.nodeInfo = nodeInfo
-    this.#init()
-  }
-
-  get dependencyTree() {
-    return this.nodeInfo.themeInfo.versionInfo.dependencyTree
-  }
-
-  get themeInfo() {
-    return this.nodeInfo.themeInfo
-  }
-
-  /* 初始化 */
-  #init() {  }
+  /* 以展品id为key */
+  dependencyTrees: any = {}
 
   /* 加载js和css; (不支持es格式的库) */
   async getLibraryEntryUrls (resourceName: string, consumerResourceName: string, env: any) {
@@ -38,7 +22,11 @@ class FreelogLibrary {
       return 
     }
     
-    const dependencyTree = await env.microApp.getData().freelogApp.getSelfDependencyTree(true)
+    const freelogApp = env.microApp.getData().freelogApp
+    const dependencyTree = await freelogApp.getSelfDependencyTree(true)
+    const topExhibitId = freelogApp.getTopExhibitId()
+
+    this.dependencyTrees[topExhibitId] = dependencyTree
 
     let metaJsonKey, metaJson, baseUrl, jsEntryUrl, cssEntryUrl
 
@@ -58,7 +46,7 @@ class FreelogLibrary {
     if (_cache) {
       metaJson = _cache.metaJson
     } else {
-      const res = await getExhibitDepFileStream(this.themeInfo.exhibitId, { nid, returnUrl: false, subFilePath: "meta.json" })  
+      const res = await getExhibitDepFileStream(topExhibitId, { nid, returnUrl: false, subFilePath: "meta.json" })  
       if (res.status !== 200) {
         console.warn("获取meta.json失败!", res)
         return undefined
@@ -71,7 +59,7 @@ class FreelogLibrary {
     // 3. 根据meta.json中的内容，设置引入库的映射, 并开始加载js和css的入口文件
     const jsEntry = this.#getJsEntry(metaJsonKey)
     const cssEntry = this.#getCssEntry(metaJsonKey)
-    jsEntryUrl = await getExhibitDepFileStream(this.themeInfo.exhibitId, { nid, returnUrl: true, subFilePath: jsEntry }) 
+    jsEntryUrl = await getExhibitDepFileStream(topExhibitId, { nid, returnUrl: true, subFilePath: jsEntry }) 
     baseUrl = jsEntryUrl.slice(0, jsEntryUrl.lastIndexOf('/'))
     if (_cache) {
       cssEntryUrl = `${baseUrl}/${cssEntry}`

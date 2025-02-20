@@ -182,8 +182,8 @@ function App() {
           }
         } else {
           // 初始化软件库实例
-          const instance = new FreelogLibrary(nodeInfo);
-          console.log("________              ******************___________________________", instance.nodeInfo);
+          const instance = new FreelogLibrary();
+          console.log("主题信息", instance.nodeInfo);
           (window as any).FreelogLibrary = instance
 
           const container = document.getElementById("freelog-plugin-container");

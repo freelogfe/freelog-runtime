@@ -21,7 +21,7 @@ window.jsxRuntime = jsxRuntime;
 
 ```js
 const LazyComponentB = lazy(async () => {
-  const getUrls = await instance.getLibraryEntryUrls("cumins/react-component-002", resourceNameOfApp, 'umd')
+  const getUrls = await instance.getLibraryEntryUrls("cumins/react-component-002", resourceNameOfApp, window)
   const res = await instance.loadLibraryJs(getUrls.jsEntryUrl, getUrls.metaJson, window)
   instance.loadLibraryCss(getUrls.cssEntryUrl, window)
   console.log("主题 helllo", res);
