@@ -183,7 +183,7 @@ function App() {
         } else {
           // 初始化软件库实例
           const instance = new FreelogLibrary();
-          console.log("主题信息", instance.nodeInfo);
+          console.log("___当前主题的依赖树信息", nodeInfo.themeInfo.versionInfo.dependencyTree);
           (window as any).FreelogLibrary = instance
 
           const container = document.getElementById("freelog-plugin-container");
