@@ -1,7 +1,9 @@
 ---
 outline: 'deep'
 ---
-> 本示例使用vite+react作说明
+> 环境要求: vite6.x版本要求node18.x版本以上
+
+本示例使用vite+react作说明
 
 ## 1. 创建项目
 
@@ -83,7 +85,6 @@ yarn run dev
 # 若是pnpm，使用下面命令
 pnpm dev
 ```
-
 
 ## 3. 开始开发
 

@@ -27,14 +27,15 @@ export default defineConfig({
       { text: "指南", link: "/guide/", activeMatch: "/guide/" },
       { text: "框架接入", link: "/framework/", activeMatch: "/framework/" },
       { text: "参考API", link: "/api/widget", activeMatch: "/api/" },
-      { text: "库开发者", link: "/library/helloworld", activeMatch: "/library/" },
+      { text: "库开发者", link: "/library/guide", activeMatch: "/library/" },
     ],
     sidebar: {
       // 当用户位于 `guide` 目录时，会显示此侧边栏
       "/guide/": [
         {
+          text: "主题/插件指南",
           items: [
-            { text: "指南", link: "/guide" },
+            { text: "概述", link: "/guide/" },
             { text: "主题-vue示例", link: "/guide/theme-vue" },
             { text: "主题-react示例", link: "/guide/theme-react" },
             { text: "插件-vue示例", link: "/guide/plugin-vue" },
@@ -58,7 +59,7 @@ export default defineConfig({
 
       "/framework/": [
         {
-          text: "框架接入",
+          text: "主题/插件框架接入",
           items: [
             { text: "说明", link: "/framework/" },
             { text: "react", link: "/framework/react" },
@@ -69,9 +70,9 @@ export default defineConfig({
       ],
       "/api/": [
         {
-          text: "API分类",
+          text: "主题/插件API分类",
           items: [
-            { text: "主题/插件相关", link: "/api/widget" },
+            { text: "基础", link: "/api/widget" },
             { text: "展品获取", link: "/api/exhibit" },
             { text: "合集相关", link: "/api/collection" },
             { text: "授权相关", link: "/api/auth" },

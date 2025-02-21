@@ -18,7 +18,7 @@ hero:
       link: /api/widget
     - theme: alt
       text: "库开发者"
-      link: /library/helloworld
+      link: /library/guide
 
 # features:
 #   - title: Feature A

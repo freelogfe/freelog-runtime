@@ -1,6 +1,8 @@
 ---
 outline: deep
 ---
+> 环境要求: vite6.x版本要求node18.x版本以上
+
 下面我们使用vite创建一个helloworld的vue组件库;
 
 ## 创建项目
@@ -14,7 +16,6 @@ npm create vite@latest helloworld-vue -- --template vue
 
 ![1736416565410](images/library-vue/1736416565410.png)
 
-> 环境要求: vite6.x版本要求node18.x版本以上
 
 进入项目根目录, 安装依赖
 
