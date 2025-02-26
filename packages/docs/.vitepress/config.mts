@@ -36,6 +36,7 @@ export default defineConfig({
           text: "主题/插件指南",
           items: [
             { text: "概述", link: "/guide/" },
+            { text: "脚手架", link: "/guide/cli" },
             { text: "主题-vue示例", link: "/guide/theme-vue" },
             { text: "主题-react示例", link: "/guide/theme-react" },
             { text: "插件-vue示例", link: "/guide/plugin-vue" },
