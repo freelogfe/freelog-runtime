@@ -1,6 +1,7 @@
 import { ResponseType } from "axios";
 import { NodeInfo, PlainObject, FreelogUserInfo } from "./base";
 import { MountExhibitWidgetOptions, MountArticleWidgetOptions } from "./widget";
+import { ItemDepTree } from './collection'
 
 import {
   WidgetController,
@@ -23,12 +24,64 @@ import { ExhibitDependencyNodeInfo } from "./exhibit";
 export * from "./result";
 export * from "./exhibit";
 export * from "./collection";
+
+interface GetLibraryEntryUrlsResult { 
+  jsEntryUrl: string,
+  cssEntryUrl: string,
+  metaJson: {
+    nameSpace: string,
+    js: {
+      entry: string,
+      other: string[] | []
+    },
+    css: {
+      entry: string,
+      other: string[] | []
+    },
+    other: string[] | []
+  },
+  baseUrl: string,
+  version: string
+}
+
+export interface FreelogLibraryType {
+  getLibraryEntryUrls(resourceName: string): Promise<GetLibraryEntryUrlsResult>;
+  loadLibraryJs(jsUrl: string, metaJson: any): Promise<any>;
+  loadLibraryCss(cssUrl: string): void;
+  dependencyTrees: Array<{
+    [Property in keyof ItemDepTree]-?: ItemDepTree[Property]
+  }>;
+}
+
 export let widgetApi: WidgetApi = {} as WidgetApi;
 export let freelogApp: FreelogApp = {} as FreelogApp;
 export const initFreelogApp = () => {
   const app = window.microApp?.getData().freelogApp;
   freelogApp = app;
   widgetApi = window.microApp;
+
+  const obj = {}
+  const proxyObj = new Proxy(obj, {
+    get(target: any, key: string) {
+      const holdKeys = ['getLibraryEntryUrls', 'loadLibraryJs', 'loadLibraryCss']
+      const promiseResultKeys = ['getLibraryEntryUrls', 'loadLibraryJs']
+      if (holdKeys.indexOf(key) !== -1) {
+        if (promiseResultKeys.indexOf(key) !== -1) {
+          return async function (...arg: any[]) {
+            const result = await (window as any).rawWindow.FreelogLibrary[key](...arg, window)
+            return result
+          }
+        } else {
+          return function (...arg: any[]) {
+            (window as any).rawWindow.FreelogLibrary[key](...arg, window)
+          }
+        }
+      }
+     return (window as any).rawWindow.FreelogLibrary[key]
+    },
+  }) as FreelogLibraryType;
+  (window as any).FreelogLibrary = proxyObj
+
 
   return { freelogApp, widgetApi };
 };
@@ -290,7 +343,7 @@ export interface FreelogApp {
       itemId?: string;
     },
     type: string 
-  ) => Promise<void>;
+  ) => string;
   mapShareUrl: (routeMap: {
     [str: string]: (exhibitId: string, itemId?: string) => string;
   }) => void;

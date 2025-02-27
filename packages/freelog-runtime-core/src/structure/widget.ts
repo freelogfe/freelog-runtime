@@ -5,6 +5,7 @@ import { digestMessage } from "./hashc";
 import {
   getExhibitDepFileStream,
   getExhibitFileStream,
+  getExhibitInfo
 } from "../freelogApp/api";
 import { WidgetController } from "freelog-runtime";
 export const FREELOG_DEV = "freelogDev";
@@ -93,6 +94,17 @@ export async function mountExhibitWidget(
     widget_entry,
     renderWidgetOptions,
   } = options;
+
+  // 获取展品的依赖树, 使 dependencyTree 和 nid 必然存在
+  if (!dependencyTree) {
+    const _result_detail = await getExhibitInfo(name, exhibitId, {
+      isLoadVersionProperty: 1
+    })
+    if (_result_detail.data.errCode === 0) {
+      dependencyTree = _result_detail.data.data.versionInfo.dependencyTree;
+    }
+  }
+
   let isTheme = true;
   if (name) {
     isTheme = false;
@@ -146,6 +158,7 @@ export async function mountExhibitWidget(
     seq,
     isUI: false,
     props: {},
+    nid: dependencyTree[0].nid
   };
   console.log(renderWidgetOptions);
   renderWidgetOptions = options.renderWidgetOptions

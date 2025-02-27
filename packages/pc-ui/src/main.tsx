@@ -24,7 +24,28 @@ microApp.start({
       // console.log("error 全局监听");
     },
   },
-  plugins: {},
+  plugins: {
+    global: [
+      {
+        loader(code: string, url: string) {
+          console.log(url)
+          const reg = /\/exhibits\/([^/]+)\/articles\/([^/]+)\/packages\/.+\.js$/
+          const regResult = reg.exec(url) // [str, exhibitId, nid]
+          if (regResult) {
+            const nid = regResult[2]
+            const _fn_reg = /(\.getLibraryEntryUrls\()([^)]*)(\))/g
+            code = code.replaceAll(_fn_reg, (all: string, $1: string, $2: string, $3: string) => {
+              if ($2.split(',').length === 1) {
+                return `${$1}${$2},"${nid}"${$3}`
+              }
+              return all
+            })
+          }
+          return code
+        },
+      }
+    ]
+  },
   /**
    * 自定义fetch
    * @param url 静态资源地址
