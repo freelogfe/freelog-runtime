@@ -41,7 +41,7 @@ const {
   NODE_FREEZED,
   THEME_NONE,
   NODE_NONE,
-  THEME_FREEZED,
+  THEME_ERROR,
   LOGIN,
   CONTRACT,
   LOGIN_OUT,
@@ -132,7 +132,7 @@ function App() {
           return;
         }
         // 节点冻结
-        if (nodeInfo.status == 4 ) {
+        if (nodeInfo.status == 4) {
           UI(NODE_FREEZED, nodeInfo);
           return;
         }
@@ -166,7 +166,9 @@ function App() {
         setNodeInfo(nodeInfo);
         if (!nodeInfo.themeAuthInfo.isAuth) {
           if (!nodeInfo.themeAuthInfo.isAvailable) {
-            upperUI();
+            // 主题异常
+            UI(THEME_ERROR, nodeInfo);
+            return;
           } else {
             freelogApp
               .addAuth(null, nodeInfo.themeInfo.exhibitId, {
@@ -183,8 +185,11 @@ function App() {
         } else {
           // 初始化软件库实例
           const instance = new FreelogLibrary();
-          console.log("___当前主题的依赖树信息", nodeInfo.themeInfo.versionInfo.dependencyTree);
-          (window as any).FreelogLibrary = instance
+          console.log(
+            "___当前主题的依赖树信息",
+            nodeInfo.themeInfo.versionInfo.dependencyTree
+          );
+          (window as any).FreelogLibrary = instance;
 
           const container = document.getElementById("freelog-plugin-container");
           await freelogApp.mountExhibitWidget(null, {
@@ -333,7 +338,7 @@ function App() {
       case USER_FREEZED:
         outOfContent(data);
         break;
-      case THEME_FREEZED:
+      case THEME_ERROR:
         outOfContent(data);
         break;
       case NODE_OFFLINE:
@@ -403,8 +408,8 @@ function App() {
             // @ts-ignore
             (nodeInfoData.themeAuthInfo.defaulterIdentityType & 2) == 2 ? (
               <NodeError
-                // currentExhibit={themeAuthInfo}
-                // setThemeCancel={openAuthForTheme}
+              // currentExhibit={themeAuthInfo}
+              // setThemeCancel={openAuthForTheme}
               />
             ) : (
               <ThemeCancel

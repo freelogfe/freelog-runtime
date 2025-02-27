@@ -6,6 +6,7 @@ import NodeOffline from "./_outAuth/nodeOffline";
 import NodePrivate from "./_outAuth/nodePrivate";
 import NodeDeleted from "./_outAuth/nodeDeleted";
 import NodeNone from "./_outAuth/nodeNone";
+import ThemeError from "./_outAuth/themeError";
 
 import { freelogAuth } from "freelog-runtime-core";
 const {
@@ -13,6 +14,7 @@ const {
   NODE_NONE,
   THEME_NONE,
   THEME_FREEZED,
+  THEME_ERROR,
   USER_FREEZED,
   NODE_OFFLINE,
   NODE_PRIVATE,
@@ -36,6 +38,8 @@ export default function OutOf({ eventType, outData }: OutOfProps) {
             return <ThemeNone />;
           case THEME_FREEZED:
             return <ThemeFreezed />;
+          case THEME_ERROR:
+            return <ThemeError />;
           case USER_FREEZED:
             return <UserFreezed outData={outData} />;
           case NODE_OFFLINE:

@@ -5,10 +5,11 @@ export const NODE_OFFLINE = 1;
 export const NODE_PRIVATE = 2;
 export const THEME_NONE = 3;
 export const THEME_FREEZED = 4;
-export const LOGIN = 5;
-export const CONTRACT = 6;
-export const LOGIN_OUT = 7;
-export const USER_FREEZED = 8;
+export const THEME_ERROR = 5;
+export const LOGIN = 6;
+export const CONTRACT = 7;
+export const LOGIN_OUT = 8;
+export const USER_FREEZED = 9;
 
 export const eventType = {
   NODE_NONE,

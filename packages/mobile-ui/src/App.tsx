@@ -57,7 +57,7 @@ const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
 const {
   NODE_FREEZED,
   THEME_NONE,
-  THEME_FREEZED,
+  THEME_ERROR,
   LOGIN,
   CONTRACT,
   LOGIN_OUT,
@@ -65,7 +65,7 @@ const {
   NODE_OFFLINE,
   NODE_PRIVATE,
   NODE_DELETED,
-  NODE_NONE
+  NODE_NONE,
 } = freelogAuth.eventType;
 // let themeId = "";
 
@@ -78,7 +78,7 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [nodeInfoData, setNodeInfo] = useState<any>(null);
   const [themeAuthInfo, setThemeAuthInfo] = useState<any>(null);
-  // 1 登录  2 注册   3 忘记登录密码  
+  // 1 登录  2 注册   3 忘记登录密码
   const [modalType, setModalType] = useState(0);
 
   function loadingClose() {
@@ -199,7 +199,9 @@ function App() {
         setNodeInfo(nodeInfo);
         if (!nodeInfo.themeAuthInfo.isAuth) {
           if (!nodeInfo.themeAuthInfo.isAvailable) {
-            upperUI();
+            // 主题异常
+            UI(THEME_ERROR, nodeInfo);
+            return;
           } else {
             freelogApp
               .addAuth(null, nodeInfo.themeInfo.exhibitId, {
@@ -365,7 +367,7 @@ function App() {
       case USER_FREEZED:
         outOfContent(data);
         break;
-      case THEME_FREEZED:
+      case THEME_ERROR:
         outOfContent(data);
         break;
       case NODE_OFFLINE:
@@ -430,19 +432,16 @@ function App() {
           ) : modalType === 2 ? (
             <Register visible={modalType === 2} setModalType={setModalType} />
           ) : modalType === 3 ? (
-            <Forgot
-              visible={modalType === 3}
-              setModalType={setModalType}
-            />
-          )  : null}
+            <Forgot visible={modalType === 3} setModalType={setModalType} />
+          ) : null}
         </div>
       ) : nodeInfoData &&
         themeAuthInfo &&
         !nodeInfoData.themeAuthInfo.isAuth ? (
         !nodeInfoData.themeAuthInfo.isAvailable ? (
           <NodeError
-            // currentExhibit={themeAuthInfo}
-            // setThemeCancel={openAuthForTheme}
+          // currentExhibit={themeAuthInfo}
+          // setThemeCancel={openAuthForTheme}
           />
         ) : (
           <ThemeCancel
