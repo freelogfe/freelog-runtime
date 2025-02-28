@@ -1,5 +1,3 @@
-interface LibraryInfo { version: string, metaJson: any, userName: any, format: string }
-
 const resourceType = ["软件库"]
 
 class FreelogLibrary {

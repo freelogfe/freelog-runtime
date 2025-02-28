@@ -3,6 +3,21 @@ outline: deep
 ---
 下面我们尝试以主题开发者的视觉，在主题项目开发中使用上面开发的库["库示例-vue"](./library-vue)
 
+## 安装环境库
+
+```bash
+npm i freelog-runtime@latest -S
+```
+
+在入口文件`main.js`中使用
+
+```js
+import { initFreelogApp } from "freelog-runtime";
+
+// 初始化
+initFreelogApp()
+```
+
 ## 处理库打包时external的依赖
 
 ```js
@@ -13,17 +28,18 @@ window.Vue = Vue
 
 ## 加载库
 
-> 注：以异步的方式使用库；
+> tip：freelog平台中的库都需要以异步的方式使用;
 
 例如: 在main.js中加载这个库并注册为全局组件
 
 ```js
-const getUrlsv = await instance.getLibraryEntryUrls("cumins/vue-component-002", resourceNameOfApp, window)
-const resb = await instance.loadLibraryJs(getUrlsv.jsEntryUrl, getUrlsv.metaJson, window)
+// 获取实例
+const instance = window.FreelogLibrary
+const getUrlsv = await instance.getLibraryEntryUrls("cumins/vue-component-002")
+const resb = await instance.loadLibraryJs(getUrlsv.jsEntryUrl, getUrlsv.metaJson)
 console.log("主题中 cumins/vue-component-002", getUrlsv.version, resb);
-instance.loadLibraryCss(getUrlsv.cssEntryUrl, window)
-app.config.globalProperties.VueComTest2 = `cumins/vue-component-002 => ${getUrlsv.version}`
-app?.component("Mittle", resb.default)
+instance.loadLibraryCss(getUrlsv.cssEntryUrl)
+app.component("Mittle", resb.default)
 ```
 
 ## 使用库

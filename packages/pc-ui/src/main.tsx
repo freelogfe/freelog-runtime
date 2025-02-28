@@ -28,7 +28,6 @@ microApp.start({
     global: [
       {
         loader(code: string, url: string) {
-          console.log(url)
           const reg = /\/exhibits\/([^/]+)\/articles\/([^/]+)\/packages\/.+\.js$/
           const regResult = reg.exec(url) // [str, exhibitId, nid]
           if (regResult) {
