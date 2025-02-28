@@ -46,7 +46,8 @@ function getLibraryEntryUrls(libraryResourceName: string): Promise<{
 
 参数说明: 参数为你要使用的库的"资源标识";
 
-```###
+
+### loadLibraryJs
 
 是一个返回Promise的函数, 用于加载js文件
 
