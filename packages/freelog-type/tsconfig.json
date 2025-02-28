@@ -3,6 +3,9 @@
     "strict": true,
     "declaration": true,
     "skipLibCheck": true,
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "target": "ES2015", // 或更高版本
+    "lib": ["ES2015", "DOM"],
+    "moduleResolution": "node"
   }
 }

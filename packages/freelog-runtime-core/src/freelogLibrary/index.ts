@@ -1,13 +1,6 @@
-import { getExhibitDepFileStream } from './api'
-
-interface LibraryInfo { version: string, metaJson: any, userName: any, format: string }
-
 const resourceType = ["软件库"]
 
 class FreelogLibrary {
-  /* 资源标识resourceName为key, 值以version降序排列(每次添加完成后都进行一次排序) */
-  #libraryCache: Record<string, Array<LibraryInfo>> = {}
-
   /* 以`${resourceName}?${version}`为key */
   #metaJson: any = {} 
 
@@ -15,25 +8,31 @@ class FreelogLibrary {
   dependencyTrees: any = {}
 
   /* 加载js和css; (不支持es格式的库) */
-  async getLibraryEntryUrls (resourceName: string, consumerResourceName: string, env: any) {
-    if (!env) {
-      const docUrl = window.location.host.replace(/(.+)(\..*)(\.com)/, `https://widget-docs$2$3`)
-      console.warn(`调用函数 getLibraryEntryUrls 失败, 缺乏第三个参数, 请传入window对象, 详细请查阅开发者文档${docUrl}`)
-      return 
+  async getLibraryEntryUrls (resourceName: string, nidOfConsumer: any, env: any) {
+    let freelogApp
+    if (typeof nidOfConsumer === "string") {
+      freelogApp = env.microApp.getData().freelogApp
+    } else {
+      freelogApp = nidOfConsumer.microApp.getData().freelogApp
     }
-    
-    const freelogApp = env.microApp.getData().freelogApp
+
     const dependencyTree = await freelogApp.getSelfDependencyTree(true)
     const topExhibitId = freelogApp.getTopExhibitId()
-
+    
     this.dependencyTrees[topExhibitId] = dependencyTree
-
-    let metaJsonKey, metaJson, baseUrl, jsEntryUrl, cssEntryUrl
-
+    
+    let metaJsonKey, metaJson, baseUrl, jsEntryUrl, cssEntryUrl, target
+    
     // 1. 获取主题的依赖树, 在树中找到此资源标识resourceName的nid
-    const environment = dependencyTree.find((item: any) => item.articleName === consumerResourceName)
-    const target = dependencyTree.find((item: any) => item.articleName ===  resourceName && 
-      item.resourceType[0] === resourceType[0] && item.parentNid === environment.nid)
+    if (nidOfConsumer && typeof nidOfConsumer === "string") {
+      target = dependencyTree.find((item: any) => item.articleName === resourceName && item.resourceType[0] === resourceType[0] && item.parentNid === nidOfConsumer)
+    } else {
+      // 当前为应用层, 即主题/插件
+      const nid = freelogApp.getSelfNid()
+      target = dependencyTree.find((item: any) => item.articleName === resourceName && item.resourceType[0] === resourceType[0] && item.parentNid ===  nid)
+      console.warn("当前为应用层, nid:", nid)
+    }
+    
     if (!target) {
       console.warn("请传递正确的资源标识, 并在freelog平台中声明为依赖!")
       return undefined
@@ -42,38 +41,22 @@ class FreelogLibrary {
     metaJsonKey = `${resourceName}?${version}`
 
     // 2. 获取meta.json并存储
-    const _cache = this.#getLibraryFromCache(resourceName, version)
-    if (_cache) {
-      metaJson = _cache.metaJson
+    const res = await freelogApp.getExhibitDepFileStream(topExhibitId, { nid, returnUrl: false, subFilePath: "meta.json" })  
+    if (res.status !== 200) {
+      console.warn("获取meta.json失败!", res)
+      return undefined
     } else {
-      const res = await getExhibitDepFileStream(topExhibitId, { nid, returnUrl: false, subFilePath: "meta.json" })  
-      if (res.status !== 200) {
-        console.warn("获取meta.json失败!", res)
-        return undefined
-      } else {
-        metaJson = res.data
-        this.#metaJson[metaJsonKey] = res.data
-      }
+      metaJson = res.data
+      this.#metaJson[metaJsonKey] = res.data
     }
 
     // 3. 根据meta.json中的内容，设置引入库的映射, 并开始加载js和css的入口文件
     const jsEntry = this.#getJsEntry(metaJsonKey)
     const cssEntry = this.#getCssEntry(metaJsonKey)
-    jsEntryUrl = await getExhibitDepFileStream(topExhibitId, { nid, returnUrl: true, subFilePath: jsEntry }) 
+    jsEntryUrl = await freelogApp.getExhibitDepFileStream(topExhibitId, { nid, returnUrl: true, subFilePath: jsEntry }) 
     baseUrl = jsEntryUrl.slice(0, jsEntryUrl.lastIndexOf('/'))
-    if (_cache) {
-      cssEntryUrl = `${baseUrl}/${cssEntry}`
-    } else {
-      cssEntryUrl = `${baseUrl}/${cssEntry}`
-    }
-    
-    // 4. 缓存meta.json
-    this.#addlibraryCache(resourceName, {
-      version,
-      metaJson,
-      userName: target.articleName.split('/')[0],
-      format: 'umd'
-    })
+    cssEntryUrl = `${baseUrl}/${cssEntry}`
+
 
     return {
       jsEntryUrl,
@@ -168,56 +151,6 @@ class FreelogLibrary {
   /* 根据资源标识和版本号获取meta.json */
   getMetaJsonByNameAndVersion(resourceName: string, version: string) {
     return this.#metaJson[`${resourceName}?${version}`]
-  }
-
-  /* 从缓存中获取一个软件库的信息 */
-  #getLibraryFromCache(resourceName: string, version?: string) {
-
-    if (!this.#libraryCache[resourceName]) {
-      return undefined
-    }
-    if (version) {
-      return this.#libraryCache[resourceName].find(item => item.version === version)
-    }
-    return this.#libraryCache[resourceName] && this.#libraryCache[resourceName][0]
-  }
-
-  /* 添加一个软件库的信息 */
-  #addlibraryCache(resourceName: string, value: LibraryInfo) {
-    if (this.#libraryCache[resourceName]) {
-      // 若存在相同的版本, 则不添加
-      if (this.#libraryCache[resourceName].find(item => item.version === value.version)) {
-        return
-      }
-      this.#libraryCache[resourceName].push(value)
-    } else {
-      this.#libraryCache[resourceName] = [value]
-    }
-
-    // 版本倒排序
-    this.#libraryCache[resourceName] = this.#libraryCache[resourceName].sort((a, b) => {
-      const aVersion = a.version
-      const bVersion = b.version
-
-      const versionA = aVersion.split('.').map(Number);
-      const versionB = bVersion.split('.').map(Number);
-      const maxLength = Math.max(versionA.length, versionB.length);
-  
-      for (let i = 0; i < maxLength; i++) {
-        const numA = versionA[i] || 0;
-        const numB = versionB[i] || 0;
-
-        if (numA !== numB) {
-          return numB - numA;
-        }
-      }
-  
-      if (versionA.length !== versionB.length) {
-        return versionB.length - versionA.length;
-      }
-
-      return 0;
-    })
   }
 }
 
