@@ -59,8 +59,8 @@ const getUrlsk = {
   },
   cssEntryUrl: "https://192.168.2.184:8894/helloworld-vue.css"
 };
-const resk = await instance.loadLibraryJs(getUrlsk.jsEntryUrl, getUrlsk.metaJson, window);
-instance.loadLibraryCss(getUrlsk.cssEntryUrl, window);
+const resk = await instance.loadLibraryJs(getUrlsk.jsEntryUrl, getUrlsk.metaJson);
+instance.loadLibraryCss(getUrlsk.cssEntryUrl);
 app.config.globalProperties.VueComTest3 = `本地vue库开发`;
 app?.component("Little", resk.default);
 ```
