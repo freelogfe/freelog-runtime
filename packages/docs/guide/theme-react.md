@@ -1,13 +1,16 @@
 ---
-outline: 'deep'
+outline: "deep"
 ---
-> 环境要求: vite6.x版本要求node18.x版本以上
 
-本示例使用vite+react作说明
+> 环境要求: vite6.x 版本要求 node18.x 版本以上
+
+本示例使用 vite+react 作说明
+
+不想麻烦？[点此查看脚手架直接创建模板](./cli.md)，模板中 react 版本可能过旧
 
 ## 1. 创建项目
 
-使用vite创建react示例项目
+使用 vite 创建 react 示例项目
 
 ```bash
 # 若是npm 7+，需要添加额外的 --，使用下面命令：
@@ -40,24 +43,24 @@ pnpm i
 
 ## 2. 接入改造
 
-本案例是一个比较简单的例子, 若想快速完成一个插件项目, 可略过以下的**具体改造指南**, copy下文贴出的文件内容（即vite.config.js、main.js、App.jsx、App.css）， 并安装vite-plugin-mkcert、freelog-runtime两个库，即可快速完成项目哦;
+本案例是一个比较简单的例子, 若想快速完成一个插件项目, 可略过以下的**具体改造指南**, copy 下文贴出的文件内容（即 vite.config.js、main.js、App.jsx、App.css）， 并安装 vite-plugin-mkcert、freelog-runtime 两个库，即可快速完成项目哦;
 
 **具体改造指南：**
 
-* [vite框架改造，看这里](../framework/vite)
-* [react框架改造，看这里](../framework/react)
-* [https，看这里](./index/#开发指南): 让网站可以使用https访问
+- [vite 框架改造，看这里](../framework/vite)
+- [react 框架改造，看这里](../framework/react)
+- [https，看这里](./index/#开发指南): 让网站可以使用 https 访问
 
 目前，你的文件目录如下图所示
 
 ![1737364569299](images/theme-react/1737364569299.png)
 
-vite.config.js文件内容如下:
+vite.config.js 文件内容如下:
 
 ```js
 // vite.config.js
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 import mkcert from "vite-plugin-mkcert";
 
 // https://vite.dev/config/
@@ -67,13 +70,13 @@ export default defineConfig({
     port: 8990,
     host: true,
     headers: {
-      "Access-Control-Allow-Origin": "*"
-    }
+      "Access-Control-Allow-Origin": "*",
+    },
   },
-})
+});
 ```
 
-启动项目，你的网站应该可以使用https访问，如 https://localhost:8990/
+启动项目，你的网站应该可以使用 https 访问，如 https://localhost:8990/
 
 ```
 # 若你是npm，使用下面命令
@@ -88,37 +91,36 @@ pnpm dev
 
 ## 3. 开始开发
 
-### 3.1 安装API库与初始化
+### 3.1 安装 API 库与初始化
 
-[安装API库与初始化，看这里](./index/#开发指南)
+[安装 API 库与初始化，看这里](./index/#开发指南)
 
 ```js
 // main.jsx文件内容如下
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import { initFreelogApp } from 'freelog-runtime'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.jsx";
+import { initFreelogApp } from "freelog-runtime";
 
-const root = createRoot(document.getElementById('root'))
+const root = createRoot(document.getElementById("root"));
 
 window.mount = () => {
-  initFreelogApp()
+  initFreelogApp();
   root.render(
     <StrictMode>
       <App />
-    </StrictMode>,
-  )
-}
+    </StrictMode>
+  );
+};
 
 window.unmount = () => {
   root.unmount();
-}
+};
 
 if (!window.__MICRO_APP_ENVIRONMENT__) {
   window.mount();
 }
-
 ```
 
 ## 4. 打包压缩并上传发布
@@ -136,7 +138,7 @@ yarn run build
 pnpm build
 ```
 
-进入打包产物文件夹, 如dist，选择所有文件，压缩成一个压缩包，如dist.zip
+进入打包产物文件夹, 如 dist，选择所有文件，压缩成一个压缩包，如 dist.zip
 
 [step1: 发布, 查看这里](./release)
 
@@ -154,32 +156,32 @@ pnpm build
 
 ### 5.1 本地调试
 
-使用url传参的形式进行调试，在节点地址后加上`?dev=https://localhost:8990`进行调试；
+使用 url 传参的形式进行调试，在节点地址后加上`?dev=https://localhost:8990`进行调试；
 
-### 5.2 使用API
+### 5.2 使用 API
 
 使用`getExhibitListByPaging`获取数据并渲染了一个资源列表，`App.jsx`的文件内容如下：
 
 ```js
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { freelogApp } from 'freelog-runtime'
+import { useState, useEffect } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import { freelogApp } from "freelog-runtime";
 function App() {
-  const [list, setList] = useState([])
+  const [list, setList] = useState([]);
 
   const handlerClick = (item) => {
-    alert(item.exhibitName)
-  }
+    alert(item.exhibitName);
+  };
 
   useEffect(() => {
-    freelogApp.getExhibitListByPaging().then(res => {
+    freelogApp.getExhibitListByPaging().then((res) => {
       if (res.data.errCode === 0) {
-        setList(res.data.data.dataList)
+        setList(res.data.data.dataList);
       }
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <>
@@ -192,23 +194,23 @@ function App() {
         </a>
       </div>
       <ul>
-
-      { list.map(item => (
-          <li onClick={ () => handlerClick(item) } key={item.exhibitId}>
-            <div className={'r-name'}>展品名称：{ item.exhibitName }</div>
-            <div className={'r-type'}>资源类型： { item.articleInfo.resourceType.join('/') }</div>
+        {list.map((item) => (
+          <li onClick={() => handlerClick(item)} key={item.exhibitId}>
+            <div className={"r-name"}>展品名称：{item.exhibitName}</div>
+            <div className={"r-type"}>
+              资源类型： {item.articleInfo.resourceType.join("/")}
+            </div>
           </li>
-        )) 
-      }
+        ))}
       </ul>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
 ```
 
-App.css文件内容如下:
+App.css 文件内容如下:
 
 根元素高为一屏, 超过则滚动
 
