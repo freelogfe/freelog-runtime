@@ -87,6 +87,7 @@ export default defineConfig({
         {
           text: "库开发者",
           items: [
+            { text: "介绍", link: "/library/intro" },
             { text: "创作库指南", link: "/library/guide" },
             { text: "库示例-helloworld", link: "/library/helloworld" },
             { text: "库示例-vue库", link: "/library/library-vue" },
