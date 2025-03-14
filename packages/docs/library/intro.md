@@ -30,9 +30,9 @@ meta.json举例：固定字段
 
 ```js
 {
-  "nameSpace": "freelogLibrary.Freelog.localModule", // 命名空间
+  "nameSpace": "freelogLibrary.Freelog.localModule", 
   "js": {
-    "entry": "index.js",  // 命名空间
+    "entry": "index.js",  
     "other": []
   },
   "css": {
