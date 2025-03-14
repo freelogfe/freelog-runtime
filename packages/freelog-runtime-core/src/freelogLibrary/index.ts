@@ -1,4 +1,4 @@
-const resourceType = ["软件库"]
+const resourceType = ["前端库"]
 
 class FreelogLibrary {
   /* 以`${resourceName}?${version}`为key */
