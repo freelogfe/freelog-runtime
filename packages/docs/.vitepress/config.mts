@@ -45,8 +45,7 @@ export default defineConfig({
             { text: "插件开发者-调试篇(react)", link: "/guide/use-plugin-react" },
             { text: "如何发布主题和插件", link: "/guide/release" },
             { text: "如何启用主题/切换版本", link: "/guide/use-theme" },
-            { text: "官方主题和插件参考", link: "/guide/official" },
-            { text: "移动端调试指南", link: "/guide/mobile-degbug" },
+            { text: "官方主题和插件参考", link: "/guide/official" }
             // {
             //   text: "功能",
             //   link: "",

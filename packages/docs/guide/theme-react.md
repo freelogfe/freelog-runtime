@@ -1,7 +1,6 @@
 ---
 outline: "deep"
 ---
-
 > 环境要求: vite6.x 版本要求 node18.x 版本以上
 
 本示例使用 vite+react 作说明
@@ -89,6 +88,8 @@ yarn run dev
 pnpm dev
 ```
 
+> tip: 若你是首次访问，会提示“不安全”，在浏览器中选择继续访问。
+
 ## 3. 开始开发
 
 ### 3.1 安装 API 库与初始化
@@ -154,13 +155,22 @@ pnpm build
 
 访问你的节点地址，如 https://acarlikecar.testfreelog.com，现在可确认刚启用的主题是否已生效
 
-### 5.1 本地调试
+### 5.1 访问本地https
+
+若你已在设备中访问过此web项目，并在提示“不安全”时选择了继续访问，可略过此步骤。
+
+当你还末在设备的浏览器中访问此web项目，那么
+
+* 若你是pc设备，当首次访问`https://localhost:8990`时，会提示“不安全”，在浏览器中选择继续访问。
+* 若你是移动设备，当首次访问`https://192.168.2.184:8990`时，会提示“不安全”，在浏览器中选择继续访问。
+
+### 5.2 本地调试
 
 使用 url 传参的形式进行调试，在节点地址后加上`?dev=https://localhost:8990`进行调试；
 
-### 5.2 使用 API
+### 5.3 使用 API
 
-使用`getExhibitListByPaging`获取数据并渲染了一个资源列表，`App.jsx`的文件内容如下：
+以pc端为例，使用`getExhibitListByPaging`获取数据并渲染了一个资源列表，`App.jsx`的文件内容如下：
 
 ```js
 import { useState, useEffect } from "react";
