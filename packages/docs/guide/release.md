@@ -5,7 +5,7 @@ outline: "deep"
 
 ## 1. 登录/注册
 
-[测试服点这里](https://user.testfreelog.com/login) [正式服点这里](https://user.freelog.com/login)
+[去登录/注册](https://user.freelog.com/login)
 
 登录后，点击页面右上角，头像旁边的“进入工作台”
 
@@ -46,7 +46,6 @@ outline: "deep"
 ### 3.3 提交
 
 ![1737343188441](images/release/1737343188441.png)
-
 
 ## 4. 发布
 
