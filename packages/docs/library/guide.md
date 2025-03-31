@@ -143,7 +143,7 @@ module.exports = () => {
 
 ### 3.2 发布库
 
-打开平台, 注册并登录账号, 开始发布资源: [测试服点这里](https://console.testfreelog.com), [正式服点这里](https://console.freelog.com/), 关键步骤如下:
+打开平台, 注册并登录账号, 开始发布资源: [去发布](https://console.freelog.com/), 关键步骤如下:
 
 - step1: 点击右上角按钮"进入工作台"
 - step2: 点击右上角的按钮"+"并选择下拉选项"创建资源"
@@ -158,7 +158,6 @@ module.exports = () => {
 * step5: 创建
 
 ![1741944392512](images/guide/1741944392512.png)
-
 
 - step6: 上传我们写的helloworld库的压缩包
 

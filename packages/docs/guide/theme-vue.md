@@ -151,7 +151,7 @@ pnpm build
 
 ## 5. 项目调试
 
-访问你的节点地址，如 https://acarlikecar.testfreelog.com，现在可确认刚启用的主题是否已生效
+访问你的节点地址，如 https://acarlikecar.freelog.com，现在可确认刚启用的主题是否已生效
 
 ### 5.1 访问本地https
 
