@@ -20,7 +20,7 @@ export default function OutOf() {
           color: "#666666",
         }}
       >
-        {FI18n.i18nNext.t("alert_visit_node_theme_auth_abnormal")}
+        {FI18n.i18nNext.tJSXElement("alert_visit_node_theme_auth_abnormal")}
       </div>
       <div className="flex-1"></div>
     </div>

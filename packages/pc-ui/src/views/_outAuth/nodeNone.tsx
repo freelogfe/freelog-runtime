@@ -28,7 +28,7 @@ export default function OutOf() {
           color: "#666666",
         }}
       >
-        {FI18n.i18nNext.t('noderuntime_nodedeleted_msg')}
+        {FI18n.i18nNext.tJSXElement('noderuntime_nodedeleted_msg')}
       </div>
       <div className="flex-1"></div>
     </div>

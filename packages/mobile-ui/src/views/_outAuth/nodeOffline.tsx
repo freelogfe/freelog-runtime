@@ -24,7 +24,7 @@ export default function NodeOffline() {
           color: "#666666",
         }}
       >
-        {freelogAuth.nodeInfo.nodeSuspendInfo || FI18n.i18nNext.t('nodemgnt_nodesetting_changenotice_default') }
+        {freelogAuth.nodeInfo.nodeSuspendInfo || FI18n.i18nNext.tJSXElement('nodemgnt_nodesetting_changenotice_default') }
         </div>
       <div className="flex-1"></div>
     </div>

@@ -56,7 +56,7 @@ export default function NodePrivate() {
             setLoginVisible(true);
           }}
         >
-          {FI18n.i18nNext.t(
+          {FI18n.i18nNext.tJSXElement(
             "noderuntime_node_visibility_private_btn__notlogged"
           )}
         </Button>
