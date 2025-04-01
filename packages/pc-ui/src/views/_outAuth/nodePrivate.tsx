@@ -53,7 +53,7 @@ export default function OutOf() {
             setLoginVisible(true);
           }}
         >
-          {FI18n.i18nNext.t('noderuntime_node_visibility_private_btn__notlogged')}
+          {FI18n.i18nNext.tJSXElement('noderuntime_node_visibility_private_btn__notlogged')}
         </Button>
       )}
       <div className="flex-1"></div>

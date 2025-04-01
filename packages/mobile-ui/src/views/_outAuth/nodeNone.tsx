@@ -22,7 +22,7 @@ export default function OutOf() {
         }}
         className="fs-16 fw-regular lh-26 mt-40"
       >
-        {FI18n.i18nNext.t('noderuntime_nodedeleted_msg')}
+        {FI18n.i18nNext.tJSXElement('noderuntime_nodedeleted_msg')}
       </div>
       <div className="flex-3"></div>
     </div>
