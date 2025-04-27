@@ -22,7 +22,7 @@ export async function getExhibitListById(
     {
       ...query,
     },
-    config?.returnUrl,
+    undefined,
     config
   );
 }
@@ -52,7 +52,7 @@ export async function getExhibitListByPaging(
     {
       ...options,
     },
-    config?.returnUrl,
+    undefined,
     config
   );
 }
@@ -60,7 +60,7 @@ export async function getExhibitListByPaging(
 export async function getExhibitRecommend(
   name: string,
   exhibitId: string,
-  query: {
+  query?: {
     recommendNorm: string; // 推荐指标多个用逗号分隔,优先级也按照实际顺序来, 具体指标为 resourceType: 相同资源类型 tag:相同标签(部分) latestCreate:最新创建的
     size?: number; // 推荐数量,默认是10, 最大100
   },
@@ -70,7 +70,7 @@ export async function getExhibitRecommend(
     exhibit.getExhibitRecommend,
     [baseInfo.nodeId, exhibitId],
     query,
-    config?.returnUrl,
+    undefined,
     config
   );
 }
@@ -87,14 +87,14 @@ export async function getSignStatistics(
       nodeId: baseInfo.nodeId,
       ...query,
     },
-    config?.returnUrl,
+    undefined,
     config
   );
 }
 export async function getExhibitInfo(
   name: string,
   exhibitId: string,
-  options?: {
+  query?: {
     isLoadPolicyInfo?: number; // 是否响应展品版本属性
     isLoadVersionProperty?: number; // 是否加载策略信息.测试环境自动忽略此参数
     isTranslate?: number; // 是否同步翻译.测试环境自动忽略此参数
@@ -102,12 +102,12 @@ export async function getExhibitInfo(
   },
   config?: any
 ) {
-  options = options || {};
+  query = query || {};
   return frequest(
     exhibit.getExhibitDetail,
     [baseInfo.nodeId, exhibitId],
-    options,
-    config?.returnUrl,
+    query,
+    undefined,
     config
   );
 }
@@ -125,7 +125,7 @@ export async function getExhibitDepInfo(
     {
       articleNids: query.articleNids,
     },
-    config?.returnUrl,
+    undefined,
     config
   );
 }
@@ -133,6 +133,7 @@ export async function getExhibitDepInfo(
 export async function getExhibitSignCount(
   name: string,
   exhibitIds: string,
+  query?: any,
   config?: any
 ) {
   return frequest(
@@ -142,7 +143,7 @@ export async function getExhibitSignCount(
       subjectIds: exhibitIds,
       subjectType: 2,
     },
-    config?.returnUrl,
+    undefined,
     config
   );
 }
@@ -150,6 +151,7 @@ export async function getExhibitSignCount(
 export async function getExhibitAvailable(
   name: string,
   exhibitIds: string,
+  query?: any,
   config?: any
 ) {
   // @ts-ignore
@@ -160,13 +162,14 @@ export async function getExhibitAvailable(
       authType: 3,
       exhibitIds,
     },
-    config?.returnUrl,
+    undefined,
     config
   );
 }
 export async function getExhibitAuthStatus(
   name: string,
   exhibitIds: string,
+  query?: any,
   config?: any
 ) {
   return frequest(
@@ -176,7 +179,7 @@ export async function getExhibitAuthStatus(
       authType: baseInfo.isTest ? 3 : 4,
       exhibitIds,
     },
-    config?.returnUrl,
+    undefined,
     config
   );
 }
@@ -283,7 +286,15 @@ export async function getExhibitResultByAuth(
   query?: any,
   config?: any
 ) {
-  return getByExhibitId(name, exhibitId, "result", "", "");
+  return getByExhibitId(
+    name,
+    exhibitId,
+    "result",
+    "",
+    "",
+    config?.returnUrl,
+    config
+  );
 }
 export async function getExhibitInfoByAuth(
   name: string,
@@ -291,12 +302,19 @@ export async function getExhibitInfoByAuth(
   query?: any,
   config?: any
 ) {
-  return getByExhibitId(name, exhibitId, "info", "", "");
+  return getByExhibitId(
+    name,
+    exhibitId,
+    "info",
+    "",
+    "",
+    config?.returnUrl,
+    config
+  );
 }
 
-export async function pushMessage4Task(name: string, query: any,
-  config?: any) {
-  return frequest(operation.pushMessage4Task, null, query);
+export async function pushMessage4Task(name: string, query: any, config?: any) {
+  return frequest(operation.pushMessage4Task, null, query, undefined, config);
 }
 
 export async function getCollectionSubList(
@@ -308,7 +326,13 @@ export async function getCollectionSubList(
   return frequest.bind({
     name,
     exhibitId: exhibitId,
-  })(exhibit.getCollectionSubListById, [baseInfo.nodeId, exhibitId], query);
+  })(
+    exhibit.getCollectionSubListById,
+    [baseInfo.nodeId, exhibitId],
+    query,
+    undefined,
+    config
+  );
 }
 export async function getCollectionsSubList(
   name: string,
@@ -318,10 +342,16 @@ export async function getCollectionsSubList(
 ) {
   return frequest.bind({
     name,
-  })(exhibit.getCollectionSubListByIds, [baseInfo.nodeId], {
-    ...query,
-    exhibitIds,
-  });
+  })(
+    exhibit.getCollectionSubListByIds,
+    [baseInfo.nodeId],
+    {
+      ...query,
+      exhibitIds,
+    },
+    undefined,
+    config
+  );
 }
 export async function getCollectionSubInfo(
   name: string,
@@ -335,7 +365,9 @@ export async function getCollectionSubInfo(
   })(
     exhibit.getCollectionSubInfoById,
     [baseInfo.nodeId, exhibitId, query.itemId],
-    null
+    null,
+    undefined,
+    config
   );
 }
 export async function getCollectionSubAuth(
@@ -347,7 +379,13 @@ export async function getCollectionSubAuth(
   return frequest.bind({
     name,
     exhibitId: exhibitId,
-  })(exhibit.getCollectionSubListAuthById, [baseInfo.nodeId, exhibitId], query);
+  })(
+    exhibit.getCollectionSubListAuthById,
+    [baseInfo.nodeId, exhibitId],
+    query,
+    undefined,
+    config
+  );
 }
 
 export async function getCollectionSubFileStream(
@@ -390,7 +428,7 @@ export async function getCollectionSubDepList(
   exhibitId: string | number,
   query: {
     itemId: string | number;
-    returnUrl?: boolean;
+    // returnUrl?: boolean;
   },
   config?: any
 ) {
@@ -401,7 +439,7 @@ export async function getCollectionSubDepList(
     exhibit.getCollectionSubDepById,
     [baseInfo.nodeId, exhibitId, query.itemId],
     null,
-    config?.returnUrl,
+    undefined,
     config
   );
 }
