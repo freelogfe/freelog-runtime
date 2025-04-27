@@ -2,11 +2,12 @@ import { freelogApp, devData } from "./freelogApp";
 import microApp from "@micro-zoe/micro-app";
 import { DEV_TYPE_REPLACE, DEV_THEME, DEV_FALSE } from "./dev";
 import { digestMessage } from "./hashc";
-import {
+// import {freelogApp as freelogAppLib } from "freelog-runtime-api";
+const {
   getExhibitDepFileStream,
   getExhibitFileStream,
   getExhibitInfo
-} from "../freelogApp/api";
+} = freelogApp;
 import { WidgetController } from "freelog-runtime";
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<string, any>();

@@ -5,7 +5,7 @@
     "skipLibCheck": true,
     "baseUrl": "./",
     "target": "ES2015", // 或更高版本
-    "lib": ["ES2015", "DOM"],
+    "lib": ["ES2016", "DOM"],
     "moduleResolution": "node"
   }
 }

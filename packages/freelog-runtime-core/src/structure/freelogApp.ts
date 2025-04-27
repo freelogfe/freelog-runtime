@@ -1,5 +1,6 @@
 import { resultType } from "../bridge/eventType";
-import { freelogApp as freelogAppLib } from "../freelogApp";
+import { freelogApp as freelogAppLib } from "freelog-runtime-api";
+
 import { mountExhibitWidget, mountArticleWidget } from "./widget";
 import microApp from "@micro-zoe/micro-app";
 import { isTest } from "../base/baseInfo";
@@ -12,7 +13,7 @@ import {
   reload,
   getCurrentUrl,
   getTopExhibitId,
-  getSelfNid
+  getSelfNid,
 } from "./widgetUtils";
 import {
   setUserData,

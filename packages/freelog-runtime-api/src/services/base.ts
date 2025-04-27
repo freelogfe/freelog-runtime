@@ -4,7 +4,7 @@ export const placeHolder = "urlPlaceHolder";
 //     baseURL = window.location.protocol + '//qi.testfreelog.com/v2/'
 // }
 // window.baseURL = baseURL
-import { baseInfo } from "../../base/baseInfo";
+import { baseInfo } from "../baseInfo";
 export const  baseConfig = () => {
   return {
   baseURL: baseInfo.baseURL,
