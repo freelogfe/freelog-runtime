@@ -6,6 +6,7 @@ export type Contract = {
   contract: any;
   contracts: any;
   getTransitionRecords: any;
+  getSignStatistics: any;
 };
 
 const contract: Contract = {
@@ -63,9 +64,17 @@ const contract: Contract = {
     method: "GET",
     dataModel: {
       skip: 'int',
-      limit: 'int',
-      isTranslate: 1
+      limit: 'int'
     },
+  },
+  getSignStatistics: {
+    url: `contracts/subjects/presentables/signStatistics`,
+    method: "GET",
+    // dataModel: {
+    //   nodeId: 'string', // subjectType=2&signUserIdentityType=2
+    //   signUserIdentityType: 'int',
+    //   keywords: "string"
+    // },
   }
 };
 export default contract;

@@ -1,8 +1,5 @@
-import user from './modules/user'
-import contract from './modules/contract'
-import event from './modules/event'
-import transaction from './modules/transaction'
+import user from "./modules/user";
 
-const apis:any = { user, contract, event, transaction }
+const apis: any = { user };
 
-export default apis 
+export default apis;

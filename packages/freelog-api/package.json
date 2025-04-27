@@ -1,0 +1,32 @@
+{
+  "name": "freelog-runtime-api",
+  "version": "4.0.5",
+  "description": "freelog-runtime类型文件",
+  "main": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "scripts": {
+    "start": "father dev",
+    "build": "father build",
+    "build:deps": "father prebundle",
+    "prepublishOnly": "father doctor && npm run build",
+    "pub": "father build & npm publish --registry https://registry.npmjs.org"
+  },
+  "keywords": [],
+  "authors": [
+    "455342265@qq.com"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist",
+    "compiled"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "father": "^4.3.6"
+  },
+  "dependencies": {
+    "axios": "^1.9.0"
+  }
+}

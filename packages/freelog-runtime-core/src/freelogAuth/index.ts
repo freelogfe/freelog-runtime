@@ -1,11 +1,4 @@
 import {
-  getContractInfo,
-  getContracts,
-  signContract,
-  batchSign,
-  getTransitionRecords,
-  pay,
-  getRecord,
   login,
   loginVerify,
   loginOut,
@@ -18,13 +11,6 @@ import {
   putResetPayPassword,
 } from "./api";
 export const freelogAuthApi: any = {
-  getContractInfo,
-  getContracts,
-  signContract,
-  batchSign,
-  getTransitionRecords,
-  pay,
-  getRecord,
   login,
   loginVerify,
   loginOut,
