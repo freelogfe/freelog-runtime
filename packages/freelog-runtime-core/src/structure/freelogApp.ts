@@ -1,9 +1,9 @@
 import { resultType } from "../bridge/eventType";
-import { freelogApp as freelogAppLib } from "freelog-runtime-api";
-
+import { freelogApp as freelogAppLib, baseInfo } from "freelog-runtime-api";
+console.log(freelogAppLib, 2222)
 import { mountExhibitWidget, mountArticleWidget } from "./widget";
 import microApp from "@micro-zoe/micro-app";
-import { isTest } from "../base/baseInfo";
+const { isTest } = baseInfo;
 import {
   getSelfProperty,
   getSelfDependencyTree,

@@ -3,6 +3,8 @@ import microApp from "@micro-zoe/micro-app";
 import { DEV_TYPE_REPLACE, DEV_THEME, DEV_FALSE } from "./dev";
 import { digestMessage } from "./hashc";
 // import {freelogApp as freelogAppLib } from "freelog-runtime-api";
+console.log(freelogApp,devData, 8999)
+
 const {
   getExhibitDepFileStream,
   getExhibitFileStream,

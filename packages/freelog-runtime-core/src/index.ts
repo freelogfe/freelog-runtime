@@ -1,4 +1,4 @@
-import { baseInfo } from "./base/baseInfo";
+import { baseInfo } from "freelog-runtime-api";
 export { freelogApp } from "./structure/freelogApp";
 export { freelogAuth } from "./structure/freelogAuth";
 export { freelogFetch } from "./structure/freelogFetch";
@@ -16,4 +16,4 @@ export {
   getInfoByNameOrDomain,
   baseInit,
   init,
-} from "./base";
+} from "freelog-runtime-api";
