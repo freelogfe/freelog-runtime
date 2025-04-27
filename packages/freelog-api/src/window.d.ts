@@ -4,4 +4,7 @@ interface Window {
   mount: any;
   unmount: any;
   microApp: any;
+  ENV: any;
+  baseURL: any;
+  isTest: any;
 }
