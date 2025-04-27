@@ -6,21 +6,24 @@ import { baseInfo } from "./baseInfo";
 // 展品非授权信息接口
 export async function getExhibitListById(
   name: string,
-  options?: {
+  query?: {
     exhibitIds?: string; // 展品ID,多个用逗号分隔
     isLoadVersionProperty?: number; // 是否响应展品版本属性
     isLoadPolicyInfo?: number; // 是否加载策略信息.测试环境自动忽略此参数
     isTranslate?: number; // 是否同步翻译.测试环境自动忽略此参数
-  }
+  },
+  config?: any
 ): Promise<any> {
-  options = options || {};
+  query = query || {};
   //@ts-ignore
   return frequest.bind({ name })(
     exhibit.getExhibitListById,
     [baseInfo.nodeId],
     {
-      ...options,
-    }
+      ...query,
+    },
+    config?.returnUrl,
+    config
   );
 }
 export async function getExhibitListByPaging(
@@ -39,7 +42,8 @@ export async function getExhibitListByPaging(
     isLoadVersionProperty?: number; // 是否响应展品版本属性
     isLoadPolicyInfo?: number; // 是否加载策略信息.测试环境自动忽略此参数
     isTranslate?: number; // 是否同步翻译.测试环境自动忽略此参数
-  }
+  },
+  config?: any
 ): Promise<any> {
   options = options || {};
   return frequest.bind({ name })(
@@ -47,7 +51,9 @@ export async function getExhibitListByPaging(
     [baseInfo.nodeId],
     {
       ...options,
-    }
+    },
+    config?.returnUrl,
+    config
   );
 }
 
@@ -57,20 +63,33 @@ export async function getExhibitRecommend(
   query: {
     recommendNorm: string; // 推荐指标多个用逗号分隔,优先级也按照实际顺序来, 具体指标为 resourceType: 相同资源类型 tag:相同标签(部分) latestCreate:最新创建的
     size?: number; // 推荐数量,默认是10, 最大100
-  }
+  },
+  config?: any
 ) {
   return frequest(
     exhibit.getExhibitRecommend,
     [baseInfo.nodeId, exhibitId],
-    query
+    query,
+    config?.returnUrl,
+    config
   );
 }
-export async function getSignStatistics(name: string, query?: any) {
-  return frequest(contract.getSignStatistics, "", {
-    signUserIdentityType: 2,
-    nodeId: baseInfo.nodeId,
-    ...query,
-  });
+export async function getSignStatistics(
+  name: string,
+  query?: any,
+  config?: any
+) {
+  return frequest(
+    contract.getSignStatistics,
+    "",
+    {
+      signUserIdentityType: 2,
+      nodeId: baseInfo.nodeId,
+      ...query,
+    },
+    config?.returnUrl,
+    config
+  );
 }
 export async function getExhibitInfo(
   name: string,
@@ -80,13 +99,16 @@ export async function getExhibitInfo(
     isLoadVersionProperty?: number; // 是否加载策略信息.测试环境自动忽略此参数
     isTranslate?: number; // 是否同步翻译.测试环境自动忽略此参数
     isLoadContract?: number; // 是否加载合约信息
-  }
+  },
+  config?: any
 ) {
   options = options || {};
   return frequest(
     exhibit.getExhibitDetail,
     [baseInfo.nodeId, exhibitId],
-    options
+    options,
+    config?.returnUrl,
+    config
   );
 }
 export async function getExhibitDepInfo(
@@ -94,32 +116,69 @@ export async function getExhibitDepInfo(
   exhibitId: string,
   query: {
     articleNids: string; // 展品依赖的作品NID,多个用逗号分隔
-  }
+  },
+  config?: any
 ) {
-  return frequest(exhibit.getExhibitDepInfo, [baseInfo.nodeId, exhibitId], {
-    articleNids: query.articleNids,
-  });
+  return frequest(
+    exhibit.getExhibitDepInfo,
+    [baseInfo.nodeId, exhibitId],
+    {
+      articleNids: query.articleNids,
+    },
+    config?.returnUrl,
+    config
+  );
 }
 
-export async function getExhibitSignCount(name: string, exhibitIds: string) {
-  return frequest(exhibit.getExhibitSignCount, "", {
-    subjectIds: exhibitIds,
-    subjectType: 2,
-  });
+export async function getExhibitSignCount(
+  name: string,
+  exhibitIds: string,
+  config?: any
+) {
+  return frequest(
+    exhibit.getExhibitSignCount,
+    "",
+    {
+      subjectIds: exhibitIds,
+      subjectType: 2,
+    },
+    config?.returnUrl,
+    config
+  );
 }
 // 获取展示是否授权链正常
-export async function getExhibitAvailable(name: string, exhibitIds: string) {
+export async function getExhibitAvailable(
+  name: string,
+  exhibitIds: string,
+  config?: any
+) {
   // @ts-ignore
-  return frequest(exhibit.getExhibitAuthStatus, [baseInfo.nodeId], {
-    authType: 3,
-    exhibitIds,
-  });
+  return frequest(
+    exhibit.getExhibitAuthStatus,
+    [baseInfo.nodeId],
+    {
+      authType: 3,
+      exhibitIds,
+    },
+    config?.returnUrl,
+    config
+  );
 }
-export async function getExhibitAuthStatus(name: string, exhibitIds: string) {
-  return frequest(exhibit.getExhibitAuthStatus, [baseInfo.nodeId], {
-    authType: baseInfo.isTest ? 3 : 4,
-    exhibitIds,
-  });
+export async function getExhibitAuthStatus(
+  name: string,
+  exhibitIds: string,
+  config?: any
+) {
+  return frequest(
+    exhibit.getExhibitAuthStatus,
+    [baseInfo.nodeId],
+    {
+      authType: baseInfo.isTest ? 3 : 4,
+      exhibitIds,
+    },
+    config?.returnUrl,
+    config
+  );
 }
 // 展品授权信息接口
 function getByExhibitId(
@@ -162,8 +221,16 @@ export async function getExhibitFileStream(
     returnUrl?: boolean;
     subFilePath?: string; // 作品内部子文件 路径
     config?: any;
-  }
+  },
+  config: any
 ) {
+  if (!config) {
+    config = query?.config || {};
+    config = {
+      returnUrl: query?.returnUrl,
+      ...config,
+    };
+  }
   return frequest.bind({
     name,
     isAuth: true,
@@ -172,8 +239,8 @@ export async function getExhibitFileStream(
     query?.subFilePath ? exhibit.getExhibitInsideById : exhibit.getExhibitById,
     query?.subFilePath ? [exhibitId, query?.subFilePath] : [exhibitId],
     null,
-    query?.returnUrl,
-    query?.config
+    config?.returnUrl,
+    config
   );
 }
 
@@ -185,8 +252,16 @@ export async function getExhibitDepFileStream(
     returnUrl?: boolean;
     subFilePath?: string;
     config?: any;
-  }
+  },
+  config?: any
 ) {
+  if (!config) {
+    config = query?.config || {};
+    config = {
+      returnUrl: query?.returnUrl,
+      ...config,
+    };
+  }
   return frequest.bind({
     name,
     isAuth: true,
@@ -198,31 +273,37 @@ export async function getExhibitDepFileStream(
     // @ts-ignore
     [exhibitId, query.nid, query?.subFilePath],
     null,
-    query?.returnUrl,
-    query?.config
+    config?.returnUrl,
+    config
   );
 }
 export async function getExhibitResultByAuth(
   name: string,
-  exhibitId: string | number
+  exhibitId: string | number,
+  query?: any,
+  config?: any
 ) {
   return getByExhibitId(name, exhibitId, "result", "", "");
 }
 export async function getExhibitInfoByAuth(
   name: string,
-  exhibitId: string | number
+  exhibitId: string | number,
+  query?: any,
+  config?: any
 ) {
   return getByExhibitId(name, exhibitId, "info", "", "");
 }
 
-export async function pushMessage4Task(name: string, query: any) {
+export async function pushMessage4Task(name: string, query: any,
+  config?: any) {
   return frequest(operation.pushMessage4Task, null, query);
 }
 
 export async function getCollectionSubList(
   name: string,
   exhibitId: string | number,
-  query: any
+  query: any,
+  config?: any
 ) {
   return frequest.bind({
     name,
@@ -232,7 +313,8 @@ export async function getCollectionSubList(
 export async function getCollectionsSubList(
   name: string,
   exhibitIds: string,
-  query: any
+  query: any,
+  config?: any
 ) {
   return frequest.bind({
     name,
@@ -244,7 +326,8 @@ export async function getCollectionsSubList(
 export async function getCollectionSubInfo(
   name: string,
   exhibitId: string | number,
-  query: any
+  query: any,
+  config?: any
 ) {
   return frequest.bind({
     name,
@@ -258,7 +341,8 @@ export async function getCollectionSubInfo(
 export async function getCollectionSubAuth(
   name: string,
   exhibitId: string | number,
-  query: any
+  query: any,
+  config?: any
 ) {
   return frequest.bind({
     name,
@@ -273,9 +357,17 @@ export async function getCollectionSubFileStream(
     itemId: string | number;
     returnUrl?: boolean;
     subFilePath?: string; // 作品内部子文件 路径
-    config?:any;
-  }
+    config?: any;
+  },
+  config?: any
 ) {
+  if (!config) {
+    config = query?.config || {};
+    config = {
+      returnUrl: query?.returnUrl,
+      ...config,
+    };
+  }
   return frequest.bind({
     name,
     isAuth: true,
@@ -288,8 +380,8 @@ export async function getCollectionSubFileStream(
       ? [exhibitId, query.itemId, query?.subFilePath]
       : [exhibitId, query.itemId],
     null,
-    query?.returnUrl,
-    query?.config
+    config?.returnUrl,
+    config
   );
 }
 
@@ -299,7 +391,8 @@ export async function getCollectionSubDepList(
   query: {
     itemId: string | number;
     returnUrl?: boolean;
-  }
+  },
+  config?: any
 ) {
   return frequest.bind({
     name,
@@ -308,7 +401,8 @@ export async function getCollectionSubDepList(
     exhibit.getCollectionSubDepById,
     [baseInfo.nodeId, exhibitId, query.itemId],
     null,
-    query?.returnUrl
+    config?.returnUrl,
+    config
   );
 }
 export async function getCollectionSubDepFileStream(
@@ -320,7 +414,8 @@ export async function getCollectionSubDepFileStream(
     returnUrl?: boolean;
     subFilePath?: string;
     config?: any;
-  }
+  },
+  config?: any
 ) {
   return frequest.bind({
     name,
@@ -333,7 +428,7 @@ export async function getCollectionSubDepFileStream(
     // @ts-ignore
     [exhibitId, query.itemId, query.nid, query?.subFilePath],
     null,
-    query?.returnUrl,
-    query?.config
+    config?.returnUrl,
+    config
   );
 }

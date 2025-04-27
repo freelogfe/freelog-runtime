@@ -27,6 +27,6 @@
     "father": "^4.3.6"
   },
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^1.9.0"
   }
 }
