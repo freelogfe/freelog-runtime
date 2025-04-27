@@ -1,6 +1,6 @@
 export const placeHolder = "urlPlaceHolder";
 // @ts-ignore
-import { baseInfo } from "../../base/baseInfo";
+import { baseInfo } from "freelog-runtime-api";
 
 export const baseConfig = () => {
   return {

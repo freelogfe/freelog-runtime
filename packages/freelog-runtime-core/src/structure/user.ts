@@ -1,14 +1,13 @@
 ﻿import * as docCookies from "doc-cookies";
-import { freelogAuth } from "./freelogAuth";
-import { widgetsConfig, widgetUserData } from "./widget";
+
 import { initWindowListener } from "../bridge/eventOn";
 import { goLogin, goLoginOut } from "../bridge/index";
-import { baseInfo } from "../base/baseInfo";
+import { baseInfo } from "freelog-runtime-api";
 import {
   getCurrentUser as _getCurrentUser,
   putUserData as _putUserData,
   getUserData as _getUserData,
-} from "../base";
+} from "freelog-runtime-api";
 export let userInfo: any = null;
 export let userInfoForAuth: any = null;
 

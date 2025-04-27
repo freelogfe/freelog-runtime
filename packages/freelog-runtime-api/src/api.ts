@@ -2,7 +2,7 @@ import frequest from "./services/handler";
 import exhibit from "./services/api/modules/exhibit";
 import contract from "./services/api/modules/contract";
 import operation from "./services/api/modules/operation";
-import { baseInfo } from "./baseInfo";
+import { baseInfo } from "./index";
 // 展品非授权信息接口
 export async function getExhibitListById(
   name: string,

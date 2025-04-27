@@ -1,5 +1,6 @@
 import { widgetsConfig } from "./widget";
-import { getExhibitDepInfo, getExhibitInfo } from "../freelogApp/api";
+import { freelogApp } from "freelog-runtime-api";
+const { getExhibitDepInfo, getExhibitInfo } = freelogApp;
 export function getSelfWidgetRenderName(name: string) {
   return widgetsConfig.get(name)?.name;
 }
@@ -13,10 +14,12 @@ export function getStaticPath(name: string, path: string) {
   return widgetsConfig.get(name).entry + path;
 }
 const rawLocation = window.location;
-export function getTopExhibitId(name: string){
-  return widgetsConfig.get(name).topExhibitId || widgetsConfig.get(name).exhibitId;
+export function getTopExhibitId(name: string) {
+  return (
+    widgetsConfig.get(name).topExhibitId || widgetsConfig.get(name).exhibitId
+  );
 }
-export function getSelfNid(name: string){
+export function getSelfNid(name: string) {
   return widgetsConfig.get(name).nid;
 }
 /**
@@ -62,7 +65,7 @@ export async function getSelfDependencyTree(
   const res = await getExhibitInfo(name, exhibitId || topExhibitId, {
     isLoadVersionProperty: 1,
   });
-  const dependencyTree = res.data.data.versionInfo.dependencyTree
+  const dependencyTree = res.data.data.versionInfo.dependencyTree;
   // .filter(
   //   (item: any) => (nid ? item.parentNid === nid : true)
   // );
