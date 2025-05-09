@@ -183,39 +183,6 @@ export async function getExhibitAuthStatus(
     config
   );
 }
-// 展品授权信息接口
-function getByExhibitId(
-  name: string,
-  exhibitId: string | number,
-  type: string,
-  parentNid?: string,
-  subArticleIdOrName?: string,
-  returnUrl?: boolean,
-  config?: any
-): Promise<any> | string {
-  if (!exhibitId) {
-    return "exhibitId is required";
-  }
-  let form: any = {};
-  if (parentNid) {
-    form.parentNid = parentNid;
-  }
-  if (subArticleIdOrName) {
-    form.subArticleIdOrName = subArticleIdOrName;
-  }
-
-  return frequest.bind({
-    name,
-    isAuth: true,
-    exhibitId: parentNid ? "" : exhibitId,
-  })(
-    exhibit.getExhibitAuthById,
-    [baseInfo.nodeId, exhibitId, type],
-    form,
-    returnUrl,
-    config
-  );
-}
 
 export async function getExhibitFileStream(
   name: string,
@@ -280,38 +247,8 @@ export async function getExhibitDepFileStream(
     config
   );
 }
-export async function getExhibitResultByAuth(
-  name: string,
-  exhibitId: string | number,
-  query?: any,
-  config?: any
-) {
-  return getByExhibitId(
-    name,
-    exhibitId,
-    "result",
-    "",
-    "",
-    config?.returnUrl,
-    config
-  );
-}
-export async function getExhibitInfoByAuth(
-  name: string,
-  exhibitId: string | number,
-  query?: any,
-  config?: any
-) {
-  return getByExhibitId(
-    name,
-    exhibitId,
-    "info",
-    "",
-    "",
-    config?.returnUrl,
-    config
-  );
-}
+ 
+ 
 
 export async function pushMessage4Task(name: string, query: any, config?: any) {
   return frequest(operation.pushMessage4Task, null, query, undefined, config);
