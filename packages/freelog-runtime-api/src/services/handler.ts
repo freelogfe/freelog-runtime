@@ -1,10 +1,7 @@
 import axios from "../request";
 import { placeHolder, baseConfig } from "./base";
 import { compareObjects } from "../utils";
-// import { isUserChange } from '../security'
-const noAuthCode = [301, 302, 303, 304, 305, 306, 307];
-const authCode = [200, 201, 202, 203];
-const errorAuthCode = [401, 402, 403, 501, 502, 503, 504, 505, 900, 901];
+
 export const nativeOpen = XMLHttpRequest.prototype.open;
 
 /**

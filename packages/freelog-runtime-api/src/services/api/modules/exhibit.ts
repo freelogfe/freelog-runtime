@@ -3,6 +3,7 @@ const host = location.host
   .slice(location.host.indexOf("."))
   .replace(".t.", ".");
 export type Exhibit = {
+  getSignStatistics:any;
   getExhibitDetail: any;
   getExhibitListById: any;
   getExhibitListByPaging: any;
@@ -26,6 +27,15 @@ export type Exhibit = {
 };
 
 const exhibit: Exhibit = {
+  getSignStatistics: {
+    url: `contracts/subjects/presentables/signStatistics`,
+    method: "GET",
+    // dataModel: {
+    //   nodeId: 'string', // subjectType=2&signUserIdentityType=2
+    //   signUserIdentityType: 'int',
+    //   keywords: "string"
+    // },
+  },
   // placeHolder: nodeId exhibitId
   getExhibitDetail: {
     url: `exhibits/${placeHolder}/${placeHolder}`,
