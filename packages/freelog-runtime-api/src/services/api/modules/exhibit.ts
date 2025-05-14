@@ -111,18 +111,7 @@ const exhibit: Exhibit = {
     method: "GET",
   },
 
-  // exhibitId  {result|info|fileStream}
-  // getExhibitById: {
-  //   url: `exhibits/${placeHolder}`,
-  //   baseURL: location.protocol + `//file${host}/`,
-  //   method: "GET",
-  //   dataModel: {
-  //     parentNid: "string", // 依赖树上的父级节点ID,一般获取展品子依赖需要传递
-  //     subArticleIdOrName: "string", // 子依赖的作品ID作品名称
-  //     subArticleType: "string", // 子依赖的作品类型 (1:独立作品 2:组合作品 3:节点组合作品 4:存储对象)
-  //     subFilePath: "string", // 主题或插件的压缩包内部子作品,需要带相对路径
-  //   },
-  // },
+  
   getExhibitById: {
     url: `exhibits/${placeHolder}`,
     baseURL: location.protocol + `//file${host}/`,

@@ -14,6 +14,5 @@ export {
   putUserData,
   getUserData,
   getInfoByNameOrDomain,
-  baseInit,
   init,
 } from "freelog-runtime-api";

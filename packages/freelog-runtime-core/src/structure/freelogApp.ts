@@ -3,7 +3,6 @@ import { freelogApp as freelogAppLib, baseInfo } from "freelog-runtime-api";
 import { mountExhibitWidget, mountArticleWidget } from "./widget";
 import microApp from "@micro-zoe/micro-app";
 const { isTest } = baseInfo;
-console.log(freelogAppLib, 2222)
 
 import {
   getSelfProperty,

@@ -345,7 +345,6 @@ export function CompletionPath (path: string, baseURI: string): string {
       path = path.replace(/^\./g, '')
     }
     const path2 = baseUrl.pathname + path
-    console.log(path2, path, new URL(path2, baseUrl.origin))
     // eslint-disable-next-line no-console
     return new URL(path2, baseUrl.origin).toString()
   }

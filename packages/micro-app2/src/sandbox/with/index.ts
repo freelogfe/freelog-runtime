@@ -107,7 +107,6 @@ export default class WithSandBox extends BaseSandbox implements WithSandBoxInter
       // get scopeProperties and escapeProperties from plugins
       this.getSpecialProperties(appName)
       /*eslint-disable */
-      console.log(appName, url,  10101)
       // create location, history for child app
       this.patchRouter(appName, url.includes(window.freelogHost) ? url.split('.com')[0] + '.com' : url, this.microAppWindow)
       // patch window of child app
@@ -541,7 +540,6 @@ export default class WithSandBox extends BaseSandbox implements WithSandBoxInter
   private patchRouter (appName: string, url: string, microAppWindow: microAppWindowType): void {
     const { microLocation, microHistory } = createMicroRouter(appName, url)
     /*eslint-disable */
-    console.log(microLocation, microHistory,  7777)
     rawDefineProperties(microAppWindow, {
       location: {
         configurable: false,

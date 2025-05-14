@@ -140,9 +140,7 @@ export async function mountExhibitWidget(
     returnUrl: true,
     subFilePath: "/",
   });
-  console.log(fentry);
   fentry = fentry.replace(/\/$/, "").replace(/\/$/, ""); // + "/index.html"; // `?subFilePath=`;
-  console.log(fentry);
   entry = widget_entry || entry || fentry;
   const widgetConfig = {
     container,
@@ -161,7 +159,6 @@ export async function mountExhibitWidget(
     props: {},
     nid: dependencyTree[0].nid,
   };
-  console.log(renderWidgetOptions);
   renderWidgetOptions = options.renderWidgetOptions
     ? {
         ...options.renderWidgetOptions,
@@ -266,8 +263,6 @@ async function mountApp(
   container: any,
   renderWidgetOptions: any
 ) {
-  console.log(freelogApp, freelogAppLib, 8999);
-
   // microApp.preFetch([
   //   { name: widgetRenderName, url: entry, level: 3 }, // 加载资源并解析
   // ])

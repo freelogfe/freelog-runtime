@@ -135,7 +135,6 @@ class I18nNext {
     const res: any = await axios.get(url + '?timestamp=' + Date.now(), {
       withCredentials: false,
     });
-    console.log(res, 'data09oiw3qjelsfkdfjlsdkfjl');
      
     const en_US: { [key: string]: string } = {};
     const zh_CN: { [key: string]: string } = {};

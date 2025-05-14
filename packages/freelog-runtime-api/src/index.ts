@@ -4,8 +4,10 @@ if (window.location.host.includes(".testfreelog.com")) {
 }
 export const isTest = window.location.host.split(".")[1] === "t";
 let _baseURL = window.location.protocol + "//api.freelog.com/v2/";
+let _midURL = window.location.protocol + "//runtime-api.freelog.com/v2/";
 if (window.location.href.indexOf("testfreelog") > -1) {
   _baseURL = window.location.protocol + "//api.testfreelog.com/v2/";
+  _midURL = window.location.protocol + "//runtime-api.testfreelog.com/v2/";
 }
 export const baseURL = _baseURL;
 window.baseURL = _baseURL;
@@ -15,6 +17,7 @@ export const baseInfo: any = {
   isTest: isTest,
   nodeId: "",
   baseURL: baseURL,
+  midURL: _midURL,
 };
 
 import frequest from "./services/handler";
@@ -38,10 +41,7 @@ export async function getInfoByNameOrDomain(query: any) {
 export function init(fnodeId: string) {
   baseInfo.nodeId = fnodeId;
 }
-export function baseInit(baseURL: string, isTest: boolean) {
-  baseInfo.isTest = isTest;
-  baseInfo.baseURL = baseURL;
-}
+
 
 import {
   getExhibitListById,
