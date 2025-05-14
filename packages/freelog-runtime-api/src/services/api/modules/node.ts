@@ -2,7 +2,6 @@ import { placeHolder } from "../../base";
 
 
 export type Node = {
-  getInfoById: any;
   getInfoByNameOrDomain: any;
   postUserData: any;
   putUserData: any;
@@ -10,13 +9,9 @@ export type Node = {
 };
 
 const node: Node = {
-  getInfoById: {
-    url: `nodes/${placeHolder}`,
-    method: "GET",
-  },
   // exhibitId, result|info|articleInfo|fileStream
   getInfoByNameOrDomain: {
-    url: `nodes/detail`,
+    url: `base/nodes/detail`,
     method: "GET",
     dataModel: {
       nodeName: "string",

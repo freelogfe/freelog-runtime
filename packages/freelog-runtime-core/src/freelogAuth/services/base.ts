@@ -4,7 +4,7 @@ import { baseInfo } from "freelog-runtime-api";
 
 export const baseConfig = () => {
   return {
-    baseURL: baseInfo.baseURL,
+    baseURL: baseInfo.directURL,
     withCredentials: true,
     timeout: 30000,
   };

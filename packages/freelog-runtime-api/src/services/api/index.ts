@@ -1,12 +1,11 @@
 import user from './modules/user'
 import exhibit from './modules/exhibit'
 import node from './modules/node'
-import contract from './modules/contract'
+import collection from './modules/collection'
+
 import operation from './modules/operation'
-import event from './modules/event'
 
-import transaction from './modules/transaction'
 
-const apis:any = { user, exhibit, node, contract, event, transaction, operation }
+const apis:any = { user, exhibit, node, operation, collection }
 
 export default apis

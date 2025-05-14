@@ -1,6 +1,8 @@
 import frequest from "./services/handler";
 import exhibit from "./services/api/modules/exhibit";
 import operation from "./services/api/modules/operation";
+import collection from "./services/api/modules/collection";
+
 import { baseInfo } from "./index";
 // 展品非授权信息接口
 
@@ -48,7 +50,7 @@ export async function getExhibitListByPaging(
 ): Promise<any> {
   options = options || {};
   return frequest.bind({ name })(
-    exhibit.getExhibitListByPaging,
+    exhibit.getExhibitListByPage,
     [baseInfo.nodeId],
     {
       ...options,
@@ -82,7 +84,7 @@ export async function getSignStatistics(
 ) {
   return frequest(
     exhibit.getSignStatistics,
-    "",
+    [baseInfo.nodeId],
     {
       signUserIdentityType: 2,
       nodeId: baseInfo.nodeId,
@@ -265,7 +267,7 @@ export async function getCollectionSubList(
     name,
     exhibitId: exhibitId,
   })(
-    exhibit.getCollectionSubListById,
+    collection.getCollectionSubListById,
     [baseInfo.nodeId, exhibitId],
     query,
     undefined,
@@ -281,7 +283,7 @@ export async function getCollectionsSubList(
   return frequest.bind({
     name,
   })(
-    exhibit.getCollectionSubListByIds,
+    collection.getCollectionSubListByIds,
     [baseInfo.nodeId],
     {
       ...query,
@@ -301,7 +303,7 @@ export async function getCollectionSubInfo(
     name,
     exhibitId: exhibitId,
   })(
-    exhibit.getCollectionSubInfoById,
+    collection.getCollectionSubInfoById,
     [baseInfo.nodeId, exhibitId, query.itemId],
     null,
     undefined,
@@ -318,7 +320,7 @@ export async function getCollectionSubAuth(
     name,
     exhibitId: exhibitId,
   })(
-    exhibit.getCollectionSubListAuthById,
+    collection.getCollectionSubListAuthById,
     [baseInfo.nodeId, exhibitId],
     query,
     undefined,
@@ -350,8 +352,8 @@ export async function getCollectionSubFileStream(
     exhibitId: exhibitId,
   })(
     query?.subFilePath
-      ? exhibit.getCollectionSubInsideById
-      : exhibit.getCollectionSubById,
+      ? collection.getCollectionSubInsideById
+      : collection.getCollectionSubById,
     query?.subFilePath
       ? [exhibitId, query.itemId, query?.subFilePath]
       : [exhibitId, query.itemId],
@@ -374,7 +376,7 @@ export async function getCollectionSubDepList(
     name,
     exhibitId: exhibitId,
   })(
-    exhibit.getCollectionSubDepById,
+    collection.getCollectionSubDepById,
     [baseInfo.nodeId, exhibitId, query.itemId],
     null,
     undefined,
@@ -399,8 +401,8 @@ export async function getCollectionSubDepFileStream(
     exhibitId: exhibitId,
   })(
     query?.subFilePath
-      ? exhibit.getCollectionSubDepInsideById
-      : exhibit.getCollectionSubDepById,
+      ? collection.getCollectionSubDepInsideById
+      : collection.getCollectionSubDepById,
     // @ts-ignore
     [exhibitId, query.itemId, query.nid, query?.subFilePath],
     null,
