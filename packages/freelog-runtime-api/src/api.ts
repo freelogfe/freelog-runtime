@@ -267,7 +267,7 @@ export async function getCollectionSubList(
     name,
     exhibitId: exhibitId,
   })(
-    collection.getCollectionSubListById,
+    collection.getCollectionSubPageById,
     [baseInfo.nodeId, exhibitId],
     query,
     undefined,
@@ -283,7 +283,7 @@ export async function getCollectionsSubList(
   return frequest.bind({
     name,
   })(
-    collection.getCollectionSubListByIds,
+    collection.getCollectionSubPageByIds,
     [baseInfo.nodeId],
     {
       ...query,

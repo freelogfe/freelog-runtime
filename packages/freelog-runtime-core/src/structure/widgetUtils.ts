@@ -38,6 +38,7 @@ export async function getSelfProperty(name: string, isFromServer: boolean) {
     const res = await getExhibitInfo(name, exhibitId, {
       isLoadVersionProperty: 1,
     });
+    console.log(res)
     const property = res.data.data.versionInfo.exhibitProperty;
     widgetConfig.property = property;
     return property;
@@ -65,6 +66,7 @@ export async function getSelfDependencyTree(
   const res = await getExhibitInfo(name, exhibitId || topExhibitId, {
     isLoadVersionProperty: 1,
   });
+  console.log(res)
   const dependencyTree = res.data.data.versionInfo.dependencyTree;
   // .filter(
   //   (item: any) => (nid ? item.parentNid === nid : true)
