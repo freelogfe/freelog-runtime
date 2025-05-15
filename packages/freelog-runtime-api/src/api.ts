@@ -16,7 +16,6 @@ export async function getExhibitListById(
   },
   config?: any
 ): Promise<any> {
-
   query = query || {};
   //@ts-ignore
   return frequest.bind({ name })(
@@ -250,8 +249,6 @@ export async function getExhibitDepFileStream(
     config
   );
 }
- 
- 
 
 export async function pushMessage4Task(name: string, query: any, config?: any) {
   return frequest(operation.pushMessage4Task, null, query, undefined, config);
