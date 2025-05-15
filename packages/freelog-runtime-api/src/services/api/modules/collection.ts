@@ -91,14 +91,13 @@ const exhibit: Exhibit = {
     method: "GET",
   },
 
-  // TODO 这里要后端补充后才能用
 
   getCollectionSubInfoByIds: {
     url: `${placeHolder}/collection/${placeHolder}/item/list`,
     method: "GET",
   },
   getCollectionSubInfoAuthByIds: {
-    url: `${placeHolder}/collection/${placeHolder}/item/list`,
+    url: `${placeHolder}/collection/${placeHolder}/item/auth-list`,
     method: "GET",
   },
   getCollectionSubById: {

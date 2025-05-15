@@ -304,6 +304,40 @@ export async function getCollectionSubInfo(
   })(
     collection.getCollectionSubInfoById,
     [baseInfo.nodeId, exhibitId, query.itemId],
+    query,
+    undefined,
+    config
+  );
+}
+export async function getCollectionSubInfoByIds(
+  name: string,
+  exhibitId: string | number,
+  query: any,
+  config?: any
+) {
+  return frequest.bind({
+    name,
+    exhibitId: exhibitId,
+  })(
+    collection.getCollectionSubInfoByIds,
+    [baseInfo.nodeId, exhibitId],
+    query,
+    undefined,
+    config
+  );
+}
+export async function getCollectionSubInfoAuthByIds(
+  name: string,
+  exhibitId: string | number,
+  query: any,
+  config?: any
+) {
+  return frequest.bind({
+    name,
+    exhibitId: exhibitId,
+  })(
+    collection.getCollectionSubInfoAuthByIds,
+    [baseInfo.nodeId, exhibitId, query.itemId],
     null,
     undefined,
     config
