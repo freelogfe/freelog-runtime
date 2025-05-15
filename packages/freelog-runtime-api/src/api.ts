@@ -1,3 +1,4 @@
+import { baseURL } from './../../freelog-runtime-core/src/index';
 import frequest from "./services/handler";
 import exhibit from "./services/api/modules/exhibit";
 import operation from "./services/api/modules/operation";
@@ -140,7 +141,7 @@ export async function getExhibitSignCount(
 ) {
   return frequest(
     exhibit.getExhibitSignCount,
-    "",
+    [baseInfo.nodeId],
     {
       subjectIds: exhibitIds,
       subjectType: 2,
@@ -251,6 +252,7 @@ export async function getExhibitDepFileStream(
 }
 
 export async function pushMessage4Task(name: string, query: any, config?: any) {
+  operation.pushMessage4Task.baseURL = baseInfo.directURL;
   return frequest(operation.pushMessage4Task, null, query, undefined, config);
 }
 
@@ -258,13 +260,13 @@ export async function getCollectionSubList(
   name: string,
   exhibitId: string | number,
   query: any,
-  config?: any
+  config?: any 
 ) {
   return frequest.bind({
     name,
     exhibitId: exhibitId,
   })(
-    collection.getCollectionSubPageById,
+    collection.getCollectionSubAuthPageById,
     [baseInfo.nodeId, exhibitId],
     query,
     undefined,

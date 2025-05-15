@@ -28,15 +28,14 @@ export async function getCurrentUser() {
 }
 // node.putUserData   node.getUserData
 export async function putUserData(urlData: Array<string>, query: any) {
-  user.getCurrent.putUserData = baseInfo.directURL;
+  node.putUserData.baseURL = baseInfo.directURL;
   return frequest(node.putUserData, urlData, query);
 }
 export async function getUserData(urlData: Array<string>) {
-  user.getCurrent.getUserData = baseInfo.directURL;
+  node.getUserData.baseURL = baseInfo.directURL;
   return frequest(node.getUserData, urlData, "");
 }
 export async function getInfoByNameOrDomain(query: any) {
-  user.getCurrent.getInfoByNameOrDomain = baseInfo.directURL;
   return frequest(node.getInfoByNameOrDomain, "", query);
 }
 

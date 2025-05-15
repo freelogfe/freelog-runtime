@@ -121,7 +121,7 @@ const exhibit: Exhibit = {
     },
   },
   getExhibitSignCount: {
-    url: `${placeHolder}/exhibit/${placeHolder}/sign-count`,
+    url: `${placeHolder}/exhibit/sign-count`,
     method: "GET",
     dataModel: {
       subjectIds: "string",
