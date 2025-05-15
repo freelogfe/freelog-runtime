@@ -105,7 +105,7 @@ const exhibit: Exhibit = {
 
   // nodeId
   getExhibitAuthStatus: {
-    url: `${placeHolder}/exhibit/${placeHolder}/auth`,
+    url: `${placeHolder}/exhibit/auth`,
     method: "GET",
     dataModel: {
       authType: "string", // 授权类型 1:节点侧授权 2:作品侧授权 3:节点+作品侧授权 4:全链路(包含用户,节点与作品)

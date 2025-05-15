@@ -266,7 +266,7 @@ export async function getCollectionSubList(
     name,
     exhibitId: exhibitId,
   })(
-    collection.getCollectionSubAuthPageById,
+    collection.getCollectionSubPageById,
     [baseInfo.nodeId, exhibitId],
     query,
     undefined,
@@ -319,7 +319,7 @@ export async function getCollectionSubAuth(
     name,
     exhibitId: exhibitId,
   })(
-    collection.getCollectionSubListAuthById,
+    collection.getCollectionSubAuth,
     [baseInfo.nodeId, exhibitId],
     query,
     undefined,

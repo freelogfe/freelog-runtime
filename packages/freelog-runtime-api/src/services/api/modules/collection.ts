@@ -10,7 +10,9 @@ export type Exhibit = {
   getCollectionSubListAuthById: any;
   getCollectionSubById: any;
   getCollectionSubInfoById: any;
-  getCollectionSubInfoByIds:any;
+  getCollectionSubInfoByIds: any;
+  getCollectionSubAuth:any;
+  getCollectionSubInfoAuthByIds:any;
   getCollectionSubInsideById: any;
   getCollectionSubDepById: any;
   getCollectionSubDepList: any;
@@ -66,8 +68,17 @@ const exhibit: Exhibit = {
       isShowDetailInfo: "int",
     },
   },
+  getCollectionSubAuth: {
+    url: `${placeHolder}/collection/${placeHolder}/items/auth`,
+    method: "GET",
+    dataModel: {
+      nodeId: "string",
+      exhibitId: "string",
+      itemIds: "string",
+    },
+  },
   getCollectionSubListAuthById: {
-    url: `${placeHolder}/collection/${placeHolder}/items/auth-list`,
+    url: `${placeHolder}/collection/${placeHolder}/item/auth-list`,
     method: "GET",
     dataModel: {
       nodeId: "string",
@@ -83,10 +94,13 @@ const exhibit: Exhibit = {
   // TODO 这里要后端补充后才能用
 
   getCollectionSubInfoByIds: {
-    url: `${placeHolder}/collection/${placeHolder}/items`,
+    url: `${placeHolder}/collection/${placeHolder}/item/list`,
     method: "GET",
   },
-
+  getCollectionSubInfoAuthByIds: {
+    url: `${placeHolder}/collection/${placeHolder}/item/list`,
+    method: "GET",
+  },
   getCollectionSubById: {
     url: `exhibits/${placeHolder}/items/${placeHolder}`,
     baseURL: location.protocol + `//file${host}/`,
