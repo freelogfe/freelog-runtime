@@ -3,7 +3,7 @@ import { placeHolder } from "../../base";
 
 export type Node = {
   getInfoByNameOrDomain: any;
-  postUserData: any;
+  deleteUserData: any;
   putUserData: any;
   getUserData: any;
 };
@@ -20,9 +20,9 @@ const node: Node = {
     },
   },
   // storages/buckets/.UserNodeData/objects   post
-  postUserData: {
-    url: `storages/buckets/.UserNodeData/objects`,
-    method: "POST",
+  deleteUserData: {
+    url: `${placeHolder}/user-data`,
+    method: "DELETE",
     dataModel: {
       nodeId: "int",
       nodeDomain: "string",
@@ -31,7 +31,7 @@ const node: Node = {
   },
   // storages/buckets/.UserNodeData/objects/{nodeId}  PUT
   putUserData: {
-    url: `storages/buckets/.UserNodeData/objects/${placeHolder}`,
+    url: `${placeHolder}/user-data`,
     method: "PUT",
     dataModel: {
       removeFields: "",
@@ -40,7 +40,7 @@ const node: Node = {
   },
   // storages/buckets/.UserNodeData/objects/{objectIdOrNodeId}/customPick  GET
   getUserData: {
-    url: `storages/buckets/.UserNodeData/objects/${placeHolder}/customPick`,
+    url: `${placeHolder}/user-data`,
     method: "GET",
     dataModel: {
       fields: "string",

@@ -13,6 +13,7 @@ export {
   getCurrentUser,
   putUserData,
   getUserData,
+  deleteUserData,
   getInfoByNameOrDomain,
   init,
 } from "freelog-runtime-api";

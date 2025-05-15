@@ -117,19 +117,7 @@ export function setViewport(name: string, keys: any) {
   metaEl.setAttribute("content", content.substring(0, content.length - 1));
 }
 
-/**
- *
- *
- *
- */
-// export async function createUserData(userNodeData: any) {
-//   const nodeId = window.freelogApp.nodeInfo.nodeId
-//   const res = await frequest(node.postUserData, "", {
-//     nodeId,
-//     userNodeData
-//   });
-//   return res;
-// }
+
 
 export function setTabLogo(Url: string) {
   // fetch("/freelog.ico").then((res: Response) => {

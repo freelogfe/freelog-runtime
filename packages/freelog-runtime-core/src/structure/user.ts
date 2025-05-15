@@ -7,10 +7,10 @@ import {
   getCurrentUser as _getCurrentUser,
   putUserData as _putUserData,
   getUserData as _getUserData,
+  deleteUserData as _deleteUserData,
 } from "freelog-runtime-api";
 export let userInfo: any = null;
 export let userInfoForAuth: any = null;
-
 
 export async function getUserInfo() {
   initWindowListener();
@@ -56,48 +56,24 @@ export async function setUserData(name: string, key: string, data: any) {
     return;
   }
   const dataKey = name + "-" + key;
-  const nodeId = baseInfo.nodeId;
   // 用户如果两台设备更新数据，可以做一个保存请求的数据对比最新的数据，如果不同，提示给插件（或者传递参数强制更新）,这个后端来做？
-  const res = await _putUserData([nodeId], {
-    appendOrReplaceObject: {
-      [dataKey]: data,
-    },
+  return _putUserData({
+    [dataKey]: data,
   });
-
-  if (res.data && res.data.ret == 0 && res.data.errCode == 0) {
-    res.data.data = data;
-  }
-  return res;
 }
 export async function deleteUserData(name: string, key: string) {
   if (!key) {
     return;
   }
   const dataKey = name + "-" + key;
-  const nodeId = baseInfo.nodeId;
-  const res = await _putUserData([nodeId], {
-    removeFields: [dataKey],
-    appendOrReplaceObject: {},
-  });
-  if (res.data && res.data.ret == 0 && res.data.errCode == 0) {
-    res.data.data = null;
-  }
-  return res;
+  return _deleteUserData({ key: dataKey });
 }
 export async function getUserData(name: string, key: string) {
   if (!key) {
     return;
   }
   const dataKey = name + "-" + key;
-  const nodeId = baseInfo.nodeId;
-  const res = await _getUserData([nodeId]);
-  res.data = {
-    ret: 0,
-    errCode: 0,
-    msg: "success",
-    data: res.data[dataKey],
-  };
-  return res;
+  return _getUserData({ key: dataKey });
 }
 
 export function callLogin(name: string, resolve: Function) {
