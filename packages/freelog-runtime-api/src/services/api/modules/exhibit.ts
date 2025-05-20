@@ -6,9 +6,9 @@ export type Exhibit = {
   getSignStatistics: any;
   getExhibitDetail: any;
   getExhibitListById: any;
-  getExhibitAuthListById: any;
+  getExhibiListtAuthById: any;
   getExhibitListByPage: any;
-  getExhibitListByAuthPage: any;
+  getExhibitListAuthByPage: any;
   getExhibitRecommend: any;
   getExhibitAuthStatus: any;
   getExhibitSignCount: any;
@@ -51,7 +51,7 @@ const exhibit: Exhibit = {
       isTranslate: "int",
     },
   },
-  getExhibitAuthListById: {
+  getExhibiListtAuthById: {
     url: `${placeHolder}/exhibit/auth-list`,
     method: "GET",
     dataModel: {
@@ -82,7 +82,7 @@ const exhibit: Exhibit = {
       tagQueryType: "int",
     },
   },
-  getExhibitListByAuthPage: {
+  getExhibitListAuthByPage: {
     url: `${placeHolder}/exhibit/auth-page`,
     method: "GET",
     dataModel: {
