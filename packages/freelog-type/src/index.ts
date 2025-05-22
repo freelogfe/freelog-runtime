@@ -160,7 +160,7 @@ export interface FreelogApp {
       itemIds: string;
     }
   ) => Promise<GetCollectionSubAuthResult>;
-  getExhibitListByPaging: (options?: {
+  getExhibitListByPage: (options?: {
     /**
      * 跳过的数量.默认为0.
      */

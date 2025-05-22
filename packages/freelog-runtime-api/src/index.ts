@@ -4,11 +4,12 @@ if (window.location.host.includes(".testfreelog.com")) {
 }
 export const isTest = window.location.host.split(".")[1] === "t";
 let _directURL = window.location.protocol + "//api.freelog.com/v2/";
-let _midURL = window.location.protocol + "//runtime-api.freelog.com/v2/";
+let _midURL = window.location.protocol + "//api.testfreelog.com/v2/runtimes/";
 if (window.location.href.indexOf("testfreelog") > -1) {
   _directURL = window.location.protocol + "//api.testfreelog.com/v2/";
-  _midURL = window.location.protocol + "//runtime-api.testfreelog.com/v2/";
+  _midURL = window.location.protocol + "//api.testfreelog.com/v2/runtimes/";
 }
+_midURL = "//localhost:5201/"
 window.isTest = isTest;
 // @ts-ignore
 export const baseInfo: any = {
@@ -45,7 +46,6 @@ export function init(fnodeId: string) {
 
 import {
   getExhibitListById,
-  getExhibitListByPaging,
   getExhibitInfo,
   getExhibitSignCount,
   getExhibitAuthStatus,
@@ -66,7 +66,6 @@ import {
 } from "./api";
 export const freelogApp: any = {
   getExhibitListById,
-  getExhibitListByPaging,
   getExhibitInfo,
   getExhibitSignCount,
   getExhibitAuthStatus,
