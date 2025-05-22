@@ -1,9 +1,9 @@
-import frequest from "./services/handler";
-import exhibit from "./services/api/modules/exhibit";
-import operation from "./services/api/modules/operation";
-import collection from "./services/api/modules/collection";
+import frequest from "../services/handler";
+import exhibit from "../services/api/modules/exhibit";
+import operation from "../services/api/modules/operation";
+import collection from "../services/api/modules/collection";
 
-import { baseInfo } from "./index";
+import { baseInfo } from "../index";
 // 展品非授权信息接口
 
 export async function getExhibitListById(
@@ -85,7 +85,7 @@ export async function getExhibitListByPage(
 export async function getExhibitListAuthByPage(
   name: string,
   options?: {
-    allInfo?: number;// 0或1，默认0，传1则返回所有信息，否则只有授权信息
+    allInfo?: number; // 0或1，默认0，传1则返回所有信息，否则只有授权信息
     skip?: number; // 跳过的数量.默认为0.
     limit?: number; // 本次请求获取的数据条数.一般不允许超过100
     sort?: string; // 排序,格式为{排序字段}:{1|-1},1是正序,-1是倒序
@@ -113,8 +113,6 @@ export async function getExhibitListAuthByPage(
     config
   );
 }
-
-
 export async function getExhibitRecommend(
   name: string,
   exhibitId: string,
@@ -128,23 +126,6 @@ export async function getExhibitRecommend(
     exhibit.getExhibitRecommend,
     [baseInfo.nodeId, exhibitId],
     query,
-    undefined,
-    config
-  );
-}
-export async function getSignStatistics(
-  name: string,
-  query?: any,
-  config?: any
-) {
-  return frequest(
-    exhibit.getSignStatistics,
-    [baseInfo.nodeId],
-    {
-      signUserIdentityType: 2,
-      nodeId: baseInfo.nodeId,
-      ...query,
-    },
     undefined,
     config
   );
@@ -300,217 +281,6 @@ export async function getExhibitDepFileStream(
       : exhibit.getExhibitDepById,
     // @ts-ignore
     [exhibitId, query.nid, query?.subFilePath],
-    null,
-    config?.returnUrl,
-    config
-  );
-}
-
-export async function pushMessage4Task(name: string, query: any, config?: any) {
-  operation.pushMessage4Task.baseURL = baseInfo.directURL;
-  return frequest(operation.pushMessage4Task, null, query, undefined, config);
-}
-
-export async function getCollectionSubList(
-  name: string,
-  exhibitId: string | number,
-  query: any,
-  config?: any 
-) {
-  return frequest.bind({
-    name,
-    exhibitId: exhibitId,
-  })(
-    collection.getCollectionSubPageById,
-    [baseInfo.nodeId, exhibitId],
-    query,
-    undefined,
-    config
-  );
-}
-export async function getCollectionSubAuthList(
-  name: string,
-  exhibitId: string | number,
-  query: any,
-  config?: any 
-) {
-  return frequest.bind({
-    name,
-    exhibitId: exhibitId,
-  })(
-    collection.getCollectionSubAuthPageById,
-    [baseInfo.nodeId, exhibitId],
-    query,
-    undefined,
-    config
-  );
-}
-export async function getCollectionsSubList(
-  name: string,
-  exhibitIds: string,
-  query: any,
-  config?: any
-) {
-  return frequest.bind({
-    name,
-  })(
-    collection.getCollectionSubPageByIds,
-    [baseInfo.nodeId],
-    {
-      ...query,
-      exhibitIds,
-    },
-    undefined,
-    config
-  );
-}
-// 通过参数authInfo可以获取授权信息
-export async function getCollectionSubInfo(
-  name: string,
-  exhibitId: string | number,
-  query: any,
-  config?: any
-) {
-  return frequest.bind({
-    name,
-    exhibitId: exhibitId,
-  })(
-    collection.getCollectionSubInfoById,
-    [baseInfo.nodeId, exhibitId, query.itemId],
-    query,
-    undefined,
-    config
-  );
-}
-export async function getCollectionSubInfoByIds(
-  name: string,
-  exhibitId: string | number,
-  query: any,
-  config?: any
-) {
-  return frequest.bind({
-    name,
-    exhibitId: exhibitId,
-  })(
-    collection.getCollectionSubInfoByIds,
-    [baseInfo.nodeId, exhibitId],
-    query,
-    undefined,
-    config
-  );
-}
-export async function getCollectionSubInfoAuthByIds(
-  name: string,
-  exhibitId: string | number,
-  query: any,
-  config?: any
-) {
-  return frequest.bind({
-    name,
-    exhibitId: exhibitId,
-  })(
-    collection.getCollectionSubInfoAuthByIds,
-    [baseInfo.nodeId, exhibitId, query.itemId],
-    null,
-    undefined,
-    config
-  );
-}
-export async function getCollectionSubAuth(
-  name: string,
-  exhibitId: string | number,
-  query: any,
-  config?: any
-) {
-  return frequest.bind({
-    name,
-    exhibitId: exhibitId,
-  })(
-    collection.getCollectionSubAuth,
-    [baseInfo.nodeId, exhibitId],
-    query,
-    undefined,
-    config
-  );
-}
-
-export async function getCollectionSubFileStream(
-  name: string,
-  exhibitId: string | number,
-  query: {
-    itemId: string | number;
-    returnUrl?: boolean;
-    subFilePath?: string; // 作品内部子文件 路径
-    config?: any;
-  },
-  config?: any
-) {
-  if (!config) {
-    config = query?.config || {};
-    config = {
-      returnUrl: query?.returnUrl,
-      ...config,
-    };
-  }
-  return frequest.bind({
-    name,
-    isAuth: true,
-    exhibitId: exhibitId,
-  })(
-    query?.subFilePath
-      ? collection.getCollectionSubInsideById
-      : collection.getCollectionSubById,
-    query?.subFilePath
-      ? [exhibitId, query.itemId, query?.subFilePath]
-      : [exhibitId, query.itemId],
-    null,
-    config?.returnUrl,
-    config
-  );
-}
-
-export async function getCollectionSubDepList(
-  name: string,
-  exhibitId: string | number,
-  query: {
-    itemId: string | number;
-    // returnUrl?: boolean;
-  },
-  config?: any
-) {
-  return frequest.bind({
-    name,
-    exhibitId: exhibitId,
-  })(
-    collection.getCollectionSubDepById,
-    [baseInfo.nodeId, exhibitId, query.itemId],
-    null,
-    undefined,
-    config
-  );
-}
-export async function getCollectionSubDepFileStream(
-  name: string,
-  exhibitId: string | number,
-  query: {
-    itemId: string | number;
-    nid: string | number;
-    returnUrl?: boolean;
-    subFilePath?: string;
-    config?: any;
-  },
-  config?: any
-) {
-  return frequest.bind({
-    name,
-    isAuth: true,
-    exhibitId: exhibitId,
-  })(
-    query?.subFilePath
-      ? collection.getCollectionSubDepInsideById
-      : collection.getCollectionSubDepById,
-    // @ts-ignore
-    [exhibitId, query.itemId, query.nid, query?.subFilePath],
     null,
     config?.returnUrl,
     config

@@ -9,7 +9,7 @@ if (window.location.href.indexOf("testfreelog") > -1) {
   _directURL = window.location.protocol + "//api.testfreelog.com/v2/";
   _midURL = window.location.protocol + "//api.testfreelog.com/v2/runtimes/";
 }
-_midURL = "//localhost:5201/"
+_midURL = "//localhost:5201/";
 window.isTest = isTest;
 // @ts-ignore
 export const baseInfo: any = {
@@ -30,7 +30,7 @@ export async function getCurrentUser() {
 export async function putUserData(data: any) {
   return frequest(node.putUserData, [baseInfo.nodeId], data);
 }
-export async function getUserData(data:any) {
+export async function getUserData(data: any) {
   return frequest(node.getUserData, [baseInfo.nodeId], data);
 }
 export async function deleteUserData(data: any) {
@@ -53,8 +53,10 @@ import {
   getExhibitFileStream,
   getExhibitDepFileStream,
   getExhibitDepInfo,
-  getSignStatistics,
-  pushMessage4Task,
+  getExhibitRecommend,
+} from "./api/exhibit";
+import { getSignStatistics, pushMessage4Task } from "./api/base";
+import {
   getCollectionSubList,
   getCollectionsSubList,
   getCollectionSubInfo,
@@ -62,8 +64,7 @@ import {
   getCollectionSubFileStream,
   getCollectionSubDepFileStream,
   getCollectionSubDepList,
-  getExhibitRecommend,
-} from "./api";
+} from "./api/collection";
 export const freelogApp: any = {
   getExhibitListById,
   getExhibitInfo,
