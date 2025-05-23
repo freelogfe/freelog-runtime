@@ -101,7 +101,7 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
 
 | 字段                         | 类型       | 说明                                            |
 | ---------------------------- | ---------- | ----------------------------------------------- |
-| `authInfo`                   | `string`   | 参考 getCollectionSubAuth 返回信息              |
+| `authInfo`                   | `object`   | 参考 getCollectionSubAuth 返回信息              |
 | `itemId`                     | `string`   | 单品 ID                                         |
 | `itemTitle`                  | `string`   | 单品标题                                        |
 | `sortId`                     | `number`   | 单品排序 ID                                     |
@@ -191,15 +191,15 @@ const res = await freelogApp.getCollectionsSubList(exhibitIds, {
 
 ## getCollectionSubInfo
 
-**用途**：获取指定合集展品内某单品的详细信息。
+**用途**：获取指定合集展品内某单品的详细信息、可选包含授权信息。
 
 ### 参数说明
 
 | 参数               | 类型     | 说明                                                  |
 | ------------------ | -------- | ----------------------------------------------------- |
 | `exhibitId`        | `string` | 合集展品的唯一标识                                    |
-| `itemId`           | `string` | 单品 ID                                               |
 | `options`          | `object` | 配置对象                                              |
+| `options.itemId`   | `string` | 单品 ID                                               |
 | `options.authInfo` | `number` | 是否加载单品授权信息：`0` 不加载，`1` 加载。默认：`0` |
 
 ### 使用方式
@@ -218,7 +218,7 @@ const res = await freelogApp.getCollectionSubInfo(exhibitId, { itemId });
 | `createDate`     | `date`     | 单品创建日期                       |
 | `articleInfo`    | `object`   | 单品挂载的作品信息                 |
 | `dependencyTree` | `object[]` | 单品依赖树                         |
-| `authInfo`       | `string`   | 参考 getCollectionSubAuth 返回信息 |
+| `authInfo`       | `object`   | 参考 getCollectionSubAuth 返回信息 |
 
 ### 示例返回数据
 
@@ -233,7 +233,7 @@ const res = await freelogApp.getCollectionSubInfo(exhibitId, { itemId });
     "sortId": 1,
     "createDate": "2024-07-09T09:43:51.014Z",
     "authInfo": {
-      "itemId": "ef3f2f52",
+      "itemId": "54e4620d",
       "referee": 2,
       "isAuth": false,
       "authCode": 303,
@@ -258,6 +258,145 @@ const res = await freelogApp.getCollectionSubInfo(exhibitId, { itemId });
       }
     ]
   }
+}
+```
+
+## getCollectionSubInfoById
+
+**用途**：获取指定合集展品内多个单品的详细信息。
+
+### 参数说明
+
+| 参数              | 类型     | 说明                     |
+| ----------------- | -------- | ------------------------ |
+| `exhibitId`       | `string` | 合集展品的唯一标识       |
+| `options`         | `object` | 配置对象                 |
+| `options.itemIds` | `string` | 单品 ID 列表，用逗号分隔 |
+
+### 使用方式
+
+```javascript
+const res = await freelogApp.getCollectionSubInfoById(exhibitId, { itemIds });
+```
+
+### 返回字段说明
+
+| 字段             | 类型       | 说明               |
+| ---------------- | ---------- | ------------------ |
+| `itemId`         | `string`   | 单品 ID            |
+| `itemTitle`      | `string`   | 单品标题           |
+| `sortId`         | `number`   | 单品排序号         |
+| `createDate`     | `date`     | 单品创建日期       |
+| `articleInfo`    | `object`   | 单品挂载的作品信息 |
+| `dependencyTree` | `object[]` | 单品依赖树         |
+
+### 示例返回数据
+
+```json
+{
+  "ret": 0,
+  "errCode": 0,
+  "msg": "success",
+  "dataList": [
+    {
+      "itemId": "54e4620d",
+      "itemTitle": "示例单品",
+      "sortId": 1,
+      "createDate": "2024-07-09T09:43:51.014Z",
+      "articleInfo": {
+        "articleId": "65eec05ff8a2fd002ff05bc0",
+        "articleName": "示例作品",
+        "resourceType": ["主题"],
+        "articleType": 1,
+        "intro": "",
+        "coverImages": []
+      },
+      "dependencyTree": [
+        {
+          "nid": "47c8958b5abc",
+          "articleId": "65eec05ff8a2fd002ff05bc0",
+          "articleName": "示例作品",
+          "articleType": 1,
+          "version": "1.0.0",
+          "resourceType": ["主题"]
+        }
+      ]
+    }
+  ]
+}
+```
+
+## getCollectionSubInfoAuthById
+
+**用途**：获取指定合集展品内多个单品的详细信息。
+
+### 参数说明
+
+| 参数              | 类型     | 说明                     |
+| ----------------- | -------- | ------------------------ |
+| `exhibitId`       | `string` | 合集展品的唯一标识       |
+| `options`         | `object` | 配置对象                 |
+| `options.itemIds` | `string` | 单品 ID 列表，用逗号分隔 |
+
+### 使用方式
+
+```javascript
+const res = await freelogApp.getCollectionSubInfoAuthById(exhibitId, {
+  itemIds,
+});
+```
+
+### 返回字段说明
+
+| 字段             | 类型       | 说明               |
+| ---------------- | ---------- | ------------------ |
+| `itemId`         | `string`   | 单品 ID            |
+| `itemTitle`      | `string`   | 单品标题           |
+| `sortId`         | `number`   | 单品排序号         |
+| `createDate`     | `date`     | 单品创建日期       |
+| `articleInfo`    | `object`   | 单品挂载的作品信息 |
+| `dependencyTree` | `object[]` | 单品依赖树         |
+
+### 示例返回数据
+
+```json
+{
+  "ret": 0,
+  "errCode": 0,
+  "msg": "success",
+  "dataList": [
+    {
+      "itemId": "54e4620d",
+      "itemTitle": "示例单品",
+      "sortId": 1,
+      "createDate": "2024-07-09T09:43:51.014Z",
+      "authInfo": {
+        "itemId": "54e4620d",
+        "referee": 2,
+        "isAuth": false,
+        "authCode": 303,
+        "errorMsg": "标的物未签约"
+      },
+      "articleInfo": {
+        "articleId": "65eec05ff8a2fd002ff05bc0",
+        "articleName": "示例作品",
+        "resourceType": ["主题"],
+        "articleType": 1,
+        "intro": "",
+        "coverImages": []
+      },
+      "dependencyTree": [
+        {
+          "nid": "47c8958b5abc",
+          "articleId": "65eec05ff8a2fd002ff05bc0",
+          "articleName": "示例作品",
+          "articleType": 1,
+          "version": "1.0.0",
+          "resourceType": ["主题"]
+        }
+      ]
+    }
+  ]
 }
 ```
 

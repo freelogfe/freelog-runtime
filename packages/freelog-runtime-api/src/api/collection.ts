@@ -54,7 +54,7 @@ export async function getCollectionsSubList(
     config
   );
 }
-// 通过参数authInfo可以获取授权信息
+// 通过参数 authInfo 可以获取授权信息
 export async function getCollectionSubInfo(
   name: string,
   exhibitId: string | number,
@@ -72,7 +72,7 @@ export async function getCollectionSubInfo(
     config
   );
 }
-export async function getCollectionSubInfoByIds(
+export async function getCollectionSubInfoById(
   name: string,
   exhibitId: string | number,
   query: any,
@@ -89,7 +89,7 @@ export async function getCollectionSubInfoByIds(
     config
   );
 }
-export async function getCollectionSubInfoAuthByIds(
+export async function getCollectionSubInfoAuthById(
   name: string,
   exhibitId: string | number,
   query: any,
