@@ -6,14 +6,14 @@
 
 ### 参数说明
 
-| 参数                       | 类型     | 说明                                   |
-| -------------------------- | -------- | -------------------------------------- |
-| `exhibitId`                | `string` | 合集展品的唯一标识                     |
-| `options`                  | `object` | 配置对象                               |
-| `options.sortType`         | `number` | 排序方式：`1` 升序，`-1` 降序          |
-| `options.skip`             | `number` | 跳过的记录数，分页使用                 |
-| `options.limit`            | `number` | 每页返回的记录数                       |
-| `options.isShowDetailInfo` | `number` | 是否加载单品详情：`0` 不加载，`1` 加载 |
+| 参数                       | 类型     | 说明                                      |
+| -------------------------- | -------- | ----------------------------------------- |
+| `exhibitId`                | `string` | 合集展品的唯一标识                        |
+| `options`                  | `object` | 配置对象                                  |
+| `options.sortType`         | `number` | 排序方式：`1` 升序，`-1` 降序，默认为 `1` |
+| `options.skip`             | `number` | 跳过的记录数，分页使用                    |
+| `options.limit`            | `number` | 每页返回的记录数                          |
+| `options.isShowDetailInfo` | `number` | 是否加载单品详情：`0` 不加载，`1` 加载    |
 
 ### 使用方式
 
@@ -205,7 +205,10 @@ const res = await freelogApp.getCollectionsSubList(exhibitIds, {
 ### 使用方式
 
 ```javascript
-const res = await freelogApp.getCollectionSubInfo(exhibitId, { itemId });
+const res = await freelogApp.getCollectionSubInfo(exhibitId, {
+  itemId,
+  authInfo: 1,
+});
 ```
 
 ### 返回字段说明
