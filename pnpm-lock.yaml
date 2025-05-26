@@ -18,9 +18,15 @@ importers:
         specifier: ^1.9.0
         version: 1.9.0
     devDependencies:
+      '@types/node':
+        specifier: ~14.14.19
+        version: 14.14.45
+      cross-env:
+        specifier: ~7.0.3
+        version: 7.0.3
       father:
         specifier: ^4.3.6
-        version: 4.5.0(@babel/core@7.25.2)(@types/node@15.14.9)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(type-fest@0.21.3)(webpack@5.94.0)
+        version: 4.5.0(@babel/core@7.25.2)(@types/node@14.14.45)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(type-fest@0.21.3)(webpack@5.94.0)
 
   packages/freelog-runtime-core:
     dependencies:
@@ -10595,11 +10601,36 @@ snapshots:
 
   '@micro-zoe/micro-app@1.0.0-rc.8': {}
 
+  '@microsoft/api-extractor-model@7.28.4(@types/node@14.14.45)':
+    dependencies:
+      '@microsoft/tsdoc': 0.14.2
+      '@microsoft/tsdoc-config': 0.16.2
+      '@rushstack/node-core-library': 3.63.0(@types/node@14.14.45)
+    transitivePeerDependencies:
+      - '@types/node'
+
   '@microsoft/api-extractor-model@7.28.4(@types/node@15.14.9)':
     dependencies:
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
       '@rushstack/node-core-library': 3.63.0(@types/node@15.14.9)
+    transitivePeerDependencies:
+      - '@types/node'
+
+  '@microsoft/api-extractor@7.39.1(@types/node@14.14.45)':
+    dependencies:
+      '@microsoft/api-extractor-model': 7.28.4(@types/node@14.14.45)
+      '@microsoft/tsdoc': 0.14.2
+      '@microsoft/tsdoc-config': 0.16.2
+      '@rushstack/node-core-library': 3.63.0(@types/node@14.14.45)
+      '@rushstack/rig-package': 0.5.1
+      '@rushstack/ts-command-line': 4.17.1
+      colors: 1.2.5
+      lodash: 4.17.21
+      resolve: 1.22.8
+      semver: 7.5.4
+      source-map: 0.6.1
+      typescript: 5.3.3
     transitivePeerDependencies:
       - '@types/node'
 
@@ -10840,6 +10871,18 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.21.2':
     optional: true
+
+  '@rushstack/node-core-library@3.63.0(@types/node@14.14.45)':
+    dependencies:
+      colors: 1.2.5
+      fs-extra: 7.0.1
+      import-lazy: 4.0.0
+      jju: 1.4.0
+      resolve: 1.22.8
+      semver: 7.5.4
+      z-schema: 5.0.5
+    optionalDependencies:
+      '@types/node': 14.14.45
 
   '@rushstack/node-core-library@3.63.0(@types/node@15.14.9)':
     dependencies:
@@ -13669,6 +13712,44 @@ snapshots:
   fastq@1.17.1:
     dependencies:
       reusify: 1.0.4
+
+  father@4.5.0(@babel/core@7.25.2)(@types/node@14.14.45)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(type-fest@0.21.3)(webpack@5.94.0):
+    dependencies:
+      '@microsoft/api-extractor': 7.39.1(@types/node@14.14.45)
+      '@umijs/babel-preset-umi': 4.3.19
+      '@umijs/bundler-utils': 4.3.19
+      '@umijs/bundler-webpack': 4.3.19(type-fest@0.21.3)(typescript@5.3.3)(webpack@5.94.0)
+      '@umijs/case-sensitive-paths-webpack-plugin': 1.0.1
+      '@umijs/core': 4.3.19
+      '@umijs/utils': 4.3.19
+      '@vercel/ncc': 0.33.3
+      babel-plugin-dynamic-import-node: 2.3.3
+      babel-plugin-module-resolver: 4.1.0
+      babel-plugin-styled-components: 2.1.4(@babel/core@7.25.2)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+      babel-plugin-transform-define: 2.0.1
+      enhanced-resolve: 5.9.3
+      esbuild: 0.17.19
+      fast-glob: 3.2.12
+      file-system-cache: 2.0.0
+      loader-runner: 4.2.0
+      minimatch: 3.1.2
+      piscina: 4.6.1
+      tsconfig-paths: 4.0.0
+      typescript: 5.3.3
+      typescript-transform-paths: 3.4.6(typescript@5.3.3)
+      v8-compile-cache: 2.3.0
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@types/node'
+      - '@types/webpack'
+      - sockjs-client
+      - styled-components
+      - supports-color
+      - type-fest
+      - webpack
+      - webpack-dev-server
+      - webpack-hot-middleware
+      - webpack-plugin-serve
 
   father@4.5.0(@babel/core@7.25.2)(@types/node@15.14.9)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(type-fest@0.21.3)(webpack@5.94.0):
     dependencies:

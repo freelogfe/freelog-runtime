@@ -9,7 +9,9 @@ if (window.location.href.indexOf("testfreelog") > -1) {
   _directURL = window.location.protocol + "//api.testfreelog.com/v2/";
   _midURL = window.location.protocol + "//api.testfreelog.com/v2/runtimes/";
 }
-_midURL = "//localhost:5201/";
+if (process.env.NODE_ENV === "development") {
+  _midURL = "//api3.testfreelog.com/"; // "//localhost:5201/";
+}
 window.isTest = isTest;
 // @ts-ignore
 export const baseInfo: any = {
