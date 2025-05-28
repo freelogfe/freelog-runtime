@@ -11,6 +11,7 @@ export interface SubItemInfo {
   createDate: string;
   articleInfo: articleInfo; // article(作品)指广义上的资源(单品资源,组合资源,节点组合资源)+存储对象
   updateDate?: Date;
+  authInfo?: ItemAuthResult;
 }
 
 

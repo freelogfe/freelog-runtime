@@ -26,8 +26,8 @@
 | `tags`         | `string[]` | 展品标签                         |
 | `coverImages`  | `string[]` | 展品封面图 URL 列表              |
 | `onlineStatus` | `number`   | 上线状态：`0` 下线，`1` 上线     |
-| policies       | `object[]` | 展品相关的授权策略信息           |
-| articleInfo    | `object`   | 展品挂载的作品信息（ID、类型等） |
+| `policies`       | `object[]` | 展品相关的授权策略信息           |
+| `articleInfo`    | `object`   | 展品挂载的作品信息（ID、类型等） |
 
 ### 示例代码
 
@@ -68,8 +68,8 @@ console.log(res);
 | `tags`         | `string[]` | 展品标签                             |
 | `coverImages`  | `string[]` | 展品封面图 URL 列表                  |
 | `onlineStatus` | `number`   | 上线状态：`0` 下线，`1` 上线         |
-| policies       | `object[]` | 展品相关的授权策略信息               |
-| articleInfo    | `object`   | 展品挂载的作品信息（ID、类型等）     |
+| `policies`       | `object[]` | 展品相关的授权策略信息               |
+| `articleInfo`    | `object`   | 展品挂载的作品信息（ID、类型等）     |
 
 ### 示例代码
 

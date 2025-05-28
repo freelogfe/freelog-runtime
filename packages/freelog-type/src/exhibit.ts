@@ -9,6 +9,7 @@ export interface ExhibitInfo {
   exhibitName: string;
   exhibitTitle: string;
   exhibitIntro?: string;
+  authInfo?: AuthResult;
   exhibitSubjectType: SubjectTypeEnum; // 展品或展品组合
   tags: string[];
   coverImages: string[];
