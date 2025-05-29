@@ -6,7 +6,7 @@ export type Exhibit = {
   getSignStatistics: any;
   getExhibitDetail: any;
   getExhibitListById: any;
-  getExhibiListtAuthById: any;
+  getExhibiListAuthById: any;
   getExhibitListByPage: any;
   getExhibitListAuthByPage: any;
   getExhibitRecommend: any;
@@ -52,7 +52,7 @@ const exhibit: Exhibit = {
       isTranslate: "int",
     },
   },
-  getExhibiListtAuthById: {
+  getExhibiListAuthById: {
     url: `${placeHolder}/exhibit/auth-list`,
     method: "GET",
     dataModel: {

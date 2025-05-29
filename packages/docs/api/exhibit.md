@@ -32,7 +32,7 @@
 ### 示例代码
 
 ```typescript
-const res = await freelogApp.getExhibitListAuthByPage({
+const res = await freelogApp.getExhibitListByPage({
   skip: 0,
   limit: 20,
   sort: "createDate:-1",
@@ -146,7 +146,7 @@ const res = await freelogApp.getExhibitListById({
 console.log(res);
 ```
 
-## getExhibiListtAuthById
+## getExhibiListAuthById
 
 **用途**：通过展品 ID 批量获取展品详情包含授权信息
 
@@ -171,14 +171,14 @@ console.log(res);
 ### 示例代码
 
 ```typescript
-const res = await freelogApp.getExhibiListtAuthById({
+const res = await freelogApp.getExhibiListAuthById({
   exhibitIds: "12345,67890",
   isLoadVersionProperty: 1,
 });
 console.log(res);
 ```
 
-## getExhibitInfo
+## getExhibitById
 
 **用途**：获取单个展品的详细信息
 
@@ -204,7 +204,7 @@ console.log(res);
 ### 示例代码
 
 ```typescript
-const res = await freelogApp.getExhibitInfo("12345", {
+const res = await freelogApp.getExhibitById("12345", {
   isLoadVersionProperty: 1,
 });
 console.log(res);

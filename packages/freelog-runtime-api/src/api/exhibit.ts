@@ -60,7 +60,7 @@ export async function getExhibiListAuthById(
   query = query || {};
   //@ts-ignore
   return frequest.bind({ name })(
-    exhibit.getExhibiListtAuthById,
+    exhibit.getExhibiListAuthById,
     [baseInfo.nodeId],
     {
       ...query,

@@ -1,6 +1,6 @@
 ﻿# 合集相关 API 文档
 
-## getCollectionSubList
+## getCollectionSubListByPage
 
 **用途**：获取指定合集展品的单品分页列表。
 
@@ -18,7 +18,7 @@
 ### 使用方式
 
 ```javascript
-const res = await freelogApp.getCollectionSubList(exhibitId, {
+const res = await freelogApp.getCollectionSubListByPage(exhibitId, {
   sortType: 1,
   skip: 0,
   limit: 10,
@@ -69,7 +69,7 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
 }
 ```
 
-## getCollectionSubAuthList
+## getCollectionSubListAuthByPage
 
 **用途**：获取指定合集展品的单品分页列表的授权信息，可选单品信息。
 
@@ -88,7 +88,7 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
 ### 使用方式
 
 ```javascript
-const res = await freelogApp.getCollectionSubList(exhibitId, {
+const res = await freelogApp.getCollectionSubListAuthByPage(exhibitId, {
   sortType: 1,
   skip: 0,
   limit: 10,
@@ -148,7 +148,7 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
 }
 ```
 
-## getCollectionsSubList
+## getCollectionsSubListByPage
 
 **用途**：获取多个合集展品的单品分页列表。
 
@@ -166,7 +166,7 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
 ### 使用方式
 
 ```javascript
-const res = await freelogApp.getCollectionsSubList(exhibitIds, {
+const res = await freelogApp.getCollectionsSubListByPage(exhibitIds, {
   sortType: 1,
   skip: 0,
   limit: 10,
@@ -189,7 +189,7 @@ const res = await freelogApp.getCollectionsSubList(exhibitIds, {
 | `itemList.articleInfo.articleId`   | `string`   | 作品 ID              |
 | `itemList.articleInfo.articleName` | `string`   | 作品名称             |
 
-## getCollectionSubInfo
+## getCollectionSubById
 
 **用途**：获取指定合集展品内某单品的详细信息、可选包含授权信息。
 
@@ -205,7 +205,7 @@ const res = await freelogApp.getCollectionsSubList(exhibitIds, {
 ### 使用方式
 
 ```javascript
-const res = await freelogApp.getCollectionSubInfo(exhibitId, {
+const res = await freelogApp.getCollectionSubById(exhibitId, {
   itemId,
   authInfo: 1,
 });
@@ -264,7 +264,7 @@ const res = await freelogApp.getCollectionSubInfo(exhibitId, {
 }
 ```
 
-## getCollectionSubInfoById
+## getCollectionSubListById
 
 **用途**：获取指定合集展品内多个单品的详细信息。
 
@@ -279,7 +279,7 @@ const res = await freelogApp.getCollectionSubInfo(exhibitId, {
 ### 使用方式
 
 ```javascript
-const res = await freelogApp.getCollectionSubInfoById(exhibitId, { itemIds });
+const res = await freelogApp.getCollectionSubListById(exhibitId, { itemIds });
 ```
 
 ### 返回字段说明
@@ -329,9 +329,9 @@ const res = await freelogApp.getCollectionSubInfoById(exhibitId, { itemIds });
 }
 ```
 
-## getCollectionSubInfoAuthById
+## getCollectionSubListAuthById
 
-**用途**：获取指定合集展品内多个单品的详细信息。
+**用途**：获取指定合集展品内多个单品的详细信息、包含授权信息。
 
 ### 参数说明
 
@@ -344,7 +344,7 @@ const res = await freelogApp.getCollectionSubInfoById(exhibitId, { itemIds });
 ### 使用方式
 
 ```javascript
-const res = await freelogApp.getCollectionSubInfoAuthById(exhibitId, {
+const res = await freelogApp.getCollectionSubListAuthById(exhibitId, {
   itemIds,
 });
 ```
@@ -403,7 +403,7 @@ const res = await freelogApp.getCollectionSubInfoAuthById(exhibitId, {
 }
 ```
 
-## getCollectionSubAuth
+## getCollectionSubAuthStatus
 
 **用途**：获取指定合集展品内多个单品的授权结果。
 
@@ -417,7 +417,7 @@ const res = await freelogApp.getCollectionSubInfoAuthById(exhibitId, {
 ### 使用方式
 
 ```javascript
-const res = await freelogApp.getCollectionSubAuth(exhibitId, { itemIds });
+const res = await freelogApp.getCollectionSubAuthStatus(exhibitId, { itemIds });
 ```
 
 ### 返回字段说明
