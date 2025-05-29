@@ -1,7 +1,7 @@
 import frequest from "../services/handler";
 import collection from "../services/api/modules/collection";
 import { baseInfo } from "../index";
-export async function getCollectionSubList(
+export async function getCollectionSubListByPage(
   name: string,
   exhibitId: string | number,
   query: any,
@@ -18,7 +18,7 @@ export async function getCollectionSubList(
     config
   );
 }
-export async function getCollectionSubAuthList(
+export async function getCollectionSubListAuthByPage(
   name: string,
   exhibitId: string | number,
   query: any,
@@ -35,7 +35,7 @@ export async function getCollectionSubAuthList(
     config
   );
 }
-export async function getCollectionsSubList(
+export async function getCollectionsSubListByPage(
   name: string,
   exhibitIds: string,
   query: any,
@@ -55,7 +55,7 @@ export async function getCollectionsSubList(
   );
 }
 // 通过参数 authInfo 可以获取授权信息
-export async function getCollectionSubInfo(
+export async function getCollectionSubById(
   name: string,
   exhibitId: string | number,
   query: any,
@@ -72,7 +72,7 @@ export async function getCollectionSubInfo(
     config
   );
 }
-export async function getCollectionSubInfoById(
+export async function getCollectionSubListById(
   name: string,
   exhibitId: string | number,
   query: any,
@@ -89,7 +89,7 @@ export async function getCollectionSubInfoById(
     config
   );
 }
-export async function getCollectionSubInfoAuthById(
+export async function getCollectionSubListAuthById(
   name: string,
   exhibitId: string | number,
   query: any,
@@ -106,7 +106,7 @@ export async function getCollectionSubInfoAuthById(
     config
   );
 }
-export async function getCollectionSubAuth(
+export async function getCollectionSubAuthStatus(
   name: string,
   exhibitId: string | number,
   query: any,

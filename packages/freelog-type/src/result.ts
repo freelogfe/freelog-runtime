@@ -47,7 +47,10 @@ export type GetExhibitRecommendResult = AxiosResponse<
 export type GetCollectionSubListResult = AxiosResponse<
   IApiDataFormat<SubItemInfo[]>
 >;
-export type GetCollectionSubInfoResult = AxiosResponse<
+export type GetCollectionSubInfoByIdResult = AxiosResponse<
+  IApiDataFormat<SubItemInfo>
+>;
+export type GetCollectionSubInfoByIdsResult = AxiosResponse<
   IApiDataFormat<SubItemInfo[]>
 >;
 export type GetCollectionSubAuthResult = AxiosResponse<

@@ -131,20 +131,24 @@ export interface FreelogApp {
     exhibitId: string,
     query?: {
       /**
-       * 排序方式: 1:升序 -1:降序
+       * 排序方式: 1:升序 -1:降序，默认1
        */
       sortType: number;
       skip: number;
       limit: number;
       /**
-       * 是否加载单品挂载的作品详情 0:不加载 1:加载
+       * 是否加载单品挂载的作品详情 0:不加载 1:加载，默认0
        */
       isShowDetailInfo: number;
     }
   ) => Promise<GetCollectionSubListResult>;
-  getCollectionSubInfo: (
+  getCollectionSubInfoById: (
     exhibitId: string,
     query: {
+      /**
+       * 是否加载授权信息: 0:不加载， 1:加载，默认0
+       */
+      authInfo?: number;
       /**
        * 子作品id
        */
@@ -218,6 +222,7 @@ export interface FreelogApp {
     exhibitId: string,
     query?: {
       isLoadVersionProperty: 0 | 1;
+
     }
   ) => Promise<GetExhibitInfoResult>;
   getExhibitFileStream: (

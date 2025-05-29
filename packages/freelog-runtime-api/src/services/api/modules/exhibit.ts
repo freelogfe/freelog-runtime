@@ -36,6 +36,7 @@ const exhibit: Exhibit = {
     dataModel: {
       isLoadPolicyInfo: "int",
       isLoadVersionProperty: "int",
+      authInfo: "int",
       isTranslate: "int",
       isLoadResourceDetailInfo: "int",
       isLoadContract: "int",
@@ -88,6 +89,7 @@ const exhibit: Exhibit = {
     dataModel: {
       skip: "int",
       limit: "int",
+      allInfo: "int",
       articleResourceTypes: "string",
       omitArticleResourceType: "string",
       onlineStatus: "int",
@@ -131,7 +133,7 @@ const exhibit: Exhibit = {
   getExhibitRecommend: {
     url: `${placeHolder}/exhibit/${placeHolder}/recommend`,
     method: "GET",
-  },  
+  },
 
   getExhibitById: {
     url: `exhibits/${placeHolder}`,
@@ -153,6 +155,6 @@ const exhibit: Exhibit = {
     url: `exhibits/${placeHolder}/articles/${placeHolder}/packages/${placeHolder}`, // {nid}  {subFilePath}
     baseURL: location.protocol + `//file${host}/`,
     method: "GET",
-  }, 
+  },
 };
 export default exhibit;

@@ -37,6 +37,7 @@ const exhibit: Exhibit = {
     method: "GET",
     dataModel: {
       nodeId: "string",
+      allInfo: "int",
       exhibitId: "string",
       sortType: "string",
       skip: "int",

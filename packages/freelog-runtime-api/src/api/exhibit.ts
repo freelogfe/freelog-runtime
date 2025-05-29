@@ -1,11 +1,29 @@
 import frequest from "../services/handler";
 import exhibit from "../services/api/modules/exhibit";
-import operation from "../services/api/modules/operation";
-import collection from "../services/api/modules/collection";
 
 import { baseInfo } from "../index";
 // 展品非授权信息接口
-
+export async function getExhibitById(
+  name: string,
+  exhibitId: string,
+  query?: {
+    authInfo?: number;
+    isLoadPolicyInfo?: number; // 是否响应展品版本属性
+    isLoadVersionProperty?: number; // 是否加载策略信息.测试环境自动忽略此参数
+    isTranslate?: number; // 是否同步翻译.测试环境自动忽略此参数
+    isLoadContract?: number; // 是否加载合约信息
+  },
+  config?: any
+) {
+  query = query || {};
+  return frequest(
+    exhibit.getExhibitDetail,
+    [baseInfo.nodeId, exhibitId],
+    query,
+    undefined,
+    config
+  );
+}
 export async function getExhibitListById(
   name: string,
   query?: {
@@ -29,7 +47,7 @@ export async function getExhibitListById(
   );
 }
 
-export async function getExhibiListtAuthById(
+export async function getExhibiListAuthById(
   name: string,
   query?: {
     exhibitIds?: string; // 展品ID,多个用逗号分隔
@@ -130,26 +148,7 @@ export async function getExhibitRecommend(
     config
   );
 }
-export async function getExhibitInfo(
-  name: string,
-  exhibitId: string,
-  query?: {
-    isLoadPolicyInfo?: number; // 是否响应展品版本属性
-    isLoadVersionProperty?: number; // 是否加载策略信息.测试环境自动忽略此参数
-    isTranslate?: number; // 是否同步翻译.测试环境自动忽略此参数
-    isLoadContract?: number; // 是否加载合约信息
-  },
-  config?: any
-) {
-  query = query || {};
-  return frequest(
-    exhibit.getExhibitDetail,
-    [baseInfo.nodeId, exhibitId],
-    query,
-    undefined,
-    config
-  );
-}
+
 export async function getExhibitDepInfo(
   name: string,
   exhibitId: string,
