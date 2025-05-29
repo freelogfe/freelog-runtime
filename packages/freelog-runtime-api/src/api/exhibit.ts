@@ -103,7 +103,7 @@ export async function getExhibitListByPage(
 export async function getExhibitListAuthByPage(
   name: string,
   options?: {
-    allInfo?: number; // 0或1，默认0，传1则返回所有信息，否则只有授权信息
+    // allInfo?: number; // 0或1，默认0，传1则返回所有信息，否则只有授权信息
     skip?: number; // 跳过的数量.默认为0.
     limit?: number; // 本次请求获取的数据条数.一般不允许超过100
     sort?: string; // 排序,格式为{排序字段}:{1|-1},1是正序,-1是倒序
@@ -131,6 +131,43 @@ export async function getExhibitListAuthByPage(
     config
   );
 }
+export async function getExhibitAuthStatus(
+  name: string,
+  exhibitIds: string,
+  query?: any,
+  config?: any
+) {
+  return frequest(
+    exhibit.getExhibitAuthStatus,
+    [baseInfo.nodeId],
+    {
+      authType: baseInfo.isTest ? 3 : 4,
+      exhibitIds,
+    },
+    undefined,
+    config
+  );
+}
+// 获取展示是否授权链正常
+export async function getExhibitAvailable(
+  name: string,
+  exhibitIds: string,
+  query?: any,
+  config?: any
+) {
+  // @ts-ignore
+  return frequest(
+    exhibit.getExhibitAuthStatus,
+    [baseInfo.nodeId],
+    {
+      authType: 3,
+      exhibitIds,
+    },
+    undefined,
+    config
+  );
+}
+
 export async function getExhibitRecommend(
   name: string,
   exhibitId: string,
@@ -185,42 +222,7 @@ export async function getExhibitSignCount(
     config
   );
 }
-// 获取展示是否授权链正常
-export async function getExhibitAvailable(
-  name: string,
-  exhibitIds: string,
-  query?: any,
-  config?: any
-) {
-  // @ts-ignore
-  return frequest(
-    exhibit.getExhibitAuthStatus,
-    [baseInfo.nodeId],
-    {
-      authType: 3,
-      exhibitIds,
-    },
-    undefined,
-    config
-  );
-}
-export async function getExhibitAuthStatus(
-  name: string,
-  exhibitIds: string,
-  query?: any,
-  config?: any
-) {
-  return frequest(
-    exhibit.getExhibitAuthStatus,
-    [baseInfo.nodeId],
-    {
-      authType: baseInfo.isTest ? 3 : 4,
-      exhibitIds,
-    },
-    undefined,
-    config
-  );
-}
+
 
 export async function getExhibitFileStream(
   name: string,
