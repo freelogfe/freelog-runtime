@@ -15,6 +15,7 @@ import {
   GetSignStatisticsResult,
   GetExhibitRecommendResult,
   GetCollectionSubListResult,
+  GetCollectionsSubListResult,
   GetCollectionSubInfoByIdResult,
   GetCollectionSubInfoByIdsResult,
   GetCollectionSubAuthResult,
@@ -281,7 +282,7 @@ export interface FreelogApp {
   getExhibitSignCount: (
     exhibitIds: string
   ) => Promise<GetExhibitSignCountResult>;
-  
+
   getExhibitAvailable: (
     exhibitIds: string
   ) => Promise<GetExhibitAvailableResult>;
@@ -339,7 +340,7 @@ export interface FreelogApp {
        */
       isShowDetailInfo: number;
     }
-  ) => Promise<GetCollectionSubListResult>;
+  ) => Promise<GetCollectionsSubListResult>;
   getCollectionSubById: (
     exhibitId: string,
     query: {

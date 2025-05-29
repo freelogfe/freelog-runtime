@@ -1,9 +1,7 @@
 ﻿import { SubjectTypeEnum } from "./base";
 import { ArticleTypeEnum } from "./enum";
 import { ContractInfo, BasePolicyInfo } from "./policyContract";
-/**
- * 展品信息
- */
+
 export interface SubItemInfo {
   itemId: string;
   itemTitle: string;

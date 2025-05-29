@@ -33,7 +33,11 @@ export interface WidgetController {
   removeDataListener: (dataListener: Function) => any;
   clearDataListener: () => any;
 }
-
+type CollectionInfo = {
+  exhibitId: string;
+  totalItem: number;
+  itemList: SubItemInfo[];
+}
 export type GetExhibitListByIdResult = AxiosResponse<
   IApiDataFormat<ExhibitInfo[]>
 >;
@@ -46,6 +50,9 @@ export type GetExhibitRecommendResult = AxiosResponse<
 >;
 export type GetCollectionSubListResult = AxiosResponse<
   IApiDataFormat<SubItemInfo[]>
+>;
+export type GetCollectionsSubListResult = AxiosResponse<
+  IApiDataFormat<CollectionInfo[]>
 >;
 export type GetCollectionSubInfoByIdResult = AxiosResponse<
   IApiDataFormat<SubItemInfo>
