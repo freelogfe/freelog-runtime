@@ -56,6 +56,7 @@ export default defineConfig({
             { text: "如何发布主题和插件", link: "/guide/release" },
             { text: "如何启用主题/切换版本", link: "/guide/use-theme" },
             { text: "官方主题和插件参考", link: "/guide/official" },
+            { text: "v1迁移到v2", link: "/guide/migrate" },
             // {
             //   text: "功能",
             //   link: "",
