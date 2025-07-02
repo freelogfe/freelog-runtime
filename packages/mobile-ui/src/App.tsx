@@ -23,7 +23,7 @@ import {
   getInfoByNameOrDomain,
 } from "freelog-runtime-core";
 import Login from "./views/user/login";
-
+import FI18n from "@/I18nNext";
 import OutOf from "./views/outOf";
 /**
  * 1.请求节点与用户信息 requestNodeInfo 判断节点网址是否正确
@@ -79,6 +79,8 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [nodeInfoData, setNodeInfo] = useState<any>(null);
   const [themeAuthInfo, setThemeAuthInfo] = useState<any>(null);
+  document.title = FI18n.i18nNext.t("noderuntime_login_error_incorrectunopw");
+
   // 1 登录  2 注册   3 忘记登录密码
   const [modalType, setModalType] = useState(0);
 

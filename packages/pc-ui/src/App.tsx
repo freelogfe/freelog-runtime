@@ -17,6 +17,7 @@ import Login from "./views/login";
 import NodeError from "./views/_statusComponents/nodeError";
 import ThemeCancel from "./views/_statusComponents/themeCancel";
 import OutOf from "./views/outOf";
+import FI18n from "@/I18nNext";
 import {
   freelogAuth,
   freelogApp,
@@ -61,6 +62,7 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [nodeInfoData, setNodeInfo] = useState<any>(null);
   const [themeAuthInfo, setThemeAuthInfo] = useState<any>(null);
+  document.title = FI18n.i18nNext.t("noderuntime_login_error_incorrectunopw");
   function loadingClose() {
     setTimeout(() => {
       const loadingContainer = document.getElementById("runtime-loading");

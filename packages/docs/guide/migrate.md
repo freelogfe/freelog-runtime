@@ -10,16 +10,16 @@ outline: "deep"
 
 ## api 简单变化，名称或参数或返回值变更
 
-| v2                            | v1                       | 变更说明                          |
-| ----------------------------- | ------------------------ | --------------------------------- |
-| `getExhibitListByPage`        | `getExhibitListByPaging` | 参数无变化                        |
-| `getExhibitById`              | `getExhibitInfo`         | 增加`authInfo`参数                |
-| `getCollectionSubListByPage`  | `getCollectionSubList`   | 参数无变化                        |
-| `getCollectionsSubListByPage` | `getCollectionsSubList`  | 参数无变化                        |
-| `getCollectionSubById`        | `getCollectionSubInfo`   | 增加`options.authInfo`参数        |
-| `getCollectionSubAuthStatus`  | `getCollectionSubAuth`   | 参数无变化                        |
-| `setUserData`                 | `setUserData`            | 返回值有变化，请查阅参考 api 介绍 |
-| `getUserData`                 | `getUserData`            | 返回值有变化，请查阅参考 api 介绍 |
+| v2                            | v1                       | 变更说明                                   |
+| ----------------------------- | ------------------------ | ------------------------------------------ |
+| `getExhibitListByPage`        | `getExhibitListByPaging` | 参数无变化                                 |
+| `getExhibitById`              | `getExhibitInfo`         | 增加`authInfo`参数，可返回授权信息         |
+| `getCollectionSubListByPage`  | `getCollectionSubList`   | 参数无变化                                 |
+| `getCollectionsSubListByPage` | `getCollectionsSubList`  | 参数无变化                                 |
+| `getCollectionSubById`        | `getCollectionSubInfo`   | 增加`options.authInfo`参数，可返回授权信息 |
+| `getCollectionSubAuthStatus`  | `getCollectionSubAuth`   | 参数无变化                                 |
+| `setUserData`                 | `setUserData`            | 返回值有变化，请查阅参考 api 介绍          |
+| `getUserData`                 | `getUserData`            | 返回值有变化，请查阅参考 api 介绍          |
 
 ## api 新增
 

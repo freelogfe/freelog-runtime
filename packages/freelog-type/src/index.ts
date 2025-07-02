@@ -349,7 +349,7 @@ export interface FreelogApp {
        */
       authInfo?: 0 | 1;
       /**
-       * 子作品id
+       * 单品id
        */
       itemId: string;
     }
@@ -358,7 +358,7 @@ export interface FreelogApp {
     exhibitId: string,
     query: {
       /**
-       * 子作品id,多个用“,”隔开
+       * 单品id,多个用“,”隔开
        */
       itemIds: string;
     }
@@ -367,7 +367,7 @@ export interface FreelogApp {
     exhibitId: string,
     query: {
       /**
-       * 子作品id,多个用“,”隔开
+       * 单品id,多个用“,”隔开
        */
       itemIds: string;
     }
@@ -376,7 +376,7 @@ export interface FreelogApp {
     exhibitId: string,
     query: {
       /**
-       * 子作品id,多个用“,”隔开
+       * 单品id,多个用“,”隔开
        */
       itemIds: string;
     }
