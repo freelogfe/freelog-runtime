@@ -8,7 +8,7 @@ import { digestMessage } from "./hashc";
 
 const { getExhibitDepFileStream, getExhibitFileStream, getExhibitInfo } =
   freelogAppLib;
-import { WidgetController } from "freelog-runtime";
+import { WidgetController } from "freelog-runtime-v2";
 export const FREELOG_DEV = "freelogDev";
 export const flatternWidgets = new Map<string, any>();
 export const widgetsConfig = new Map<string, any>();

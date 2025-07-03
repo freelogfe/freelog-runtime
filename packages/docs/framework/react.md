@@ -43,14 +43,14 @@ export default defineConfig({
 
 ## 2. 入口文件改造
 
-安装官方API库`freelog-runtime`，并进行如下改造
+安装官方API库`freelog-runtime-v2`，并进行如下改造
 
 ```js
 // index.js
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { freelogApp, initFreelogApp } from "freelog-runtime";
+import { freelogApp, initFreelogApp } from "freelog-runtime-v2";
 
 window.mount = () => {
   initFreelogApp();

@@ -18,7 +18,7 @@
     "antd": "^5.14.1",
     "axios": "^1.9.0",
     "copy-to-clipboard": "^3.3.2",
-    "freelog-runtime": "workspace:^",
+    "freelog-runtime-v2": "workspace:^",
     "freelog-runtime-core": "workspace:^",
     "html-react-parser": "^5.2.2",
     "i18next": "^24.2.0",

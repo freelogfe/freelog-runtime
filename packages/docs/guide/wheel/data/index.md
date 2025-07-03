@@ -16,7 +16,7 @@
 ### 方法 1：直接获取数据
 
 ```javascript
-import { widgetApi } from "freelog-runtime";
+import { widgetApi } from "freelog-runtime-v2";
 const data = widgetApi.getData(); // 获取父插件下发的数据
 ```
 
@@ -27,7 +27,7 @@ const data = widgetApi.getData(); // 获取父插件下发的数据
 #### 使用方式
 
 ```javascript
-import { widgetApi } from "freelog-runtime";
+import { widgetApi } from "freelog-runtime-v2";
 
 function dataListener(data) {
   console.log("接收到父插件的数据:", data);
@@ -54,7 +54,7 @@ widgetApi.clearDataListener();
 子插件可以使用 `dispatch` 方法向父插件发送数据。
 
 ```javascript
-import { widgetApi } from "freelog-runtime";
+import { widgetApi } from "freelog-runtime-v2";
 
 widgetApi.dispatch({ type: "子插件发送的数据" });
 ```
@@ -69,7 +69,7 @@ widgetApi.dispatch({ type: "子插件发送的数据" });
 #### 示例
 
 ```javascript
-import { widgetApi } from "freelog-runtime";
+import { widgetApi } from "freelog-runtime-v2";
 
 // 第一次发送数据
 widgetApi.dispatch({ name: "jack" });
@@ -199,7 +199,7 @@ widgetController.clearDataListener();
 ### 发送全局数据
 
 ```javascript
-import { widgetApi } from "freelog-runtime";
+import { widgetApi } from "freelog-runtime-v2";
 
 // 设置全局数据
 widgetApi.setGlobalData({ type: "全局数据" });

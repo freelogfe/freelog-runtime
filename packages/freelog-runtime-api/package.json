@@ -24,6 +24,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@types/node": "~14.14.19",
     "father": "^4.3.6"
   },
   "dependencies": {

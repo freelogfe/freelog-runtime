@@ -70,7 +70,7 @@ window.unmount = () => {
 import Vue from "vue";
 import router from "./router";
 import App from "./App.vue";
-import { initFreelogApp } from "freelog-runtime";
+import { initFreelogApp } from "freelog-runtime-v2";
 
 let app = null;
 window.mount = () => {
@@ -100,7 +100,7 @@ import { createApp } from "vue";
 import * as VueRouter from "vue-router";
 import routes from "./router";
 import App from "./App.vue";
-import { initFreelogApp } from "freelog-runtime";
+import { initFreelogApp } from "freelog-runtime-v2";
 
 let app = null;
 let router = null;

@@ -33,7 +33,7 @@ export default defineConfig({
       {
         text: "V2版本",
         items: [
-          { text: "v1 文档", link: "https://widget-docs.testfreelog.com/" },
+          { text: "v1 文档", link: "https://widget-docs.testfreelog.com/v1" },
         ],
       },
     ],
