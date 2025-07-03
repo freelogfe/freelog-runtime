@@ -62,7 +62,6 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [nodeInfoData, setNodeInfo] = useState<any>(null);
   const [themeAuthInfo, setThemeAuthInfo] = useState<any>(null);
-  document.title = FI18n.i18nNext.t("noderuntime_login_error_incorrectunopw");
   function loadingClose() {
     setTimeout(() => {
       const loadingContainer = document.getElementById("runtime-loading");
@@ -71,8 +70,8 @@ function App() {
   }
 
   useEffect(() => {
+    document.title = FI18n.i18nNext.t("noderuntime_nodeloading_tabtitle");
     const nodeDomain = getDomain(window.location.host);
-    // nodeDomain = getDomain("fl-reading.freelog.com");
     Promise.all([requestNodeInfo(nodeDomain), freelogAuth.getUserInfo()]).then(
       async (values: any) => {
         const nodeData = values[0];
@@ -188,7 +187,7 @@ function App() {
         } else {
           // 初始化软件库实例
           const instance = new FreelogLibrary();
-          
+
           (window as any).FreelogLibrary = instance;
 
           const container = document.getElementById("freelog-plugin-container");
