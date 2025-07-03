@@ -5,6 +5,7 @@ export default defineConfig({
   title: "freelog开发者文档",
   description: "freelog开发者文档",
   lang: "zh-CN",
+  base: "/v1",
   // locales: {
   //   root: {
   //     label: 'English',
@@ -16,11 +17,12 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/freelogfe/freelog-runtime' }
+      { icon: "github", link: "https://github.com/freelogfe/freelog-runtime" },
     ],
     editLink: {
-      pattern: 'https://github.com/freelogfe/freelog-runtime/edit/fix-docs-tokyo/packages/docs/:path',
-      text: '为此页提供修改建议',
+      pattern:
+        "https://github.com/freelogfe/freelog-runtime/edit/fix-docs-tokyo/packages/docs/:path",
+      text: "为此页提供修改建议",
     },
     nav: [
       { text: "首页", link: "/" },
@@ -28,6 +30,10 @@ export default defineConfig({
       { text: "框架接入", link: "/framework/", activeMatch: "/framework/" },
       { text: "参考API", link: "/api/widget", activeMatch: "/api/" },
       { text: "库开发者", link: "/library/guide", activeMatch: "/library/" },
+      {
+        text: "访问最新版本",
+        link: "https://widget-docs.testfreelog.com/",
+      },
     ],
     sidebar: {
       // 当用户位于 `guide` 目录时，会显示此侧边栏
@@ -42,10 +48,13 @@ export default defineConfig({
             { text: "插件-vue示例", link: "/guide/plugin-vue" },
             { text: "插件-react示例", link: "/guide/plugin-react" },
             { text: "插件开发者-调试篇(vue)", link: "/guide/use-plugin-vue" },
-            { text: "插件开发者-调试篇(react)", link: "/guide/use-plugin-react" },
+            {
+              text: "插件开发者-调试篇(react)",
+              link: "/guide/use-plugin-react",
+            },
             { text: "如何发布主题和插件", link: "/guide/release" },
             { text: "如何启用主题/切换版本", link: "/guide/use-theme" },
-            { text: "官方主题和插件参考", link: "/guide/official" }
+            { text: "官方主题和插件参考", link: "/guide/official" },
             // {
             //   text: "功能",
             //   link: "",
@@ -136,9 +145,9 @@ export default defineConfig({
     // ]
     // outline: 'deep'
   },
-  vite:{
-    server:{
-      host:true
-    }
-  }
+  vite: {
+    server: {
+      host: true,
+    },
+  },
 });
