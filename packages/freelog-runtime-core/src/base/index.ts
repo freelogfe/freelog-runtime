@@ -16,6 +16,9 @@ export async function getInfoByNameOrDomain(query: any) {
   return frequest(node.getInfoByNameOrDomain, "", query);
 }
 
+export async function getWechatShare(url: any) {
+  return frequest(user.getWechatShare, "", { shareUrl: url });
+}
 export function init(fnodeId: string) {
   baseInfo.nodeId = fnodeId;
 }

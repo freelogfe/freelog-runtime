@@ -6,7 +6,7 @@ import {
 } from "@ant-design/cssinjs";
 import { App as AppAnt } from "antd";
 import microApp from "@micro-zoe/micro-app";
-import { FreelogLibrary } from "freelog-runtime-core";
+import { FreelogLibrary, getDomain } from "freelog-runtime-core";
 /**
  * 登录不考虑授权UI是否在，登录之后调插件的回调。
  *
@@ -70,7 +70,7 @@ function App() {
   }
   useEffect(() => {
     document.title = FI18n.i18nNext.t("noderuntime_nodeloading_tabtitle");
-    const nodeDomain = getDomain(window.location.host);
+    const nodeDomain = getDomain();
     Promise.all([requestNodeInfo(nodeDomain), freelogAuth.getUserInfo()]).then(
       async (values: any) => {
         const nodeData = values[0];
@@ -191,7 +191,21 @@ function App() {
             nodeInfo.themeInfo.versionInfo.dependencyTree
           );
           (window as any).FreelogLibrary = instance;
-
+          freelogApp.updateWechatShare(
+            {
+              title: nodeInfo.nodeName, // 分享标题
+              desc: nodeInfo.nodeTitle, // 分享描述
+              link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的服务号JS安全域名一致
+              imgUrl: "", // 分享图标
+              success: () => {},
+            },
+            {
+              title: nodeInfo.nodeName, // 分享标题
+              link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的服务号JS安全域名一致
+              imgUrl: "", // 分享图标
+              success: () => {},
+            }
+          );
           const container = document.getElementById("freelog-plugin-container");
           await freelogApp.mountExhibitWidget(null, {
             widget: nodeInfo.themeInfo,
@@ -435,9 +449,9 @@ async function requestNodeInfo(nodeDomain: string) {
   return info.data;
 }
 
-function getDomain(url: string) {
-  if (url.split(".")[0] === "t") {
-    return url.split(".")[1];
-  }
-  return url.split(".")[0];
-}
+// function getDomain(url: string) {
+//   if (url.split(".")[0] === "t") {
+//     return url.split(".")[1];
+//   }
+//   return url.split(".")[0];
+// }

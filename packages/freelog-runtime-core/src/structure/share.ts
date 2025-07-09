@@ -1,9 +1,126 @@
 ﻿import { widgetsConfig, flatternWidgets } from "./widget";
 import { freelogApp, devData } from "./freelogApp";
 import { DEV_FALSE, dev } from "./dev";
+import { baseInfo } from "../base/baseInfo";
+import { getWechatShare } from "../base";
+import { getCurrentUrl } from "./widgetUtils";
 export const SHARE_DETAIL = "detail";
 export const SHARE_CONTENT = "content";
 export const FREELOG_ROUTE_MAPS = "FREELOG_ROUTE_MAPS";
+declare const WeixinJSBridge: any;
+
+export function isWeChat() {
+  const ua = navigator.userAgent.toLowerCase();
+  return ua.includes("micromessenger") && typeof WeixinJSBridge !== "undefined";
+}
+
+export function jumpShareWechat() {
+  const nodeName = getDomain();
+  const rawURL = new URL(window.location.href);
+  const isShare = window.location.host.split(".")[0] === "share";
+  if (isWeChat()) {
+    if (!isShare) {
+      const url = `https://share.${baseInfo.HOST}/`;
+      window.location.href =
+        url +
+        window.location.search +
+        "&nodeName=" +
+        nodeName +
+        "&time=" +
+        new Date().getTime();
+    } else {
+      loadWeChatJSSDK();
+    }
+  } else {
+    if (isShare) {
+      rawURL.searchParams.delete("nodeName");
+      rawURL.searchParams.delete("time");
+      const url = `https://${nodeName}.${baseInfo.HOST}/`;
+      window.location.href = url + rawURL.search;
+    }
+  }
+}
+
+export function getDomain(): string {
+  const nodeName = window.location.host.split(".")[0];
+  const url = new URL(window.location.href);
+  if (nodeName === "share") {
+    return url.searchParams.get("nodeName") as string;
+  }
+  return nodeName;
+}
+let wx = window.wx;
+function loadWeChatJSSDK() {
+  // 检查是否已经加载了微信JS-SDK
+  if (window.wx) {
+    wx = window.wx;
+  } else {
+    var script = document.createElement("script");
+    script.src = "https://res2.wx.qq.com/open/js/jweixin-1.6.0.js"; // 微信JS-SDK地址
+    script.onload = function () {
+      wx = window.wx; 
+    };
+    script.onerror = function () {
+      wx = null;
+    };
+    document.body.appendChild(script);
+  }
+}
+
+// 使用loadWeChatJSSDK函数，并在回调中进行wx.config等操作
+export function updateWechatShare(
+  appMessageShareData: {
+    title: string; // 分享标题
+    desc: string; // 分享描述
+    link: string; // 分享链接，该链接域名或路径必须与当前页面对应的服务号JS安全域名一致
+    imgUrl: string; // 分享图标
+    success: () => void;
+  },
+  timelineShareData: {
+    title: string; // 分享标题
+    link: string; // 分享链接，该链接域名或路径必须与当前页面对应的服务号JS安全域名一致
+    imgUrl: string; // 分享图标
+    success: () => void;
+  }
+) {
+  return new Promise((resolve, reject) => {
+    if (!wx) {
+      reject("微信sdk加载失败");
+      return;
+    }
+    const url = getCurrentUrl("");
+    getWechatShare(url).then((res: any) => {
+      if (res.data.errCode == 0) {
+        const data = res.data.data;
+        wx.config({
+          debug: false,
+          appId: data.appId,
+          timestamp: data.timestamp,
+          nonceStr: data.nonceStr,
+          signature: data.signature,
+          jsApiList: [
+            "updateAppMessageShareData",
+            "updateTimelineShareData",
+            "onMenuShareAppMessage",
+            "onMenuShareTimeline",
+          ],
+        });
+        wx.error(function (res: any) {
+          reject(res);
+        });
+        wx.ready(function () {
+          appMessageShareData &&
+            wx.updateAppMessageShareData(appMessageShareData);
+          timelineShareData && wx.updateTimelineShareData(timelineShareData);
+          resolve("微信分享配置成功");
+        });
+      } else {
+        reject(res.data.msg);
+      }
+    });
+  });
+}
+
 export function getShareUrl(
   name: string,
   options: {

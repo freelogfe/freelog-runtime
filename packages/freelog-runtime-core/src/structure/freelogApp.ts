@@ -22,7 +22,7 @@ import {
   callLogin,
   callLoginOut,
 } from "./user";
-import { getShareUrl, mapShareUrl } from "./share";
+import { getShareUrl, mapShareUrl, updateWechatShare } from "./share";
 import { callAuth, addAuth } from "../bridge/index";
 import { onLogin, onUserChange } from "../bridge/eventOn";
 import { isUserChange } from "./user";
@@ -65,6 +65,7 @@ export const freelogApp: any = {
   getShareUrl,
   mapShareUrl,
   getCurrentUrl,
+  updateWechatShare,
   router: microApp.router,
   noAuthCode: [301, 302, 303, 304, 305, 306, 307],
   authCode: [200, 201, 202, 203],

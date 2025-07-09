@@ -11,6 +11,7 @@ export type User = {
   putResetPayPassword: any;
   verifyAuthCode: any;
   loginVerify: any;
+  getWechatShare: any;
 };
 
 const user: User = {
@@ -71,7 +72,7 @@ const user: User = {
     dataModel: {
       authCode: "string",
       address: "string",
-      authCodeType: "string"
+      authCodeType: "string",
     },
   },
   putResetPassword: {
@@ -90,6 +91,13 @@ const user: User = {
       password: "string",
       authCode: "string",
       messageAddress: "string",
+    },
+  },
+  getWechatShare: {
+    url: `users/wechatPublicApis/shareSignature`,
+    method: "get",
+    dataModel: {
+      shareUrl: "string",
     },
   },
 };
