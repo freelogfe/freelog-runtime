@@ -11,43 +11,38 @@ declare const WeixinJSBridge: any;
 
 export function isWeChat() {
   const ua = navigator.userAgent.toLowerCase();
-  return ua.includes("micromessenger") && typeof WeixinJSBridge !== "undefined";
+  return ua.includes("micromessenger");
 }
 
 export function jumpShareWechat() {
-  const nodeName = getDomain();
+  const nodename = getDomain();
   const rawURL = new URL(window.location.href);
   const isShare = window.location.host.split(".")[0] === "share";
   if (isWeChat()) {
     if (!isShare) {
       const url = `https://share.${baseInfo.HOST}/`;
-      window.location.href =
-        url +
-        window.location.search +
-        "&nodeName=" +
-        nodeName +
-        "&time=" +
-        new Date().getTime();
-    } else {
-      loadWeChatJSSDK();
+      const search = window.location.search
+        ? `${window.location.search}&nodename=${nodename}`
+        : `?nodename=${nodename}`;
+      window.location.href = url + search + "&time=" + new Date().getTime();
     }
   } else {
     if (isShare) {
-      rawURL.searchParams.delete("nodeName");
+      rawURL.searchParams.delete("nodename");
       rawURL.searchParams.delete("time");
-      const url = `https://${nodeName}.${baseInfo.HOST}/`;
+      const url = `https://${nodename}.${baseInfo.HOST}/`;
       window.location.href = url + rawURL.search;
     }
   }
 }
 
 export function getDomain(): string {
-  const nodeName = window.location.host.split(".")[0];
+  const nodename = window.location.host.split(".")[0];
   const url = new URL(window.location.href);
-  if (nodeName === "share") {
-    return url.searchParams.get("nodeName") as string;
+  if (nodename === "share") {
+    return url.searchParams.get("nodename") as string;
   }
-  return nodeName;
+  return nodename;
 }
 let wx = window.wx;
 function loadWeChatJSSDK() {
@@ -58,7 +53,7 @@ function loadWeChatJSSDK() {
     var script = document.createElement("script");
     script.src = "https://res2.wx.qq.com/open/js/jweixin-1.6.0.js"; // 微信JS-SDK地址
     script.onload = function () {
-      wx = window.wx; 
+      wx = window.wx;
     };
     script.onerror = function () {
       wx = null;
@@ -84,40 +79,44 @@ export function updateWechatShare(
   }
 ) {
   return new Promise((resolve, reject) => {
+    function wxInit() {
+      const url = getCurrentUrl("");
+      getWechatShare(url).then((res: any) => {
+        if (res.data.errCode == 0) {
+          const data = res.data.data;
+          wx.config({
+            debug: true,
+            appId: "wx5179c4b6bbe0cc55",
+            timestamp: data.timestamp,
+            nonceStr: data.nonceStr,
+            signature: data.signature,
+            jsApiList: ["updateAppMessageShareData", "updateTimelineShareData"],
+          });
+          wx.error(function (res: any) {
+            reject(res);
+          });
+          wx.ready(function () {
+            appMessageShareData &&
+              wx.updateAppMessageShareData(appMessageShareData);
+            timelineShareData && wx.updateTimelineShareData(timelineShareData);
+            resolve("微信分享配置成功");
+          });
+        } else {
+          reject(res.data.msg);
+        }
+      });
+    }
     if (!wx) {
-      reject("微信sdk加载失败");
+      setTimeout(() => {
+        if (!wx) {
+          reject("微信sdk加载失败");
+        } else {
+          wxInit();
+        }
+      }, 1000);
       return;
     }
-    const url = getCurrentUrl("");
-    getWechatShare(url).then((res: any) => {
-      if (res.data.errCode == 0) {
-        const data = res.data.data;
-        wx.config({
-          debug: false,
-          appId: data.appId,
-          timestamp: data.timestamp,
-          nonceStr: data.nonceStr,
-          signature: data.signature,
-          jsApiList: [
-            "updateAppMessageShareData",
-            "updateTimelineShareData",
-            "onMenuShareAppMessage",
-            "onMenuShareTimeline",
-          ],
-        });
-        wx.error(function (res: any) {
-          reject(res);
-        });
-        wx.ready(function () {
-          appMessageShareData &&
-            wx.updateAppMessageShareData(appMessageShareData);
-          timelineShareData && wx.updateTimelineShareData(timelineShareData);
-          resolve("微信分享配置成功");
-        });
-      } else {
-        reject(res.data.msg);
-      }
-    });
+    wxInit();
   });
 }
 

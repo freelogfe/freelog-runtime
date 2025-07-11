@@ -191,21 +191,7 @@ function App() {
             nodeInfo.themeInfo.versionInfo.dependencyTree
           );
           (window as any).FreelogLibrary = instance;
-          freelogApp.updateWechatShare(
-            {
-              title: nodeInfo.nodeName, // 分享标题
-              desc: nodeInfo.nodeTitle, // 分享描述
-              link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的服务号JS安全域名一致
-              imgUrl: "", // 分享图标
-              success: () => {},
-            },
-            {
-              title: nodeInfo.nodeName, // 分享标题
-              link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的服务号JS安全域名一致
-              imgUrl: "", // 分享图标
-              success: () => {},
-            }
-          );
+
           const container = document.getElementById("freelog-plugin-container");
           await freelogApp.mountExhibitWidget(null, {
             widget: nodeInfo.themeInfo,
@@ -220,6 +206,23 @@ function App() {
                 },
                 mounted: () => {
                   freelogApp.status.themeMounted = true;
+                  setTimeout(() => {
+                    freelogApp.updateWechatShare(
+                      {
+                        title: nodeInfo.nodeName + "分享标题", // 分享标题
+                        desc: nodeInfo.nodeTitle, // 分享描述
+                        link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的服务号JS安全域名一致
+                        imgUrl: "https://image.freelog.com/avatar/50050", // 分享图标
+                        success: () => {},
+                      },
+                      {
+                        title: nodeInfo.nodeName + "分享标题", // 分享标题
+                        link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的服务号JS安全域名一致
+                        imgUrl: "https://image.freelog.com/avatar/50050", // 分享图标
+                        success: () => {},
+                      }
+                    );
+                  }, 5000);
                 },
               },
               data: { themeInfo: nodeInfo.themeInfo },
