@@ -7,53 +7,56 @@ import { getCurrentUrl } from "./widgetUtils";
 export const SHARE_DETAIL = "detail";
 export const SHARE_CONTENT = "content";
 export const FREELOG_ROUTE_MAPS = "FREELOG_ROUTE_MAPS";
+const rawLocation = location;
+const rawWindow = window;
 declare const WeixinJSBridge: any;
-
 export function isWeChat() {
   const ua = navigator.userAgent.toLowerCase();
   return ua.includes("micromessenger");
 }
 
 export function jumpShareWechat() {
-  const nodename = getDomain();
-  const rawURL = new URL(window.location.href);
-  const isShare = window.location.host.split(".")[0] === "share";
+  const nodename = getNodeName();
+  const rawURL = new URL(rawWindow.location.href);
+  const isShare = rawWindow.location.host.split(".")[0] === "share";
   if (isWeChat()) {
     if (!isShare) {
       const url = `https://share.${baseInfo.HOST}/`;
-      const search = window.location.search
-        ? `${window.location.search}&nodename=${nodename}`
+      const search = rawWindow.location.search
+        ? `${rawWindow.location.search}&nodename=${nodename}`
         : `?nodename=${nodename}`;
-      window.location.href = url + search + "&time=" + new Date().getTime();
+      rawWindow.location.href = url + search + "&time=" + new Date().getTime();
+    } else {
+      loadWeChatJSSDK();
     }
   } else {
     if (isShare) {
       rawURL.searchParams.delete("nodename");
       rawURL.searchParams.delete("time");
       const url = `https://${nodename}.${baseInfo.HOST}/`;
-      window.location.href = url + rawURL.search;
+      rawWindow.location.href = url + rawURL.search;
     }
   }
 }
 
-export function getDomain(): string {
-  const nodename = window.location.host.split(".")[0];
-  const url = new URL(window.location.href);
+export function getNodeName(): string {
+  const nodename = rawWindow.location.host.split(".")[0];
+  const url = new URL(rawWindow.location.href);
   if (nodename === "share") {
     return url.searchParams.get("nodename") as string;
   }
   return nodename;
 }
-let wx = window.wx;
+let wx = rawWindow.wx;
 function loadWeChatJSSDK() {
   // 检查是否已经加载了微信JS-SDK
-  if (window.wx) {
-    wx = window.wx;
+  if (rawWindow.wx) {
+    wx = rawWindow.wx;
   } else {
     var script = document.createElement("script");
     script.src = "https://res2.wx.qq.com/open/js/jweixin-1.6.0.js"; // 微信JS-SDK地址
     script.onload = function () {
-      wx = window.wx;
+      wx = rawWindow.wx;
     };
     script.onerror = function () {
       wx = null;
@@ -61,27 +64,32 @@ function loadWeChatJSSDK() {
     document.body.appendChild(script);
   }
 }
-
+export const getWechatShareURL = () => {
+  const nodename = getNodeName();
+  const url = `https://share.${baseInfo.HOST}/`;
+  const search = rawWindow.location.search
+    ? `${rawWindow.location.search}&nodename=${nodename}`
+    : `?nodename=${nodename}`;
+  return url + search;
+};
 // 使用loadWeChatJSSDK函数，并在回调中进行wx.config等操作
 export function updateWechatShare(
   appMessageShareData: {
     title: string; // 分享标题
     desc: string; // 分享描述
-    link: string; // 分享链接，该链接域名或路径必须与当前页面对应的服务号JS安全域名一致
     imgUrl: string; // 分享图标
     success: () => void;
   },
   timelineShareData: {
     title: string; // 分享标题
-    link: string; // 分享链接，该链接域名或路径必须与当前页面对应的服务号JS安全域名一致
     imgUrl: string; // 分享图标
     success: () => void;
   }
 ) {
   return new Promise((resolve, reject) => {
     function wxInit() {
-      const url = getCurrentUrl("");
-      getWechatShare(url).then((res: any) => {
+      const url = rawLocation.href;
+      getWechatShare(encodeURIComponent(url)).then((res: any) => {
         if (res.data.errCode == 0) {
           const data = res.data.data;
           wx.config({
@@ -97,9 +105,13 @@ export function updateWechatShare(
           });
           wx.ready(function () {
             appMessageShareData &&
-              wx.updateAppMessageShareData(appMessageShareData);
-            timelineShareData && wx.updateTimelineShareData(timelineShareData);
-            resolve("微信分享配置成功");
+              wx.updateAppMessageShareData({
+                ...appMessageShareData,
+                link: url,
+              });
+            timelineShareData &&
+              wx.updateTimelineShareData({ ...timelineShareData, link: url });
+            resolve("微信分享配置已执行，可检查success 回调");
           });
         } else {
           reject(res.data.msg);
@@ -143,7 +155,7 @@ export function getShareUrl(
   const devData = dev();
   const params = { ...devData.params };
   if (devData.type !== DEV_FALSE) {
-    search = window.location.search;
+    search = rawWindow.location.search;
     widgetsConfig.forEach((element) => {
       search = search.replace(
         "&" + element.name + "=" + encodeURIComponent(params[element.name]),
@@ -174,8 +186,7 @@ export function getShareUrl(
   }
   return `${rawLocation.origin}/${exhibitId}/${type}${search}`;
 }
-const rawLocation = location;
-const rawWindow = window;
+
 // 只有在vue路由之前使用才有效, 但这种十分不合理，不应该在运行时来做
 export async function mapShareUrl(name: string, routeMap: any) {
   return new Promise((resolve, reject) => {

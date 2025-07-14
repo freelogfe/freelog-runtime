@@ -6,7 +6,7 @@ import "@/assets/mobile/index.scss";
 // import "antd-mobile/es/global/global.css"
 // import "antd-mobile/es/global/theme-default.css"
 import microApp from "@micro-zoe/micro-app";
-import { FreelogLibrary, getDomain } from "freelog-runtime-core";
+import { FreelogLibrary, getNodeName } from "freelog-runtime-core";
 
 import { useEffect, useState } from "react";
 import Forgot from "./views/user/forgot";
@@ -91,7 +91,7 @@ function App() {
   }
   useEffect(() => {
     document.title = FI18n.i18nNext.t("noderuntime_nodeloading_tabtitle");
-    const nodeDomain = getDomain();
+    const nodeDomain = getNodeName();
     Promise.all([requestNodeInfo(nodeDomain), freelogAuth.getUserInfo()]).then(
       async (values: any) => {
         const nodeData = values[0];
@@ -219,6 +219,7 @@ function App() {
           }
         } else {
           // 初始化软件库实例
+          // @ts-ignore
           const instance = new FreelogLibrary();
           console.log(
             "___当前主题的依赖树信息",
@@ -240,23 +241,23 @@ function App() {
                 },
                 mounted: () => {
                   freelogApp.status.themeMounted = true;
-                  setTimeout(() => {
-                    freelogApp.updateWechatShare(
-                      {
-                        title: nodeInfo.nodeName + "分享标题", // 分享标题
-                        desc: nodeInfo.nodeTitle, // 分享描述
-                        link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的服务号JS安全域名一致
-                        imgUrl: "https://image.freelog.com/avatar/50050", // 分享图标
-                        success: () => {},
-                      },
-                      {
-                        title: nodeInfo.nodeName + "分享标题", // 分享标题
-                        link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的服务号JS安全域名一致
-                        imgUrl: "https://image.freelog.com/avatar/50050", // 分享图标
-                        success: () => {},
-                      }
-                    );
-                  }, 5000);
+                  // setTimeout(() => {
+                  //   freelogApp.updateWechatShare(
+                  //     {
+                  //       title: nodeInfo.nodeName + "分享标题", // 分享标题
+                  //       desc: nodeInfo.nodeTitle, // 分享描述
+                  //       link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的服务号JS安全域名一致
+                  //       imgUrl: "https://image.freelog.com/avatar/50050", // 分享图标
+                  //       success: () => {},
+                  //     },
+                  //     {
+                  //       title: nodeInfo.nodeName + "分享标题", // 分享标题
+                  //       link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的服务号JS安全域名一致
+                  //       imgUrl: "https://image.freelog.com/avatar/50050", // 分享图标
+                  //       success: () => {},
+                  //     }
+                  //   );
+                  // }, 5000);
                 },
               },
               data: { themeInfo: nodeInfo.themeInfo },

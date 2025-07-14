@@ -12,7 +12,7 @@ import {
   reload,
   getCurrentUrl,
   getTopExhibitId,
-  getSelfNid
+  getSelfNid,
 } from "./widgetUtils";
 import {
   setUserData,
@@ -22,7 +22,12 @@ import {
   callLogin,
   callLoginOut,
 } from "./user";
-import { getShareUrl, mapShareUrl, updateWechatShare } from "./share";
+import {
+  getShareUrl,
+  mapShareUrl,
+  updateWechatShare,
+  getWechatShareURL,
+} from "./share";
 import { callAuth, addAuth } from "../bridge/index";
 import { onLogin, onUserChange } from "../bridge/eventOn";
 import { isUserChange } from "./user";
@@ -64,6 +69,7 @@ export const freelogApp: any = {
   getAllWidget,
   getShareUrl,
   mapShareUrl,
+  getWechatShareURL,
   getCurrentUrl,
   updateWechatShare,
   router: microApp.router,

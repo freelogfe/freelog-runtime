@@ -1,7 +1,7 @@
 import { ResponseType } from "axios";
 import { NodeInfo, PlainObject, FreelogUserInfo } from "./base";
 import { MountExhibitWidgetOptions, MountArticleWidgetOptions } from "./widget";
-import { ItemDepTree } from './collection'
+import { ItemDepTree } from "./collection";
 
 import {
   WidgetController,
@@ -25,23 +25,23 @@ export * from "./result";
 export * from "./exhibit";
 export * from "./collection";
 
-interface GetLibraryEntryUrlsResult { 
-  jsEntryUrl: string,
-  cssEntryUrl: string,
+interface GetLibraryEntryUrlsResult {
+  jsEntryUrl: string;
+  cssEntryUrl: string;
   metaJson: {
-    nameSpace: string,
+    nameSpace: string;
     js: {
-      entry: string,
-      other: string[] | []
-    },
+      entry: string;
+      other: string[] | [];
+    };
     css: {
-      entry: string,
-      other: string[] | []
-    },
-    other: string[] | []
-  },
-  baseUrl: string,
-  version: string
+      entry: string;
+      other: string[] | [];
+    };
+    other: string[] | [];
+  };
+  baseUrl: string;
+  version: string;
 }
 
 export interface FreelogLibraryType {
@@ -49,7 +49,7 @@ export interface FreelogLibraryType {
   loadLibraryJs(jsUrl: string, metaJson: any): Promise<any>;
   loadLibraryCss(cssUrl: string): void;
   dependencyTrees: Array<{
-    [Property in keyof ItemDepTree]-?: ItemDepTree[Property]
+    [Property in keyof ItemDepTree]-?: ItemDepTree[Property];
   }>;
 }
 
@@ -60,28 +60,34 @@ export const initFreelogApp = () => {
   freelogApp = app;
   widgetApi = window.microApp;
 
-  const obj = {}
+  const obj = {};
   const proxyObj = new Proxy(obj, {
     get(target: any, key: string) {
-      const holdKeys = ['getLibraryEntryUrls', 'loadLibraryJs', 'loadLibraryCss']
-      const promiseResultKeys = ['getLibraryEntryUrls', 'loadLibraryJs']
+      const holdKeys = [
+        "getLibraryEntryUrls",
+        "loadLibraryJs",
+        "loadLibraryCss",
+      ];
+      const promiseResultKeys = ["getLibraryEntryUrls", "loadLibraryJs"];
       if (holdKeys.indexOf(key) !== -1) {
         if (promiseResultKeys.indexOf(key) !== -1) {
           return async function (...arg: any[]) {
-            const result = await (window as any).rawWindow.FreelogLibrary[key](...arg, window)
-            return result
-          }
+            const result = await (window as any).rawWindow.FreelogLibrary[key](
+              ...arg,
+              window
+            );
+            return result;
+          };
         } else {
           return function (...arg: any[]) {
-            (window as any).rawWindow.FreelogLibrary[key](...arg, window)
-          }
+            (window as any).rawWindow.FreelogLibrary[key](...arg, window);
+          };
         }
       }
-     return (window as any).rawWindow.FreelogLibrary[key]
+      return (window as any).rawWindow.FreelogLibrary[key];
     },
   }) as FreelogLibraryType;
-  (window as any).FreelogLibrary = proxyObj
-
+  (window as any).FreelogLibrary = proxyObj;
 
   return { freelogApp, widgetApi };
 };
@@ -342,9 +348,54 @@ export interface FreelogApp {
       exhibitId: string;
       itemId?: string;
     },
-    type: string 
+    type: string
   ) => string;
   mapShareUrl: (routeMap: {
     [str: string]: (exhibitId: string, itemId?: string) => string;
   }) => void;
+  getWechatShareURL: () => string;
+  updateWechatShare: (
+    /**
+     * 分享到微信QQ好友配置
+     */
+    appMessageShareData: {
+      /**
+       * 分享标题
+       */
+      title: string;
+      /**
+       * 分享描述
+       */
+      desc: string;
+      /**
+       * 分享图标
+       */
+      imgUrl: string;
+      /**
+       * 成功回调
+       */
+      success: () => void;
+    }
+    /**
+     * 分享到微信朋友圈QQ空间配置
+     */,
+    timelineShareData: {
+      /**
+       * 分享标题
+       */
+      title: string;
+      /**
+       * 分享描述
+       */
+      desc: string;
+      /**
+       * 分享图标
+       */
+      imgUrl: string;
+      /**
+       * 成功回调
+       */
+      success: () => void;
+    }
+  ) => Promise<string>;
 }

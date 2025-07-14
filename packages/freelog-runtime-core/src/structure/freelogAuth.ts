@@ -19,7 +19,7 @@ import {
 } from "../bridge";
 import { resultType, eventType } from "../bridge/eventType";
 import { dev } from "./dev";
-
+import { jumpShareWechat} from "./share";
 const rawWindow = window;
 
 export const freelogAuth = {
@@ -36,6 +36,7 @@ export const freelogAuth = {
   loginCallback,
   loginErrorCallback,
   devData: dev(),
+  jumpShareWechat,
   setUserInfo,
   getUserInfoForAuth,
   getUserInfo,
