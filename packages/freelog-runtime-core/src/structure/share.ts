@@ -64,7 +64,7 @@ function loadWeChatJSSDK() {
     document.body.appendChild(script);
   }
 }
-export const getWechatShareURL = () => {
+export const getWechatShareURL = (name: string) => {
   const nodename = getNodeName();
   const url = `https://share.${baseInfo.HOST}/`;
   const search = rawWindow.location.search
@@ -74,6 +74,7 @@ export const getWechatShareURL = () => {
 };
 // 使用loadWeChatJSSDK函数，并在回调中进行wx.config等操作
 export function updateWechatShare(
+  name: string,
   appMessageShareData: {
     title: string; // 分享标题
     desc: string; // 分享描述
@@ -87,13 +88,16 @@ export function updateWechatShare(
   }
 ) {
   return new Promise((resolve, reject) => {
+    if (!isWeChat()) {
+      reject("非微信环境");
+    }
     function wxInit() {
       const url = rawLocation.href;
-      getWechatShare(encodeURIComponent(url)).then((res: any) => {
+      getWechatShare(url).then((res: any) => {
         if (res.data.errCode == 0) {
           const data = res.data.data;
           wx.config({
-            debug: true,
+            debug: false,
             appId: "wx5179c4b6bbe0cc55",
             timestamp: data.timestamp,
             nonceStr: data.nonceStr,
@@ -104,13 +108,20 @@ export function updateWechatShare(
             reject(res);
           });
           wx.ready(function () {
-            appMessageShareData &&
-              wx.updateAppMessageShareData({
+            if (appMessageShareData) {
+              const data = {
                 ...appMessageShareData,
                 link: url,
-              });
-            timelineShareData &&
-              wx.updateTimelineShareData({ ...timelineShareData, link: url });
+              };
+              wx.updateAppMessageShareData(data);
+            }
+            if (timelineShareData) {
+              const data = {
+                ...timelineShareData,
+                link: url,
+              };
+              wx.updateTimelineShareData(data);
+            }
             resolve("微信分享配置已执行，可检查success 回调");
           });
         } else {

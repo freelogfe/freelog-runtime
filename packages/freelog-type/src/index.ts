@@ -354,6 +354,7 @@ export interface FreelogApp {
     [str: string]: (exhibitId: string, itemId?: string) => string;
   }) => void;
   getWechatShareURL: () => string;
+  isWeChat: () => boolean;
   updateWechatShare: (
     /**
      * 分享到微信QQ好友配置
@@ -375,19 +376,16 @@ export interface FreelogApp {
        * 成功回调
        */
       success: () => void;
-    }
+    },
     /**
      * 分享到微信朋友圈QQ空间配置
-     */,
+     */
     timelineShareData: {
       /**
        * 分享标题
        */
       title: string;
-      /**
-       * 分享描述
-       */
-      desc: string;
+
       /**
        * 分享图标
        */
