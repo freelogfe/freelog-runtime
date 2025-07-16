@@ -10,16 +10,24 @@ export const FREELOG_ROUTE_MAPS = "FREELOG_ROUTE_MAPS";
 const rawLocation = location;
 const rawWindow = window;
 declare const WeixinJSBridge: any;
-export function isWeChat() {
-  const ua = navigator.userAgent.toLowerCase();
-  return ua.includes("micromessenger");
+
+export function isWeChatOrQQ() {
+  var ua = navigator.userAgent.toLowerCase();
+
+  // 判断是否为微信浏览器
+  var isWeChat = /micromessenger/.test(ua);
+
+  // 判断是否为QQ浏览器
+  var isQQ = /qq/.test(ua) && !/micromessenger/.test(ua); // 确保不是微信环境中的QQ链接
+
+  return isWeChat || isQQ;
 }
 
 export function jumpShareWechat() {
   const nodename = getNodeName();
   const rawURL = new URL(rawWindow.location.href);
   const isShare = rawWindow.location.host.split(".")[0] === "share";
-  if (isWeChat()) {
+  if (isWeChatOrQQ()) {
     if (!isShare) {
       const url = `https://share.${baseInfo.HOST}/`;
       const search = rawWindow.location.search
@@ -64,14 +72,14 @@ function loadWeChatJSSDK() {
     document.body.appendChild(script);
   }
 }
-export const getWechatShareURL = (name: string) => {
+export function getWechatShareURL(name: string) {
   const nodename = getNodeName();
   const url = `https://share.${baseInfo.HOST}/`;
   const search = rawWindow.location.search
     ? `${rawWindow.location.search}&nodename=${nodename}`
     : `?nodename=${nodename}`;
   return url + search;
-};
+}
 // 使用loadWeChatJSSDK函数，并在回调中进行wx.config等操作
 export function updateWechatShare(
   name: string,
@@ -88,8 +96,8 @@ export function updateWechatShare(
   }
 ) {
   return new Promise((resolve, reject) => {
-    if (!isWeChat()) {
-      reject("非微信环境");
+    if (!isWeChatOrQQ()) {
+      reject("非微信QQ环境");
     }
     function wxInit() {
       const url = rawLocation.href;
@@ -122,7 +130,7 @@ export function updateWechatShare(
               };
               wx.updateTimelineShareData(data);
             }
-            resolve("微信分享配置已执行，可检查success 回调");
+            resolve("微信QQ分享配置已执行，可检查success 回调");
           });
         } else {
           reject(res.data.msg);

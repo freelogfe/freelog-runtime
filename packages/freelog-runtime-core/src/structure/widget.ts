@@ -5,7 +5,7 @@ import { digestMessage } from "./hashc";
 import {
   getExhibitDepFileStream,
   getExhibitFileStream,
-  getExhibitInfo
+  getExhibitInfo,
 } from "../freelogApp/api";
 import { WidgetController } from "freelog-runtime";
 export const FREELOG_DEV = "freelogDev";
@@ -98,8 +98,8 @@ export async function mountExhibitWidget(
   // 获取展品的依赖树, 使 dependencyTree 和 nid 必然存在
   if (!dependencyTree) {
     const _result_detail = await getExhibitInfo(name, exhibitId, {
-      isLoadVersionProperty: 1
-    })
+      isLoadVersionProperty: 1,
+    });
     if (_result_detail.data.errCode === 0) {
       dependencyTree = _result_detail.data.data.versionInfo.dependencyTree;
     }
@@ -137,11 +137,11 @@ export async function mountExhibitWidget(
   let fentry = "";
   fentry = await getExhibitFileStream(name, exhibitId, {
     returnUrl: true,
-    subFilePath: "/"
+    subFilePath: "/",
   });
-  console.log(fentry)
-  fentry = fentry.replace(/\/$/, '').replace(/\/$/, '') ; // + "/index.html"; // `?subFilePath=`;
-  console.log(fentry)
+  console.log(fentry);
+  fentry = fentry.replace(/\/$/, "").replace(/\/$/, ""); // + "/index.html"; // `?subFilePath=`;
+  console.log(fentry);
   entry = widget_entry || entry || fentry;
   const widgetConfig = {
     container,
@@ -158,7 +158,7 @@ export async function mountExhibitWidget(
     seq,
     isUI: false,
     props: {},
-    nid: dependencyTree[0].nid
+    nid: dependencyTree[0].nid,
   };
   console.log(renderWidgetOptions);
   renderWidgetOptions = options.renderWidgetOptions
@@ -219,9 +219,9 @@ export async function mountArticleWidget(
   fentry = await getExhibitDepFileStream(name, topExhibitId, {
     nid: nid,
     returnUrl: true,
-    subFilePath: "/"
+    subFilePath: "/",
   });
-  fentry = fentry.replace(/\/\/$/, '/').replace(/\/$/, '') ; //  + "/index.html"; // `&subFilePath=`;
+  fentry = fentry.replace(/\/\/$/, "/").replace(/\/$/, ""); //  + "/index.html"; // `&subFilePath=`;
   entry = widget_entry || entry || fentry;
   const widgetConfig = {
     container,
@@ -265,19 +265,20 @@ async function mountApp(
   container: any,
   renderWidgetOptions: any
 ) {
+  console.log(freelogApp.getWechatShareURL(),99999)
   // microApp.preFetch([
   //   { name: widgetRenderName, url: entry, level: 3 }, // 加载资源并解析
   // ])
   // if(typeof renderWidgetOptions.data != "object"){
   //   consol
-  //   return 
+  //   return
   // }
   const flag = await microApp.renderApp({
     "router-mode": "search",
     ...renderWidgetOptions,
     name: widgetRenderName,
     // TODO "https://file.freelog.com" 要定义一个常量来替换
-    url: entry , // widgetConfig.entry,
+    url: entry, // widgetConfig.entry,
     container: container,
     data: {
       ...(renderWidgetOptions.data ? renderWidgetOptions.data : {}),

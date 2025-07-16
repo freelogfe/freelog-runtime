@@ -354,7 +354,7 @@ export interface FreelogApp {
     [str: string]: (exhibitId: string, itemId?: string) => string;
   }) => void;
   getWechatShareURL: () => string;
-  isWeChat: () => boolean;
+  isWeChatOrQQ: () => boolean;
   updateWechatShare: (
     /**
      * 分享到微信QQ好友配置

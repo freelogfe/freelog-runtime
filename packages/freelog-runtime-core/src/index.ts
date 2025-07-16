@@ -1,5 +1,5 @@
 import { baseInfo } from "./base/baseInfo";
-export { isWeChat, getNodeName } from "./structure/share";
+export { isWeChatOrQQ, getNodeName } from "./structure/share";
 import { jumpShareWechat } from "./structure/share";
 
 export { freelogApp } from "./structure/freelogApp";

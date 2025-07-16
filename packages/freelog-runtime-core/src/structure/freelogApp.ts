@@ -27,6 +27,7 @@ import {
   mapShareUrl,
   updateWechatShare,
   getWechatShareURL,
+  isWeChatOrQQ
 } from "./share";
 import { callAuth, addAuth } from "../bridge/index";
 import { onLogin, onUserChange } from "../bridge/eventOn";
@@ -69,6 +70,7 @@ export const freelogApp: any = {
   getAllWidget,
   getShareUrl,
   mapShareUrl,
+  isWeChatOrQQ,
   getWechatShareURL,
   getCurrentUrl,
   updateWechatShare,

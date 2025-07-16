@@ -1,2 +1,3 @@
 packages:
   - 'packages/*'
+  - '!packages/micro-app2'
