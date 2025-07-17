@@ -46,7 +46,7 @@ export interface NodeInfo {
   nodeName: string;
   // nodeDomain: string;
   // ownerUserId: number;
-  // ownerUserName: string;
+  ownerUserName: string;
   // nodeThemeId?: string;
   // status?: number;
   // uniqueKey?: string;
