@@ -87,6 +87,7 @@ function App() {
           nodeLogo,
           nodeTitle,
           nodeShortDescription,
+          ownerUserName,
           // nodeSuspendInfo,
         } = nodeInfo;
 
@@ -96,6 +97,7 @@ function App() {
           nodeLogo,
           nodeTitle,
           nodeShortDescription,
+          ownerUserName,
           // nodeSuspendInfo,
         };
         freelogAuth.nodeInfo = nodeData.data;

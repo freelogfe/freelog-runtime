@@ -12,9 +12,18 @@ if (window.location.href.indexOf("testfreelog") > -1) {
 if (process.env.NODE_ENV === "development") {
   _midURL = "//api3.testfreelog.com/"; // "//localhost:5201/";
 }
+let ENV = "prod";
+let HOST = "freelog.com";
+if (window.location.host.includes(".testfreelog.com")) {
+  ENV = "test";
+  HOST = "testfreelog.com";
+}
+window.ENV = ENV;
 window.isTest = isTest;
 // @ts-ignore
 export const baseInfo: any = {
+  ENV,
+  HOST,
   isTest: isTest,
   nodeId: "",
   baseURL: _midURL,
@@ -24,7 +33,9 @@ export const baseInfo: any = {
 import frequest from "./services/handler";
 import user from "./services/api/modules/user";
 import node from "./services/api/modules/node";
-
+export async function getWechatShare(url: any) {
+  return frequest(node.getWechatShare, "", { shareUrl: url });
+}
 export async function getCurrentUser() {
   user.getCurrent.baseURL = baseInfo.directURL;
   return frequest(user.getCurrent, "", "");

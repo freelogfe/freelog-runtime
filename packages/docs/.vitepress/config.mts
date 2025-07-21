@@ -5,7 +5,7 @@ export default defineConfig({
   title: "freelog开发者文档",
   description: "freelog开发者文档",
   lang: "zh-CN",
-  base: "/v2",
+  base: "",
   // locales: {
   //   root: {
   //     label: 'English',
@@ -31,7 +31,7 @@ export default defineConfig({
       { text: "参考API", link: "/api/widget", activeMatch: "/api/" },
       { text: "库开发者", link: "/library/guide", activeMatch: "/library/" },
       {
-        text: "V2版本",
+        text: "当前版本V2",
         items: [
           { text: "v1 文档", link: "https://widget-docs.testfreelog.com/v1" },
         ],

@@ -1,11 +1,11 @@
 import { placeHolder } from "../../base";
 
-
 export type Node = {
   getInfoByNameOrDomain: any;
   deleteUserData: any;
   putUserData: any;
   getUserData: any;
+  getWechatShare: any;
 };
 
 const node: Node = {
@@ -44,6 +44,13 @@ const node: Node = {
     method: "GET",
     dataModel: {
       fields: "string",
+    },
+  },
+  getWechatShare: {
+    url: `users/wechatPublicApis/shareSignature`,
+    method: "get",
+    dataModel: {
+      shareUrl: "string",
     },
   },
 };

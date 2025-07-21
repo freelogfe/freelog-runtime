@@ -475,4 +475,47 @@ export interface FreelogApp {
   mapShareUrl: (routeMap: {
     [str: string]: (exhibitId: string, itemId?: string) => string;
   }) => void;
+  getWechatShareURL: () => string;
+  isWeChatOrQQ: () => boolean;
+  updateWechatShare: (
+    /**
+     * 分享到微信QQ好友配置
+     */
+    appMessageShareData: {
+      /**
+       * 分享标题
+       */
+      title: string;
+      /**
+       * 分享描述
+       */
+      desc: string;
+      /**
+       * 分享图标
+       */
+      imgUrl: string;
+      /**
+       * 成功回调
+       */
+      success: () => void;
+    },
+    /**
+     * 分享到微信朋友圈QQ空间配置
+     */
+    timelineShareData: {
+      /**
+       * 分享标题
+       */
+      title: string;
+
+      /**
+       * 分享图标
+       */
+      imgUrl: string;
+      /**
+       * 成功回调
+       */
+      success: () => void;
+    }
+  ) => Promise<string>;
 }
