@@ -10,7 +10,7 @@ if (window.location.href.indexOf("testfreelog") > -1) {
   _midURL = window.location.protocol + "//api.testfreelog.com/v2/runtimes/";
 }
 if (process.env.NODE_ENV === "development") {
-  _midURL = "//api3.testfreelog.com/"; // "//localhost:5201/";
+  // _midURL = "//api3.testfreelog.com/"; // "//localhost:5201/";
 }
 let ENV = "prod";
 let HOST = "freelog.com";
@@ -84,7 +84,7 @@ import {
   getCollectionSubDepList,
   getCollectionSubDepFileStream,
 } from "./api/collection";
-export const freelogApp: any = {
+export const freelogApp = {
   getExhibitById,
   getExhibitListById,
   getExhibiListAuthById,

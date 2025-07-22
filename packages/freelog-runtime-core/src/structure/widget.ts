@@ -6,7 +6,7 @@ import { DEV_TYPE_REPLACE, DEV_THEME, DEV_FALSE } from "./dev";
 import { digestMessage } from "./hashc";
 // import {freelogApp as freelogAppLib } from "freelog-runtime-api";
 
-const { getExhibitDepFileStream, getExhibitFileStream, getExhibitInfo } =
+const { getExhibitDepFileStream, getExhibitFileStream, getExhibitById } =
   freelogAppLib;
 import { WidgetController } from "freelog-runtime";
 export const FREELOG_DEV = "freelogDev";
@@ -65,7 +65,7 @@ export function removeChildWidget(key: string, childKey: string) {
  *
  * 4.插件加载后需要获取自身的属性 getSelfProperties
  *     4.1 对于展品: exhibitProperty
-         getExhibitInfo
+         getExhibitById
  *       
  *     4.2 对于作品: articleProperty
  *       可以拿到topExhibitId, nid  对getExhibitDepInfo封装一下，
@@ -98,7 +98,7 @@ export async function mountExhibitWidget(
 
   // 获取展品的依赖树, 使 dependencyTree 和 nid 必然存在
   if (!dependencyTree) {
-    const _result_detail = await getExhibitInfo(name, exhibitId, {
+    const _result_detail = await getExhibitById(name, exhibitId, {
       isLoadVersionProperty: 1,
     });
     if (_result_detail.data.errCode === 0) {

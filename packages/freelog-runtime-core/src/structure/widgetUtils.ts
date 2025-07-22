@@ -1,6 +1,6 @@
 import { widgetsConfig } from "./widget";
 import { freelogApp } from "freelog-runtime-api";
-const { getExhibitDepInfo, getExhibitInfo } = freelogApp;
+const { getExhibitDepInfo, getExhibitById } = freelogApp;
 export function getSelfWidgetRenderName(name: string) {
   return widgetsConfig.get(name)?.name;
 }
@@ -35,7 +35,7 @@ export async function getSelfProperty(name: string, isFromServer: boolean) {
   }
   const { exhibitId, nid, topExhibitId } = widgetsConfig.get(name);
   if (exhibitId) {
-    const res = await getExhibitInfo(name, exhibitId, {
+    const res = await getExhibitById(name, exhibitId, {
       isLoadVersionProperty: 1,
     });
     console.log(res)
@@ -63,7 +63,7 @@ export async function getSelfDependencyTree(
     return widgetConfig.dependencyTree || [];
   }
   const { exhibitId, nid, topExhibitId } = widgetsConfig.get(name);
-  const res = await getExhibitInfo(name, exhibitId || topExhibitId, {
+  const res = await getExhibitById(name, exhibitId || topExhibitId, {
     isLoadVersionProperty: 1,
   });
   console.log(res)

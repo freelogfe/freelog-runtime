@@ -232,7 +232,7 @@ export async function getExhibitFileStream(
     subFilePath?: string; // 作品内部子文件 路径
     config?: any;
   },
-  config: any
+  config?: any
 ) {
   if (!config) {
     config = query?.config || {};
