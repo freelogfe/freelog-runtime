@@ -30,12 +30,12 @@ export default defineConfig({
       { text: "框架接入", link: "/framework/", activeMatch: "/framework/" },
       { text: "参考API", link: "/api/widget", activeMatch: "/api/" },
       { text: "库开发者", link: "/library/guide", activeMatch: "/library/" },
-      {
-        text: "当前版本V2",
-        items: [
-          { text: "v1 文档", link: "https://widget-docs.testfreelog.com/v1" },
-        ],
-      },
+      // {
+      //   text: "当前版本V2",
+      //   items: [
+      //     { text: "v1 文档", link: "https://widget-docs.testfreelog.com/v1" },
+      //   ],
+      // },
     ],
     sidebar: {
       // 当用户位于 `guide` 目录时，会显示此侧边栏
