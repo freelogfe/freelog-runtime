@@ -22,6 +22,7 @@ console.log(nodeInfo);
 | `nodeLogo`             | `string` | 节点图标 |
 | `nodeTitle`            | `string` | 节点标题 |
 | `nodeShortDescription` | `string` | 节点简介 |
+| `ownerUserName`        | `string` | 节点拥有者 |
 
 ### 返回示例
 
