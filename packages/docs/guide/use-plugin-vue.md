@@ -13,7 +13,7 @@ outline: 'deep'
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
 import { reactive, onMounted } from 'vue'
-import { freelogApp } from 'freelog-runtime-v2'
+import { freelogApp } from 'freelog-runtime'
 
 const data = reactive({
   articleData: {},

@@ -103,7 +103,7 @@ pnpm dev
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
-import { initFreelogApp } from 'freelog-runtime-v2'
+import { initFreelogApp } from 'freelog-runtime'
 
 const appInstance = createApp(App)
 
@@ -174,7 +174,7 @@ pnpm build
 ```js
 <script setup>
 import { ref } from 'vue'
-import { freelogApp } from 'freelog-runtime-v2'
+import { freelogApp } from 'freelog-runtime'
 
 const list = ref([])
 

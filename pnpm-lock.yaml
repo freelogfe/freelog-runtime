@@ -36,7 +36,7 @@ importers:
       freelog-runtime-api:
         specifier: workspace:^
         version: link:../freelog-runtime-api
-      freelog-runtime-v2:
+      freelog-runtime:
         specifier: workspace:^
         version: link:../freelog-type
       js-sha256:
@@ -285,7 +285,7 @@ importers:
       eslint-plugin-react-refresh:
         specifier: ^0.4.5
         version: 0.4.11(eslint@8.57.0)
-      freelog-runtime-v2:
+      freelog-runtime:
         specifier: workspace:^
         version: link:../freelog-type
       sass:
@@ -327,7 +327,7 @@ importers:
       freelog-runtime-core:
         specifier: workspace:^
         version: link:../freelog-runtime-core
-      freelog-runtime-v2:
+      freelog-runtime:
         specifier: workspace:^
         version: link:../freelog-type
       html-react-parser:

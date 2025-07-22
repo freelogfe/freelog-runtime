@@ -102,7 +102,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import { initFreelogApp } from "freelog-runtime-v2";
+import { initFreelogApp } from "freelog-runtime";
 
 const root = createRoot(document.getElementById("root"));
 
@@ -177,7 +177,7 @@ import { useState, useEffect } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { freelogApp } from "freelog-runtime-v2";
+import { freelogApp } from "freelog-runtime";
 function App() {
   const [list, setList] = useState([]);
 

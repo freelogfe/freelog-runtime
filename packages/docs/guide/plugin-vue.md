@@ -97,7 +97,7 @@ export default defineConfig({
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
-import { initFreelogApp } from 'freelog-runtime-v2'
+import { initFreelogApp } from 'freelog-runtime'
 
 const appInstance = createApp(App)
 

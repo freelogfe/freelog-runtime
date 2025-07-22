@@ -6,13 +6,13 @@ outline: deep
 ## 安装环境库
 
 ```bash
-npm i freelog-runtime-v2@latest -S
+npm i freelog-runtime@latest -S
 ```
 
 在入口文件`main.jsx`中使用
 
 ```js
-import { initFreelogApp } from "freelog-runtime-v2";
+import { initFreelogApp } from "freelog-runtime";
 
 // 初始化
 initFreelogApp()

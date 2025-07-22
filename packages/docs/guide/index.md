@@ -34,7 +34,7 @@ deep: true
 ### 平台运行时环境
 
 - 主题和插件在 Freelog 平台的运行时环境中运行，是一种微前端技术。
-- 开发者使用官方提供的库 `freelog-runtime-v2` ，开发者可使用此库提供的 [API](../api/widget) 自定义页面交互逻辑，例如用API从节点请求所有资源列表。
+- 开发者使用官方提供的库 `freelog-runtime` ，开发者可使用此库提供的 [API](../api/widget) 自定义页面交互逻辑，例如用API从节点请求所有资源列表。
 
 ## 快速入门
 
@@ -84,16 +84,16 @@ deep: true
 - 安装 API 库：
 
   ```bash
-  npm install freelog-runtime-v2
+  npm install freelog-runtime
   # 或使用 yarn
-  yarn add freelog-runtime-v2
+  yarn add freelog-runtime
   # 或使用 pnpm
-  pnpm add freelog-runtime-v2
+  pnpm add freelog-runtime
   ```
 - 初始化 Freelog 应用：
 
   ```javascript
-  import { initFreelogApp } from "freelog-runtime-v2";
+  import { initFreelogApp } from "freelog-runtime";
 
   window.mount = () => {
     initFreelogApp();
