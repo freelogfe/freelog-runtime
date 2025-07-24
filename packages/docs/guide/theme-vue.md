@@ -169,7 +169,7 @@ pnpm build
 
 ### 5.3 使用API
 
-以pc端为例，使用`getExhibitListByPaging`获取数据并渲染了一个资源列表，`HelloWorld.vue`的文件内容如下：
+以pc端为例，使用`getExhibitListByPage`获取数据并渲染了一个资源列表，`HelloWorld.vue`的文件内容如下：
 
 ```js
 <script setup>
@@ -178,7 +178,7 @@ import { freelogApp } from 'freelog-runtime'
 
 const list = ref([])
 
-freelogApp.getExhibitListByPaging().then(res => {
+freelogApp.getExhibitListByPage().then(res => {
   if (res.data.errCode === 0) {
     list.value = res.data.data.dataList
   }

@@ -1,4 +1,4 @@
-import { SUCCESS, FAILED, USER_CANCEL, DATA_ERROR } from "./eventType";
+import { SUCCESS, FAILED, USER_CANCEL, DATA_ERROR, OFFLINE } from "./eventType";
 import { LOGIN, CONTRACT, LOGIN_OUT } from "./eventType";
 import { onLogin } from "./eventOn";
 import { freelogApp } from "../structure/freelogApp";
@@ -44,60 +44,33 @@ let callAuthCallBack: any = null;
 export async function addAuth(name: string, exhibitId: string, options?: any) {
   const arr = eventMap.get(exhibitId)?.callBacks || [];
   return new Promise((resolve) => {
-    Promise.all([
-      freelogApp.getExhibitInfo(name, exhibitId, {
-        isLoadPolicyInfo: 1,
-        isLoadVersionProperty: 1,
-        isLoadContract: 1,
-        isLoadResourceDetailInfo: 1,
-        isTranslate: 1,
-      }),
-      freelogApp.getExhibitAuthStatus(name, exhibitId),
-      freelogApp.getExhibitAvailable(name, exhibitId),
-    ]).then((response) => {
-      if (response[1].data.errCode) {
-        resolve({ status: DATA_ERROR, data: response[1].data });
-        return;
-      }
-
-      // if (response[0].data.data.onlineStatus === 0) {
-      //   resolve({ status: OFFLINE, data: response[0].data });
-      //   return;
-      // }
-      const data = response[0].data.data;
-      data.contracts = data.contracts || [];
-      data.defaulterIdentityType = response[1].data.data[0].authCode;
-      data.isAvailable = response[2].data.data[0].isAuth;
-      data.availableData = response[2].data.data[0];
-      arr.push({
-        resolve,
-        options,
-        widgetName: name,
-      });
-      const id = exhibitId;
-      eventMap.set(id, {
-        isTheme: name ? false : true,
-        eventId: id, // 后期evnetId是要与prsesentableId区分开来的
-        ...data,
-        callBacks: arr,
-      });
-      if (options && options.immediate) {
-        if (!uiInited) {
-          UI && UI(CONTRACT);
-          uiInited = true;
-        } else {
-          if (locked) {
-            setTimeout(() => {
-              updateUI && updateUI();
-            }, 0);
-          } else {
-            updateUI && updateUI();
-          }
-        }
-      } else {
-        callAuthCallBack && callAuthCallBack();
-      }
+    arr.push({
+      resolve,
+      options,
+      widgetName: name,
     });
+    const id = exhibitId;
+    eventMap.set(id, {
+      isTheme: name ? false : true,
+      eventId: id, // 后期evnetId是要与prsesentableId区分开来的
+      callBacks: arr,
+    });
+    if (options && options.immediate) {
+      if (!uiInited) {
+        UI && UI(CONTRACT);
+        uiInited = true;
+      } else {
+        if (locked) {
+          setTimeout(() => {
+            updateUI && updateUI();
+          }, 0);
+        } else {
+          updateUI && updateUI();
+        }
+      }
+    } else {
+      callAuthCallBack && callAuthCallBack();
+    }
   });
 }
 export function callAuth() {
@@ -162,6 +135,24 @@ export function endEvent(eventId: string, type: number, data: any) {
       eventMap.forEach((event: any) => {
         event.callBacks.forEach((item: any) => {
           item.resolve({ status: USER_CANCEL, data });
+        });
+      });
+      removeEvent();
+      break;
+    case DATA_ERROR:
+      uiInited = false;
+      eventMap.forEach((event: any) => {
+        event.callBacks.forEach((item: any) => {
+          item.resolve({ status: DATA_ERROR, data });
+        });
+      });
+      removeEvent();
+      break;
+    case OFFLINE:
+      uiInited = false;
+      eventMap.forEach((event: any) => {
+        event.callBacks.forEach((item: any) => {
+          item.resolve({ status: OFFLINE, data });
         });
       });
       removeEvent();

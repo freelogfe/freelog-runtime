@@ -75,17 +75,21 @@ export interface NodeInfo {
  */
 export declare enum SubjectTypeEnum {
   /**
-   * 资源
+   * 作品
    */
-  Resource = 1,
+  Work = 1,
   /**
    * 展品
    */
-  Presentable = 2,
+  Exhibit = 2,
   /**
    * 用户组
    */
   UserGroup = 3,
+  /**
+   * 集合
+   */
+  Collection = 4,
 }
 
 /**

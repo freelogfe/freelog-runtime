@@ -170,7 +170,7 @@ pnpm build
 
 ### 5.3 使用 API
 
-以pc端为例，使用`getExhibitListByPaging`获取数据并渲染了一个资源列表，`App.jsx`的文件内容如下：
+以pc端为例，使用`getExhibitListByPage`获取数据并渲染了一个资源列表，`App.jsx`的文件内容如下：
 
 ```js
 import { useState, useEffect } from "react";
@@ -186,7 +186,7 @@ function App() {
   };
 
   useEffect(() => {
-    freelogApp.getExhibitListByPaging().then((res) => {
+    freelogApp.getExhibitListByPage().then((res) => {
       if (res.data.errCode === 0) {
         setList(res.data.data.dataList);
       }

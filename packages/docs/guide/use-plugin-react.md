@@ -51,7 +51,7 @@ function App() {
   }
   
   useEffect(() => {
-    freelogApp.getExhibitListByPaging().then(res => {
+    freelogApp.getExhibitListByPage().then(res => {
       if (res.data.errCode === 0) {
         setList(res.data.data.dataList)
       }

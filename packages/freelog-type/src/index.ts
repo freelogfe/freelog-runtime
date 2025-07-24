@@ -1,32 +1,25 @@
 import { ResponseType } from "axios";
-import { NodeInfo, PlainObject, FreelogUserInfo } from "./base";
+import { NodeInfo, PlainObject, PageResult, FreelogUserInfo } from "./base";
 import { MountExhibitWidgetOptions, MountArticleWidgetOptions } from "./widget";
-import { ItemDepTree } from "./collection";
 
 import {
   WidgetController,
-  GetExhibitListByIdResult,
-  GetExhibitListByPagingResult,
-  GetExhibitInfoResult,
-  GetExhibitSignCountResult,
-  GetExhibitAuthStatusResult,
-  GetExhibitAvailableResult,
-  GetExhibitDepInfoResult,
-  GetSignStatisticsResult,
-  GetExhibitRecommendResult,
-  GetCollectionSubListResult,
-  GetCollectionsSubListResult,
-  GetCollectionSubInfoByIdResult,
-  GetCollectionSubInfoByIdsResult,
-  GetCollectionSubAuthResult,
-  GetCollectionSubDepListResult,
+  ResponseDataType,
   AddAuthResult,
+  CollectionInfo,
 } from "./result";
 import { ExhibitDependencyNodeInfo } from "./exhibit";
 export * from "./result";
 export * from "./exhibit";
 export * from "./collection";
-
+import {
+  ExhibitInfo,
+  AuthResult,
+  SignItem,
+  DependArticleInfo,
+  SignCount,
+} from "./exhibit";
+import { SubItemInfo, ItemAuthResult, ItemDepTree } from "./collection";
 interface GetLibraryEntryUrlsResult {
   jsEntryUrl: string;
   cssEntryUrl: string;
@@ -136,15 +129,15 @@ export interface FreelogApp {
        */
       isLoadVersionProperty: 0 | 1;
     }
-  ) => Promise<GetExhibitInfoResult>;
+  ) => Promise<ResponseDataType<ExhibitInfo>>;
   getExhibitListById: (query: {
     exhibitIds: string;
     isLoadVersionProperty?: 0 | 1;
-  }) => Promise<GetExhibitListByIdResult>;
+  }) => Promise<ResponseDataType<ExhibitInfo[]>>;
   getExhibiListAuthById: (query: {
     exhibitIds: string;
     isLoadVersionProperty?: 0 | 1;
-  }) => Promise<GetExhibitListByIdResult>;
+  }) => Promise<ResponseDataType<ExhibitInfo[]>>;
   getExhibitListByPage: (options?: {
     /**
      * 跳过的数量.默认为0.
@@ -198,8 +191,12 @@ export interface FreelogApp {
      * 是否同步翻译.测试环境自动忽略此参数
      */
     isTranslate?: 0 | 1;
-  }) => Promise<GetExhibitListByPagingResult>;
+  }) => Promise<ResponseDataType<PageResult<ExhibitInfo>>>;
   getExhibitListAuthByPage: (options?: {
+    /**
+     * 默认 0，传 1 则返回所有信息，否则只有授权信息
+     */
+    allInfo: 0 | 1;
     /**
      * 跳过的数量.默认为0.
      */
@@ -252,10 +249,10 @@ export interface FreelogApp {
      * 是否同步翻译.测试环境自动忽略此参数
      */
     isTranslate?: 0 | 1;
-  }) => Promise<GetExhibitListByPagingResult>;
+  }) => Promise<ResponseDataType<PageResult<ExhibitInfo>>>;
   getExhibitAuthStatus: (
     exhibitIds: string
-  ) => Promise<GetExhibitAuthStatusResult>;
+  ) => Promise<ResponseDataType<AuthResult[]>>;
   getExhibitFileStream: (
     exhibitId: string,
     options?: {
@@ -278,14 +275,14 @@ export interface FreelogApp {
       recommendNorm: string;
       size: number;
     }
-  ) => Promise<GetExhibitRecommendResult>;
+  ) => Promise<ResponseDataType<ExhibitInfo[]>>;
   getExhibitSignCount: (
     exhibitIds: string
-  ) => Promise<GetExhibitSignCountResult>;
+  ) => Promise<ResponseDataType<SignItem[]>>;
 
   getExhibitAvailable: (
     exhibitIds: string
-  ) => Promise<GetExhibitAvailableResult>;
+  ) => Promise<ResponseDataType<AuthResult[]>>;
 
   getExhibitDepInfo: (
     exhibitId: string,
@@ -295,7 +292,7 @@ export interface FreelogApp {
        */
       articleNids: string;
     }
-  ) => Promise<GetExhibitDepInfoResult>;
+  ) => Promise<ResponseDataType<DependArticleInfo[]>>;
   getCollectionSubListByPage: (
     exhibitId: string,
     query?: {
@@ -310,10 +307,14 @@ export interface FreelogApp {
        */
       isShowDetailInfo: number;
     }
-  ) => Promise<GetCollectionSubListResult>;
+  ) => Promise<ResponseDataType<SubItemInfo[]>>;
   getCollectionSubListAuthByPage: (
     exhibitId: string,
     query?: {
+      /**
+       * 默认 0，传 1 则返回所有信息，否则只有授权信息
+       */
+      allInfo: 0 | 1;
       /**
        * 排序方式: 1:升序 -1:降序，默认1
        */
@@ -325,7 +326,7 @@ export interface FreelogApp {
        */
       isShowDetailInfo: number;
     }
-  ) => Promise<GetCollectionSubListResult>;
+  ) => Promise<ResponseDataType<CollectionInfo[]>>;
   getCollectionsSubListByPage: (
     exhibitIds: string,
     query?: {
@@ -340,7 +341,7 @@ export interface FreelogApp {
        */
       isShowDetailInfo: number;
     }
-  ) => Promise<GetCollectionsSubListResult>;
+  ) => Promise<ResponseDataType<CollectionInfo[]>>;
   getCollectionSubById: (
     exhibitId: string,
     query: {
@@ -353,7 +354,7 @@ export interface FreelogApp {
        */
       itemId: string;
     }
-  ) => Promise<GetCollectionSubInfoByIdResult>;
+  ) => Promise<ResponseDataType<SubItemInfo>>;
   getCollectionSubListById: (
     exhibitId: string,
     query: {
@@ -362,7 +363,7 @@ export interface FreelogApp {
        */
       itemIds: string;
     }
-  ) => Promise<GetCollectionSubInfoByIdsResult>;
+  ) => Promise<ResponseDataType<SubItemInfo[]>>;
   getCollectionSubListAuthById: (
     exhibitId: string,
     query: {
@@ -371,7 +372,7 @@ export interface FreelogApp {
        */
       itemIds: string;
     }
-  ) => Promise<GetCollectionSubInfoByIdsResult>;
+  ) => Promise<ResponseDataType<SubItemInfo[]>>;
   getCollectionSubAuthStatus: (
     exhibitId: string,
     query: {
@@ -380,14 +381,14 @@ export interface FreelogApp {
        */
       itemIds: string;
     }
-  ) => Promise<GetCollectionSubAuthResult>;
+  ) => Promise<ResponseDataType<ItemAuthResult[]>>;
 
   getCollectionSubDepList: (
     exhibitId: string,
     query: {
       itemId: string;
     }
-  ) => Promise<GetCollectionSubDepListResult>;
+  ) => Promise<ResponseDataType<ItemDepTree[]>>;
   getCollectionSubFileStream: (
     exhibitId: string,
     query: {
@@ -431,7 +432,7 @@ export interface FreelogApp {
      * 标的物名称，这里指展品名称
      */
     keywords: string;
-  }) => Promise<GetSignStatisticsResult>;
+  }) => Promise<ResponseDataType<SignCount[]>>;
   setUserData: (key: string, data: any) => Promise<any>;
   getUserData: (key: string) => Promise<any>;
   deleteUserData: (key: string) => Promise<any>;

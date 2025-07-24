@@ -1,6 +1,4 @@
-﻿import { SubjectTypeEnum } from "./base";
-import { ArticleTypeEnum } from "./enum";
-import { ContractInfo, BasePolicyInfo } from "./policyContract";
+﻿import { ArticleTypeEnum } from "./enum";
 
 export interface SubItemInfo {
   itemId: string;
