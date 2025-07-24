@@ -1,19 +1,8 @@
 ﻿import { unmountAppParams } from "./widget";
-import { AxiosResponse, ResponseType } from "axios";
-import { IApiDataFormat, PageResult, PlainObject } from "./base";
-import {
-  ExhibitInfo,
-  AuthResult,
-  SignItem,
-  DependArticleInfo,
-  SignCount,
-} from "./exhibit";
-import { SubItemInfo, ItemAuthResult, ItemDepTree } from "./collection";
-import { ArticleTypeEnum as ArticleTypeEnum2 } from "./enum";
-import { NodeInfo as NodeInfo2 } from "./base";
-export type ArticleTypeEnum = ArticleTypeEnum2;
-export type NodeInfo = NodeInfo2;
-export { SubjectTypeEnum, FreelogUserInfo } from "./base";
+import { AxiosResponse } from "axios";
+import { IApiDataFormat } from "./base";
+
+import { SubItemInfo } from "./collection";
 export interface WidgetController {
   success: boolean;
   name: string;

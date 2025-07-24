@@ -9,9 +9,11 @@ import {
   CollectionInfo,
 } from "./result";
 import { ExhibitDependencyNodeInfo } from "./exhibit";
+export * from "./base";
 export * from "./result";
 export * from "./exhibit";
 export * from "./collection";
+export * from "./enum";
 import {
   ExhibitInfo,
   AuthResult,
