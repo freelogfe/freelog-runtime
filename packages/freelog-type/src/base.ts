@@ -77,7 +77,7 @@ export declare enum SubjectTypeEnum {
   /**
    * 作品
    */
-  Work = 1,
+  Article = 1,
   /**
    * 展品
    */
