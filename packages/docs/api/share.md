@@ -90,7 +90,7 @@ await freelogApp.mapShareUrl({
 
 **用途：更新当前页面的微信 QQ 分享信息。**
 
-> **注意：在进入需要分享的页面后，根据 isWeChatOrQQ 判断微信环境，调用 updateWechatShare 方法更新微信分享信息。**
+> **注意：在进入需要分享的页面且路由不再变化后（如果加载插件会造成路由变化），根据 isWeChatOrQQ 判断微信环境，调用 updateWechatShare 方法更新微信分享信息。**
 
 ### 参数说明
 

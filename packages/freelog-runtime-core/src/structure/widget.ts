@@ -270,8 +270,12 @@ async function mountApp(
   //   consol
   //   return
   // }
+  let routerMode = "search";
+  if (["pure", "hash"].includes(renderWidgetOptions["router-mode"])) {
+    routerMode = renderWidgetOptions["router-mode"];
+  }
   const flag = await microApp.renderApp({
-    "router-mode": "search",
+    "router-mode": routerMode,
     ...renderWidgetOptions,
     name: widgetRenderName,
     // TODO "https://file.freelog.com" 要定义一个常量来替换
