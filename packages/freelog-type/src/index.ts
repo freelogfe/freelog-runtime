@@ -431,12 +431,12 @@ export interface FreelogApp {
 
   getSignStatistics: (query?: {
     /**
-     * 标的物名称，这里指展品名称
+     * 标的物 名称，这里指展品名称
      */
     keywords: string;
   }) => Promise<ResponseDataType<SignCount[]>>;
   setUserData: (key: string, data: any) => Promise<any>;
-  getUserData: (key: string) => Promise<any>;
+  getUserData: (key: string) => Promise<ResponseDataType<PlainObject>>;
   deleteUserData: (key: string) => Promise<any>;
   getSelfWidgetRenderName: () => string;
   callAuth: () => void;
