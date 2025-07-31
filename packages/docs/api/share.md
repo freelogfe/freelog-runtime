@@ -24,7 +24,7 @@ type Options = {
 };
 ```
 
-### 用法示例
+### 使用示例
 
 ```ts
 freelogApp.getShareUrl(
@@ -61,7 +61,7 @@ freelogApp.getShareUrl(
 }
 ```
 
-### 用法示例
+### 使用示例
 
 ```ts
 await freelogApp.mapShareUrl({
@@ -80,15 +80,29 @@ await freelogApp.mapShareUrl({
 
 ## isWeChatOrQQ
 
-**用途：判断是否处于微信QQ环境中，返回布尔值**
+**用途：判断是否处于微信 QQ 环境中，返回布尔值**
 
 ## getWechatShareURL
 
-**用途：获取微信QQ分享链接，用于生产二维码让用户微信QQ扫码访问。**
+**用途：获取微信 QQ 分享链接，用于生产二维码让用户微信 QQ 扫码访问。**
+
+### 参数说明
+
+| 参数  | 类型     | 必填 | 说明                                                   |
+| ----- | -------- | ---- | ------------------------------------------------------ |
+| `url` | `string` | 可选 | 想要指定的 url，需要通过 freelogApp.getCurrentUrl 获取 |
+
+### 使用示例
+
+```ts
+// 获取指定路由的url
+const url = freelogApp.getCurrentUrl("/myroute?a=1&b=2");
+const shareUrl = freelogApp.getWechatShareURL(url);
+```
 
 ## updateWechatShare
 
-**用途：更新当前页面的微信QQ分享信息。**
+**用途：更新当前页面的微信 QQ 分享信息。**
 
 > **注意：在进入需要分享的页面后，根据 isWeChatOrQQ 判断微信环境，调用 updateWechatShare 方法更新微信分享信息。**
 
@@ -106,7 +120,7 @@ await freelogApp.mapShareUrl({
 | `timelineShareData.imgUrl`    | `string`   | 分享图标                      |
 | `timelineShareData.success`   | `Function` | 成功回调                      |
 
-### 用法示例
+### 使用示例
 
 ```ts
 freelogApp
