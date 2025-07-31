@@ -71,13 +71,25 @@ function loadWeChatJSSDK() {
     document.body.appendChild(script);
   }
 }
-export function getWechatShareURL(name: string) {
+export function isValidUrl(url: string): boolean {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+}
+export function getWechatShareURL(name: string, url: string | null) {
   const nodename = getNodeName();
-  const url = `https://share.${baseInfo.HOST}/`;
-  const search = rawWindow.location.search
-    ? `${rawWindow.location.search}&nodename=${nodename}`
+  const shareUrl = `https://share.${baseInfo.HOST}/`;
+  let searchDefault = rawWindow.location.search;
+  if (url && isValidUrl(url)) {
+    searchDefault = new URL(url).search;
+  }
+  const search = searchDefault
+    ? `${searchDefault}&nodename=${nodename}`
     : `?nodename=${nodename}`;
-  return url + search;
+  return shareUrl + search;
 }
 // 使用loadWeChatJSSDK函数，并在回调中进行wx.config等操作
 export function updateWechatShare(
@@ -104,7 +116,7 @@ export function updateWechatShare(
         if (res.data.errCode == 0) {
           const data = res.data.data;
           wx.config({
-            debug: false,
+            debug: true,
             appId: "wx5179c4b6bbe0cc55",
             timestamp: data.timestamp,
             nonceStr: data.nonceStr,
@@ -120,6 +132,10 @@ export function updateWechatShare(
                 ...appMessageShareData,
                 link: url,
               };
+              data.imgUrl =
+                data.imgUrl ||
+                `https://static.${baseInfo.HOST}/static/default_cover.png`;
+
               wx.updateAppMessageShareData(data);
             }
             if (timelineShareData) {
@@ -127,6 +143,9 @@ export function updateWechatShare(
                 ...timelineShareData,
                 link: url,
               };
+              data.imgUrl =
+                data.imgUrl ||
+                `https://static.${baseInfo.HOST}/static/default_cover.png`;
               wx.updateTimelineShareData(data);
             }
             resolve("微信QQ分享配置已执行，可检查success 回调");

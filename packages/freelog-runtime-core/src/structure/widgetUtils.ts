@@ -1,6 +1,17 @@
 import { widgetsConfig } from "./widget";
 import { freelogApp } from "freelog-runtime-api";
+import microApp from "@micro-zoe/micro-app";
+
 const { getExhibitDepInfo, getExhibitById } = freelogApp;
+
+export function getCurrentUrl(name: string, path: string) {
+  if (path) {
+    const url = new URL(rawLocation.href);
+    url.searchParams.set(name, microApp.router.encode(path));
+    return url.href;
+  }
+  return rawLocation.href;
+}
 export function getSelfWidgetRenderName(name: string) {
   return widgetsConfig.get(name)?.name;
 }
@@ -38,7 +49,7 @@ export async function getSelfProperty(name: string, isFromServer: boolean) {
     const res = await getExhibitById(name, exhibitId, {
       isLoadVersionProperty: 1,
     });
-    console.log(res)
+    console.log(res);
     const property = res.data.data.versionInfo.exhibitProperty;
     widgetConfig.property = property;
     return property;
@@ -66,7 +77,7 @@ export async function getSelfDependencyTree(
   const res = await getExhibitById(name, exhibitId || topExhibitId, {
     isLoadVersionProperty: 1,
   });
-  console.log(res)
+  console.log(res);
   const dependencyTree = res.data.data.versionInfo.dependencyTree;
   // .filter(
   //   (item: any) => (nid ? item.parentNid === nid : true)
@@ -117,8 +128,6 @@ export function setViewport(name: string, keys: any) {
   metaEl.setAttribute("content", content.substring(0, content.length - 1));
 }
 
-
-
 export function setTabLogo(Url: string) {
   // fetch("/freelog.ico").then((res: Response) => {
   //   res.blob().then((blob: Blob) => {
@@ -141,7 +150,4 @@ export function setTabLogo(Url: string) {
   rawDocument.getElementsByTagName
     .bind(rawDocument)("head")[0]
     .appendChild(link);
-}
-export function getCurrentUrl(name: string) {
-  return rawLocation.href;
 }

@@ -24,7 +24,7 @@ type Options = {
 };
 ```
 
-### 用法示例
+### 使用示例
 
 ```ts
 freelogApp.getShareUrl(
@@ -61,7 +61,7 @@ freelogApp.getShareUrl(
 }
 ```
 
-### 用法示例
+### 使用示例
 
 ```ts
 await freelogApp.mapShareUrl({
@@ -84,7 +84,21 @@ await freelogApp.mapShareUrl({
 
 ## getWechatShareURL
 
-**用途：获取微信 QQ 分享链接，用于生成二维码让用户微信 QQ 扫码访问。**
+**用途：获取微信 QQ 分享链接，用于生产二维码让用户微信 QQ 扫码访问。**
+
+### 参数说明
+
+| 参数  | 类型     | 必填 | 说明                                                   |
+| ----- | -------- | ---- | ------------------------------------------------------ |
+| `url` | `string` | 可选 | 想要指定的 url，需要通过 freelogApp.getCurrentUrl 获取 |
+
+### 使用示例
+
+```ts
+// 获取指定路由的url
+const url = freelogApp.getCurrentUrl("/myroute?a=1&b=2");
+const shareUrl = freelogApp.getWechatShareURL(url);
+```
 
 ## updateWechatShare
 
@@ -106,7 +120,7 @@ await freelogApp.mapShareUrl({
 | `timelineShareData.imgUrl`    | `string`   | 分享图标                      |
 | `timelineShareData.success`   | `Function` | 成功回调                      |
 
-### 用法示例
+### 使用示例
 
 ```ts
 freelogApp

@@ -1,6 +1,5 @@
 ﻿# 主题/插件相关 API 文档
 
-
 ## nodeInfo
 
 **用途**：获取当前节点的信息，包括节点名称、标签、图标等。
@@ -14,14 +13,13 @@ console.log(nodeInfo);
 
 ### 返回字段说明
 
-
-| 字段                   | 类型     | 说明     |
-| ---------------------- | -------- | -------- |
-| `nodeName`             | `string` | 节点名称 |
-| `tags`                 | `array`  | 标签数组 |
-| `nodeLogo`             | `string` | 节点图标 |
-| `nodeTitle`            | `string` | 节点标题 |
-| `nodeShortDescription` | `string` | 节点简介 |
+| 字段                   | 类型     | 说明       |
+| ---------------------- | -------- | ---------- |
+| `nodeName`             | `string` | 节点名称   |
+| `tags`                 | `array`  | 标签数组   |
+| `nodeLogo`             | `string` | 节点图标   |
+| `nodeTitle`            | `string` | 节点标题   |
+| `nodeShortDescription` | `string` | 节点简介   |
 | `ownerUserName`        | `string` | 节点拥有者 |
 
 ### 返回示例
@@ -38,12 +36,19 @@ console.log(nodeInfo);
 
 ## getCurrentUrl
 
-**用途**：获取当前节点的完整 URL。
+**用途**：获取当前节点的完整 URL；或者传入`path`参数，获取当前节点的指定路径的 URL。
+
+### 参数说明
+
+| 参数   | 类型     | 必填 | 说明                               |
+| ------ | -------- | ---- | ---------------------------------- |
+| `path` | `string` | 可选 | 当前主题或插件想要指定的路由路径。 |
 
 ### 使用示例
 
 ```ts
-const url = freelogApp.getCurrentUrl();
+// 获取当前节点的完整 URL,并修改当前主题插件的路由为 /myroute?a=1&b=2
+const url = freelogApp.getCurrentUrl("/myroute?a=1&b=2");
 console.log(url);
 ```
 
@@ -60,12 +65,12 @@ console.log(renderName);
 
 ## getTopExhibitId
 
-**用途**：获取依赖树的根id。
+**用途**：获取依赖树的根 id。
 
 ### 使用场景
 
 - **场景 1**：当前应用是展品，获取的是自身的展品 ID。
-- **场景 2**：当前应用是插件, 获取的是依赖树中的根ID(主题ID)。
+- **场景 2**：当前应用是插件, 获取的是依赖树中的根 ID(主题 ID)。
 
 ### 使用示例
 
@@ -76,7 +81,7 @@ console.log(topExhibitId);
 
 ## getSelfNid
 
-**用途**：获取当前插件在依赖树中的ID(即nid)。
+**用途**：获取当前插件在依赖树中的 ID(即 nid)。
 
 ### 使用示例
 
@@ -84,7 +89,9 @@ console.log(topExhibitId);
 const articleNid = freelogApp.getSelfNid();
 const exhibitId = await freelogApp.getTopExhibitId();
 
-const res = await freelogApp.getExhibitDepInfo(exhibitId, { articleNids: articleNid });
+const res = await freelogApp.getExhibitDepInfo(exhibitId, {
+  articleNids: articleNid,
+});
 console.log(res);
 ```
 
@@ -105,7 +112,6 @@ console.log(updatedTree);
 ```
 
 ### 返回字段说明
-
 
 | 字段           | 类型       | 说明                      |
 | -------------- | ---------- | ------------------------- |
@@ -136,10 +142,9 @@ console.log(updatedProperty);
 
 ## mountExhibitWidget
 
-**用途**：加载展品, 且展品为一个web应用程序。
+**用途**：加载展品, 且展品为一个 web 应用程序。
 
 ### 参数说明
-
 
 | 参数                  | 类型          | 必填 | 说明                     |
 | --------------------- | ------------- | ---- | ------------------------ |
@@ -165,21 +170,20 @@ console.log(widgetController);
 
 ## mountArticleWidget
 
-**用途**：加载插件, 插件是一个web应用程序。
+**用途**：加载插件, 插件是一个 web 应用程序。
 
 ### 参数说明
 
-
-| 参数                  | 类型          | 必填 | 说明                                                |
-| --------------------- | ------------- | ---- | --------------------------------------------------- |
-| `articleId`           | `string`      | 是   | 作品 ID                                             |
-| `container`           | `HTMLElement` | 是   | 挂载容器                                            |
-| `parentNid`           | `string`      | 是   | 依赖树中的父id, 可通过`getSelfDependencyTree `获取 |
-| `nid`                 | `string`      | 是   | 依赖树中自已id, 可通过`getSelfDependencyTree `获取 |
-| `topExhibitId`        | `string`      | 是   | 展品id, 可通过`getTopExhibitId`获取                |
-| `property`            | `object`      | 否   | 展品或作品的属性                                    |
-| `dependencyTree`      | `object[]`    | 否   | 依赖树                                              |
-| `renderWidgetOptions` | `object`      | 否   | 渲染选项（如数据传递等）                            |
+| 参数                  | 类型          | 必填 | 说明                                                 |
+| --------------------- | ------------- | ---- | ---------------------------------------------------- |
+| `articleId`           | `string`      | 是   | 作品 ID                                              |
+| `container`           | `HTMLElement` | 是   | 挂载容器                                             |
+| `parentNid`           | `string`      | 是   | 依赖树中的父 id,  可通过`getSelfDependencyTree `获取 |
+| `nid`                 | `string`      | 是   | 依赖树中自已 id,  可通过`getSelfDependencyTree `获取 |
+| `topExhibitId`        | `string`      | 是   | 展品 id,  可通过`getTopExhibitId`获取                |
+| `property`            | `object`      | 否   | 展品或作品的属性                                     |
+| `dependencyTree`      | `object[]`    | 否   | 依赖树                                               |
+| `renderWidgetOptions` | `object`      | 否   | 渲染选项（如数据传递等）                             |
 
 ### 使用示例
 
@@ -220,13 +224,11 @@ freelogApp.setViewport({
 });
 ```
 
-
 ## getStaticPath
 
 **用途**：获取指定静态资源（如图片、字体等）的正确路径。
 
 ### 参数说明
-
 
 | 参数   | 类型     | 必填 | 说明               |
 | ------ | -------- | ---- | ------------------ |
@@ -238,7 +240,6 @@ freelogApp.setViewport({
 const path = freelogApp.getStaticPath("/assets/image.png");
 console.log(path);
 ```
-
 
 # 总结
 
