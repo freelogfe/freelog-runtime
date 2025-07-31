@@ -1,5 +1,18 @@
 import { widgetsConfig } from "./widget";
 import { getExhibitDepInfo, getExhibitInfo } from "../freelogApp/api";
+import microApp from "@micro-zoe/micro-app";
+
+const rawDocument = window.document;
+const rawLocation = window.location;
+// https://dj-dj.testfreelog.com/?theme=%2Fdetail%3Fid%25M2687766880d7b7f002f80238f
+export function getCurrentUrl(name: string, path: string) {
+  if (path) {
+    const url = new URL(rawLocation.href);
+    url.searchParams.set(name, microApp.router.encode(path));
+    return url.href;
+  }
+  return rawLocation.href;
+}
 export function getSelfWidgetRenderName(name: string) {
   return widgetsConfig.get(name)?.name;
 }
@@ -12,11 +25,12 @@ export function getStaticPath(name: string, path: string) {
   // @ts-ignore
   return widgetsConfig.get(name).entry + path;
 }
-const rawLocation = window.location;
-export function getTopExhibitId(name: string){
-  return widgetsConfig.get(name).topExhibitId || widgetsConfig.get(name).exhibitId;
+export function getTopExhibitId(name: string) {
+  return (
+    widgetsConfig.get(name).topExhibitId || widgetsConfig.get(name).exhibitId
+  );
 }
-export function getSelfNid(name: string){
+export function getSelfNid(name: string) {
   return widgetsConfig.get(name).nid;
 }
 /**
@@ -62,7 +76,7 @@ export async function getSelfDependencyTree(
   const res = await getExhibitInfo(name, exhibitId || topExhibitId, {
     isLoadVersionProperty: 1,
   });
-  const dependencyTree = res.data.data.versionInfo.dependencyTree
+  const dependencyTree = res.data.data.versionInfo.dependencyTree;
   // .filter(
   //   (item: any) => (nid ? item.parentNid === nid : true)
   // );
@@ -84,7 +98,6 @@ const viewPortValue = {
   "user-scalable": "no", // available for theme
   "viewport-fit": "auto", // not supported in browser
 };
-const rawDocument = window.document;
 const metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
 export function getViewport(name: string) {
   return metaEl.getAttribute("content");
@@ -148,7 +161,4 @@ export function setTabLogo(Url: string) {
   rawDocument.getElementsByTagName
     .bind(rawDocument)("head")[0]
     .appendChild(link);
-}
-export function getCurrentUrl(name: string) {
-  return rawLocation.href;
 }

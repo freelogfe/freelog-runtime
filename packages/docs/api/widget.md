@@ -36,12 +36,19 @@ console.log(nodeInfo);
 
 ## getCurrentUrl
 
-**用途**：获取当前节点的完整 URL。
+**用途**：获取当前节点的完整 URL；或者传入`path`参数，获取当前节点的指定路径的 URL。
+
+### 参数说明
+
+| 参数   | 类型     | 必填 | 说明                               |
+| ------ | -------- | ---- | ---------------------------------- |
+| `path` | `string` | 可选   | 当前主题或插件想要指定的路由路径。 |
 
 ### 使用示例
 
 ```ts
-const url = freelogApp.getCurrentUrl();
+// 获取当前节点的完整 URL,并修改当前主题插件的路由为 /myroute?a=1&b=2
+const url = freelogApp.getCurrentUrl("/myroute?a=1&b=2");
 console.log(url);
 ```
 
