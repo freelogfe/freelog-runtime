@@ -7,9 +7,16 @@ const rawLocation = window.location;
 // https://dj-dj.testfreelog.com/?theme=%2Fdetail%3Fid%25M2687766880d7b7f002f80238f
 export function getCurrentUrl(name: string, path: string) {
   if (path) {
-    const url = new URL(rawLocation.href);
-    url.searchParams.set(name, microApp.router.encode(path));
-    return url.href;
+    const searchs = rawLocation.search.substring(1).split("&");
+    const acc: any[] = [];
+    searchs.forEach((item) => {
+      let [key, value] = item.split("=");
+      if (key == name) {
+        value = microApp.router.encode(path);
+      }
+      acc.push(`${key}=${value}`);
+    });
+    return rawLocation.origin + "/?" + acc.join("&");
   }
   return rawLocation.href;
 }
