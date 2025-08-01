@@ -3,7 +3,8 @@ import { freelogApp } from "freelog-runtime-api";
 import microApp from "@micro-zoe/micro-app";
 
 const { getExhibitDepInfo, getExhibitById } = freelogApp;
-
+const rawDocument = window.document;
+const rawLocation = window.location;
 export function getCurrentUrl(name: string, path: string) {
   if (path) {
     const searchs = rawLocation.search.substring(1).split("&");
@@ -31,7 +32,6 @@ export function getStaticPath(name: string, path: string) {
   // @ts-ignore
   return widgetsConfig.get(name).entry + path;
 }
-const rawLocation = window.location;
 export function getTopExhibitId(name: string) {
   return (
     widgetsConfig.get(name).topExhibitId || widgetsConfig.get(name).exhibitId
@@ -107,7 +107,6 @@ const viewPortValue = {
   "user-scalable": "no", // available for theme
   "viewport-fit": "auto", // not supported in browser
 };
-const rawDocument = window.document;
 const metaEl: any = rawDocument.querySelectorAll('meta[name="viewport"]')[0];
 export function getViewport(name: string) {
   return metaEl.getAttribute("content");
