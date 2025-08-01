@@ -309,7 +309,7 @@ export interface FreelogApp {
        */
       isShowDetailInfo: number;
     }
-  ) => Promise<ResponseDataType<SubItemInfo[]>>;
+  ) => Promise<ResponseDataType<PageResult<SubItemInfo>>>;
   getCollectionSubListAuthByPage: (
     exhibitId: string,
     query?: {
@@ -328,7 +328,7 @@ export interface FreelogApp {
        */
       isShowDetailInfo: number;
     }
-  ) => Promise<ResponseDataType<CollectionInfo[]>>;
+  ) => Promise<ResponseDataType<PageResult<SubItemInfo>>>;
   getCollectionsSubListByPage: (
     exhibitIds: string,
     query?: {
@@ -343,7 +343,7 @@ export interface FreelogApp {
        */
       isShowDetailInfo: number;
     }
-  ) => Promise<ResponseDataType<CollectionInfo[]>>;
+  ) => Promise<ResponseDataType<PageResult<CollectionInfo>>>;
   getCollectionSubById: (
     exhibitId: string,
     query: {
