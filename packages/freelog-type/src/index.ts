@@ -104,7 +104,12 @@ export interface WidgetApi {
 }
 export interface FreelogApp {
   nodeInfo: NodeInfo;
-  getStaticPath: (path: string) => string;
+  getStaticPath: (
+    /**
+     * 静态资源路径，以/开头。
+     */
+    path: string
+  ) => string;
   // devData: PlainObject;
   getCurrentUser: () => FreelogUserInfo;
   mountArticleWidget: (
@@ -120,6 +125,9 @@ export interface FreelogApp {
     isFromServer?: boolean
   ) => Promise<ExhibitDependencyNodeInfo[]>;
   getExhibitById: (
+    /**
+     * 展品id
+     */
     exhibitId: string,
     query?: {
       /**
@@ -127,28 +135,40 @@ export interface FreelogApp {
        */
       authInfo?: 0 | 1;
       /**
-       * 是否响应展品版本属性
+       * 是否响应展品版本属性，包含依赖信息。默认0 否
        */
-      isLoadVersionProperty: 0 | 1;
+      isLoadVersionProperty?: 0 | 1;
     }
   ) => Promise<ResponseDataType<ExhibitInfo>>;
   getExhibitListById: (query: {
+    /**
+     * 展品id,多个用逗号分隔
+     */
     exhibitIds: string;
+    /**
+     * 是否响应展品版本属性，包含依赖信息。默认0 否
+     */
     isLoadVersionProperty?: 0 | 1;
   }) => Promise<ResponseDataType<ExhibitInfo[]>>;
   getExhibiListAuthById: (query: {
+    /**
+     * 展品id,多个用逗号分隔
+     */
     exhibitIds: string;
+    /**
+     * 是否响应展品版本属性，包含依赖信息。默认0 否
+     */
     isLoadVersionProperty?: 0 | 1;
   }) => Promise<ResponseDataType<ExhibitInfo[]>>;
-  getExhibitListByPage: (options?: {
+  getExhibitListByPage: (query: {
     /**
      * 跳过的数量.默认为0.
      */
-    skip?: number;
+    skip: number;
     /**
      * 本次请求获取的数据条数.一般不允许超过100
      */
-    limit?: number;
+    limit: number;
     /**
      * 排序,格式为{排序字段}:{1|-1},1是正序,-1是倒序
      */
@@ -182,53 +202,45 @@ export interface FreelogApp {
      */
     keywords?: string;
     /**
-     * 是否响应展品版本属性
+     * 是否响应展品版本属性，包含依赖信息。默认0 否
      */
     isLoadVersionProperty?: 0 | 1;
-    /**
-     * 是否加载策略信息.测试环境自动忽略此参数
-     */
-    isLoadPolicyInfo?: 0 | 1;
-    /**
-     * 是否同步翻译.测试环境自动忽略此参数
-     */
-    isTranslate?: 0 | 1;
   }) => Promise<ResponseDataType<PageResult<ExhibitInfo>>>;
-  getExhibitListAuthByPage: (options?: {
+  getExhibitListAuthByPage: (query: {
     /**
      * 默认 0，传 1 则返回所有信息，否则只有授权信息
      */
-    allInfo: 0 | 1;
+    allInfo?: 0 | 1;
     /**
-     * 跳过的数量.默认为0.
+     * 跳过的数量.默认0
      */
-    skip?: number;
+    skip: number;
     /**
      * 本次请求获取的数据条数.一般不允许超过100
      */
-    limit?: number;
+    limit: number;
     /**
      * 排序,格式为{排序字段}:{1|-1},1是正序,-1是倒序
      */
     sort?: string;
     /**
-     * 作品资源类型,多个用逗号分隔
+     * 过滤选项：筛选符合的作品资源类型,多个用逗号分隔
      */
     articleResourceTypes?: string;
     /**
-     * 忽略的作品资源类型,与resourceType参数互斥
+     * 排除选项：筛选不包含的作品资源类型,与 articleResourceTypes 二选一，若同时传递 则忽略omitArticleResourceType，
      */
     omitArticleResourceType?: string;
     /**
-     * 上线状态 (0:下线 1:上线 2:全部) 默认1
+     * 过滤选项：筛选上线状态 (0:下线 1:上线 2:全部) 默认1
      */
     onlineStatus?: number;
     /**
-     * 用户创建presentable时设置的自定义标签,多个用","分割
+     * 过滤选项：用户创建展品时设置的自定义标签,多个用","分割
      */
     tags?: string;
     /**
-     *  tags的查询方式1:任意匹配一个标签 2:全部匹配所有标签 默认:1
+     * 过滤选项：tags的查询方式1:任意匹配一个标签 2:全部匹配所有标签 默认1
      */
     tagQueryType?: number;
     /**
@@ -236,29 +248,30 @@ export interface FreelogApp {
      */
     projection?: string;
     /**
-     * 搜索关键字,目前支持模糊搜索节点资源名称和资源名称
+     * 过滤选项：搜索关键字,目前支持模糊搜索节点资源名称和资源名称
      */
     keywords?: string;
     /**
-     * 是否响应展品版本属性
+     * 是否响应展品版本属性，包含依赖信息。默认0 否
      */
     isLoadVersionProperty?: 0 | 1;
-    /**
-     * 是否加载策略信息.测试环境自动忽略此参数
-     */
-    isLoadPolicyInfo?: 0 | 1;
-    /**
-     * 是否同步翻译.测试环境自动忽略此参数
-     */
-    isTranslate?: 0 | 1;
   }) => Promise<ResponseDataType<PageResult<ExhibitInfo>>>;
   getExhibitAuthStatus: (
     exhibitIds: string
   ) => Promise<ResponseDataType<AuthResult[]>>;
   getExhibitFileStream: (
+    /**
+     * 展品id
+     */
     exhibitId: string,
     options?: {
+      /**
+       * 是否仅返回文件 URL，默认为false
+       */
       returnUrl?: boolean;
+      /**
+       * 允许的axios的请求配置项
+       */
       config?: {
         onUploadProgress?: (progressEvent: any) => void;
         onDownloadProgress?: (progressEvent: any) => void;
@@ -266,27 +279,49 @@ export interface FreelogApp {
         responseType?: ResponseType;
       };
       /**
-       * 漫画中的图片等子文件的路径
+       * 指定子文件路径，例如漫画中的图片等子文件的路径
        */
       subFilePath?: string;
     }
   ) => Promise<any | string>;
   getExhibitRecommend: (
+    /**
+     * 展品id
+     */
     exhibitId: string,
-    query?: {
-      recommendNorm: string;
-      size: number;
+    query: {
+      /**
+       * 推荐指标多个用逗号分隔,优先级也按照实际顺序来, 具体指标为
+       * sameAuthorAndType: 同作者同资源类型
+       * sameTagAndType:同类型同标签(部分)
+       * sameType:同类型
+       * latestCreate:最新创建的
+       */
+      recommendNorm?: string;
+      /**
+       * 推荐数量，默认10，最大 100
+       */
+      size?: number;
     }
   ) => Promise<ResponseDataType<ExhibitInfo[]>>;
   getExhibitSignCount: (
+    /**
+     * 多个展品id，用逗号分隔
+     */
     exhibitIds: string
   ) => Promise<ResponseDataType<SignItem[]>>;
 
   getExhibitAvailable: (
+    /**
+     * 多个展品id，用逗号分隔
+     */
     exhibitIds: string
   ) => Promise<ResponseDataType<AuthResult[]>>;
 
   getExhibitDepInfo: (
+    /**
+     * 展品id
+     */
     exhibitId: string,
     query: {
       /**
@@ -296,55 +331,85 @@ export interface FreelogApp {
     }
   ) => Promise<ResponseDataType<DependArticleInfo[]>>;
   getCollectionSubListByPage: (
+    /**
+     * 展品id
+     */
     exhibitId: string,
-    query?: {
+    query: {
       /**
        * 排序方式: 1:升序 -1:降序，默认1
        */
-      sortType: number;
+      sortType?: number;
+      /**
+       * 跳过的数量.默认0
+       */
       skip: number;
+      /**
+       * 本次请求获取的数据条数.一般不允许超过100
+       */
       limit: number;
       /**
        * 是否加载单品挂载的作品详情 0:不加载 1:加载，默认0
        */
-      isShowDetailInfo: number;
+      isShowDetailInfo?: number;
     }
   ) => Promise<ResponseDataType<PageResult<SubItemInfo>>>;
   getCollectionSubListAuthByPage: (
+    /**
+     * 展品id
+     */
     exhibitId: string,
-    query?: {
+    query: {
       /**
        * 默认 0，传 1 则返回所有信息，否则只有授权信息
        */
-      allInfo: 0 | 1;
+      allInfo?: 0 | 1;
       /**
        * 排序方式: 1:升序 -1:降序，默认1
        */
-      sortType: number;
+      sortType?: number;
+      /**
+       * 跳过的数量.默认0
+       */
       skip: number;
+      /**
+       * 本次请求获取的数据条数.一般不允许超过100
+       */
       limit: number;
       /**
        * 是否加载单品挂载的作品详情 0:不加载 1:加载，默认0
        */
-      isShowDetailInfo: number;
+      isShowDetailInfo?: number;
     }
   ) => Promise<ResponseDataType<PageResult<SubItemInfo>>>;
   getCollectionsSubListByPage: (
+    /**
+     * 多个展品id，用逗号分隔
+     */
     exhibitIds: string,
-    query?: {
+    query: {
       /**
        * 排序方式: 1:升序 -1:降序，默认1
        */
-      sortType: number;
+      sortType?: number;
+      /**
+       * 跳过的数量.默认0
+       */
       skip: number;
+      /**
+       * 本次请求获取的数据条数.一般不允许超过100
+       */
       limit: number;
       /**
        * 是否加载单品挂载的作品详情 0:不加载 1:加载，默认0
        */
-      isShowDetailInfo: number;
+      isShowDetailInfo?: number;
     }
   ) => Promise<ResponseDataType<PageResult<CollectionInfo>>>;
   getCollectionSubById: (
+    /**
+     * 展品id
+     */
     exhibitId: string,
     query: {
       /**
@@ -358,6 +423,9 @@ export interface FreelogApp {
     }
   ) => Promise<ResponseDataType<SubItemInfo>>;
   getCollectionSubListById: (
+    /**
+     * 展品id
+     */
     exhibitId: string,
     query: {
       /**
@@ -367,6 +435,9 @@ export interface FreelogApp {
     }
   ) => Promise<ResponseDataType<SubItemInfo[]>>;
   getCollectionSubListAuthById: (
+    /**
+     * 展品id
+     */
     exhibitId: string,
     query: {
       /**
@@ -376,6 +447,9 @@ export interface FreelogApp {
     }
   ) => Promise<ResponseDataType<SubItemInfo[]>>;
   getCollectionSubAuthStatus: (
+    /**
+     * 展品id
+     */
     exhibitId: string,
     query: {
       /**
@@ -386,36 +460,78 @@ export interface FreelogApp {
   ) => Promise<ResponseDataType<ItemAuthResult[]>>;
 
   getCollectionSubDepList: (
+    /**
+     * 展品id
+     */
     exhibitId: string,
     query: {
+      /**
+       * 单品id
+       */
       itemId: string;
     }
   ) => Promise<ResponseDataType<ItemDepTree[]>>;
   getCollectionSubFileStream: (
+    /**
+     * 展品id
+     */
     exhibitId: string,
     query: {
+      /**
+       * 单品id
+       */
       itemId: string;
+      /**
+       * 是否仅返回文件 URL，默认为false
+       */
       returnUrl?: boolean;
+      /**
+       * 指定子文件路径，例如漫画中的图片等子文件的路径
+       */
       subFilePath?: string;
     }
   ) => Promise<any | string>;
   getCollectionSubDepFileStream: (
+    /**
+     * 展品id
+     */
     exhibitId: string,
     query: {
+      /**
+       * 单品id
+       */
       itemId: string;
+      /**
+       * 依赖的链路id
+       */
       nid: string; // 依赖的链路id
+      /**
+       * 是否仅返回文件 URL，默认为false
+       */
       returnUrl?: boolean;
+      /**
+       * 指定子文件路径，例如漫画中的图片等子文件的路径
+       */
       subFilePath?: string;
     }
   ) => Promise<any | string>;
   getExhibitDepFileStream: (
+    /**
+     * 展品id
+     */
     exhibitId: string,
-    options: {
+    query: {
       /**
        * 依赖的链路id
        */
       nid: string;
+      /**
+       * 是否仅返回文件 URL，默认为false
+       */
       returnUrl?: boolean;
+      /**
+       * 允许的axios的请求配置项
+       */
       config?: {
         onUploadProgress?: (progressEvent: any) => void;
         onDownloadProgress?: (progressEvent: any) => void;
@@ -423,7 +539,7 @@ export interface FreelogApp {
         responseType?: ResponseType;
       };
       /**
-       * 漫画中的图片等子文件的路径
+       * 指定子文件路径，例如漫画中的图片等子文件的路径
        */
       subFilePath?: string;
     }
@@ -431,7 +547,7 @@ export interface FreelogApp {
 
   getSignStatistics: (query?: {
     /**
-     * 标的物 名称，这里指展品名称
+     * 标的物名称，这里指展品名称
      */
     keywords: string;
   }) => Promise<ResponseDataType<SignCount[]>>;
@@ -441,8 +557,16 @@ export interface FreelogApp {
   getSelfWidgetRenderName: () => string;
   callAuth: () => void;
   addAuth: (
+    /**
+     * 展品id
+     */
     exhibitId: string,
-    options?: { immediate: boolean }
+    options?: {
+      /**
+       * 是否立即弹出授权框，默认false
+       */
+      immediate: boolean;
+    }
   ) => Promise<AddAuthResult>;
   onLogin: (callback: Function) => void;
   onUserChange: (callback: Function) => void;
@@ -469,14 +593,29 @@ export interface FreelogApp {
   };
   getCurrentUrl: () => string;
   getShareUrl: (
-    options: {
+    query: {
+      /**
+       * 展品id
+       */
       exhibitId: string;
+      /**
+       * 单品id
+       */
       itemId?: string;
     },
     type: string
   ) => string;
   mapShareUrl: (routeMap: {
-    [str: string]: (exhibitId: string, itemId?: string) => string;
+    [str: string]: (
+      /**
+       * 展品id
+       */
+      exhibitId: string,
+      /**
+       * 单品id
+       */
+      itemId?: string
+    ) => string;
   }) => void;
   getWechatShareURL: () => string;
   isWeChatOrQQ: () => boolean;

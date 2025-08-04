@@ -8,10 +8,10 @@ export interface ExhibitInfo {
   exhibitId: string;
   exhibitName: string;
   exhibitTitle: string;
+  tags: string[];
   exhibitIntro?: string;
   authInfo?: AuthResult;
   exhibitSubjectType: SubjectTypeEnum; // 展品或展品组合
-  tags: string[];
   coverImages: string[];
   version: string; // 默认使用的资源版本号
   status: number; // 备用
