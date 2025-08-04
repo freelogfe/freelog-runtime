@@ -1,9 +1,6 @@
 ﻿import { SubjectTypeEnum } from "./base";
 import { ArticleTypeEnum } from "./enum";
-interface ArticleVersionInfo {
-  version: string;
-  createDate: string;
-}
+
 /**
  * 展品信息
  */
@@ -23,7 +20,7 @@ export interface ExhibitInfo {
   /**
    * 展品简介
    */
-  exhibitIntro?: string;
+  exhibitIntro: string;
   /**
    * 展品对应的标的物类型(1:资源 2:展品 3:用户组 4: 合集)
    */
@@ -104,17 +101,7 @@ export interface ExhibitVersionInfo {
    */
   dependencyTree: ExhibitDependencyNodeInfo[];
 }
-export interface ExhibitAuthNodeInfo {
-  nid: string; // 树节点ID
-  articleId: string;
-  articleName: string;
-  articleType: ArticleTypeEnum;
-  resourceType: string[];
-  version: string;
-  versionId: string;
-  parentNid: string;
-  deep: number;
-}
+
 export interface ExhibitDependencyNodeInfo {
   /**
    * 依赖树的节点ID
@@ -192,12 +179,33 @@ export interface MountArticleInfo {
 }
 
 export interface AuthResult {
+  /**
+   * 展品ID
+   */
   exhibitId: string;
+  /**
+   * 展品名称
+   */
   exhibitName: string;
-  authCode: number;
-  referee: number;
-  defaulterIdentityType: number;
+  /**
+   * 表授权是否通过
+   */
   isAuth: boolean;
+  /**
+   * 授权状态码，暂时只需要判断isAuth是否为true即可，未来会有更多状态码
+   */
+  authCode: number;
+  /**
+   * 做出授权结果的标的物服务类型(1:作品服务 2:展品服务)
+   */
+  referee: 1 | 2;
+  /**
+   * 表授权不通过的责任方，(0:无 1: 作品 2:节点 4:c 端消费者 128:未知)
+   */
+  defaulterIdentityType: 0 | 1 | 2 | 4 | 128;
+  /**
+   * 授权错误信息
+   */
   errorMsg: string;
 }
 
@@ -245,13 +253,34 @@ export interface DependArticleInfo {
   };
 }
 export interface SignCount {
+  /**
+   * 标的物ID，当前是展品ID
+   */
   subjectId: string;
+  /**
+   * 标的物名称，当前是展品名称
+   */
   subjectName: string;
+  /**
+   * 签约的策略ID数组
+   */
   policyIds: string[];
+  /**
+   * 最后一次签约日期
+   */
   latestSignDate: string;
+  /**
+   * 签约次数
+   */
   count: number;
 }
 export interface SignItem {
+  /**
+   * 标的物ID，当前是展品ID
+   */
   subjectId: string;
+  /**
+   * 已签约的总数(已去重)
+   */
   count: number;
 }

@@ -126,7 +126,7 @@ export interface FreelogApp {
   ) => Promise<ExhibitDependencyNodeInfo[]>;
   getExhibitById: (
     /**
-     * 展品id
+     * 展品ID
      */
     exhibitId: string,
     query?: {
@@ -142,7 +142,7 @@ export interface FreelogApp {
   ) => Promise<ResponseDataType<ExhibitInfo>>;
   getExhibitListById: (query: {
     /**
-     * 展品id,多个用逗号分隔
+     * 展品ID,多个用逗号分隔
      */
     exhibitIds: string;
     /**
@@ -152,7 +152,7 @@ export interface FreelogApp {
   }) => Promise<ResponseDataType<ExhibitInfo[]>>;
   getExhibiListAuthById: (query: {
     /**
-     * 展品id,多个用逗号分隔
+     * 展品ID,多个用逗号分隔
      */
     exhibitIds: string;
     /**
@@ -261,7 +261,7 @@ export interface FreelogApp {
   ) => Promise<ResponseDataType<AuthResult[]>>;
   getExhibitFileStream: (
     /**
-     * 展品id
+     * 展品ID
      */
     exhibitId: string,
     options?: {
@@ -286,7 +286,7 @@ export interface FreelogApp {
   ) => Promise<any | string>;
   getExhibitRecommend: (
     /**
-     * 展品id
+     * 展品ID
      */
     exhibitId: string,
     query: {
@@ -320,7 +320,7 @@ export interface FreelogApp {
 
   getExhibitDepInfo: (
     /**
-     * 展品id
+     * 展品ID
      */
     exhibitId: string,
     query: {
@@ -332,7 +332,7 @@ export interface FreelogApp {
   ) => Promise<ResponseDataType<DependArticleInfo[]>>;
   getCollectionSubListByPage: (
     /**
-     * 展品id
+     * 展品ID
      */
     exhibitId: string,
     query: {
@@ -356,7 +356,7 @@ export interface FreelogApp {
   ) => Promise<ResponseDataType<PageResult<SubItemInfo>>>;
   getCollectionSubListAuthByPage: (
     /**
-     * 展品id
+     * 展品ID
      */
     exhibitId: string,
     query: {
@@ -408,7 +408,7 @@ export interface FreelogApp {
   ) => Promise<ResponseDataType<PageResult<CollectionInfo>>>;
   getCollectionSubById: (
     /**
-     * 展品id
+     * 展品ID
      */
     exhibitId: string,
     query: {
@@ -417,43 +417,43 @@ export interface FreelogApp {
        */
       authInfo?: 0 | 1;
       /**
-       * 单品id
+       * 单品ID
        */
       itemId: string;
     }
   ) => Promise<ResponseDataType<SubItemInfo>>;
   getCollectionSubListById: (
     /**
-     * 展品id
+     * 展品ID
      */
     exhibitId: string,
     query: {
       /**
-       * 单品id,多个用“,”隔开
+       * 单品ID,多个用“,”隔开
        */
       itemIds: string;
     }
   ) => Promise<ResponseDataType<SubItemInfo[]>>;
   getCollectionSubListAuthById: (
     /**
-     * 展品id
+     * 展品ID
      */
     exhibitId: string,
     query: {
       /**
-       * 单品id,多个用“,”隔开
+       * 单品ID,多个用“,”隔开
        */
       itemIds: string;
     }
   ) => Promise<ResponseDataType<SubItemInfo[]>>;
   getCollectionSubAuthStatus: (
     /**
-     * 展品id
+     * 展品ID
      */
     exhibitId: string,
     query: {
       /**
-       * 单品id,多个用“,”隔开
+       * 单品ID,多个用“,”隔开
        */
       itemIds: string;
     }
@@ -461,24 +461,24 @@ export interface FreelogApp {
 
   getCollectionSubDepList: (
     /**
-     * 展品id
+     * 展品ID
      */
     exhibitId: string,
     query: {
       /**
-       * 单品id
+       * 单品ID
        */
       itemId: string;
     }
   ) => Promise<ResponseDataType<ItemDepTree[]>>;
   getCollectionSubFileStream: (
     /**
-     * 展品id
+     * 展品ID
      */
     exhibitId: string,
     query: {
       /**
-       * 单品id
+       * 单品ID
        */
       itemId: string;
       /**
@@ -493,12 +493,12 @@ export interface FreelogApp {
   ) => Promise<any | string>;
   getCollectionSubDepFileStream: (
     /**
-     * 展品id
+     * 展品ID
      */
     exhibitId: string,
     query: {
       /**
-       * 单品id
+       * 单品ID
        */
       itemId: string;
       /**
@@ -517,7 +517,7 @@ export interface FreelogApp {
   ) => Promise<any | string>;
   getExhibitDepFileStream: (
     /**
-     * 展品id
+     * 展品ID
      */
     exhibitId: string,
     query: {
@@ -558,7 +558,7 @@ export interface FreelogApp {
   callAuth: () => void;
   addAuth: (
     /**
-     * 展品id
+     * 展品ID
      */
     exhibitId: string,
     options?: {
@@ -595,11 +595,11 @@ export interface FreelogApp {
   getShareUrl: (
     query: {
       /**
-       * 展品id
+       * 展品ID
        */
       exhibitId: string;
       /**
-       * 单品id
+       * 单品ID
        */
       itemId?: string;
     },
@@ -608,11 +608,11 @@ export interface FreelogApp {
   mapShareUrl: (routeMap: {
     [str: string]: (
       /**
-       * 展品id
+       * 展品ID
        */
       exhibitId: string,
       /**
-       * 单品id
+       * 单品ID
        */
       itemId?: string
     ) => string;

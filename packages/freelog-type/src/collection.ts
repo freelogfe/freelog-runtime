@@ -1,9 +1,21 @@
 ﻿import { ArticleTypeEnum } from "./enum";
 
 export interface SubItemInfo {
+  /**
+   * 单品ID
+   */ 
   itemId: string;
+  /**
+   * 单品标题
+   */
   itemTitle: string;
+  /**
+   * 单品类型
+   */
   sortId: number;
+  /**
+   * 单品创建日期
+   */
   createDate: string;
   articleInfo: articleInfo; // article(作品)指广义上的资源(单品资源,合集资源,节点合集资源)+存储对象
   updateDate?: Date;
