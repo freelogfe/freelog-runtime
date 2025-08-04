@@ -252,7 +252,7 @@ export interface FreelogApp {
      */
     keywords?: string;
     /**
-     * 是否响应展品版本属性，包含依赖信息。默认0 否
+     * 是否响应展品版本信息，包含依赖信息。默认0 否
      */
     isLoadVersionProperty?: 0 | 1;
   }) => Promise<ResponseDataType<PageResult<ExhibitInfo>>>;

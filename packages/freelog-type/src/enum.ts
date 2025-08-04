@@ -119,12 +119,12 @@ export enum ArticleTypeEnum {
     IndividualResource = 1,
 
     /**
-     * 组合资源
+     * 合集资源
      */
     CombinationResource = 2,
 
     /**
-     * 节点组合资源
+     * 节点合集资源
      */
     NodeCombinationResource = 3,
 

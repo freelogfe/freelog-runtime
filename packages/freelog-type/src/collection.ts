@@ -5,7 +5,7 @@ export interface SubItemInfo {
   itemTitle: string;
   sortId: number;
   createDate: string;
-  articleInfo: articleInfo; // article(作品)指广义上的资源(单品资源,组合资源,节点组合资源)+存储对象
+  articleInfo: articleInfo; // article(作品)指广义上的资源(单品资源,合集资源,节点合集资源)+存储对象
   updateDate?: Date;
   authInfo?: ItemAuthResult;
 }
@@ -14,7 +14,7 @@ export interface SubItemInfo {
 export interface articleInfo {
   articleId: string;
   resourceType: string[];
-  articleType: ArticleTypeEnum; // 1:独立资源 2:组合资源 3:节点组合资源 4:存储对象
+  articleType: ArticleTypeEnum; // 1:独立资源 2:合集资源 3:节点合集资源 4:存储对象
   articleOwnerId: number;
   articleOwnerName: string;
   intro: string;
