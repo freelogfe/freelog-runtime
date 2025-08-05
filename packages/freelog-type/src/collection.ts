@@ -46,7 +46,7 @@ export interface ItemAuthResult {
 }
 
 export interface ItemDepTree {
-  nid?: string;
+  nid: string;
   articleId: string;
   articleName: string;
   articleType:number;

@@ -5,7 +5,7 @@ export async function getCollectionSubListByPage(
   name: string,
   exhibitId: string | number,
   query: any,
-  config?: any 
+  config?: any
 ) {
   return frequest.bind({
     name,
@@ -22,7 +22,7 @@ export async function getCollectionSubListAuthByPage(
   name: string,
   exhibitId: string | number,
   query: any,
-  config?: any 
+  config?: any
 ) {
   return frequest.bind({
     name,
@@ -100,8 +100,8 @@ export async function getCollectionSubListAuthById(
     exhibitId: exhibitId,
   })(
     collection.getCollectionSubInfoAuthByIds,
-    [baseInfo.nodeId, exhibitId, query.itemId],
-    null,
+    [baseInfo.nodeId, exhibitId],
+    { itemIds: query.itemIds },
     undefined,
     config
   );
@@ -172,7 +172,7 @@ export async function getCollectionSubDepList(
     name,
     exhibitId: exhibitId,
   })(
-    collection.getCollectionSubDepById,
+    collection.getCollectionSubDepList,
     [baseInfo.nodeId, exhibitId, query.itemId],
     null,
     undefined,

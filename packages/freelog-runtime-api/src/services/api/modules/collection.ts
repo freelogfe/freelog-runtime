@@ -11,8 +11,8 @@ export type Exhibit = {
   getCollectionSubById: any;
   getCollectionSubInfoById: any;
   getCollectionSubInfoByIds: any;
-  getCollectionSubAuth:any;
-  getCollectionSubInfoAuthByIds:any;
+  getCollectionSubAuth: any;
+  getCollectionSubInfoAuthByIds: any;
   getCollectionSubInsideById: any;
   getCollectionSubDepById: any;
   getCollectionSubDepList: any;
@@ -92,7 +92,6 @@ const exhibit: Exhibit = {
     method: "GET",
   },
 
-
   getCollectionSubInfoByIds: {
     url: `${placeHolder}/collection/${placeHolder}/item/list`,
     method: "GET",
@@ -101,19 +100,19 @@ const exhibit: Exhibit = {
     url: `${placeHolder}/collection/${placeHolder}/item/auth-list`,
     method: "GET",
   },
+  getCollectionSubDepList: {
+    url: `${placeHolder}/collection/${placeHolder}/item/${placeHolder}/dep`, // /exhibits/{nodeId}/{exhibitId}/items/{itemId}/dependencyTree
+    method: "GET",
+  },
+
+  
   getCollectionSubById: {
     url: `exhibits/${placeHolder}/items/${placeHolder}`,
     baseURL: location.protocol + `//file${host}/`,
     method: "GET",
   },
-
   getCollectionSubInsideById: {
     url: `exhibits/${placeHolder}/items/${placeHolder}/${placeHolder}`, // {subFilePath}
-    baseURL: location.protocol + `//file${host}/`,
-    method: "GET",
-  },
-  getCollectionSubDepList: {
-    url: `exhibits/${placeHolder}/${placeHolder}/items/${placeHolder}/dependencyTree`, // /exhibits/{nodeId}/{exhibitId}/items/{itemId}/dependencyTree
     baseURL: location.protocol + `//file${host}/`,
     method: "GET",
   },

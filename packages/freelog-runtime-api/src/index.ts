@@ -9,7 +9,8 @@ if (window.location.href.indexOf("testfreelog") > -1) {
   _directURL = window.location.protocol + "//api.testfreelog.com/v2/";
   _midURL = window.location.protocol + "//api.testfreelog.com/v2/runtimes/";
 }
-if (process.env.NODE_ENV === "mid") {
+console.log(process.env.NODE_ENV, 9999);
+if (process.env.NODE_ENV === "development") {
   _midURL = "//api3.testfreelog.com/"; // "//localhost:5201/";
 }
 let ENV = "prod";
