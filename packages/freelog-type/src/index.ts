@@ -257,6 +257,9 @@ export interface FreelogApp {
     isLoadVersionProperty?: 0 | 1;
   }) => Promise<ResponseDataType<PageResult<ExhibitInfo>>>;
   getExhibitAuthStatus: (
+    /**
+     * 展品ID,多个用逗号分隔
+     */
     exhibitIds: string
   ) => Promise<ResponseDataType<AuthResult[]>>;
   getExhibitFileStream: (

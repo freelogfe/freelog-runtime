@@ -188,7 +188,7 @@ export interface AuthResult {
    */
   exhibitName: string;
   /**
-   * 表授权是否通过
+   * 授权是否通过
    */
   isAuth: boolean;
   /**
