@@ -5,7 +5,7 @@ export default defineConfig({
   title: "freelog开发者文档",
   description: "freelog开发者文档",
   lang: "zh-CN",
-  // base: "/v1",
+  base: "/v1",
   // locales: {
   //   root: {
   //     label: 'English',

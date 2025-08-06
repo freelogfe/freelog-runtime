@@ -4,7 +4,6 @@ import microApp from "@micro-zoe/micro-app";
 
 const rawDocument = window.document;
 const rawLocation = window.location;
-// https://dj-dj.testfreelog.com/?theme=%2Fdetail%3Fid%25M2687766880d7b7f002f80238f
 export function getCurrentUrl(name: string, path: string) {
   if (path) {
     const searchs = rawLocation.search.substring(1).split("&");
@@ -19,6 +18,28 @@ export function getCurrentUrl(name: string, path: string) {
     return rawLocation.origin + "/?" + acc.join("&");
   }
   return rawLocation.href;
+}
+
+/**
+ *
+ * @param name
+ * @param routeMap 路由映射表
+ * @returns
+ */
+export function assemlbleUrl(
+  name: string,
+  routeMap: {
+    [key: string]: string;
+  },
+) {
+  const acc: any[] = [];
+  Object.keys(routeMap).forEach((key: string) => {
+    if (routeMap[key]) {
+      const value = microApp.router.encode(routeMap[key]);
+      acc.push(`${key}=${value}`);
+    }
+  });
+  return rawLocation.origin + "/?" + acc.join("&");
 }
 export function getSelfWidgetRenderName(name: string) {
   return widgetsConfig.get(name)?.name;

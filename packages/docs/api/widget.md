@@ -42,13 +42,34 @@ console.log(nodeInfo);
 
 | 参数   | 类型     | 必填 | 说明                               |
 | ------ | -------- | ---- | ---------------------------------- |
-| `path` | `string` | 可选   | 当前主题或插件想要指定的路由路径。 |
+| `path` | `string` | 可选 | 当前主题或插件想要指定的路由路径。 |
 
 ### 使用示例
 
 ```ts
 // 获取当前节点的完整 URL,并修改当前主题插件的路由为 /myroute?a=1&b=2
 const url = freelogApp.getCurrentUrl("/myroute?a=1&b=2");
+console.log(url);
+```
+
+## assemlbleUrl
+
+**用途**：用于根据 routeMap 拼装一个自定义 url，比如在 A 页面但想要得到 B 页面的 url。
+
+### 参数说明
+
+| 参数       | 类型     | 必填 | 说明                                                       |
+| ---------- | -------- | ---- | ---------------------------------------------------------- |
+| `routeMap` | `object` | 必填 | 路由映射表，key 为主题或插件的渲染名称，value 为对应的路由 |
+
+### 使用示例
+
+```ts
+// 获取当前节点的完整 URL,并修改当前主题插件的路由为 /myroute?a=1&b=2
+const url = freelogApp.assemlbleUrl({
+  theme: "/myroute?a=1",
+  widgetRenderName: "/widget?b=2",
+});
 console.log(url);
 ```
 
