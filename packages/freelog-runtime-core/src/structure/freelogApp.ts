@@ -11,7 +11,7 @@ import {
   setViewport,
   reload,
   getCurrentUrl,
-  assemlbleUrl,
+  assembleUrl,
   getTopExhibitId,
   getSelfNid,
 } from "./widgetUtils";
@@ -74,7 +74,7 @@ export const freelogApp: any = {
   isWeChatOrQQ,
   getWechatShareURL,
   getCurrentUrl,
-  assemlbleUrl,
+  assembleUrl,
   updateWechatShare,
   router: microApp.router,
   noAuthCode: [301, 302, 303, 304, 305, 306, 307],

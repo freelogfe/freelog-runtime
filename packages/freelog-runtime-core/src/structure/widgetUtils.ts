@@ -26,7 +26,7 @@ export function getCurrentUrl(name: string, path: string) {
  * @param routeMap 路由映射表
  * @returns
  */
-export function assemlbleUrl(
+export function assembleUrl(
   name: string,
   routeMap: {
     [key: string]: string;

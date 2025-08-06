@@ -52,7 +52,7 @@ const url = freelogApp.getCurrentUrl("/myroute?a=1&b=2");
 console.log(url);
 ```
 
-## assemlbleUrl
+## assembleUrl
 
 **用途**：用于根据 routeMap 拼装一个自定义 url，比如在 A 页面但想要得到 B 页面的 url。
 
@@ -66,7 +66,7 @@ console.log(url);
 
 ```ts
 // 获取当前节点的完整 URL,并修改当前主题插件的路由为 /myroute?a=1&b=2
-const url = freelogApp.assemlbleUrl({
+const url = freelogApp.assembleUrl({
   theme: "/myroute?a=1",
   widgetRenderName: "/widget?b=2",
 });
