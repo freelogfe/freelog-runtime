@@ -36,7 +36,7 @@ console.log(nodeInfo);
 
 ## getCurrentUrl
 
-**用途**：获取当前节点的完整 URL；或者传入`path`参数，获取当前节点的指定路径的 URL。
+**用途**：获取当前节点的完整 URL；或者传入`path`参数，获取当前节点的指定自身路径的 URL。
 
 ### 参数说明
 
