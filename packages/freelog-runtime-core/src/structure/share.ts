@@ -9,6 +9,7 @@ export const FREELOG_ROUTE_MAPS = "FREELOG_ROUTE_MAPS";
 const rawLocation = location;
 const rawWindow = window;
 declare const WeixinJSBridge: any;
+const firstUrl = rawWindow.location.href;
 
 export function isWeChatOrQQ() {
   var ua = navigator.userAgent.toLowerCase();
@@ -55,6 +56,16 @@ export function getNodeName(): string {
   return nodename;
 }
 let wx = rawWindow.wx;
+function getOS() {
+  const userAgent = navigator.userAgent;
+  if (userAgent.includes("Android")) {
+    return "Android";
+  } else if (userAgent.includes("iPhone") || userAgent.includes("iPad")) {
+    return "iOS";
+  } else {
+    return "Unknown";
+  }
+}
 function loadWeChatJSSDK() {
   // 检查是否已经加载了微信JS-SDK
   if (rawWindow.wx) {
@@ -64,6 +75,21 @@ function loadWeChatJSSDK() {
     script.src = "https://res2.wx.qq.com/open/js/jweixin-1.6.0.js"; // 微信JS-SDK地址
     script.onload = function () {
       wx = rawWindow.wx;
+      if (getOS() === "iOS") {
+        // iOS环境下，需要先调用一次，否则微信分享可能不生效，虽然后面调用updateWechatShare会失败，但不影响分享。
+        updateWechatShare(
+          "",
+          {
+            title: "节点分享", // 分享标题
+            desc: "", // 分享描述
+            imgUrl: "", // 分享图标
+          },
+          {
+            title: "节点分享", // 分享标题
+            imgUrl: "", // 分享图标
+          }
+        );
+      }
     };
     script.onerror = function () {
       wx = null;
@@ -98,25 +124,30 @@ export function updateWechatShare(
     title: string; // 分享标题
     desc: string; // 分享描述
     imgUrl: string; // 分享图标
-    success: () => void;
+    success?: () => void;
   },
   timelineShareData: {
     title: string; // 分享标题
     imgUrl: string; // 分享图标
-    success: () => void;
-  }
+    success?: () => void;
+  },
+  rawURL: string = firstUrl
 ) {
   return new Promise((resolve, reject) => {
     if (!isWeChatOrQQ()) {
       reject("非微信QQ环境");
     }
-    function wxInit() {
-      const url = rawLocation.href;
+    function wxInit(url: string = rawLocation.href) {
+      // alert(url);
+      // alert(getOS());
+      // if (getOS() === "iOS") {
+      //   url = rawURL;
+      // }
       getWechatShare(url).then((res: any) => {
         if (res.data.errCode == 0) {
           const data = res.data.data;
           wx.config({
-            debug: true,
+            debug: baseInfo.ENV === "prod" ? false : true, // 开启调试模式
             appId: "wx5179c4b6bbe0cc55",
             timestamp: data.timestamp,
             nonceStr: data.nonceStr,
@@ -124,6 +155,9 @@ export function updateWechatShare(
             jsApiList: ["updateAppMessageShareData", "updateTimelineShareData"],
           });
           wx.error(function (res: any) {
+              setTimeout(() => {
+                wxInit(rawURL);
+              }, 50);
             reject(res);
           });
           wx.ready(function () {
@@ -135,7 +169,6 @@ export function updateWechatShare(
               data.imgUrl =
                 data.imgUrl ||
                 `https://static.${baseInfo.HOST}/static/default_cover.png`;
-
               wx.updateAppMessageShareData(data);
             }
             if (timelineShareData) {

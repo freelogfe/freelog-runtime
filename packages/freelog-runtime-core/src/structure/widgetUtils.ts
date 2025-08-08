@@ -23,7 +23,27 @@ export function getCurrentUrl(name: string, path: string) {
 export function getSelfWidgetRenderName(name: string) {
   return widgetsConfig.get(name)?.name;
 }
-
+/**
+ *
+ * @param name
+ * @param routeMap 路由映射表
+ * @returns
+ */
+export function assembleUrl(
+  name: string,
+  routeMap: {
+    [key: string]: string;
+  }
+) {
+  const acc: any[] = [];
+  Object.keys(routeMap).forEach((key: string) => {
+    if (routeMap[key]) {
+      const value = microApp.router.encode(routeMap[key]);
+      acc.push(`${key}=${value}`);
+    }
+  });
+  return rawLocation.origin + "/?" + acc.join("&");
+}
 // TODO 这里可能已经不适应了，需要另想办法
 export function getStaticPath(name: string, path: string) {
   if (!/^\//.test(path)) {

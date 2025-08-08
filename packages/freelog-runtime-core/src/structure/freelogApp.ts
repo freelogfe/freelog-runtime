@@ -14,6 +14,7 @@ import {
   getCurrentUrl,
   getTopExhibitId,
   getSelfNid,
+  assembleUrl
 } from "./widgetUtils";
 import {
   setUserData,
@@ -73,6 +74,7 @@ export const freelogApp: any = {
   mapShareUrl,
   updateWechatShare,
   getWechatShareURL,
+  assembleUrl,
   isWeChatOrQQ,
   getCurrentUrl,
   router: microApp.router,
