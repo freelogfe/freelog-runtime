@@ -174,6 +174,10 @@ export interface FreelogApp {
      */
     sort?: string;
     /**
+     * 作品类型 (1:独立资源 2:组合资源 3:节点组合资源) 多个用逗号分隔，例如 "1,2"
+     */
+    articleType: string;
+    /**
      * 作品资源类型,多个用逗号分隔
      */
     articleResourceTypes?: string;

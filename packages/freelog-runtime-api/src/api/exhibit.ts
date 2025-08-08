@@ -117,6 +117,7 @@ export async function getExhibitListAuthByPage(
     isLoadVersionProperty?: number; // 是否响应展品版本属性
     isLoadPolicyInfo?: number; // 是否加载策略信息.测试环境自动忽略此参数
     isTranslate?: number; // 是否同步翻译.测试环境自动忽略此参数
+    articleType?: string; // 作品类型 (1:独立资源 2:组合资源 3:节点组合资源) 多个用逗号分隔
   },
   config?: any
 ): Promise<any> {
