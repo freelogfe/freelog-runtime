@@ -145,7 +145,7 @@ export function updateWechatShare(
         if (res.data.errCode == 0) {
           const data = res.data.data;
           wx.config({
-            debug: baseInfo.ENV === "prod" ? false : true, // 开启调试模式
+            debug: false, // baseInfo.ENV === "prod" ? false : true, // 开启调试模式
             appId: "wx5179c4b6bbe0cc55",
             timestamp: data.timestamp,
             nonceStr: data.nonceStr,
