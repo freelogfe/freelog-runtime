@@ -201,22 +201,26 @@ function App() {
           (nodeInfo.themeAuthInfo.defaulterIdentityType & 2) == 2
         );
         setNodeInfo(nodeInfo);
-        freelogApp.updateWechatShare(
-          null,
-          {
-            title: nodeInfo.nodeTitle, // 分享标题
-            desc: nodeInfo.nodeShortDescription, // 分享描述
-            imgUrl:
-              nodeInfo.nodeLogo ||
-              nodeInfo.themeInfo.versionInfo.exhibitProperty.options_logoImage, // 分享图标
-          },
-          {
-            title: nodeInfo.nodeTitle, // 分享标题
-            imgUrl:
-              nodeInfo.nodeLogo ||
-              nodeInfo.themeInfo.versionInfo.exhibitProperty.options_logoImage, // 分享图标
-          }
-        );
+        if (freelogApp.isWeChatOrQQ()) {
+          freelogApp.updateWechatShare(
+            null,
+            {
+              title: nodeInfo.nodeTitle, // 分享标题
+              desc: nodeInfo.nodeShortDescription, // 分享描述
+              imgUrl:
+                nodeInfo.nodeLogo ||
+                nodeInfo.themeInfo.versionInfo.exhibitProperty
+                  .options_logoImage, // 分享图标
+            },
+            {
+              title: nodeInfo.nodeTitle, // 分享标题
+              imgUrl:
+                nodeInfo.nodeLogo ||
+                nodeInfo.themeInfo.versionInfo.exhibitProperty
+                  .options_logoImage, // 分享图标
+            }
+          );
+        }
         if (!nodeInfo.themeAuthInfo.isAuth) {
           if (!nodeInfo.themeAuthInfo.isAvailable) {
             // 主题异常
