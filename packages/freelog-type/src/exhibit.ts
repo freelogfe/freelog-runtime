@@ -99,10 +99,10 @@ export interface ExhibitVersionInfo {
   /**
    * 依赖的作品信息，一级数组，子孙依赖都在一起，根据parentNid与nid进行关联查找。
    */
-  dependencyTree: ExhibitDependencyNodeInfo[];
+  dependencyTree: DependencyNodeInfo[];
 }
 
-export interface ExhibitDependencyNodeInfo {
+export interface DependencyNodeInfo {
   /**
    * 依赖树的节点ID
    */

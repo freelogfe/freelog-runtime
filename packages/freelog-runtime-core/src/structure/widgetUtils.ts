@@ -60,57 +60,64 @@ export function getTopExhibitId(name: string) {
 export function getSelfNid(name: string) {
   return widgetsConfig.get(name).nid;
 }
-/**
- *
- * @param name
- * @param isFromServer  是否从服务器获取，以防加载插件时没有传递property或不希望被加载时篡改
- * @returns
- */
-export async function getSelfProperty(name: string, isFromServer: boolean) {
+
+export async function getSelfPropertyForTheme(name: string) {
   const widgetConfig = widgetsConfig.get(name);
-  if (!isFromServer) {
-    return widgetConfig.property || {};
-  }
+  return widgetConfig.property || {};
+}
+
+export async function getSelfDepForTheme(name: string, isFromServer: boolean) {
+  const widgetConfig = widgetsConfig.get(name);
+  return widgetConfig.dependencyTree || [];
+}
+
+export async function getSelfProperty(name: string) {
+  const widgetConfig = widgetsConfig.get(name);
+
   const { exhibitId, nid, topExhibitId } = widgetsConfig.get(name);
   if (exhibitId) {
     const res = await getExhibitById(name, exhibitId, {
       isLoadVersionProperty: 1,
     });
-    console.log(res);
+    if (!res.data || (res.data && res.data.errCode !== 0)) {
+      return res;
+    }
     const property = res.data.data.versionInfo.exhibitProperty;
+    res.data.data = property;
     widgetConfig.property = property;
-    return property;
+    return res;
   }
   const res: any = getExhibitDepInfo(name, topExhibitId, { articleNids: nid });
-  const property = res.data.data[0].articleProperty;
-  widgetConfig.property = property;
-  return property;
-}
-/**
- *
- * @param name
- * @param isFromServer  是否从服务器获取，以防加载插件时没有传递property或不希望被加载时篡改
- * @returns
- */
-export async function getSelfDependencyTree(
-  name: string,
-  isFromServer: boolean
-) {
-  const widgetConfig = widgetsConfig.get(name);
-  if (!isFromServer) {
-    return widgetConfig.dependencyTree || [];
+  if (!res.data || (res.data && res.data.errCode !== 0)) {
+    return res;
   }
+  const property = res.data.data[0].articleProperty;
+  res.data.data = property;
+  widgetConfig.property = property;
+  return res;
+}
+
+export async function getSelfDep(name: string) {
+  const widgetConfig = widgetsConfig.get(name);
   const { exhibitId, nid, topExhibitId } = widgetsConfig.get(name);
   const res = await getExhibitById(name, exhibitId || topExhibitId, {
     isLoadVersionProperty: 1,
   });
-  console.log(res);
-  const dependencyTree = res.data.data.versionInfo.dependencyTree;
-  // .filter(
-  //   (item: any) => (nid ? item.parentNid === nid : true)
-  // );
+  console.log("getSelfDep", res);
+  if (!res.data || (res.data && res.data.errCode !== 0)) {
+    return res;
+  }
+  const dependencyTree = res.data.data.versionInfo.dependencyTree.filter(
+    (item: any) => {
+      if (nid) {
+        return item.parentNid == nid;
+      }
+      return true;
+    }
+  );
+  res.data.data = dependencyTree;
   widgetConfig.dependencyTree = dependencyTree;
-  return dependencyTree;
+  return res;
 }
 export function reload(name: string) {
   if (widgetsConfig.get(name).isTheme) {

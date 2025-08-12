@@ -6,7 +6,9 @@ const { isTest } = baseInfo;
 
 import {
   getSelfProperty,
-  getSelfDependencyTree,
+  getSelfPropertyForTheme,
+  getSelfDepForTheme,
+  getSelfDep,
   getSelfWidgetRenderName,
   getStaticPath,
   setViewport,
@@ -61,7 +63,9 @@ export const freelogApp: any = {
   setUserData,
   getUserData,
   getSelfProperty,
-  getSelfDependencyTree,
+  getSelfDep,
+  getSelfPropertyForTheme,
+  getSelfDepForTheme,
   getTopExhibitId,
   getSelfNid,
   isUserChange,

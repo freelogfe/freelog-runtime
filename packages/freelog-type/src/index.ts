@@ -8,7 +8,7 @@ import {
   AddAuthResult,
   CollectionInfo,
 } from "./result";
-import { ExhibitDependencyNodeInfo } from "./exhibit";
+import { DependencyNodeInfo } from "./exhibit";
 export * from "./base";
 export * from "./result";
 export * from "./exhibit";
@@ -120,10 +120,14 @@ export interface FreelogApp {
   ) => Promise<WidgetController>;
   getTopExhibitId: () => string;
   getSelfNid: () => string;
-  getSelfProperty: (isFromServer?: boolean) => Promise<PlainObject>;
-  getSelfDependencyTree: (
+  getSelfPropertyForTheme: (isFromServer?: boolean) => Promise<PlainObject>;
+  getSelfDepForTheme: (isFromServer?: boolean) => Promise<DependencyNodeInfo[]>;
+  getSelfProperty: (
     isFromServer?: boolean
-  ) => Promise<ExhibitDependencyNodeInfo[]>;
+  ) => Promise<ResponseDataType<PlainObject>>;
+  getSelfDep: (
+    isFromServer?: boolean
+  ) => Promise<ResponseDataType<DependencyNodeInfo[]>>;
   getExhibitById: (
     /**
      * 展品ID
@@ -176,7 +180,7 @@ export interface FreelogApp {
     /**
      * 作品类型 (1:独立资源 2:组合资源 3:节点组合资源) 多个用逗号分隔，例如 "1,2"
      */
-    articleType: string;
+    articleType?: string;
     /**
      * 作品资源类型,多个用逗号分隔
      */

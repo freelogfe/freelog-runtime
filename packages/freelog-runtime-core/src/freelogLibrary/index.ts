@@ -16,7 +16,8 @@ class FreelogLibrary {
       freelogApp = nidOfConsumer.microApp.getData().freelogApp
     }
 
-    const dependencyTree = await freelogApp.getSelfDependencyTree(true)
+    const depRes = await freelogApp.getSelfDep()
+    const dependencyTree = depRes.data.data;
     const topExhibitId = freelogApp.getTopExhibitId()
     
     this.dependencyTrees[topExhibitId] = dependencyTree
