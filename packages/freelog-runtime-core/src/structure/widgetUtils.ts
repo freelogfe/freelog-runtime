@@ -61,12 +61,12 @@ export function getSelfNid(name: string) {
   return widgetsConfig.get(name).nid;
 }
 
-export async function getSelfPropertyForTheme(name: string) {
+export function getSelfPropertyForTheme(name: string) {
   const widgetConfig = widgetsConfig.get(name);
   return widgetConfig.property || {};
 }
 
-export async function getSelfDepForTheme(name: string, isFromServer: boolean) {
+export function getSelfDepForTheme(name: string, isFromServer: boolean) {
   const widgetConfig = widgetsConfig.get(name);
   return widgetConfig.dependencyTree || [];
 }

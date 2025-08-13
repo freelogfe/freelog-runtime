@@ -120,14 +120,10 @@ export interface FreelogApp {
   ) => Promise<WidgetController>;
   getTopExhibitId: () => string;
   getSelfNid: () => string;
-  getSelfPropertyForTheme: (isFromServer?: boolean) => Promise<PlainObject>;
-  getSelfDepForTheme: (isFromServer?: boolean) => Promise<DependencyNodeInfo[]>;
-  getSelfProperty: (
-    isFromServer?: boolean
-  ) => Promise<ResponseDataType<PlainObject>>;
-  getSelfDep: (
-    isFromServer?: boolean
-  ) => Promise<ResponseDataType<DependencyNodeInfo[]>>;
+  getSelfPropertyForTheme: () => PlainObject;
+  getSelfDepForTheme: () => DependencyNodeInfo[];
+  getSelfProperty: () => Promise<ResponseDataType<PlainObject>>;
+  getSelfDep: () => Promise<ResponseDataType<DependencyNodeInfo[]>>;
   getExhibitById: (
     /**
      * 展品ID

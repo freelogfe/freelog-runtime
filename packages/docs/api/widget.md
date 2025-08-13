@@ -95,20 +95,27 @@ const res = await freelogApp.getExhibitDepInfo(exhibitId, {
 console.log(res);
 ```
 
-## getSelfDependencyTree
+## getSelfDepForTheme
 
-**用途**：获取插件自身的依赖树。
+**用途**：获取主题自身的依赖列表，通过 parentId 与 nid 自行转换树结构。
 
 ### 使用示例
 
 ```ts
-// 获取本地传递的 dependencyTree
-const dependencyTree = await freelogApp.getSelfDependencyTree();
+// 这里不需要await,运行时直接提供主题的依赖列表和属性，如需实时数据请使用 getSelfDep
+const dependencyTree = freelogApp.getSelfDepForTheme();
 console.log(dependencyTree);
+```
 
-// 强制通过网络获取最新的 dependencyTree
-const updatedTree = await freelogApp.getSelfDependencyTree(true);
-console.log(updatedTree);
+## getSelfDep
+
+**用途**：实时获取主题或插件自身的依赖列表，通过 parentId 与 nid 自行转换树结构。
+
+### 使用示例
+
+```ts
+const dependencyTree = await freelogApp.getSelfDep();
+console.log(dependencyTree);
 ```
 
 ### 返回字段说明
@@ -124,20 +131,28 @@ console.log(updatedTree);
 | `deep`         | `number`   | 依赖的层级                |
 | `parentNid`    | `string`   | 父级依赖 ID               |
 
-## getSelfProperty
+## getSelfPropertyForTheme
 
-**用途**：获取插件自身的属性。(配置页: 节点管理 > 主题管理 > 编辑 > 更多设置 > 可选配置)
+**用途**：获取主题的自身的属性。(配置页: 节点管理 > 主题管理 > 编辑 > 更多设置 > 可选配置)
 
 ### 使用示例
 
 ```ts
-// 获取传递的属性
+// 这里不需要await,运行时直接提供主题的属性，如需实时数据请使用 getSelfProperty
+const property = freelogApp.getSelfPropertyForTheme();
+console.log(property);
+```
+
+## getSelfProperty
+
+**用途**：实时获取主题、插件自身的属性。
+
+### 使用示例
+
+```ts
+// 实时
 const property = await freelogApp.getSelfProperty();
 console.log(property);
-
-// 强制从平台获取最新的属性
-const updatedProperty = await freelogApp.getSelfProperty(true);
-console.log(updatedProperty);
 ```
 
 ## mountExhibitWidget
