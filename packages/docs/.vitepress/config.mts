@@ -58,15 +58,15 @@ export default defineConfig({
             { text: "如何启用主题/切换版本", link: "/guide/use-theme" },
             { text: "官方主题和插件参考", link: "/guide/official" },
             { text: "v1迁移到v2", link: "/guide/migrate" },
-            // {
-            //   text: "功能",
-            //   link: "",
-            //   items: [
-            //     { text: "资源系统", link: "/guide/wheel/static-source" },
-            //     { text: "虚拟路由系统", link: "/guide/wheel/router" },
-            //     { text: "数据通信", link: "/guide/wheel/data" },
-            //   ],
-            // },
+            {
+              text: "功能",
+              link: "/guide/wheel/static-source",
+              items: [
+                { text: "资源系统", link: "/guide/wheel/static-source" },
+                { text: "虚拟路由系统", link: "/guide/wheel/router" },
+                { text: "数据通信", link: "/guide/wheel/data" },
+              ],
+            },
           ],
         },
       ],

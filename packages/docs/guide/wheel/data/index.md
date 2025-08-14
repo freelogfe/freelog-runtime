@@ -1,13 +1,13 @@
-# 插件数据通信
+# 插件数据通信(主题是特殊的插件)
 
 `freelog` 提供了一套灵活的数据通信机制，方便父插件和子插件之间的数据传输，同时支持全局通信，方便跨应用的数据交换。
 
 父插件与子插件的通信是绑定的：
+
 - **父插件**只能向指定的子插件发送数据。
 - **子插件**只能向父插件发送数据。
 
 这种绑定机制有效避免了数据污染，确保多个子插件之间不会互相干扰。
-
 
 ## 子插件获取父插件的数据
 
@@ -47,7 +47,6 @@ widgetApi.clearDataListener();
 ```
 
 > **提示**：由于父插件发送数据是同步的，而子插件渲染是异步的，可能会错过初次发送的数据。设置 `autoTrigger` 为 `true` 可以主动触发一次监听函数以获取缓存中的数据。
-
 
 ## 子插件向父插件发送数据
 
@@ -92,7 +91,6 @@ widgetApi.forceDispatch({ name: "jack" }, () => {
   console.log("强制发送完成");
 });
 ```
-
 
 ## 父插件向子插件发送数据
 
@@ -149,7 +147,6 @@ widgetController.forceSetData({ name: "jack" }, () => {
   console.log("强制发送完成");
 });
 ```
-
 
 ## 父插件获取子插件的数据
 
@@ -240,8 +237,5 @@ widgetApi.forceSetGlobalData({ name: "jack" }, () => {
 ### 清空全局数据
 
 ```javascript
-window.microApp.clearGlobalData()
+window.microApp.clearGlobalData();
 ```
-
-
-
