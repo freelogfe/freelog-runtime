@@ -157,17 +157,121 @@ console.log(property);
 
 ## mountExhibitWidget
 
-**用途**：加载展品, 且展品为一个 web 应用程序。
+**用途**：加载展品插件。
 
 ### 参数说明
 
-| 参数                  | 类型          | 必填 | 说明                     |
-| --------------------- | ------------- | ---- | ------------------------ |
-| `exhibitId`           | `string`      | 是   | 展品 ID                  |
-| `container`           | `HTMLElement` | 是   | 挂载容器                 |
-| `property`            | `object`      | 否   | 展品或作品的属性         |
-| `dependencyTree`      | `object[]`    | 否   | 依赖树                   |
-| `renderWidgetOptions` | `object`      | 否   | 渲染选项（如数据传递等） |
+| 参数                  | 类型          | 必填 | 说明                                                |
+| --------------------- | ------------- | ---- | --------------------------------------------------- |
+| `exhibitId`           | `string`      | 是   | 展品 ID                                             |
+| `container`           | `HTMLElement` | 是   | 挂载容器                                            |
+| `property`            | `object`      | 否   | 展品或作品的属性                                    |
+| `dependencyTree`      | `object[]`    | 否   | 依赖树                                              |
+| `renderWidgetOptions` | `object`      | 否   | 渲染选项（如数据传递等）                            |
+| `seq`                 | `number`      | 否   | 挂载的序号，加载多次相同插件时必须填写,以保证唯一性 |
+| `widget_entry`        | `string`      | 否   | 开发模式下，本地调试地址                            |
+
+### renderWidgetOptions 说明
+
+<details>
+<summary>点击展开/折叠内容</summary>
+
+```ts
+interface RenderWidgetOptions {
+  /**
+   *  是否切换为iframe沙箱，可选
+   */
+  iframe?: boolean;
+  /**
+   * 开启内联模式运行js，可选
+   */
+  inline?: boolean;
+  /**
+   * 关闭虚拟路由系统，可选
+   */
+  "disable-memory-router"?: boolean;
+  /**
+   * 指定默认渲染的页面，可选
+   */
+  "default-page"?: string;
+  /**
+   * 保留路由状态，可选
+   */
+  "keep-router-state"?: boolean;
+  /**
+   * 关闭子插件请求的自动补全功能，可选
+   */
+  "disable-patch-request"?: boolean;
+  /**
+   * 开启keep-alive模式，可选
+   */
+  "keep-alive"?: boolean;
+  /**
+   * 卸载时强制删除缓存资源，可选
+   */
+  destroy?: boolean;
+  /**
+   * 开启fiber模式，可选
+   */
+  fiber?: boolean;
+  /**
+   * 设置子插件的基础路由，可选
+   */
+  baseroute?: string;
+  /**
+   * 开启ssr模式，可选
+   */
+  ssr?: boolean;
+  // shadowDOM?: boolean, // 开启shadowDOM，可选
+  /**
+   * 传递给子插件的数据，可选
+   */
+  data?: Object;
+  /**
+   * 获取子插件发送数据的监听函数，可选
+   */
+  onDataChange?: Function;
+  /**
+   * 注册子插件的生命周期
+   */
+  lifeCycles?: {
+    /**
+     * 加载资源前触发
+     */
+    created?(e: CustomEvent): void;
+    /**
+     * 加载资源完成后，开始渲染之前触发
+     */
+    beforemount?(e: CustomEvent): void;
+    /**
+     * 子插件渲染结束后触发
+     */
+    mounted?(e: CustomEvent): void;
+    /**
+     * 子插件卸载时触发
+     */
+    unmount?(e: CustomEvent): void;
+    /**
+     * 子插件渲染出错时触发
+     */
+    error?(e: CustomEvent): void;
+    /**
+     * 子插件推入前台之前触发（keep-alive模式特有）
+     */
+    beforeshow?(e: CustomEvent): void;
+    /**
+     * 子插件推入前台之后触发（keep-alive模式特有）
+     */
+    aftershow?(e: CustomEvent): void;
+    /**
+     * 子插件推入后台时触发（keep-alive模式特有）
+     */
+    afterhidden?(e: CustomEvent): void;
+  };
+}
+```
+
+</details>
 
 ### 使用示例
 
@@ -183,22 +287,87 @@ const widgetController = await freelogApp.mountExhibitWidget({
 console.log(widgetController);
 ```
 
+### 返回对象 widgetController 说明
+
+<details open>
+<summary>点击展开/折叠内容</summary>
+
+```ts
+interface WidgetController {
+  /**
+   * 子插件是否成功加载
+   */
+  success: boolean;
+  /**
+   * 子插件渲染id  widgetRenderName
+   */
+  name: string;
+  /**
+   * 卸载插件
+   */
+  unmount: (options?: unmountAppParams) => Promise<boolean>;
+  /**
+   *  @param destroy 重新渲染时是否彻底删除缓存值，可选
+   */
+  reload: (destroy?: boolean) => Promise<boolean>;
+  /**
+   * 获取子插件数据
+   */
+  getData: () => any;
+  /**
+   * 清除发送给子插件的数据
+   */
+  clearData: () => any;
+  /**
+   * 发送数据给子插件，子插件通过 widgetApi.addDataListener 监听获取
+   */
+  setData: (data: Record<PropertyKey, unknown>) => any;
+  /**
+   * 方法拥有和 setData 一样的参数和行为，唯一不同的是 forceSetData 会强制发送数据，无论数据是否变化
+   */
+  forceSetData: (data: Record<PropertyKey, unknown>) => any;
+  /**
+   * 监听子插件dipatch过来的数据
+   * @param dataListener 监听函数
+   * @param autoTrigger 是否立刻触发一次监听函数，默认值为 false
+   */
+  addDataListener: (dataListener: Function, autoTrigger?: boolean) => any;
+  /**
+   * 解绑监听函数
+   * @param dataListener 监听函数
+   */
+  removeDataListener: (dataListener: Function) => any;
+  /**
+   * 清空所有绑定的监听函数
+   */
+  clearDataListener: () => any;
+}
+```
+
+</details>
+
 ## mountArticleWidget
 
-**用途**：加载插件, 插件是一个 web 应用程序。
+**用途**：加载作品插件，必须是主题或展品的依赖。
 
 ### 参数说明
 
-| 参数                  | 类型          | 必填 | 说明                                                 |
-| --------------------- | ------------- | ---- | ---------------------------------------------------- |
-| `articleId`           | `string`      | 是   | 作品 ID                                              |
-| `container`           | `HTMLElement` | 是   | 挂载容器                                             |
-| `parentNid`           | `string`      | 是   | 依赖树中的父 id,  可通过`getSelfDependencyTree `获取 |
-| `nid`                 | `string`      | 是   | 依赖树中自已 id,  可通过`getSelfDependencyTree `获取 |
-| `topExhibitId`        | `string`      | 是   | 展品 id,  可通过`getTopExhibitId`获取                |
-| `property`            | `object`      | 否   | 展品或作品的属性                                     |
-| `dependencyTree`      | `object[]`    | 否   | 依赖树                                               |
-| `renderWidgetOptions` | `object`      | 否   | 渲染选项（如数据传递等）                             |
+| 参数                  | 类型          | 必填 | 说明                                                            |
+| --------------------- | ------------- | ---- | --------------------------------------------------------------- |
+| `articleId`           | `string`      | 是   | 作品 ID                                                         |
+| `container`           | `HTMLElement` | 是   | 挂载容器                                                        |
+| `parentNid`           | `string`      | 是   | 依赖树中的父 id,  可通过`getSelfDependencyTree `获取            |
+| `nid`                 | `string`      | 是   | 依赖树中自已 id,  可通过`getSelfDependencyTree `获取            |
+| `topExhibitId`        | `string`      | 是   | 展品 id,  可通过`getTopExhibitId`获取                           |
+| `property`            | `object`      | 否   | 展品或作品的属性                                                |
+| `dependencyTree`      | `object[]`    | 否   | 依赖树                                                          |
+| `renderWidgetOptions` | `object`      | 否   | 渲染选项（参考 mountExhibitWidget 的 renderWidgetOptions 说明） |
+| `seq`                 | `number`      | 否   | 挂载的序号，加载多次相同插件时必须填写,以保证唯一性             |
+| `widget_entry`        | `string`      | 否   | 开发模式下，本地调试地址                                        |
+
+### renderWidgetOptions 说明
+
+[参考 mountExhibitWidget](#mountexhibitwidget)
 
 ### 使用示例
 
@@ -210,6 +379,10 @@ const widgetController = await freelogApp.mountExhibitWidget({
     data: { message: "Hello World" },
   },
 });
+
+### 返回对象 widgetController 说明
+
+[参考 mountExhibitWidget](#mountexhibitwidget)
 
 console.log(widgetController);
 ```
