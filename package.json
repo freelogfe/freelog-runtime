@@ -1,0 +1,5 @@
+{
+	"dependencies": {
+		"freelog-runtime": "link:packages/freelog-type"
+	}
+}

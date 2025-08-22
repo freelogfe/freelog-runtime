@@ -271,9 +271,10 @@ async function mountApp(
   //   return
   // }
   let routerMode = "search";
-  if (["pure", "hash"].includes(renderWidgetOptions["router-mode"])) {
+  if (["pure", "state"].includes(renderWidgetOptions["router-mode"])) {
     routerMode = renderWidgetOptions["router-mode"];
   }
+  console.log("mountApp", routerMode, widgetRenderName, entry);
   const flag = await microApp.renderApp({
     "router-mode": routerMode,
     ...renderWidgetOptions,

@@ -99,6 +99,10 @@ export interface RenderWidgetOptions {
    * 开启内联模式运行js，可选
    */
   inline?: boolean;
+   /**
+   * 路由模式
+   */
+  "router-mode"?: "search" | "pure" | "state";
   /**
    * 关闭虚拟路由系统，可选
    */

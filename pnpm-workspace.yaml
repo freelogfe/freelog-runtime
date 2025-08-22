@@ -1,3 +1,6 @@
 packages:
-  - 'packages/*'
-  - '!packages/docs'
+  - packages/*
+  - '!packages/docs'  
+
+overrides:
+  freelog-runtime: link:packages/freelog-type

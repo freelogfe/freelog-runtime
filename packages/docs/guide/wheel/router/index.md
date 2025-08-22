@@ -32,7 +32,7 @@ await freelogApp.mountWidget({
 
 #### ** pure 模式 **
 
-pure 模式下子插件独立于浏览器进行渲染，即不会修改浏览器地址，也不会受其影响，其表现和 iframe 类似。
+pure 模式是指子插件独立于浏览器路由系统进行渲染，即不修改浏览器地址，也不增加路由堆栈，pure 模式下的子插件更像是一个组件。
 
 **使用方式：**
 
@@ -45,6 +45,30 @@ await freelogApp.mountWidget({
   topExhibitData: null,
   renderWidgetOptions:{
    "router-mode": "pure"
+  }
+  seq: 1,
+ });
+```
+
+#### ** state 模式 **
+
+state 模式是指基于浏览器 history.state 进行渲染的路由模式，在不修改浏览器地址的情况下模拟路由行为，相比其它路由模式更加简洁优雅。
+
+state 模式的表现和 iframe 路由系统类似，但却没有 iframe 路由存在的问题。
+
+state 模式适合不想子插件路由显示在 url 上，但希望浏览器回退前进能够正常作用在子插件上，也就是子插件的路由变化会记录到浏览器路由堆栈中。
+
+**使用方式：**
+
+设置单个子插件：
+
+```js
+await freelogApp.mountWidget({
+  widget: widget,
+  container: document.getElementById("freelog-exhibit"),
+  topExhibitData: null,
+  renderWidgetOptions:{
+   "router-mode": "state"
   }
   seq: 1,
  });
@@ -99,7 +123,9 @@ await freelogApp.mountWidget({
 2. 子插件控制父插件跳转
 3. 子插件控制其它子插件跳转
 
-由于 nextjs 的路由系统非常特殊，当子插件是 nextjs 时无法直接控制跳转，参考[通过数据通信控制跳转](/zh-cn/jump?id=方式二、通过数据通信控制跳转)
+  <!-- TODO -->
+
+<!-- 由于 nextjs 的路由系统非常特殊，当子插件是 nextjs 时无法直接控制跳转，参考[通过数据通信控制跳转](/zh-cn/jump?id=方式二、通过数据通信控制跳转) -->
 
 <!-- tabs:start -->
 
