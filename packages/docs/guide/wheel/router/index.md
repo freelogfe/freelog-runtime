@@ -4,7 +4,7 @@
 
 ## 路由模式
 
-虚拟路由系统分为 2 种模式：`search`、`pure`
+虚拟路由系统分为 3 种模式：`search`、`pure`、`state`
 
 <!-- tabs:start -->
 
