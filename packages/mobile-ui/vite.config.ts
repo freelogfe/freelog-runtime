@@ -6,7 +6,7 @@ import legacy from "@vitejs/plugin-legacy";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/v2",
+  base: "/0.5",
   plugins: [
     basicSsl(),
     react(),
