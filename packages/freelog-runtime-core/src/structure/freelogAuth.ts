@@ -11,6 +11,8 @@ import {
 } from "../bridge/index";
 import { freelogAuthApi } from "../freelogAuth";
 import { loginCallback, loginErrorCallback } from "../bridge/eventOn";
+import { jumpShareWechat } from "./share";
+
 import {
   upperUI,
   lowerUI,
@@ -36,6 +38,7 @@ export const freelogAuth = {
   loginCallback,
   loginErrorCallback,
   devData: dev(),
+  jumpShareWechat,
   setUserInfo,
   getUserInfoForAuth,
   getUserInfo,
@@ -49,4 +52,3 @@ export const freelogAuth = {
   getHref: () => rawWindow.location.href,
   ...freelogAuthApi,
 };
-

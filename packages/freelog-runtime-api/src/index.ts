@@ -34,6 +34,7 @@ import frequest from "./services/handler";
 import user from "./services/api/modules/user";
 import node from "./services/api/modules/node";
 export async function getWechatShare(url: any) {
+  node.getWechatShare.baseURL = baseInfo.directURL;
   return frequest(node.getWechatShare, "", { shareUrl: url });
 }
 export async function getCurrentUser() {
