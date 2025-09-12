@@ -8,6 +8,7 @@ export { FreelogLibrary } from "./freelogLibrary";
 
 export const baseURL = baseInfo.baseURL;
 export const isTest = baseInfo.isTest;
+export { isWeChatOrQQ, getNodeName } from "./structure/share";
 
 export {
   getCurrentUser,

@@ -6,7 +6,7 @@ import "@/assets/mobile/index.scss";
 // import "antd-mobile/es/global/global.css"
 // import "antd-mobile/es/global/theme-default.css"
 import microApp from "@micro-zoe/micro-app";
-import { FreelogLibrary } from "freelog-runtime-core";
+import { FreelogLibrary, getNodeName } from "freelog-runtime-core";
 
 import { useEffect, useState } from "react";
 import Forgot from "./views/user/forgot";
@@ -91,7 +91,7 @@ function App() {
   }
   useEffect(() => {
     document.title = FI18n.i18nNext.t("noderuntime_nodeloading_tabtitle");
-    const nodeDomain = getDomain(window.location.host);
+    const nodeDomain = getNodeName();
     Promise.all([requestNodeInfo(nodeDomain), freelogAuth.getUserInfo()]).then(
       async (values: any) => {
         const nodeData = values[0];
@@ -494,9 +494,9 @@ async function requestNodeInfo(nodeDomain: string) {
   return info.data;
 }
 
-function getDomain(url: string) {
-  if (url.split(".")[0] === "t") {
-    return url.split(".")[1];
-  }
-  return url.split(".")[0];
-}
+// function getDomain(url: string) {
+//   if (url.split(".")[0] === "t") {
+//     return url.split(".")[1];
+//   }
+//   return url.split(".")[0];
+// }
