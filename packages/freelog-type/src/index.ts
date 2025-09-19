@@ -575,7 +575,13 @@ export interface FreelogApp {
       immediate: boolean;
     }
   ) => Promise<AddAuthResult>;
-  onLogin: (callback: Function) => void;
+  /**
+   * 
+   * @param resolve 登录成功后的回调函数
+   * @param reject 用户关闭登录窗口后的回调函数
+   * @returns void
+   */
+  onLogin: (resolve: Function, reject: Function) => void;
   onUserChange: (callback: Function) => void;
   isUserChange: () => boolean;
   callLogin: (callback?: Function) => void;
