@@ -347,7 +347,7 @@ function App() {
       callLoginCallback.forEach((item: any) => {
         item && item(type);
       });
-      callLoginCallback.spice(0, callLoginCallback.length);
+      callLoginCallback.splice(0, callLoginCallback.length);
     }
   }
 
