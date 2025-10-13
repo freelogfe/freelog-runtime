@@ -1,7 +1,6 @@
 import frequest from "../services/handler";
 import exhibit from "../services/api/modules/exhibit";
 import operation from "../services/api/modules/operation";
-import collection from "../services/api/modules/collection";
 
 import { baseInfo } from "../index";
 

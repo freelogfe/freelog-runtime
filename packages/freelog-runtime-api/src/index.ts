@@ -4,7 +4,7 @@
 // }
 export const isTest = window.location.host.split(".")[1] === "t";
 let _directURL = window.location.protocol + "//api.freelog.com/v2/";
-let _midURL = window.location.protocol + "//api.testfreelog.com/v2/runtimes/";
+let _midURL = window.location.protocol + "//api.freelog.com/v2/runtimes/";
 if (window.location.href.indexOf("testfreelog") > -1) {
   _directURL = window.location.protocol + "//api.testfreelog.com/v2/";
   _midURL = window.location.protocol + "//api.testfreelog.com/v2/runtimes/";
