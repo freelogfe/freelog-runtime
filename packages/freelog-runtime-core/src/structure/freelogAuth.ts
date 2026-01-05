@@ -12,7 +12,7 @@ import {
 import { freelogAuthApi } from "../freelogAuth";
 import { loginCallback, loginErrorCallback } from "../bridge/eventOn";
 import { jumpShareWechat } from "./share";
-
+import {bindName} from "./widget";
 import {
   upperUI,
   lowerUI,
@@ -25,6 +25,7 @@ import { dev } from "./dev";
 const rawWindow = window;
 
 export const freelogAuth = {
+  bindName,
   upperUI,
   lowerUI,
   registerUI,

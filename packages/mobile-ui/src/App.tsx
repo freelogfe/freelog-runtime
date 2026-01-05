@@ -44,6 +44,7 @@ import OutOf from "./views/outOf";
  */
 const isTest = window.isTest;
 const {
+  bindName,
   registerUI,
   clearEvent,
   endEvent,
@@ -135,6 +136,7 @@ function App() {
         await microApp.renderApp({
           "router-mode": "pure",
           name: "freelog-pc-common-auth",
+          data:{freelogApp:bindName("freelog-pc-common-auth")},
           url: entry
             ? entry
             : window.location.host.includes("testfreelog.com")

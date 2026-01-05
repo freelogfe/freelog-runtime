@@ -27,6 +27,7 @@ import {
 const isTest = window.isTest;
 
 const {
+  bindName,
   registerUI,
   endEvent,
   updateLock,
@@ -115,6 +116,7 @@ function App() {
         await microApp.renderApp({
           "router-mode": "pure",
           name: "freelog-pc-common-auth",
+          data:{freelogApp:bindName("freelog-pc-common-auth")},
           url: entry
             ? entry
             : window.location.host.includes("testfreelog.com")
