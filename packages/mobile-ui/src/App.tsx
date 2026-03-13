@@ -166,7 +166,7 @@ function App() {
         setOutData(nodeInfo);
         // 1:公开 2:私密 4:冻结 8:暂停 -1:删除
         // 节点删除
-        if (nodeInfo.status == -1) {
+        if (nodeInfo.status == -1 || true) {
           UI(NODE_DELETED, nodeInfo);
           return;
         }

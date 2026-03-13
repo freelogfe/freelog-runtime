@@ -1,5 +1,5 @@
 import FI18n from "@/I18nNext";
-
+import nodeNone from "../../assets/image/failed.svg";
 export default function OutOf() {
   return (
     <div
@@ -11,7 +11,7 @@ export default function OutOf() {
       <div className="flex-2"></div>
       <div className="w-76">
         <img
-          src="/failed.svg"
+          src={nodeNone}
           alt="" 
           className="w-100x"
         />
