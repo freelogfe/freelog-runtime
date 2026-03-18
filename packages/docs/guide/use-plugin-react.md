@@ -128,7 +128,7 @@ step2: **先启用**此主题，访问节点地址, 插件项目正常渲染则�
 举例：
 
 ```plaintext
-https://acarlikecar.freelog.com/?dev=replace&wfbd046-freelog=https://localhost:8800
+https://acarlikecar.freelog.cn/?dev=replace&wfbd046-freelog=https://localhost:8800
 ```
 
 现在, 可以修改本地的插件项目代码进行本地开发和调试了;

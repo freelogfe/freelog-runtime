@@ -100,7 +100,7 @@ const res = await freelogApp.getExhibitListByPaging({
         "tags": [],
         "intro": "展品产品侧未提供简介字段",
         "coverImages": [
-          "https://image.freelog.com/preview-image/3f78173235c2bead482ed68a6489f082195738c5.jpg"
+          "https://image.freelog.cn/preview-image/3f78173235c2bead482ed68a6489f082195738c5.jpg"
         ],
         "version": "0.1.0",
         "policies": [
@@ -228,7 +228,7 @@ const res = await freelogApp.getExhibitListByPaging({
         "tags": [],
         "intro": "展品产品侧未提供简介字段",
         "coverImages": [
-          "https://image.freelog.com/preview-image/6f8b324691c14490156715f125f0247421183432"
+          "https://image.freelog.cn/preview-image/6f8b324691c14490156715f125f0247421183432"
         ],
         "version": "0.0.1",
         "policies": [
@@ -264,7 +264,7 @@ const res = await freelogApp.getExhibitListByPaging({
         "tags": [],
         "intro": "展品产品侧未提供简介字段",
         "coverImages": [
-          "https://image.freelog.com/preview-image/25fed1339632dd0a75d8b96e4a6da7e1b4a89fd8"
+          "https://image.freelog.cn/preview-image/25fed1339632dd0a75d8b96e4a6da7e1b4a89fd8"
         ],
         "version": "0.0.3",
         "policies": [
@@ -305,7 +305,7 @@ const res = await freelogApp.getExhibitListByPaging({
         "tags": [],
         "intro": "展品产品侧未提供简介字段",
         "coverImages": [
-          "https://image.freelog.com/preview-image/4f89e78533c0a82f15339bc049aaaf2ec1055ff8"
+          "https://image.freelog.cn/preview-image/4f89e78533c0a82f15339bc049aaaf2ec1055ff8"
         ],
         "version": "0.0.3",
         "policies": [
@@ -336,7 +336,7 @@ const res = await freelogApp.getExhibitListByPaging({
         "tags": [],
         "intro": "展品产品侧未提供简介字段",
         "coverImages": [
-          "https://image.freelog.com/preview-image/5efa440b0659eb108ea56e47e7e13348e6b2608b"
+          "https://image.freelog.cn/preview-image/5efa440b0659eb108ea56e47e7e13348e6b2608b"
         ],
         "version": "0.1.0",
         "policies": [
@@ -367,7 +367,7 @@ const res = await freelogApp.getExhibitListByPaging({
         "tags": [],
         "intro": "展品产品侧未提供简介字段",
         "coverImages": [
-          "https://image.freelog.com/preview-image/4db8571f47de3d556a59e39ab5cfe5da7ffdd92b"
+          "https://image.freelog.cn/preview-image/4db8571f47de3d556a59e39ab5cfe5da7ffdd92b"
         ],
         "version": "4.2.0",
         "policies": [
@@ -398,7 +398,7 @@ const res = await freelogApp.getExhibitListByPaging({
         "tags": [],
         "intro": "展品产品侧未提供简介字段",
         "coverImages": [
-          "https://image.freelog.com/preview-image/81ff6d47fba8e6e79a1e598250b5a6f0ce58d0df"
+          "https://image.freelog.cn/preview-image/81ff6d47fba8e6e79a1e598250b5a6f0ce58d0df"
         ],
         "version": "2.0.2",
         "policies": [
@@ -481,7 +481,7 @@ const res = await freelogApp.getExhibitRecommend(exhibitId, {
       "exhibitSubjectType": 2,
       "tags": ["玄幻", "异世界"],
       "coverImages": [
-        "https://image.freelog.com/preview-image/395002835c6ea7980bc9c450737159d599ea880a.jpeg"
+        "https://image.freelog.cn/preview-image/395002835c6ea7980bc9c450737159d599ea880a.jpeg"
       ],
       "version": "1.0.1",
       "policies": [],
@@ -509,7 +509,7 @@ const res = await freelogApp.getExhibitRecommend(exhibitId, {
       "exhibitSubjectType": 2,
       "tags": [],
       "coverImages": [
-        "https://image.freelog.com/preview-image/78e5c710bc13c56770094c73d0782f4bca1941a8.jpeg"
+        "https://image.freelog.cn/preview-image/78e5c710bc13c56770094c73d0782f4bca1941a8.jpeg"
       ],
       "version": "1.0.0",
       "policies": [
@@ -543,7 +543,7 @@ const res = await freelogApp.getExhibitRecommend(exhibitId, {
       "exhibitSubjectType": 2,
       "tags": [],
       "coverImages": [
-        "https://image.freelog.com/preview-image/bdb0652c8e9ad59ac8b60bbe9288887314252c30.jpeg"
+        "https://image.freelog.cn/preview-image/bdb0652c8e9ad59ac8b60bbe9288887314252c30.jpeg"
       ],
       "version": "1.0.0",
       "policies": [
@@ -582,7 +582,7 @@ const res = await freelogApp.getExhibitRecommend(exhibitId, {
       "exhibitSubjectType": 2,
       "tags": ["编程", "Vue"],
       "coverImages": [
-        "https://image.freelog.com/preview-image/1c47f10e145bc20a699c4d68213fe87acbcd5d28.jpg"
+        "https://image.freelog.cn/preview-image/1c47f10e145bc20a699c4d68213fe87acbcd5d28.jpg"
       ],
       "version": "0.1.0",
       "policies": [
@@ -615,7 +615,7 @@ const res = await freelogApp.getExhibitRecommend(exhibitId, {
       "exhibitIntro": "",
       "exhibitSubjectType": 2,
       "tags": [],
-      "coverImages": ["//static.testfreelog.com/static/default_cover.png"],
+      "coverImages": ["//static.freelog.cn/static/default_cover.png"],
       "version": "0.1.0",
       "policies": [],
       "onlineStatus": 0,
@@ -641,7 +641,7 @@ const res = await freelogApp.getExhibitRecommend(exhibitId, {
       "exhibitIntro": "",
       "exhibitSubjectType": 2,
       "tags": [],
-      "coverImages": ["//static.testfreelog.com/static/default_cover.png"],
+      "coverImages": ["//static.freelog.cn/static/default_cover.png"],
       "version": "1.0.0",
       "policies": [],
       "onlineStatus": 0,
@@ -668,7 +668,7 @@ const res = await freelogApp.getExhibitRecommend(exhibitId, {
       "exhibitSubjectType": 2,
       "tags": ["惊悚", "异能", "悬疑", "灵异", "都市", "冒险", "犯罪", "科幻"],
       "coverImages": [
-        "https://image.freelog.com/preview-image/83bdeeee6cb3e01c8a39403852326917d4b05599.jpg#x=0&y=1.0714285714285714&r=0&w=120.00000000000001&h=90&width=120&height=150"
+        "https://image.freelog.cn/preview-image/83bdeeee6cb3e01c8a39403852326917d4b05599.jpg#x=0&y=1.0714285714285714&r=0&w=120.00000000000001&h=90&width=120&height=150"
       ],
       "version": "0.1.1",
       "policies": [
@@ -701,7 +701,7 @@ const res = await freelogApp.getExhibitRecommend(exhibitId, {
       "exhibitIntro": "",
       "exhibitSubjectType": 2,
       "tags": [],
-      "coverImages": ["//static.testfreelog.com/static/default_cover.png"],
+      "coverImages": ["//static.freelog.cn/static/default_cover.png"],
       "version": "1.0.0",
       "policies": [
         {
@@ -738,7 +738,7 @@ const res = await freelogApp.getExhibitRecommend(exhibitId, {
       "exhibitIntro": "",
       "exhibitSubjectType": 2,
       "tags": [],
-      "coverImages": ["//static.testfreelog.com/static/default_cover.png"],
+      "coverImages": ["//static.freelog.cn/static/default_cover.png"],
       "version": "1.0.0",
       "policies": [
         {
@@ -771,7 +771,7 @@ const res = await freelogApp.getExhibitRecommend(exhibitId, {
       "exhibitSubjectType": 2,
       "tags": ["玄幻", "悬疑", "灵异", "冒险"],
       "coverImages": [
-        "https://image.freelog.com/preview-image/f40ff8bbc3cc7d7c4d777142e9deaa322f77f208.jpeg"
+        "https://image.freelog.cn/preview-image/f40ff8bbc3cc7d7c4d777142e9deaa322f77f208.jpeg"
       ],
       "version": "1.0.0",
       "policies": [
@@ -865,7 +865,7 @@ const res = await freelogApp.getExhibitListById(query)
       "tags": [],
       "intro": "展品产品侧未提供简介字段",
       "coverImages": [
-        "https://image.freelog.com/preview-image/3f78173235c2bead482ed68a6489f082195738c5.jpg"
+        "https://image.freelog.cn/preview-image/3f78173235c2bead482ed68a6489f082195738c5.jpg"
       ],
       "version": "0.1.0",
       "policies": [
@@ -1178,7 +1178,7 @@ const res = await freelogApp.getExhibitInfo(exhibitId, query)
     "tags": [],
     "intro": "展品产品侧未提供简介字段",
     "coverImages": [
-      "https://image.freelog.com/preview-image/3f78173235c2bead482ed68a6489f082195738c5.jpg"
+      "https://image.freelog.cn/preview-image/3f78173235c2bead482ed68a6489f082195738c5.jpg"
     ],
     "version": "0.1.0",
     "policies": [

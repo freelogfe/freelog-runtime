@@ -35,13 +35,13 @@ outline: deep
 
 ## 基础使用案例
 
-节点：[https://examples.testfreelog.com](https://examples.testfreelog.com)
+节点：[https://examples.freelog.cn](https://examples.freelog.cn)
 
 代码仓：[https://github.com/freelogfe/freelog-developer-guide-examples.git](https://github.com/freelogfe/freelog-developer-guide-examples.git)
 
 <!-- ### 有意思的怀旧红白机
 
-[https://nes-game.freelog.com](https://nes-game.freelog.com) -->
+[https://nes-game.freelog.cn](https://nes-game.freelog.cn) -->
 
 ## 框架改造
 
@@ -72,22 +72,22 @@ outline: deep
 
 ### 创建一个节点和主题
 
-进入 `console.freelog.com` ---> 节点管理
+进入 `console.freelog.cn` ---> 节点管理
 
 创建节点后必须建一个主题作品并签约激活
 
-假设节点为`https://examples.freelog.com/`
+假设节点为`https://examples.freelog.cn/`
 
-<!-- 用于开发的测试节点为https://examples.freelog.com/ -->
+<!-- 用于开发的测试节点为https://examples.freelog.cn/ -->
 
 ### 连接节点与本地主题
 
 启动本地主题，例如 `https://localhost:7101`
 
-在节点 url 的`https://examples.freelog.com/`后面加上
+在节点 url 的`https://examples.freelog.cn/`后面加上
 
 ```html
-https://examples.freelog.com/?dev=https://localhost:7101
+https://examples.freelog.cn/?dev=https://localhost:7101
 ```
 
 此时本地主题替代节点原有线上主题使用。
@@ -104,9 +104,9 @@ https://examples.freelog.com/?dev=https://localhost:7101
 
 ### URL 说明
 
-节点 URL 示例：`https://examples.testfreelog.com/?theme=%2Fwidget-mount&w910d8e=%2Fwidget%2F&wa4083c1=%2Fwidget%2F`
+节点 URL 示例：`https://examples.freelog.cn/?theme=%2Fwidget-mount&w910d8e=%2Fwidget%2F&wa4083c1=%2Fwidget%2F`
 
-`https://examples.testfreelog.com`： 节点地址
+`https://examples.freelog.cn`： 节点地址
 
 `theme=%2Fwidget-mount`：
 
@@ -282,7 +282,7 @@ widgets.forEach(async (widget: ExhibitInfo, index: number) => {
 举例：
 
 ```html
-https://nes-common.freelog.com/?dev=replace&w680fb7-freelog=https://localhost:7107/
+https://nes-common.freelog.cn/?dev=replace&w680fb7-freelog=https://localhost:7107/
 ```
 
 `widgetRenderName` 获取方式：
@@ -864,7 +864,7 @@ const res = await freelogApp.getUserData(key);
 
 <!-- ## 模板下载 -->
 
-<!-- [vue模板](https://freelog-docs.freelog.com/$freelog-60a614de12ac83003f09d975=/dev/guide)  -->
+<!-- [vue模板](https://freelog-docs.freelog.cn/$freelog-60a614de12ac83003f09d975=/dev/guide)  -->
 
 <!-- ## 移动端真机调试 vconsole
 
@@ -872,4 +872,4 @@ const res = await freelogApp.getUserData(key);
 
 此时无论移动端还是电脑端都会出现 vconsole
 
-https://examples.freelog.com/?devconsole=https://localhost:8081 -->
+https://examples.freelog.cn/?devconsole=https://localhost:8081 -->

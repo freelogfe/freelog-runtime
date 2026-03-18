@@ -49,13 +49,13 @@ deep: true
 
 ### 步骤 2：创建和连接节点
 
-1. 登录 [Freelog 控制台](https://console.freelog.com)，进入 **节点管理**。
+1. 登录 [Freelog 控制台](https://console.freelog.cn)，进入 **节点管理**。
 2. 创建节点并创建一个主题作品，签约激活。
 3. 使用本地主题开发：
    - 启动本地主题，例如：`https://localhost:7101`。
    - 在节点地址后追加 `?dev=https://localhost:7101`，例如：
      ```
-     https://examples.freelog.com/?dev=https://localhost:7101
+     https://examples.freelog.cn/?dev=https://localhost:7101
      ```
 
 > 本地开发时，必须使用https；见下面的mkcert的详细说明：

@@ -65,7 +65,7 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
         "articleOwnerName": "12345676789",
         "intro": "一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十",
         "coverImages": [
-          "https://image.freelog.com/c0b52bf6-9407-4327-b2ea-6bb5e10f3f31.jpg"
+          "https://image.freelog.cn/c0b52bf6-9407-4327-b2ea-6bb5e10f3f31.jpg"
         ],
         "latestVersionReleaseDate": "2024-04-01T07:50:06.070Z"
       }
@@ -83,7 +83,7 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
         "articleOwnerName": "12345676789",
         "intro": "",
         "coverImages": [
-          "https://image.freelog.com/8d5c9f0a-ea79-43af-80d0-daf474a6f6eb.png"
+          "https://image.freelog.cn/8d5c9f0a-ea79-43af-80d0-daf474a6f6eb.png"
         ],
         "latestVersionReleaseDate": "2024-04-01T07:50:05.744Z"
       }
@@ -117,7 +117,7 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
         "articleOwnerName": "12345676789",
         "intro": "",
         "coverImages": [
-          "https://image.freelog.com/aac09976-2794-44a2-ba9f-3f14d7e5f391.gif"
+          "https://image.freelog.cn/aac09976-2794-44a2-ba9f-3f14d7e5f391.gif"
         ],
         "latestVersionReleaseDate": "2024-04-01T06:42:27.781Z"
       }
@@ -167,7 +167,7 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
         "articleOwnerName": "12345676789",
         "intro": "",
         "coverImages": [
-          "https://image.freelog.com/preview-image/0016609aeb24f064a1b41f396969adbddb5c294a.gif?x-oss-process=style/cover_image"
+          "https://image.freelog.cn/preview-image/0016609aeb24f064a1b41f396969adbddb5c294a.gif?x-oss-process=style/cover_image"
         ],
         "latestVersionReleaseDate": "2024-06-06T09:32:11.573Z"
       }
@@ -185,7 +185,7 @@ const res = await freelogApp.getCollectionSubList(exhibitId, {
         "articleOwnerName": "12345676789",
         "intro": "",
         "coverImages": [
-          "https://image.freelog.com/83f3c014-22ae-4139-81c2-59eca744cacf.gif"
+          "https://image.freelog.cn/83f3c014-22ae-4139-81c2-59eca744cacf.gif"
         ],
         "latestVersionReleaseDate": "2024-06-06T09:49:18.456Z"
       }
@@ -299,7 +299,7 @@ const res = await freelogApp.getCollectionsSubList(exhibitIds, {
             "articleOwnerName": "luojiutian",
             "intro": "该漫画讲述了人界突现诡异之事：世间百姓一夜之间全部知晓了自己的死期。于是阎王便命牛头马面前去调查此事。不料就在此时，马面数百年前的前辈、本已魂飞魄散的重阳再次出现，经过一系列的事件，终于被小阎王等人识破重阳是范无救所假扮，目的是为报当年子午谷之仇以及救活谢必安。此时，酆都的危机才刚刚开始……",
             "coverImages": [
-              "https://image.freelog.com/preview-image/491dcc97ee3174ba6a8cf08b0df230c8fc914c01.jpeg"
+              "https://image.freelog.cn/preview-image/491dcc97ee3174ba6a8cf08b0df230c8fc914c01.jpeg"
             ],
             "latestVersionReleaseDate": "2024-07-16T06:43:45.489Z",
             "articleProperty": {
@@ -330,7 +330,7 @@ const res = await freelogApp.getCollectionsSubList(exhibitIds, {
             "articleOwnerName": "luojiutian",
             "intro": "",
             "coverImages": [
-              "https://image.freelog.com/preview-image/6e50e0616e8ce2b5a244c4fd67f21bc6688dad34.jpeg"
+              "https://image.freelog.cn/preview-image/6e50e0616e8ce2b5a244c4fd67f21bc6688dad34.jpeg"
             ],
             "latestVersionReleaseDate": "2024-07-24T08:20:38.374Z",
             "articleProperty": {

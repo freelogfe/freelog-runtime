@@ -62,7 +62,7 @@ const res = await freelogApp.getCollectionSubListByPage(exhibitId, {
         "articleType": 1,
         "articleOwnerId": 50028,
         "intro": "作品简介",
-        "coverImages": ["https://image.freelog.com/sample.jpg"]
+        "coverImages": ["https://image.freelog.cn/sample.jpg"]
       }
     }
   ]
@@ -141,7 +141,7 @@ const res = await freelogApp.getCollectionSubListAuthByPage(exhibitId, {
         "articleType": 1,
         "articleOwnerId": 50028,
         "intro": "作品简介",
-        "coverImages": ["https://image.freelog.com/sample.jpg"]
+        "coverImages": ["https://image.freelog.cn/sample.jpg"]
       }
     }
   ]

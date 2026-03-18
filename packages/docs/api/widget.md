@@ -28,7 +28,7 @@ console.log(nodeInfo);
 {
   "nodeName": "示例节点",
   "tags": ["开发", "测试"],
-  "nodeLogo": "https://cdn.freelog.com/logo.png",
+  "nodeLogo": "https://cdn.freelog.cn/logo.png",
   "nodeTitle": "示例节点标题",
   "nodeShortDescription": "这是一个节点简介。"
 }

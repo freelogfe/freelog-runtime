@@ -6,7 +6,7 @@ outline: "deep"
 
 ## 1. 登录/注册
 
-[去登录/注册](https://user.freelog.com/login)
+[去登录/注册](https://user.freelog.cn/login)
 
 登录后，点击页面右上角，头像旁边的“进入工作台”
 

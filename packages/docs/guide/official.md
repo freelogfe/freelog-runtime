@@ -7,7 +7,7 @@ outline: deep
 
 ### 小说主题
 
-| 资源地址       | https://console.freelog.com/resource/details/61f251286fe5c1002e2c7b41                           |
+| 资源地址       | https://console.freelog.cn/resource/details/61f251286fe5c1002e2c7b41                           |
 | -------------- | ----------------------------------------------------------------------------------------------- |
 | github代码仓库 | https://github.com/freelogfe/freelog-sample-themes/tree/master/%E3%80%901%E3%80%91novel-theme   |
 | gitee代码仓库  | https://gitee.com/freelog-repo/freelog-sample-themes/tree/master/%E3%80%901%E3%80%91novel-theme |
@@ -16,7 +16,7 @@ outline: deep
 
 ### 漫画主题
 
-| 资源地址       | https://console.freelog.com/resource/details/61f252c36fe5c1002e2c7b47                           |
+| 资源地址       | https://console.freelog.cn/resource/details/61f252c36fe5c1002e2c7b47                           |
 | -------------- | ----------------------------------------------------------------------------------------------- |
 | github代码仓库 | https://github.com/freelogfe/freelog-sample-themes/tree/master/%E3%80%902%E3%80%91comic-theme   |
 | gitee代码仓库  | https://gitee.com/freelog-repo/freelog-sample-themes/tree/master/%E3%80%902%E3%80%91comic-theme |
@@ -25,7 +25,7 @@ outline: deep
 
 ### 图片/视频主题
 
-| 资源地址       | https://console.freelog.com/resource/details/61f252fea513d2002f2abc89                             |
+| 资源地址       | https://console.freelog.cn/resource/details/61f252fea513d2002f2abc89                             |
 | -------------- | ------------------------------------------------------------------------------------------------- |
 | github代码仓库 | https://github.com/freelogfe/freelog-sample-themes/tree/master/%E3%80%903%E3%80%91gallery-theme   |
 | gitee代码仓库  | https://gitee.com/freelog-repo/freelog-sample-themes/tree/master/%E3%80%903%E3%80%91gallery-theme |
@@ -34,7 +34,7 @@ outline: deep
 
 ### 博客主题
 
-| 资源地址       | https://console.freelog.com/resource/details/61f252dfa513d2002f2abc85                          |
+| 资源地址       | https://console.freelog.cn/resource/details/61f252dfa513d2002f2abc85                          |
 | -------------- | ---------------------------------------------------------------------------------------------- |
 | github代码仓库 | https://github.com/freelogfe/freelog-sample-themes/tree/master/%E3%80%904%E3%80%91blog-theme   |
 | gitee代码仓库  | https://gitee.com/freelog-repo/freelog-sample-themes/tree/master/%E3%80%904%E3%80%91blog-theme |
@@ -43,7 +43,7 @@ outline: deep
 
 ### 文档主题
 
-| 资源地址       | https://console.freelog.com/resource/details/61f252ef6fe5c1002e2c7b4b                              |
+| 资源地址       | https://console.freelog.cn/resource/details/61f252ef6fe5c1002e2c7b4b                              |
 | -------------- | -------------------------------------------------------------------------------------------------- |
 | github代码仓库 | https://github.com/freelogfe/freelog-sample-themes/tree/master/%E3%80%905%E3%80%91document-theme   |
 | gitee代码仓库  | https://gitee.com/freelog-repo/freelog-sample-themes/tree/master/%E3%80%905%E3%80%91document-theme |
@@ -52,7 +52,7 @@ outline: deep
 
 ### 播客主题
 
-| 资源地址       | https://console.freelog.com/resource/details/62d0e1e98e71fb00394bd314                             |
+| 资源地址       | https://console.freelog.cn/resource/details/62d0e1e98e71fb00394bd314                             |
 | -------------- | ------------------------------------------------------------------------------------------------- |
 | github代码仓库 | https://github.com/freelogfe/freelog-sample-themes/tree/master/%E3%80%906%E3%80%91podcast-theme   |
 | gitee代码仓库  | https://gitee.com/freelog-repo/freelog-sample-themes/tree/master/%E3%80%906%E3%80%91podcast-theme |
@@ -61,7 +61,7 @@ outline: deep
 
 ### 音乐主题
 
-| 资源地址       | https://console.freelog.com/resource/details/66cbe9fc57013c0039dfd29c                           |
+| 资源地址       | https://console.freelog.cn/resource/details/66cbe9fc57013c0039dfd29c                           |
 | -------------- | ----------------------------------------------------------------------------------------------- |
 | github代码仓库 | https://github.com/freelogfe/freelog-sample-themes/tree/master/%E3%80%907%E3%80%91music-theme   |
 | gitee代码仓库  | https://gitee.com/freelog-repo/freelog-sample-themes/tree/master/%E3%80%907%E3%80%91music-theme |
@@ -72,7 +72,7 @@ outline: deep
 
 ### 分享插件
 
-| 资源地址       | https://console.freelog.com/resource/details/65128541b69047002e519b3e                            |
+| 资源地址       | https://console.freelog.cn/resource/details/65128541b69047002e519b3e                            |
 | -------------- | ------------------------------------------------------------------------------------------------ |
 | github代码仓库 | https://github.com/freelogfe/freelog-sample-widget/tree/master/%E3%80%901%E3%80%91share-widget   |
 | gitee代码仓库  | https://gitee.com/freelog-repo/freelog-sample-widget/tree/master/%E3%80%901%E3%80%91share-widget |
@@ -81,7 +81,7 @@ outline: deep
 
 ### markdown解析插件
 
-| 资源地址       | https://console.freelog.com/resource/details/651284ceb69047002e51997a                               |
+| 资源地址       | https://console.freelog.cn/resource/details/651284ceb69047002e51997a                               |
 | -------------- | --------------------------------------------------------------------------------------------------- |
 | github代码仓库 | https://github.com/freelogfe/freelog-sample-widget/tree/master/%E3%80%902%E3%80%91markdown-widget   |
 | gitee代码仓库  | https://gitee.com/freelog-repo/freelog-sample-widget/tree/master/%E3%80%902%E3%80%91markdown-widget |
