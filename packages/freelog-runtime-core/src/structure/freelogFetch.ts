@@ -1,8 +1,6 @@
-﻿import { widgetsConfig } from "./widget";
-let host = "https://file.freelog.com";
-if(window.location.host.includes(".testfreelog.com")){
-  host = "https://file.testfreelog.com"
-}
+import { widgetsConfig } from "./widget";
+import { urls } from "freelog-runtime-api";
+const host = urls.fileHost;
 // @ts-ignore
 window.freelogHost = host
 export function freelogFetch(url: string, options: any, appName: string): any {
@@ -12,7 +10,7 @@ export function freelogFetch(url: string, options: any, appName: string): any {
     const urlObj = new URL(url);
     url = widgetConfig.entry + urlObj.pathname;
   } 
-  if (url.indexOf("freelog.com") > -1) {
+  if (url.includes(urls.HOST)) {
     return fetch(url, { ...options, credentials: "include" });
   } else {
    

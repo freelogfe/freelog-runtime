@@ -1,35 +1,7 @@
-// window.ENV = "freelog.com";
-// if (window.location.host.includes(".testfreelog.com")) {
-//   window.ENV = "testfreelog.com";
-// }
-export const isTest = window.location.host.split(".")[1] === "t";
-let _directURL = window.location.protocol + "//api.freelog.com/v2/";
-let _midURL = window.location.protocol + "//api.freelog.com/v2/runtimes/";
-if (window.location.href.indexOf("testfreelog") > -1) {
-  _directURL = window.location.protocol + "//api.testfreelog.com/v2/";
-  _midURL = window.location.protocol + "//api.testfreelog.com/v2/runtimes/";
-}
-// console.log(process.env.NODE_ENV, 9999);
-if (process.env.NODE_ENV === "development") {
-  // _midURL = "//api3.testfreelog.com/"; // "//localhost:5201/";
-}
-let ENV = "prod";
-let HOST = "freelog.com";
-if (window.location.host.includes(".testfreelog.com")) {
-  ENV = "test";
-  HOST = "testfreelog.com";
-}
-window.ENV = ENV;
-window.isTest = isTest;
-export const baseInfo: any = {
-  ENV,
-  HOST,
-  isTest: isTest,
-  nodeId: "",
-  baseURL: _midURL,
-  directURL: _directURL,
-};
+export { baseInfo } from "./config/env";
+import { baseInfo } from "./config/env";
 
+export { urls } from "./config/urls";
 import frequest from "./services/handler";
 import user from "./services/api/modules/user";
 import node from "./services/api/modules/node";

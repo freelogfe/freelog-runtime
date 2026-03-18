@@ -21,6 +21,7 @@ import {
   freelogApp,
   init,
   getInfoByNameOrDomain,
+  urls,
 } from "freelog-runtime-core";
 import Login from "./views/user/login";
 import FI18n from "@/I18nNext";
@@ -42,7 +43,6 @@ import OutOf from "./views/outOf";
  *     授权成功后
  * 6.登录操作
  */
-const isTest = window.isTest;
 const {
   bindName,
   registerUI,
@@ -125,9 +125,7 @@ function App() {
         document.title = nodeInfo.nodeTitle
           ? nodeInfo.nodeTitle
           : nodeInfo.nodeName;
-        if (isTest) {
-          document.title = "[T]" + document.title;
-        }
+
         init(nodeInfo.nodeId);
         const entry =
           freelogAuth.devData.type == 3
@@ -136,14 +134,10 @@ function App() {
         await microApp.renderApp({
           "router-mode": "pure",
           name: "freelog-pc-common-auth",
-          data:{freelogApp:bindName("freelog-pc-common-auth")},
-          url: entry
-            ? entry
-            : window.location.host.includes("testfreelog.com")
-            ? "https://authorization-processor.testfreelog.com/"
-            : "https://authorization-processor.freelog.com/", // "https://runtime-test-pc.oss-cn-shenzhen.aliyuncs.com/ui", // "https://localhost:8006",//"https://localhost:8402/",
+          data: { freelogApp: bindName("freelog-pc-common-auth") },
+          url: entry || urls.authProcessor,
           container: document.getElementById(
-            "freelog-pc-common-auth"
+            "freelog-pc-common-auth",
           ) as HTMLElement,
         });
         // window.vconsole = new VConsole()
@@ -191,10 +185,7 @@ function App() {
           return;
         }
         // 没有主题
-        if (
-          (!nodeInfo.nodeThemeId && !isTest) ||
-          (!nodeInfo.nodeTestThemeId && isTest)
-        ) {
+        if (!nodeInfo.nodeThemeId) {
           UI(THEME_NONE, nodeInfo);
           return;
         }
@@ -220,7 +211,7 @@ function App() {
                 nodeInfo.nodeLogo ||
                 nodeInfo.themeInfo.versionInfo.exhibitProperty
                   .options_logoImage, // 分享图标
-            }
+            },
           );
         }
         if (!nodeInfo.themeAuthInfo.isAuth) {
@@ -273,7 +264,7 @@ function App() {
             },
           });
         }
-      }
+      },
     );
   }, []);
   const openAuthForTheme = () => {

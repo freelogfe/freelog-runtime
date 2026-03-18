@@ -100,7 +100,7 @@ export default function ExhibitHeader({
                     "ml-6 " +
                     (contract.authStatus === 128
                       ? "bg-auth-none"
-                      : !window.isTest && contract.authStatus === 1
+                      :  contract.authStatus === 1
                       ? "bg-auth"
                       : "bg-auth-none")
                   }

@@ -1,6 +1,6 @@
-﻿import { widgetsConfig, flatternWidgets } from "./widget";
+import { widgetsConfig, flatternWidgets } from "./widget";
 import { freelogApp, devData } from "./freelogApp";
-import { getWechatShare, baseInfo } from "freelog-runtime-api";
+import { getWechatShare, baseInfo, urls } from "freelog-runtime-api";
 
 import { DEV_FALSE, dev } from "./dev";
 export const SHARE_DETAIL = "detail";
@@ -29,11 +29,10 @@ export function jumpShareWechat() {
   const isShare = rawWindow.location.host.split(".")[0] === "share";
   if (isWeChatOrQQ()) {
     if (!isShare) {
-      const url = `https://share.${baseInfo.HOST}/`;
       const search = rawWindow.location.search
         ? `${rawWindow.location.search}&nodename=${nodename}`
         : `?nodename=${nodename}`;
-      rawWindow.location.href = url + search + "&time=" + new Date().getTime();
+      rawWindow.location.href = urls.shareBase + search + "&time=" + new Date().getTime();
     } else {
       loadWeChatJSSDK();
     }
@@ -107,7 +106,7 @@ export function isValidUrl(url: string): boolean {
 }
 export function getWechatShareURL(name: string, url: string | null) {
   const nodename = getNodeName();
-  const shareUrl = `https://share.${baseInfo.HOST}/`;
+  const shareUrl = urls.shareBase;
   let searchDefault = rawWindow.location.search;
   if (url && isValidUrl(url)) {
     searchDefault = new URL(url).search;
@@ -166,9 +165,7 @@ export function updateWechatShare(
                 ...appMessageShareData,
                 link: url,
               };
-              data.imgUrl =
-                data.imgUrl ||
-                `https://static.${baseInfo.HOST}/static/default_cover.png`;
+              data.imgUrl = data.imgUrl || urls.defaultCover;
               wx.updateAppMessageShareData(data);
             }
             if (timelineShareData) {
@@ -176,9 +173,7 @@ export function updateWechatShare(
                 ...timelineShareData,
                 link: url,
               };
-              data.imgUrl =
-                data.imgUrl ||
-                `https://static.${baseInfo.HOST}/static/default_cover.png`;
+              data.imgUrl = data.imgUrl || urls.defaultCover;
               wx.updateTimelineShareData(data);
             }
             resolve("微信QQ分享配置已执行，可检查success 回调");

@@ -3,11 +3,9 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 // import * as React from 'react';
 import htmlReactParser from 'html-react-parser';
+import { urls } from "freelog-runtime-core";
 
 type LanguageKeyType = 'zh_CN' | 'en_US';
-
-const ossJsonUrl: string = 'https://freelog-i18n.oss-cn-shenzhen.aliyuncs.com/configs/i18n.json';
-const ossJsonUrl_Test: string = 'https://freelog-i18n.oss-cn-shenzhen.aliyuncs.com/configs-test/i18n.json';
 const localStorage_i18nextLng_key: string = 'locale';
 const localStorage_i18nextResources_key: string = 'i18nextResources';
 
@@ -16,13 +14,7 @@ const allLanguage = [
   {value: 'zh_CN', label: '简体中文'},
 ];
 export function completeUrlByDomain(domain: string): string {
-  let origin: string = `https://${domain}.testfreelog.com`;
-
-  if (window.location.origin.includes('.freelog.com')) {
-    origin = `https://${domain}.freelog.com`;
-  }
-
-  return origin;
+  return `https://${domain}.${urls.HOST}`;
 }
 class I18nNext {
 
@@ -131,7 +123,7 @@ class I18nNext {
   }
 
   private async _fetchData(this: I18nNext): Promise<Resource> {
-    const url: string = window.location.origin.includes('.freelog.com') ? ossJsonUrl : ossJsonUrl_Test;
+    const url: string = urls.i18nConfig;
     const res: any = await axios.get(url + '?timestamp=' + Date.now(), {
       withCredentials: false,
     });

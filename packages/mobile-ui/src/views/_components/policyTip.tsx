@@ -1,4 +1,4 @@
-import { freelogAuth } from "freelog-runtime-core";
+import { freelogAuth, urls } from "freelog-runtime-core";
 
 interface policyTipProps {
   currentExhibit: any;
@@ -14,15 +14,7 @@ export default function PolicyTip({ currentExhibit }: policyTipProps) {
           <div className="fs-14 fc-less">查看已终止的合约请移至</div>
           <div
             onClick={() => {
-              if (window.baseURL.indexOf("testfreelog") > -1) {
-                window.open(
-                  `https://user.testfreelog.com/logged/contract?exhibitId=${exhibitId}&nodeName=${nodeName}&status=terminated`
-                );
-                return;
-              }
-              window.open(
-                `https://user.freelog.com/logged/contract?exhibitId=${exhibitId}&nodeName=${nodeName}&status=terminated`
-              );
+              window.open(urls.userContract(exhibitId, nodeName, "terminated"));
             }}
             className="ml-10 fs-14 fc-blue cur-pointer link"
           >

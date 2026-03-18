@@ -1,7 +1,7 @@
 import { Form, Input, Modal } from "antd";
 // , Checkbox
 import Button from "./_commons/button";
-import { freelogAuth } from "freelog-runtime-core";
+import { freelogAuth, urls } from "freelog-runtime-core";
 import wechatPng from "@/assets/wechat.png";
 
 import { useState } from "react";
@@ -107,11 +107,7 @@ export default function Login(props: loginProps) {
             <div
               className="login-forgot select-none cur-pointer"
               onClick={() => {
-                if (window.baseURL.indexOf("testfreelog") > -1) {
-                  window.open("https://user.testfreelog.com/retrieve");
-                  return;
-                }
-                window.open("https://user.freelog.com/retrieve");
+                window.open(urls.userRetrieve);
               }}
             >
               {FI18n.i18nNext.t("noderuntime_login_forgetpw_desktop")}
@@ -172,15 +168,8 @@ export default function Login(props: loginProps) {
           <div
             className={"wechat flex-column-center"}
             onClick={() => {
-              setHref(
-                `https://open.weixin.qq.com/connect/qrconnect?appid=wx25a849d14dd44177&redirect_uri=${encodeURIComponent(
-                  `https://api.freelog.com/${
-                    window.location.host.includes("testfreelog.com")
-                      ? "test/"
-                      : ""
-                  }v2/thirdParty/weChat/codeHandle?returnUrl=` + getHref()
-                )}&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect`
-              );
+              const redirectUri = `${urls.wechatCallbackBase}?returnUrl=${getHref()}`;
+              setHref(urls.wechatQrConnect(redirectUri));
             }}
           >
             <img src={wechatPng} className="w-26" />
@@ -193,11 +182,7 @@ export default function Login(props: loginProps) {
           <span
             className="regist-now cur-pointer"
             onClick={() => {
-              if (window.baseURL.indexOf("testfreelog") > -1) {
-                window.open("https://user.testfreelog.com/logon");
-                return;
-              }
-              window.open("https://user.freelog.com/logon");
+              window.open(urls.userLogin);
             }}
           >
             {FI18n.i18nNext.t("noderuntime_login_signup")}

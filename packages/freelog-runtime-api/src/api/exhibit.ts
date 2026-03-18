@@ -1,7 +1,7 @@
 import frequest from "../services/handler";
 import exhibit from "../services/api/modules/exhibit";
 
-import { baseInfo } from "../index";
+import { baseInfo } from "../config/env";
 // 展品非授权信息接口
 export async function getExhibitById(
   name: string,
@@ -142,7 +142,7 @@ export async function getExhibitAuthStatus(
     exhibit.getExhibitAuthStatus,
     [baseInfo.nodeId],
     {
-      authType: baseInfo.isTest ? 3 : 4,
+      authType:  4,
       exhibitIds,
     },
     undefined,

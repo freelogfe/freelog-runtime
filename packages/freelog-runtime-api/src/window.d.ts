@@ -6,5 +6,4 @@ interface Window {
   microApp: any;
   ENV: any;
   baseURL: any;
-  isTest: any;
 }

@@ -1,6 +1,6 @@
 import frequest from "../services/handler";
 import collection from "../services/api/modules/collection";
-import { baseInfo } from "../index";
+import { baseInfo } from "../config/env";
 export async function getCollectionSubListByPage(
   name: string,
   exhibitId: string | number,

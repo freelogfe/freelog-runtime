@@ -2,7 +2,6 @@ import { resultType } from "../bridge/eventType";
 import { freelogApp as freelogAppLib, baseInfo } from "freelog-runtime-api";
 import { mountExhibitWidget, mountArticleWidget } from "./widget";
 import microApp from "@micro-zoe/micro-app";
-const { isTest } = baseInfo;
 
 import {
   getSelfProperty,
@@ -71,7 +70,6 @@ export const freelogApp: any = {
   isUserChange,
   reload,
   resultType,
-  isTest,
   getActiveWidget,
   getAllWidget,
   getShareUrl,

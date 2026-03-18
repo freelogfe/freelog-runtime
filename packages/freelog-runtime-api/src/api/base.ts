@@ -2,7 +2,7 @@ import frequest from "../services/handler";
 import exhibit from "../services/api/modules/exhibit";
 import operation from "../services/api/modules/operation";
 
-import { baseInfo } from "../index";
+import { baseInfo } from "../config/env";
 
 
 export async function getSignStatistics(

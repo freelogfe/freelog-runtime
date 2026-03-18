@@ -74,7 +74,6 @@ export async function addAuth(name: string, exhibitId: string, options?: any) {
   });
 }
 export function callAuth() {
-  if (window.isTest) return;
   callAuthCallBack = () => {
     if (!uiInited) {
       UI && UI(CONTRACT);

@@ -90,7 +90,7 @@ export default function exhibitList({
                               "w-6 h-6 ml-6 " +
                               (contract.authStatus === 128
                                 ? "bg-auth-none"
-                                : !window.isTest && contract.authStatus === 1
+                                : contract.authStatus === 1
                                 ? "bg-auth"
                                 : "bg-auth-none")
                             }

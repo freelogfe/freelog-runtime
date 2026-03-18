@@ -9,7 +9,6 @@ export { FreelogLibrary } from "./freelogLibrary";
 
 
 export const baseURL = baseInfo.baseURL;
-export const isTest = baseInfo.isTest;
 export { isWeChatOrQQ, getNodeName, jumpShareWechat } from "./structure/share";
 jumpShareWechat();
 
@@ -20,4 +19,5 @@ export {
   deleteUserData,
   getInfoByNameOrDomain,
   init,
+  urls,
 } from "freelog-runtime-api";
