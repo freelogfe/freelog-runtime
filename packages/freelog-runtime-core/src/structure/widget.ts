@@ -279,7 +279,6 @@ async function mountApp(
     "router-mode": routerMode,
     ...renderWidgetOptions,
     name: widgetRenderName,
-    // TODO "https://file.freelog.com" 要定义一个常量来替换
     url: entry, // widgetConfig.entry,
     container: container,
     data: {
