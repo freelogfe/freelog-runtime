@@ -108,7 +108,7 @@ export default class WithSandBox extends BaseSandbox implements WithSandBoxInter
       this.getSpecialProperties(appName)
       /*eslint-disable */
       // create location, history for child app
-      this.patchRouter(appName, url.includes(window.freelogHost) ? url.split('.com')[0] + '.com' : url, this.microAppWindow)
+      this.patchRouter(appName, url.includes(window.fileHost) ? url.split(window.fileHost)[0] + window.fileHost : url, this.microAppWindow)
       // patch window of child app
       this.windowEffect = patchWindow(appName, this.microAppWindow, this)
       // patch document of child app

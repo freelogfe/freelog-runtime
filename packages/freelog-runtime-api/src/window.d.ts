@@ -4,6 +4,7 @@ interface Window {
   mount: any;
   unmount: any;
   microApp: any;
-  ENV: any;
-  baseURL: any;
+  ENV: string;
+  baseURL: string;
+  HOST_END: string;
 }

@@ -2,7 +2,7 @@ import { widgetsConfig } from "./widget";
 import { urls } from "freelog-runtime-api";
 const host = urls.fileHost;
 // @ts-ignore
-window.freelogHost = host
+window.fileHost = host
 export function freelogFetch(url: string, options: any, appName: string): any {
   const widgetConfig = widgetsConfig.get(appName);
   options = options || {};
