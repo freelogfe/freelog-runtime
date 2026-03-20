@@ -1,7 +1,6 @@
 interface Window {
   freelogApp: any;
   isMobile: any;
-  isTest: boolean;
   userInfo: any;
   baseURL: string;
   freelogAuth: any;
@@ -10,11 +9,11 @@ interface Window {
   vconsole: any;
   ENV: string;
   wx: any;
+  HOST_END: string;
 }
 interface gobalThis {
   freelogApp: any;
   isMobile: any;
-  isTest: boolean;
   userInfo: any;
   baseURL: string;
   freelogAuth: any;

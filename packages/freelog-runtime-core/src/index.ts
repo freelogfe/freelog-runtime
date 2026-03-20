@@ -10,7 +10,6 @@ export { initWindowListener } from "./bridge/eventOn";
 export { FreelogLibrary } from "./freelogLibrary";
 
 export const baseURL = baseInfo.directURL;
-export const isTest = baseInfo.isTest;
 jumpShareWechat();
 export {
   getCurrentUser,

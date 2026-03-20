@@ -22,7 +22,6 @@ export async function getWechatShare(url: any) {
 export function init(fnodeId: string) {
   baseInfo.nodeId = fnodeId;
 }
-export function baseInit(baseURL: string, isTest: boolean) {
-  baseInfo.isTest = isTest;
+export function baseInit(baseURL: string) {
   baseInfo.baseURL = baseURL;
 }

@@ -1,4 +1,3 @@
-// window.isTest =  window.location.host.split('.')[1] === 't';
 export const placeHolder = "urlPlaceHolder";
 // let baseURL = window.location.protocol + '//qi.freelog.com/v2/'
 // if (window.location.href.indexOf('testfreelog') > -1) {

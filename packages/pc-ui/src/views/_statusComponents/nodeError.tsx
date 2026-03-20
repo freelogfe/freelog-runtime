@@ -1,4 +1,5 @@
 import FI18n from "@/I18nNext";
+import failedSvg from "../../assets/image/failed.svg";
 
 // interface nodeErrorProps {
 //   currentExhibit: any;
@@ -17,7 +18,7 @@ export default function NodeError() {
       }}
     >
       <div>
-        <img src="/failed.svg" alt="" />
+        <img src={failedSvg} alt="" />
       </div>
       <div
         className="fs-30 lh-36 mb-30 mt-40"

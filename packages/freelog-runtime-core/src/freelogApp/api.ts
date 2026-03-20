@@ -117,7 +117,7 @@ export async function getExhibitAvailable(name: string, exhibitIds: string) {
 }
 export async function getExhibitAuthStatus(name: string, exhibitIds: string) {
   return frequest(exhibit.getExhibitAuthStatus, [baseInfo.nodeId], {
-    authType: baseInfo.isTest ? 3 : 4,
+    authType:  4,
     exhibitIds,
   });
 }

@@ -25,7 +25,6 @@ import {
   getInfoByNameOrDomain,
   urls,
 } from "freelog-runtime-core";
-const isTest = window.isTest;
 
 const {
   registerUI,
@@ -104,9 +103,7 @@ function App() {
         document.title = nodeInfo.nodeTitle
           ? nodeInfo.nodeTitle
           : nodeInfo.nodeName;
-        if (isTest) {
-          document.title = "[T]" + document.title;
-        }
+
         init(nodeInfo.nodeId);
         const entry =
           freelogAuth.devData.type == 3
@@ -117,7 +114,7 @@ function App() {
           name: "freelog-pc-common-auth",
           url: entry || urls.authProcessor,
           container: document.getElementById(
-            "freelog-pc-common-auth"
+            "freelog-pc-common-auth",
           ) as HTMLElement,
         });
         Object.freeze(freelogApp.nodeInfo);
@@ -152,10 +149,7 @@ function App() {
           return;
         }
         // 没有主题
-        if (
-          (!nodeInfo.nodeThemeId && !isTest) ||
-          (!nodeInfo.nodeTestThemeId && isTest)
-        ) {
+        if (!nodeInfo.nodeThemeId) {
           UI(THEME_NONE, nodeInfo);
           return;
         }
@@ -181,7 +175,7 @@ function App() {
                 nodeInfo.nodeLogo ||
                 nodeInfo.themeInfo.versionInfo.exhibitProperty
                   .options_logoImage, // 分享图标
-            }
+            },
           );
         }
 
@@ -209,7 +203,7 @@ function App() {
           const instance = new FreelogLibrary();
           console.log(
             "___当前主题的依赖树信息",
-            nodeInfo.themeInfo.versionInfo.dependencyTree
+            nodeInfo.themeInfo.versionInfo.dependencyTree,
           );
           (window as any).FreelogLibrary = instance;
 
@@ -255,7 +249,7 @@ function App() {
             },
           });
         }
-      }
+      },
     );
   }, []);
   const openAuthForTheme = () => {
