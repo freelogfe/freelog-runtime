@@ -9,7 +9,7 @@ export { freelogFetch } from "./structure/freelogFetch";
 export { initWindowListener } from "./bridge/eventOn";
 export { FreelogLibrary } from "./freelogLibrary";
 
-export const baseURL = baseInfo.directURL;
+export const baseURL = baseInfo.baseURL;
 jumpShareWechat();
 export {
   getCurrentUser,

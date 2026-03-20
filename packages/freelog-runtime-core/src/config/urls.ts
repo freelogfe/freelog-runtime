@@ -7,6 +7,7 @@ const isProd = ENV === "prod";
 const i18nConfigMap: Record<string, string> = {
   prod: "https://freelog-i18n.oss-cn-shenzhen.aliyuncs.com/configs/i18n.json",
   test: "https://freelog-i18n.oss-cn-shenzhen.aliyuncs.com/configs-test/i18n.json",
+  dev: "https://freelog-i18n.oss-cn-shenzhen.aliyuncs.com/configs-test/i18n.json",
 };
 
 export const urls = {
@@ -18,8 +19,7 @@ export const urls = {
   userContract: (exhibitId: string, nodeName: string, status: string) =>
     `https://user.${HOST}/logged/contract?exhibitId=${exhibitId}&nodeName=${nodeName}&status=${status}`,
 
-  apiBase: baseInfo.directURL,
-  apiRuntime: baseInfo.baseURL,
+  apiBase: baseInfo.baseURL,
 
   authProcessor: `https://authorization-processor.${HOST}/`,
 
