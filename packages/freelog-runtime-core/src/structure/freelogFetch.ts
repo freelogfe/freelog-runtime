@@ -1,10 +1,10 @@
-﻿import { widgetsConfig } from "./widget";
-let host = "https://file.freelog.com";
-if(window.location.host.includes(".testfreelog.com")){
-  host = "https://file.testfreelog.com"
-}
+import { widgetsConfig } from "./widget";
+import { urls } from "../config/urls";
+import { baseInfo } from "../config/env";
+
+const host = urls.fileHost;
 // @ts-ignore
-window.freelogHost = host
+window.freelogHost = host;
 export function freelogFetch(url: string, options: any, appName: string): any {
   const widgetConfig = widgetsConfig.get(appName);
   options = options || {};
@@ -12,10 +12,9 @@ export function freelogFetch(url: string, options: any, appName: string): any {
     const urlObj = new URL(url);
     url = widgetConfig.entry + urlObj.pathname;
   } 
-  if (url.indexOf("freelog.com") > -1) {
+  if (url.indexOf(baseInfo.HOST) > -1) {
     return fetch(url, { ...options, credentials: "include" });
   } else {
-   
     return fetch(url, { ...options });
   }
 }

@@ -101,7 +101,7 @@ export default class IframeSandbox {
       // get escapeProperties from plugins
       this.getSpecialProperties(appName)
       // patch location & history of child app
-      this.proxyLocation = patchRouter(appName, url.includes(window.freelogHost) ? url.split('.com')[0] + '.com' : url, this.microAppWindow, browserHost)
+      this.proxyLocation = patchRouter(appName, url.includes(window.fileHost) ? url.split(window.HOST_END)[0] + window.HOST_END : url, this.microAppWindow, browserHost)
       // patch window of child app
       this.windowEffect = patchWindow(appName, this.microAppWindow, this)
       // patch document of child app

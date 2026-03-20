@@ -276,7 +276,7 @@ function CompletionPath(path, baseURI) {
         /^(data|blob):/.test(path))
         return path;
     // eslint-disable-next-line no-console
-    if (baseURI && baseURI.includes(window.freelogHost) && baseURI !== window.freelogHost) {
+    if (baseURI && baseURI.includes(window.fileHost) && baseURI !== window.fileHost) {
         /*eslint-disable */
         const baseUrl = new URL(baseURI);
         path = path.toString();
@@ -4506,7 +4506,7 @@ function createMicroLocation(appName, url, microAppWindow, childStaticLocation, 
      */
     const withLocation = createURL(url);
     /*eslint-disable */
-    // console.log(url, withLocation,withLocation.href, window.freelogHost,  55255)
+    // console.log(url, withLocation,withLocation.href, window.fileHost,  55255)
     /**
      * In iframe, jump through raw iframeLocation will cause microAppWindow.location reset
      * So we get location dynamically
@@ -4849,7 +4849,7 @@ function updateBrowserURLWithLocation(appName, microLocation, defaultPage) {
 function clearRouteStateFromURL(appName, url, microLocation, keepRouteState) {
     // TODO: keep-router-state 功能太弱，是否可以增加优先级，或者去掉
     if (!keepRouteState && !isRouterModeCustom(appName)) {
-        const { pathname, search, hash } = createURL(url.includes(window.freelogHost) ? url.split('.com')[0] + '.com' : url);
+        const { pathname, search, hash } = createURL(url.includes(window.fileHost) ? url.split(window.HOST_END)[0] + window.HOST_END : url);
         updateMicroLocation(appName, pathname + search + hash, microLocation, 'prevent');
     }
     if (!isRouterModePure(appName)) {
@@ -4977,7 +4977,7 @@ class WithSandBox extends BaseSandbox {
             this.getSpecialProperties(appName);
             /*eslint-disable */
             // create location, history for child app
-            this.patchRouter(appName, url.includes(window.freelogHost) ? url.split('.com')[0] + '.com' : url, this.microAppWindow);
+            this.patchRouter(appName, url.includes(window.fileHost) ? url.split(window.fileHost)[0] + window.fileHost : url, this.microAppWindow);
             // patch window of child app
             this.windowEffect = patchWindow(appName, this.microAppWindow, this);
             // patch document of child app
@@ -6416,7 +6416,7 @@ class IframeSandbox {
             // get escapeProperties from plugins
             this.getSpecialProperties(appName);
             // patch location & history of child app
-            this.proxyLocation = patchRouter(appName, url.includes(window.freelogHost) ? url.split('.com')[0] + '.com' : url, this.microAppWindow, browserHost);
+            this.proxyLocation = patchRouter(appName, url.includes(window.fileHost) ? url.split(window.HOST_END)[0] + window.HOST_END : url, this.microAppWindow, browserHost);
             // patch window of child app
             this.windowEffect = patchWindow$1(appName, this.microAppWindow, this);
             // patch document of child app

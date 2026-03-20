@@ -1,3 +1,6 @@
 interface Window {
-  freelogHost: string;
+  ENV: string;
+  baseURL: string;
+  HOST_END: string;
+  fileHost: string;
 }

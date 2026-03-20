@@ -23,6 +23,7 @@ import {
   freelogApp,
   init,
   getInfoByNameOrDomain,
+  urls,
 } from "freelog-runtime-core";
 const isTest = window.isTest;
 
@@ -114,11 +115,7 @@ function App() {
         await microApp.renderApp({
           "router-mode": "pure",
           name: "freelog-pc-common-auth",
-          url: entry
-            ? entry
-            : window.location.host.includes("testfreelog.com")
-            ? "https://authorization-processor.testfreelog.com/"
-            : "https://authorization-processor.freelog.com/", // "https://runtime-test-pc.oss-cn-shenzhen.aliyuncs.com/ui", // "https://localhost:8006",//"https://localhost:8402/",
+          url: entry || urls.authProcessor,
           container: document.getElementById(
             "freelog-pc-common-auth"
           ) as HTMLElement,

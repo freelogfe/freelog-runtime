@@ -1,3 +1,6 @@
 packages:
-  - 'packages/*'
-  - '!packages/micro-app2'
+  - packages/*
+  - '!packages/docs'  
+
+overrides:
+  freelog-runtime: link:packages/freelog-type

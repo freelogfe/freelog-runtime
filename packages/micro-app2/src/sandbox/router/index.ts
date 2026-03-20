@@ -53,7 +53,6 @@ export {
  */
 export function createMicroRouter (appName: string, url: string): MicroRouter {
   /*eslint-disable */
-  console.log(appName, url,  8888)
   const microLocation = createMicroLocation(appName, url)
   return {
     microLocation,
@@ -123,9 +122,7 @@ export function clearRouteStateFromURL (
 ): void {
   // TODO: keep-router-state 功能太弱，是否可以增加优先级，或者去掉
   if (!keepRouteState && !isRouterModeCustom(appName)) {
-    const { pathname, search, hash } = createURL(url.includes(window.freelogHost) ? url.split('.com')[0] + '.com' : url)
-    /*eslint-disable */
-    console.log(pathname, search, hash, 8888)
+    const { pathname, search, hash } = createURL(url.includes(window.fileHost) ? url.split( window.HOST_END)[0] + window.HOST_END : url)
     updateMicroLocation(appName, pathname + search + hash, microLocation, 'prevent')
   }
   if (!isRouterModePure(appName)) {

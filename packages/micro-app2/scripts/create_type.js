@@ -45,12 +45,11 @@ function addReference (target) {
 function createDts () {
   try {
     dts.bundle({
-      main: path.join(cwd, 'lib', 'lib/index.d.ts'), // 入口地址
+      main: path.join(cwd, 'lib/index.d.ts'), // 入口地址
       name: pkg.name, // 声明模块
       removeSource: true, // 删除源文件
       out: outPath, // 合并后输出地址
     })
-    fse.removeSync(path.join(cwd, 'lib', 'lib/'))
     if (isDirectory(typingsDir)) {
       addReference(typingsDir)
     }

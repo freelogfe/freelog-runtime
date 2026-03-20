@@ -72,7 +72,7 @@ export function createMicroLocation (
    */
   const withLocation = createURL(url)
   /*eslint-disable */
-  console.log(url, withLocation,withLocation.href, window.freelogHost,  55255)
+  // console.log(url, withLocation,withLocation.href, window.fileHost,  55255)
   /**
    * In iframe, jump through raw iframeLocation will cause microAppWindow.location reset
    * So we get location dynamically

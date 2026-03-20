@@ -1,4 +1,5 @@
-import { baseInfo } from "./base/baseInfo";
+import { baseInfo } from "./config/env";
+export { urls } from "./config/urls";
 export { isWeChatOrQQ, getNodeName } from "./structure/share";
 import { jumpShareWechat } from "./structure/share";
 
@@ -8,7 +9,7 @@ export { freelogFetch } from "./structure/freelogFetch";
 export { initWindowListener } from "./bridge/eventOn";
 export { FreelogLibrary } from "./freelogLibrary";
 
-export const baseURL = baseInfo.baseURL;
+export const baseURL = baseInfo.directURL;
 export const isTest = baseInfo.isTest;
 jumpShareWechat();
 export {

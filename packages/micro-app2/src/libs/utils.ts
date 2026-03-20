@@ -337,7 +337,7 @@ export function CompletionPath (path: string, baseURI: string): string {
     /^(data|blob):/.test(path)
   ) return path
   // eslint-disable-next-line no-console
-  if (baseURI && baseURI.includes(window.freelogHost) && baseURI !== window.freelogHost) {
+  if (baseURI && baseURI.includes(window.fileHost) && baseURI !== window.fileHost) {
     /*eslint-disable */
     const baseUrl = new URL(baseURI)
     path = path.toString()
@@ -345,7 +345,6 @@ export function CompletionPath (path: string, baseURI: string): string {
       path = path.replace(/^\./g, '')
     }
     const path2 = baseUrl.pathname + path
-    console.log(path2, path, new URL(path2, baseUrl.origin))
     // eslint-disable-next-line no-console
     return new URL(path2, baseUrl.origin).toString()
   }
