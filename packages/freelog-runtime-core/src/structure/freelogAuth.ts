@@ -1,3 +1,5 @@
+import {bindName} from "./widget";
+
 import { getUserInfoForAuth, getUserInfo, setUserInfo } from "./user";
 import {
   registerUI,
@@ -12,7 +14,6 @@ import {
 import { freelogAuthApi } from "../freelogAuth";
 import { loginCallback, loginErrorCallback } from "../bridge/eventOn";
 import { jumpShareWechat } from "./share";
-import {bindName} from "./widget";
 import {
   upperUI,
   lowerUI,

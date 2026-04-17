@@ -104,7 +104,8 @@ function App() {
           // nodeSuspendInfo,
         };
         freelogAuth.nodeInfo = nodeData.data;
-        setUserInfo(userInfo);
+        const isOwner = ownerUserId === userInfo?.userId;
+        setUserInfo(userInfo, isOwner);
         document.title = nodeInfo.nodeTitle
           ? nodeInfo.nodeTitle
           : nodeInfo.nodeName;
@@ -258,7 +259,8 @@ function App() {
   function loginFinished(type: any, data?: any) {
     setIsLogin(false);
     if (type === SUCCESS) {
-      setUserInfo(data);
+      const isOwner = nodeInfoData.ownerUserId === data?.userId;
+      setUserInfo(data, isOwner);
       if (loginCallback.length === 0 && callLoginCallback.length == 0) {
         reload();
       }
