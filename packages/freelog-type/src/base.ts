@@ -57,6 +57,7 @@ export interface PlainObject {
 export interface NodeInfo {
   nodeName: string;
   ownerUserName: string;
+  ownerUserId: number;
   tags: string[];
   nodeLogo?: string;
   nodeTitle?: string;
@@ -111,5 +112,6 @@ export interface FreelogUserInfo {
   [key: string]: any;
   username: string;
   headImage: string;
+  isOwner: boolean;
 }
 

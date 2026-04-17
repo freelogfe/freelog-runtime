@@ -2,7 +2,7 @@
 
 import { initWindowListener } from "../bridge/eventOn";
 import { goLogin, goLoginOut } from "../bridge/index";
-import { baseInfo } from "freelog-runtime-api";
+import { freelogAuth } from "./freelogAuth";
 import {
   getCurrentUser as _getCurrentUser,
   putUserData as _putUserData,
@@ -17,7 +17,7 @@ export async function getUserInfo() {
   if (userInfoForAuth) return userInfoForAuth;
   const res = await _getCurrentUser();
   const info = res.data.errCode === 0 ? res.data.data : null;
-  setUserInfo(info);
+  // setUserInfo(info);
   return info;
 }
 export function getUserInfoForAuth() {
@@ -31,7 +31,7 @@ export async function setUserInfo(info: any) {
   userInfo = userInfoForAuth = info;
   if (userInfo) {
     const { headImage, username } = info;
-    userInfo = { headImage, username };
+    userInfo = { headImage, username, isOwner: freelogAuth.nodeInfo?.ownerUserId === info.userId };
   }
 }
 export function isUserChange(name: string) {
