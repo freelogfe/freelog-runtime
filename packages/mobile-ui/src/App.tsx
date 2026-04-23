@@ -8,7 +8,7 @@ import "@/assets/mobile/index.scss";
 import microApp from "@micro-zoe/micro-app";
 import { FreelogLibrary, getNodeName } from "freelog-runtime-core";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Forgot from "./views/user/forgot";
 import Register from "./views/user/register";
 import NodeError from "./views/_statusComponents/nodeError";
@@ -83,6 +83,8 @@ function App() {
 
   // 1 登录  2 注册   3 忘记登录密码
   const [modalType, setModalType] = useState(0);
+  /** 与 microApp 下发 authProcessorShow 是否展示授权 UI 一致，仅 true 时 popstate 再同步为 false，避免重复 setData */
+  const authProcessorShowByMainRef = useRef(false);
 
   function loadingClose() {
     setTimeout(() => {
@@ -90,6 +92,23 @@ function App() {
       loadingContainer ? (loadingContainer.style.display = "none") : "";
     }, 0);
   }
+
+  // 浏览器前进/后退时同步子应用「授权处理」为隐藏态（仅当前序已 setData 为 true 时执行，避免无展示仍反复 setData）
+  useEffect(() => {
+    const onPopState = () => {
+      if (!authProcessorShowByMainRef.current) return;
+      authProcessorShowByMainRef.current = false;
+      microApp.setData("freelog-pc-common-auth", {
+        authProcessorShow: false,
+        mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
+      });
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => {
+      window.removeEventListener("popstate", onPopState);
+    };
+  }, []);
+
   useEffect(() => {
     document.title = FI18n.i18nNext.t("noderuntime_nodeloading_tabtitle");
     const nodeDomain = getNodeName();
@@ -339,6 +358,7 @@ function App() {
     });
     setEvents(arr);
     if (!arr.length) {
+      authProcessorShowByMainRef.current = false;
       microApp.setData("freelog-pc-common-auth", {
         authProcessorShow: false,
         mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
@@ -352,6 +372,7 @@ function App() {
         const waiting = () => {
           return new Promise((resolve) => {
             upperUI(true);
+            authProcessorShowByMainRef.current = true;
             microApp.setData("freelog-pc-common-auth", {
               authProcessorShow: true,
               mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
