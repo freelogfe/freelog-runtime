@@ -5,6 +5,12 @@ import microApp from "@micro-zoe/micro-app";
 const { getExhibitDepInfo, getExhibitById } = freelogApp;
 const rawDocument = window.document;
 const rawLocation = window.location;
+export function closeAuth() {
+  microApp.setData("freelog-pc-common-auth", {
+    authProcessorShow: false,
+    mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
+  });
+}
 export function getCurrentUrl(name: string, path: string) {
   if (path) {
     const searchs = rawLocation.search.substring(1).split("&");

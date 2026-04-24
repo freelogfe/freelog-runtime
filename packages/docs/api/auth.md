@@ -23,10 +23,10 @@ freelogApp.callAuth();
 
 ### 参数说明
 
-| 参数                  | 类型        | 说明                                   |
-| --------------------- | ----------- | -------------------------------------- |
-| `exhibitId`         | `string`  | 展品的id                               |
-| `options`           | `object`  | 配置对象（可选）                       |
+| 参数                | 类型      | 说明                                 |
+| ------------------- | --------- | ------------------------------------ |
+| `exhibitId`         | `string`  | 展品的id                             |
+| `options`           | `object`  | 配置对象（可选）                     |
 | `options.immediate` | `boolean` | 是否立即弹出授权窗口（默认 `false`） |
 
 ### 使用方式
@@ -39,9 +39,9 @@ const res = await freelogApp.addAuth(exhibitId, { immediate: true });
 
 `addAuth` 方法返回一个对象，包含授权状态和相关数据。
 
-| 字段       | 类型       | 说明                                     |
-| ---------- | ---------- | ---------------------------------------- |
-| `status` | `string` | 授权状态，可通过 `resultType` 枚举判断 |
+| 字段     | 类型     | 说明                                     |
+| -------- | -------- | ---------------------------------------- |
+| `status` | `string` | 授权状态，可通过 `resultType` 枚举判断   |
 | `data`   | `object` | 相关数据（如失败时的错误信息或展品信息） |
 
 #### 状态枚举值
@@ -72,13 +72,13 @@ if (res.status === freelogApp.resultType.SUCCESS) {
 
 ### 键值对
 
-| 属性(key)       | 值(value) | 类型       | 说明（状态值） |
-| --------------- | --------- | ---------- | -------------- |
-| `SUCCESS`     | `0`     | `number` | 授权成功       |
-| `FAILED`      | `1`     | `number` | 授权失败       |
-| `USER_CANCEL` | `2`     | `number` | 用户取消操作   |
-| `DATA_ERROR`  | `3`     | `number` | 数据错误       |
-| `OFFLINE`     | `5`     | `number` | 展品已下线     |
+| 属性(key)     | 值(value) | 类型     | 说明（状态值） |
+| ------------- | --------- | -------- | -------------- |
+| `SUCCESS`     | `0`       | `number` | 授权成功       |
+| `FAILED`      | `1`       | `number` | 授权失败       |
+| `USER_CANCEL` | `2`       | `number` | 用户取消操作   |
+| `DATA_ERROR`  | `3`       | `number` | 数据错误       |
+| `OFFLINE`     | `5`       | `number` | 展品已下线     |
 
 ### 示例
 
@@ -104,4 +104,15 @@ switch (res.status) {
   default:
     console.error("未知状态");
 }
+```
+
+## closeAuth
+
+**用途**：关闭授权弹窗，例如浏览器前进后退需要关闭授权弹窗。
+
+### 示例
+
+```javascript
+// 以vue为例 beforeRouteLeave 进行监听，可以关闭授权并清理代码的副作用
+freelogApp.closeAuth();
 ```

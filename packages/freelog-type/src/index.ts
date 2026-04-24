@@ -576,6 +576,10 @@ export interface FreelogApp {
     }
   ) => Promise<AddAuthResult>;
   /**
+   * 关闭授权
+   */
+  closeAuth: () => void;
+  /**
    * 
    * @param resolve 登录成功后的回调函数
    * @param reject 用户关闭登录窗口后的回调函数

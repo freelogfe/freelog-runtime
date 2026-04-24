@@ -15,7 +15,8 @@ import {
   getCurrentUrl,
   getTopExhibitId,
   getSelfNid,
-  assembleUrl
+  assembleUrl,
+  closeAuth
 } from "./widgetUtils";
 import {
   setUserData,
@@ -79,6 +80,7 @@ export const freelogApp: any = {
   assembleUrl,
   isWeChatOrQQ,
   getCurrentUrl,
+  closeAuth,
   router: microApp.router,
   noAuthCode: [301, 302, 303, 304, 305, 306, 307],
   authCode: [200, 201, 202, 203],

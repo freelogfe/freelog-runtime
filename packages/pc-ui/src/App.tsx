@@ -73,20 +73,20 @@ function App() {
   }
 
   // 浏览器前进/后退时同步子应用「授权处理」为隐藏态（仅当前序已 setData 为 true 时执行，避免无展示仍反复 setData）
-  useEffect(() => {
-    const onPopState = () => {
-      if (!authProcessorShowByMainRef.current) return;
-      authProcessorShowByMainRef.current = false;
-      microApp.setData("freelog-pc-common-auth", {
-        authProcessorShow: false,
-        mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
-      });
-    };
-    window.addEventListener("popstate", onPopState);
-    return () => {
-      window.removeEventListener("popstate", onPopState);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const onPopState = () => {
+  //     if (!authProcessorShowByMainRef.current) return;
+  //     authProcessorShowByMainRef.current = false;
+  //     microApp.setData("freelog-pc-common-auth", {
+  //       authProcessorShow: false,
+  //       mainAppType: "exhibitInRuntime", // exhibitInRuntime, 表示"授权处理在运行时"的场景
+  //     });
+  //   };
+  //   window.addEventListener("popstate", onPopState);
+  //   return () => {
+  //     window.removeEventListener("popstate", onPopState);
+  //   };
+  // }, []);
 
   useEffect(() => {
     document.title = FI18n.i18nNext.t("noderuntime_nodeloading_tabtitle");
