@@ -122,26 +122,27 @@ function App() {
         const userInfo = values[1];
         const nodeInfo = nodeData.data;
         const {
-          nodeName,
-          tags,
-          nodeLogo,
-          nodeTitle,
-          nodeShortDescription,
-          ownerUserName,
+          // nodeName,
+          // tags,
+          // nodeLogo,
+          // nodeTitle,
+          // nodeShortDescription,
+          // ownerUserName,
           ownerUserId,
           // nodeSuspendInfo,
         } = nodeInfo;
 
-        freelogApp.nodeInfo = {
-          nodeName,
-          tags,
-          nodeLogo,
-          nodeTitle,
-          nodeShortDescription,
-          ownerUserName,
-          ownerUserId,
-          // nodeSuspendInfo,
-        };
+        freelogApp.nodeInfo = nodeInfo;
+        // {
+        //   nodeName,
+        //   tags,
+        //   nodeLogo,
+        //   nodeTitle,
+        //   nodeShortDescription,
+        //   ownerUserName,
+        //   ownerUserId,
+        //   // nodeSuspendInfo,
+        // };
         freelogAuth.nodeInfo = nodeData.data;
         const isOwner = ownerUserId === userInfo?.userId;
         setUserInfo(userInfo, isOwner);
