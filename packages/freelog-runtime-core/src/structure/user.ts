@@ -29,8 +29,8 @@ export async function setUserInfo(info: any, isOwner: boolean) {
   window.userId = info ? info.userId + "" : "";
   userInfo = userInfoForAuth = info;
   if (userInfo) {
-    const { headImage, username } = info;
-    userInfo = { headImage, username, isOwner };
+    // const { headImage, username } = info;
+    userInfo = { ...userInfo, isOwner };
   }
 }
 export function isUserChange(name: string) {

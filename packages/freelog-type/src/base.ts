@@ -112,6 +112,7 @@ export interface FreelogUserInfo {
   [key: string]: any;
   username: string;
   headImage: string;
+  userId: number;
   isOwner: boolean;
 }
 

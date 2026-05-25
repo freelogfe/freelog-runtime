@@ -55,7 +55,7 @@ freelogApp.onLogin(
   },
   () => {
     console.log("用户关闭了登录窗口");
-  }
+  },
 );
 ```
 
@@ -99,11 +99,12 @@ if (hasChanged) {
 
 ### **返回值**
 
-
-| 字段        | 类型     | 说明         |
-| ----------- | -------- | ------------ |
-| `username`  | `string` | 用户名称     |
-| `headImage` | `string` | 用户头像地址 |
+| 字段        | 类型      | 说明           |
+| ----------- | --------- | -------------- |
+| `username`  | `string`  | 用户名称       |
+| `headImage` | `string`  | 用户头像地址   |
+| `isOwner`   | `boolean` | 是否节点拥有者 |
+| `userId`    | `number`  | 用户ID         |
 
 ### **示例代码**
 
