@@ -17,6 +17,7 @@
     "axios": "^1.9.0",
     "copy-to-clipboard": "^3.3.2",
     "doc-cookies": "^1.1.0",
+    "freelog-runtime": "workspace:^",
     "freelog-runtime-core": "workspace:^",
     "html-react-parser": "^5.2.2",
     "i18next": "^24.2.0",
@@ -40,7 +41,6 @@
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
-    "freelog-runtime": "workspace:^",
     "sass": "^1.70.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
