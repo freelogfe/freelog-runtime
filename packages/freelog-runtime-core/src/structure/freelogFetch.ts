@@ -10,9 +10,6 @@ export function freelogFetch(url: string, options: any, appName: string): any {
     const urlObj = new URL(url);
     url = widgetConfig.entry + urlObj.pathname;
   } 
-  if(url.includes('CUU-vPad')) {
-    console.log('CUU-vPad', url);
-  }
   if (url.includes(urls.HOST)) {
     return fetch(url, { ...options, credentials: "include" });
   } else {
