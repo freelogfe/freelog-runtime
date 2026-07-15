@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@freelog/tools-lib": "^0.1.165",
-    "@micro-zoe/micro-app": "1.0.0-rc.8",
+    "@micro-zoe/micro-app": "workspace:^",
     "antd-mobile": "^5.34.0",
     "antd-mobile-icons": "^0.3.0",
     "axios": "^1.9.0",

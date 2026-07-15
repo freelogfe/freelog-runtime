@@ -216,8 +216,8 @@ importers:
         specifier: ^0.1.165
         version: 0.1.165
       '@micro-zoe/micro-app':
-        specifier: 1.0.0-rc.8
-        version: 1.0.0-rc.8
+        specifier: workspace:^
+        version: link:../micro-app2
       antd-mobile:
         specifier: ^5.34.0
         version: 5.37.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1924,9 +1924,6 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
-
-  '@micro-zoe/micro-app@1.0.0-rc.8':
-    resolution: {integrity: sha512-elLPpZjkRHPZVJ3tvaCWHJdU2ORX2Ev/7LipCPkENU9ZqTSg6dGFjQ5cQnip0c1FXEcnY4pIKfbhW+qYfJAJzw==}
 
   '@microsoft/api-extractor-model@7.28.4':
     resolution: {integrity: sha512-vucgyPmgHrJ/D4/xQywAmjTmSfxAx2/aDmD6TkIoLu51FdsAfuWRbijWA48AePy60OO+l+mmy9p2P/CEeBZqig==}
@@ -10162,8 +10159,6 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@micro-zoe/micro-app@1.0.0-rc.8': {}
-
   '@microsoft/api-extractor-model@7.28.4(@types/node@14.14.45)':
     dependencies:
       '@microsoft/tsdoc': 0.14.2
@@ -14192,11 +14187,7 @@ snapshots:
       pretty-format: 26.6.2
       throat: 5.0.0
     transitivePeerDependencies:
-      - bufferutil
-      - canvas
       - supports-color
-      - ts-node
-      - utf-8-validate
 
   jest-leak-detector@26.6.2:
     dependencies:

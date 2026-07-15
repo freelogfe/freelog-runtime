@@ -263,7 +263,7 @@ function App() {
           (window as any).FreelogLibrary = instance;
 
           const container = document.getElementById("freelog-plugin-container");
-
+          console.log('container', nodeInfo.themeInfo.versionInfo.exhibitProperty.bundleTool);
           await freelogApp.mountExhibitWidget(null, {
             widget: nodeInfo.themeInfo,
             container,
