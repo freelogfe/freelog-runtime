@@ -55,6 +55,7 @@ export default defineConfig({
               link: "/guide/use-plugin-react",
             },
             { text: "如何发布主题和插件", link: "/guide/release" },
+            { text: "运行时版本说明", link: "/guide/version" },
             { text: "如何启用主题/切换版本", link: "/guide/use-theme" },
             { text: "官方主题和插件参考", link: "/guide/official" },
             { text: "0.4迁移到0.5", link: "/guide/migrate" },
