@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "cliPackageVersion": "0.6.0",
+  "revision": "20a866ce533ec9e96e7d0f9815d32c5e394a96d7",
+  "dirty": false,
+  "channel": "development",
+  "transforms": [
+    "README→index links and renderer-matched anchors",
+    "source and Node scope notice"
+  ],
+  "files": [
+    {
+      "source": "00-版本选择与AI代办.md",
+      "target": "00-版本选择与AI代办.md",
+      "sourceSha256": "209f74a487f8cd3223112ba6c1e91833cb260a31fa7c383255c5190e938d47b2",
+      "generatedSha256": "175156af815b3e92a1e8f71efc3396ebee95a65434c447b1c146f8eadd375055"
+    },
+    {
+      "source": "01-快速上手.md",
+      "target": "01-快速上手.md",
+      "sourceSha256": "6a3cd73ee3d7e8db42f294222347a6279b7357f0dc99813e3c0f8733676fb907",
+      "generatedSha256": "d849b6a71822f2539645a1c9483b2e28d43af079fcce69331c2e8faec895dff4"
+    },
+    {
+      "source": "02-环境与凭据.md",
+      "target": "02-环境与凭据.md",
+      "sourceSha256": "43d3d2061b04434bb75a1f290ba6630130b8620db48dcfd07e2a7a797320443f",
+      "generatedSha256": "b5c2ba6f5d63f9aa1eaa233dcb07efba12a56c84fd4a3f372162e93167053105"
+    },
+    {
+      "source": "03-按场景操作.md",
+      "target": "03-按场景操作.md",
+      "sourceSha256": "f47e729fa94529e4b7c7372812f4db56884a320d2c9dbc5e6580bf795593a5c0",
+      "generatedSha256": "0a7cfb83a2a0d58313282df98745a29ce6bf38bc861b2f488e41576b8d7c0776"
+    },
+    {
+      "source": "04-日常路径.md",
+      "target": "04-日常路径.md",
+      "sourceSha256": "4558204ab0810e68cebf8959ca27cbe6e84ea1c7f5bea49e31cc2bcf61b1a81c",
+      "generatedSha256": "48de8ced6fd6ddd1c517a9bc7a0f7c30f1278744bc2af73521b1331163470bba"
+    },
+    {
+      "source": "05-主题与插件.md",
+      "target": "05-主题与插件.md",
+      "sourceSha256": "13a0e3e477f66275863549bd21372cfac020e21a3d48d7bef2831fd273fefe0c",
+      "generatedSha256": "5187e1af70285404a0d493d597f1311161f2d8fe5ae0476595a5313ae4aa2653"
+    },
+    {
+      "source": "06-版本工作稿.md",
+      "target": "06-版本工作稿.md",
+      "sourceSha256": "facb88c5dc055da1aaa4c02adb7c331484596db84bd110e791a1441f630c50dc",
+      "generatedSha256": "ad689cd65885223e38a38edf6eee6c08c5588d775fa5ce8b319e3e8905641cb0"
+    },
+    {
+      "source": "07-单资源授权策略.md",
+      "target": "07-单资源授权策略.md",
+      "sourceSha256": "9997623a956588da5438308b1c5daffe73c3339088460279293894a859e5e629",
+      "generatedSha256": "9c108a9c4d80b532a28590d531795f18c7d2a9b3bc07f37c6330cb7fa1271b45"
+    },
+    {
+      "source": "08-资源管理.md",
+      "target": "08-资源管理.md",
+      "sourceSha256": "7da54d599efd3ac1ec57b0935c3c913f5bbb83f092f3e4e7a389823390d19106",
+      "generatedSha256": "7dc97d72ddf6cd66b28a54c0e7ca17123ff4d08ebc7cfa5a908c08fde9dab4bb"
+    },
+    {
+      "source": "09-常见情况与报错.md",
+      "target": "09-常见情况与报错.md",
+      "sourceSha256": "8a6109d11f4a78d2d27b95b08e1ba514cc5e85cfe48e9dd369c027d0eb242f50",
+      "generatedSha256": "0fbcd862111ba4ed60534d93bcbcaca87ad12620ac13355a728397445d5a43ca"
+    },
+    {
+      "source": "10-本地文件参考.md",
+      "target": "10-本地文件参考.md",
+      "sourceSha256": "49d49d23b237e2a80487646d84fc3a4410d0616657f43e3d5c7cb2c4026b2847",
+      "generatedSha256": "8f2978cb4447bb1b0ceba3d330030972b42b8dc624bf333b1c0c26a7c2354d6f"
+    },
+    {
+      "source": "11-命令参考.md",
+      "target": "11-命令参考.md",
+      "sourceSha256": "f4a29d9ea96f12378c75e13a5b75a7252686e526a4e27245a4eaae1a00ee36fb",
+      "generatedSha256": "7d4989b8cc2fc503a711e028a0702fbc7e89a863c80521f466e9ab8b3d61fbf5"
+    },
+    {
+      "source": "README.md",
+      "target": "index.md",
+      "sourceSha256": "11b445681cd60f95d0dd52ee0c0bee27bba2a7a2c6f6f7408fe2860981f41d52",
+      "generatedSha256": "087077ed65602b5a54f765203622e3c27a4801c95e52d4975faa7b9c21fd8c1d"
+    },
+    {
+      "source": "合集/01-首次发行与发布.md",
+      "target": "合集/01-首次发行与发布.md",
+      "sourceSha256": "b658189edf9a10adc94abf04fdde8ffc32d7b6a1bfdb0b01fca925bbee69a6f0",
+      "generatedSha256": "1d41514eb07141d8a8c73afd1ed77d985b68c35e2ee4d0198efe28ae5cb0b6b9"
+    },
+    {
+      "source": "合集/02-发行后管理与边界.md",
+      "target": "合集/02-发行后管理与边界.md",
+      "sourceSha256": "29925fa6ff58bc364d1b453d15aaca17363c81132d8412e8b1ca340748f2f6bc",
+      "generatedSha256": "20671b1c15a3b2d8c144836a5544d4c751eee81d5217184a4b538ce3a1650e1d"
+    },
+    {
+      "source": "合集/03-合集授权策略.md",
+      "target": "合集/03-合集授权策略.md",
+      "sourceSha256": "a50a71d1d358ffcb6ed82bd7d0591cf7d2d12c163cc8f2907f44857246843f97",
+      "generatedSha256": "dbf7996343ac8365d8aa649791468b4722ea221e6f5d7d45e9b8d478be268184"
+    },
+    {
+      "source": "合集/README.md",
+      "target": "合集/index.md",
+      "sourceSha256": "1e7d799d1433dff652ab6bb7acc14f84493ca56ffc02b7aeeae8fc45865b6beb",
+      "generatedSha256": "7094e6f4c2130fdd72314ef748345ed56750ef97a8134f1ce319be96611d4e99"
+    },
+    {
+      "source": "存储空间/README.md",
+      "target": "存储空间/index.md",
+      "sourceSha256": "06cd8765efdcff3efd709d69b7df976151746f01665e28349003e28414b30706",
+      "generatedSha256": "da6e09467d4035074ac5e49315b0ca09fa6d397e06cd3c1e845e12da40a50d22"
+    },
+    {
+      "source": "节点与展品/README.md",
+      "target": "节点与展品/index.md",
+      "sourceSha256": "7fcdf1cd61906c6df2ff7564763877d52603e0c504eee5c5f72f4eb9f484f0cc",
+      "generatedSha256": "6974265f43ef7db3c0b8ed352ef58819d8088757b0a7185806dec24dea8c2741"
+    }
+  ]
+}

@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 1,
+  "oldRoot": "packages/docs",
+  "runtimeRevision": "2fa5f83fb6f81617e92ac41fcf844127324e8b20",
+  "pages": [
+    {
+      "source": "api/auth.md",
+      "sha256": "ad3a83e93c0f9159c1a3b5f4b3028de2096f6e83d35f3c3c4ab859ea441acfb7",
+      "target": "runtime/api/auth.md"
+    },
+    {
+      "source": "api/base.md",
+      "sha256": "183c5ae9e525061bec82e73e0f16d70bbcc3798535042f3c62ae1d92446665b1",
+      "target": "runtime/api/base.md"
+    },
+    {
+      "source": "api/code.md",
+      "sha256": "262901a3c42b95d360a85e094ce40c20035df9f0319e5b9090ca92e48cf4eaf0",
+      "target": "runtime/api/code.md"
+    },
+    {
+      "source": "api/collection.md",
+      "sha256": "75f4d598c2edc1d8e9c6f73ed270bd5b1411d94739647a94e80ab6da5ec7b75f",
+      "target": "runtime/api/collection.md"
+    },
+    {
+      "source": "api/exhibit.md",
+      "sha256": "12f4663242bd4c61ec684b2d18f1532b6bb84f94db1f51b62ff086f9eeb6575e",
+      "target": "runtime/api/exhibit.md"
+    },
+    {
+      "source": "api/share.md",
+      "sha256": "adcd4fa8854ef591e6636640e886e8be008208ab136083c4a154f337d991f7c4",
+      "target": "runtime/api/share.md"
+    },
+    {
+      "source": "api/user.md",
+      "sha256": "b252955e8e6d1a860ef8b61dbc01871e68a4df8189857ee706014cc97b5c8eb5",
+      "target": "runtime/api/user.md"
+    },
+    {
+      "source": "api/widget.md",
+      "sha256": "f9aaec5e5605c7aefe59efb7fb2004bb94cad9d52b19f50514a2a9bdb70460dd",
+      "target": "runtime/api/widget.md"
+    },
+    {
+      "source": "faq/README.md",
+      "sha256": "50b617410b956712a531b1193cda3b0d4404754f0774da2075c4a227b46078da",
+      "target": "runtime/troubleshooting.md"
+    },
+    {
+      "source": "framework/angular.md",
+      "sha256": "64e8caaa34ce2f3adcac73a4d4abd0dd6c9d942b127ed5f699a351db96fd733d",
+      "target": "reference/frameworks/angular.md"
+    },
+    {
+      "source": "framework/index.md",
+      "sha256": "538f309a23f1d67a31d555c88f1a2860cb3213a0470758ded255d3f0b20237de",
+      "target": "reference/frameworks/index.md"
+    },
+    {
+      "source": "framework/introduce.md",
+      "sha256": "d85fb149924eb2cffd27e8e38e8f4a5b48566ee65bf289457d1797ede0fbb208",
+      "target": "runtime/architecture.md"
+    },
+    {
+      "source": "framework/nextjs.md",
+      "sha256": "6c01e0254b960c22d60905a9a7e54ba7b4b3e879a04c0ac8933f613deec6a386",
+      "target": "reference/frameworks/nextjs.md"
+    },
+    {
+      "source": "framework/nuxtjs.md",
+      "sha256": "9a3f6a89f78bf140ae116571f85c7bcdaeb3fdf173903bbc89cdb499a3750248",
+      "target": "reference/frameworks/nuxtjs.md"
+    },
+    {
+      "source": "framework/questions.md",
+      "sha256": "0cbb4ae42130f487dbe8e9b62047a9f9601c00637dc90b3b1ce6b6e70a0c2d62",
+      "target": "reference/frameworks/questions.md"
+    },
+    {
+      "source": "framework/react.md",
+      "sha256": "58fcb34c939763c7feac5bbeeebd356e68d7e248faf10015c32099ff41d5770f",
+      "target": "reference/frameworks/react.md"
+    },
+    {
+      "source": "framework/vite.md",
+      "sha256": "6ee7699d0e8dc0697500b7854af12cc196fc04ad76c78702498f7a9c420c1ba1",
+      "target": "reference/frameworks/vite.md"
+    },
+    {
+      "source": "framework/vue.md",
+      "sha256": "ef3d95f3fa1428a6f3c3f5bd122ee6975275b572fe78bb57e9321297c20bb05f",
+      "target": "reference/frameworks/vue.md"
+    },
+    {
+      "source": "guide/browser-router.md",
+      "sha256": "617891c62c5baa4396f0887b17d65024fe4d10dc985c38ade464ac9c717dfb7c",
+      "target": "reference/microapp/browser-router.md"
+    },
+    {
+      "source": "guide/cli.md",
+      "sha256": "e94c9fc15be83fea8a5222734678e4d3557f54c60c9ea3c094d68fb3ec8236b4",
+      "target": "cli/index.md"
+    },
+    {
+      "source": "guide/index.md",
+      "sha256": "3584acb7a9e1b26c95788f72c64cbaabe72cb9185a170504512278cdef002b1c",
+      "target": "runtime/quickstart.md"
+    },
+    {
+      "source": "guide/keep-alive.md",
+      "sha256": "1a63348f9311e17208ba636c1436db7ff1ba3949e660293931a798ec7003b750",
+      "target": "reference/microapp/keep-alive.md"
+    },
+    {
+      "source": "guide/migrate.md",
+      "sha256": "5c3a61b2577ef35b0ebaa96c54eb14736b30886a9b2b4617a06f643a338acef1",
+      "target": "reference/migration-0-4.md"
+    },
+    {
+      "source": "guide/official.md",
+      "sha256": "b27a3cc1b9427c8acc161a7c9c5eaedf5efac5a07c4a4a467d57cd807adf0284",
+      "target": "reference/official.md"
+    },
+    {
+      "source": "guide/plugin-react.md",
+      "sha256": "a699e77dd5d818069626afc811ac41b3b1f340cc6b0b92c3a64a024837c10940",
+      "target": "reference/frameworks/react.md"
+    },
+    {
+      "source": "guide/plugin-vue.md",
+      "sha256": "ae996cc0aafcd6296fc2bd0adb87c796e7f10da287d0d1e2747715c8161e5c2e",
+      "target": "reference/frameworks/vue.md"
+    },
+    {
+      "source": "guide/release.md",
+      "sha256": "fe662d61ed5bc1b34f1371fc19849614cca8ab752f00d7deed075ec1af61e264",
+      "target": "runtime/release.md"
+    },
+    {
+      "source": "guide/theme-react.md",
+      "sha256": "526590f69d3e288a29da1f606f2c27e835b3a90dc1dd45733ffc1d00bbc5380e",
+      "target": "reference/frameworks/react.md"
+    },
+    {
+      "source": "guide/theme-vue.md",
+      "sha256": "cf23dae4238b2af33109ccb78fc3d0151b5639d105e1803d8d654a2bb53a8533",
+      "target": "reference/frameworks/vue.md"
+    },
+    {
+      "source": "guide/use-plugin-react.md",
+      "sha256": "71e0f6be57f75158217bdaabd6df75a5ea00236e969c5b6c6dd4a6f345dbfb1f",
+      "target": "runtime/development.md"
+    },
+    {
+      "source": "guide/use-plugin-vue.md",
+      "sha256": "7b15b91823698f6bd7d258c09d8ca6f5328be49665886a1fef0cb1c77d59c800",
+      "target": "runtime/development.md"
+    },
+    {
+      "source": "guide/use-theme.md",
+      "sha256": "ba9d1dd1e9844fc295c18854a3cca6e9c14c9f681096259ed6e2cd77cd54624f",
+      "target": "runtime/release.md"
+    },
+    {
+      "source": "guide/version.md",
+      "sha256": "114328993c8047225e480d6a9dfe850166dc9f53fb225e7c90a8a89e93c78c12",
+      "target": "runtime/compatibility.md"
+    },
+    {
+      "source": "guide/wheel/data/index.md",
+      "sha256": "de1f377eb7d74a4425be6e0f09049f98c6bdc501b04d9a4fc2308912d21479d4",
+      "target": "reference/microapp/data.md"
+    },
+    {
+      "source": "guide/wheel/router/index.md",
+      "sha256": "1b7388199a63fd4e4d6ef77d30a4191aff76c3e69f9704d58390e3ea9deed44d",
+      "target": "reference/microapp/router.md"
+    },
+    {
+      "source": "guide/wheel/static-source/index.md",
+      "sha256": "1b136e99dd0ec6a278dfa358032def9faecf5048d64714061040757e77cd67d6",
+      "target": "reference/microapp/static-source.md"
+    },
+    {
+      "source": "index.md",
+      "sha256": "31191e2e63175f9415e5bd364a70d74ae00099e87019f4d647d9dc573831a73f",
+      "target": "index.md"
+    },
+    {
+      "source": "library/guide.md",
+      "sha256": "22c0098d72caca03fc71fcebb25037da784f97f8229921cb69b1b38a058a0a26",
+      "target": "library/guide.md"
+    },
+    {
+      "source": "library/helloworld.md",
+      "sha256": "5133ae4e2fc73d5106b7f73fa7e4c0826b429e89ee350a5b220b42d4bfb43b9c",
+      "target": "library/helloworld.md"
+    },
+    {
+      "source": "library/intro.md",
+      "sha256": "3120b2e63061512ae41a3a270086076d8990e1931a400986ee336c75c3bcd82f",
+      "target": "library/intro.md"
+    },
+    {
+      "source": "library/library-react.md",
+      "sha256": "2a18b6bce9023c77fb9b2aca38bb8edb281e5427b727162c886617c06b652944",
+      "target": "library/library-react.md"
+    },
+    {
+      "source": "library/library-usage.md",
+      "sha256": "235bb36efcd37f706fe0742a6ee4ed15449a0c08b6c1d56b76422851aff647e0",
+      "target": "library/library-usage.md"
+    },
+    {
+      "source": "library/library-vue.md",
+      "sha256": "632666577098dac9274a5a7d1d4da390b8bd70d5dec99e4bc8b33acbf3233e07",
+      "target": "library/library-vue.md"
+    },
+    {
+      "source": "library/local-dev.md",
+      "sha256": "287b9242d792720e4cdb86820fc64da42aca4cae7b228cc2b4cc18b131a2a9dc",
+      "target": "library/local-dev.md"
+    },
+    {
+      "source": "library/meta-gen.md",
+      "sha256": "50dfa14877835a6f4a39a8b32d078282a664ee75779f4ea546fa02b9bd92a91b",
+      "target": "library/meta-gen.md"
+    },
+    {
+      "source": "library/use-library-react.md",
+      "sha256": "17a32cf38d3b95090540da9a6e74210e910e334ea94a9b380607c9212086035e",
+      "target": "library/use-library-react.md"
+    },
+    {
+      "source": "library/use-library-vue.md",
+      "sha256": "69b40784e6bd0eb3c86589be173e9a04fa11813945840f40fb6e2fcd63e39a3c",
+      "target": "library/use-library-vue.md"
+    },
+    {
+      "source": "TODO.md",
+      "sha256": "bea823f77f143e13d89f70bb6da221a1466fa18dd65c50bb80f7e50137f2579c",
+      "target": null
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "@freelog/runtime-docs-new",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.14.0" },
+  "scripts": {
+    "sync:cli": "node scripts/sync-cli.mjs",
+    "prepare:content": "node scripts/sync-cli.mjs && node scripts/agent-export.mjs",
+    "dev": "npm run prepare:content && vitepress dev site --host 127.0.0.1",
+    "build": "npm run sync:cli && npm run build:site",
+    "build:site": "node scripts/agent-export.mjs && node scripts/check-content.mjs && vitepress build site",
+    "preview": "vitepress preview site --host 127.0.0.1",
+    "test": "node --test tests/*.test.mjs",
+    "verify": "npm run test && npm run build"
+  },
+  "devDependencies": {
+    "vitepress": "2.0.0-alpha.21",
+    "vue": "3.5.44",
+    "mermaid": "12.2.0"
+  }
+}

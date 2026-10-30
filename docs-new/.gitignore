@@ -1,0 +1,10 @@
+node_modules/
+site/.vitepress/cache/
+site/.vitepress/dist/
+site/public/markdown/
+site/public/llms.txt
+site/public/llms-full.txt
+site/public/source-lock.json
+site/public/markdown-manifest.json
+artifacts/
+.archive/

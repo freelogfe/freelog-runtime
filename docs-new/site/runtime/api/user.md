@@ -1,0 +1,215 @@
+# 用户相关 API 文档
+
+## callLogin
+
+**用途**：调用时会打开登录界面，并调用传入的函数。
+**说明**：
+
+- 如果没有提供回调函数，登录成功后页面会自动刷新。
+- 如果已经监听了 `onLogin`，登录成功后会优先执行 `onLogin` 的回调。
+
+### **参数**
+
+- `callback`：登录结果回调函数
+  - **`freelogApp.resultType.SUCCESS`**：登录成功
+  - **`freelogApp.resultType.USER_CANCEL`**：用户取消登录
+
+### **示例代码**
+
+```ts
+freelogApp.callLogin((status) => {
+  if (status === freelogApp.resultType.SUCCESS) {
+    console.log("登录成功");
+  } else if (status === freelogApp.resultType.USER_CANCEL) {
+    console.log("用户取消了登录");
+  }
+});
+```
+
+## callLoginOut
+
+**用途**：退出当前账号登录状态。
+**说明**：登出后页面会自动刷新。
+
+### **示例代码**
+
+```ts
+freelogApp.callLoginOut();
+```
+
+## onLogin
+
+**用途**：监听用户登录事件，登录成功时会调用参数中的第一个函数，失败时会调用参数中的第二个函数。
+
+### **参数**
+
+- `resolve`：登录成功后的回调函数
+- `reject`：用户关闭登录窗口后的回调函数
+
+### **示例代码**
+
+```ts
+freelogApp.onLogin(
+  () => {
+    console.log("登录成功");
+  },
+  () => {
+    console.log("用户关闭了登录窗口");
+  },
+);
+```
+
+## onUserChange
+
+**用途**：监听用户在其他页面切换账号的事件，并在当前页面触发回调。
+
+### **参数**
+
+- `callback`：账号切换时触发的回调函数
+
+### **示例代码**
+
+```ts
+freelogApp.onUserChange(() => {
+  console.log("检测到账号切换，刷新数据");
+});
+```
+
+## isUserChange
+
+**用途**：检测用户在其他页面是否切换了账号。
+
+### **返回值**
+
+- `true`：账号已发生变化
+- `false`：账号未变化
+
+### **示例代码**
+
+```ts
+const hasChanged = freelogApp.isUserChange();
+if (hasChanged) {
+  console.log("检测到账号变化，重新加载数据");
+}
+```
+
+## getCurrentUser
+
+同步读取运行时已保存的当前消费者信息；未登录时可为空。不在每次调用时重新请求用户接口，与 CLI 发行账号缓存无关。
+
+**用途**：获取当前登录用户的基本信息。
+
+### **返回值**
+
+| 字段        | 类型      | 说明           |
+| ----------- | --------- | -------------- |
+| `username`  | `string`  | 用户名称       |
+| `headImage` | `string`  | 用户头像地址   |
+| `isOwner`   | `boolean` | 是否节点拥有者 |
+| `userId`    | `number`  | 用户ID         |
+
+### **示例代码**
+
+```ts
+const userInfo = freelogApp.getCurrentUser();
+if (userInfo) {
+  console.log("用户名：", userInfo.username);
+  console.log("用户头像：", userInfo.headImage);
+} else {
+  console.log("用户未登录");
+}
+```
+
+## setUserData
+
+本页用户数据三个方法返回 Axios 响应；成功 JSON 示例仅展示 `res.data` 业务响应体。当前实现为存储键加组件渲染名作用域，不是资源版本配置存储。
+
+**用途**：保存或更新当前用户的自定义数据。
+
+### **参数**
+
+- `key`：自定义数据的键名
+- `data`：要保存的数据对象（以JSON方式存储）
+
+### **示例代码**
+
+```ts
+const userData = {
+  visitCount: 55,
+  adCount: 33,
+};
+freelogApp.setUserData("testData", userData).then((res) => {
+  console.log("数据保存成功：", res.data);
+});
+```
+
+**成功返回示例**：
+
+```json
+{
+  "ret": 0,
+  "errCode": 0,
+  "msg": "success",
+  "data": {
+    "visitCount": 55,
+    "adCount": 33
+  }
+}
+```
+
+## getUserData
+
+**用途**：获取指定 `key` 下保存的用户数据。
+
+### **参数**
+
+- `key`：自定义数据的键名
+
+### **示例代码**
+
+```ts
+freelogApp.getUserData("testData").then((res) => {
+  console.log("获取到用户数据：", res.data);
+});
+```
+
+**成功返回示例**：
+
+```json
+{
+  "ret": 0,
+  "errCode": 0,
+  "msg": "success",
+  "data": {
+    "visitCount": 55,
+    "adCount": 33
+  }
+}
+```
+
+## deleteUserData
+
+**用途**：删除指定 `key` 下保存的用户数据。
+
+### **参数**
+
+- `key`：自定义数据的键名
+
+### **示例代码**
+
+```ts
+freelogApp.deleteUserData("testData").then((res) => {
+  console.log("数据删除成功");
+});
+```
+
+**成功返回示例**：
+
+```json
+{
+  "ret": 0,
+  "errCode": 0,
+  "msg": "success",
+  "data": null
+}
+```
