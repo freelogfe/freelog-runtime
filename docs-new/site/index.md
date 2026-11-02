@@ -9,7 +9,7 @@ hero:
     alt: Freelog
   actions:
     - theme: brand
-      text: 让 AI 帮我开发
+      text: 让 AI 帮我完成任务
       link: /start
     - theme: alt
       text: 使用 CLI
@@ -33,7 +33,7 @@ features:
 
 | 你要做什么 | 入口 |
 |---|---|
-| 不会写代码，希望从需求开始让 AI 完成开发 | [人与 AI 协作](/start) |
+| 不熟悉操作，希望让 AI 发行资源、管理节点或开发应用 | [人与 AI 协作](/start) |
 | 已有明确业务目标，想找完整操作路径 | [平台任务目录](/platform/tasks) |
 | 先理解 Freelog 平台如何运作 | [平台全景](/platform/overview) |
 | 把前端应用接入真实节点 | [快速接入](/runtime/quickstart) |
@@ -42,4 +42,4 @@ features:
 | 创建资源、填写版本、管理合集或展品 | [CLI 完整手册](/cli/) |
 | 查参数、返回结构和调用上下文 | [SDK 参考](/runtime/api/) |
 
-本次为独立新版文档，旧站尚未被替换。CLI 页面已对齐已发布的0.6.0手册，安装前先看[来源、版本与已知限制](/about)。
+本次为独立新版文档。CLI页面同步源手册，本次已核对已发布npm0.6.1包内正文；npm0.6.0不包含本轮修正。安装前先看[来源、版本与已知限制](/about)，文档构建不表示已部署或业务已通过验收。

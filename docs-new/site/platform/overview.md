@@ -43,7 +43,7 @@ flowchart LR
 
 资源 ID、版本号、展品 ID、nid 和挂载实例名称分别使用；标题可改且可重复，不作为这些身份的替代。
 
-接下来读[主子应用结构](/runtime/architecture)，再选[开发](/runtime/quickstart)或[CLI 发行](/cli/)。
+接下来按下表选择业务路径。发行普通文件、管理合集、存储或展品可以直接进入对应CLI教程；开发主题/插件或调用SDK时，再读[主子应用结构](/runtime/architecture)与[接入指南](/runtime/quickstart)。
 
 ## 按业务继续
 

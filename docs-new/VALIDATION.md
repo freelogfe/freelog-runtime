@@ -1,5 +1,19 @@
 # 本轮验证记录
 
+## 2026-11-02：CLI0.6.1发布后的文档产物
+
+npm0.6.1已发布并完成registry下载、同SHA-512和隔离安装核验；本版Console浏览器按用户最后“先发布吧”延期，不写PASS。docs-new重新同步19份手册，source-lock指实际发包源码6fbf278、版本0.6.1、dirty=false；CLI包内19份原文与同步源已逐字节核验。生成仍标development，后续分支改动不能仅凭版本号复用本次对齐结论。
+
+更新首页/Agent/来源说明后，11项测试、72页链接/锚点/摘要检查及OSS根路径构建通过，日志为artifacts/20261102-cli061-published-docs-verify.log。产物仍仅site/.vitepress/dist；源码提交/推送与OSS部署分别执行，构建不自动上传或切换文档站，实际Git状态以HEAD/status为准。本节是最新结果，以下发布前的“待发布/未发布”仅保留当时状态。
+
+## 2026-11-02：平台任务分流与CLI手册同步
+
+本轮只调整docs-new文档、导航及文本导出入口，不改运行时业务或旧packages/docs。Agent入口、人与AI协作、首页和llms索引按普通资源、合集、存储、节点展品、应用开发及内容使用分流，普通发行不再要求先准备节点和学习运行时。
+
+重新从CLI唯一源手册同步19页；source-lock记录当前提交与dirty=true，正文包含待发布0.6.1修正，不再声称逐字对应已发布npm0.6.0。11项测试、72页内容校验与根路径/带.html构建通过；大chunk告警保留。HTTP核对72份Markdown摘要、19份CLI源摘要、6个JS/CSS响应及MIME通过。独立文本复核通过；本地浏览器已查看Agent和协作页正文与流程图，未把页面检查当作Console业务验收。
+
+本机证据为artifacts/20261102-agent-task-docs-verify.log、20261102-agent-task-docs-http.json。当前预览为http://localhost:4173/agents.html；可发布文件仍只取site/.vitepress/dist全部内容。本轮未上传文档站，也未发布CLI0.6.1。以下各日期记录仅保留当时事实，不覆盖本节新来源与结果。
+
 日期：2026-10-29，Windows，Node.js 22.18.0。验证对象为本目录当前新站，不是运行时业务或发布候选的验收。
 
 | 检查 | 结果与范围 |

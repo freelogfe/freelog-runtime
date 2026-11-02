@@ -41,7 +41,7 @@ export default defineConfig({
     ],
     sidebar: { '/cli/': cliSidebar, '/': [
       { text: '先建立全景', items: [
-        { text: '让 AI 帮我开发', link: '/start' },
+        { text: '让 AI 帮我完成任务', link: '/start' },
         { text: '平台对象与主线', link: '/platform/overview' },
         { text: '按平台任务操作', link: '/platform/tasks' },
         { text: '账号与环境', link: '/platform/accounts' },

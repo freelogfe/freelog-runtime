@@ -43,6 +43,8 @@ CLI 文档同步只改变格式与链接，不偷偷改业务规则；发现源�
 
 ## 发布与部署
 
+2026-11-02已将Agent及人与AI协作入口按平台任务分流，并重新同步CLI源手册。0.6.1已发布并完成registry下载/安装核验，本次19份源手册与该npm包内正文逐字节一致；后续源改动需重新核对，不能仅凭版本号认定一致。最新本地文档验证与构建见`VALIDATION.md`对应日期记录。
+
 输出目录 `site/.vitepress/dist`，部署为静态站点。当前目标站点是 dev/测试共用的 `https://widget-docs.testfreelog.com/`，不在本任务自动替换旧站。
 
 部署前确认 CLI 文档对应的发布版本/开发候选，检查 `source-lock.json`，运行 `npm run verify`，预览后再替换静态目录。子路径部署通过 `DOCS_BASE=/子路径/` 构建；URL不含凭据。

@@ -33,7 +33,7 @@ freelog-cli storage list --bucket my-space --json --env dev
 已有文件就直接导入，不必先创建空间或重新上传。在专用工程目录执行：
 
 ```sh
-freelog-cli init . --storage-object <对象ID> --type RT006003 --yes --env dev
+freelog-cli init . --storage-object <对象ID> --type <类型码> --yes --env dev
 freelog-cli create --name my-photo --title "我的图片" --yes --env dev
 freelog-cli create-version --prepare --env dev
 freelog-cli version show --local --json --env dev
@@ -62,11 +62,11 @@ freelog-cli version show --local --json --env dev
 freelog-cli version draft import-storage <对象ID> --groups attributes,options --yes --env dev
 ```
 
-attributes包括系统附加值和只读自定义属性，options是可选配置，dependencies是资源依赖；可以逗号组合。导入会替换选定组，未选组保留。要避免误清空，先核对预览；对象选定组确实为空时，导入该组就是明确清空。
+attributes包括系统附加值和只读自定义属性，options是可选配置，dependencies是资源依赖；可以逗号组合。0.6.1修正（npm0.6.0不包含）：依赖按资源ID追加，同ID更新为导入的原版本范围，空列表不清空原依赖；属性按当前类型转换后替换选定属性组，可选配置替换选定配置组，未选组保留。属性/配置空组会明确清空该组的手填项，确认前请查看删除预览。
 
 不会顺带更改文件来源，不会发版。依赖保留原版本范围；缺合同的全新依赖先用version dep add完成明确签约与声明，再重试导入。已有声明可用dep sign补签；支付仍在网页完成。对象依赖必须先发行成资源，再选资源引用，不自动批量发行。
 
-遇到无法表达的配置类型、select默认值不为第一项、字段冲突或确认期间稿变化，会拒绝整次导入并保留原稿，不静默改值或丢字段。
+导入attributes前先prepare或pull，让稿中有明确文件。当前类型仍需要的手录字段会校验后保留，不再需要的手录字段可转补充属性；补充属性若成为当前类型标准手录字段则转为标准。当前文件解析出的值始终为准，不沿用对象旧解析结果。预览列出转换、覆盖和删除；缺必要名称、值不符合当前格式、字段重名冲突、无法表达的配置类型、select默认值非第一项或确认期间数据变化时，整次拒绝并保留原稿，不猜值或改选项顺序。
 
 ## 3. 可选：查看或创建线上空间
 
@@ -88,6 +88,8 @@ freelog-cli storage bucket create my-space --yes --env dev
 
 ## 4. 可选：上传及管理线上文件
 
+下面200MiB提前拦截、文件名规范化及最终名长度校验需要0.6.1或后续兼容版本；npm0.6.0不包含。最终对象名为1–60字符（含扩展名），超长拒绝，不静默截断；需要时通过--name明确取较短名字。名称改变时stderr提示原名和最终名（--yes/--json同样显示），stdout对象JSON仍保持独立。
+
 ```sh
 freelog-cli storage upload ./photo.png --bucket my-space --yes --env dev
 freelog-cli storage list --bucket my-space --search photo --json --env dev
@@ -96,6 +98,8 @@ freelog-cli storage show <对象ID> --json --env dev
 ```
 
 上传接收单个文件；主题/插件构建目录仍通过作者发行流程压缩，不能把目录直接交给storage upload。列表每页50，人工终端可翻页，JSON调用自行选择页码。保存返回的objectId，标题和文件名不代替精确身份。
+
+单文件最大200MiB（209715200字节），超限会在上传前拒绝。对象名（包括显式--name）会按Console规则将空白、部分标点和emoji连续段替换为下划线，例如`my photo?.png`变为`my_photo_.png`；预览会显示原名与最终名，本地文件不改名。空名、点路径、路径分隔符及控制字符直接拒绝。以最终名查重，因此两个不同原名也可能产生同名冲突，仍需明确选择是否覆盖。旧线上对象不自动改名，后续选择请以查询返回的实际名称/ID为准。
 
 同名默认拒绝。确实要替换时，检查预览后显式选择覆盖：
 

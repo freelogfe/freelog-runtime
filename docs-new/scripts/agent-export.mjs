@@ -37,13 +37,20 @@ export async function exportAgent({ sourceRoot = site, publicRoot = path.join(si
     entries.push({ relative, title: body.match(/^#\s+(.+)$/m)?.[1] || relative, body, sha256: digest(body) })
   }
   const index = ['# Freelog 平台使用与开发文档', '', '> dev / 测试共用文档。CLI适用版本和来源见版本说明与source-lock.json；未来能力不当成现有接口。', '', '## 阅读顺序', '',
-    `- [人与AI协作入口](${link('/markdown/start.md')})`,
     `- [Agent 使用说明](${link('/markdown/agents.md')})`,
     `- [平台对象](${link('/markdown/platform/overview.md')})`,
     `- [按平台任务操作](${link('/markdown/platform/tasks.md')})`,
+    `- [人与AI协作入口](${link('/markdown/start.md')})`,
     `- [当前支付与授权边界](${link('/markdown/platform/authorization.md')})`,
-    `- [主子应用](${link('/markdown/runtime/architecture.md')})`,
-    `- [CLI](${link('/markdown/cli/index.md')})`, '', '## 全部页面', '',
+    `- [CLI版本与能力选择](${link('/markdown/cli/00-版本选择与AI代办.md')})`, '',
+    '## 按任务选正文', '',
+    `- [普通文件首次发行](${link('/markdown/cli/01-快速上手.md')})`,
+    `- [单资源更新与绑定](${link('/markdown/cli/04-日常路径.md')})`,
+    `- [作者合集发行与管理](${link('/markdown/cli/合集/index.md')})`,
+    `- [线上存储与发行导入](${link('/markdown/cli/存储空间/index.md')})`,
+    `- [市场、节点与展品](${link('/markdown/cli/节点与展品/index.md')})`,
+    `- [主题/插件开发：先理解主子应用](${link('/markdown/runtime/architecture.md')})`,
+    `- [应用中使用内容与检查授权：SDK](${link('/markdown/runtime/api/index.md')})`, '', '## 全部页面', '',
     ...entries.map((e) => `- [${e.title}](${link(textRoute(e.relative))})`), '', `完整文本：${link('/llms-full.txt')}`, ''].join('\n')
   await writeFile(path.join(publicRoot, 'llms.txt'), index)
   await writeFile(path.join(publicRoot, 'llms-full.txt'), index + '\n\n' + entries.map((e) => `---\n来源：${link(textRoute(e.relative))}\n\n${e.body}`).join('\n\n'))
