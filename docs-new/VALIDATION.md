@@ -86,3 +86,33 @@ CLI手册源中的旧签约说明已修正；生成器已删除旧段落特判�
 已将主题与插件的3个调试URL示例改为可直接阅读的地址，并验证URL.searchParams解析得到的dev及插件地址相同；示例仓库18个链接改用可读目录名作为文字，链接目标保持原样。全站渲染后的正文扫描仅剩路由encode/decode文档的必要编码输入/输出，没有把接口协议示例错误解码。
 
 11项回归、72页内容检查及OSS根路径构建通过；重启4181预览后，3个相关HTML页面的实际展示文本与72份Markdown HTTP摘要通过。产物仍只在site/.vitepress/dist，不新增ZIP或部署副本；未改运行时代码、CLI源文档或旧站。细节保留在artifacts/readable-url-verification.json、readable-url-verify.log及readable-url-final-build.log。
+
+## 0.7.0支付边界校准（2026-11-03，发布准备）
+
+本轮仅修改docs-new：站点任务入口、签约支付说明、Agent/来源页、作者依赖及节点/运行时开发发行排查入口。微信支付已实现为显式show/start/qr/status，用户本人扫码；真实dev资源依赖及节点各0.1元交易成功且authStatus=1。支付宝虽有命令分支，当前dev预支付路由Cannot POST、errCode=2，仍BLOCKED。余额、羽币、退款、取消及自动续费未实现；未知只查原单，公共命令未提供通用换渠道重开。同一资源1/合集4/节点2的乙方合同分别核验。
+
+CLI生成页由sync:cli从冻结的0.7.0源手册同步，未手工编辑。首轮同步20份手册并导出73页，内容链接/锚点/资源/摘要检查及VitePress构建通过；新增支付页触发既有导航完整覆盖测试19/20失败，保留此事实，补CLI侧栏支付入口后11项测试全部通过。首轮source-lock仍为开发脏树，不称已发布或最终来源绑定。等待CLI源码固定后重新同步及完整verify，结果在下文续记。
+
+旧packages/docs和业务运行时代码未修改，旧验证事实未改写；未提交、推送或部署。构建仍有大chunk告警，未调阈值隐藏。浏览器视觉、Console双向回显、平台矩阵及支付宝成功不因文档构建成为PASS。
+
+最终来源已固定：CLI提交0533f17a6ef8a79a4050f8e97de6ce1f1979de25、包版本0.7.0、source-lock dirty=false，20份源手册由同步脚本生成。按DOCS_BASE=/、DOCS_CLEAN_URLS=false完整npm run verify通过：11项测试、73页链接/资源/锚点/生成摘要及VitePress构建PASS。日志artifacts/payment-070-final-verify.log；大chunk告警保留。
+
+独立启动本次VitePress预览4187（检查后已停止），HTTP验证7条HTML路由、12个引用CSS/JS的MIME及与dist逐字节一致、73份Markdown逐页SHA256、llms.txt/full与source-lock均PASS；支付页可达且进入llms索引。来源核验0.7.0/上述commit/dirty=false/20页通过，证据artifacts/payment-070-http-verification.json及payment-070-http.log，检查脚本同目录payment-070-http-check.mjs。此为本地HTTP，不是浏览器视觉、线上部署或业务支付测试。
+
+唯一交付目录仍为site/.vitepress/dist/，根目录直接含index.html、assets、markdown、llms.txt及source-lock.json；无新增发布ZIP。0.7.0在本记录时尚未npm成功，站点保留发布准备字样。本轮未提交/推送运行时仓库、未修改旧packages/docs及业务实现、未上传OSS；之后发布状态变化须单独校准并重建，不把当前构建当已上线。
+
+### 0.7.0 npm成功后的最终站点校准
+
+0.7.0已于本轮npm发布成功；正常npm client pack下载同SHA512、全新安装/bin及20份手册核验通过，原始回执在CLI侧release-070-preflight/registry-result.json。本记录保留此前raw fetch读取archive 404失败事实，不将它称成功；成功证据来自正常npm路径。发布的tarball SHA512为6e8233185edd65f297949e2ff6e7bae56a8c4009acecccd5b7dace512a7453dac62fadd92b85791b8d4550d6d5608aa016aad1f8879d5c58e25fa5f3f7e10bce。
+
+本站about/README及任务正文改为0.7.0已发布，付款人/合同乙方三页澄清一起进入本轮dist。已发布npm包首页README仍有“支付尚不支持”遗漏，实际读取下载包README确认；完整20份手册正确。本站明确此首页错误，未声称已改npm归档包；源码修正待未来版本，按用户最新指示0.7.1暂不发布，先审查修改、解决支付宝后再安排。支付宝dev仍BLOCKED，浏览器按本版用户明确决定延期、不记PASS，其他历史gap/三平台不外推通过。
+
+本轮没有运行sync:cli：source-lock继续固定0533f17a6ef8a79a4050f8e97de6ce1f1979de25/0.7.0/dirty=false。从registryBin对应dist/docs读取20份正文，逐份字节SHA256匹配source-lock.sourceSha256，再核20份生成页generatedSha256，全部通过；证据artifacts/payment-070-published-manual-check.json。未同步CLI即将追加的事后文档修正提交，未手改source-lock。
+
+最终使用npm test + DOCS_BASE=/、DOCS_CLEAN_URLS=false下npm run build:site，11项测试、73页链接/资源/锚点/生成摘要及构建PASS；日志payment-070-published-tests.log和payment-070-published-build.log。独立VitePress预览HTTP验证9条HTML（含accounts/节点/授权）、14个CSS/JS的MIME与逐字节内容、73份Markdown SHA256、llms索引/全文及source-lock全部通过，预览已停止；证据payment-070-published-http-verification.json及payment-070-published-http.log。旧预发布检查回执保留，不覆盖历史失败。大chunk告警仍有，不隐藏。
+
+最终唯一站点目录site/.vitepress/dist/；本轮未做浏览器操作、未提交/推送运行时、未上传OSS、未改旧packages/docs或业务运行时代码。站点构建通过不代表支付宝或完整业务验收通过。
+
+## 提交前复验（2026-11-04）
+
+用户要求提交并推送运行时仓库的现有改动。本次保持CLI 0.7.0冻结源及source-lock不变，未运行sync:cli；11项文档测试、73页内容检查，以及DOCS_BASE=/、DOCS_CLEAN_URLS=false下的build:site通过。构建生成的site/.vitepress/.temp加入忽略规则，与dist、缓存和Agent生成副本一起不提交。现有交接便笺保留入库；本次不修改支付实现、不重新验证支付归因、不上传OSS或发布npm，推送结果以Git记录为准。

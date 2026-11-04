@@ -1,5 +1,6 @@
 node_modules/
 site/.vitepress/cache/
+site/.vitepress/.temp/
 site/.vitepress/dist/
 site/public/markdown/
 site/public/llms.txt

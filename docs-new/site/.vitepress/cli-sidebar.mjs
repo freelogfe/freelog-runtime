@@ -31,6 +31,9 @@ export const cliSidebar = [
   { text: '文件存储', items: [
     { text: '存储管理与资源导入', link: '/cli/存储空间/' }
   ] },
+  { text: '合同支付', items: [
+    { text: '微信扫码与原订单查询', link: '/cli/支付/' }
+  ] },
   { text: '返回开发流程', items: [
     { text: '让 AI 帮我开发', link: '/start' },
     { text: '运行时与本地调试', link: '/runtime/development' },

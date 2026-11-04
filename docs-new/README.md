@@ -66,3 +66,5 @@ npm run verify
 2026-10-30已对齐npm 0.6.0并验证CSS/JS MIME和字节及72份Agent文本，详见`VALIDATION.md`末节。`artifacts/`不是发布目录；旧subpath副本、171944 ZIP、压缩包清单及临时脚本已移入本机`.archive/obsolete-deploy-20261030/`，不作为部署入口或提交Git。永久删除被自动审批拒绝，本次保留可恢复归档。旧170816 ZIP被其他进程占用，暂留artifacts，释放占用后再清理；不要取它发布。
 
 本轮没有上传或切换线上站点。替换旧站前保留线上回退，旧链接迁移见`runtime-migration.json`。docs-new源码和独立lockfile随Git提交；node_modules、dist、artifacts及本机归档忽略。换机后在本目录安装依赖，再按上面的OSS构建步骤生成dist，不能从Git直接取得构建产物。
+
+2026-11-03 CLI 0.7.0已发布，正常npm客户端下载包同SHA512、全新安装/bin和20份手册核验通过；生成源保持0533f17、dirty=false，不sync到事后文档修正提交。微信显式二维码准备与原单查询已实现，资源/合集/节点合同分离；dev支付宝路由仍BLOCKED。本版按用户批准的开发阶段边界发布，浏览器和历史完整矩阵仍延期。npm包首页README尚有“支付尚不支持”遗漏，完整20份手册正确，首页修正待未来版本，0.7.1暂不发布。未修改已发布归档包。最终构建及核验见VALIDATION.md本日末条记录，生成页仍不手改。
