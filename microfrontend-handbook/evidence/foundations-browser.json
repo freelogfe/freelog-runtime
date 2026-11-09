@@ -1,0 +1,87 @@
+{
+  "checkedAt": "2026-11-09T03:40:07.791Z",
+  "timezone": "Asia/Shanghai",
+  "browser": "Edg/139.0.3405.102",
+  "versions": [
+    {
+      "name": "react",
+      "version": "18.3.1",
+      "source": "packages/pc-ui/node_modules/react/umd/react.development.js",
+      "sha256": "28348fef6cb0ed8b2ceeb22deaf824428fd13875d84c73d38f77dd216fc24e7f"
+    },
+    {
+      "name": "react-dom",
+      "version": "18.3.1",
+      "source": "packages/pc-ui/node_modules/react-dom/umd/react-dom.development.js",
+      "sha256": "f9044a5e9c39db8bb1a204dff924e526ec0a621e695bb69de1035811be8709e4"
+    },
+    {
+      "name": "vue",
+      "version": "3.5.44",
+      "source": "docs-new/node_modules/vue/dist/vue.global.js",
+      "sha256": "32e8d2cf5034e241ccd220b42bb07042b0604839bd04607106728c338c92738b"
+    }
+  ],
+  "teachingSources": [
+    {
+      "path": "foundations-lab/runtime.mjs",
+      "sha256": "bd23043456235ae4aea74912484ac3aa477a196fa5874efa21ab0afdb5540add"
+    },
+    {
+      "path": "foundations-lab/native-entry.mjs",
+      "sha256": "3b6d770b333423b6edc2ba3f48eb89bcb011a7d4c0bb731d8972e31913dc0ff5"
+    },
+    {
+      "path": "foundations-lab/app.mjs",
+      "sha256": "2cd8d5984554a42077f4cb01c6a025419e7ab8efd4de33d045e00eef2e33c16c"
+    },
+    {
+      "path": "foundations-lab/index.html",
+      "sha256": "781758cec9df85f61295b3242dfbc69fe623c71333167c309f62632b24df9fb8"
+    }
+  ],
+  "checks": [
+    "原生ESM：同URL复用、query身份、live binding与求值次数",
+    "手写ESM应用协议：同定义双实例，退出A不影响B",
+    "React18：StrictMode额外setup/cleanup，多root不共享Provider树",
+    "React Portal逻辑冒泡，旧root不能复用，新createRoot可重挂",
+    "Vue3：app provide独立、同步变更批处理、nextTick前后DOM差异",
+    "Vue Teleport物理事件路径，app卸载不停止独立scope，显式stop有效",
+    "Vue新app重挂成功；基础实验390px不横向溢出"
+  ],
+  "observations": {
+    "modules": {
+      "same": true,
+      "differentQuery": true,
+      "before": 0,
+      "live": 1,
+      "initial": 0,
+      "copied": 0,
+      "evaluations": [
+        "http://127.0.0.1:12011/counter.mjs",
+        "http://127.0.0.1:12011/counter.mjs?copy=second"
+      ]
+    },
+    "react": {
+      "setup": 5,
+      "cleanup": 3,
+      "parentClicks": 1,
+      "oldRootRejected": true
+    },
+    "vue": {
+      "mounted": 3,
+      "unmounted": 1,
+      "watchValues": [
+        0,
+        2,
+        0
+      ],
+      "parentClicks": 0,
+      "detachedRuns": 2,
+      "beforeNextTick": "0",
+      "stateBeforeNextTick": 2,
+      "afterNextTick": "2"
+    }
+  },
+  "scope": "real local browser; no MicroApp, ViteHMR, cross-origin, hydration or Freelog platform execution"
+}

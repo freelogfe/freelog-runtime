@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-11-09T03:40:05.377Z",
+  "version": "3.5.44",
+  "checks": [
+    "实际template编译产生helper模块与TEXT标记",
+    "scope批处理并stop后不再响应",
+    "正文适配器退出A后仅B响应，宿主订阅从1到0"
+  ],
+  "scope": "Node compiler/reactivity and jsdom execution of extracted prose example; not full-browser proof",
+  "observations": [
+    0,
+    2
+  ],
+  "adapter": [
+    [
+      [
+        {
+          "owner": "reader-b",
+          "event": "resize"
+        }
+      ]
+    ],
+    [
+      1
+    ],
+    [
+      0
+    ]
+  ]
+}

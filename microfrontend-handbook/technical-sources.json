@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-11-09",
+  "timezone": "Asia/Shanghai",
+  "scope": "Additional local evidence and existing framework builds for foundations; preserves original sources.json unchanged. Dependency installation and remote docs are separate provenance.",
+  "files": [
+    {
+      "path": "../docs-new/node_modules/vue/dist/vue.global.js",
+      "sha256": "32e8d2cf5034e241ccd220b42bb07042b0604839bd04607106728c338c92738b"
+    },
+    {
+      "path": "../docs-new/node_modules/vue/package.json",
+      "sha256": "94139d37af28f8cd4bbfe2902d4e07fe920f786de8a0f35086aee1060243502e"
+    },
+    {
+      "path": "../packages/micro-app2/dev/children/react17/package.json",
+      "sha256": "b9e9d7db43650b9d183b6ae819bb55b4e45c6c6011a1615112938cf32e5f0bda"
+    },
+    {
+      "path": "../packages/micro-app2/dev/children/vite4/package.json",
+      "sha256": "a6fb7eea39069fecb7076ca49e18e10ab92eeb35898aca72f5f163eae1ff3a9d"
+    },
+    {
+      "path": "../packages/micro-app2/dev/children/vite4/yarn.lock",
+      "sha256": "defeadf7df4f37051963b2594822617843b532b90103c33a99a3a80503a82582"
+    },
+    {
+      "path": "../packages/micro-app2/dev/children/vue3/package.json",
+      "sha256": "c469232b348fb2c35560401185efb8e377771b25e75de50123d57d43126d5250"
+    },
+    {
+      "path": "../packages/micro-app2/dev/children/vue3/yarn.lock",
+      "sha256": "d2974f38692f585581910f678f83d582e0a45cf8df1885680183bbfb3955c6ec"
+    },
+    {
+      "path": "../packages/micro-app2/dev/main-vite/package.json",
+      "sha256": "3fc88b6eed21783fff5a716d7f2cae2e23d64ec31259b13d603a374de2f11866"
+    },
+    {
+      "path": "../packages/micro-app2/dev/main-vite/pnpm-lock.yaml",
+      "sha256": "18b33e17a55010434b21f9d254bba7f0133b800191e76ecbdba913edfcb269df"
+    },
+    {
+      "path": "../packages/mobile-ui/package.json",
+      "sha256": "95e8bf621430b97470913b7aa73c415358203ee8005be2fbbc708add989e827f"
+    },
+    {
+      "path": "../packages/pc-ui/node_modules/react-dom/umd/react-dom.development.js",
+      "sha256": "f9044a5e9c39db8bb1a204dff924e526ec0a621e695bb69de1035811be8709e4"
+    },
+    {
+      "path": "../packages/pc-ui/node_modules/react/umd/react.development.js",
+      "sha256": "28348fef6cb0ed8b2ceeb22deaf824428fd13875d84c73d38f77dd216fc24e7f"
+    },
+    {
+      "path": "../packages/pc-ui/package.json",
+      "sha256": "bd31f4ad87eaa600172824c9a74c976b41d69fa9d6a999b35f8e736ef1ae7e65"
+    }
+  ]
+}

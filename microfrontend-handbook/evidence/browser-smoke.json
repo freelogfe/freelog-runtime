@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-11-09T02:53:44.031Z",
+  "timezone": "Asia/Shanghai",
+  "browser": "Edg/139.0.3405.102",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0",
+  "engine": {
+    "packageVersion": "1.0.0-rc.8",
+    "engineSource": "packages/micro-app2/lib/index.esm.js",
+    "engineSha256": "829eaccf60a65140e46204c79d92f1d742e0c69c7b73d93b2420803c002ea26a",
+    "environmentBridge": "实验宿主在加载原样 bundler ESM 前提供 window.process.env.NODE_ENV='development'",
+    "role": "本地机制实验，不连接 Freelog 平台，不代表授权与 SDK 验证"
+  },
+  "checks": [
+    "with 双实例：全局标记、同名根节点与宿主边界",
+    "同轮两次 dispatch：一份合并状态",
+    "search：子路径与浏览器编码同时可见",
+    "隐藏／恢复：子应用主动暂停，B 继续，mount 次数不增加",
+    "UMD 卸载重挂及 destroy：清理发生，实例登记移除",
+    "iframe 经典脚本：新 realm，主页面可见 DOM，B 保留",
+    "390px 窄屏：页面无横向溢出"
+  ],
+  "scope": "same-origin local classic-script lab only; no Freelog platform, native ESM, cross-origin or other-browser proof"
+}

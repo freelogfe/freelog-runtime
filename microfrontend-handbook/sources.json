@@ -1,0 +1,392 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-11-09",
+  "timezone": "Asia/Shanghai",
+  "runtimeRevision": "4945c01fc9218594edc88fc4bac2829607ec7686",
+  "upstreamRepository": "https://github.com/jd-opensource/micro-app",
+  "upstreamRevision": "1d3802735266cd14958601609a51ef2d23b1e915",
+  "upstreamTag": "v1.0.0-rc.8",
+  "note": "Local linked evidence and selected built artifacts only. Hash identity does not prove deployed behavior or source/build equivalence. Existing unrelated docs-new working-tree edits are outside this record.",
+  "files": [
+    {
+      "path": "../README.md",
+      "sha256": "e537170d4a4967721f01f4e5239bc3c5e541fe63fe336d901f500d1552588d20"
+    },
+    {
+      "path": "../packages/docs/api/widget.md",
+      "sha256": "f9aaec5e5605c7aefe59efb7fb2004bb94cad9d52b19f50514a2a9bdb70460dd"
+    },
+    {
+      "path": "../packages/docs/framework/vite.md",
+      "sha256": "6ee7699d0e8dc0697500b7854af12cc196fc04ad76c78702498f7a9c420c1ba1"
+    },
+    {
+      "path": "../packages/docs/guide/index.md",
+      "sha256": "3584acb7a9e1b26c95788f72c64cbaabe72cb9185a170504512278cdef002b1c"
+    },
+    {
+      "path": "../packages/docs/guide/keep-alive.md",
+      "sha256": "1a63348f9311e17208ba636c1436db7ff1ba3949e660293931a798ec7003b750"
+    },
+    {
+      "path": "../packages/docs/guide/plugin-react.md",
+      "sha256": "a699e77dd5d818069626afc811ac41b3b1f340cc6b0b92c3a64a024837c10940"
+    },
+    {
+      "path": "../packages/docs/guide/theme-react.md",
+      "sha256": "526590f69d3e288a29da1f606f2c27e835b3a90dc1dd45733ffc1d00bbc5380e"
+    },
+    {
+      "path": "../packages/docs/guide/use-plugin-react.md",
+      "sha256": "71e0f6be57f75158217bdaabd6df75a5ea00236e969c5b6c6dd4a6f345dbfb1f"
+    },
+    {
+      "path": "../packages/docs/index.md",
+      "sha256": "31191e2e63175f9415e5bd364a70d74ae00099e87019f4d647d9dc573831a73f"
+    },
+    {
+      "path": "../packages/freelog-runtime-api/src/api/exhibit.ts",
+      "sha256": "8a7eb5e63f10412f7220e9625f25b1ca45ec5d6d7d5f78446cd886e344a2ec5f"
+    },
+    {
+      "path": "../packages/freelog-runtime-api/src/config/env.ts",
+      "sha256": "bc5a857022617961ce2fe996608685e0f3055d927834fe4868f1d1040d71ba77"
+    },
+    {
+      "path": "../packages/freelog-runtime-api/src/config/urls.ts",
+      "sha256": "3903f4452020775f3a2693c07f78803877b32be080b179909bb57126d2a23d17"
+    },
+    {
+      "path": "../packages/freelog-runtime-api/src/index.ts",
+      "sha256": "f702c5a5bcc6b6d1d21f9c9655a6d349911e873c83d452744ddd7273ff155640"
+    },
+    {
+      "path": "../packages/freelog-runtime-api/src/request.ts",
+      "sha256": "6e242d6817836b6537855f01b7af94aaa3ba97cfae35b19e3bbe2f5c0d89c840"
+    },
+    {
+      "path": "../packages/freelog-runtime-api/src/services/handler.ts",
+      "sha256": "8f2bef027f8256fd19907821f95ddfbb056ac8fef5d76c1330dbff8e9f1a3c88"
+    },
+    {
+      "path": "../packages/freelog-runtime-core/src/bridge/eventOn.ts",
+      "sha256": "863da14e60bc69f0f51b1f6c7e68018a6e756e69386b3167e1e8d1da1198b097"
+    },
+    {
+      "path": "../packages/freelog-runtime-core/src/bridge/index.ts",
+      "sha256": "0110028ea84ed25b14571b6ffec459ebd387157ad76d95f5fd16f54f831f0f75"
+    },
+    {
+      "path": "../packages/freelog-runtime-core/src/freelogLibrary/index.ts",
+      "sha256": "9c7432e4870e341203c3d0b2561693836e7141e42c9fb56972b79f6f410b8b70"
+    },
+    {
+      "path": "../packages/freelog-runtime-core/src/index.ts",
+      "sha256": "a53fb6e62ca5bddccf8352c735e19aad859a2ef9237af10eded1413239a92532"
+    },
+    {
+      "path": "../packages/freelog-runtime-core/src/structure/dev.ts",
+      "sha256": "a7f8eb4c8683d4c1fdc6ba39732132d96c11e783bde20cae192b11b8aceceeb5"
+    },
+    {
+      "path": "../packages/freelog-runtime-core/src/structure/freelogApp.ts",
+      "sha256": "d93fdf29ae569198ac416febd0bcbddc3922900a2d4bc665e89d8ce10791d660"
+    },
+    {
+      "path": "../packages/freelog-runtime-core/src/structure/freelogFetch.ts",
+      "sha256": "b1319bda57c4ba9f5cbc602f22dcd1bc98ceac46d4a7b0fe0854b2cc19d9ab07"
+    },
+    {
+      "path": "../packages/freelog-runtime-core/src/structure/jdPatch.ts",
+      "sha256": "069b31f0a375fa2c1fc533bbda949ff141a8fc20390052ae005575cb20d08146"
+    },
+    {
+      "path": "../packages/freelog-runtime-core/src/structure/widget.ts",
+      "sha256": "399a12512b41e6914352fe3dc80882d4aa057e537dfdfbbef3e85c51b4245215"
+    },
+    {
+      "path": "../packages/freelog-runtime-core/src/structure/widgetUtils.ts",
+      "sha256": "877234138fc65b46e7fa50f8981af76098ed90e0b08069933955d8a4c58825b1"
+    },
+    {
+      "path": "../packages/freelog-type/src/index.ts",
+      "sha256": "9a8ec2f93bb762e8f42028175afc5a5719398d4ddffc5a5e3d2994ad001211f8"
+    },
+    {
+      "path": "../packages/freelog-type/src/widget.ts",
+      "sha256": "01cff61ff2b0c5e2e318161d29807329675d17d931181e1e2a9990017e36d587"
+    },
+    {
+      "path": "../packages/micro-app2/DEVELOP.zh-cn.md",
+      "sha256": "bfae7462683622d89b01739e507979d01b08c486fef7554ab9b219f6bd92b56e"
+    },
+    {
+      "path": "../packages/micro-app2/dev/children/vite4/vite.config.js",
+      "sha256": "00adc0eedc363fb8b2449dbe1c4b114fcdb05f39841c2829cd036265dbd4ab54"
+    },
+    {
+      "path": "../packages/micro-app2/dev/main-vite/src/main.ts",
+      "sha256": "70d3b042f21917d2c7d041fc48f11e9644e7c2470ccea355ed210fc4143fae18"
+    },
+    {
+      "path": "../packages/micro-app2/dev/main-vite/src/pages/vite.vue",
+      "sha256": "1afe83b702f5c84d867e92be0bd1480541631f2d1ed3bf8afa15c72f0fc74cc3"
+    },
+    {
+      "path": "../packages/micro-app2/docs/zh-cn/README.md",
+      "sha256": "3b60119e30146a9c7ff7dbd59a1893a3b4ed0eca3021e94caa89af5309031f8c"
+    },
+    {
+      "path": "../packages/micro-app2/docs/zh-cn/data.md",
+      "sha256": "1d1c2cfc543385fecaed069353a468dce28d18f97c6591cc5dd62c7a748276eb"
+    },
+    {
+      "path": "../packages/micro-app2/docs/zh-cn/dom-scope.md",
+      "sha256": "086e9a08ada1f4aa81adc7088af1883faa48c81f599fb40fc974e9accf19ecfe"
+    },
+    {
+      "path": "../packages/micro-app2/docs/zh-cn/keep-alive.md",
+      "sha256": "1a63348f9311e17208ba636c1436db7ff1ba3949e660293931a798ec7003b750"
+    },
+    {
+      "path": "../packages/micro-app2/docs/zh-cn/life-cycles.md",
+      "sha256": "ac2fefedb7e19a505a66d8774b3aac1096e5aa967d89d5b81b7496d363f186e5"
+    },
+    {
+      "path": "../packages/micro-app2/docs/zh-cn/native-mode.md",
+      "sha256": "b5f5227e4e575eee3968f58269208e90e6f0e7b26999d5a078dfb6c026e5d1c2"
+    },
+    {
+      "path": "../packages/micro-app2/docs/zh-cn/plugins.md",
+      "sha256": "c92d6519e8e43d554ff203bf24104dea7b70307268b3df989415f8dd27ab8e05"
+    },
+    {
+      "path": "../packages/micro-app2/docs/zh-cn/prefetch.md",
+      "sha256": "9fa787fd249b2c8d1d22c16cfd458c552faf83b01ea30e927eae833bb635017f"
+    },
+    {
+      "path": "../packages/micro-app2/docs/zh-cn/router.md",
+      "sha256": "a88d5f69877364cccb33e1cf7c6d8909faaac85c4d1e05588e7ed18b702a35d3"
+    },
+    {
+      "path": "../packages/micro-app2/docs/zh-cn/sandbox.md",
+      "sha256": "4c110c0c00e7e95606ae6e035048455487c4a91236d157a431a26dfa639c7ef5"
+    },
+    {
+      "path": "../packages/micro-app2/docs/zh-cn/scopecss.md",
+      "sha256": "59f972f2c0fc5e05bf1788e893095accd719a71d7a5cbb099bda1aabdb84ab4d"
+    },
+    {
+      "path": "../packages/micro-app2/docs/zh-cn/start.md",
+      "sha256": "7d3fbc74bfbdc2e9952b6d8e84083e0b738ea93186fe422bc2c3a00b2393dc14"
+    },
+    {
+      "path": "../packages/micro-app2/docs/zh-cn/static-source.md",
+      "sha256": "fbcff4310aacd0034631232f095c13b7b6ceffd1c1b292797591fbdc7b4ccdf8"
+    },
+    {
+      "path": "../packages/micro-app2/jest.config.js",
+      "sha256": "be4461e669cd53e278b2c9164cb124f8bc5aa88f60c04c64cf284b1364e60ced"
+    },
+    {
+      "path": "../packages/micro-app2/lib/index.d.ts",
+      "sha256": "b7a7ab61691e36032af1114057c292ba8c46db02babdd25f9711d286fff595ea"
+    },
+    {
+      "path": "../packages/micro-app2/lib/index.esm.js",
+      "sha256": "829eaccf60a65140e46204c79d92f1d742e0c69c7b73d93b2420803c002ea26a"
+    },
+    {
+      "path": "../packages/micro-app2/package.json",
+      "sha256": "a6f0732e2ed0ccbeac602682c38a1fc612fdc470d6ec3389f4c5dee09b7bed73"
+    },
+    {
+      "path": "../packages/micro-app2/rollup.config.js",
+      "sha256": "2637fb8621c30d5fc99398b639edf9d5ad6aa0d0f19e296f208f7beaf2e3c1d9"
+    },
+    {
+      "path": "../packages/micro-app2/scripts/create_type.js",
+      "sha256": "aa37a81e622542069ad2c197455de4eaea029d291bcdb50143d499ebe6d4a3a3"
+    },
+    {
+      "path": "../packages/micro-app2/src/constants.ts",
+      "sha256": "ffa2a01c1f5dd13c434b99f1b3f1b40f07fe3ad48fd2f600e88591d3efa6bd6c"
+    },
+    {
+      "path": "../packages/micro-app2/src/create_app.ts",
+      "sha256": "7fd7ab2501a0c44b974f323abfbbd2fda8763465501ba512284e8c7e128916c1"
+    },
+    {
+      "path": "../packages/micro-app2/src/index.ts",
+      "sha256": "65eb3ae420ba4d68a305e31e1298b3c56e9cafd7f4d7c6e47ff0988a166e7f18"
+    },
+    {
+      "path": "../packages/micro-app2/src/interact/event_center.ts",
+      "sha256": "7aa8890b3cd3e20a355637971036d8d55ad122070b5161490194cfb0fa3cbf79"
+    },
+    {
+      "path": "../packages/micro-app2/src/interact/index.ts",
+      "sha256": "1aa72d9f6e3222b033bc0f4d2dc2b8f7ac875eee871c00309b21557df031bc37"
+    },
+    {
+      "path": "../packages/micro-app2/src/libs/global_env.ts",
+      "sha256": "814d7fd9cc41639f282e2e6a979a553b0a3737b4262815664e61b94ba8aae30a"
+    },
+    {
+      "path": "../packages/micro-app2/src/libs/utils.ts",
+      "sha256": "860a71dea979c13f5d65f10a252fc8da6e3028defb18574696f50f573f0c7e53"
+    },
+    {
+      "path": "../packages/micro-app2/src/micro_app.ts",
+      "sha256": "b80b73a249d8a9478354ab1bffb428717cb267d27b266375ddda7eef6df75ff2"
+    },
+    {
+      "path": "../packages/micro-app2/src/micro_app_element.ts",
+      "sha256": "5910433b1ae263272796d10b1241702f2be359799b4762861c3f45dea583d8c8"
+    },
+    {
+      "path": "../packages/micro-app2/src/prefetch.ts",
+      "sha256": "9af52069f259c6fbcb7009f43b0ea08d5dd46f15d3b7ff037add1f3d68cfd190"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/adapter.ts",
+      "sha256": "10bf4fed7d1624e64ca83e3d390e19041b46755810ea0fa062e92fe73eed895b"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/bind_function.ts",
+      "sha256": "6f2e15929fdfa590f8623191d3c70c9e168f68f66c182ac22e70b45c6b73e3cd"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/iframe/document.ts",
+      "sha256": "4a997125bd124e531ea0bae3dc8203df575adc48f68a7b44b9fbb754b9c45a8e"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/iframe/element.ts",
+      "sha256": "77b87b71ba50a7b9c0d61b3835ae57cd54026075e5e0d1339f4accf353acd99a"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/iframe/index.ts",
+      "sha256": "0a351623a0614bec20a3a59d917daca634c39b85adaaddf90b2fef4dbe540aae"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/iframe/router.ts",
+      "sha256": "a6059353603600d34a206a4290d1c83837c7343d87356a631c444d264ebf0cd6"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/iframe/window.ts",
+      "sha256": "a716ccd9663eaa320f06e00dcc44f8366eb5f850faa6e992019858e8139bf284"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/request.ts",
+      "sha256": "f2e5ec3ba1109f5117aa0d5b207f4f6e7e5e4c18eaa98f7ee27371a01af58c4d"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/router/api.ts",
+      "sha256": "20b2b3d2042a8172de79dde0b00591e5d0c3d92621d9eb43abdf433e9ba63899"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/router/core.ts",
+      "sha256": "ce468871d0d4db6238752935f73dd14db75f5957ccfb5bcacc2577bd693849ab"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/router/event.ts",
+      "sha256": "8d74e4711d2dc7600a82db756f42158d2d98cf0840e255d9b1205dfd44134569"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/router/history.ts",
+      "sha256": "472e0d86a9af02d1f7c47b9afa79a3c4876a99c440caa2640174ae02aa26a481"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/router/index.ts",
+      "sha256": "88024e8cd96f529cb1e00bc080b2b0a600f64725fbdf7ba9e59589b7603accc6"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/router/location.ts",
+      "sha256": "a1c0eb849a67cbeaa2062552e9cfc617dc781613dbe9fbb2b48493b617813256"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/scoped_css.ts",
+      "sha256": "5399564f15549fbbf0944e683094acf15796024a2a55f2e59947811e086c9b33"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/with/document.ts",
+      "sha256": "becaeef1132e7a034a2f72aca2ad28edfbdacf6d879fc07e297d2870db946fea"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/with/index.ts",
+      "sha256": "22c3214ddd908aa377aa46c75092917bf4089d706ac0571ee92f340fe5cbffa2"
+    },
+    {
+      "path": "../packages/micro-app2/src/sandbox/with/window.ts",
+      "sha256": "9435f5ea34b7e5df0689a042df247e1c1c3ec0b6da9448d4ba60b86cea4946a8"
+    },
+    {
+      "path": "../packages/micro-app2/src/source/fetch.ts",
+      "sha256": "168a424f1d47f5b09b552f26d59e49e25a3850f79440bbc9661756f742bb3306"
+    },
+    {
+      "path": "../packages/micro-app2/src/source/index.ts",
+      "sha256": "6df32e1361572368125e8d73be27a8c8ac8a5716da8ffa86f067860187384ac3"
+    },
+    {
+      "path": "../packages/micro-app2/src/source/links.ts",
+      "sha256": "54f35f8632310c55f731a80a3985a9b8bc55015b7e57e0e1268ed99b1a2d9f1d"
+    },
+    {
+      "path": "../packages/micro-app2/src/source/loader/html.ts",
+      "sha256": "ca46d2638d765087df0ff15a02b77ceb82fd3950e5094806ab903327707d5560"
+    },
+    {
+      "path": "../packages/micro-app2/src/source/patch.ts",
+      "sha256": "db4fca51d3c743fac9d16295e736e6411ce43080b33a804d36b6ea6e8d3a5945"
+    },
+    {
+      "path": "../packages/micro-app2/src/source/scripts.ts",
+      "sha256": "5de2ac681a1aeecfb25db597984a7164abfbea5bb310484242032399328d8a4b"
+    },
+    {
+      "path": "../packages/micro-app2/src/source/source_center.ts",
+      "sha256": "e87f6d1fa578e74812566051776733c00f19abc1825b69205c449c78a7883ed9"
+    },
+    {
+      "path": "../packages/micro-app2/typings/index.d.ts",
+      "sha256": "7446618b12d0abf982045159305f95bbc61b2ff952c588d766caa6cc1a274225"
+    },
+    {
+      "path": "../packages/micro-app2/typings/window.d.ts",
+      "sha256": "827192f2ed28fb93e3c0229854d036d390df13cefd59d0127cc2cdfee8709dd9"
+    },
+    {
+      "path": "../packages/mobile-ui/src/App.tsx",
+      "sha256": "9683efe0f773a754d1fd90d0542992980c0a24c114cb9eca1e7337f71fed4c5d"
+    },
+    {
+      "path": "../packages/mobile-ui/src/main.tsx",
+      "sha256": "88825a0861f34f667a180c6f7a728913baafe2a3a280063f25736279f8946d65"
+    },
+    {
+      "path": "../packages/mobile-ui/vite.config.ts",
+      "sha256": "5fec9e61b6ac37c40faeefa089ec1cc683347f0bb442a8f80b40b652e0781172"
+    },
+    {
+      "path": "../packages/pc-ui/src/App.tsx",
+      "sha256": "8107212c592056f861aff99a4990b455fc0d4764d979b29812f0a297927b93eb"
+    },
+    {
+      "path": "../packages/pc-ui/src/main.tsx",
+      "sha256": "63d8ceb6f5868f81245616f23b8de5f64b56c7c9be08fcdb3ccb6b713dce1ded"
+    },
+    {
+      "path": "../packages/pc-ui/vite.config.ts",
+      "sha256": "81820b12f0e9b862846e406d89bef341fcf3c70d3b2f87d87e1ed354f3cb5547"
+    },
+    {
+      "path": "../pnpm-lock.yaml",
+      "sha256": "2b26aca79ec47f5f14b76805a5f5542e58c875a38726ac979a643290732369a4"
+    },
+    {
+      "path": "../pnpm-workspace.yaml",
+      "sha256": "d7ee7a1c65e13e1185931b793b0fd74928d3ae7449b1805ad6d557c933e32f1d"
+    }
+  ]
+}

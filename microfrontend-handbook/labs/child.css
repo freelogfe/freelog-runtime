@@ -1,0 +1,6 @@
+.lab-player { color: #284e3c; font-family: system-ui, "Microsoft YaHei", sans-serif; }
+.lab-player-title { font-size: 20px; margin: 0 0 10px; }
+.lab-player p { font-size: 14px; margin: 7px 0; line-height: 1.6; }
+.lab-player-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.lab-player button { padding: 7px 10px; background: #f0f4ee; color: #284e3c; border: 1px solid #a3b7a7; border-radius: 4px; font: inherit; font-size: 13px; cursor: pointer; }
+.lab-player button:focus-visible { outline: 3px solid #a45d22; outline-offset: 2px; }

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Freelog 微前端机制实验台</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">FREELOG · 源码学习实验</p>
+      <h1>一个阅读宿主，两个播放器</h1>
+      <p class="intro">先预测，再操作，再看证据。课堂宿主扮演装配角色，两个插件使用同一份代码，以不同实例名进入真实 MicroApp 沙箱。Freelog 的真实主题本身仍是子应用。</p>
+      <p id="engine-info" class="source">正在读取本地产物来源…</p>
+    </header>
+
+    <section aria-labelledby="lesson-title" class="lesson">
+      <h2 id="lesson-title">第一轮：观察隔离与生命周期</h2>
+      <ol>
+        <li>挂载 A 与 B：同一个 <code>#player-root</code>，查询会拿错吗？</li>
+        <li>在插件内改变路径、同步发送两次消息：地址栏与宿主收到什么？</li>
+        <li>隐藏 A：计时是否停止？再显示 A：是否重跑入口？</li>
+        <li>销毁 A：B 的画面、计时和消息是否保留？</li>
+      </ol>
+      <p>本页提供的 <code>onEvidence</code> 是教学观察函数，不是 Freelog SDK。实验没有平台账户、鉴权或文件服务。</p>
+    </section>
+
+    <section class="controls" aria-label="挂载配置">
+      <label>新实例沙箱
+        <select id="sandbox"><option value="with">with · 经典脚本</option><option value="iframe">iframe · 经典脚本</option></select>
+      </label>
+      <label>路由模式
+        <select id="router-mode"><option>search</option><option>state</option><option>pure</option></select>
+      </label>
+      <label class="checkbox"><input id="keep-alive" type="checkbox" checked> 保留隐藏状态</label>
+      <p>配置只在新建实例时生效。比较另一沙箱前先销毁该实例。iframe 提供新 realm，可见 DOM 仍在阅读宿主中。</p>
+    </section>
+
+    <section class="players" aria-label="两个子应用容器">
+      <article class="player-panel" data-panel="reader-a">
+        <div class="panel-title"><h2>播放器 A</h2><span id="status-reader-a" class="status">未创建</span></div>
+        <p class="instance">name = reader-a</p>
+        <div class="actions">
+          <button data-action="mount" data-name="reader-a">挂载 / 显示 A</button>
+          <button data-action="unmount" data-name="reader-a">隐藏 / 卸载 A</button>
+          <button data-action="destroy" data-name="reader-a" class="secondary">销毁 A</button>
+        </div>
+        <div id="slot-reader-a" class="slot"><p class="empty">这里等待真实子应用进入。</p></div>
+      </article>
+      <article class="player-panel" data-panel="reader-b">
+        <div class="panel-title"><h2>播放器 B</h2><span id="status-reader-b" class="status">未创建</span></div>
+        <p class="instance">name = reader-b</p>
+        <div class="actions">
+          <button data-action="mount" data-name="reader-b">挂载 / 显示 B</button>
+          <button data-action="unmount" data-name="reader-b">隐藏 / 卸载 B</button>
+          <button data-action="destroy" data-name="reader-b" class="secondary">销毁 B</button>
+        </div>
+        <div id="slot-reader-b" class="slot"><p class="empty">两个插件可以同时运行。</p></div>
+      </article>
+    </section>
+
+    <p id="notice" class="notice" role="status" aria-live="polite">实验台正在初始化。</p>
+    <section class="observations" aria-label="实验观察">
+      <div><h2>当前快照</h2><p>框架列表与子应用主动上报的探针分开显示。隐藏应用仍可能在活动列表内。</p><button id="refresh" class="secondary">刷新快照</button><pre id="snapshot" tabindex="0"></pre></div>
+      <div><h2>因果记录</h2><p>从入口文本请求，到 mount、数据和 cleanup。保留最近 300 条。</p><button id="clear-events" class="secondary">清空显示记录</button><pre id="events" tabindex="0" aria-label="生命周期与教学证据"></pre></div>
+    </section>
+    <footer>学习顺序：手册第 04 章加载 → 05/06 隔离 → 07 路由 → 08 清理。此实验只覆盖本机、本构建与所选模式。</footer>
+  </main>
+  <script>
+    // The unchanged bundler ESM contains process.env.NODE_ENV checks.
+    // This isolated classroom supplies the build environment normally provided by a bundler.
+    window.process = { env: { NODE_ENV: 'development' } }
+  </script>
+  <script type="module" src="/host.js"></script>
+</body>
+</html>
