@@ -1,5 +1,19 @@
 # 本轮验证记录
 
+## 2026-11-13：CLI 0.8.0发布后的文档交付
+
+这是当前结果；下面0.7.0及11-05等记录保留当时事实，不再作为本站现行能力或来源。CLI 0.8.0已按用户逐版确认的开发阶段边界发布：发行源码ef116ed5cc14de93f619304a43b20eaf9e02d029，registry下载包与固定候选SHA-512一致，全新安装、bin及20份手册核验通过；dev和@freelog-cli/cli2@0.8.0 tag已推送。原始包/复核/发布记录在CLI仓.artifacts/release/2026-11-13T03-10-36-923Z-81a27ce6。npm初次处理期间的404保留，没有再次publish。
+
+开始前备份运行时已有10份文档脏稿，保留前批改动。CLI20份源手册由sync:cli生成，source-lock为0.8.0/上述源码/dirty=false，channel仍是development；原始sourceSha256逐页与最终包内dist/docs相同。原生Agent、来源、任务、节点展品和运行时发行/排查入口校准：节点新展品走内联auth-cli；依赖、已有展品、合集单品上游新签与所有新支付转浏览器，不推荐回退0.7付款。新增节点设置、主题切换、展品编辑及验证码登录说明，后者真人未验，微信登录待后端。
+
+首次构建因原命令表行内代码wechat|alipay被拆列，继而把角括号参数编成Vue标签而失败，原始日志artifacts/cli-080-final-build.log保留。只修改同步层的格式适配：按VitePress表格token行号，在完整行内代码中转义未转义管道；已有转义、非表格、围栏、缩进及未闭合片段不改。原始CLI手册和npm归档包不改，source-lock明确登记新转换。修前8PASS/3预期FAIL、修后11/11同步测试PASS，含CRLF源字节不变，日志cli-080-table-red/green.log。不得把第一次构建失败抹成PASS。
+
+最终DOCS_BASE=/、DOCS_CLEAN_URLS=false下npm run verify通过：15项测试、73页链接/资源/锚点及生成摘要检查、VitePress构建成功，日志artifacts/cli-080-final-verify.log。大chunk告警保留，未调高阈值隐藏。CLI仓runtime-manual-check.json再次核20份原文与固定包、生成页摘要一致。
+
+实际启动独立4197本地预览后，9条HTML、14个引用CSS/JS的MIME及与dist逐字节内容、73份Markdown摘要、llms.txt/full、markdown-manifest及source-lock核对通过，预览进程已停止。原始回执在CLI仓.artifacts/release-080-preflight/runtime-http-verification.json；这是本地HTTP，不是视觉浏览器、Console业务或线上部署验证。
+
+唯一可上传目录仍为site/.vitepress/dist，OSS根目录部署，不带preview前缀、不使用artifacts或ZIP。此次只维护docs-new文档及同步测试，不改运行时业务、旧packages/docs、框架或依赖，不上传OSS。文档源码本地提交，运行时仓库未推送。历史七gap、网页/三平台/真人验证码和Windows取消等限制仍保留，不从文档验证外推业务全量PASS。
+
 ## 2026-11-02：CLI0.6.1发布后的文档产物
 
 npm0.6.1已发布并完成registry下载、同SHA-512和隔离安装核验；本版Console浏览器按用户最后“先发布吧”延期，不写PASS。docs-new重新同步19份手册，source-lock指实际发包源码6fbf278、版本0.6.1、dirty=false；CLI包内19份原文与同步源已逐字节核验。生成仍标development，后续分支改动不能仅凭版本号复用本次对齐结论。
@@ -116,3 +130,9 @@ CLI生成页由sync:cli从冻结的0.7.0源手册同步，未手工编辑。首�
 ## 提交前复验（2026-11-04）
 
 用户要求提交并推送运行时仓库的现有改动。本次保持CLI 0.7.0冻结源及source-lock不变，未运行sync:cli；11项文档测试、73页内容检查，以及DOCS_BASE=/、DOCS_CLEAN_URLS=false下的build:site通过。构建生成的site/.vitepress/.temp加入忽略规则，与dist、缓存和Agent生成副本一起不提交。现有交接便笺保留入库；本次不修改支付实现、不重新验证支付归因、不上传OSS或发布npm，推送结果以Git记录为准。
+
+## Windows内测本地联调文档（2026-11-05）
+
+CLI源手册已明确npm0.7.0于11-03发布，同时区分尚未发布的本地修正：密码星号、系统属性JSON规则、属性保存回执和路径/帮助提示。本轮执行sync:cli同步20页，source-lock为970928c/dirty=true/development；当前正文不能沿用此前0533f17与归档包逐字节一致的批准。about/agents/README已校准该边界。
+
+本轮11项文档测试、73页链接/锚点/生成摘要检查及DOCS_BASE=/、DOCS_CLEAN_URLS=false下build:site通过。输出仍为site/.vitepress/dist，代码及文档未提交推送，未上传OSS。线上agents/about旧状态须部署后再核，不能把本地构建通过称为线上已经更新；CLI产品最终验证另见CLI本轮迭代。

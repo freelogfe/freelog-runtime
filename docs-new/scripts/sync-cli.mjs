@@ -17,8 +17,38 @@ export function normalizeCliAnchor(anchor, candidates = []) {
   return matches[0] || anchor
 }
 
-export function transformCli(body, relative, linkAnchors = new Map()) {
-  let result = rewriteMarkdownLinks(body, (target) => {
+function escapedAt(text, index) {
+  let backslashes = 0
+  while (index > 0 && text[--index] === '\\') backslashes += 1
+  return backslashes % 2 === 1
+}
+
+function escapeTableCodePipes(line) {
+  const runs = [...line.matchAll(/`+/g)]
+  let result = '', cursor = 0
+  for (let index = 0; index < runs.length; index += 1) {
+    const opening = runs[index]
+    // Outside code a backslash escapes the first tick; inside code it does not.
+    const width = opening[0].length - (escapedAt(line, opening.index) ? 1 : 0)
+    if (!width) continue
+    let closing = index + 1
+    while (closing < runs.length && runs[closing][0].length !== width) closing += 1
+    if (closing === runs.length) continue
+    const start = opening.index + opening[0].length
+    const end = runs[closing].index
+    const code = line.slice(start, end)
+    result += line.slice(cursor, start) + code.replace(/\|/g, (pipe, offset) => escapedAt(code, offset) ? pipe : '\\|')
+    cursor = end
+    index = closing
+  }
+  return result + line.slice(cursor)
+}
+
+export function transformCli(body, relative, linkAnchors = new Map(), renderer) {
+  // Block token maps exclude fenced/indented examples and prose with table-like pipes.
+  const tableRows = new Set(renderer?.parse(body, {}).filter((token) => token.type === 'tr_open' && token.map).map((token) => token.map[0]))
+  const formatted = body.split('\n').map((line, index) => tableRows.has(index) ? escapeTableCodePipes(line) : line).join('\n')
+  let result = rewriteMarkdownLinks(formatted, (target) => {
     if (/^(?:[a-z]+:|#|\/)/i.test(target)) return target
     const [file, anchor] = target.split('#')
     const sourceTarget = path.posix.normalize(path.posix.join(path.posix.dirname(relative), file))
@@ -50,7 +80,7 @@ export async function syncCli({ cliRoot, target = path.join(site, 'cli'), lockFi
     [...renderer.render(raw).matchAll(/\bid="([^"]+)"/g)].map((match) => match[1])
   ]))
   const pages = originals.map(({ relative, raw }) => {
-    const content = transformCli(raw.replaceAll('\r\n', '\n'), relative, linkAnchors)
+    const content = transformCli(raw.replaceAll('\r\n', '\n'), relative, linkAnchors, renderer)
     return { source: relative, target: cliPage(relative), raw, content }
   })
   await mkdir(target, { recursive: true })
@@ -72,7 +102,7 @@ export async function syncCli({ cliRoot, target = path.join(site, 'cli'), lockFi
   const record = {
     schemaVersion: 1, cliPackageVersion: pkg.version, revision, dirty,
     channel: 'development',
-    transforms: ['README→index links and renderer-matched anchors', 'source and Node scope notice'],
+    transforms: ['README→index links and renderer-matched anchors', 'source and Node scope notice', 'escape unescaped pipes inside table inline code'],
     files: pages.map(({ source, target, raw, content }) => ({ source, target, sourceSha256: digest(raw), generatedSha256: digest(content) }))
   }
   await writeFile(lockFile, JSON.stringify(record, null, 2) + '\n')

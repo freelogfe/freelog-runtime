@@ -32,7 +32,7 @@ export const cliSidebar = [
     { text: '存储管理与资源导入', link: '/cli/存储空间/' }
   ] },
   { text: '合同支付', items: [
-    { text: '微信扫码与原订单查询', link: '/cli/支付/' }
+    { text: '网页履约与历史订单', link: '/cli/支付/' }
   ] },
   { text: '返回开发流程', items: [
     { text: '让 AI 帮我开发', link: '/start' },
