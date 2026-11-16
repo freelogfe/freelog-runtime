@@ -62,7 +62,7 @@ export function transformCli(body, relative, linkAnchors = new Map(), renderer) 
 
 export async function syncCli({ cliRoot, target = path.join(site, 'cli'), lockFile = path.join(project, 'source-lock.json') }) {
   const root = path.resolve(cliRoot)
-  const source = path.join(root, 'docs', '使用手册')
+  const source = path.join(root, 'docs')
   // Validate the complete input before changing any generated page.
   const inputs = (await filesIn(source)).filter((f) => f.endsWith('.md'))
   if (!inputs.some((f) => path.relative(source, f) === 'README.md')) throw new Error('CLI 手册缺少 README.md')
@@ -70,7 +70,7 @@ export async function syncCli({ cliRoot, target = path.join(site, 'cli'), lockFi
   let revision, dirty
   try {
     revision = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim()
-    dirty = execFileSync('git', ['status', '--porcelain', '--', 'docs/使用手册', 'packages/cli/package.json'], { cwd: root, encoding: 'utf8' }).trim().length > 0
+    dirty = execFileSync('git', ['status', '--porcelain', '--', 'docs', 'packages/cli/package.json'], { cwd: root, encoding: 'utf8' }).trim().length > 0
   } catch { throw new Error('CLI 来源必须是可核对的 Git 工作树') }
   const renderer = await createMarkdownRenderer(source)
   const originals = await Promise.all(inputs.map(async (file) => ({
@@ -101,6 +101,7 @@ export async function syncCli({ cliRoot, target = path.join(site, 'cli'), lockFi
   }
   const record = {
     schemaVersion: 1, cliPackageVersion: pkg.version, revision, dirty,
+    sourceDirectory: slash(path.relative(root, source)),
     channel: 'development',
     transforms: ['README→index links and renderer-matched anchors', 'source and Node scope notice', 'escape unescaped pipes inside table inline code'],
     files: pages.map(({ source, target, raw, content }) => ({ source, target, sourceSha256: digest(raw), generatedSha256: digest(content) }))

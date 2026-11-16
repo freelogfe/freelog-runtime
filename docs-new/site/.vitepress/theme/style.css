@@ -8,10 +8,10 @@
 }
 .dark { --vp-c-brand-1: #69d7b4; --vp-c-brand-2: #4bbf9a; --vp-c-brand-3: #28866d; }
 .VPHome { padding-bottom: 48px !important; }
-.vp-doc table { width: 100%; display: table; font-size: 14px; }
-.vp-doc th { white-space: nowrap; }
-.vp-doc td { overflow-wrap: anywhere; }
-.vp-doc table code { white-space: nowrap; }
+/* Long CLI commands must wrap inside their column instead of expanding into the outline. */
+.vp-doc table { width: 100%; display: table; table-layout: fixed; font-size: 14px; }
+.vp-doc th, .vp-doc td { overflow-wrap: anywhere; vertical-align: top; }
+.vp-doc th, .vp-doc table code { white-space: normal; }
 .mermaid-block { margin: 24px 0; padding: 18px; border: 1px solid var(--vp-c-divider); border-radius: 12px; }
 .mermaid-canvas { overflow-x: auto; text-align: center; }
 .mermaid-canvas svg { max-width: 100%; height: auto; }

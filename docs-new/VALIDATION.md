@@ -1,5 +1,53 @@
 # 本轮验证记录
 
+## 2026-11-16：开发构建的平台错误与资源状态复验说明
+
+CLI手册08/09已同步最新未发布修复：确认及上传后复验、资源查询404、安全后端提示和写后UNKNOWN边界。源码锁明确为CLI 0.9.0版本号的dirty开发手册，不冒充npm同版已有补片。78页Agent文本、内容检查及构建通过，日志`artifacts/20261116-platform-errors-build.log`；dist未部署。业务反例/5372项CLI回归及独立复核由CLI本轮记录维护，不以文档站构建代替。
+
+## 2026-11-16：0.9.0使用手册同步
+
+同步CLI固定源码21d2f6c的25份手册，更新0.9.0版本选择、节点自建展品合集入口及包首页边界。以`DOCS_BASE=/`、`DOCS_CLEAN_URLS=false`运行`npm run build`通过，78页Agent文本/内容检查及构建完成，日志`artifacts/20261116-cli-090-build.log`。交付文件仅`site/.vitepress/dist`，未部署。CLI合集固定安装包真实dev、Console实际详情及限定范围双审另由CLI本版记录证明；本站构建不替代业务或跨平台验收。
+
+## 2026-11-16：发行与只读解析解耦
+
+CLI手册06/09/11校准：首版及更新不等只读文件SSE，附加值按当前资源类型定义校验；属性列表用definitionsAvailable表达定义状态，不冒充解析完成。运行`npm run build`同步25份CLI手册、导出78页Agent文本、内容检查和构建通过，日志`artifacts/20261116-nonblocking-analysis-build.log`。dist已更新，未部署。CLI新音频dev首发及换版、Chrome实际Console回显由CLI迭代保存，本站构建不替代；源码部署对应及最终固定包验收仍分开。
+## 2026-11-16：验证码无联系方式说明同步
+
+从CLI根手册09同步无手机号/邮箱账号的明确处理方式：使用密码登录或先绑定联系方式，不再暗示稍后重试即可解决。本轮`npm run build`同步25份CLI正文、导出78页Agent文本、内容检查与构建通过，日志`artifacts/20261116-unbound-login-build.log`。dist已更新，未部署；验证码业务用例与原始后端信封验证归CLI迭代，不冒充本站进行了短信或Console浏览器验收。
+## 2026-11-16：版本产物冲突失败说明同步
+
+CLI根docs/06明确首版备稿、首版提交及更新版本的路径冲突保留原身份和稿，及异步新增占用可能已经上传但不发行版本的边界。本轮以根路径和`.html`配置执行`npm run build`，同步25份CLI手册、导出78页Agent文本、内容检查和构建通过。日志`artifacts/20261116-artifact-conflict-build.log`；dist已更新，未部署。CLI真实dev验证及用户待试用现场归CLI对应迭代，不由本站构建替代。
+
+## 2026-11-16：完整命令参考及短信拒绝说明同步
+
+从CLI根docs同步当前25页开发手册：补齐完整命令参考及节点列表入口，登录、报错和命令参考说明取图前账号检查。source-lock仍为开发工作树，不宣称已发布npm包或线上文档已有这些修改。运行`npm run build`，78页Agent导出、内容/路径/锚点/摘要检查及VitePress构建通过；日志为`artifacts/20261116-sms-rejection-docs-build.log`。输出仅`site/.vitepress/dist`，根路径、`.html`配置不变，未上传部署。
+
+命令参考实际网页已读到`node list [--page <n>]`，无`--resource`。这只证明本地文档可读，不替代Console业务浏览器验收。短信拒绝的CLI真实dev结果归CLI迭代记录；本站构建不自行证明账号业务。下方表格宽度和其他历史结果保留各自范围。
+
+## 2026-11-16：命令参考表格宽度修复（当前）
+
+范围仅docs-new呈现与导航，CLI源手册和业务代码不变。用户截图显示“公共资源匹配参数”表格被命令撑宽、说明列挤成竖排并进入右侧目录；根因是表格自动列宽与行内代码`white-space: nowrap`组合。主题改为固定列布局、表头及行内代码自然换行，保留窄屏表格内部滚动，不靠隐藏右侧目录遮盖问题。
+
+本轮先启动的verify在导航覆盖检查失败：CLI当前同步25页，侧栏只有24页，漏掉已有“节点自建展品合集”入口。补齐实际页面链接后，根路径与`.html`配置的`npm run verify`退出0：15项测试、78页路径/锚点/资源/源摘要与完整构建通过；初次失败保留于`artifacts/20261116-table-layout-verify.log`，修后结果在`artifacts/20261116-table-layout-verify-fixed.log`。既有大chunk告警保留，未放宽检查。
+
+真实Chrome浏览器已观察1920px桌面与390px设备预览下该表格：长命令换行、用途列可读、表格未伸出正文；桌面右侧目录无重叠。原始截图为本次Computer Use回执，完成后已关闭设备预览及DevTools恢复正常窗口。当前4173为本地开发站，`site/.vitepress/dist`已重建；没有上传线上，不代替Console业务浏览器验收或CLI发布。以下日期记录仅代表各自时点。
+
+## 2026-11-13：CLI根docs迁移与授权入口同步（当前）
+
+本节是当前文档结果；以下各节保留对应时点的发布、验包和浏览器事实，不作为本轮来源或验收批准。本轮CLI公共手册迁至仓库根`docs/`，共24页；原支付页迁为`授权与支付/支付与恢复.md`，新增授权总览、依赖授权、签到节点和已有展品资源授权四页。同步器默认源、dirty检查范围、fixture、CLI侧栏与原生链接已迁移，生成正文与source-lock均由脚本产出，表格行内代码的管道转义仍保留。
+
+本次source-lock记录CLI提交`fe2d56a042affeececcccd924c2d896c86cc125c`、`sourceDirectory: docs`、`dirty: true`、`channel: development`及包版本0.8.0。24份源文件原始字节摘要及生成页摘要逐一匹配。该提交对应的工作树含未提交文档迁移与授权导航，不能把版本字符串相同当成与已发布npm0.8.0正文一致；此前`ef116ed5`及包内20份手册的核验只保留为历史事实。
+
+先执行`npm run sync:cli`生成24页，再以`DOCS_BASE=/`、`DOCS_CLEAN_URLS=false`执行`npm run verify`，退出0：15项文档测试、77页链接/资源/锚点与生成摘要检查、VitePress根路径构建全部通过。回归覆盖根docs与未提交新授权目录的来源登记、生成链接及原始字节保护；不以测试数证明业务覆盖。补齐about页当前24份来源说明后，`build:site`再次退出0。大chunk告警仍保留。日志为`artifacts/cli-docs-root-sync.log`、`artifacts/cli-docs-root-verify.log`和`artifacts/cli-docs-root-final-build.log`。
+
+独立4198本地预览实际核对12条HTML、17个引用JS/CSS的MIME与dist逐字节内容、77份Markdown的HTTP摘要、llms.txt/full、清单和source-lock。24份CLI源/生成摘要均匹配；旧支付的生成页及文本副本已移除，两条旧HTTP路径返回404，不设置重定向。原始回执为`artifacts/cli-docs-root-http.json`，探针为同名mjs，预览进程已停止。这是本地静态HTTP验证，未做浏览器视觉、Console业务或线上部署验收。
+
+最终接续复核后，源手册首页、版本选择、快速上手和节点教程已澄清“0.8.0已发布，本轮仅文档整理未另发版本”，支付与恢复页移除内部验收日期及测试金额，保留历史版本能力。数量及路径仍为24页；工具脚本、测试和业务实现未改。本轮最后执行`sync:cli`与同样根路径参数下的`build:site`，均退出0，77页内容检查与构建通过，未重跑此前已通过的15项测试。最终日志为`artifacts/cli-docs-root-public-final-sync.log`及`artifacts/cli-docs-root-public-final-build.log`。
+
+最终HTTP及来源摘要回执时间为`2026-11-13T06:47:12.433Z`，上述12条HTML、17个资源、77份Markdown、24份源/生成摘要及旧路径404全部再次通过，当前回执仍为`artifacts/cli-docs-root-http.json`；前次回执另存`artifacts/cli-docs-root-http-before-public-final.json`。最终`source-lock.json`的SHA-256为`03fa176003a0a21ffc3fff8fa792d43d7f161e0338f6309c3f9760512089ecf3`，来源仍为上述提交、根`docs`、`dirty: true`及`development`，不表示当前24页与旧npm包相同。预览进程已停止，本轮文档同步产物至此冻结。
+
+本轮只修改docs-new文档消费者、导航、测试和生成内容，不改CLI或运行时产品实现、接口、依赖及旧packages/docs，不提交、推送或上传。唯一部署目录仍为`site/.vitepress/dist`。七项历史缺口、延期网页、三平台、真人验证码及Windows取消限制继续保留；文档迁移不新增签约或支付能力，也不补记业务PASS。
+
 ## 2026-11-13：CLI 0.8.0发布后的文档交付
 
 这是当前结果；下面0.7.0及11-05等记录保留当时事实，不再作为本站现行能力或来源。CLI 0.8.0已按用户逐版确认的开发阶段边界发布：发行源码ef116ed5cc14de93f619304a43b20eaf9e02d029，registry下载包与固定候选SHA-512一致，全新安装、bin及20份手册核验通过；dev和@freelog-cli/cli2@0.8.0 tag已推送。原始包/复核/发布记录在CLI仓.artifacts/release/2026-11-13T03-10-36-923Z-81a27ce6。npm初次处理期间的404保留，没有再次publish。

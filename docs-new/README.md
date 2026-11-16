@@ -34,7 +34,7 @@ npm run preview
 ## 内容所有权
 
 - `site/runtime`、`site/platform`、`site/reference`、`site/library`：新版文档正文，在此维护。
-- `site/cli`：生成内容，禁止手改；唯一来源是 CLI 仓库 `docs/使用手册`。
+- `site/cli`：生成内容，禁止手改；唯一来源是 CLI 仓库根目录的 `docs/`，其中仅放对外手册。
 - `site/public/markdown`、`llms.txt`、`llms-full.txt`：构建生成的纯 Markdown 阅读副本，禁止手改，不包含源码目录或凭据。
 - `source-lock.json`：同步时记录来源提交、工作树状态、文件摘要和 CLI 包版本；开发分支文档明确标识，不冒充 npm 稳定版。
 - `MIGRATION.md`：迁移覆盖、旧链接、仍需人工确认的业务事实及上线前事项。
@@ -43,7 +43,7 @@ CLI 文档同步只改变格式与链接，不偷偷改业务规则；发现源�
 
 ## 发布与部署
 
-当前校准目标为CLI **0.8.0**，手册源固定到`ef116ed5cc14de93f619304a43b20eaf9e02d029`。npm 0.8.0已发布，registry下载包与固定候选SHA-512一致，全新安装、bin和20份手册核验通过；这不是站点已部署或全部业务已验收的证明。同步来源及逐页摘要看`source-lock.json`，最终构建及HTTP结果看`VALIDATION.md`末节。
+当前CLI页面从根`docs/`同步开发文档，包含本轮目录迁移及新增授权与支付章节；这些未提交文档不属于已发布0.8.0包。`source-lock.json`记录实际提交、`sourceDirectory: docs`、dirty状态及逐页摘要。npm 0.8.0基于`ef116ed5cc14de93f619304a43b20eaf9e02d029`发布，下载、安装及当时20份手册核验通过是历史事实，不能移用于当前开发正文。当前构建及HTTP结果看`VALIDATION.md`最新记录，不能据此声称站点已部署或全部业务已验收。
 
 0.8.0的节点新展品签约由内联auth-cli执行；依赖、已有展品及合集上游新签约和所有新支付转浏览器办理。本站不能继续推荐0.7.0的新支付流程。历史版本的原始验证事实在`VALIDATION.md`保留，不移用于当前版本。
 
@@ -67,4 +67,4 @@ npm run verify
 
 本轮没有上传或切换线上站点。替换旧站前保留线上回退，旧链接迁移见`runtime-migration.json`。docs-new源码和独立lockfile随Git提交；node_modules、dist、artifacts及本机归档忽略。换机后在本目录安装依赖，再按上面的OSS构建步骤生成dist，不能从Git直接取得构建产物。
 
-0.8.0仍按用户明确批准的开发阶段边界发布：七项历史验收缺口、Console双向、三平台及真人验证码体验未全部完成；网页本轮延期。站点构建和本地HTTP检查不补齐这些业务证据。本轮已核验registry包并据此重建，不手改CLI生成页或既有归档包。
+0.8.0仍按用户明确批准的开发阶段边界发布：七项历史验收缺口、Console双向、三平台及真人验证码体验未全部完成；网页本轮延期。站点构建和本地HTTP检查不补齐这些业务证据。此前registry包核验仅对应当时20份手册，本轮构建采用当前24份开发文档，不手改CLI生成页或既有归档包。

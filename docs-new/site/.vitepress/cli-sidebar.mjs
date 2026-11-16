@@ -26,13 +26,18 @@ export const cliSidebar = [
     { text: '合集策略', link: '/cli/合集/03-合集授权策略' }
   ] },
   { text: '节点商操作', items: [
-    { text: '市场、节点与展品', link: '/cli/节点与展品/' }
+    { text: '市场、节点与展品', link: '/cli/节点与展品/' },
+    { text: '节点自建展品合集', link: '/cli/节点与展品/展品合集' }
   ] },
   { text: '文件存储', items: [
     { text: '存储管理与资源导入', link: '/cli/存储空间/' }
   ] },
-  { text: '合同支付', items: [
-    { text: '网页履约与历史订单', link: '/cli/支付/' }
+  { text: '授权与支付', items: [
+    { text: '主体与授权入口', link: '/cli/授权与支付/' },
+    { text: '资源与合集依赖授权', link: '/cli/授权与支付/依赖授权' },
+    { text: '签约成节点展品', link: '/cli/授权与支付/签到节点' },
+    { text: '已有展品资源授权', link: '/cli/授权与支付/展品资源授权' },
+    { text: '网页履约与历史订单恢复', link: '/cli/授权与支付/支付与恢复' }
   ] },
   { text: '返回开发流程', items: [
     { text: '让 AI 帮我开发', link: '/start' },

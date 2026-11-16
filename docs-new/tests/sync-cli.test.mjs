@@ -74,10 +74,10 @@ test('只处理渲染器识别的表格，正文、非表格行内代码及围�
   assert.ok(transformCli(source, 'page.md', new Map(), renderer).endsWith(source))
 })
 
-test('同步生成页登记表格格式转换，同时保留源手册原始字节', async () => {
+test('从根docs同步未提交授权章节，登记来源与格式转换并保留原始字节', async () => {
   const root = await mkdtemp(path.join(tmpdir(), 'freelog-docs-table-'))
   try {
-    const source = path.join(root, 'docs', '使用手册', 'README.md')
+    const source = path.join(root, 'docs', 'README.md')
     await mkdir(path.dirname(source), { recursive: true })
     await mkdir(path.join(root, 'packages', 'cli'), { recursive: true })
     await writeFile(path.join(root, 'packages', 'cli', 'package.json'), '{"version":"0.8.0"}')
@@ -87,10 +87,18 @@ test('同步生成页登记表格格式转换，同时保留源手册原始字�
     const git = (args) => execFileSync('git', ['-c', 'user.name=Docs Fixture', '-c', 'user.email=docs@example.invalid', '-c', 'commit.gpgsign=false', '-c', `core.hooksPath=${path.join(root, 'no-hooks')}`, ...args], { cwd: root })
     git(['add', '--', 'docs', 'packages'])
     git(['commit', '-qm', 'fixture'])
+    const authorization = path.join(root, 'docs', '授权与支付')
+    await mkdir(authorization)
+    await writeFile(path.join(authorization, 'README.md'), '# 授权与支付\n[支付与恢复](./支付与恢复.md)\n')
+    await writeFile(path.join(authorization, '支付与恢复.md'), '# 支付与恢复\n只读查询原单。\n')
     const target = path.join(root, 'generated')
     const lockFile = path.join(root, 'lock.json')
     const record = await syncCli({ cliRoot: root, target, lockFile })
     assert.equal(await readFile(source, 'utf8'), raw)
+    assert.equal(record.sourceDirectory, 'docs')
+    assert.equal(record.dirty, true)
+    assert.deepEqual(new Set(record.files.map((page) => page.source)), new Set(['README.md', '授权与支付/README.md', '授权与支付/支付与恢复.md']))
+    assert.ok((await readFile(path.join(target, '授权与支付', 'index.md'), 'utf8')).includes('[支付与恢复](./支付与恢复.md)'))
     assert.ok(record.transforms.includes('escape unescaped pipes inside table inline code'))
     assert.deepEqual(JSON.parse(await readFile(lockFile, 'utf8')).transforms, record.transforms)
     assert.ok((await readFile(path.join(target, 'index.md'), 'utf8')).includes('`start <id> [wechat\\|alipay]`'))
