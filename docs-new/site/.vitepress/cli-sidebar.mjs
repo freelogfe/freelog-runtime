@@ -17,7 +17,8 @@ export const cliSidebar = [
   { text: '恢复与参考', items: [
     { text: '09 · 故障恢复', link: '/cli/09-常见情况与报错' },
     { text: '10 · 本地文件', link: '/cli/10-本地文件参考' },
-    { text: '11 · 命令参考', link: '/cli/11-命令参考' }
+    { text: '11 · 命令参考', link: '/cli/11-命令参考' },
+    { text: '12 · 自动化与结果处理', link: '/cli/12-自动化与结果处理' }
   ] },
   { text: '作者合集', collapsed: false, items: [
     { text: '合集入口', link: '/cli/合集/' },

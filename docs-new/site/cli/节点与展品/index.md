@@ -5,13 +5,13 @@
 :::
 
 
-需要把本节点多个普通展品组织成目录并独立设置消费策略，进入[节点自建展品合集](./展品合集.md)。它与市场资源合集签入后形成的合集展品不同；该组命令从0.9.0提供。
+需要把本节点多个普通展品组织成目录并独立设置消费策略，进入[节点自建展品合集](./展品合集.md)。它与市场资源合集签入后形成的合集展品不同。
 
 授权步骤按入口分别看[首次签到节点](../授权与支付/签到节点.md)和[已有展品资源授权](../授权与支付/展品资源授权.md)，支付与未知结果统一看[支付与恢复](../授权与支付/支付与恢复.md)。本页保留节点选择、展品管理及完整使用旅程。
 
-本教程对应**0.9.0**，安装来源见[版本选择](../00-版本选择与AI代办.md)。节点/展品与作者发行分开，不用init、bind或N.json；已有节点直接使用，没有节点时按下文经专门确认创建。
+安装来源见[版本选择](../00-版本选择与AI代办.md)。节点/展品与作者发行分开，不用init、bind或N.json；已有节点直接使用，没有节点时按下文经专门确认创建。
 
-节点资料修改和主题激活/切换操作见第6、7节。本轮0.8.0构建补齐下方展品资料、配置及自定义信息编辑；此前旧开发包也可能没有这些入口。展示版本切换只改变同一展品引用的版本，不等于换用另一个节点主题。
+节点资料修改和主题激活/切换操作见第6、7节，展品资料、配置及自定义信息编辑见第4节。展示版本切换只改变同一展品引用的版本，不等于换用另一个节点主题。
 
 ## 1. 登录、找资源和节点
 
@@ -24,7 +24,7 @@ freelog-cli market show <资源ID> --env dev
 freelog-cli node list --env dev
 ```
 
-搜索包含已上架单资源和作者合集，可加 `--subject resource` 或 `--subject collection`。每页50条，交互终端可翻页；AI用 `--page 2 --json` 明确读取下一页。show 用精确ID或完整 username/name，查看版本和启用的签约策略。标题可重复，不能当精确标识。开发构建的搜索保持只读，选定来源后按第2节独立执行签约命令。
+搜索包含公开上架单资源和作者合集，可加 `--subject resource` 或 `--subject collection`。每页50条，交互终端可翻页；AI用 `--page 2 --json` 明确读取下一页。show 用精确ID或完整 username/name，查看版本和启用的签约策略。标题可重复，不能当精确标识；本人下架或非公开资源应从本地身份或Console查精确ID，搜索为空不表示资源不存在。搜索保持只读，选定来源后按第2节独立执行签约命令。
 
 ### 需要新节点时
 
@@ -76,33 +76,32 @@ freelog-cli exhibit add <资源ID> --node <节点ID> --name game-images --versio
 
 收费消费策略要求**当前展品所属节点**已有结算信息，个人账号已设置不能代替节点。普通展品、主题、来源合集展品和节点自建合集都遵守这一点。尚未设置时，CLI停止新增并给出对应节点的浏览器结算设置链接；设置后重试原命令。CLI暂不提供新增/修改结算方式。免费策略不查这个资格；没有可提现余额或暂不可提现不等于未设置结算账户。
 
-来源资源的签约策略与展品面向消费者的策略是两回事。先给展品添加消费策略，再上架：
+来源资源的签约策略与展品面向消费者的策略是两回事。人工在交互终端先添加消费策略，再查询启用状态：
 
 ```sh
 freelog-cli exhibit policy template list <展品ID> --env dev
 freelog-cli exhibit policy list <展品ID> --env dev
-freelog-cli exhibit online <展品ID> --yes --env dev
-freelog-cli exhibit show <展品ID> --env dev
 ```
 
-template list 在交互终端支持翻页、选择模板、填写参数、预览和确认提交。AI先用 `--json` 读取模板编号、指纹及参数位，再提交：
+template list 在交互终端支持翻页、选择模板、填写参数、预览和确认提交。确认policy list里已有本次需要的启用策略后，继续下方授权检查；AI或脚本添加策略见本节末的独立路径。
 
-```sh
-freelog-cli exhibit policy template apply <展品ID> <模板ID> --name "默认策略" --fingerprint <模板指纹> --param 1=<值> --yes --json --env dev
-```
-
-模板目录按展品实际类型筛选：普通单资源展品用 normal，合集展品用 collection；JSON也返回compileType。按模板实际参数逐个传 `--param`，无参数模板不传；模板变化后重新查询，不沿用旧指纹。需要启用/停用已有消费策略：
+已有策略需要启用时执行：
 
 ```sh
 freelog-cli exhibit policy set <展品ID> --policy-id <策略ID> --on --yes --env dev
+```
+
+明确要停用时才执行下面的独立操作：
+
+```sh
 freelog-cli exhibit policy set <展品ID> --policy-id <策略ID> --off --yes --env dev
 ```
 
-上架没有启用策略时，按提示先添加或启用；脚本先完成策略操作。普通正式展品和主题都必须通过所属节点及资源侧授权检查。普通展品上架不改变节点主题。主题展品的`exhibit online`会进入第7节同一激活流程，还需要确认切换影响；上架均不自动支付。
+停用不是上架前的必做步骤。上架没有启用策略时，先添加或启用，再读回policy list。
 
 ### 上架前检查整体授权
 
-以下入口需要本轮开发构建或包含该功能的后续版本；旧npm包不应当作已具备：
+上架前先查询以下结果；安装包缺少命令时，按[版本选择](../00-版本选择与AI代办.md)核对来源，不猜测授权结果：
 
 ```sh
 freelog-cli exhibit authorization check <展品ID> --json --env dev
@@ -114,6 +113,34 @@ freelog-cli exhibit authorization list <展品ID> --json --env dev
 `list`列出合同、应用/搁置及每份合同当前授权。单份合同已授权不代表展品整体通过；也不要用登录用户个人的授权代替节点授权。缺少授权时到网页处理签约、支付或其它履约，完成后再check。CLI不会自动付款或补签。
 
 普通上架会在确认前及确认后再次检查授权；确认期间失去授权会停止，不留下本次上架未决记录。下架仍可执行，即使当前未授权；已在线的展品也不会因一次check为false自动下架。查询不修改作者工程身份、版本稿或已有未决记录。
+
+### 上架并读回
+
+确认消费策略已启用、整体授权检查通过后，再执行：
+
+```sh
+freelog-cli exhibit online <展品ID> --yes --env dev
+freelog-cli exhibit show <展品ID> --env dev
+```
+
+用show确认实际上下架状态。普通正式展品和主题都必须通过所属节点及资源侧授权检查。普通展品上架不改变节点主题。主题展品的`exhibit online`会进入第7节同一激活流程，还需要确认切换影响；上架均不自动支付。
+
+### AI或脚本：明确选择消费策略
+
+以下替代人工模板菜单。收费、期限和可授权范围等由人确定；AI先读取模板编号、完整说明、指纹及参数位：
+
+```sh
+freelog-cli exhibit policy template list <展品ID> --json --env dev
+```
+
+JSON列表只查询，不会创建策略。模板目录按展品实际类型筛选：普通单资源展品用 normal，合集展品用 collection；JSON也返回compileType。按选定模板的实际参数逐个传`--param`，无参数模板不传；模板变化后重新查询，不沿用旧指纹：
+
+```sh
+freelog-cli exhibit policy template apply <展品ID> <模板ID> --name "默认策略" --fingerprint <模板指纹> --param 1=<值> --yes --json --env dev
+freelog-cli exhibit policy list <展品ID> --json --env dev
+```
+
+策略确认启用后，按上面的“上架前检查整体授权”读取check结果；通过后才执行online，再用show读回。不要把模板查询成功或check退出0直接当成可以上架。
 
 ## 4. 日常管理与异常恢复
 
@@ -127,7 +154,7 @@ freelog-cli exhibit recover <操作ID> --apply --yes --env dev
 
 list 支持 `--page` 和 online/offline/all 筛选。普通展品下架不撤销合同；主题展品不能用`offline`停用，应切换到另一个主题。创建、策略或上下架请求结果未知时，保存操作ID，先 recover；不要重发。恢复默认只读，只有精确确认后才可显式 apply 清记录；无法确认时保留。记录按环境与账号存在用户目录 `.freelog/operations`，换工作目录仍能恢复，不修改作者工程稿。同一节点仍有未决资料、展品创建、签约、策略、状态、版本或主题操作时，也会阻止该节点其它写入；按提示使用node或exhibit recover核验收尾。只读查询仍可用，其它节点按各自未决状态检查。
 
-0.8.0修复了“策略已保存，但旧CLI一直提示待核验”的正文边界空白问题。遇到旧操作，先用0.8.0或对应固定候选查询原操作ID；只有返回`confirmed:true`后才执行`recover <原操作ID> --apply --yes --env dev`。这只清理已确认记录，不再次添加策略或自动上架；仍未确认时继续保留，不能手工删记录重发。使用开发链接时先完成构建，再核对实际安装来源，见[版本选择](../00-版本选择与AI代办.md)。
+遇到策略已保存但仍待核验的操作，先查询原操作ID；只有返回`confirmed:true`后才执行`recover <原操作ID> --apply --yes --env dev`。这只清理已确认记录，不再次添加策略或自动上架；仍未确认时继续保留，不能手工删记录重发。使用开发链接时先完成构建，再核对实际安装来源，见[版本选择](../00-版本选择与AI代办.md)。
 
 这些命令不接受作者发行的 `--resource`。`--json` 不进入交互菜单；脚本须提供必要选择和 `--yes`。平台操作仍需显式环境和对应登录态。
 
@@ -163,7 +190,7 @@ freelog-cli exhibit properties show <展品ID> --json --env dev
 
 ## 5. 已有展品切换展示版本
 
-适用于单资源展品，包括主题；作者合集展品和节点自建合集不提供这两个入口。需要 0.6.0+ 或对应固定候选包。先查看当前值及来源已发行版本：
+适用于单资源展品，包括主题；作者合集展品和节点自建合集不提供这两个入口。先查看当前值及来源已发行版本：
 
 ```sh
 freelog-cli exhibit show <展品ID> --env dev
@@ -179,10 +206,15 @@ freelog-cli exhibit show <展品ID> --env dev
 
 这只切换展品的展示版本，不发行新资源版本、不自动重签或修改来源配置，也不改变自动更新开关。选择具体版本不表示永久固定：若自动更新开启，平台以后仍可能更新。若来源已下架，market show可能不可用，但已有展品的换版入口不会增加来源必须上架的条件，仍校验真实版本目录及节点归属。
 
-自动更新是单独的操作。按需要选择下面**一条**执行，不要连续执行两个相反动作：
+自动更新是单独的操作。需要关闭自动更新时执行：
 
 ```sh
 freelog-cli exhibit version auto <展品ID> --off --yes --json --env dev
+```
+
+需要开启自动更新时，单独执行：
+
+```sh
 freelog-cli exhibit version auto <展品ID> --on --yes --json --env dev
 ```
 
@@ -194,7 +226,7 @@ freelog-cli exhibit version auto <展品ID> --on --yes --json --env dev
 
 ## 6. 完善节点设置
 
-本节及后面的主题管理、来源补签需要0.8.0或维护者提供的本轮固定候选；旧版本没有这些新增入口。
+本节及后面的主题管理、来源补签按当前安装包支持范围操作；缺少命令时先按[版本选择](../00-版本选择与AI代办.md)确认来源。
 
 先确认精确节点ID和已有资料，再只传想改的字段：
 
@@ -283,10 +315,15 @@ freelog-cli exhibit authorization sign <展品ID> --resource-id <来源资源ID>
 
 浏览器办理后，用authorization list核对真实节点合同，再按需要应用。sign找到同来源、同策略恰有一份未终止合同会返回`reused:true`；`--apply`可继续显式应用该已有合同，不会创建新合同。复用成功也不代表已取得授权；整体结果另用authorization check。已有展品再次add并传sign-policy仍会提示去浏览器，不忽略策略或重复创建。来源可以是单资源或作者合集，不能把这一步混为作者工程的直接依赖或展品访客策略。
 
-对已有合同显式应用或搁置，按本次目标选择下面一条：
+需要应用已有合同时执行：
 
 ```powershell
 freelog-cli exhibit authorization apply <展品ID> --contract <合同ID> --env dev --yes
+```
+
+需要搁置已有合同时执行，这是另一项独立操作：
+
+```powershell
 freelog-cli exhibit authorization shelve <展品ID> --contract <合同ID> --env dev --yes
 ```
 

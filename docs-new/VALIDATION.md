@@ -1,5 +1,39 @@
 # 本轮验证记录
 
+## 2026-11-17：两仓库提交推送收尾
+
+用户要求两边推送。CLI手册、文档守卫及记录已提交为5d88ddea08929891723b02420ccc6869a7883e4b，正常推送origin/dev-main-cli并核远端同SHA。运行时再次通过同步器生成26页CLI正文，source-lock指向该已推送提交且dirty=false、channel=development；此前dirty=true的验证记录保留为当时事实。
+
+重新执行npm run verify退出0，15项测试、79页Agent文本及内容/链接/摘要检查、根路径构建通过；日志artifacts/20261117-docs-push-verify.log。dist已重建，未上传部署或发布npm。本仓docs-new既有改动随本次一起提交到dev；不改旧文档和运行时业务，不强推或移动版本tag，最终推送结果以Git回执为准。
+
+## 2026-11-17：退出码的中文含义与机器字段分列
+
+按产品反馈同步CLI手册09/12：退出码表增加中文含义，保留category英文取值；0正常完成、1一般失败，未知/待处理/取消独立。说明成功结果没有统一category/outcome，退出0不代表已授权或已发行；具名批次和授权模块边界保留。CLI正式设计先校准，无业务代码/协议变化。
+
+运行npm run verify退出0，15项测试、26页CLI同步、79页Agent文本/内容与链接摘要检查、根路径构建通过；日志artifacts/20261117-exit-labels-verify.log。来源仍a61ae682、dirty=true、development；既有大chunk警告保留。浏览器实际查看新表及说明，中文标签与英文机器值分列、无正文遮挡；CLI定向33项、包内手册一致性及全新agent复核另见CLI迭代补片。本地5173及site/.vitepress/dist已更新，未部署、未发布，不替代业务验收。
+
+## 2026-11-17：手册50号与13项阅读路径优化
+
+从CLI根docs同步26页，来源锁为a61ae6820b3ac41bb15ccbb2deb046f75f165660、dirty=true、development；版本字符串0.9.0不表示本轮未提交文案已发布npm。首页按任务/对象分层，安装与AI委托集中00，机器协议/长脚本集中12；修正存储保稿换源、主题不等只读解析、导出覆盖、上架读回、错误结构等13项。授权五页保持独立维护边界，只说明正确主体、网页去向和返回，不改授权业务。
+
+两位全新CLI子agent分别按普通用户和AI阅读复查；发现的相邻遗漏及字段守卫问题均修正、定点复核通过。CLI定向37项、命令参考契约6项及安装包手册逐字节smoke另见CLI本轮迭代，不冒充全业务验收。
+
+最终以DOCS_BASE=/、DOCS_CLEAN_URLS=false执行npm run verify退出0：15项测试、79页Agent文本、站内链接/锚点/资源/CLI摘要和VitePress构建通过。日志artifacts/20261117-docs50-delivery-verify.log，大chunk告警保留。浏览器实际核对首页、首次发行、存储、依赖授权和机器错误说明；首次发行流程图改为纵向后，窄屏已显示可读SVG，不以源码围栏冒充图形。
+
+本地服务仍为http://localhost:5173/，最终文件为site/.vitepress/dist/；未上传、发布或推送。保留此前docs-new改动，不改运行时业务及旧packages/docs。仅文档同步/呈现验收，不能替代Console业务、三平台或固定发布候选验证。以下记录保留各自时点事实。
+
+## 2026-11-17：CLI错误、公开范围及当前手册校准
+
+CLI唯一来源为根`docs/`，本次source-lock记录`a61ae6820b3ac41bb15ccbb2deb046f75f165660`、dirty=false、26页、channel=development。包版本字符串仍0.9.0，不表示新修复已发布npm。同步了四字段错误JSON、分类退出码、精确资源成功null的不存在提示、公开/非公开范围、旧公告清理和自动化专题；补齐CLI侧栏第12章。
+
+人工维护的README/about/agents/start及平台、运行时叙事页同步当前流程：依赖允许未签先存稿，发行前核正确主体合同；不因此承诺未发行依赖可访问真实文件。去除旧0.8公告/固定旧页数/旧验包的当前式说明，保留支付暂停、授权新链未开和Console/三平台等限制。运行时业务代码及旧packages/docs无改动。
+
+导航完整性在26页同步后先失败（第12章未入侧栏，14/15），补入口后15/15通过。以`DOCS_BASE=/`、`DOCS_CLEAN_URLS=false`执行`npm run verify`退出0：15项测试、79页内容/链接/资源/锚点/生成摘要检查、VitePress构建通过；日志`artifacts/20261117-cli-alignment-verify.log`。构建保留既有大chunk告警，不当失败或业务验收证明。输出为`site/.vitepress/dist/`，不上传部署。
+
+本地开发站已启动在`http://localhost:5173/`，运行进程由本会话启动（工具session42127，恢复时先查HTTP/实际进程，不能凭旧handle重复启动）。4173实际绑定报EACCES，本轮没有改系统网络设置；采用已成功监听的5173。npm参数转发未按预期传入时，改用本目录`node node_modules/vitepress/bin/vitepress.js dev site --host 127.0.0.1 --port 5173 --strictPort`启动。错误尝试未计为服务启动成功。
+
+本地HTTP已读CLI、错误页、第12章、Agent入口及Markdown/source-lock，均200且类型符合；脚本响应为text/javascript。浏览器实际打开完整命令参考和错误说明，已看到node list、12章导航、RESOURCE_NOT_FOUND/退出4及JSON参数错误/退出2。HTTP安全回执`artifacts/20261117-cli-alignment-http.json`同时证明最新Agent/平台Markdown已导出、dist新增页面存在、7个根路径assets引用均有文件且没有preview前缀。一次内联探针的PowerShell引号解析失败后改用独立mjs，失败不冒充HTTP证据。本轮不是Console业务、CLI固定包或线上OSS部署验收。
+
 ## 2026-11-16：开发构建的平台错误与资源状态复验说明
 
 CLI手册08/09已同步最新未发布修复：确认及上传后复验、资源查询404、安全后端提示和写后UNKNOWN边界。源码锁明确为CLI 0.9.0版本号的dirty开发手册，不冒充npm同版已有补片。78页Agent文本、内容检查及构建通过，日志`artifacts/20261116-platform-errors-build.log`；dist未部署。业务反例/5372项CLI回归及独立复核由CLI本轮记录维护，不以文档站构建代替。
@@ -32,9 +66,9 @@ CLI根docs/06明确首版备稿、首版提交及更新版本的路径冲突保�
 
 真实Chrome浏览器已观察1920px桌面与390px设备预览下该表格：长命令换行、用途列可读、表格未伸出正文；桌面右侧目录无重叠。原始截图为本次Computer Use回执，完成后已关闭设备预览及DevTools恢复正常窗口。当前4173为本地开发站，`site/.vitepress/dist`已重建；没有上传线上，不代替Console业务浏览器验收或CLI发布。以下日期记录仅代表各自时点。
 
-## 2026-11-13：CLI根docs迁移与授权入口同步（当前）
+## 2026-11-13：CLI根docs迁移与授权入口同步（历史）
 
-本节是当前文档结果；以下各节保留对应时点的发布、验包和浏览器事实，不作为本轮来源或验收批准。本轮CLI公共手册迁至仓库根`docs/`，共24页；原支付页迁为`授权与支付/支付与恢复.md`，新增授权总览、依赖授权、签到节点和已有展品资源授权四页。同步器默认源、dirty检查范围、fixture、CLI侧栏与原生链接已迁移，生成正文与source-lock均由脚本产出，表格行内代码的管道转义仍保留。
+本节是11月13日当时的文档结果；以下各节保留对应时点的发布、验包和浏览器事实，不作为最新来源或验收批准。该轮CLI公共手册迁至仓库根`docs/`，共24页；原支付页迁为`授权与支付/支付与恢复.md`，新增授权总览、依赖授权、签到节点和已有展品资源授权四页。同步器默认源、dirty检查范围、fixture、CLI侧栏与原生链接已迁移，生成正文与source-lock均由脚本产出，表格行内代码的管道转义仍保留。
 
 本次source-lock记录CLI提交`fe2d56a042affeececcccd924c2d896c86cc125c`、`sourceDirectory: docs`、`dirty: true`、`channel: development`及包版本0.8.0。24份源文件原始字节摘要及生成页摘要逐一匹配。该提交对应的工作树含未提交文档迁移与授权导航，不能把版本字符串相同当成与已发布npm0.8.0正文一致；此前`ef116ed5`及包内20份手册的核验只保留为历史事实。
 
