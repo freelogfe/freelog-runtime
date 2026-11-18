@@ -1,5 +1,13 @@
 # 本轮验证记录
 
+## 2026-11-18：CLI 0.10.0 文档与 OSS 构建
+
+从已发布 tag `@freelog-cli/cli2@0.10.0` 同步 26 份 CLI 手册，来源提交 `70e6143eedaa1c74bb8a2dda84eaeb35922b8760`，`dirty=false`。逐页与从 npm 下载并安装的手册核对，18 份存在 LF/CRLF 差异，26 份正文一致。首页、版本页和 Agent 入口明确适用 0.10.0，保留本版展品签入的空标识和退出码限制。
+
+以 `DOCS_BASE=/`、`DOCS_CLEAN_URLS=false` 执行 `npm run verify` 通过，生成 79 页及 Agent 文本。本地预览经 HTTP 核对 8 个页面、13 个 CSS/JS 资源及其 MIME 类型、79 份 Markdown 摘要、来源锁和 Agent 索引。资源走根 `/assets/`，无 `/preview/assets/` 前缀。原始记录见 `artifacts/20261118-cli-0100-oss-verify.log` 和 `artifacts/20261118-cli-0100-oss-http.json`。
+
+直接上传 `site/.vitepress/dist/` 内全部文件到 OSS 根目录。当前产物在本机，OSS 由发布人操作。
+
 ## 2026-11-17：两仓库提交推送收尾
 
 用户要求两边推送。CLI手册、文档守卫及记录已提交为5d88ddea08929891723b02420ccc6869a7883e4b，正常推送origin/dev-main-cli并核远端同SHA。运行时再次通过同步器生成26页CLI正文，source-lock指向该已推送提交且dirty=false、channel=development；此前dirty=true的验证记录保留为当时事实。
