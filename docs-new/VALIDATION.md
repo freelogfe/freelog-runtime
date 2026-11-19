@@ -1,5 +1,11 @@
 # 本轮验证记录
 
+## 2026-11-19：新包名 `@freelog/cli@0.10.0`
+
+从已发布 tag `@freelog/cli@0.10.0` 的干净源码 `31c66b49080edba8e70915d2abb87770292b9b0e` 同步 26 份 CLI 手册，逐份核对与新 npm 包随包正文一致。同步检查忽略 Git checkout 的 LF/CRLF 差异。首页、版本页和 AI 入口均指向新包，并说明如何确认全局安装来源及迁移旧包。
+
+`DOCS_BASE=/`、`DOCS_CLEAN_URLS=false` 下执行 `npm run verify`，15 项测试通过，生产构建生成 79 页。HTTP 验证 6 个页面、11 个 CSS/JS 的内容与 MIME、79 份 Agent Markdown 与来源摘要。日志为 `artifacts/20261119-new-freelog-cli-0100-oss-verify.log`，回执为 `artifacts/20261119-new-freelog-cli-0100-oss-http.json`。上传入口为 `site/.vitepress/dist/` 内完整内容，OSS 上传由发布人执行。
+
 ## 2026-11-18：CLI 0.10.0 文档与 OSS 构建
 
 从已发布 tag `@freelog-cli/cli2@0.10.0` 同步 26 份 CLI 手册，来源提交 `70e6143eedaa1c74bb8a2dda84eaeb35922b8760`，`dirty=false`。逐页与从 npm 下载并安装的手册核对，18 份存在 LF/CRLF 差异，26 份正文一致。首页、版本页和 Agent 入口明确适用 0.10.0，保留本版展品签入的空标识和退出码限制。

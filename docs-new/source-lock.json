@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "cliPackageVersion": "0.10.0",
-  "revision": "70e6143eedaa1c74bb8a2dda84eaeb35922b8760",
+  "revision": "31c66b49080edba8e70915d2abb87770292b9b0e",
   "dirty": false,
   "sourceDirectory": "docs",
   "channel": "development",
@@ -14,14 +14,14 @@
     {
       "source": "00-版本选择与AI代办.md",
       "target": "00-版本选择与AI代办.md",
-      "sourceSha256": "981a308cf80c545ffe77870a93813eba66345a76edd69745d123314c47c47ab0",
-      "generatedSha256": "82fa262c9a699de7278988bd74591b46c50bd8050dd66324c707dce33fbd7377"
+      "sourceSha256": "6f50ff2caec7455026b0ab9106596e23cfbaba13df8d08a80efcab0473f1d512",
+      "generatedSha256": "c161cac493a83a7454279b9cdec25b841dadda8c64751c95d6ff7d72c415ebba"
     },
     {
       "source": "01-快速上手.md",
       "target": "01-快速上手.md",
-      "sourceSha256": "19ecc2f31b25d946302d45b3a57847ef49964fd6d3590908e1b19e904918a176",
-      "generatedSha256": "75e9d963e07d5945953eeafddf38308a52eb976c31560a269e85a164155d5516"
+      "sourceSha256": "036dea0168a36cf41ff2dad3c516acef78a3639a6e7ac70142ac51fa724fbf90",
+      "generatedSha256": "b63ded65b7ffad58ea0d09e31f9da26b7271abf91443157187fbc47dae54ab56"
     },
     {
       "source": "02-环境与凭据.md",
