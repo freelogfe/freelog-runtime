@@ -8,9 +8,9 @@
 |---|---|---|
 | 运行时主应用 | 本地源码 `2fa5f83f` | 基于本地维护的 MicroApp 改造版，不能直接将上游最新版行为当现状 |
 | 类型/接入包 | 仓库 `freelog-runtime` 5.0.7 | 主题/插件的 SDK 兼容范围见版本页，不等于 Node.js 版本 |
-| CLI 手册 | npm `@freelog/cli@0.10.0`，源码 `31c66b49` | 26 份原始手册与 npm 随包文档逐页核对。操作见[CLI 手册](/cli/) |
+| CLI 手册 | npm `@freelog/cli@0.10.0` | 操作见[CLI 手册](/cli/)，同步来源见[同步记录](/source-lock.json) |
 
-本站从 `@freelog/cli@0.10.0` Git tag 同步 CLI 仓库根 `docs/`。同步脚本转换站内链接、加入来源说明，供网页和 Agent 阅读。[同步记录](/source-lock.json)列出实际提交、源状态和逐页摘要。`channel: development` 标记 dev/测试站点渠道。npm 发行状态以[已发布的 0.10.0 包](https://www.npmjs.com/package/@freelog/cli/v/0.10.0)为准。
+本站从 CLI 仓库的使用手册同步，适用于 `@freelog/cli@0.10.0`，包含发布后的安装说明修订。同步脚本转换站内链接、加入来源说明，供网页和 Agent 阅读。[同步记录](/source-lock.json)列出实际提交、源状态和逐页摘要。`channel: development` 标记 dev/测试站点渠道。[npm 上的 0.10.0 包](https://www.npmjs.com/package/@freelog/cli/v/0.10.0)保留发包时的手册。
 
 新旧两个包都曾使用 0.10.0。用 `npm ls --global --depth=0` 确认全局安装的包名，再按[旧包迁移](/cli/00-版本选择与AI代办#从旧包迁移)切换。
 

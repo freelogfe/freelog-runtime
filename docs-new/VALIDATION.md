@@ -1,5 +1,11 @@
 # 本轮验证记录
 
+## 2026-11-19 CLI 安装说明修订
+
+从 CLI 干净工作树 `6e1a75c5` 重新同步 26 份手册，安装说明统一使用 `@freelog/cli`，迁移步骤按本机实际安装来源操作。已发布的 0.10.0 npm 包保留发包时的手册。
+
+按 OSS 根目录配置运行 `npm run verify`，15 项测试通过，生成 79 页。扫描整个 `site/.vitepress/dist/` 未发现旧包名，本地 HTTP 验证安装页、版本页、Agent 入口和文本导出均已更新。构建日志见 `artifacts/20261119-cli-public-name-docs-verify.log`。
+
 ## 2026-11-19：新包名 `@freelog/cli@0.10.0`
 
 从已发布 tag `@freelog/cli@0.10.0` 的干净源码 `31c66b49080edba8e70915d2abb87770292b9b0e` 同步 26 份 CLI 手册，逐份核对与新 npm 包随包正文一致。同步检查忽略 Git checkout 的 LF/CRLF 差异。首页、版本页和 AI 入口均指向新包，并说明如何确认全局安装来源及迁移旧包。
@@ -8,7 +14,7 @@
 
 ## 2026-11-18：CLI 0.10.0 文档与 OSS 构建
 
-从已发布 tag `@freelog-cli/cli2@0.10.0` 同步 26 份 CLI 手册，来源提交 `70e6143eedaa1c74bb8a2dda84eaeb35922b8760`，`dirty=false`。逐页与从 npm 下载并安装的手册核对，18 份存在 LF/CRLF 差异，26 份正文一致。首页、版本页和 Agent 入口明确适用 0.10.0，保留本版展品签入的空标识和退出码限制。
+从当时已发布的旧包 0.10.0 的 Git tag 同步 26 份 CLI 手册，来源提交 `70e6143eedaa1c74bb8a2dda84eaeb35922b8760`，`dirty=false`。逐页与从 npm 下载并安装的手册核对，18 份存在 LF/CRLF 差异，26 份正文一致。首页、版本页和 Agent 入口明确适用 0.10.0，保留本版展品签入的空标识和退出码限制。
 
 以 `DOCS_BASE=/`、`DOCS_CLEAN_URLS=false` 执行 `npm run verify` 通过，生成 79 页及 Agent 文本。本地预览经 HTTP 核对 8 个页面、13 个 CSS/JS 资源及其 MIME 类型、79 份 Markdown 摘要、来源锁和 Agent 索引。资源走根 `/assets/`，无 `/preview/assets/` 前缀。原始记录见 `artifacts/20261118-cli-0100-oss-verify.log` 和 `artifacts/20261118-cli-0100-oss-http.json`。
 
@@ -98,9 +104,9 @@ CLI根docs/06明确首版备稿、首版提交及更新版本的路径冲突保�
 
 ## 2026-11-13：CLI 0.8.0发布后的文档交付
 
-这是当前结果；下面0.7.0及11-05等记录保留当时事实，不再作为本站现行能力或来源。CLI 0.8.0已按用户逐版确认的开发阶段边界发布：发行源码ef116ed5cc14de93f619304a43b20eaf9e02d029，registry下载包与固定候选SHA-512一致，全新安装、bin及20份手册核验通过；dev和@freelog-cli/cli2@0.8.0 tag已推送。原始包/复核/发布记录在CLI仓.artifacts/release/2026-11-13T03-10-36-923Z-81a27ce6。npm初次处理期间的404保留，没有再次publish。
+下面的 0.7.0 及 11-05 等记录保留当时事实。CLI 0.8.0 已按用户逐版确认的开发阶段边界发布：发行源码 `ef116ed5cc14de93f619304a43b20eaf9e02d029`，registry 下载包与固定候选 SHA-512 一致，全新安装、bin 及 20 份手册核验通过；dev 和旧包 0.8.0 的 Git tag 已推送。原始包、复核与发布记录在 CLI 仓库的 `.artifacts/release/2026-11-13T03-10-36-923Z-81a27ce6`。npm 初次处理期间的 404 保留，没有再次 publish。
 
-开始前备份运行时已有10份文档脏稿，保留前批改动。CLI20份源手册由sync:cli生成，source-lock为0.8.0/上述源码/dirty=false，channel仍是development；原始sourceSha256逐页与最终包内dist/docs相同。原生Agent、来源、任务、节点展品和运行时发行/排查入口校准：节点新展品走内联auth-cli；依赖、已有展品、合集单品上游新签与所有新支付转浏览器，不推荐回退0.7付款。新增节点设置、主题切换、展品编辑及验证码登录说明，后者真人未验，微信登录待后端。
+开始前备份运行时已有10份文档脏稿，保留前批改动。CLI 的 20 份源手册由sync:cli生成，source-lock为0.8.0/上述源码/dirty=false，channel仍是development；原始sourceSha256逐页与最终包内dist/docs相同。原生Agent、来源、任务、节点展品和运行时发行/排查入口校准：节点新展品走内联auth-cli；依赖、已有展品、合集单品上游新签与所有新支付转浏览器，不推荐回退0.7付款。新增节点设置、主题切换、展品编辑及验证码登录说明，后者真人未验，微信登录待后端。
 
 首次构建因原命令表行内代码wechat|alipay被拆列，继而把角括号参数编成Vue标签而失败，原始日志artifacts/cli-080-final-build.log保留。只修改同步层的格式适配：按VitePress表格token行号，在完整行内代码中转义未转义管道；已有转义、非表格、围栏、缩进及未闭合片段不改。原始CLI手册和npm归档包不改，source-lock明确登记新转换。修前8PASS/3预期FAIL、修后11/11同步测试PASS，含CRLF源字节不变，日志cli-080-table-red/green.log。不得把第一次构建失败抹成PASS。
 

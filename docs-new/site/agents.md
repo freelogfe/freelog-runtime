@@ -49,6 +49,6 @@ CLI 优先使用 JSON 输出和明确资源/环境；先看本地状态，再编
 
 ## 当前文档边界
 
-本站 CLI 正文从 `@freelog/cli@0.10.0` 发布 tag 同步，来源提交、包版本和摘要见[source-lock.json](/source-lock.json)。用 `npm ls --global --depth=0` 和 `freelog-cli --cli-version` 分别核对包名与版本。旧包也曾使用 0.10.0；迁移方法见[版本选择](/cli/00-版本选择与AI代办#从旧包迁移)。若维护者已把全局命令链接到本地仓库，先核对链接目标并保留链接。
+本站 CLI 正文适用于 `@freelog/cli@0.10.0`，来源提交、包版本和摘要见[source-lock.json](/source-lock.json)。用 `npm ls --global --depth=0` 确认全局安装的是 `@freelog/cli`，用 `freelog-cli --cli-version` 核对版本。若命令由其他全局包提供，见[迁移步骤](/cli/00-版本选择与AI代办#从旧包迁移)。若维护者已把全局命令链接到本地仓库，先核对链接目标并保留链接。
 
 手机/邮箱验证码登录支持PNG展示；Agent应读取CLI给出的临时PNG并在对话中展示，由用户本人完成验证码输入，详见[登录教程](/cli/02-环境与凭据)。微信登录仍待后端。完整业务覆盖、网页双向、平台矩阵和Windows密码取消限制见[文档状态](/about)。运行时内容按仓库源码核对，尚未证明线上部署对应当前提交，不能承诺所有SDK调用均已在该环境实测。
