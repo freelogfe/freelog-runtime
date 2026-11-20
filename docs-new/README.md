@@ -55,13 +55,25 @@ CLI 文档同步只改变格式与链接，不偷偷改业务规则；发现源�
 
 发布只取`site/.vitepress/dist/`中的全部内容，直接上传到OSS根目录。根目录应直接出现`index.html`、`assets/`、`markdown/`、`llms.txt`和`source-lock.json`，不要再套一层dist或preview文件夹。访问`https://widget-docs.testfreelog.com/`，不加`/preview/`。
 
-重新生成OSS发布内容时，在本目录的PowerShell执行：
+默认构建保留文档链接的 `.html` 后缀，保证 OSS 按实际文件响应直接访问和刷新。无需设置 `DOCS_CLEAN_URLS`；只有服务器已将无扩展名路径映射到对应 `.html` 文件时，才可显式设置为 `true`。将所有未命中的文档路径回退到首页 `index.html` 不能代替该映射，否则刷新文档会显示首页。
+
+目录首页（如 `/cli/合集/`、`/cli/节点与展品/`）仍由 VitePress 使用目录 URL，实际文件为该目录下的 `index.html`。托管侧应支持子目录首页；若目录请求返回本站首页或 404 页面，构建产物会在页面初始化前，将已知目录跳转至其显式 `index.html` 地址，并保留查询参数和锚点。此兼容处理依赖 JavaScript，发布时须同时更新根 `index.html`、`404.html` 及全部子目录文件，并清理 CDN 缓存。
+
+重新生成OSS发布内容时，在本目录的PowerShell执行（显式设置 `false` 可覆盖终端中遗留的配置）：
 
 ```powershell
 $env:DOCS_BASE = '/'
 $env:DOCS_CLEAN_URLS = 'false'
 npm run verify
 ```
+
+对应的 Bash 命令（含 Git Bash，在 `docs-new` 目录执行）：
+
+```bash
+DOCS_BASE='/' DOCS_CLEAN_URLS='false' npm run verify
+```
+
+这里的环境变量只对本次命令及其子进程生效。
 
 检查命令成功后再上传；`.html`链接不依赖OSS无扩展名重写。整体更新HTML、assets及其余文件，避免混用不同构建；若有CDN，刷新缓存。`artifacts/`和归档目录不是发布入口，不能用旧subpath或ZIP副本代替本次dist。
 

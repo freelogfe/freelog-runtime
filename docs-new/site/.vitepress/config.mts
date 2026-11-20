@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { cliSidebar } from './cli-sidebar.mjs'
+import { directoryFallbackScript } from './static-hosting.mjs'
 
 const base = process.env.DOCS_BASE || '/'
 if (!base.startsWith('/') || !base.endsWith('/')) throw new Error('DOCS_BASE 必须以 / 开头和结尾')
@@ -9,12 +10,19 @@ export default defineConfig({
   title: 'Freelog 平台使用与开发文档',
   description: '理解平台业务，完成资源发行、节点展品运营和主题插件开发',
   base,
-  // OSS can serve generated .html objects directly, without extensionless rewrites.
-  cleanUrls: process.env.DOCS_CLEAN_URLS !== 'false',
+  // Default to .html URLs so direct visits and reloads work on OSS.
+  // Enable clean URLs only when the host rewrites paths to matching .html files.
+  cleanUrls: process.env.DOCS_CLEAN_URLS === 'true',
   srcExclude: ['public/**'],
   ignoreDeadLinks: false,
   lastUpdated: true,
   head: [['meta', { name: 'theme-color', content: '#075f52' }]],
+  transformHead({ page, siteConfig }) {
+    // Run before hydration when the host serves the home/404 HTML for a directory.
+    if (page !== 'index.md' && page !== '404.md') return []
+    const pages = siteConfig.pages.map((source) => siteConfig.rewrites.map[source] || source)
+    return [['script', { id: 'docs-directory-fallback' }, directoryFallbackScript(pages, base)]]
+  },
   markdown: {
     config(md) {
       const fence = md.renderer.rules.fence!
