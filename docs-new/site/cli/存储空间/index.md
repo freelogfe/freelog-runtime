@@ -26,25 +26,25 @@ flowchart LR
 先取得要使用的线上对象ID。可以在Console查看，也可以只读查询已有空间及文件：
 
 ```sh
-freelog-cli storage bucket list --env dev
-freelog-cli storage list --bucket my-space --json --env dev
+freelog-cli storage bucket list
+freelog-cli storage list --bucket my-space --json
 ```
 
 已有文件就直接导入，不必先创建空间或重新上传。在专用工程目录执行：
 
 ```sh
-freelog-cli init . --storage-object <对象ID> --type <类型码> --yes --env dev
-freelog-cli create --name my-photo --title "我的图片" --yes --env dev
+freelog-cli init . --storage-object <对象ID> --type <类型码> --yes
+freelog-cli create --name my-photo --title "我的图片" --yes
 ```
 
 用实际资源类型替换示例类型码。CLI读取对象当前SHA1，按资源类型解析。创建成功后记下返回的资源 ID，再准备并查看首版工作稿：
 
 ```sh
-freelog-cli create-version --prepare --resource id:<资源ID> --env dev
-freelog-cli version show --local --json --resource id:<资源ID> --env dev
+freelog-cli create-version --prepare --resource id:<资源ID>
+freelog-cli version show --local --json --resource id:<资源ID>
 ```
 
-确认文件及工作稿信息后继续[版本表单](../06-版本工作稿.md)操作，填属性、该类型支持的可选配置和依赖，再执行 `create-version --resource id:<资源ID> --yes --env dev`。首版描述按现行规则为空；更新稿需要版本说明时使用 `version draft description --description "说明" --resource id:<资源ID> --env dev`。文件来源本身不会自动导入存储对象的元数据。
+确认文件及工作稿信息后继续[版本表单](../06-版本工作稿.md)操作，填属性、该类型支持的可选配置和依赖，再执行 `create-version --resource id:<资源ID> --yes`。首版描述按现行规则为空；更新稿需要版本说明时使用 `version draft description --description "说明" --resource id:<资源ID>`。文件来源本身不会自动导入存储对象的元数据。
 
 ### 已有线上资源：首次绑定或更换来源
 
@@ -53,50 +53,50 @@ freelog-cli version show --local --json --resource id:<资源ID> --env dev
 **当前工程尚未绑定这个资源：**用资源 ID 绑定，并明确选择存储来源。`bind` 的位置参数就是目标资源：
 
 ```sh
-freelog-cli bind <资源ID> --storage-object <对象ID> --yes --env dev
+freelog-cli bind <资源ID> --storage-object <对象ID> --yes
 ```
 
 **当前工程已有这个资源的本地身份：**继续使用原身份，不重复 bind。两种情况接下来都先检查状态：
 
 ```sh
-freelog-cli status --resource id:<资源ID> --env dev
+freelog-cli status --resource id:<资源ID>
 ```
 
 状态显示已有工作稿时，先查看并保存需要保留的内容：
 
 ```sh
-freelog-cli version show --local --resource id:<资源ID> --env dev
+freelog-cli version show --local --resource id:<资源ID>
 ```
 
 要继续当前稿就保留它，跳过 pull；没有稿，或已明确决定放弃旧稿时，才从线上已发版本拉更新稿。已有稿时会询问是否覆盖，确认会丢弃旧稿，不要默认加 `--yes`：
 
 ```sh
-freelog-cli version draft pull --resource id:<资源ID> --env dev
+freelog-cli version draft pull --resource id:<资源ID>
 ```
 
 已绑定的资源需要更换存储文件时，明确设置新来源；首次绑定时已选好对象且不需要换源，就跳过这条命令：
 
 ```sh
-freelog-cli version set --storage-object <新对象ID> --resource id:<资源ID> --env dev
+freelog-cli version set --storage-object <新对象ID> --resource id:<资源ID>
 ```
 
 核对来源及工作稿，完成所需的表单修改后，再提交更新版本。更新命令必须显式带 `--yes`，它表示确认提交本次版本：
 
 ```sh
-freelog-cli update-version --bump patch --resource id:<资源ID> --yes --env dev
+freelog-cli update-version --bump patch --resource id:<资源ID> --yes
 ```
 
 工作稿来自非 latest 版本时，按[工作稿说明](../06-版本工作稿.md)核对本次更新基线，不要为提交而直接覆盖旧稿。
 
-本地来源用 `--artifact`，远端来源用 `--storage-object`，两者互斥。pull只拉工作稿，不自动改来源。存储对象后来换了内容或已删除，发版会停止，需明确重新选择；只改了对象元数据不会自动追改已保存稿。切回本地文件时，用 `version set --artifact <工程内现存文件> --resource id:<资源ID> --env dev` 明确选择。
+本地来源用 `--artifact`，远端来源用 `--storage-object`，两者互斥。pull只拉工作稿，不自动改来源。存储对象后来换了内容或已删除，发版会停止，需明确重新选择；只改了对象元数据不会自动追改已保存稿。切回本地文件时，用 `version set --artifact <工程内现存文件> --resource id:<资源ID>` 明确选择。
 
 ## 2. 明确导入对象的元数据
 
 先查看对象与当前工作稿，再选择要复制的组。这里显式使用资源 ID，避免把元数据导入同一工程中的其它资源：
 
 ```sh
-freelog-cli storage show <对象ID> --json --env dev
-freelog-cli version show --local --json --resource id:<资源ID> --env dev
+freelog-cli storage show <对象ID> --json
+freelog-cli version show --local --json --resource id:<资源ID>
 ```
 
 attributes包括系统附加值和只读自定义属性，options是可选配置，dependencies是资源依赖；可以逗号组合。依赖按资源ID追加，同ID更新为导入的原版本范围，空列表不清空原依赖；属性按当前类型转换后替换选定属性组，可选配置替换选定配置组，未选组保留。属性/配置空组会明确清空该组的手填项，确认前请查看删除预览。
@@ -108,23 +108,23 @@ attributes包括系统附加值和只读自定义属性，options是可选配置
 人工导入时先运行不带 `--yes` 的命令，查看所选组、未选组保留项及实际转换、覆盖和删除，再决定是否确认写稿。例如只导入属性和可选配置：
 
 ```sh
-freelog-cli version draft import-storage <对象ID> --groups attributes,options --resource id:<资源ID> --env dev
+freelog-cli version draft import-storage <对象ID> --groups attributes,options --resource id:<资源ID>
 ```
 
 AI 或脚本只有已确认本次组别和覆盖范围后才使用 `--yes`；它跳过人工确认，不能作为先试一下的预览命令：
 
 ```sh
-freelog-cli version draft import-storage <对象ID> --groups attributes,options --resource id:<资源ID> --yes --env dev
+freelog-cli version draft import-storage <对象ID> --groups attributes,options --resource id:<资源ID> --yes
 ```
 
-导入成功只保存工作稿，不发行版本。之后再次查看 `version show --local --resource id:<资源ID> --env dev`，核对选定组和保留项，再回到首版或更新版本流程。
+导入成功只保存工作稿，不发行版本。之后再次查看 `version show --local --resource id:<资源ID>`，核对选定组和保留项，再回到首版或更新版本流程。
 
 ## 3. 可选：查看或创建线上空间
 
 ```sh
-freelog-cli storage usage --env dev
-freelog-cli storage bucket list --env dev
-freelog-cli storage bucket show my-space --env dev
+freelog-cli storage usage
+freelog-cli storage bucket list
+freelog-cli storage bucket show my-space
 ```
 
 免费容量说明为2GB，实际容量和用量以接口返回的storageLimit/totalFileSize为准；bucketCount是空间数量。当前最多5个自建空间，系统空间不作为普通空间管理。
@@ -132,7 +132,7 @@ freelog-cli storage bucket show my-space --env dev
 创建前选好名称，创建后不能修改。名称为1至63位小写字母、数字或短横线，首尾不能短横线：
 
 ```sh
-freelog-cli storage bucket create my-space --yes --env dev
+freelog-cli storage bucket create my-space --yes
 ```
 
 名称已占用时请明确选择新名称，CLI不会随机改名。已有合适空间就直接使用，不必每个工程新建一个。
@@ -142,10 +142,10 @@ freelog-cli storage bucket create my-space --yes --env dev
 上传前检查200MiB上限并规范化文件名。最终对象名为1–60字符（含扩展名），超长拒绝，不静默截断；需要时通过--name明确取较短名字。名称改变时stderr提示原名和最终名（--yes/--json同样显示），stdout对象JSON仍保持独立。
 
 ```sh
-freelog-cli storage upload ./photo.png --bucket my-space --yes --env dev
-freelog-cli storage list --bucket my-space --search photo --json --env dev
-freelog-cli storage list --bucket my-space --page 2 --json --env dev
-freelog-cli storage show <对象ID> --json --env dev
+freelog-cli storage upload ./photo.png --bucket my-space --yes
+freelog-cli storage list --bucket my-space --search photo --json
+freelog-cli storage list --bucket my-space --page 2 --json
+freelog-cli storage show <对象ID> --json
 ```
 
 上传接收单个文件；主题/插件构建目录仍通过作者发行流程压缩，不能把目录直接交给storage upload。列表每页50，人工终端可翻页，JSON调用自行选择页码。保存返回的objectId，标题和文件名不代替精确身份。
@@ -155,7 +155,7 @@ freelog-cli storage show <对象ID> --json --env dev
 同名默认拒绝。确实要替换时，检查预览后显式选择覆盖：
 
 ```sh
-freelog-cli storage upload ./new-photo.png --bucket my-space --name photo.png --replace --yes --env dev
+freelog-cli storage upload ./new-photo.png --bucket my-space --name photo.png --replace --yes
 ```
 
 同名覆盖可能保留objectId而改变内容，所以不能以“ID没变”判断文件没变。未知结果时先恢复核验，不直接重复覆盖。存储对象配置、作者版本配置和节点展品覆盖是不同层次；本页管理命令不编辑对象元数据。
@@ -167,11 +167,11 @@ freelog-cli storage upload ./new-photo.png --bucket my-space --name photo.png --
 本地输入失败时，`STORAGE_FILE_NOT_FOUND`说明路径不存在或父路径不是目录，`STORAGE_FILE_UNREADABLE`说明权限导致不可读取；目录使用`STORAGE_FILE_INVALID`。这些初次准备错误尚未发送平台请求，先检查提示的本地路径/权限，无需恢复远端操作。真正上传或建立对象后结果未知仍按下面recover规则核验，不能据某次文件报错认定以前的远端请求已回滚。
 
 ```sh
-freelog-cli storage remove <对象ID> --yes --env dev
-freelog-cli storage bucket remove my-space --yes --env dev
-freelog-cli storage recover --env dev
-freelog-cli storage recover <操作ID> --env dev
-freelog-cli storage recover <操作ID> --apply --yes --env dev
+freelog-cli storage remove <对象ID> --yes
+freelog-cli storage bucket remove my-space --yes
+freelog-cli storage recover
+freelog-cli storage recover <操作ID>
+freelog-cli storage recover <操作ID> --apply --yes
 ```
 
 删除对象前显示已发行使用情况，仅删除存储对象，不删除资源。删除空间要求先为空，且没有未完成上传任务，不自动清空文件。CLI会阻止本账号同空间的未决操作；其他客户端尚有上传任务时，平台仍可能拒绝删除，不会自动取消其任务。平台上的版本访问仍受对应授权规则约束，不能把存储删除提示当作所有内容永远可访问的承诺。

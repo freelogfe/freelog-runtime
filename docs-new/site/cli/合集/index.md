@@ -10,7 +10,7 @@
 使用合集前，按[安装与AI代办](../00-版本选择与AI代办.md)准备 CLI 和工程目录；Node.js 最低为 **22.14.0**。在该目录确认已登录正确 dev 账号；未登录时再执行，已有可用登录则跳过：
 
 ```powershell
-freelog-cli login --cwd . --env dev
+freelog-cli login --cwd .
 ```
 
 ## 你要做什么
@@ -67,4 +67,4 @@ Console 的表单草稿和 CLI 的本地表单操作稿不是同一个东西。C
 
 按具体命令读取成功 JSON：策略模板、日志/合约保留各自协议；`collection item list --json` 返回目录草稿单品数组，空态为 `[]`；`collection dep rm --json` 返回移除 ID 和仅本地保存回执，不撤销合同。其它命令查看相应说明，不从共用参数推断全部成功输出结构。
 
-本目录会随 CLI 包发布。安装后运行 `freelog-cli --help`，按帮助里显示的本机手册路径打开 `合集/README.md` 即可。
+安装后运行 `freelog-cli --help`，打开在线手册中的「合集」章节。查看与本机版本相符的命令和参数。
