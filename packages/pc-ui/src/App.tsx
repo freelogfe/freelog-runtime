@@ -12,7 +12,8 @@ import { FreelogLibrary, getNodeName } from "freelog-runtime-core";
  *
  */
 import { useEffect, useRef, useState } from "react";
-import Login from "./views/login";
+import LoginNotice from "./views/login";
+import useLoginWindow from "./views/useLoginWindow";
 
 import NodeError from "./views/_statusComponents/nodeError";
 import ThemeCancel from "./views/_statusComponents/themeCancel";
@@ -58,9 +59,9 @@ function App() {
   const [eventType, setEventType] = useState("");
   const [isOut, setIsOut] = useState(false);
   const [outData, setOutData] = useState<any>(null);
-  const [isLoginFromAuth, setIsLoginFromAuth] = useState(false);
-
-  const [isLogin, setIsLogin] = useState(false);
+  const loginFromAuth = useRef(false);
+  const authLoginCallbacks = useRef<Array<(result: number) => void>>([]);
+  const loginWindow = useLoginWindow();
   const [nodeInfoData, setNodeInfo] = useState<any>(null);
   const [themeAuthInfo, setThemeAuthInfo] = useState<any>(null);
   /** 与 microApp 下发 authProcessorShow 是否展示授权 UI 一致，仅 true 时 popstate 再同步为 false，避免重复 setData */
@@ -272,15 +273,17 @@ function App() {
   useEffect(() => {
     updateLock(false);
   }, [events]);
-  let callBack: any[] = [];
   const { loginCallback, setUserInfo, loginErrorCallback } = freelogAuth;
 
-  function loginFinished(type: any, data?: any) {
-    setIsLogin(false);
+  function loginFinished(type: number, data?: { userId: number }) {
+    const fromAuth = loginFromAuth.current;
+    loginFromAuth.current = false;
+    const authorizationCallbacks = authLoginCallbacks.current.splice(0);
+    const pendingCalls = callLoginCallback.splice(0);
     if (type === SUCCESS) {
-      const isOwner = nodeInfoData.ownerUserId === data?.userId;
+      const isOwner = freelogAuth.nodeInfo?.ownerUserId === data?.userId;
       setUserInfo(data, isOwner);
-      if (loginCallback.length === 0 && callLoginCallback.length == 0) {
+      if (loginCallback.length === 0 && pendingCalls.length === 0) {
         reload();
       }
       loginCallback.forEach((func: any) => {
@@ -288,27 +291,15 @@ function App() {
       });
       clearEvent();
     } else if (type === USER_CANCEL) {
-      if (callBack.length) {
-        callBack.forEach((item: any) => {
-          item && item(USER_CANCEL);
-        });
-      }
+      authorizationCallbacks.forEach((callback) => callback(USER_CANCEL));
       loginErrorCallback.forEach((func: any) => {
         func && func();
       });
-      if (isLoginFromAuth) {
+      if (fromAuth) {
         lowerUI(true);
-      } else {
-        lowerUI();
       }
-      callBack = [];
     }
-    if (callLoginCallback.length) {
-      callLoginCallback.forEach((item: any) => {
-        item && item(type);
-      });
-      callLoginCallback.splice(0, callLoginCallback.length);
-    }
+    pendingCalls.forEach((callback: (result: number) => void) => callback(type));
   }
 
   // 遍历顺序是否永远一致
@@ -344,10 +335,10 @@ function App() {
                   endEvent(eventId, type, data);
                   resolve && resolve(null);
                 },
-                login: (func: any) => {
-                  callBack.push(func);
+                login: (callback?: (result: number) => void) => {
+                  if (typeof callback === "function") authLoginCallbacks.current.push(callback);
                   setEventType(LOGIN);
-                  setIsLoginFromAuth(true);
+                  loginFromAuth.current = true;
                   login();
                 },
               },
@@ -361,7 +352,6 @@ function App() {
     }
   }
   function UI(type: any, data: any) {
-    setIsLoginFromAuth(false);
     loadingClose();
     setIsOut(false);
     setEventType(type);
@@ -412,8 +402,13 @@ function App() {
     updateEvents();
   }
   function login() {
-    upperUI();
-    setIsLogin(true);
+    loginWindow.start(freelogAuth.nodeInfo, loginFinished);
+  }
+
+  function loginForPrivateNode() {
+    loginWindow.start(outData, (result) => {
+      if (result === SUCCESS) reload();
+    });
   }
 
   async function longinOut() {
@@ -435,11 +430,7 @@ function App() {
       <AppAnt>
         <div id="freelog-pc-auth" className="w-100x h-100x over-h">
           {isOut ? (
-            <OutOf eventType={eventType} outData={outData}></OutOf>
-          ) : isLogin ? (
-            <div className="runtime-pc bg-white" id="runtime-pc">
-              <Login loginFinished={loginFinished}></Login>
-            </div>
+            <OutOf eventType={eventType} outData={outData} onPrivateLogin={loginForPrivateNode} />
           ) : nodeInfoData &&
             themeAuthInfo &&
             !nodeInfoData.themeAuthInfo.isAuth ? (
@@ -458,6 +449,14 @@ function App() {
               />
             )
           ) : null}
+          {(loginWindow.status === "blocked" || loginWindow.status === "error") && (
+            <LoginNotice
+              status={loginWindow.status}
+              onOpen={loginWindow.open}
+              onCheck={loginWindow.check}
+              onCancel={loginWindow.cancel}
+            />
+          )}
         </div>
       </AppAnt>
     </StyleProvider>

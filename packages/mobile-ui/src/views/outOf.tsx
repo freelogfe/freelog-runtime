@@ -23,9 +23,10 @@ const {
 interface OutOfProps {
   eventType: any;
   outData: any;
+  onPrivateLogin: () => void;
   children?: any;
 }
-export default function OutOf({ eventType, outData }: OutOfProps) {
+export default function OutOf({ eventType, outData, onPrivateLogin }: OutOfProps) {
   return (
     <>
       {(() => {
@@ -45,7 +46,7 @@ export default function OutOf({ eventType, outData }: OutOfProps) {
           case NODE_OFFLINE:
             return <NodeOffline />;
           case NODE_PRIVATE:
-            return <NodePrivate />;
+            return <NodePrivate onLogin={onPrivateLogin} />;
           case NODE_NONE:
             return <NodeNone />;
           default:

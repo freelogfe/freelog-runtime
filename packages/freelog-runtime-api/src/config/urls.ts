@@ -14,6 +14,7 @@ export const urls = {
   HOST,
   ENV,
 
+  userSignIn: `https://user.${HOST}/login`,
   userLogin: `https://user.${HOST}/logon`,
   userRetrieve: `https://user.${HOST}/retrieve`,
   userContract: (exhibitId: string, nodeName: string, status: string) =>

@@ -5,6 +5,8 @@ export { freelogApp } from "./structure/freelogApp";
 export { freelogAuth } from "./structure/freelogAuth";
 export { freelogFetch } from "./structure/freelogFetch";
 export { initWindowListener } from "./bridge/eventOn";
+export { buildLoginUrl, createLoginWindow } from "./structure/loginWindow";
+export type { LoginStatus } from "./structure/loginWindow";
 export { FreelogLibrary } from "./freelogLibrary";
 
 

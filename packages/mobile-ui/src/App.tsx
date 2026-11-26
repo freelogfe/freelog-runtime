@@ -9,8 +9,7 @@ import microApp from "@micro-zoe/micro-app";
 import { FreelogLibrary, getNodeName } from "freelog-runtime-core";
 
 import { useEffect, useRef, useState } from "react";
-import Forgot from "./views/user/forgot";
-import Register from "./views/user/register";
+import LoginNotice from "./views/loginNotice";
 import NodeError from "./views/_statusComponents/nodeError";
 const { loginCallback, loginErrorCallback, setUserInfo } = freelogAuth;
 
@@ -22,8 +21,10 @@ import {
   init,
   getInfoByNameOrDomain,
   urls,
+  buildLoginUrl,
+  createLoginWindow,
+  type LoginStatus,
 } from "freelog-runtime-core";
-import Login from "./views/user/login";
 import FI18n from "@/I18nNext";
 import OutOf from "./views/outOf";
 /**
@@ -75,14 +76,18 @@ function App() {
   const [events, setEvents] = useState([]);
   const [eventType, setEventType] = useState("");
   const [isOut, setIsOut] = useState(false);
-  const [isLoginFromAuth, setIsLoginFromAuth] = useState(false);
+  const loginFromAuth = useRef(false);
+  const authLoginCallbacks = useRef<Array<(result: number) => void>>([]);
+  const [loginStatus, setLoginStatus] = useState<LoginStatus | null>(null);
+  const [loginWindow] = useState(() => createLoginWindow({
+    onStatus: setLoginStatus,
+    checkCloseOnlyWhenVisible: true,
+  }));
   const [outData, setOutData] = useState<any>(null);
-  const [isLogin, setIsLogin] = useState(false);
   const [nodeInfoData, setNodeInfo] = useState<any>(null);
   const [themeAuthInfo, setThemeAuthInfo] = useState<any>(null);
 
-  // 1 登录  2 注册   3 忘记登录密码
-  const [modalType, setModalType] = useState(0);
+  useEffect(() => () => loginWindow.dispose(), [loginWindow]);
   /** 与 microApp 下发 authProcessorShow 是否展示授权 UI 一致，仅 true 时 popstate 再同步为 false，避免重复 setData */
   const authProcessorShowByMainRef = useRef(false);
 
@@ -306,17 +311,15 @@ function App() {
   useEffect(() => {
     updateLock(false);
   }, [events]);
-  let callBack: any[] = [];
-
-  // 0 成功  1 失败  2 用户取消
-  function loginFinished(type: number, data?: any) {
-    setIsLogin(false);
-    setModalType(0);
-
+  function loginFinished(type: number, data?: { userId: number }) {
+    const fromAuth = loginFromAuth.current;
+    loginFromAuth.current = false;
+    const authorizationCallbacks = authLoginCallbacks.current.splice(0);
+    const pendingCalls = callLoginCallback.splice(0);
     if (type === SUCCESS) {
-      const isOwner = nodeInfoData.ownerUserId === data?.userId;
+      const isOwner = freelogAuth.nodeInfo?.ownerUserId === data?.userId;
       setUserInfo(data, isOwner);
-      if (loginCallback.length === 0 && callLoginCallback.length == 0) {
+      if (loginCallback.length === 0 && pendingCalls.length === 0) {
         reload();
       }
       loginCallback.forEach((func: any) => {
@@ -324,28 +327,16 @@ function App() {
       });
       clearEvent();
     } else if (type === USER_CANCEL) {
-      if (callBack.length) {
-        callBack.forEach((item: any) => {
-          item && item(USER_CANCEL);
-        });
-      }
+      authorizationCallbacks.forEach((callback) => callback(USER_CANCEL));
       loginErrorCallback.forEach((func: any) => {
         func && func();
       });
 
-      if (isLoginFromAuth) {
+      if (fromAuth) {
         lowerUI(true);
-      } else {
-        lowerUI();
       }
-      callBack = [];
     }
-    if (callLoginCallback.length) {
-      callLoginCallback.forEach((item: any) => {
-        item && item(type);
-      });
-      callLoginCallback.splice(0, callLoginCallback.length);
-    }
+    pendingCalls.forEach((callback: (result: number) => void) => callback(type));
   }
 
   // 遍历顺序是否永远一致
@@ -381,10 +372,10 @@ function App() {
                   endEvent(eventId, type, data);
                   resolve && resolve(null);
                 },
-                login: (func: any) => {
-                  callBack.push(func);
+                login: (callback?: (result: number) => void) => {
+                  if (typeof callback === "function") authLoginCallbacks.current.push(callback);
                   setEventType(LOGIN);
-                  setIsLoginFromAuth(true);
+                  loginFromAuth.current = true;
                   login();
                 },
               },
@@ -398,7 +389,6 @@ function App() {
     }
   }
   function UI(type: any, data: any) {
-    setIsLoginFromAuth(false);
     loadingClose();
     setIsOut(false);
     setEventType(type);
@@ -449,9 +439,22 @@ function App() {
     updateEvents();
   }
   function login() {
-    upperUI();
-    setModalType(1);
-    setIsLogin(true);
+    if (/MicroMessenger/i.test(navigator.userAgent)) {
+      loginInCurrentPage();
+      return;
+    }
+    loginWindow.start(freelogAuth.nodeInfo, loginFinished);
+  }
+
+  function loginInCurrentPage() {
+    const url = buildLoginUrl(freelogAuth.nodeInfo, window.location.href);
+    loginWindow.dispose();
+    setLoginStatus(null);
+    loginFromAuth.current = false;
+    authLoginCallbacks.current.length = 0;
+    // A return navigation initializes a new page instead of completing this SDK call.
+    callLoginCallback.splice(0);
+    window.location.assign(url);
   }
 
   async function longinOut() {
@@ -468,21 +471,7 @@ function App() {
   return (
     <div id="freelog-mobile-auth" className="w-100x h-100x over-h">
       {isOut ? (
-        <OutOf eventType={eventType} outData={outData}></OutOf>
-      ) : isLogin ? (
-        <div id="runtime-mobile" className="w-100x h-100x over-h">
-          {modalType === 1 ? (
-            <Login
-              loginFinished={loginFinished}
-              visible={modalType === 1}
-              setModalType={setModalType}
-            />
-          ) : modalType === 2 ? (
-            <Register visible={modalType === 2} setModalType={setModalType} />
-          ) : modalType === 3 ? (
-            <Forgot visible={modalType === 3} setModalType={setModalType} />
-          ) : null}
-        </div>
+        <OutOf eventType={eventType} outData={outData} onPrivateLogin={loginInCurrentPage} />
       ) : nodeInfoData &&
         themeAuthInfo &&
         !nodeInfoData.themeAuthInfo.isAuth ? (
@@ -498,6 +487,14 @@ function App() {
           />
         )
       ) : null}
+      {(loginStatus === "blocked" || loginStatus === "error") && (
+        <LoginNotice
+          status={loginStatus}
+          onContinue={loginInCurrentPage}
+          onRetry={loginWindow.check}
+          onCancel={loginWindow.cancel}
+        />
+      )}
     </div>
   );
 }

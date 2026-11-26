@@ -21,38 +21,43 @@ export function onUserChange(name: string, callback: any) {
     console.error("onLogin error: ", callback, " is not a function!");
   }
 }
-export const initWindowListener = () => {
-  window.document.addEventListener("visibilitychange", function (e) {
-    // if (document.visibilityState == "hidden") {
-    //   alert("离开");
-    // }
-    if (document.visibilityState == "visible") {
-      const userInfo = getUserInfoForAuth();
-      const userId = userInfo?.userId ? userInfo.userId + "" : "";
-      const uid = docCookies.getItem("uid")
-        ? docCookies.getItem("uid") + ""
-        : "";
-      if (uid != userId) {
-        userChangeCallback.forEach((func: any) => {
-          func && func();
-        });
-        userChangeCallback = [];
-      }
-    }
+let windowListenerInitialized = false;
+let checkPendingLogin: (() => void) | undefined;
+
+export function watchLoginOnReturn(check: () => void) {
+  initWindowListener();
+  checkPendingLogin = check;
+  return () => {
+    if (checkPendingLogin === check) checkPendingLogin = undefined;
+  };
+}
+
+function notifyUserChange() {
+  if (document.visibilityState !== "visible") return;
+  const cachedUserId = getUserInfoForAuth()?.userId;
+  const uid = docCookies.getItem("uid") ?? "";
+  if (uid === (cachedUserId ? String(cachedUserId) : "")) return;
+
+  if (checkPendingLogin) {
+    checkPendingLogin();
+    return;
+  }
+  userChangeCallback.forEach((callback: () => void) => callback());
+  userChangeCallback = [];
+}
+
+export function initWindowListener() {
+  if (windowListenerInitialized) return;
+  windowListenerInitialized = true;
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "visible") return;
+    if (checkPendingLogin) checkPendingLogin();
+    else notifyUserChange();
   });
-  document.body.addEventListener("mouseenter", function () {
-    if (document.visibilityState == "visible") {
-      const userInfo = getUserInfoForAuth();
-      const userId = userInfo?.userId ? userInfo.userId + "" : "";
-      const uid = docCookies.getItem("uid")
-        ? docCookies.getItem("uid") + ""
-        : "";
-      if (uid != userId) {
-        userChangeCallback.forEach((func: any) => {
-          func && func();
-        });
-        userChangeCallback = [];
-      }
-    }
-  });
-};
+  document.body.addEventListener("mouseenter", notifyUserChange);
+  function checkLoginWhenVisible() {
+    if (document.visibilityState === "visible") checkPendingLogin?.();
+  }
+  window.addEventListener("focus", checkLoginWhenVisible);
+  window.addEventListener("pageshow", checkLoginWhenVisible);
+}

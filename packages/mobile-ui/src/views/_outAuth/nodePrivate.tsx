@@ -1,23 +1,9 @@
-import { useState } from "react";
-
 import nodePrivate from "../../assets/image/nodePrivate.png";
-import Login from "../user/login";
 import { freelogAuth } from "freelog-runtime-core";
 import FI18n from "@/I18nNext";
 
 import { Button } from "antd-mobile";
-const { SUCCESS, USER_CANCEL } = freelogAuth.resultType;
-
-export default function NodePrivate() {
-  const [loginVisible, setLoginVisible] = useState(false);
-  function loginFinished(type: number) {
-    if (type === SUCCESS) {
-      freelogAuth.reload();
-    }
-    if (type === USER_CANCEL) {
-      setLoginVisible(false);
-    }
-  }
+export default function NodePrivate({ onLogin }: { onLogin: () => void }) {
   return (
     <div
       className="flex-column align-center w-100x h-100x fs-30 fw-regular lh-36 text-align-center"
@@ -26,9 +12,6 @@ export default function NodePrivate() {
         color: "#666666",
       }}
     >
-      {loginVisible && (
-        <Login onlyLogin={true} loginFinished={loginFinished}></Login>
-      )}
       <div className="flex-1"></div>
 
       <div className="w-280">
@@ -52,9 +35,7 @@ export default function NodePrivate() {
         <Button
           className="fs-14 px-40"
           color="primary"
-          onClick={() => {
-            setLoginVisible(true);
-          }}
+          onClick={onLogin}
         >
           {FI18n.i18nNext.tJSXElement(
             "noderuntime_node_visibility_private_btn__notlogged"
