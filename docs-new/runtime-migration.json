@@ -76,7 +76,7 @@
     {
       "source": "framework/questions.md",
       "sha256": "0cbb4ae42130f487dbe8e9b62047a9f9601c00637dc90b3b1ce6b6e70a0c2d62",
-      "target": "reference/frameworks/questions.md"
+      "target": "runtime/troubleshooting.md"
     },
     {
       "source": "framework/react.md",
@@ -96,7 +96,7 @@
     {
       "source": "guide/browser-router.md",
       "sha256": "617891c62c5baa4396f0887b17d65024fe4d10dc985c38ade464ac9c717dfb7c",
-      "target": "reference/microapp/browser-router.md"
+      "target": "runtime/integration/browser-router.md"
     },
     {
       "source": "guide/cli.md",
@@ -111,7 +111,7 @@
     {
       "source": "guide/keep-alive.md",
       "sha256": "1a63348f9311e17208ba636c1436db7ff1ba3949e660293931a798ec7003b750",
-      "target": "reference/microapp/keep-alive.md"
+      "target": "runtime/integration/keep-alive.md"
     },
     {
       "source": "guide/migrate.md",
@@ -171,17 +171,17 @@
     {
       "source": "guide/wheel/data/index.md",
       "sha256": "de1f377eb7d74a4425be6e0f09049f98c6bdc501b04d9a4fc2308912d21479d4",
-      "target": "reference/microapp/data.md"
+      "target": "runtime/integration/data.md"
     },
     {
       "source": "guide/wheel/router/index.md",
       "sha256": "1b7388199a63fd4e4d6ef77d30a4191aff76c3e69f9704d58390e3ea9deed44d",
-      "target": "reference/microapp/router.md"
+      "target": "runtime/integration/router.md"
     },
     {
       "source": "guide/wheel/static-source/index.md",
       "sha256": "1b136e99dd0ec6a278dfa358032def9faecf5048d64714061040757e77cd67d6",
-      "target": "reference/microapp/static-source.md"
+      "target": "runtime/integration/static-source.md"
     },
     {
       "source": "index.md",

@@ -1,4 +1,8 @@
-# 特殊功能相关 API 文档
+---
+outline: 2
+---
+
+# 分享相关 API
 
 ## getShareUrl
 

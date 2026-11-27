@@ -1,3 +1,7 @@
+---
+outline: 2
+---
+
 # 展品相关 API 文档
 
 ## getExhibitListByPage

@@ -24,7 +24,7 @@ if (res?.data?.ret !== 0 || res.data.errCode !== 0) {
 console.log(res.data.data);
 ```
 
-当前依赖声明 Axios `^1.9.0`，旧文档的 `0.21.1` 不是 SDK 契约。当前响应拦截器在网络失败时可能使结果为 `undefined`，调用方不能只依赖 `catch`，仍需检查响应是否存在。
+当前运行时依赖声明 Axios `^1.9.0`。网络失败时，响应处理可能返回 `undefined`。调用方应处理异常，并检查是否取得响应。
 
 数字型开关按对应接口传 `1` / `0`；布尔开关传 `true` / `false`。网络请求最后的 `config` 当前透传 `onUploadProgress`、`onDownloadProgress`、`responseType`、`timeout`；文件 URL 选项位置以各方法页为准，尤其是合集单品依赖文件接口。
 

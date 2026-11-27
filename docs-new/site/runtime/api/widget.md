@@ -1,3 +1,7 @@
+---
+outline: 2
+---
+
 # 主题/插件相关 API 文档
 
 ## nodeInfo
@@ -16,11 +20,12 @@ console.log(nodeInfo);
 | 字段                   | 类型     | 说明       |
 | ---------------------- | -------- | ---------- |
 | `nodeName`             | `string` | 节点名称   |
-| `tags`                 | `array`  | 标签数组   |
-| `nodeLogo`             | `string` | 节点图标   |
-| `nodeTitle`            | `string` | 节点标题   |
-| `nodeShortDescription` | `string` | 节点简介   |
+| `tags`                 | `string[]` | 标签数组   |
+| `nodeLogo`             | `string` | 节点图标，可选   |
+| `nodeTitle`            | `string` | 节点标题，可选   |
+| `nodeShortDescription` | `string` | 节点简介，可选   |
 | `ownerUserName`        | `string` | 节点拥有者 |
+| `ownerUserId`          | `number` | 节点拥有者 ID |
 
 ### 返回示例
 
@@ -30,13 +35,15 @@ console.log(nodeInfo);
   "tags": ["开发", "测试"],
   "nodeLogo": "https://cdn.freelog.cn/logo.png",
   "nodeTitle": "示例节点标题",
-  "nodeShortDescription": "这是一个节点简介。"
+  "nodeShortDescription": "这是一个节点简介。",
+  "ownerUserName": "example",
+  "ownerUserId": 123
 }
 ```
 
 ## getCurrentUrl
 
-**用途**：获取当前节点的完整 URL；可选传入`path`参数，获取当前主题插件指定自身路由路径的 URL。
+无参数时返回当前节点页面的完整 URL。传入 `path` 时，当前实现会查找现有查询字符串中以自身渲染名为键的项，替换其值并返回节点根路径的 URL。此方式适用于已经有该查询项的 `search` 模式页面。需要主动导航时使用[应用路由](/runtime/integration/router#导航)。
 
 ### 参数说明
 
@@ -87,7 +94,7 @@ console.log(topExhibitId);
 
 ```ts
 const articleNid = freelogApp.getSelfNid();
-const exhibitId = await freelogApp.getTopExhibitId();
+const exhibitId = freelogApp.getTopExhibitId();
 
 const res = await freelogApp.getExhibitDepInfo(exhibitId, {
   articleNids: articleNid,
@@ -187,180 +194,61 @@ if (res?.data?.ret === 0 && res.data.errCode === 0) {
 | `seq`                 | `number`      | 否   | 挂载的序号，加载多次相同插件时必须填写,以保证唯一性 |
 | `widget_entry`        | `string`      | 否   | 开发模式下，本地调试地址                            |
 
-### renderWidgetOptions 说明
+### renderWidgetOptions 说明 {#renderwidgetoptions-说明}
 
-<details>
-<summary>点击展开/折叠内容</summary>
+| 选项 | 类型 | 用途 |
+| --- | --- | --- |
+| `iframe` | `boolean` | 使用 iframe 沙箱。使用 Vite 等工具生成浏览器模块脚本的子插件需要此模式。 |
+| `router-mode` | `'search' \| 'pure' \| 'state'` | 子插件虚拟路由模式，默认 `search`。 |
+| `default-page` | `string` | 没有更优先的路由记录时使用的内部路径。 |
+| `keep-router-state` | `boolean` | 常规卸载后保留该实例的路由位置。 |
+| `keep-alive` | `boolean` | 隐藏时保留实例，恢复通过 `aftershow` 确认。 |
+| `destroy` | `boolean` | 卸载时销毁实例并清理运行时缓存。 |
+| `inline` | `boolean` | 将运行时处理的脚本内联执行。 |
+| `fiber` | `boolean` | 分批处理资源任务。 |
+| `disable-patch-request` | `boolean` | 关闭子应用请求的自动路径补全。 |
+| `data` | `object` | 初始业务数据，运行时将注入 `freelogApp`。 |
+| `onDataChange` | `(event: CustomEvent) => void` | 监听子插件发送的数据，数据位于 `event.detail.data`。 |
+| `lifeCycles` | `object` | 在父应用监听 `created`、`beforemount`、`mounted`、`unmount`、`error` 以及保活的 `afterhidden`、`beforeshow`、`aftershow`。 |
 
-```ts
-interface RenderWidgetOptions {
-  /**
-   *  是否切换为iframe沙箱，可选
-   */
-  iframe?: boolean;
-  /**
-   * 开启内联模式运行js，可选
-   */
-  inline?: boolean;
-  /**
-   * 关闭虚拟路由系统，可选
-   */
-  "disable-memory-router"?: boolean;
-  /**
-   * 指定默认渲染的页面，可选
-   */
-  "default-page"?: string;
-  /**
-   * 保留路由状态，可选
-   */
-  "keep-router-state"?: boolean;
-  /**
-   * 关闭子插件请求的自动补全功能，可选
-   */
-  "disable-patch-request"?: boolean;
-  /**
-   * 开启keep-alive模式，可选
-   */
-  "keep-alive"?: boolean;
-  /**
-   * 卸载时强制删除缓存资源，可选
-   */
-  destroy?: boolean;
-  /**
-   * 开启fiber模式，可选
-   */
-  fiber?: boolean;
-  /**
-   * 设置子插件的基础路由，可选
-   */
-  baseroute?: string;
-  /**
-   * 开启ssr模式，可选
-   */
-  ssr?: boolean;
-  // shadowDOM?: boolean, // 开启shadowDOM，可选
-  /**
-   * 传递给子插件的数据，可选
-   */
-  data?: Object;
-  /**
-   * 获取子插件发送数据的监听函数，可选
-   */
-  onDataChange?: Function;
-  /**
-   * 注册子插件的生命周期
-   */
-  lifeCycles?: {
-    /**
-     * 加载资源前触发
-     */
-    created?(e: CustomEvent): void;
-    /**
-     * 加载资源完成后，开始渲染之前触发
-     */
-    beforemount?(e: CustomEvent): void;
-    /**
-     * 子插件渲染结束后触发
-     */
-    mounted?(e: CustomEvent): void;
-    /**
-     * 子插件卸载时触发
-     */
-    unmount?(e: CustomEvent): void;
-    /**
-     * 子插件渲染出错时触发
-     */
-    error?(e: CustomEvent): void;
-    /**
-     * 子插件推入前台之前触发（keep-alive模式特有）
-     */
-    beforeshow?(e: CustomEvent): void;
-    /**
-     * 子插件推入前台之后触发（keep-alive模式特有）
-     */
-    aftershow?(e: CustomEvent): void;
-    /**
-     * 子插件推入后台时触发（keep-alive模式特有）
-     */
-    afterhidden?(e: CustomEvent): void;
-  };
-}
-```
+运行时保留沙箱和样式隔离。接口用法见[应用路由](/runtime/integration/router)、[保活](/runtime/integration/keep-alive)和[数据通信](/runtime/integration/data)。
 
-</details>
 
 ### 使用示例
 
 ```ts
+const container = document.getElementById("plugin-container");
+if (!container) throw new Error("缺少插件挂载容器");
+
 const widgetController = await freelogApp.mountExhibitWidget({
-  exhibitId: "exampleId",
-  container: document.getElementById("app"),
+  exhibitId, // 当前节点已配置的插件展品 ID
+  container,
   renderWidgetOptions: {
     data: { message: "Hello World" },
   },
 });
 
-console.log(widgetController);
+if (!widgetController.success) throw new Error("插件挂载失败");
 ```
 
 ### 返回对象 widgetController 说明
 
-<details open>
-<summary>点击展开/折叠内容</summary>
+| 字段或方法 | 行为 |
+| --- | --- |
+| `success` | 首次挂载收到 `mounted` 时为 `true`、收到 `error` 时为 `false`。读取展品或其文件入口失败也可能在返回控制器之前抛错。 |
+| `name` | 运行时生成的实例渲染名称，可用于[路由导航](/runtime/integration/router#导航)。 |
+| `unmount(options?)` | 返回 `Promise<boolean>`。保活实例默认隐藏。传入 `{ clearAliveState: true }` 执行卸载，传入 `{ destroy: true }` 时还删除运行时缓存。 |
+| `reload(destroy?)` | 重新加载实例，返回 `Promise<boolean>`。可传 `true` 清理运行时缓存后再加载。 |
+| `getData()` | 读取子插件发送的数据，尚无消息时可返回 `null`。 |
+| `clearData()` | 清除父应用发送给子插件的数据。 |
+| `setData(data)` | 向子插件发送一次数据更新，参数为普通对象。 |
+| `forceSetData(data)` | 发送数据更新，重复载荷也会触发通知。 |
+| `addDataListener(listener, autoTrigger?)` | 监听子插件发送的数据。第二个参数为 `true` 时可立即收到已有数据。 |
+| `removeDataListener(listener)` | 移除指定回调，使用原函数引用。 |
+| `clearDataListener()` | 清空父应用对该子实例的监听。 |
 
-```ts
-interface WidgetController {
-  /**
-   * 子插件是否成功加载
-   */
-  success: boolean;
-  /**
-   * 子插件渲染id  widgetRenderName
-   */
-  name: string;
-  /**
-   * 卸载插件
-   */
-  unmount: (options?: unmountAppParams) => Promise<boolean>;
-  /**
-   *  @param destroy 重新渲染时是否彻底删除缓存值，可选
-   */
-  reload: (destroy?: boolean) => Promise<boolean>;
-  /**
-   * 获取子插件数据
-   */
-  getData: () => any;
-  /**
-   * 清除发送给子插件的数据
-   */
-  clearData: () => any;
-  /**
-   * 发送数据给子插件，子插件通过 widgetApi.addDataListener 监听获取
-   */
-  setData: (data: Record<PropertyKey, unknown>) => any;
-  /**
-   * 方法拥有和 setData 一样的参数和行为，唯一不同的是 forceSetData 会强制发送数据，无论数据是否变化
-   */
-  forceSetData: (data: Record<PropertyKey, unknown>) => any;
-  /**
-   * 监听子插件dipatch过来的数据
-   * @param dataListener 监听函数
-   * @param autoTrigger 是否立刻触发一次监听函数，默认值为 false
-   */
-  addDataListener: (dataListener: Function, autoTrigger?: boolean) => any;
-  /**
-   * 解绑监听函数
-   * @param dataListener 监听函数
-   */
-  removeDataListener: (dataListener: Function) => any;
-  /**
-   * 清空所有绑定的监听函数
-   */
-  clearDataListener: () => any;
-}
-```
+保活恢复时使用 `lifeCycles.aftershow` 确认，详见[保活与生命周期](/runtime/integration/keep-alive)。
 
-</details>
 
 ## mountArticleWidget
 
@@ -383,7 +271,7 @@ interface WidgetController {
 
 ### renderWidgetOptions 说明
 
-[参考 mountExhibitWidget](#mountexhibitwidget)
+[与 mountExhibitWidget 使用同一组选项](#renderwidgetoptions-说明)。
 
 ### 使用示例
 
@@ -397,16 +285,18 @@ if (res?.data?.ret !== 0 || res.data.errCode !== 0) {
 // 同一资源可能出现在多条链路，按已选中的 nid 定位具体依赖
 const dependency = res.data.data.find((item) => item.nid === "selectedDependencyNid");
 if (!dependency) throw new Error("未找到指定依赖");
+const container = document.getElementById("plugin-container");
+if (!container) throw new Error("缺少插件挂载容器");
 const widgetController = await freelogApp.mountArticleWidget({
   articleId: dependency.articleId,
   parentNid: dependency.parentNid,
   nid: dependency.nid,
   topExhibitId: freelogApp.getTopExhibitId(),
-  container: document.getElementById("app"),
+  container,
   seq: 1,
   renderWidgetOptions: { data: { message: "Hello World" } },
 });
-console.log(widgetController);
+if (!widgetController.success) throw new Error("依赖插件挂载失败");
 ```
 
 ### 返回对象 widgetController 说明
@@ -454,7 +344,3 @@ freelogApp.setViewport({
 const path = freelogApp.getStaticPath("/assets/image.png");
 console.log(path);
 ```
-
-# 总结
-
-通过以上 API，开发者可以高效地管理 Freelog 插件，包括获取静态资源、节点信息、自身依赖以及插件挂载等功能，满足不同场景的开发需求。

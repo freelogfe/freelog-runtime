@@ -4,18 +4,15 @@ outline: deep
 
 # Vue 应用使用库
 
-::: info 进阶参考的适用范围
-本页从已有文档迁移，保留框架或库的具体示例。先阅读[运行时接入](/runtime/quickstart)及[兼容边界](/runtime/compatibility)。框架示例有各自版本前提，不构成平台统一 Node.js 限制；不能直接组合不同框架或不同年代的配置。
-:::
 下面我们尝试以主题开发者的视觉，在主题项目开发中使用上面开发的库["库示例-vue"](/library/library-vue)
 
 ## 安装环境库
 
 ```bash
-npm i freelog-runtime@latest -S
+npm install freelog-runtime@^5.0.7
 ```
 
-在入口文件`main.js`中使用
+在入口文件 `main.js` 的 `window.mount` 内调用 `initFreelogApp()` 初始化运行时接入。
 
 ```js
 import { initFreelogApp } from "freelog-runtime";
@@ -42,9 +39,11 @@ window.Vue = Vue
 // 获取实例
 const instance = window.FreelogLibrary
 const getUrlsv = await instance.getLibraryEntryUrls("cumins/vue-component-002")
+if (!getUrlsv) throw new Error('未获取到前端库入口')
 const resb = await instance.loadLibraryJs(getUrlsv.jsEntryUrl, getUrlsv.metaJson)
+if (!resb) throw new Error('前端库未导出声明的命名空间')
 console.log("主题中 cumins/vue-component-002", getUrlsv.version, resb);
-instance.loadLibraryCss(getUrlsv.cssEntryUrl)
+if (getUrlsv.metaJson.css?.entry) instance.loadLibraryCss(getUrlsv.cssEntryUrl)
 app.component("Mittle", resb.default)
 ```
 

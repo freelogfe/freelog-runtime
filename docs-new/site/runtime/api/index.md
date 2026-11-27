@@ -1,6 +1,6 @@
 # 运行时 API
 
-这些 API 面向 Freelog 节点内的主题与插件，通过运行时提供的 `freelogApp` 调用。资源发行、节点管理、CLI 登录 不属于本目录能力。
+这些 API 由 Freelog 节点运行时提供，供主题与插件查询展品和内容、加载插件以及处理用户交互。在应用中安装运行时接入包 `freelog-runtime`，并在挂载时调用 `initFreelogApp()`，即可获得 `freelogApp` 和 `widgetApi`。完整步骤见[主题接入示例](/runtime/quickstart)。
 
 先读[调用与返回约定](./base.md)，再按任务选择：
 

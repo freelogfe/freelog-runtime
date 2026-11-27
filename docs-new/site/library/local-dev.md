@@ -1,76 +1,29 @@
 ---
-outline: deep
+outline: 2
 ---
 
-::: info 进阶参考的适用范围
-本页从已有文档迁移，保留框架或库的具体示例。先阅读[运行时接入](/runtime/quickstart)及[兼容边界](/runtime/compatibility)。框架示例有各自版本前提，不构成平台统一 Node.js 限制；不能直接组合不同框架或不同年代的配置。
-:::
-本指南介绍了库开发者在本地开发时，如何开启https的web服务，并加载调试
+# 本地开发与调试前端库
 
-## 1. 开启https的web服务
+先构建出包含 UMD 入口的[库产物](/library/guide)，再在真实主题或插件中验证本地文件。正式依赖读取流程见[线上库加载](./library-usage.md)。
 
-### 1.1 生成证书
+## 1. 开启 HTTPS 的 Web 服务
 
-#### step1: [安装库](https://www.npmjs.com/package/mkcert)
+把本地静态 HTTPS 服务的根目录指向构建产物目录。证书必须匹配地址且受当前浏览器信任。服务需允许节点来源访问需要跨域读取的文件。已经有项目的 HTTPS 服务时可直接复用；Vite 工程见 [HTTPS 开发配置](/reference/frameworks/vite#开发服务)。
 
-```bash
-npm install -g mkcert
-```
-
-#### step2: 生成文件
-
-新建文件夹，如pems，并进入此文件夹中执行命令，生成的文件会在此文件夹中
-
-```bash
-mkcert create-ca
-```
-
-```bash
-mkcert create-cert
-```
-
-### 1.2 静态HTTPS服务
-
-#### step1: [安装库](https://www.npmjs.com/package/http-server)
-
-```bash
-npm install --global http-server
-```
-
-#### step2: 启动https服务
-
-进入要启动https服务的文件夹中，执行以下命令启动一个https服务
-
-```bash
-# http-server -p 要开启服务的端口 -S -C 上一步生成的证书的文件地址 -K 上一步生成的key文件的地址 --cors
-http-server -p 8894 -S -C C:\project\pems\cert.crt -K C:\project\pems\cert.key --cors
-```
-
-当如下图所示时，表示https服务开启成功，并在浏览器上尝试访问文件，如`https://192.168.2.184:8894/vue-helloworld.umd.js`，**此时若提示不安全则需要信任且继续前往即可**
-
-![1739343012564](/media/legacy/library/images/local-dev/1739343012564.png)
+依次在浏览器打开本地入口 JS 和 CSS 的 URL，确认能正常读到文件。用明确的完整 URL，例如 `https://localhost:8894/vue-helloworld.umd.js`。
 
 ## 2. 加载库
 
-主题开发场景为例，加载一个本地的vue库，如下所示:
+从已接入运行时的应用调用，先在挂载入口运行 `initFreelogApp()`。本地示例指定构建时的 UMD 命名空间和完整 URL：
 
 ```js
-// 在main.js中加载一个本地的vue库
-const getUrlsk = {
-  jsEntryUrl: "https://192.168.2.184:8894/vue-helloworld.umd.js",
-  metaJson: {
-    nameSpace: "freelogLibrary.Freelog.vueHelloworld"
-  },
-  cssEntryUrl: "https://192.168.2.184:8894/helloworld-vue.css"
-};
-const resk = await instance.loadLibraryJs(getUrlsk.jsEntryUrl, getUrlsk.metaJson);
-instance.loadLibraryCss(getUrlsk.cssEntryUrl);
-app.config.globalProperties.VueComTest3 = `本地vue库开发`;
-app?.component("Little", resk.default);
+const library = window.FreelogLibrary
+const exports = await library.loadLibraryJs(
+  'https://localhost:8894/vue-helloworld.umd.js',
+  { nameSpace: 'freelogLibrary.Freelog.vueHelloworld' }
+)
+if (!exports) throw new Error('本地库未导出声明的命名空间')
+library.loadLibraryCss('https://localhost:8894/helloworld-vue.css')
 ```
 
-```
-<template>
-  <Little msg="cumins/vue-component-002 => 1.0.0"></Little>
-</template>
-```
+如果 UMD 库外置了 Vue，按 [Vue 消费方示例](./use-library-vue.md)先提供 `window.Vue`。验证节点中的应用实际加载本地脚本、样式和导出的组件。发行前切回[依赖树加载](./library-usage.md)并在正式文件地址复验。

@@ -28,7 +28,7 @@
 | 版本说明、发行、主题启用 | `/runtime/compatibility`、`/runtime/release` | 字段/命令/读回均文字化，发行与节点使用分开 |
 | 主题、插件代码调试 | `/runtime/development` | 仅保留真实展品链路上的dev/replace代码调试，不提供未发行依赖访问方案 |
 | API八页 | `/runtime/api/` | 完整保留目录，修正已核实契约错误，增加返回和作用域入口 |
-| 框架高级、路由、通信、前端库 | `/reference/`、`/library/` | 保留必要示例和图片，注明技术范围；旧框架例子不是推荐所有新项目采用的模板 |
+| 框架高级、路由、通信、前端库 | `/reference/`、`/library/` | 按 Freelog 实际的主题、插件、前端库能力提供说明。旧 Next.js、Nuxt 地址保留边界说明，服务端安装与启动示例留在旧手册 |
 | 旧 CLI 页 | `/cli/` | 不沿用旧脚手架教程；从 CLI 使用手册同步18页，新增版本选择与AI代办入口 |
 | FAQ | `/runtime/troubleshooting` | 针对当前接入方式重写；不以关闭浏览器安全开关作为通用办法 |
 

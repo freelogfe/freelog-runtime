@@ -2,9 +2,6 @@
 outline: deep
 ---
 
-::: info 进阶参考的适用范围
-本页从已有文档迁移，保留框架或库的具体示例。先阅读[运行时接入](/runtime/quickstart)及[兼容边界](/runtime/compatibility)。框架示例有各自版本前提，不构成平台统一 Node.js 限制；不能直接组合不同框架或不同年代的配置。
-:::
 > 环境要求: 若你还未安装node, 则需要先行安装node;
 
 下面我们会创建并发布一个简单的库, 此库提供一个sayHello函数, 调用此函数, 会在控制台打印"Hello World! beta2"
@@ -63,10 +60,6 @@ export default {
 };
 ```
 
-目前, 项目结构如下图
-
-![1736389028535](/media/legacy/library/images/helloworld/1736389028535.png)
-
 ## 开始打包
 
 文件根目录中打开package.json文件, 修改script字段, 修改后如下
@@ -105,10 +98,6 @@ npm run build
   ] // 其他的文件路径(有则提供, 无则为[])
 }
 ```
-
-至此, 你的项目结构如下图:
-
-![1736389760327](/media/legacy/library/images/helloworld/1736389760327.png)
 
 ## 压缩打包并发布
 

@@ -15,6 +15,7 @@ for (const file of files) {
   const body = await readFile(file, 'utf8')
   const relative = path.relative(site, file)
   if (/[A-Z]:[\\/]appinside/i.test(body)) errors.push(`${relative}：正文包含本机源码路径`)
+  if (/(?<![\w-])--env\b|\bFREELOG_ENV\b/u.test(body)) errors.push(`${relative}：公开文档包含内部环境参数`)
   const targets = []
   rewriteMarkdownLinks(body, (target) => { targets.push(target); return target })
   for (const target of targets) {

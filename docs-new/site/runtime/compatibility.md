@@ -1,51 +1,71 @@
 # 兼容性与版本
 
-开发前分别确认运行时、SDK、资源版本和 Node.js。它们使用不同版本体系，不能相互推算。
+新开发可按本指南接入节点运行时 `0.5`，工程使用 `5.x` 版本的运行时接入包 `freelog-runtime`。发行和验收时分别核对以下版本。
 
 | 名称 | 示例 | 决定什么 |
 | --- | --- | --- |
-| 节点运行时目标 | `0.5` | 主题、插件使用的运行时能力和接入约定 |
-| npm 包 `freelog-runtime` | `5.x` | 应用安装的 SDK 导出与类型；不表示运行时第 5 代 |
-| 资源版本 | `1.2.0` | 作者在平台发行的内容版本及依赖范围 |
-| CLI 版本 | `freelog-cli --cli-version` 的输出 | 命令及本地工作稿能力 |
-| Node.js | CLI 最低 `22.14.0` | 本地工具执行环境；不等于浏览器运行时目标 |
-
-主题和插件工程的 Node.js 要求以自身构建工具为准。CLI 的最低要求不自动成为所有子应用的最低要求；运行时仓库自身的构建环境也应单独管理。
+| 节点运行时目标 | `0.5` | 资源声明的宿主兼容版本。节点实际加载的宿主应从启用主题和访问入口核验 |
+| 运行时接入包 `freelog-runtime` | `5.x`，例如 `5.0.7` | 工程使用的初始化方法与 TypeScript 类型 |
+| 资源版本 | `1.2.0` | 作者发行的文件和版本数据。节点展品从已发行的资源版本中选择展示版本 |
+| CLI 版本 | `freelog-cli --cli-version` 的输出 | 本地发行工具提供的命令及工作稿能力 |
+| Node.js | CLI 最低 `22.14.0` | CLI 执行环境。主题和插件工程按各自构建工具的要求选用 Node.js |
 
 ## 发行时确认系统附加字段
 
-面向本指南的运行时 0.5、Vite 工程，应在发行版本时核对：
+发行浏览器端构建产物时，在该资源版本的系统附加属性中核对以下字段。
 
 | 系统附加字段 key | 值 |
 | --- | --- |
-| `noderuntime_target_version` | `0.5` |
-| `bundleTool` | `vite` |
+| `noderuntime_target_version` | 按应用的实际兼容目标填写。本文示例使用 `0.5` |
+| `bundleTool` | 构建产物使用 Vite 时填 `vite`。其他构建工具按平台字段提供的可选值和实际产物选择 |
 
-这两项属于平台定义的系统附加字段。不要通过自定义属性或可选配置创建同名字段，也不要把资源版本号填入运行时目标版本。
+### 在 Console 填写
 
-CLI 会根据文件解析和当前资源类型展示系统附加项。通过现有 `version attr` 查看、编辑入口核对，具体命令见 [CLI 使用文档](/cli/)及命令 `--help`。字段未出现或不可编辑时，先检查资源类型、文件分析结果和平台字段定义，不要猜一个提交字段绕过校验。
+1. 在 Console 的资源管理中找到主题或插件。从该资源的版本管理进入「新建版本」。首次创建资源时，在发行向导进入「上传资源文件」步骤。
+2. 上传构建 ZIP 或选择对应的存储文件。等待表单读取当前文件和资源类型的属性定义。在文件下方的属性区域（「基础属性」或「资源属性」）找到平台列出的运行时目标版本 `noderuntime_target_version` 和打包工具 `bundleTool`。
+3. 编辑系统字段行的值。本文示例选择 `0.5`，实际用 Vite 构建时选择 `vite`。若字段缺失或不可编辑，先检查资源类型、文件与表单解析结果。「补充属性」按钮用于新增自定义属性，请直接编辑已列出的系统字段。
+4. 提交版本后打开本次发行的资源版本详情，在属性区域重新核对实际保存的值。
 
-已有合法工作稿、且字段列表确认这两项可编辑后，Vite / 运行时0.5工程可执行：
+### 用 CLI 填写并读回
+
+在主题或插件的工程根目录操作。先按[版本工作稿](/cli/06-版本工作稿)准备本次资源版本的工作稿及文件，再列出当前资源类型支持的字段。将 `<资源ID>` 替换为目标 ID，保留引号。
 
 ```sh
-freelog-cli version attr list --resource id:<资源ID> --env dev
-freelog-cli version attr set "键=noderuntime_target_version 值=0.5" --resource id:<资源ID> --yes --env dev
-freelog-cli version attr set "键=bundleTool 值=vite" --resource id:<资源ID> --yes --env dev
-freelog-cli version show --local --resource id:<资源ID> --env dev --json
+freelog-cli version attr list --resource "id:<资源ID>" --json
 ```
 
-核验：工作稿的系统附加输入 `inputAttrs` 有对应 key/value；正常发行后再读取线上版本，字段体现在 `systemPropertyDescriptors` 的对应项中。两端读写 DTO 不同，不要求线上返回 `inputAttrs`。未知键或只读字段必须停止并检查分析结果，不能用自定义属性补造。
+确认列表中的系统字段可编辑且值符合规则后，再填写运行时目标。本次确实用 Vite 构建时才执行第二条命令。字段缺失或只读时，先核对资源类型、准备的文件和返回的字段定义。
 
-`bundleTool` 应与实际产物一致；非 Vite 工程不能照抄 `vite`。开发替换沿用真实展品上下文，应核对线上主题/插件的打包方式与本地工程是否匹配。
+```sh
+freelog-cli version attr set "键=noderuntime_target_version 值=0.5" --resource "id:<资源ID>" --yes
+freelog-cli version attr set "键=bundleTool 值=vite" --resource "id:<资源ID>" --yes
+freelog-cli version show --local --resource "id:<资源ID>" --json
+```
 
-## SDK 名称以当前导出为准
+工作稿的 `inputAttrs` 应包含已填写的 `key` 和 `value`。完成[发行](/runtime/release)后，用回执中的实际资源版本号读回线上详情。
 
-当前读取自身依赖使用 `getSelfDep()`，主题可使用 `getSelfDepForTheme()`。旧材料中的 `getSelfDependencyTree()` 不作为当前示例。
+```sh
+freelog-cli version show --version "<版本号>" --resource "id:<资源ID>" --json
+```
 
-安装或升级后检查锁文件中实际 SDK 版本，并用当前 [API 参考](/runtime/api/widget)核对调用与返回值。不要根据 npm 主版本猜测节点已部署的运行时版本，也不要把已有工作稿中的依赖范围当成节点当前已解析的版本。
+线上详情在 `systemPropertyDescriptors` 中返回系统属性。按 `key` 找到对应项，核对 `valueDisplay`。
+
+## 核验节点实际加载的运行时
+
+1. 读回本次发行的资源版本元数据，确认目标字段确已保存为预期值。
+2. 打开 Console 的节点「主题管理」，确认当前启用的主题及其「展示版本」。若发行的是插件，另外核对插件展品的展示版本，或宿主版本的依赖解析结果。
+3. 打开节点根地址并移除 `dev` 和替换参数。刷新后，在浏览器 Network 选择节点页面的文档（Document）请求，在 Response 中查看初始 HTML 引用的主应用脚本和样式路径。对于 `0.5` 的运行时构建，可看到类似 `/v0.5/assets/…` 的路径，继续核对请求是否成功。这一步查看节点文档中的宿主资源路径，主题 ZIP 的 `assets` 用于单独检查主题产物。
+
+如展示版本正确但请求的宿主版本与预期不同，记录节点地址、展示版本和实际路径，按[问题排查](/runtime/troubleshooting)核对。旧资源未声明目标时，从实际节点入口确认所用运行时。主题或插件升级时，逐个核对运行时 API、沙箱和实际挂载结果。维护旧工程可参考[从 0.4 迁移到 0.5](/reference/migration-0-4)。
+
+## 核对应用调用的 API
+
+当前读取自身依赖使用 `getSelfDep()`，主题可使用 `getSelfDepForTheme()`。两者的返回形式见 [API 参考](/runtime/api/widget)。
+
+安装或升级后检查锁文件中的实际接入包版本，并在目标节点核对调用结果。
 
 ## 浏览器与本地服务
 
-节点页面和本地服务均使用 HTTPS，开发服务允许必要的跨域读取。浏览器的证书、混合内容或本地网络访问限制，应通过证书信任和用户授权处理，不把关闭安全开关列为通用接入步骤。
+节点页面和本地服务均使用 HTTPS，开发服务需允许节点跨域读取。开发替换沿用真实展品上下文。使用 Vite 调试主题时检查已启用的基础主题打包方式，插件则检查宿主挂载的沙箱配置。
 
 沙箱、路由和静态资源问题见[问题排查](/runtime/troubleshooting)；应用的最终兼容性须在实际节点和目标浏览器验收。

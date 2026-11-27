@@ -22,19 +22,19 @@ export default defineConfig({
     host: 'localhost',
     port: 7101,
     strictPort: true,
-    headers: { 'Access-Control-Allow-Origin': '*' },
+    cors: { origin: 'https://your-node.example' },
   },
 })
 ```
 
-示例将端口固定，避免服务自动改端口后节点仍访问旧地址。需要局域网调试时按项目实际配置监听地址和证书，不直接公开账号文件或工作目录。
+将 `https://your-node.example` 替换为实际节点的来源（协议、主机和可选端口）。`strictPort` 让服务在端口被占用时退出，节点中的开发地址因此可以固定。需要局域网调试时按实际访问地址配置监听和证书。[Vite 服务配置](https://vite.dev/config/server-options.html#server-cors)
 
-基础插件生成的证书仍需浏览器信任；有团队证书管理时使用团队方式替代。不要将关闭浏览器安全检查作为通用方案。可达性、跨域、证书与浏览器本地网络权限分别检查。
+开发服务使用受浏览器信任的 HTTPS 证书。若使用示例中的插件，先在同一浏览器打开本地地址并完成证书信任，再通过节点加载。已有本地信任证书时，可按 Vite 的 `server.https` 选项接入。[Vite HTTPS 配置](https://vite.dev/config/server-options.html#server-https)
 
 ## 正式产物
 
-1. 执行项目构建脚本，检查产物根目录有入口 HTML，静态资源引用有效。
-2. 发行时系统附加字段 `bundleTool` 填 `vite`，目标字段 `noderuntime_target_version` 按所用能力填 `0.5`，见[版本配置](/runtime/compatibility)。
-3. 主题、插件的加载由运行时安排；当前主应用针对 Vite 使用 iframe 沙箱。不在业务项目另建 MicroApp 主应用来替代平台。
+1. 执行项目构建脚本。检查产物根目录的 `index.html`，确认脚本、样式和其他资源能按产物中的路径访问。`base: './'` 用于生成适合嵌入部署的相对路径。[Vite base 选项](https://vite.dev/config/shared-options.html#base)
+2. 面向运行时 `0.5` 发行时，在系统附加字段中核对 `bundleTool: vite` 和 `noderuntime_target_version: 0.5`。[版本配置](/runtime/compatibility)
+3. 节点宿主根据主题版本的 `bundleTool: vite` 为主题开启 iframe 沙箱。主题或父插件挂载使用浏览器模块脚本构建的子插件时，在该次挂载的 `renderWidgetOptions` 中传入 `iframe: true`。[挂载 API](/runtime/api/widget#renderwidgetoptions-说明)
 
 正式字段不能靠修改 `package.json` 的资源版本号或手写自定义属性代替。修改附加字段后读回工作稿，再正常发行和检查节点所用版本。

@@ -26,7 +26,7 @@ window.unmount = () => {
 
 每次重新挂载创建新的 root；不要在模块顶层创建一次后卸载，再复用已卸载的 root。业务组件自行在 effect 清理函数中移除事件监听、定时器和外部实例。
 
-`initFreelogApp()` 从当前子应用上下文取得主应用注入的 API。直接打开本地站点不能据此获得真实 SDK；不在缺少主应用上下文时调用真实初始化。
+`initFreelogApp()` 从当前子应用上下文取得主应用提供的 API。请在真实节点加载 React 工程，由运行时调用 `window.mount` 时执行初始化。
 
 ## 如何确认
 
@@ -35,4 +35,4 @@ window.unmount = () => {
 3. 切换/卸载应用，检查清理，再次挂载不出现重复监听。
 4. 依赖插件挂载使用[实际挂载接口](/runtime/api/widget#mountarticlewidget)，不只导入一个资源 ID。
 
-旧 React 16/17 的 `ReactDOM.render` 与当前 createRoot 不是同一接入示例，不要拼接两套卸载方式。生命周期属于 MicroApp 接入；业务路由和数据加载仍由应用自己实现。
+按项目实际 React 版本选用对应的挂载和卸载方法。本页的 `createRoot` 对应 `root.unmount()`，页面路由和数据加载由应用管理。

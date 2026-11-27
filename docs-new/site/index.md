@@ -2,44 +2,32 @@
 layout: home
 hero:
   name: Freelog
-  text: 创作、发行与使用
-  tagline: 人和 AI 使用 Freelog 的完整业务与操作入口。
+  text: 发行内容与开发应用
+  tagline: 发行资源、管理节点，或开发在节点中运行的主题和插件。
   image:
     src: /logo.svg
     alt: Freelog
   actions:
     - theme: brand
-      text: 让 AI 帮我完成任务
-      link: /start
+      text: 按平台任务操作
+      link: /platform/tasks
     - theme: alt
-      text: 使用 CLI
-      link: /cli/
+      text: 开发主题与插件
+      link: /runtime/
     - theme: alt
-      text: Agent 阅读入口
+      text: Agent 阅读
       link: /agents
-features:
-  - title: 先理解对象，再操作
-    details: 区分资源版本、节点展品、依赖路径与浏览器实例，减少跨层误用。
-    link: /platform/overview
-  - title: 按业务完成操作
-    details: 发行资源、创建节点、签约成展品、开发应用，逐项说明起点、步骤和完成条件。
-    link: /platform/tasks
-  - title: 人和 Agent 读同一份内容
-    details: CLI 使用手册单一来源同步，提供搜索、纯 Markdown 和明确的版本来源。
-    link: /about
 ---
 
 ## 按你的任务开始
 
 | 你要做什么 | 入口 |
 |---|---|
-| 不熟悉操作，希望让 AI 发行资源、管理节点或开发应用 | [人与 AI 协作](/start) |
-| 已有明确业务目标，想找完整操作路径 | [平台任务目录](/platform/tasks) |
-| 先理解 Freelog 平台如何运作 | [平台全景](/platform/overview) |
-| 把前端应用接入真实节点 | [快速接入](/runtime/quickstart) |
-| 在真实节点中调试本地主题和插件代码 | [本地开发](/runtime/development) |
-| 配置目标运行时版本 | [版本与兼容](/runtime/compatibility) |
-| 创建资源、填写版本、管理合集或展品 | [CLI 完整手册](/cli/) |
-| 查参数、返回结构和调用上下文 | [SDK 参考](/runtime/api/) |
+| 了解资源、节点、展品和授权的关系 | [平台全景](/platform/overview) |
+| 在终端发行资源或管理节点 | [CLI 使用手册](/cli/) |
+| 配置并核对主题和插件的运行时版本 | [配置运行时版本](/runtime/compatibility) |
+| 查询运行时方法、参数和返回值 | [运行时 API](/runtime/api/) |
+| 请 AI 帮我操作 | [人与 AI 协作](/start) |
+| 让 Agent 直接读取 Markdown 原文 | [Markdown 索引](/llms.txt) |
 
-本站 CLI 教程适用于 npm 已发布的 `@freelog/cli@0.10.2`。终端命令为 `freelog-cli`。节点新展品可通过 CLI 签入，依赖等新签约及新支付在浏览器办理。[安装、来源与版本说明](/about)
+CLI 的终端命令为 `freelog-cli`。节点新展品可通过 CLI 签入，依赖等新签约及新支付在浏览器办理。使用本站说明前，核对本机安装来源和手册对应的版本。[安装、来源与版本说明](/about)

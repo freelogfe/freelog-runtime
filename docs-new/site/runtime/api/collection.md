@@ -1,3 +1,7 @@
+---
+outline: 2
+---
+
 # 合集相关 API 文档
 
 ## getCollectionSubListByPage

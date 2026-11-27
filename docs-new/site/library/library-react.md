@@ -2,9 +2,6 @@
 outline: deep
 ---
 
-::: info 进阶参考的适用范围
-本页从已有文档迁移，保留框架或库的具体示例。先阅读[运行时接入](/runtime/quickstart)及[兼容边界](/runtime/compatibility)。框架示例有各自版本前提，不构成平台统一 Node.js 限制；不能直接组合不同框架或不同年代的配置。
-:::
 > 环境要求: vite6.x版本要求node18.x版本以上
 
 下面我们使用vite创建一个helloworld的react组件库;
@@ -12,8 +9,6 @@ outline: deep
 ## 创建项目
 
 目前, 项目结构如下:
-
-![1736501144974](/media/legacy/library/images/library-react/1736501144974.png)
 
 
 进入项目根目录, 安装依赖
@@ -202,9 +197,7 @@ export default defineConfig({
 pnpm build:lib
 ```
 
-至此, 项目结构如下:
-
-![1736502251488](/media/legacy/library/images/library-react/1736502251488.png)
+构建后核对 dist/ 中实际生成的 JS 和 CSS 文件名，并写入下面的 meta.json。
 
 ## meta.json
 

@@ -24,7 +24,7 @@ outline: "deep"
 | `getCollectionSubAuthStatus`  | `getCollectionSubAuth`   | 参数无变化                                                                             |
 | `setUserData`                 | `setUserData`            | 返回值有变化，请查阅参考 api 介绍                                                      |
 | `getUserData`                 | `getUserData`            | 返回值有变化，请查阅参考 api 介绍                                                      |
-| `getSelfDep`       | 旧项目需核对实际 SDK 导出 | 当前源码公开实时接口为 getSelfDep，主题缓存接口为 getSelfDepForTheme；旧文档曾写 getSelfDependencyTree，不能据此调用当前SDK |
+| `getSelfDep`       | 旧项目需核对运行时 API | 旧文档曾写 `getSelfDependencyTree`。实时查询使用 `getSelfDep()`，主题缓存查询使用 `getSelfDepForTheme()` |
 | `getSelfProperty`             | `getSelfProperty`        | 参数变成无参数，直接从服务端获取主题或插件的属性，主题可以使用 getSelfPropertyForTheme |
 
 ## api 新增

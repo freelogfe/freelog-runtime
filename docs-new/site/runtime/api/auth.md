@@ -1,3 +1,7 @@
+---
+outline: 2
+---
+
 # 授权处理相关 API 文档
 
 ## callAuth
